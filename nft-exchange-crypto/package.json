@@ -1,0 +1,68 @@
+{
+    "name": "@protokol/nft-exchange-crypto",
+    "version": "1.0.0-beta.1",
+    "description": "NFT Exchange Crypto Library",
+    "license": "CC-BY-NC-SA-4.0",
+    "contributors": [
+        "Žan Kovač <zan@protokol.com",
+        "Kristjan Košič <kristjan@protokol.com>"
+    ],
+    "files": [
+        "dist"
+    ],
+    "main": "dist/index",
+    "types": "dist/index",
+    "scripts": {
+        "build": "yarn clean && tsc",
+        "build:watch": "yarn clean && yarn compile -w",
+        "clean": "del dist",
+        "compile": "../../node_modules/typescript/bin/tsc",
+        "prepublishOnly": "yarn build",
+        "test": "cross-env CORE_ENV=test jest --runInBand --forceExit",
+        "test:unit": "cross-env jest __tests__/unit/** --forceExit"
+    },
+    "dependencies": {
+        "@arkecosystem/core-kernel": "^3.0.0-next.0",
+        "@arkecosystem/crypto": "^3.0.0-next.0",
+        "bytebuffer": "^5.0.1"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "jest": {
+        "testEnvironment": "node",
+        "bail": true,
+        "verbose": true,
+        "transform": {
+            "^.+\\.tsx?$": "ts-jest"
+        },
+        "testMatch": [
+            "**/*.test.ts"
+        ],
+        "moduleFileExtensions": [
+            "ts",
+            "tsx",
+            "js",
+            "jsx",
+            "json",
+            "node"
+        ],
+        "collectCoverage": false,
+        "coverageDirectory": "<rootDir>/.coverage",
+        "collectCoverageFrom": [
+            "packages/**/src/**/*.ts",
+            "!**/node_modules/**"
+        ],
+        "coverageReporters": [
+            "json",
+            "lcov",
+            "text",
+            "clover",
+            "html"
+        ],
+        "watchman": false,
+        "setupFilesAfterEnv": [
+            "jest-extended"
+        ]
+    }
+}
