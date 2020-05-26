@@ -1,0 +1,51 @@
+{
+    "name": "@protokol/nft-generator-api",
+    "version": "1.0.0-beta.1",
+    "description": "NFT Generator And Helper Tester",
+    "license": "CC-BY-NC-SA-4.0",
+    "contributors": [
+        "Žan Kovač <zan@protokol.com",
+        "Kristjan Košič <kristjan@protokol.com>"
+    ],
+    "files": [
+        "dist"
+    ],
+    "main": "dist/index",
+    "types": "dist/index",
+    "scripts": {
+        "build": "yarn clean && yarn compile",
+        "build:watch": "yarn clean && yarn compile -w",
+        "build:docs": "../../node_modules/typedoc/bin/typedoc --out docs src",
+        "clean": "del dist",
+        "compile": "../../node_modules/typescript/bin/tsc",
+        "prepublishOnly": "yarn build",
+        "pretest": "bash ../../scripts/pre-test.sh"
+    },
+    "dependencies": {
+        "@arkecosystem/core-kernel": "^3.0.0-next.0",
+        "@arkecosystem/core-api": "^3.0.0-next.0",
+        "@hapi/boom": "^9.0.0",
+        "@hapi/hapi": "^19.0.0",
+        "@hapi/joi": "^17.1.0",
+        "@protokol/nft-base-crypto": "^1.0.0-beta.1",
+        "@protokol/nft-base-transactions": "^1.0.0-beta.1",
+        "@protokol/nft-exchange-crypto": "^1.0.0-beta.1",
+        "@protokol/nft-exchange-transactions": "^1.0.0-beta.1",
+        "got": "^11.0.3"
+    },
+    "devDependencies": {
+        "@types/hapi__boom": "^7.4.1",
+        "@types/hapi__joi": "^16.0.4"
+    },
+    "engines": {
+        "node": ">=10.x"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "arkecosystem": {
+        "core": {
+            "alias": "nft-generator-api"
+        }
+    }
+}
