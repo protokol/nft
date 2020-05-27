@@ -1,0 +1,6 @@
+{
+    "private": true,
+    "name": "nft-core",
+    "description": "NFT Functionality For Any ARK Core-v3 Blockchains",
+    "engineStrict": true
+}
