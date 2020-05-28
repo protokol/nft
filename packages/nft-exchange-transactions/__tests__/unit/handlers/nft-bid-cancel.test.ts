@@ -3,13 +3,11 @@ import "jest-extended";
 import { Application, Contracts } from "@arkecosystem/core-kernel";
 import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { Wallets } from "@arkecosystem/core-state";
-import { Generators } from "@arkecosystem/core-test-framework/src";
 import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { Mempool } from "@arkecosystem/core-transaction-pool";
 import { TransactionHandler } from "@arkecosystem/core-transactions/src/handlers";
 import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
-import { Managers, Transactions, Utils } from "@arkecosystem/crypto";
-import { configManager } from "@arkecosystem/crypto/src/managers";
+import { Transactions, Utils } from "@arkecosystem/crypto";
 import { Enums } from "@protokol/nft-exchange-crypto";
 import { Builders as NFTBuilders } from "@protokol/nft-exchange-crypto";
 
@@ -35,9 +33,6 @@ let transactionHandlerRegistry: TransactionHandlerRegistry;
 let nftBidCancelHandler: TransactionHandler;
 
 beforeEach(() => {
-    const config = Generators.generateCryptoConfigRaw();
-    configManager.setConfig(config);
-    Managers.configManager.setConfig(config);
     app = initApp();
 
     wallet = buildWallet(app, passphrases[0]);

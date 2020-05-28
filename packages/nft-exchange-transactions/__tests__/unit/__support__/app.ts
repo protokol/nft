@@ -11,6 +11,7 @@ import {
     usernamesIndexer,
 } from "@arkecosystem/core-state/src/wallets/indexers/indexers";
 import { Mocks } from "@arkecosystem/core-test-framework";
+import { Generators } from "@arkecosystem/core-test-framework/src";
 import { Collator } from "@arkecosystem/core-transaction-pool/src";
 import {
     ApplyTransactionAction,
@@ -27,7 +28,8 @@ import { SenderState } from "@arkecosystem/core-transaction-pool/src/sender-stat
 import { One, Two } from "@arkecosystem/core-transactions/src/handlers";
 import { TransactionHandlerProvider } from "@arkecosystem/core-transactions/src/handlers/handler-provider";
 import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
-import { Identities, Utils } from "@arkecosystem/crypto";
+import { Identities, Managers, Utils } from "@arkecosystem/crypto";
+import { configManager } from "@arkecosystem/crypto/src/managers";
 import { Handlers as NFTBaseHandlers, Indexers } from "@protokol/nft-base-transactions";
 
 import { transactionRepository } from "../__mocks__/transaction-repository";
@@ -46,6 +48,10 @@ export const transactionHistoryService = {
 };
 
 export const initApp = (): Application => {
+    const config = Generators.generateCryptoConfigRaw();
+    configManager.setConfig(config);
+    Managers.configManager.setConfig(config);
+
     const app: Application = new Application(new Container.Container());
     app.bind(Identifiers.ApplicationNamespace).toConstantValue("testnet");
 
@@ -184,7 +190,6 @@ export const initApp = (): Application => {
     app.bind(Identifiers.TransactionHandler).to(NFTExchangeHandlers.NFTBidHandler);
     app.bind(Identifiers.TransactionHandler).to(NFTExchangeHandlers.NFTBidCancelHandler);
     app.bind(Identifiers.TransactionHandler).to(NFTExchangeHandlers.NFTAcceptTradeHandler);
-
 
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Indexers.NFTIndexers.NFTTokenIndexer,
