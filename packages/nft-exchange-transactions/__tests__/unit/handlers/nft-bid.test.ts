@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Application, Container, Contracts } from "@arkecosystem/core-kernel";
+import { Application, Contracts } from "@arkecosystem/core-kernel";
 import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { Wallets } from "@arkecosystem/core-state";
 import { StateStore } from "@arkecosystem/core-state/src/stores/state";
@@ -23,9 +23,8 @@ import {
     NFTExchangeBidNotEnoughFounds,
     NFTExchangeBidStartAmountToLow,
 } from "../../../src/errors";
-
 import { INFTAuctions } from "../../../src/interfaces";
-import { bidIndexer, NFTExchangeIndexers } from "../../../src/wallet-indexes";
+import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
 import { deregisterTransactions } from "../utils";
 
 let app: Application;
@@ -43,11 +42,6 @@ beforeEach(() => {
     configManager.setConfig(config);
     Managers.configManager.setConfig(config);
     app = initApp();
-
-    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
-        name: NFTExchangeIndexers.BidIndexer,
-        indexer: bidIndexer,
-    });
 
     wallet = buildWallet(app, passphrases[0]);
 

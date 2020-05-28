@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Application, Container, Contracts } from "@arkecosystem/core-kernel";
+import { Application, Contracts } from "@arkecosystem/core-kernel";
 import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { Wallets } from "@arkecosystem/core-state";
 import { Generators } from "@arkecosystem/core-test-framework/src";
@@ -17,7 +17,7 @@ import { setMockTransaction, setMockTransactions } from "../__mocks__/transactio
 import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { NFTExchangeAuctionCancelCannotCancel } from "../../../src/errors";
 import { INFTAuctions } from "../../../src/interfaces";
-import { auctionIndexer, bidIndexer, NFTExchangeIndexers } from "../../../src/wallet-indexes";
+import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
 import { deregisterTransactions } from "../utils";
 
 let app: Application;
@@ -35,15 +35,6 @@ beforeEach(() => {
     configManager.setConfig(config);
     Managers.configManager.setConfig(config);
     app = initApp();
-
-    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
-        name: NFTExchangeIndexers.AuctionIndexer,
-        indexer: auctionIndexer,
-    });
-    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
-        name: NFTExchangeIndexers.BidIndexer,
-        indexer: bidIndexer,
-    });
 
     wallet = buildWallet(app, passphrases[0]);
 

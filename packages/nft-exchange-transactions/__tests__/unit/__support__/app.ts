@@ -28,10 +28,11 @@ import { One, Two } from "@arkecosystem/core-transactions/src/handlers";
 import { TransactionHandlerProvider } from "@arkecosystem/core-transactions/src/handlers/handler-provider";
 import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
 import { Identities, Utils } from "@arkecosystem/crypto";
-import { Handlers as NFTBaseHandlers } from "@protokol/nft-base-transactions";
+import { Handlers as NFTBaseHandlers, Indexers } from "@protokol/nft-base-transactions";
 
 import { transactionRepository } from "../__mocks__/transaction-repository";
 import { Handlers as NFTExchangeHandlers } from "../../../src";
+import { auctionIndexer, bidIndexer, NFTExchangeIndexers } from "../../../src/wallet-indexes";
 
 const logger = {
     notice: jest.fn(),
@@ -183,6 +184,22 @@ export const initApp = (): Application => {
     app.bind(Identifiers.TransactionHandler).to(NFTExchangeHandlers.NFTBidHandler);
     app.bind(Identifiers.TransactionHandler).to(NFTExchangeHandlers.NFTBidCancelHandler);
     app.bind(Identifiers.TransactionHandler).to(NFTExchangeHandlers.NFTAcceptTradeHandler);
+
+
+    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
+        name: Indexers.NFTIndexers.NFTTokenIndexer,
+        indexer: Indexers.nftIndexer,
+    });
+
+    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
+        name: NFTExchangeIndexers.AuctionIndexer,
+        indexer: auctionIndexer,
+    });
+
+    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
+        name: NFTExchangeIndexers.BidIndexer,
+        indexer: bidIndexer,
+    });
 
     return app;
 };
