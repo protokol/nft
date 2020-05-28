@@ -11,7 +11,14 @@ import {
     usernamesIndexer,
 } from "@arkecosystem/core-state/src/wallets/indexers/indexers";
 import { Mocks } from "@arkecosystem/core-test-framework";
+import { Generators } from "@arkecosystem/core-test-framework/src";
 import { Collator } from "@arkecosystem/core-transaction-pool/src";
+import {
+    ApplyTransactionAction,
+    RevertTransactionAction,
+    ThrowIfCannotEnterPoolAction,
+    VerifyTransactionAction,
+} from "@arkecosystem/core-transaction-pool/src/actions";
 import { DynamicFeeMatcher } from "@arkecosystem/core-transaction-pool/src/dynamic-fee-matcher";
 import { ExpirationService } from "@arkecosystem/core-transaction-pool/src/expiration-service";
 import { Mempool } from "@arkecosystem/core-transaction-pool/src/mempool";
@@ -21,17 +28,13 @@ import { SenderState } from "@arkecosystem/core-transaction-pool/src/sender-stat
 import { One, Two } from "@arkecosystem/core-transactions/src/handlers";
 import { TransactionHandlerProvider } from "@arkecosystem/core-transactions/src/handlers/handler-provider";
 import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
-import { Identities, Utils } from "@arkecosystem/crypto";
-
-import {
-    ApplyTransactionAction,
-    RevertTransactionAction,
-    ThrowIfCannotEnterPoolAction,
-    VerifyTransactionAction,
-} from "@arkecosystem/core-transaction-pool/src/actions";
-import { Handlers as NFTBaseHandlers } from "@protokol/nft-base-transactions";
+import { Identities, Managers, Utils } from "@arkecosystem/crypto";
+import { configManager } from "@arkecosystem/crypto/src/managers";
+import { Handlers as NFTBaseHandlers, Indexers } from "@protokol/nft-base-transactions";
 
 import { transactionRepository } from "../__mocks__/transaction-repository";
+import { Handlers as NFTExchangeHandlers } from "../../../src";
+import { auctionIndexer, bidIndexer, NFTExchangeIndexers } from "../../../src/wallet-indexes";
 
 const logger = {
     notice: jest.fn(),
@@ -39,7 +42,16 @@ const logger = {
     warning: jest.fn(),
 };
 
+export const transactionHistoryService = {
+    findManyByCriteria: jest.fn(),
+    findOneByCriteria: jest.fn(),
+};
+
 export const initApp = (): Application => {
+    const config = Generators.generateCryptoConfigRaw();
+    configManager.setConfig(config);
+    Managers.configManager.setConfig(config);
+
     const app: Application = new Application(new Container.Container());
     app.bind(Identifiers.ApplicationNamespace).toConstantValue("testnet");
 
@@ -162,9 +174,37 @@ export const initApp = (): Application => {
         new RevertTransactionAction(),
     );
 
+    transactionHistoryService.findManyByCriteria.mockReset();
+    transactionHistoryService.findOneByCriteria.mockReset();
+    app.bind(Identifiers.TransactionHistoryService).toConstantValue(transactionHistoryService);
+
+    // nft base transactions
     app.bind(Identifiers.TransactionHandler).to(NFTBaseHandlers.NFTRegisterCollectionHandler);
     app.bind(Identifiers.TransactionHandler).to(NFTBaseHandlers.NFTCreateHandler);
     app.bind(Identifiers.TransactionHandler).to(NFTBaseHandlers.NFTTransferHandler);
+    app.bind(Identifiers.TransactionHandler).to(NFTBaseHandlers.NFTBurnHandler);
+
+    // nft exchange transactions
+    app.bind(Identifiers.TransactionHandler).to(NFTExchangeHandlers.NFTAuctionHandler);
+    app.bind(Identifiers.TransactionHandler).to(NFTExchangeHandlers.NFTAuctionCancelHandler);
+    app.bind(Identifiers.TransactionHandler).to(NFTExchangeHandlers.NFTBidHandler);
+    app.bind(Identifiers.TransactionHandler).to(NFTExchangeHandlers.NFTBidCancelHandler);
+    app.bind(Identifiers.TransactionHandler).to(NFTExchangeHandlers.NFTAcceptTradeHandler);
+
+    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
+        name: Indexers.NFTIndexers.NFTTokenIndexer,
+        indexer: Indexers.nftIndexer,
+    });
+
+    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
+        name: NFTExchangeIndexers.AuctionIndexer,
+        indexer: auctionIndexer,
+    });
+
+    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
+        name: NFTExchangeIndexers.BidIndexer,
+        indexer: bidIndexer,
+    });
 
     return app;
 };

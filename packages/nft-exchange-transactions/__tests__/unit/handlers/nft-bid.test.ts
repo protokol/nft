@@ -1,19 +1,15 @@
 import "jest-extended";
 
-import { Application, Container, Contracts } from "@arkecosystem/core-kernel";
+import { Application, Contracts } from "@arkecosystem/core-kernel";
 import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { Wallets } from "@arkecosystem/core-state";
 import { StateStore } from "@arkecosystem/core-state/src/stores/state";
-import { Generators } from "@arkecosystem/core-test-framework/src";
 import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { TransactionHandler } from "@arkecosystem/core-transactions/src/handlers";
 import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
-import { Interfaces, Managers, Transactions, Utils } from "@arkecosystem/crypto";
-import { configManager } from "@arkecosystem/crypto/src/managers";
-import { Transactions as NFTBaseTransactions } from "@protokol/nft-base-crypto";
+import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Enums } from "@protokol/nft-exchange-crypto";
 import { Builders as NFTBuilders } from "@protokol/nft-exchange-crypto";
-import { Transactions as NFTTransactions } from "@protokol/nft-exchange-crypto";
 
 import { setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
 import { buildWallet, initApp } from "../__support__/app";
@@ -25,10 +21,9 @@ import {
     NFTExchangeBidNotEnoughFounds,
     NFTExchangeBidStartAmountToLow,
 } from "../../../src/errors";
-import { NFTAuctionCancelHandler, NFTAuctionHandler } from "../../../src/handlers";
-import { NFTBidHandler } from "../../../src/handlers";
 import { INFTAuctions } from "../../../src/interfaces";
-import { bidIndexer, NFTExchangeIndexers } from "../../../src/wallet-indexes";
+import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
+import { deregisterTransactions } from "../utils";
 
 let app: Application;
 
@@ -40,26 +35,8 @@ let transactionHandlerRegistry: TransactionHandlerRegistry;
 
 let nftBidHandler: TransactionHandler;
 
-const transactionHistoryService = {
-    findManyByCriteria: jest.fn(),
-    findOneByCriteria: jest.fn(),
-};
-
 beforeEach(() => {
-    const config = Generators.generateCryptoConfigRaw();
-    configManager.setConfig(config);
-    Managers.configManager.setConfig(config);
     app = initApp();
-
-    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
-        name: NFTExchangeIndexers.BidIndexer,
-        indexer: bidIndexer,
-    });
-    app.bind(Identifiers.TransactionHistoryService).toConstantValue(transactionHistoryService);
-
-    app.bind(Identifiers.TransactionHandler).to(NFTAuctionHandler);
-    app.bind(Identifiers.TransactionHandler).to(NFTAuctionCancelHandler);
-    app.bind(Identifiers.TransactionHandler).to(NFTBidHandler);
 
     wallet = buildWallet(app, passphrases[0]);
 
@@ -78,13 +55,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTAuctionTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTAuctionCancelTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTBidTransaction);
-
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTBaseTransactions.NFTRegisterCollectionTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTBaseTransactions.NFTCreateTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTBaseTransactions.NFTTransferTransaction);
+    deregisterTransactions();
 });
 
 describe("NFT Bid tests", () => {

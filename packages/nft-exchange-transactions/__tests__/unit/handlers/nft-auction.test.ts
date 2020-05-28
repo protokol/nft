@@ -1,21 +1,17 @@
 import "jest-extended";
 
-import { Application, Container, Contracts } from "@arkecosystem/core-kernel";
+import { Application, Contracts } from "@arkecosystem/core-kernel";
 import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { Wallets } from "@arkecosystem/core-state";
 import { StateStore } from "@arkecosystem/core-state/src/stores/state";
-import { Generators } from "@arkecosystem/core-test-framework/src";
 import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { Mempool } from "@arkecosystem/core-transaction-pool";
 import { TransactionHandler } from "@arkecosystem/core-transactions/src/handlers";
 import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
-import { Interfaces, Managers, Transactions, Utils } from "@arkecosystem/crypto";
-import { configManager } from "@arkecosystem/crypto/src/managers";
-import { Transactions as NFTBaseTransactions } from "@protokol/nft-base-crypto";
+import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Interfaces as NFTBaseInterfaces } from "@protokol/nft-base-transactions";
 import { Enums } from "@protokol/nft-exchange-crypto";
 import { Builders as NFTBuilders } from "@protokol/nft-exchange-crypto";
-import { Transactions as NFTTransactions } from "@protokol/nft-exchange-crypto";
 
 import { setMockTransaction } from "../__mocks__/transaction-repository";
 import { buildWallet, initApp } from "../__support__/app";
@@ -25,9 +21,9 @@ import {
     NFTExchangeAuctioneerDoesNotOwnNft,
     NFTExchangeAuctionExpired,
 } from "../../../src/errors";
-import { NFTAuctionHandler } from "../../../src/handlers";
 import { INFTAuctions } from "../../../src/interfaces";
-import { auctionIndexer, NFTExchangeIndexers } from "../../../src/wallet-indexes";
+import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
+import { deregisterTransactions } from "../utils";
 
 let app: Application;
 
@@ -40,17 +36,7 @@ let transactionHandlerRegistry: TransactionHandlerRegistry;
 let nftAuctionHandler: TransactionHandler;
 
 beforeEach(() => {
-    const config = Generators.generateCryptoConfigRaw();
-    configManager.setConfig(config);
-    Managers.configManager.setConfig(config);
     app = initApp();
-
-    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
-        name: NFTExchangeIndexers.AuctionIndexer,
-        indexer: auctionIndexer,
-    });
-
-    app.bind(Identifiers.TransactionHandler).to(NFTAuctionHandler);
 
     wallet = buildWallet(app, passphrases[0]);
 
@@ -69,11 +55,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTAuctionTransaction);
-
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTBaseTransactions.NFTRegisterCollectionTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTBaseTransactions.NFTCreateTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTBaseTransactions.NFTTransferTransaction);
+    deregisterTransactions();
 });
 
 describe("NFT Auction tests", () => {
