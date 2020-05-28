@@ -83,5 +83,5 @@ jobs:
 
             - name: Test
               run: |
-                 cd protokol/packages/base-api
+                 cd protokol/packages/nft-base-api
                  yarn test:unit:coverage --coverageDirectory .coverage/unit/ --maxWorkers=2
