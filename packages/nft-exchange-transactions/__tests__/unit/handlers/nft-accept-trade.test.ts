@@ -9,11 +9,10 @@ import { TransactionHandler } from "@arkecosystem/core-transactions/src/handlers
 import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
 import { Managers, Transactions, Utils } from "@arkecosystem/crypto";
 import { configManager } from "@arkecosystem/crypto/src/managers";
-import { Transactions as NFTBaseTransactions } from "@protokol/nft-base-crypto";
 import { Indexers } from "@protokol/nft-base-transactions";
+import { INFTTokens } from "@protokol/nft-base-transactions/src/interfaces";
 import { Enums } from "@protokol/nft-exchange-crypto";
 import { Builders as NFTBuilders } from "@protokol/nft-exchange-crypto";
-import { Transactions as NFTTransactions } from "@protokol/nft-exchange-crypto";
 
 import { setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
 import { buildWallet, initApp } from "../__support__/app";
@@ -24,11 +23,10 @@ import {
     NFTExchangeAcceptTradeBidDoesNotExists,
     NFTExchangeAcceptTradeWalletCannotTrade,
 } from "../../../src/errors";
-import { NFTAcceptTradeHandler, NFTAuctionCancelHandler, NFTAuctionHandler } from "../../../src/handlers";
-import { NFTBidHandler } from "../../../src/handlers";
+
 import { INFTAuctions, NFTExchangeWalletAsset } from "../../../src/interfaces";
 import { auctionIndexer, bidIndexer, NFTExchangeIndexers } from "../../../src/wallet-indexes";
-import { INFTTokens } from "@protokol/nft-base-transactions/src/interfaces";
+import { deregisterTransactions } from "../utils";
 
 let app: Application;
 
@@ -39,11 +37,6 @@ let walletRepository: Contracts.State.WalletRepository;
 let transactionHandlerRegistry: TransactionHandlerRegistry;
 
 let nftAcceptTradeHandler: TransactionHandler;
-
-const transactionHistoryService = {
-    findManyByCriteria: jest.fn(),
-    findOneByCriteria: jest.fn(),
-};
 
 beforeEach(() => {
     const config = Generators.generateCryptoConfigRaw();
@@ -66,15 +59,6 @@ beforeEach(() => {
         indexer: Indexers.nftIndexer,
     });
 
-    transactionHistoryService.findManyByCriteria.mockReset();
-    transactionHistoryService.findOneByCriteria.mockReset();
-    app.bind(Identifiers.TransactionHistoryService).toConstantValue(transactionHistoryService);
-
-    app.bind(Identifiers.TransactionHandler).to(NFTAuctionHandler);
-    app.bind(Identifiers.TransactionHandler).to(NFTAuctionCancelHandler);
-    app.bind(Identifiers.TransactionHandler).to(NFTBidHandler);
-    app.bind(Identifiers.TransactionHandler).to(NFTAcceptTradeHandler);
-
     wallet = buildWallet(app, passphrases[0]);
 
     walletRepository = app.get<Wallets.WalletRepository>(Identifiers.WalletRepository);
@@ -92,14 +76,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTAuctionTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTAuctionCancelTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTBidTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTAcceptTradeTransaction);
-
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTBaseTransactions.NFTRegisterCollectionTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTBaseTransactions.NFTCreateTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTBaseTransactions.NFTTransferTransaction);
+    deregisterTransactions();
 });
 
 describe("NFT Accept trade tests", () => {

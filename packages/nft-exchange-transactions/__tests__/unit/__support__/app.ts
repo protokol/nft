@@ -12,6 +12,12 @@ import {
 } from "@arkecosystem/core-state/src/wallets/indexers/indexers";
 import { Mocks } from "@arkecosystem/core-test-framework";
 import { Collator } from "@arkecosystem/core-transaction-pool/src";
+import {
+    ApplyTransactionAction,
+    RevertTransactionAction,
+    ThrowIfCannotEnterPoolAction,
+    VerifyTransactionAction,
+} from "@arkecosystem/core-transaction-pool/src/actions";
 import { DynamicFeeMatcher } from "@arkecosystem/core-transaction-pool/src/dynamic-fee-matcher";
 import { ExpirationService } from "@arkecosystem/core-transaction-pool/src/expiration-service";
 import { Mempool } from "@arkecosystem/core-transaction-pool/src/mempool";
@@ -22,21 +28,20 @@ import { One, Two } from "@arkecosystem/core-transactions/src/handlers";
 import { TransactionHandlerProvider } from "@arkecosystem/core-transactions/src/handlers/handler-provider";
 import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
 import { Identities, Utils } from "@arkecosystem/crypto";
-
-import {
-    ApplyTransactionAction,
-    RevertTransactionAction,
-    ThrowIfCannotEnterPoolAction,
-    VerifyTransactionAction,
-} from "@arkecosystem/core-transaction-pool/src/actions";
 import { Handlers as NFTBaseHandlers } from "@protokol/nft-base-transactions";
 
 import { transactionRepository } from "../__mocks__/transaction-repository";
+import { Handlers as NFTExchangeHandlers } from "../../../src";
 
 const logger = {
     notice: jest.fn(),
     debug: jest.fn(),
     warning: jest.fn(),
+};
+
+export const transactionHistoryService = {
+    findManyByCriteria: jest.fn(),
+    findOneByCriteria: jest.fn(),
 };
 
 export const initApp = (): Application => {
@@ -162,9 +167,22 @@ export const initApp = (): Application => {
         new RevertTransactionAction(),
     );
 
+    transactionHistoryService.findManyByCriteria.mockReset();
+    transactionHistoryService.findOneByCriteria.mockReset();
+    app.bind(Identifiers.TransactionHistoryService).toConstantValue(transactionHistoryService);
+
+    // nft base transactions
     app.bind(Identifiers.TransactionHandler).to(NFTBaseHandlers.NFTRegisterCollectionHandler);
     app.bind(Identifiers.TransactionHandler).to(NFTBaseHandlers.NFTCreateHandler);
     app.bind(Identifiers.TransactionHandler).to(NFTBaseHandlers.NFTTransferHandler);
+    app.bind(Identifiers.TransactionHandler).to(NFTBaseHandlers.NFTBurnHandler);
+
+    // nft exchange transactions
+    app.bind(Identifiers.TransactionHandler).to(NFTExchangeHandlers.NFTAuctionHandler);
+    app.bind(Identifiers.TransactionHandler).to(NFTExchangeHandlers.NFTAuctionCancelHandler);
+    app.bind(Identifiers.TransactionHandler).to(NFTExchangeHandlers.NFTBidHandler);
+    app.bind(Identifiers.TransactionHandler).to(NFTExchangeHandlers.NFTBidCancelHandler);
+    app.bind(Identifiers.TransactionHandler).to(NFTExchangeHandlers.NFTAcceptTradeHandler);
 
     return app;
 };

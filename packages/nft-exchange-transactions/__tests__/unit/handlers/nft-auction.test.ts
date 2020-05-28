@@ -11,11 +11,9 @@ import { TransactionHandler } from "@arkecosystem/core-transactions/src/handlers
 import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
 import { Interfaces, Managers, Transactions, Utils } from "@arkecosystem/crypto";
 import { configManager } from "@arkecosystem/crypto/src/managers";
-import { Transactions as NFTBaseTransactions } from "@protokol/nft-base-crypto";
 import { Interfaces as NFTBaseInterfaces } from "@protokol/nft-base-transactions";
 import { Enums } from "@protokol/nft-exchange-crypto";
 import { Builders as NFTBuilders } from "@protokol/nft-exchange-crypto";
-import { Transactions as NFTTransactions } from "@protokol/nft-exchange-crypto";
 
 import { setMockTransaction } from "../__mocks__/transaction-repository";
 import { buildWallet, initApp } from "../__support__/app";
@@ -25,9 +23,9 @@ import {
     NFTExchangeAuctioneerDoesNotOwnNft,
     NFTExchangeAuctionExpired,
 } from "../../../src/errors";
-import { NFTAuctionHandler } from "../../../src/handlers";
 import { INFTAuctions } from "../../../src/interfaces";
 import { auctionIndexer, NFTExchangeIndexers } from "../../../src/wallet-indexes";
+import { deregisterTransactions } from "../utils";
 
 let app: Application;
 
@@ -50,8 +48,6 @@ beforeEach(() => {
         indexer: auctionIndexer,
     });
 
-    app.bind(Identifiers.TransactionHandler).to(NFTAuctionHandler);
-
     wallet = buildWallet(app, passphrases[0]);
 
     walletRepository = app.get<Wallets.WalletRepository>(Identifiers.WalletRepository);
@@ -69,11 +65,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTAuctionTransaction);
-
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTBaseTransactions.NFTRegisterCollectionTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTBaseTransactions.NFTCreateTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTBaseTransactions.NFTTransferTransaction);
+    deregisterTransactions();
 });
 
 describe("NFT Auction tests", () => {
