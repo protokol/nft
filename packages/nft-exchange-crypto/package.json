@@ -19,7 +19,8 @@
         "compile": "../../../node_modules/typescript/bin/tsc",
         "prepublishOnly": "yarn build",
         "test": "cross-env CORE_ENV=test jest --runInBand --forceExit",
-        "test:unit": "cross-env jest __tests__/unit/** --forceExit"
+        "test:unit": "cross-env jest __tests__/unit/** --forceExit",
+        "test:unit:coverage": "cross-env jest __tests__/unit --coverage"
     },
     "dependencies": {
         "@arkecosystem/core-kernel": "^3.0.0-next.0",

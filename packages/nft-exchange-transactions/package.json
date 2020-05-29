@@ -18,9 +18,11 @@
         "clean": "del dist",
         "compile": "../../../node_modules/typescript/bin/tsc",
         "prepublishOnly": "yarn build",
-        "test": "cross-env CORE_ENV=test jest --runInBand --forceExit",
+        "test": "cross-env CORE_ENV=test jest  --forceExit",
         "test:unit": "cross-env jest __tests__/unit/** --forceExit",
-        "test:functional": "cross-env CORE_ENV=test jest __tests__/functional --runInBand --forceExit"
+        "test:unit:coverage": "cross-env jest __tests__/unit/** --coverage --forceExit",
+        "test:functional": "cross-env CORE_ENV=test jest __tests__/functional --forceExit",
+        "test:functional:coverage": "cross-env CORE_ENV=test jest __tests__/functional --coverage --forceExit"
     },
     "dependencies": {
         "@arkecosystem/core-database": "^3.0.0-next.0",
@@ -34,41 +36,5 @@
     },
     "publishConfig": {
         "access": "public"
-    },
-    "jest": {
-        "testEnvironment": "node",
-        "bail": true,
-        "verbose": true,
-        "transform": {
-            "^.+\\.tsx?$": "ts-jest"
-        },
-        "testMatch": [
-            "**/*.test.ts"
-        ],
-        "moduleFileExtensions": [
-            "ts",
-            "tsx",
-            "js",
-            "jsx",
-            "json",
-            "node"
-        ],
-        "collectCoverage": false,
-        "coverageDirectory": "<rootDir>/.coverage",
-        "collectCoverageFrom": [
-            "packages/**/src/**/*.ts",
-            "!**/node_modules/**"
-        ],
-        "coverageReporters": [
-            "json",
-            "lcov",
-            "text",
-            "clover",
-            "html"
-        ],
-        "watchman": false,
-        "setupFilesAfterEnv": [
-            "jest-extended"
-        ]
     }
 }

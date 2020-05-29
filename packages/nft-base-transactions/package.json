@@ -18,11 +18,11 @@
         "clean": "del dist",
         "compile": "../../../node_modules/typescript/bin/tsc",
         "prepublishOnly": "yarn build",
-        "test": "cross-env CORE_ENV=test jest --runInBand --forceExit",
+        "test": "cross-env CORE_ENV=test jest --forceExit",
         "test:unit": "cross-env jest __tests__/unit/** --forceExit",
-        "test:unit:coverage": "cross-env jest __tests__/unit --coverage --coveragePathIgnorePatterns='/(defaults.ts|index.ts)$'",
-        "test:functional": "cross-env CORE_ENV=test jest __tests__/functional --runInBand --forceExit",
-        "test:functional:coverage": "cross-env CORE_ENV=test jest __tests__/functional --coverage --coveragePathIgnorePatterns='/(defaults.ts|index.ts)$' --runInBand --forceExit"
+        "test:unit:coverage": "cross-env jest __tests__/unit --coverage",
+        "test:functional": "cross-env CORE_ENV=test jest __tests__/functional --forceExit",
+        "test:functional:coverage": "cross-env CORE_ENV=test jest __tests__/functional --coverage --forceExit"
     },
     "dependencies": {
         "@arkecosystem/core-database": "^3.0.0-next.0",
