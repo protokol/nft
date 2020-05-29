@@ -1,4 +1,4 @@
-name: NFT-DAPPS TEST
+name: PROTOKOL NFT
 
 on:
     push:
@@ -141,12 +141,12 @@ jobs:
             - name: TEST FUNCTIONAL BASE-TRANSACTIONS
               run: |
                   cd protokol/packages/nft-base-transactions
-                  yarn test:integration:coverage --coverageDirectory .coverage/functional-base-transactions
+                  yarn test:functional:coverage --coverageDirectory .coverage/functional-base-transactions
 
             - name: TEST FUNCTIONAL EXCHANGE-TRANSACTIONS
               run: |
                   cd protokol/packages/nft-exchange-transactions
-                  yarn test:integration:coverage --coverageDirectory .coverage/functional-exchange-transactions
+                  yarn test:functional:coverage --coverageDirectory .coverage/functional-exchange-transactions
 
     api-integration:
         name: INTEGRATION API TESTS
