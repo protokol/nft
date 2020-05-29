@@ -141,7 +141,7 @@ jobs:
             - name: TEST
               run: |
                   cd protokol/packages/nft-base-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-register-collection.test.ts
+                  jest __tests__/functional/transaction-forging/nft-register-collection.test.ts
 
     functional-create-asset-transactions:
         name: CREATE ASSET TEST
@@ -208,7 +208,7 @@ jobs:
             - name: TEST
               run: |
                   cd protokol/packages/nft-base-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-create.test.ts
+                  jest __tests__/functional/transaction-forging/nft-create.test.ts
 
     functional-transfer-asset-transactions:
         name: TRANSFER ASSET TEST
@@ -275,7 +275,7 @@ jobs:
             - name: TEST
               run: |
                   cd protokol/packages/nft-base-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-transfer.test.ts
+                  jest __tests__/functional/transaction-forging/nft-transfer.test.ts
 
     functional-burn-asset-transactions:
         name: BURN ASSET TEST
@@ -342,7 +342,7 @@ jobs:
             - name: TEST
               run: |
                   cd protokol/packages/nft-base-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-burn.test.ts
+                  jest __tests__/functional/transaction-forging/nft-burn.test.ts
 
     functional-auction-transactions:
         name: AUCTION TEST
@@ -409,7 +409,7 @@ jobs:
             - name: TEST
               run: |
                   cd protokol/packages/nft-exchange-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-auction.test.ts
+                  jest __tests__/functional/transaction-forging/nft-auction.test.ts
 
     functional-auction-cancel-transactions:
         name: AUCTION-CANCEL TEST
@@ -476,7 +476,7 @@ jobs:
             - name: TEST
               run: |
                   cd protokol/packages/nft-exchange-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-auction-cancel.test.ts
+                  jest __tests__/functional/transaction-forging/nft-auction-cancel.test.ts
 
     functional-bid-transactions:
         name: BID TEST
@@ -543,7 +543,7 @@ jobs:
             - name: TEST
               run: |
                   cd protokol/packages/nft-exchange-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-bid.test.ts
+                  jest __tests__/functional/transaction-forging/nft-bid.test.ts
 
     functional-bid-cancel-transactions:
         name: BID-CANCEL TEST
@@ -610,7 +610,7 @@ jobs:
             - name: TEST
               run: |
                   cd protokol/packages/nft-exchange-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-bid-cancel.test.ts
+                  jest __tests__/functional/transaction-forging/nft-bid-cancel.test.ts
 
     functional-accept-trade-transactions:
         name: ACCEPT-TRADE TEST
@@ -677,7 +677,7 @@ jobs:
             - name: TEST
               run: |
                   cd protokol/packages/nft-exchange-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-accept-trade.test.ts
+                  jest __tests__/functional/transaction-forging/nft-accept-trade.test.ts
 
     api-integration:
         name: INTEGRATION API TESTS
