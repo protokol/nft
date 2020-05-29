@@ -76,8 +76,8 @@ jobs:
                   cd protokol/packages/nft-exchange-api
                   yarn test:unit:coverage --coverageDirectory .coverage/unit-exchange-api --maxWorkers=2
 
-    functional-transactions:
-        name: FUNCTIONAL TRANSACTIONS TESTS
+    functional-register-collection-transactions:
+        name: FUNCTIONAL REGISTER COLLECTION TEST
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -85,7 +85,7 @@ jobs:
                 env:
                     POSTGRES_USER: ark
                     POSTGRES_PASSWORD: password
-                    POSTGRES_DB: ark_testnet
+                    POSTGRES_DB: ark_unitnet
                 ports:
                     - 5432:5432
                 options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
@@ -94,11 +94,11 @@ jobs:
             matrix:
                 node-version: [12.x]
         env:
-            CORE_DB_DATABASE: ark_testnet
+            CORE_DB_DATABASE: ark_unitnet
             CORE_DB_USERNAME: ark
             POSTGRES_USER: ark
             POSTGRES_PASSWORD: password
-            POSTGRES_DB: ark_testnet
+            POSTGRES_DB: ark_unitnet
 
         steps:
             - name: Checkout Protokol NFT-CORE
@@ -138,15 +138,77 @@ jobs:
             - name: Create .core/database directory
               run: mkdir -p $HOME/.core/database
 
-            - name: TEST FUNCTIONAL BASE-TRANSACTIONS
+            - name: TEST
               run: |
                   cd protokol/packages/nft-base-transactions
-                  yarn test:functional:coverage --coverageDirectory .coverage/functional-base-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-register-collection.test.ts
 
-            - name: TEST FUNCTIONAL EXCHANGE-TRANSACTIONS
+    functional-create-asset-transactions:
+        name: FUNCTIONAL CREATE ASSET TEST
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - name: Checkout Protokol NFT-CORE
+              uses: actions/checkout@v2
+              with:
+                  repository: protokol/core-nft
+                  token: ${{ secrets.PAT_TOKEN }}
+                  ref: conf/nft-token-develop
+
+            - name: Checkout protokol/nft-dapps
+              uses: actions/checkout@v2
+              with:
+                  path: protokol/
+
+            - name: Cache node modules
+              uses: actions/cache@v2
+              id: yarn-cache
+              with:
+                  path: node_modules
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+                  restore-keys: ${{ runner.os }}-yarn-
+
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Update system
+              run: sudo apt-get update -y
+
+            - name: Install xsel & postgresql-client
+              run: sudo apt-get install -q xsel postgresql-client
+
+            - name: Install and build packages
+              run: yarn setup
+
+            - name: Create .core/database directory
+              run: mkdir -p $HOME/.core/database
+
+            - name: TEST
               run: |
-                  cd protokol/packages/nft-exchange-transactions
-                  yarn test:functional:coverage --coverageDirectory .coverage/functional-exchange-transactions
+                  cd protokol/packages/nft-base-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-create.test.ts
 
     api-integration:
         name: INTEGRATION API TESTS
