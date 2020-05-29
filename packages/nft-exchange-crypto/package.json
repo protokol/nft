@@ -1,6 +1,6 @@
 {
     "name": "@protokol/nft-exchange-crypto",
-    "version": "1.0.0-beta.1",
+    "version": "1.0.0-beta.2",
     "description": "NFT Exchange Crypto Library",
     "license": "CC-BY-NC-SA-4.0",
     "contributors": [
@@ -29,41 +29,5 @@
     },
     "publishConfig": {
         "access": "public"
-    },
-    "jest": {
-        "testEnvironment": "node",
-        "bail": true,
-        "verbose": true,
-        "transform": {
-            "^.+\\.tsx?$": "ts-jest"
-        },
-        "testMatch": [
-            "**/*.test.ts"
-        ],
-        "moduleFileExtensions": [
-            "ts",
-            "tsx",
-            "js",
-            "jsx",
-            "json",
-            "node"
-        ],
-        "collectCoverage": false,
-        "coverageDirectory": "<rootDir>/.coverage",
-        "collectCoverageFrom": [
-            "packages/**/src/**/*.ts",
-            "!**/node_modules/**"
-        ],
-        "coverageReporters": [
-            "json",
-            "lcov",
-            "text",
-            "clover",
-            "html"
-        ],
-        "watchman": false,
-        "setupFilesAfterEnv": [
-            "jest-extended"
-        ]
     }
 }

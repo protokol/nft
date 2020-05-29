@@ -1,6 +1,6 @@
 {
     "name": "@protokol/nft-exchange-api",
-    "version": "1.0.0-beta.1",
+    "version": "1.0.0-beta.2",
     "description": "NFT Exchange API for NFT exchange transactions",
     "license": "CC-BY-NC-SA-4.0",
     "contributors": [
@@ -29,10 +29,10 @@
         "@hapi/boom": "^9.0.0",
         "@hapi/hapi": "^19.0.0",
         "@hapi/joi": "^17.1.0",
-        "@protokol/nft-exchange-transactions": "^1.0.0-beta.1"
+        "@protokol/nft-exchange-transactions": "^1.0.0-beta.2"
     },
     "devDependencies": {
-        "@protokol/nft-base-transactions": "^1.0.0-beta.1",
+        "@protokol/nft-base-transactions": "^1.0.0-beta.2",
         "@arkecosystem/crypto": "^3.0.0-next.0",
         "@types/hapi__boom": "^7.4.1",
         "@types/hapi__joi": "^16.0.4",

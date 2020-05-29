@@ -1,6 +1,6 @@
 {
     "name": "@protokol/nft-base-api",
-    "version": "1.0.0-beta.1",
+    "version": "1.0.0-beta.2",
     "description": "NFT Base API for NFT base transactions",
     "license": "CC-BY-NC-SA-4.0",
     "contributors": [
@@ -29,8 +29,8 @@
         "@hapi/boom": "^9.0.0",
         "@hapi/hapi": "^19.0.0",
         "@hapi/joi": "^17.1.0",
-        "@protokol/nft-base-crypto": "^1.0.0-beta.1",
-        "@protokol/nft-base-transactions": "^1.0.0-beta.1"
+        "@protokol/nft-base-crypto": "^1.0.0-beta.2",
+        "@protokol/nft-base-transactions": "^1.0.0-beta.2"
     },
     "devDependencies": {
         "@types/hapi__boom": "^7.4.1",
