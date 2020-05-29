@@ -9,45 +9,7 @@ on:
         types: [ready_for_review, synchronize, opened]
 
 jobs:
-    prepare:
-        runs-on: ubuntu-latest
-
-        strategy:
-            matrix:
-                node-version: [12.x]
-
-        steps:
-            - name: Checkout Protokol NFT-CORE
-              uses: actions/checkout@v2
-              with:
-                  repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
-                  ref: conf/nft-token-develop
-
-            - name: Checkout protokol/nft-dapps
-              uses: actions/checkout@v2
-              with:
-                  path: protokol/
-
-            - name: Cache node modules
-              id: yarn-cache
-              uses: actions/cache@v2
-              with:
-                  path: node_modules
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-                  restore-keys: ${{ runner.os }}-yarn-
-
-            - name: Use Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
-              with:
-                  node-version: ${{ matrix.node-version }}
-
-            - name: Install and Build Packages
-              run: yarn install && yarn bootstrap
-
     test-unit:
-        needs: prepare
-
         runs-on: ubuntu-latest
 
         strategy:
@@ -80,6 +42,9 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
 
+            - name: Install & Build
+              run: yarn setup
+
             - name: TEST UNIT BASE-CRYPTO
               run: |
                   cd protokol/packages/nft-base-crypto
@@ -111,8 +76,6 @@ jobs:
                   yarn test:unit:coverage --coverageDirectory .coverage/unit-exchange-api --maxWorkers=2
 
     test-api-integration:
-        needs: prepare
-
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -184,8 +147,6 @@ jobs:
                   yarn test:integration:coverage --coverageDirectory .coverage/integration-exchange-api
 
     test-functional-transactions:
-        needs: prepare
-
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -255,5 +216,3 @@ jobs:
               run: |
                   cd protokol/packages/nft-exchange-transactions
                   yarn test:integration:coverage --coverageDirectory .coverage/functional-exchange-transactions
-
-
