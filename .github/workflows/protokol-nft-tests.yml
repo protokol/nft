@@ -77,7 +77,7 @@ jobs:
                   yarn test:unit:coverage --coverageDirectory .coverage/unit-exchange-api --maxWorkers=2
 
     functional-register-collection-transactions:
-        name: FORGING-REGISTER COLLECTION TEST
+        name: REGISTER COLLECTION TEST
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -144,7 +144,7 @@ jobs:
                   yarn test __tests__/functional/transaction-forging/nft-register-collection.test.ts
 
     functional-create-asset-transactions:
-        name: FORGING-CREATE ASSET TEST
+        name: CREATE ASSET TEST
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -211,7 +211,7 @@ jobs:
                   yarn test __tests__/functional/transaction-forging/nft-create.test.ts
 
     functional-transfer-asset-transactions:
-        name: FORGING-TRANSFER ASSET TEST
+        name: TRANSFER ASSET TEST
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -278,7 +278,7 @@ jobs:
                   yarn test __tests__/functional/transaction-forging/nft-transfer.test.ts
 
     functional-burn-asset-transactions:
-        name: FORGING-BURN ASSET TEST
+        name: BURN ASSET TEST
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -345,7 +345,7 @@ jobs:
                   yarn test __tests__/functional/transaction-forging/nft-burn.test.ts
 
     functional-auction-transactions:
-        name: FORGING-AUCTION TEST
+        name: AUCTION TEST
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -412,7 +412,7 @@ jobs:
                   yarn test __tests__/functional/transaction-forging/nft-auction.test.ts
 
     functional-auction-cancel-transactions:
-        name: FORGING-AUCTION CANCEL TEST
+        name: AUCTION-CANCEL TEST
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -479,7 +479,7 @@ jobs:
                   yarn test __tests__/functional/transaction-forging/nft-auction-cancel.test.ts
 
     functional-bid-transactions:
-        name: FORGING-BID TEST
+        name: BID TEST
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -546,7 +546,7 @@ jobs:
                   yarn test __tests__/functional/transaction-forging/nft-bid.test.ts
 
     functional-bid-cancel-transactions:
-        name: FORGING-BID CANCEL TEST
+        name: BID-CANCEL TEST
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -613,7 +613,7 @@ jobs:
                   yarn test __tests__/functional/transaction-forging/nft-bid-cancel.test.ts
 
     functional-accept-trade-transactions:
-        name: FORGING-ACCEPT TRADE TEST
+        name: ACCEPT-TRADE TEST
         runs-on: ubuntu-latest
         services:
             postgres:
