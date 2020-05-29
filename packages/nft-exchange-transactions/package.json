@@ -1,6 +1,6 @@
 {
     "name": "@protokol/nft-exchange-transactions",
-    "version": "1.0.0-beta.1",
+    "version": "1.0.0-beta.2",
     "description": "NFT Exchange Transactions Support",
     "license": "CC-BY-NC-SA-4.0",
     "contributors": [
@@ -30,9 +30,9 @@
         "@arkecosystem/core-state": "^3.0.0-next.0",
         "@arkecosystem/core-transactions": "^3.0.0-next.0",
         "@arkecosystem/crypto": "^3.0.0-next.0",
-        "@protokol/nft-exchange-crypto": "^1.0.0-beta.1",
-        "@protokol/nft-base-crypto": "^1.0.0-beta.1",
-        "@protokol/nft-base-transactions": "^1.0.0-beta.1"
+        "@protokol/nft-exchange-crypto": "^1.0.0-beta.2",
+        "@protokol/nft-base-crypto": "^1.0.0-beta.2",
+        "@protokol/nft-base-transactions": "^1.0.0-beta.2"
     },
     "publishConfig": {
         "access": "public"
