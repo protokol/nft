@@ -80,9 +80,6 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
 
-            - name: Install & Build
-              run: yarn setup
-
             - name: TEST UNIT BASE-CRYPTO
               run: |
                   cd protokol/packages/nft-base-crypto
