@@ -1,4 +1,4 @@
-name: Unit, Functional And Integration Tests
+name: NFT-DAPPS TEST
 
 on:
     push:
@@ -9,7 +9,8 @@ on:
         types: [ready_for_review, synchronize, opened]
 
 jobs:
-    test-unit:
+    unit:
+        name: UNIT TESTS
         runs-on: ubuntu-latest
 
         strategy:
@@ -75,78 +76,8 @@ jobs:
                   cd protokol/packages/nft-exchange-api
                   yarn test:unit:coverage --coverageDirectory .coverage/unit-exchange-api --maxWorkers=2
 
-    test-api-integration:
-        runs-on: ubuntu-latest
-        services:
-            postgres:
-                image: postgres:12
-                env:
-                    POSTGRES_USER: ark
-                    POSTGRES_PASSWORD: password
-                    POSTGRES_DB: ark_unitnet
-                ports:
-                    - 5432:5432
-                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
-        strategy:
-            matrix:
-                node-version: [12.x]
-        env:
-            CORE_DB_DATABASE: ark_unitnet
-            CORE_DB_USERNAME: ark
-            POSTGRES_USER: ark
-            POSTGRES_PASSWORD: password
-            POSTGRES_DB: ark_unitnet
-
-        steps:
-            - name: Checkout Protokol NFT-CORE
-              uses: actions/checkout@v2
-              with:
-                  repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
-                  ref: conf/nft-token-develop
-
-            - name: Checkout protokol/nft-dapps
-              uses: actions/checkout@v2
-              with:
-                  path: protokol/
-
-            - name: Cache node modules
-              uses: actions/cache@v2
-              id: yarn-cache
-              with:
-                  path: node_modules
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-                  restore-keys: ${{ runner.os }}-yarn-
-
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
-              with:
-                  node-version: ${{ matrix.node-version }}
-
-            - name: Update system
-              run: sudo apt-get update -y
-
-            - name: Install xsel & postgresql-client
-              run: sudo apt-get install -q xsel postgresql-client
-
-            - name: Install and build packages
-              run: yarn setup
-
-            - name: Create .core/database directory
-              run: mkdir -p $HOME/.core/database
-
-            - name: TEST INTEGRATION BASE-API
-              run: |
-                  cd protokol/packages/nft-base-api
-                  yarn test:integration:coverage --coverageDirectory .coverage/integration-base-api
-
-            - name: TEST INTEGRATION EXCHANGE-API
-              run: |
-                  cd protokol/packages/nft-exchange-api
-                  yarn test:integration:coverage --coverageDirectory .coverage/integration-exchange-api
-
-    test-functional-transactions:
+    functional-transactions:
+        name: FUNCTIONAL TRANSACTIONS TESTS
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -216,3 +147,75 @@ jobs:
               run: |
                   cd protokol/packages/nft-exchange-transactions
                   yarn test:integration:coverage --coverageDirectory .coverage/functional-exchange-transactions
+
+    api-integration:
+        name: INTEGRATION API TESTS
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - name: Checkout Protokol NFT-CORE
+              uses: actions/checkout@v2
+              with:
+                  repository: protokol/core-nft
+                  token: ${{ secrets.PAT_TOKEN }}
+                  ref: conf/nft-token-develop
+
+            - name: Checkout protokol/nft-dapps
+              uses: actions/checkout@v2
+              with:
+                  path: protokol/
+
+            - name: Cache node modules
+              uses: actions/cache@v2
+              id: yarn-cache
+              with:
+                  path: node_modules
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+                  restore-keys: ${{ runner.os }}-yarn-
+
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Update system
+              run: sudo apt-get update -y
+
+            - name: Install xsel & postgresql-client
+              run: sudo apt-get install -q xsel postgresql-client
+
+            - name: Install and build packages
+              run: yarn setup
+
+            - name: Create .core/database directory
+              run: mkdir -p $HOME/.core/database
+
+            - name: TEST INTEGRATION BASE-API
+              run: |
+                  cd protokol/packages/nft-base-api
+                  yarn test:integration:coverage --coverageDirectory .coverage/integration-base-api
+
+            - name: TEST INTEGRATION EXCHANGE-API
+              run: |
+                  cd protokol/packages/nft-exchange-api
+                  yarn test:integration:coverage --coverageDirectory .coverage/integration-exchange-api
