@@ -159,10 +159,9 @@ jobs:
             - name: TEST INTEGRATION BASE-API
               run: |
                   cd protokol/packages/nft-base-api
-                  yarn test:integration:coverage --coverageDirectory .coverage/integration-base-api --maxWorkers=2
+                  yarn test:integration:coverage --coverageDirectory .coverage/integration-base-api
 
             - name: TEST INTEGRATION EXCHANGE-API
               run: |
                   cd protokol/packages/nft-exchange-api
-                  yarn test:integration:coverage --coverageDirectory .coverage/integration-exchange-api --maxWorkers=2
-
+                  yarn test:integration:coverage --coverageDirectory .coverage/integration-exchange-api
