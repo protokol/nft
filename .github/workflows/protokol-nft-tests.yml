@@ -1,4 +1,4 @@
-name: PROTOKOL NFT
+name: NFT
 
 on:
     push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
     unit:
-        name: UNIT TESTS
+        name: UNIT (API, CRYPTO, TRANSACTIONS) TESTS
         runs-on: ubuntu-latest
 
         strategy:

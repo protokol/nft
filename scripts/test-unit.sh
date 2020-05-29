@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-for dir in `find packages -mindepth 1 -maxdepth 1 -type d | sort -nr`; do
-    cd $dir
-    echo $PWD
-    yarn test:unit
-    cd ../..
-done
+cd packages/nft-base-api && yarn test:unit:coverage && cd ../..
+cd packages/nft-base-crypto && yarn test:unit:coverage && cd ../..
+cd packages/nft-base-transactions && yarn test:unit:coverage && cd ../..
+cd packages/nft-exchange-api && yarn test:unit:coverage && cd ../..
+cd packages/nft-exchange-transactions && yarn test:unit:coverage && cd ../..
+cd packages/nft-exchange-crypto && yarn test:unit:coverage && cd ../..
