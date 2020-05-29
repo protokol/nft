@@ -18,7 +18,7 @@
         "clean": "del dist",
         "compile": "../../../node_modules/typescript/bin/tsc",
         "prepublishOnly": "yarn build",
-        "test": "cross-env CORE_ENV=test jest --runInBand --forceExit",
+        "test": "cross-env CORE_ENV=test jest  --forceExit",
         "test:unit": "cross-env jest __tests__/unit/** --forceExit",
         "test:unit:coverage": "cross-env jest __tests__/unit/** --coverage --forceExit",
         "test:functional": "cross-env CORE_ENV=test jest __tests__/functional --forceExit",
