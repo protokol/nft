@@ -15,7 +15,7 @@ This work is licensed under [Creative Commons Attribution-NonCommercial-ShareAli
 
 | Plugin        | Description      | Version
 | ------------- |--------------|---|
-| [nft-base-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-api)   | Base API Functionality | https://img.shields.io/npm/v/@protokol/nft-base-api/beta
+| [nft-base-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-api)   | Base API Functionality | [!https://img.shields.io/npm/v/@protokol/nft-base-api/beta]
 | [nft-base-crypto](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-crypto) | Token creation and transaction support |
 | [nft-base-transactions](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-transactions) | NFT Core v3 transactions (base) |
 | [nft-exchange-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-api)   | Exchange API Functionality | 
