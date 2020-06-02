@@ -46,7 +46,7 @@ Prepare and configure your bridgechain network configuration to install and load
   ...
 ```
 
-You could also use our [core-nft](https://github.com/protokol/core-nft) branch of ARK Core-v3, where this is already setup for testnet environment (keep in mind to update also package.json in your core bridgechain branch, to load the dependencies). 
+You could also use our [core-nft](https://github.com/protokol/core-nft) branch of ARK Core-v3, where this is already setup for testnet environment (keep in mind to update package.json in your core bridgechain branch). 
 
 ## Source install
 ### Development environment setup
