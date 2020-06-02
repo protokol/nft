@@ -25,7 +25,8 @@ export class ConfigurationResource implements Contracts.Resource {
         return {
             package: {
                 name: resource.packageName,
-                version: resource.packageVersion,
+                currentVersion: resource.currentVersion,
+                latestVersion: resource.latestVersion,
             },
             crypto: {
                 ...resource.crypto,
