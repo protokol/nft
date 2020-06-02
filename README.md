@@ -2,20 +2,26 @@
 
 # NFT Functionality For ARK Core-v3 Bridgechains
 
-A monorepository containing a set of ARK Core v3 plugins, providing base and exchange NFT Token Support for:
+A monorepository containing a set of ARK Core v3 plugins, providing base and exchange NFT Token Support for ARK Core v3 based bridgechains. Plugins support following main features:
+
 - token creation (JSON Schema based token structure)
 - token trading (auction, bid, trade)
 - token burning
-- full REST API Support (htts://docs.protokol.com)
+- full REST API Support (htts://docs.protokol.com) for exchange and crypto.
 
-## List of modules:
+This work is licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 
-1. [NFT BASE API](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-api)
-2. [NFT BASE CRYPTO](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-crypto)
-3. [NFT BASE TRANSACTIONS](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-transactions)
-4. [NFT EXCHANGE CRYPTO](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-crypto)
-5. [NFT EXCHANGE TRANSACTIONS](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-transactions)
-6. [NFT EXCHANGE API](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-api)
+## List of plugins:
+
+| Plugin        | Description      |
+| ------------- |--------------|
+| [nft-base-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-api)   | Base API Functionality | 
+| [nft-base-crypto](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-crypto) | Token creation and transaction support |
+| [nft-base-transactions](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-transactions) | NFT Core v3 transactions (base) |
+| [nft-exchange-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-api)   | Exchange API Functionality | 
+| [nft-exchange-crypto](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-crypto) | Exchange transaction support |
+| [nft-exchange-transactions](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-transactions) | NFT Core v3 transactions (exchange) |
+| [nft-generator-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-generator-api) | Helper plugin for quick transaction creation |
 
 ## Source install
 ### Development environment setup
