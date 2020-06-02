@@ -39,7 +39,7 @@ yarn setup:clean
 Check here how to run your local Testnet:
 https://learn.ark.dev/core-getting-started/spinning-up-your-first-testnet
 
-# Contact Us For Support And Custom Development
+# Contact us for support and custom development
 info@protokol.com
 
 # License
