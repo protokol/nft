@@ -4,7 +4,11 @@ import { Handlers, TransactionReader } from "@arkecosystem/core-transactions";
 import { Interfaces, Managers, Transactions } from "@arkecosystem/crypto";
 import { Interfaces as NFTInterfaces, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 
-import { NFTBaseTransferCannotBeApplied, NFTBaseTransferWalletDoesntOwnSpecifiedNftToken } from "../errors";
+import {
+    NFTBaseTransferCannotBeApplied,
+    NFTBaseTransferNFTIsOnAuction,
+    NFTBaseTransferWalletDoesntOwnSpecifiedNftToken,
+} from "../errors";
 import { NFTApplicationEvents } from "../events";
 import { INFTTokens } from "../interfaces";
 import { NFTIndexers } from "../wallet-indexes";
@@ -24,7 +28,7 @@ export class NFTTransferHandler extends Handlers.TransactionHandler {
     }
 
     public walletAttributes(): ReadonlyArray<string> {
-        return [];
+        return ["nft.exchange.auctions"];
     }
 
     public async isActivated(): Promise<boolean> {
@@ -84,6 +88,16 @@ export class NFTTransferHandler extends Handlers.TransactionHandler {
         for (const nft of transaction.data.asset.nftTransfer.nftIds) {
             if (!senderWalletAsset[nft]) {
                 throw new NFTBaseTransferWalletDoesntOwnSpecifiedNftToken();
+            }
+        }
+
+        const auctionsWalletAsset = sender.getAttribute("nft.exchange.auctions", {});
+
+        for (const auction of Object.keys(auctionsWalletAsset)) {
+            for (const nft of transaction.data.asset.nftTransfer.nftIds) {
+                if (auctionsWalletAsset.hasOwnProperty(auction) && auctionsWalletAsset[auction].nftId === nft) {
+                    throw new NFTBaseTransferNFTIsOnAuction();
+                }
             }
         }
 

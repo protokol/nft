@@ -13,7 +13,11 @@ import { Enums } from "@protokol/nft-base-crypto";
 
 import { setMockTransaction } from "../__mocks__/transaction-repository";
 import { buildWallet, initApp } from "../__support__/app";
-import { NFTBaseTransferCannotBeApplied, NFTBaseTransferWalletDoesntOwnSpecifiedNftToken } from "../../../src/errors";
+import {
+    NFTBaseTransferCannotBeApplied,
+    NFTBaseTransferNFTIsOnAuction,
+    NFTBaseTransferWalletDoesntOwnSpecifiedNftToken,
+} from "../../../src/errors";
 import { INFTTokens } from "../../../src/interfaces";
 import { NFTIndexers } from "../../../src/wallet-indexes";
 import { deregisterTransactions } from "../utils/utils";
@@ -175,6 +179,30 @@ describe("NFT Transfer tests", () => {
             await expect(
                 nftTransferHandler.throwIfCannotBeApplied(actual, senderWallet, walletRepository),
             ).rejects.toThrowError(NFTBaseTransferWalletDoesntOwnSpecifiedNftToken);
+        });
+
+        it("should throw NFTBaseTransferNFTIsOnAuction", async () => {
+            const nftExchangeWalletAsset = senderWallet.getAttribute("nft.exchange.auctions", {});
+            nftExchangeWalletAsset["7259d7a1268e862caa1ea090c1ab4c80f58378ad8fff1de89bd9e24a38ce4674"] = {
+                nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+                bids: [],
+            };
+            senderWallet.setAttribute("nft.exchange.auctions", nftExchangeWalletAsset);
+            const tokensWallet = senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
+            tokensWallet["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {};
+            senderWallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
+
+            const actual = new Builders.NFTTransferBuilder()
+                .NFTTransferAsset({
+                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
+                    recipientId: Identities.Address.fromPassphrase(passphrases[0]),
+                })
+                .nonce("1")
+                .sign(passphrases[0])
+                .build();
+            await expect(
+                nftTransferHandler.throwIfCannotBeApplied(actual, senderWallet, walletRepository),
+            ).rejects.toThrowError(NFTBaseTransferNFTIsOnAuction);
         });
     });
 
