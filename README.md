@@ -2,20 +2,51 @@
 
 # NFT Functionality For ARK Core-v3 Bridgechains
 
-A monorepository containing a set of ARK Core v3 plugins, providing base and exchange NFT Token Support for:
-- token creation (JSON Schema based token structure)
+A monorepository containing a set of ARK Core v3 plugins, providing base and exchange NFT Token Support for ARK Core v3 based bridgechains. Plugins support following main features - powered by Protokol NFT:
+
+- asset creation (JSON Schema based asset structure)
 - token trading (auction, bid, trade)
 - token burning
-- full REST API Support (htts://docs.protokol.com)
+- full REST API Support (htts://docs.protokol.com) for exchange and crypto.
 
-## List of modules:
+This work is licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 
-1. [NFT BASE API](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-api)
-2. [NFT BASE CRYPTO](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-crypto)
-3. [NFT BASE TRANSACTIONS](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-transactions)
-4. [NFT EXCHANGE CRYPTO](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-crypto)
-5. [NFT EXCHANGE TRANSACTIONS](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-transactions)
-6. [NFT EXCHANGE API](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-api)
+## List of plugins:
+
+| Plugin        | Description      | Version
+| ------------- |--------------|---|
+| [nft-base-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-api)   | Base API Functionality | ![](https://img.shields.io/npm/v/@protokol/nft-base-api/beta)
+| [nft-base-crypto](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-crypto) | Token creation and transaction support | ![](https://img.shields.io/npm/v/@protokol/nft-base-crypto/beta)
+| [nft-base-transactions](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-transactions) | NFT Core v3 transactions (base) | ![](https://img.shields.io/npm/v/@protokol/nft-base-transactions/beta)
+| [nft-exchange-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-api)   | Exchange API Functionality | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-api/beta)
+| [nft-exchange-crypto](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-crypto) | Exchange transaction support | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-crypto/beta)
+| [nft-exchange-transactions](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-transactions) | NFT Core v3 transactions (exchange) | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-transactions/beta)
+| [nft-generator-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-generator-api) | Helper plugin for quick transaction creation | ![](https://img.shields.io/npm/v/@protokol/nft-generator-api/beta)
+
+## Production install
+Prepare and configure your bridgechain network configuration to install and load published packages from npm repository. A testnet configuration example can be found here: https://github.com/protokol/core-nft/blob/conf/nft-token-develop/packages/core/bin/config/testnet/app.json#L20-L44. We need to add the following entries to packages:
+
+```json
+  ...
+  {
+      "package": "@protokol/nft-base-transactions"
+  },
+  {
+      "package": "@protokol/nft-exchange-transactions"
+  },
+  {
+      "package": "@protokol/nft-base-api"
+  },
+  {
+      "package": "@protokol/nft-exchange-api"
+  },
+  {
+      "package": "@protokol/nft-generator-api"
+  },
+  ...
+```
+
+You could also use our [core-nft](https://github.com/protokol/core-nft) branch of ARK Core-v3, where this is already setup for testnet environment (keep in mind to update package.json in your core bridgechain branch). 
 
 ## Source install
 ### Development environment setup
@@ -39,7 +70,7 @@ yarn setup:clean
 Check here how to run your local Testnet:
 https://learn.ark.dev/core-getting-started/spinning-up-your-first-testnet
 
-# Contact Us For Support And Custom Development
+# Contact us for support and custom development
 info@protokol.com
 
 # License
