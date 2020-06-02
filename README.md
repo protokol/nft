@@ -2,9 +2,9 @@
 
 # NFT Functionality For ARK Core-v3 Bridgechains
 
-A monorepository containing a set of ARK Core v3 plugins, providing base and exchange NFT Token Support for ARK Core v3 based bridgechains. Plugins support following main features:
+A monorepository containing a set of ARK Core v3 plugins, providing base and exchange NFT Token Support for ARK Core v3 based bridgechains. Plugins support following main features - powered by Protokol NFT:
 
-- token creation (JSON Schema based token structure)
+- asset creation (JSON Schema based asset structure)
 - token trading (auction, bid, trade)
 - token burning
 - full REST API Support (htts://docs.protokol.com) for exchange and crypto.
@@ -22,6 +22,31 @@ This work is licensed under [Creative Commons Attribution-NonCommercial-ShareAli
 | [nft-exchange-crypto](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-crypto) | Exchange transaction support | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-crypto/beta)
 | [nft-exchange-transactions](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-transactions) | NFT Core v3 transactions (exchange) | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-transactions/beta)
 | [nft-generator-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-generator-api) | Helper plugin for quick transaction creation | ![](https://img.shields.io/npm/v/@protokol/nft-generator-api/beta)
+
+## Production install
+Prepare and configure your bridgechain network configuration to install and load published packages from npm repository. A testnet configuration example can be found here: https://github.com/protokol/core-nft/blob/conf/nft-token-develop/packages/core/bin/config/testnet/app.json#L20-L44. We need to add the following entries to packages:
+
+```json
+  ...
+  {
+      "package": "@protokol/nft-base-transactions"
+  },
+  {
+      "package": "@protokol/nft-exchange-transactions"
+  },
+  {
+      "package": "@protokol/nft-base-api"
+  },
+  {
+      "package": "@protokol/nft-exchange-api"
+  },
+  {
+      "package": "@protokol/nft-generator-api"
+  },
+  ...
+```
+
+You could also use our [core-nft](https://github.com/protokol/core-nft) branch of ARK Core-v3, where this is already setup for testnet environment (keep in mind to update also package.json in your core bridgechain branch, to load the dependencies). 
 
 ## Source install
 ### Development environment setup
