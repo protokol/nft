@@ -43,7 +43,6 @@ describe("API - Transfers", () => {
             });
             const response = await api.request("GET", "nft/transfers");
 
-            console.log(response.data.data);
             expect(response.data.data[0].id).toStrictEqual(nftTransfer.id);
             expect(response.data.data[0].senderPublicKey).toStrictEqual(nftTransfer.data.senderPublicKey);
             expect(response.data.data[0].nftTransfer.nftIds).toStrictEqual([
