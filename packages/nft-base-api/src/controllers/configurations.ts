@@ -3,9 +3,9 @@ import { Container } from "@arkecosystem/core-kernel";
 import Hapi from "@hapi/hapi";
 import { Defaults as CryptoDefaults } from "@protokol/nft-base-crypto";
 import { Defaults as TransactionDefaults } from "@protokol/nft-base-transactions";
+import latestVersion from "latest-version";
 
 import { ConfigurationResource } from "../resources/configurations";
-import latestVersion from "latest-version";
 
 const packageName = require("../../package.json").name;
 const currentVersion = require("../../package.json").version;

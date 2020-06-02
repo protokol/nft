@@ -9,6 +9,7 @@ import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import { Defaults as CryptoDefaults } from "@protokol/nft-exchange-crypto";
 import { Transactions as ExchangeTransactions } from "@protokol/nft-exchange-crypto";
 import { Defaults as TransactionsDefaults } from "@protokol/nft-exchange-transactions";
+import latestVersion from "latest-version";
 
 import { initApp, ItemResponse } from "../__support__";
 import { ConfigurationsController } from "../../../src/controllers/configurations";
@@ -58,7 +59,8 @@ describe("Test configurations controller", () => {
         expect(response.data).toStrictEqual({
             package: {
                 name: require("../../../package.json").name,
-                version: require("../../../package.json").version,
+                currentVersion: require("../../../package.json").version,
+                latestVersion: await latestVersion(require("../../../package.json").name),
             },
             crypto: {
                 ...CryptoDefaults,
