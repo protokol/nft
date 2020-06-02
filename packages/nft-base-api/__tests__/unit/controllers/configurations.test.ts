@@ -10,6 +10,7 @@ import { Managers, Transactions } from "@arkecosystem/crypto";
 import { ConfigurationController } from "../../../src/controllers/configurations";
 import { Defaults as CryptoDefaults } from "@protokol/nft-base-crypto";
 import { Defaults as TransactionsDefaults } from "@protokol/nft-base-transactions";
+import latestVersion from "latest-version";
 
 let app: Application;
 
@@ -50,7 +51,8 @@ describe("Test configurations controller", () => {
         expect(response.data).toStrictEqual({
             package: {
                 name: require("../../../package.json").name,
-                version: require("../../../package.json").version,
+                currentVersion: require("../../../package.json").version,
+                latestVersion: await latestVersion(require("../../../package.json").name),
             },
             crypto: {
                 ...CryptoDefaults,

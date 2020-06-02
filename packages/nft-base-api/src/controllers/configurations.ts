@@ -5,9 +5,10 @@ import { Defaults as CryptoDefaults } from "@protokol/nft-base-crypto";
 import { Defaults as TransactionDefaults } from "@protokol/nft-base-transactions";
 
 import { ConfigurationResource } from "../resources/configurations";
+import latestVersion from "latest-version";
 
 const packageName = require("../../package.json").name;
-const packageVersion = require("../../package.json").version;
+const currentVersion = require("../../package.json").version;
 
 @Container.injectable()
 export class ConfigurationController extends Controller {
@@ -15,7 +16,8 @@ export class ConfigurationController extends Controller {
         return this.respondWithResource(
             {
                 packageName,
-                packageVersion,
+                currentVersion,
+                latestVersion: await latestVersion(packageName),
                 crypto: CryptoDefaults,
                 transactions: TransactionDefaults,
             },
