@@ -16,12 +16,12 @@ This work is licensed under [Creative Commons Attribution-NonCommercial-ShareAli
 | Plugin        | Description      | Version
 | ------------- |--------------|---|
 | [nft-base-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-api)   | Base API Functionality | ![](https://img.shields.io/npm/v/@protokol/nft-base-api/beta)
-| [nft-base-crypto](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-crypto) | Token creation and transaction support | ![](https://img.shields.io/npm/v/@protokol/nft-base-crypto/beta)
-| [nft-base-transactions](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-transactions) | NFT Core v3 transactions (base) | ![](https://img.shields.io/npm/v/@protokol/nft-base-transactions/beta)
+| [nft-base-crypto](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-crypto) | Asset creation and crypto transaction support | ![](https://img.shields.io/npm/v/@protokol/nft-base-crypto/beta)
+| [nft-base-transactions](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-transactions) | NFT Core v3 transactions engine (base) | ![](https://img.shields.io/npm/v/@protokol/nft-base-transactions/beta)
 | [nft-exchange-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-api)   | Exchange API Functionality | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-api/beta)
-| [nft-exchange-crypto](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-crypto) | Exchange transaction support | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-crypto/beta)
-| [nft-exchange-transactions](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-transactions) | NFT Core v3 transactions (exchange) | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-transactions/beta)
-| [nft-generator-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-generator-api) | Helper plugin for quick transaction creation | ![](https://img.shields.io/npm/v/@protokol/nft-generator-api/beta)
+| [nft-exchange-crypto](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-crypto) | Exchange crypto transaction support  | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-crypto/beta)
+| [nft-exchange-transactions](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-transactions) | Exchange NFT Core v3 transactions engine | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-transactions/beta)
+| [nft-generator-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-generator-api) | Helper plugin for quick asset generation | ![](https://img.shields.io/npm/v/@protokol/nft-generator-api/beta)
 
 ## Production install
 Prepare and configure your bridgechain network configuration to install and load published packages from npm repository. A testnet configuration example can be found here: https://github.com/protokol/core-nft/blob/conf/nft-token-develop/packages/core/bin/config/testnet/app.json#L20-L44. We need to add the following entries to packages:
