@@ -55,17 +55,21 @@ export class NFTAcceptTradeHandler extends Handlers.TransactionHandler {
             const auctionWallet = this.walletRepository.findByPublicKey(transaction.senderPublicKey);
             const bidWallet = this.walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
 
-            const nftId = auctionTransaction.asset.nftAuction.nftId;
+            const nftIds = auctionTransaction.asset.nftAuction.nftIds;
 
             const auctionWalletBaseAsset = auctionWallet.getAttribute<NFTBaseInterfaces.INFTTokens>(
                 "nft.base.tokenIds",
             );
-            delete auctionWalletBaseAsset[nftId];
+            for (const nft of nftIds) {
+                delete auctionWalletBaseAsset[nft];
+                this.walletRepository.forgetByIndex(NFTBaseIndexers.NFTIndexers.NFTTokenIndexer, nft);
+            }
             auctionWallet.setAttribute<NFTBaseInterfaces.INFTTokens>("nft.base.tokenIds", auctionWalletBaseAsset);
-            this.walletRepository.forgetByIndex(NFTBaseIndexers.NFTIndexers.NFTTokenIndexer, nftId);
 
             const bidWalletBaseAsset = bidWallet.getAttribute<NFTBaseInterfaces.INFTTokens>("nft.base.tokenIds", {});
-            bidWalletBaseAsset[nftId] = {};
+            for (const nft of nftIds) {
+                bidWalletBaseAsset[nft] = {};
+            }
             bidWallet.setAttribute<NFTBaseInterfaces.INFTTokens>("nft.base.tokenIds", bidWalletBaseAsset);
 
             const auctionWalletAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions");
@@ -178,15 +182,19 @@ export class NFTAcceptTradeHandler extends Handlers.TransactionHandler {
         const auctionWallet = walletRepository.findByPublicKey(transaction.data.senderPublicKey);
         const bidWallet = walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
 
-        const nftId = auctionTransaction.asset.nftAuction.nftId;
+        const nftIds = auctionTransaction.asset.nftAuction.nftIds;
 
         const auctionWalletBaseAsset = auctionWallet.getAttribute<NFTBaseInterfaces.INFTTokens>("nft.base.tokenIds");
-        delete auctionWalletBaseAsset[nftId];
+        for (const nft of nftIds) {
+            delete auctionWalletBaseAsset[nft];
+            this.walletRepository.forgetByIndex(NFTBaseIndexers.NFTIndexers.NFTTokenIndexer, nft);
+        }
         auctionWallet.setAttribute<NFTBaseInterfaces.INFTTokens>("nft.base.tokenIds", auctionWalletBaseAsset);
-        walletRepository.forgetByIndex(NFTBaseIndexers.NFTIndexers.NFTTokenIndexer, nftId);
 
         const bidWalletBaseAsset = bidWallet.getAttribute<NFTBaseInterfaces.INFTTokens>("nft.base.tokenIds", {});
-        bidWalletBaseAsset[nftId] = {};
+        for (const nft of nftIds) {
+            bidWalletBaseAsset[nft] = {};
+        }
         bidWallet.setAttribute<NFTBaseInterfaces.INFTTokens>("nft.base.tokenIds", bidWalletBaseAsset);
 
         const auctionWalletAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions");
@@ -227,16 +235,20 @@ export class NFTAcceptTradeHandler extends Handlers.TransactionHandler {
         const auctionWallet = walletRepository.findByPublicKey(transaction.data.senderPublicKey);
         const bidWallet = walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
 
-        const nftId = auctionTransaction.asset.nftAuction.nftId;
+        const nftIds = auctionTransaction.asset.nftAuction.nftIds;
 
         const auctionWalletBaseAsset = auctionWallet.getAttribute<NFTBaseInterfaces.INFTTokens>("nft.base.tokenIds");
-        auctionWalletBaseAsset[nftId] = {};
+        for (const nft of nftIds) {
+            auctionWalletBaseAsset[nft] = {};
+        }
         auctionWallet.setAttribute<NFTBaseInterfaces.INFTTokens>("nft.base.tokenIds", auctionWalletBaseAsset);
 
         const bidWalletBaseAsset = bidWallet.getAttribute<NFTBaseInterfaces.INFTTokens>("nft.base.tokenIds", {});
-        delete bidWalletBaseAsset[nftId];
+        for (const nft of nftIds) {
+            delete bidWalletBaseAsset[nft];
+            this.walletRepository.forgetByIndex(NFTBaseIndexers.NFTIndexers.NFTTokenIndexer, nft);
+        }
         bidWallet.setAttribute<NFTBaseInterfaces.INFTTokens>("nft.base.tokenIds", bidWalletBaseAsset);
-        walletRepository.forgetByIndex(NFTBaseIndexers.NFTIndexers.NFTTokenIndexer, nftId);
 
         const activeBids: string[] = [];
         const bidTransactions = await this.transactionHistoryService.findManyByCriteria({
@@ -263,7 +275,7 @@ export class NFTAcceptTradeHandler extends Handlers.TransactionHandler {
         const auctionWalletExchangeAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions");
         auctionWalletExchangeAsset[auctionId] = {
             bids: activeBids,
-            nftId: nftId,
+            nftIds: nftIds,
         };
         auctionWallet.balance = auctionWallet.balance.minus(bidTransaction.asset.nftBid.bidAmount);
         auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletExchangeAsset);

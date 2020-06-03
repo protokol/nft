@@ -60,7 +60,7 @@ describe("NFT Bid Cancel tests", () => {
         it("should test bootstrap method", async () => {
             const actualAuction = new NFTBuilders.NFTAuctionBuilder()
                 .NFTAuctionAsset({
-                    nftId: "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+                    nftIds: ["961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506"],
                     expiration: { blockHeight: 4 },
                     startAmount: Utils.BigNumber.make("1"),
                 })
@@ -83,7 +83,7 @@ describe("NFT Bid Cancel tests", () => {
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             // @ts-ignore
             auctionsAsset[actualAuction.id] = {
-                nftId: "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+                nftIds: ["961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506"],
                 bids: [actualBid.id],
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
@@ -104,7 +104,7 @@ describe("NFT Bid Cancel tests", () => {
 
             // @ts-ignore
             expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actualAuction.id]).toStrictEqual({
-                nftId: "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+                nftIds: ["961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506"],
                 bids: [],
             });
             expect(walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).get(actualBid.id)).toBeUndefined();
@@ -132,7 +132,7 @@ describe("NFT Bid Cancel tests", () => {
         it("should throw NFTExchangeBidCancelAuctionCanceledOrAccepted", async () => {
             const actualAuction = new NFTBuilders.NFTAuctionBuilder()
                 .NFTAuctionAsset({
-                    nftId: "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+                    nftIds: ["961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506"],
                     expiration: { blockHeight: 4 },
                     startAmount: Utils.BigNumber.make("1"),
                 })
@@ -153,7 +153,7 @@ describe("NFT Bid Cancel tests", () => {
 
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             auctionsAsset["703b87044730ee74862ca513c6d86f69e97d43a5ac8a3f68a1b18d9ac793e200"] = {
-                nftId: "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+                nftIds: ["961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506"],
                 bids: [actualBid.id],
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
@@ -176,7 +176,7 @@ describe("NFT Bid Cancel tests", () => {
         it("should throw NFTExchangeBidCancelBidCanceled", async () => {
             const actualAuction = new NFTBuilders.NFTAuctionBuilder()
                 .NFTAuctionAsset({
-                    nftId: "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+                    nftIds: ["961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506"],
                     expiration: { blockHeight: 4 },
                     startAmount: Utils.BigNumber.make("1"),
                 })
@@ -198,7 +198,7 @@ describe("NFT Bid Cancel tests", () => {
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             // @ts-ignore
             auctionsAsset[actualAuction.id] = {
-                nftId: "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+                nftIds: ["961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506"],
                 bids: [],
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
@@ -221,7 +221,7 @@ describe("NFT Bid Cancel tests", () => {
         it("should not throw ", async () => {
             const actualAuction = new NFTBuilders.NFTAuctionBuilder()
                 .NFTAuctionAsset({
-                    nftId: "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+                    nftIds: ["961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506"],
                     expiration: { blockHeight: 4 },
                     startAmount: Utils.BigNumber.make("1"),
                 })
@@ -243,7 +243,7 @@ describe("NFT Bid Cancel tests", () => {
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             // @ts-ignore
             auctionsAsset[actualAuction.id] = {
-                nftId: "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+                nftIds: ["961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506"],
                 bids: [actualBid.id],
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
@@ -278,7 +278,7 @@ describe("NFT Bid Cancel tests", () => {
         it("should throw error", async () => {
             const actualAuction = new NFTBuilders.NFTAuctionBuilder()
                 .NFTAuctionAsset({
-                    nftId: "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+                    nftIds: ["961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506"],
                     expiration: { blockHeight: 4 },
                     startAmount: Utils.BigNumber.make("1"),
                 })
@@ -300,7 +300,7 @@ describe("NFT Bid Cancel tests", () => {
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             // @ts-ignore
             auctionsAsset[actualAuction.id] = {
-                nftId: "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+                nftIds: ["961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506"],
                 bids: [actualBid.id],
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
@@ -332,7 +332,7 @@ describe("NFT Bid Cancel tests", () => {
         it("should apply correctly", async () => {
             const actualAuction = new NFTBuilders.NFTAuctionBuilder()
                 .NFTAuctionAsset({
-                    nftId: "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+                    nftIds: ["961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506"],
                     expiration: { blockHeight: 4 },
                     startAmount: Utils.BigNumber.make("1"),
                 })
@@ -355,7 +355,7 @@ describe("NFT Bid Cancel tests", () => {
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             // @ts-ignore
             auctionsAsset[actualAuction.id] = {
-                nftId: "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+                nftIds: ["961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506"],
                 bids: [actualBid.id],
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
@@ -374,7 +374,7 @@ describe("NFT Bid Cancel tests", () => {
 
             // @ts-ignore
             expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actualAuction.id]).toStrictEqual({
-                nftId: "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+                nftIds: ["961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506"],
                 bids: [],
             });
 
@@ -389,7 +389,7 @@ describe("NFT Bid Cancel tests", () => {
         it("should revert correctly", async () => {
             const actualAuction = new NFTBuilders.NFTAuctionBuilder()
                 .NFTAuctionAsset({
-                    nftId: "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+                    nftIds: ["961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506"],
                     expiration: { blockHeight: 4 },
                     startAmount: Utils.BigNumber.make("1"),
                 })
@@ -412,7 +412,7 @@ describe("NFT Bid Cancel tests", () => {
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             // @ts-ignore
             auctionsAsset[actualAuction.id] = {
-                nftId: "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+                nftIds: ["961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506"],
                 bids: [actualBid.id],
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
@@ -432,7 +432,7 @@ describe("NFT Bid Cancel tests", () => {
 
             // @ts-ignore
             expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actualAuction.id]).toStrictEqual({
-                nftId: "961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506",
+                nftIds: ["961b6dd3ede3cb8ecbaacbd68de040cd78eb2ed5889130cceb4c49268ea4d506"],
                 bids: [actualBid.id],
             });
             expect(walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).get(actualBid.id)).toStrictEqual(wallet);

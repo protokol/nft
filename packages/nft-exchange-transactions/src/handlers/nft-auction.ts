@@ -14,7 +14,7 @@ import {
     NFTExchangeAuctionExpired,
 } from "../errors";
 import { NFTApplicationEvents } from "../events";
-import { INFTAuctions, NFTExchangeWalletAsset } from "../interfaces";
+import { INFTAuctions } from "../interfaces";
 import { NFTExchangeIndexers } from "../wallet-indexes";
 
 @Container.injectable()
@@ -47,10 +47,10 @@ export class NFTAuctionHandler extends Handlers.TransactionHandler {
             const auctionsWalletAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
 
             auctionsWalletAsset[transaction.id] = {
-                nftId: nftAuctionAsset.nftId,
+                nftIds: nftAuctionAsset.nftIds,
                 bids: [],
             };
-            wallet.setAttribute<NFTExchangeWalletAsset>("nft.exchange.auctions", auctionsWalletAsset);
+            wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
 
             this.walletRepository.index(wallet);
         }
@@ -79,20 +79,23 @@ export class NFTAuctionHandler extends Handlers.TransactionHandler {
         }
 
         const nftBaseWalletAsset = sender.getAttribute<NFTBaseInterfaces.INFTTokens>("nft.base.tokenIds", {});
-        if (!nftBaseWalletAsset[nftAuctionAsset.nftId]) {
-            throw new NFTExchangeAuctioneerDoesNotOwnNft();
+
+        for (const nft of nftAuctionAsset.nftIds) {
+            if (!nftBaseWalletAsset[nft]) {
+                throw new NFTExchangeAuctioneerDoesNotOwnNft();
+            }
         }
 
         const auctionsWalletAsset = sender.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
 
         for (const auction of Object.keys(auctionsWalletAsset)) {
-            if (
-                auctionsWalletAsset.hasOwnProperty(auction) &&
-                auctionsWalletAsset[auction].nftId === nftAuctionAsset.nftId
-            ) {
-                throw new NFTExchangeAuctionAlreadyInProgress();
+            for (const nft of nftAuctionAsset.nftIds) {
+                if (auctionsWalletAsset.hasOwnProperty(auction) && auctionsWalletAsset[auction].nftIds.includes(nft)) {
+                    throw new NFTExchangeAuctionAlreadyInProgress();
+                }
             }
         }
+
         return super.throwIfCannotBeApplied(transaction, sender, customWalletRepository);
     }
 
@@ -133,10 +136,10 @@ export class NFTAuctionHandler extends Handlers.TransactionHandler {
         const auctionsWalletAsset = sender.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
 
         auctionsWalletAsset[transaction.data.id] = {
-            nftId: nftAuctionAsset.nftId,
+            nftIds: nftAuctionAsset.nftIds,
             bids: [],
         };
-        sender.setAttribute<NFTExchangeWalletAsset>("nft.exchange.auctions", auctionsWalletAsset);
+        sender.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
         walletRepository.index(sender);
     }
 
@@ -155,7 +158,7 @@ export class NFTAuctionHandler extends Handlers.TransactionHandler {
 
         const auctionsWalletAsset = sender.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
         delete auctionsWalletAsset[transaction.data.id];
-        sender.setAttribute<NFTExchangeWalletAsset>("nft.exchange.auctions", auctionsWalletAsset);
+        sender.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
 
         walletRepository.forgetByIndex(NFTExchangeIndexers.AuctionIndexer, transaction.data.id);
         walletRepository.index(sender);

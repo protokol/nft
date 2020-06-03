@@ -180,7 +180,7 @@ export class NFTAuctionCancelHandler extends Handlers.TransactionHandler {
 
         const auctionsWalletAsset = sender.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
         auctionsWalletAsset[nftAuctionCancelAsset.auctionId] = {
-            nftId: nftAuctionTransaction.asset.nftAuction.nftId,
+            nftIds: nftAuctionTransaction.asset.nftAuction.nftIds,
             bids: activeBids,
         };
         sender.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);

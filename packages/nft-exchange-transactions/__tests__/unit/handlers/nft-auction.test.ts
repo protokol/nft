@@ -63,7 +63,7 @@ describe("NFT Auction tests", () => {
         it("should test bootstrap method", async () => {
             const actual = new NFTBuilders.NFTAuctionBuilder()
                 .NFTAuctionAsset({
-                    nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                     startAmount: Utils.BigNumber.make("1"),
                     expiration: {
                         blockHeight: 1,
@@ -79,7 +79,7 @@ describe("NFT Auction tests", () => {
 
             // @ts-ignore
             expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actual.id]).toStrictEqual({
-                nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+                nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                 bids: [],
             });
 
@@ -98,7 +98,7 @@ describe("NFT Auction tests", () => {
         it("should throw NFTExchangeAuctionExpired", async () => {
             const actual = new NFTBuilders.NFTAuctionBuilder()
                 .NFTAuctionAsset({
-                    nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                     startAmount: Utils.BigNumber.make("1"),
                     expiration: {
                         blockHeight: 1,
@@ -116,7 +116,7 @@ describe("NFT Auction tests", () => {
         it("should throw NFTExchangeAuctioneerDoesNotOwnAnyNft, because wallet doesn't have nft property", async () => {
             const actual = new NFTBuilders.NFTAuctionBuilder()
                 .NFTAuctionAsset({
-                    nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                     startAmount: Utils.BigNumber.make("1"),
                     expiration: {
                         blockHeight: 56,
@@ -138,7 +138,7 @@ describe("NFT Auction tests", () => {
 
             const actual = new NFTBuilders.NFTAuctionBuilder()
                 .NFTAuctionAsset({
-                    nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                     startAmount: Utils.BigNumber.make("1"),
                     expiration: {
                         blockHeight: 56,
@@ -158,7 +158,7 @@ describe("NFT Auction tests", () => {
 
             const actual = new NFTBuilders.NFTAuctionBuilder()
                 .NFTAuctionAsset({
-                    nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                     startAmount: Utils.BigNumber.make("1"),
                     expiration: {
                         blockHeight: 56,
@@ -180,7 +180,7 @@ describe("NFT Auction tests", () => {
 
             const actual = new NFTBuilders.NFTAuctionBuilder()
                 .NFTAuctionAsset({
-                    nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                     startAmount: Utils.BigNumber.make("1"),
                     expiration: {
                         blockHeight: 56,
@@ -193,7 +193,7 @@ describe("NFT Auction tests", () => {
             const nftExchangeWalletAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             // @ts-ignore
             nftExchangeWalletAsset[actual.id] = {
-                nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+                nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                 bids: [],
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", nftExchangeWalletAsset);
@@ -208,7 +208,7 @@ describe("NFT Auction tests", () => {
         it("should not throw", async () => {
             const actual = new NFTBuilders.NFTAuctionBuilder()
                 .NFTAuctionAsset({
-                    nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                     startAmount: Utils.BigNumber.make("1"),
                     expiration: {
                         blockHeight: 56,
@@ -227,7 +227,7 @@ describe("NFT Auction tests", () => {
 
             const actual = new NFTBuilders.NFTAuctionBuilder()
                 .NFTAuctionAsset({
-                    nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                     startAmount: Utils.BigNumber.make("1"),
                     expiration: {
                         blockHeight: 56,
@@ -240,7 +240,7 @@ describe("NFT Auction tests", () => {
 
             const actualTwo = new NFTBuilders.NFTAuctionBuilder()
                 .NFTAuctionAsset({
-                    nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                     startAmount: Utils.BigNumber.make("1"),
                     expiration: {
                         blockHeight: 56,
@@ -263,7 +263,7 @@ describe("NFT Auction tests", () => {
 
                 const actual = new NFTBuilders.NFTAuctionBuilder()
                     .NFTAuctionAsset({
-                        nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+                        nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                         startAmount: Utils.BigNumber.make("1"),
                         expiration: {
                             blockHeight: 56,
@@ -277,7 +277,7 @@ describe("NFT Auction tests", () => {
 
                 // @ts-ignore
                 expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actual.id]).toStrictEqual({
-                    nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                     bids: [],
                 });
 
@@ -298,7 +298,7 @@ describe("NFT Auction tests", () => {
 
                 const actual = new NFTBuilders.NFTAuctionBuilder()
                     .NFTAuctionAsset({
-                        nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+                        nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                         startAmount: Utils.BigNumber.make("1"),
                         expiration: {
                             blockHeight: 56,
