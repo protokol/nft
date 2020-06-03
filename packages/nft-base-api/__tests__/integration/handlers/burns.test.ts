@@ -55,10 +55,10 @@ describe("API - Burns", () => {
                 Container.Identifiers.DatabaseTransactionRepository,
             );
 
-            jest.spyOn(transactionRepository, "findOneByExpression").mockResolvedValueOnce({
+            jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
                 ...nftBurn.data,
                 serialized: nftBurn.serialized,
-            });
+            }]);
 
             const response = await api.request("GET", `nft/burns/${nftBurn.id}`);
             expect(response.data.data.id).toStrictEqual(nftBurn.id);

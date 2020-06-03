@@ -62,10 +62,10 @@ describe("API - Auctions", () => {
                     Container.Identifiers.DatabaseTransactionRepository,
                 );
 
-                jest.spyOn(transactionRepository, "findOneByExpression").mockResolvedValueOnce({
+                jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
                     ...nftAuction.data,
                     serialized: nftAuction.serialized,
-                });
+                }]);
                 const response = await api.request("GET", `nft/exchange/auctions/${nftAuction.id}`);
                 expect(response.data.data.id).toStrictEqual(nftAuction.id);
                 expect(response.data.data.senderPublicKey).toStrictEqual(nftAuction.data.senderPublicKey);
@@ -160,10 +160,10 @@ describe("API - Auctions", () => {
                     Container.Identifiers.DatabaseTransactionRepository,
                 );
 
-                jest.spyOn(transactionRepository, "findOneByExpression").mockResolvedValueOnce({
+                jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
                     ...nftAuctionCancel.data,
                     serialized: nftAuctionCancel.serialized,
-                });
+                }]);
                 const response = await api.request("GET", `nft/exchange/auctions/canceled/${nftAuctionCancel.id}`);
                 expect(response.data.data.id).toStrictEqual(nftAuctionCancel.id);
                 expect(response.data.data.senderPublicKey).toStrictEqual(nftAuctionCancel.data.senderPublicKey);

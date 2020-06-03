@@ -64,10 +64,11 @@ describe("API - Assets", () => {
                 Container.Identifiers.DatabaseTransactionRepository,
             );
 
-            jest.spyOn(transactionRepository, "findOneByExpression").mockResolvedValueOnce({
+            jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
                 ...nftCreate.data,
                 serialized: nftCreate.serialized,
-            });
+            }]);
+
 
             const response = await api.request("GET", `nft/assets/${nftCreate.id}`);
 

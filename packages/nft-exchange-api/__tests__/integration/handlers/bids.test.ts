@@ -157,10 +157,10 @@ describe("API - Bids", () => {
                     Container.Identifiers.DatabaseTransactionRepository,
                 );
 
-                jest.spyOn(transactionRepository, "findOneByExpression").mockResolvedValueOnce({
+                jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
                     ...nftBidCancel.data,
                     serialized: nftBidCancel.serialized,
-                });
+                }]);
                 const response = await api.request("GET", `nft/exchange/bids/canceled/${nftBidCancel.id}`);
                 expect(response.data.data.id).toStrictEqual(nftBidCancel.id);
                 expect(response.data.data.senderPublicKey).toStrictEqual(nftBidCancel.data.senderPublicKey);
