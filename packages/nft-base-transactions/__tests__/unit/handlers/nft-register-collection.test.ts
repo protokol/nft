@@ -14,6 +14,7 @@ import { Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 import { setMockTransaction } from "../__mocks__/transaction-repository";
 import { buildWallet, initApp } from "../__support__/app";
 import { NFTBaseInvalidAjvSchemaError } from "../../../src/errors";
+import { NFTApplicationEvents } from "../../../src/events";
 import { NFTIndexers } from "../../../src/wallet-indexes";
 import { collectionWalletCheck, deregisterTransactions } from "../utils/utils";
 
@@ -119,6 +120,20 @@ describe("NFT Register collection tests", () => {
             await expect(handler.throwIfCannotBeApplied(actual, senderWallet, walletRepository)).rejects.toThrowError(
                 NFTBaseInvalidAjvSchemaError,
             );
+        });
+    });
+
+    describe("emitEvents", () => {
+        it("should test dispatch", async () => {
+            const emitter: Contracts.Kernel.EventDispatcher = app.get<Contracts.Kernel.EventDispatcher>(
+                Identifiers.EventDispatcherService,
+            );
+
+            const spy = jest.spyOn(emitter, "dispatch");
+
+            handler.emitEvents(actual, emitter);
+
+            expect(spy).toHaveBeenCalledWith(NFTApplicationEvents.NFTRegisterCollection, expect.anything());
         });
     });
 

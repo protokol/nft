@@ -22,6 +22,7 @@ import {
 import { INFTCollections, INFTTokens } from "../../../src/interfaces";
 import { NFTIndexers } from "../../../src/wallet-indexes";
 import { collectionWalletCheck, deregisterTransactions } from "../utils/utils";
+import { NFTApplicationEvents } from "../../../src/events";
 
 let app: Application;
 
@@ -263,6 +264,20 @@ describe("NFT Create tests", () => {
             await expect(
                 nftCreateHandler.throwIfCannotBeApplied(actual, wallet, walletRepository),
             ).rejects.toThrowError(NFTBaseSenderPublicKeyDoesNotExists);
+        });
+    });
+
+    describe("emitEvents", () => {
+        it("should test dispatch", async () => {
+            const emitter: Contracts.Kernel.EventDispatcher = app.get<Contracts.Kernel.EventDispatcher>(
+                Identifiers.EventDispatcherService,
+            );
+
+            const spy = jest.spyOn(emitter, "dispatch");
+
+            nftCreateHandler.emitEvents(actual, emitter);
+
+            expect(spy).toHaveBeenCalledWith(NFTApplicationEvents.NFTCreate, expect.anything());
         });
     });
 
