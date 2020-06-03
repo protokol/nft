@@ -100,7 +100,7 @@ export const register = (server: Hapi.Server): void => {
                     apply: Joi.boolean(),
                 }),
                 payload: Joi.object({
-                    nftId: Joi.string().hex().length(64),
+                    nftIds: Joi.array(),
                     startAmount: Joi.number().positive(),
                     expiration: Joi.object({
                         blockHeight: Joi.number().positive(),

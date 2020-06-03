@@ -4,7 +4,7 @@ import { Builders } from "@protokol/nft-exchange-crypto";
 import { buildTransaction } from "./builder";
 
 export const buildAuction = async (payloadData: {
-    nftId: string;
+    nftIds: string[];
     startAmount: number;
     expiration: {
         blockHeight: number;
@@ -13,7 +13,7 @@ export const buildAuction = async (payloadData: {
     passphrase: string;
 }): Promise<Interfaces.ITransactionData> => {
     const nftAuctionBuilder = new Builders.NFTAuctionBuilder().NFTAuctionAsset({
-        nftId: payloadData.nftId,
+        nftIds: payloadData.nftIds,
         startAmount: Utils.BigNumber.make(payloadData.startAmount),
         expiration: { blockHeight: payloadData.expiration.blockHeight },
     });
