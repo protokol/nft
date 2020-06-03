@@ -21,6 +21,7 @@ import {
     NFTExchangeAuctioneerDoesNotOwnNft,
     NFTExchangeAuctionExpired,
 } from "../../../src/errors";
+import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
 import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
 import { deregisterTransactions } from "../utils";
@@ -254,6 +255,31 @@ describe("NFT Auction tests", () => {
         });
     });
 
+    describe("emitEvents", () => {
+        it("should test dispatch", async () => {
+            const actual = new NFTBuilders.NFTAuctionBuilder()
+                .NFTAuctionAsset({
+                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
+                    startAmount: Utils.BigNumber.make("1"),
+                    expiration: {
+                        blockHeight: 56,
+                    },
+                })
+                .nonce("1")
+                .sign(passphrases[0])
+                .build();
+
+            const emitter: Contracts.Kernel.EventDispatcher = app.get<Contracts.Kernel.EventDispatcher>(
+                Identifiers.EventDispatcherService,
+            );
+
+            const spy = jest.spyOn(emitter, "dispatch");
+
+            nftAuctionHandler.emitEvents(actual, emitter);
+
+            expect(spy).toHaveBeenCalledWith(NFTExchangeApplicationEvents.NFTAuction, expect.anything());
+        });
+    });
     describe("apply logic tests", () => {
         describe("applyToSender tests", () => {
             it("should resolve correctly", async () => {

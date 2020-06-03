@@ -14,6 +14,7 @@ import { Builders as NFTBuilders } from "@protokol/nft-base-crypto";
 import { setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
 import { buildWallet, initApp } from "../__support__/app";
 import { NFTBaseBurnCannotBeApplied, NFTBaseBurnWalletDoesntOwnSpecifiedNftToken } from "../../../src/errors";
+import { NFTApplicationEvents } from "../../../src/events";
 import { INFTCollections, INFTTokens } from "../../../src/interfaces";
 import { NFTIndexers } from "../../../src/wallet-indexes";
 import { collectionWalletCheck, deregisterTransactions } from "../utils/utils";
@@ -145,7 +146,6 @@ describe("NFT Burn tests", () => {
 
             await expect(nftBurnHandler.bootstrap()).toResolve();
             checkApply();
-
         });
     });
 
@@ -237,6 +237,29 @@ describe("NFT Burn tests", () => {
                 .sign(passphrases[0])
                 .build();
             await expect(nftBurnHandler.throwIfCannotEnterPool(actualTwo)).rejects.toThrow();
+        });
+    });
+
+    describe("emitEvents", () => {
+        it("should test dispatch", async () => {
+            const actual = new NFTBuilders.NFTBurnBuilder()
+                .NFTBurnAsset({
+                    // @ts-ignore
+                    nftId: actualCreate.id,
+                })
+                .nonce("1")
+                .sign(passphrases[0])
+                .build();
+
+            const emitter: Contracts.Kernel.EventDispatcher = app.get<Contracts.Kernel.EventDispatcher>(
+                Identifiers.EventDispatcherService,
+            );
+
+            const spy = jest.spyOn(emitter, "dispatch");
+
+            nftBurnHandler.emitEvents(actual, emitter);
+
+            expect(spy).toHaveBeenCalledWith(NFTApplicationEvents.NFTBurn, expect.anything());
         });
     });
 

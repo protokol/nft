@@ -18,6 +18,7 @@ import {
     NFTExchangeBidCancelBidCanceled,
     NFTExchangeBidCancelBidDoesNotExists,
 } from "../../../src/errors";
+import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
 import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
 import { deregisterTransactions } from "../utils";
@@ -325,6 +326,28 @@ describe("NFT Bid Cancel tests", () => {
                 .sign(passphrases[0])
                 .build();
             await expect(nftBidCancelHandler.throwIfCannotEnterPool(actualTwo)).rejects.toThrowError();
+        });
+    });
+
+    describe("emitEvents", () => {
+        it("should test dispatch", async () => {
+            const actual = new NFTBuilders.NFTBidCancelBuilder()
+                .NFTBidCancelAsset({
+                    bidId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+                })
+                .nonce("1")
+                .sign(passphrases[0])
+                .build();
+
+            const emitter: Contracts.Kernel.EventDispatcher = app.get<Contracts.Kernel.EventDispatcher>(
+                Identifiers.EventDispatcherService,
+            );
+
+            const spy = jest.spyOn(emitter, "dispatch");
+
+            nftBidCancelHandler.emitEvents(actual, emitter);
+
+            expect(spy).toHaveBeenCalledWith(NFTExchangeApplicationEvents.NFTCancelBid, expect.anything());
         });
     });
 

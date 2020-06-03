@@ -21,6 +21,7 @@ import {
     NFTExchangeBidNotEnoughFounds,
     NFTExchangeBidStartAmountToLow,
 } from "../../../src/errors";
+import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
 import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
 import { deregisterTransactions } from "../utils";
@@ -383,6 +384,32 @@ describe("NFT Bid tests", () => {
             await expect(nftBidHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).rejects.toThrowError(
                 NFTExchangeBidStartAmountToLow,
             );
+        });
+    });
+
+    describe("emitEvents", () => {
+        it("should test dispatch", async () => {
+            const actual = new NFTBuilders.NFTAuctionBuilder()
+                .NFTAuctionAsset({
+                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
+                    startAmount: Utils.BigNumber.make("1"),
+                    expiration: {
+                        blockHeight: 5 + defaults.safetyDistance,
+                    },
+                })
+                .nonce("1")
+                .sign(passphrases[0])
+                .build();
+
+            const emitter: Contracts.Kernel.EventDispatcher = app.get<Contracts.Kernel.EventDispatcher>(
+                Identifiers.EventDispatcherService,
+            );
+
+            const spy = jest.spyOn(emitter, "dispatch");
+
+            nftBidHandler.emitEvents(actual, emitter);
+
+            expect(spy).toHaveBeenCalledWith(NFTExchangeApplicationEvents.NFTBid, expect.anything());
         });
     });
 

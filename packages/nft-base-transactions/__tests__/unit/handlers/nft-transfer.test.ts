@@ -18,6 +18,7 @@ import {
     NFTBaseTransferNFTIsOnAuction,
     NFTBaseTransferWalletDoesntOwnSpecifiedNftToken,
 } from "../../../src/errors";
+import { NFTApplicationEvents } from "../../../src/events";
 import { INFTTokens } from "../../../src/interfaces";
 import { NFTIndexers } from "../../../src/wallet-indexes";
 import { deregisterTransactions } from "../utils/utils";
@@ -243,6 +244,29 @@ describe("NFT Transfer tests", () => {
                 .sign(passphrases[0])
                 .build();
             await expect(nftTransferHandler.throwIfCannotEnterPool(actualTwo)).rejects.toThrow();
+        });
+    });
+
+    describe("emitEvents", () => {
+        it("should test dispatch", async () => {
+            const actual = new Builders.NFTTransferBuilder()
+                .NFTTransferAsset({
+                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
+                    recipientId: recipientWallet.address,
+                })
+                .nonce("3")
+                .sign(passphrases[0])
+                .build();
+
+            const emitter: Contracts.Kernel.EventDispatcher = app.get<Contracts.Kernel.EventDispatcher>(
+                Identifiers.EventDispatcherService,
+            );
+
+            const spy = jest.spyOn(emitter, "dispatch");
+
+            nftTransferHandler.emitEvents(actual, emitter);
+
+            expect(spy).toHaveBeenCalledWith(NFTApplicationEvents.NFTTransfer, expect.anything());
         });
     });
 

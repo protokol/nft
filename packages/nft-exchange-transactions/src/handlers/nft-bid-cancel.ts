@@ -9,7 +9,7 @@ import {
     NFTExchangeBidCancelBidCanceled,
     NFTExchangeBidCancelBidDoesNotExists,
 } from "../errors";
-import { NFTApplicationEvents } from "../events";
+import { NFTExchangeApplicationEvents } from "../events";
 import { INFTAuctions } from "../interfaces";
 import { NFTExchangeIndexers } from "../wallet-indexes";
 import { NFTBidHandler } from "./nft-bid";
@@ -62,7 +62,7 @@ export class NFTBidCancelHandler extends Handlers.TransactionHandler {
     }
 
     public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        emitter.dispatch(NFTApplicationEvents.NFTCancelBid, transaction.data);
+        emitter.dispatch(NFTExchangeApplicationEvents.NFTCancelBid, transaction.data);
     }
 
     public async throwIfCannotBeApplied(

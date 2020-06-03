@@ -6,7 +6,7 @@ import { Interfaces as NFTInterfaces, Transactions as NFTTransactions } from "@p
 import { Enums as NFTExchangeEnums } from "@protokol/nft-exchange-crypto";
 
 import { NFTExchangeAuctionCancelCannotCancel } from "../errors";
-import { NFTApplicationEvents } from "../events";
+import { NFTExchangeApplicationEvents } from "../events";
 import { INFTAuctions } from "../interfaces";
 import { NFTExchangeIndexers } from "../wallet-indexes";
 import { NFTAuctionHandler } from "./nft-auction";
@@ -60,7 +60,7 @@ export class NFTAuctionCancelHandler extends Handlers.TransactionHandler {
     }
 
     public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        emitter.dispatch(NFTApplicationEvents.NFTCancelSell, transaction.data);
+        emitter.dispatch(NFTExchangeApplicationEvents.NFTCancelAuction, transaction.data);
     }
 
     public async throwIfCannotBeApplied(
