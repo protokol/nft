@@ -64,25 +64,25 @@ describe("NFT Bid functional tests", () => {
             await snoozeForBlock(1);
             await expect(nftCreate.id).toBeForged();
 
-            const nftSellOffer = NFTExchangeTransactionFactory.initialize(app)
+            const nftAuction = NFTExchangeTransactionFactory.initialize(app)
                 .NFTAuction({
                     expiration: {
                         blockHeight: 7 + defaults.safetyDistance,
                     },
                     startAmount: Utils.BigNumber.make("1"),
-                    nftId: nftCreate.id,
+                    nftIds: [nftCreate.id],
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
 
-            await expect(nftSellOffer).toBeAccepted();
+            await expect(nftAuction).toBeAccepted();
             await snoozeForBlock(1);
-            await expect(nftSellOffer.id).toBeForged();
+            await expect(nftAuction.id).toBeForged();
 
             const nftBid = NFTExchangeTransactionFactory.initialize(app)
                 .NFTBid({
                     // @ts-ignore
-                    auctionId: nftSellOffer.id,
+                    auctionId: nftAuction.id,
                     bidAmount: Utils.BigNumber.make("2"),
                 })
                 .withPassphrase(secrets[1])

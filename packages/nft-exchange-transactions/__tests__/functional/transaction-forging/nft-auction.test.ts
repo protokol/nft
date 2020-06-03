@@ -13,7 +13,7 @@ let app: Contracts.Kernel.Application;
 beforeAll(async () => (app = await support.setUp()));
 afterAll(async () => await support.tearDown());
 
-describe("NFT Register schema functional tests", () => {
+describe("NFT Auction functional tests", () => {
     describe("Signed with one passphrase", () => {
         it("should broadcast, accept and forge it [Signed with 1 Passphrase]", async () => {
             const nftRegisteredCollection = NFTBaseTransactionFactory.initialize(app)
@@ -63,35 +63,35 @@ describe("NFT Register schema functional tests", () => {
             await snoozeForBlock(1);
             await expect(nftCreate.id).toBeForged();
 
-            const nftSellOffer = NFTExchangeTransactionFactory.initialize(app)
+            const mftAuction = NFTExchangeTransactionFactory.initialize(app)
                 .NFTAuction({
                     expiration: {
                         blockHeight: 30,
                     },
                     startAmount: Utils.BigNumber.make("1"),
-                    nftId: nftCreate.id,
+                    nftIds: [nftCreate.id],
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
 
-            await expect(nftSellOffer).toBeAccepted();
+            await expect(mftAuction).toBeAccepted();
             await snoozeForBlock(1);
-            await expect(nftSellOffer.id).toBeForged();
+            await expect(mftAuction.id).toBeForged();
 
-            const nftSellOffer2 = NFTExchangeTransactionFactory.initialize(app)
+            const nftAuctionTwo = NFTExchangeTransactionFactory.initialize(app)
                 .NFTAuction({
                     expiration: {
                         blockHeight: 32,
                     },
                     startAmount: Utils.BigNumber.make("1"),
-                    nftId: nftCreate.id,
+                    nftIds: [nftCreate.id],
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
 
-            await expect(nftSellOffer2).not.toBeAccepted();
+            await expect(nftAuctionTwo).not.toBeAccepted();
             await snoozeForBlock(1);
-            await expect(nftSellOffer2.id).not.toBeForged();
+            await expect(nftAuctionTwo.id).not.toBeForged();
         });
     });
 });
