@@ -63,26 +63,26 @@ describe("NFT Auction Cancel functional tests", () => {
             await snoozeForBlock(1);
             await expect(nftCreate.id).toBeForged();
 
-            const nftSellOffer = NFTExchangeTransactionFactory.initialize(app)
+            const nftAuction = NFTExchangeTransactionFactory.initialize(app)
                 .NFTAuction({
                     expiration: {
                         blockHeight: 30,
                     },
                     startAmount: Utils.BigNumber.make("1"),
                     // @ts-ignore
-                    nftId: nftCreate.id,
+                    nftIds: [nftCreate.id],
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
 
-            await expect(nftSellOffer).toBeAccepted();
+            await expect(nftAuction).toBeAccepted();
             await snoozeForBlock(1);
-            await expect(nftSellOffer.id).toBeForged();
+            await expect(nftAuction.id).toBeForged();
 
             const nftCancelSell = NFTExchangeTransactionFactory.initialize(app)
                 .NFTAuctionCancel({
                     // @ts-ignore
-                    auctionId: nftSellOffer.id,
+                    auctionId: nftAuction.id,
                 })
                 .withPassphrase(secrets[0])
                 .createOne();

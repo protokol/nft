@@ -5,10 +5,10 @@ import { Container, Contracts } from "@arkecosystem/core-kernel";
 import { ApiHelpers } from "@arkecosystem/core-test-framework/src";
 import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { Identities, Utils } from "@arkecosystem/crypto";
-import { Interfaces as NFTExchangeInterfaces } from "@protokol/nft-exchange-transactions";
 import { NFTExchangeTransactionFactory } from "@protokol/nft-exchange-transactions/__tests__/functional/transaction-forging/__support__/transaction-factory";
 
 import { setUp, tearDown } from "../__support__/setup";
+import { INFTAuctions } from "../../../../nft-exchange-transactions/src/interfaces";
 
 let app: Contracts.Kernel.Application;
 let api: ApiHelpers;
@@ -60,10 +60,10 @@ describe("API - Bids", () => {
                     Container.Identifiers.DatabaseTransactionRepository,
                 );
 
-                jest.spyOn(transactionRepository, "findOneByExpression").mockResolvedValueOnce({
+                jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
                     ...nftBid.data,
                     serialized: nftBid.serialized,
-                });
+                }]);
                 const response = await api.request("GET", `nft/exchange/bids/${nftBid.id}`);
                 expect(response.data.data.id).toStrictEqual(nftBid.id);
                 expect(response.data.data.senderPublicKey).toStrictEqual(nftBid.data.senderPublicKey);
@@ -82,15 +82,12 @@ describe("API - Bids", () => {
                 walletRepository.reset();
                 const wallet = walletRepository.findByAddress(Identities.Address.fromPassphrase(secrets[0]));
 
-                wallet.setAttribute<NFTExchangeInterfaces.NFTExchangeWalletAsset>("nft.exchange", {
-                    auctions: [
-                        {
-                            nftId: "86b2f1e40bd913627cd3d27d1c090176370ca591e238bee7f65292b4483f9cb6",
-                            auctionId: "939e70261392c98bff8e11b176267e0b313a5fa22e24711b900babc977798466",
-                            bids: [nftBid.id],
-                        },
-                    ],
-                });
+                const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
+                auctionsAsset["939e70261392c98bff8e11b176267e0b313a5fa22e24711b900babc977798466"] = {
+                    nftIds: ["86b2f1e40bd913627cd3d27d1c090176370ca591e238bee7f65292b4483f9cb6"],
+                    bids: [nftBid.id],
+                };
+                wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
                 walletRepository.index(wallet);
 
                 const response = await api.request("GET", `nft/exchange/bids/${nftBid.id}/wallets`);
@@ -160,10 +157,10 @@ describe("API - Bids", () => {
                     Container.Identifiers.DatabaseTransactionRepository,
                 );
 
-                jest.spyOn(transactionRepository, "findOneByExpression").mockResolvedValueOnce({
+                jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
                     ...nftBidCancel.data,
                     serialized: nftBidCancel.serialized,
-                });
+                }]);
                 const response = await api.request("GET", `nft/exchange/bids/canceled/${nftBidCancel.id}`);
                 expect(response.data.data.id).toStrictEqual(nftBidCancel.id);
                 expect(response.data.data.senderPublicKey).toStrictEqual(nftBidCancel.data.senderPublicKey);

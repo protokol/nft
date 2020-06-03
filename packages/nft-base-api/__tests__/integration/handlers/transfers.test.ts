@@ -60,10 +60,10 @@ describe("API - Transfers", () => {
                 Container.Identifiers.DatabaseTransactionRepository,
             );
 
-            jest.spyOn(transactionRepository, "findOneByExpression").mockResolvedValueOnce({
+            jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
                 ...nftTransfer.data,
                 serialized: nftTransfer.serialized,
-            });
+            }]);
 
             const response = await api.request("GET", `nft/transfers/${nftTransfer.id}`);
 

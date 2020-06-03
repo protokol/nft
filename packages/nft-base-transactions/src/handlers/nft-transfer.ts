@@ -95,12 +95,11 @@ export class NFTTransferHandler extends Handlers.TransactionHandler {
 
         for (const auction of Object.keys(auctionsWalletAsset)) {
             for (const nft of transaction.data.asset.nftTransfer.nftIds) {
-                if (auctionsWalletAsset.hasOwnProperty(auction) && auctionsWalletAsset[auction].nftId === nft) {
+                if (auctionsWalletAsset.hasOwnProperty(auction) && auctionsWalletAsset[auction].nftIds.includes(nft)) {
                     throw new NFTBaseTransferNFTIsOnAuction();
                 }
             }
         }
-
         return super.throwIfCannotBeApplied(transaction, sender, customWalletRepository);
     }
 

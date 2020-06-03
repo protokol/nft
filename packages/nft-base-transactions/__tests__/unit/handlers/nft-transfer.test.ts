@@ -184,7 +184,7 @@ describe("NFT Transfer tests", () => {
         it("should throw NFTBaseTransferNFTIsOnAuction", async () => {
             const nftExchangeWalletAsset = senderWallet.getAttribute("nft.exchange.auctions", {});
             nftExchangeWalletAsset["7259d7a1268e862caa1ea090c1ab4c80f58378ad8fff1de89bd9e24a38ce4674"] = {
-                nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+                nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                 bids: [],
             };
             senderWallet.setAttribute("nft.exchange.auctions", nftExchangeWalletAsset);

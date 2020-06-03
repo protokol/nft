@@ -26,7 +26,7 @@ describe("API - Auctions", () => {
         beforeEach(async () => {
             nftAuction = NFTExchangeTransactionFactory.initialize(app)
                 .NFTAuction({
-                    nftId: "86b2f1e40bd913627cd3d27d1c090176370ca591e238bee7f65292b4483f9cb6",
+                    nftIds: ["86b2f1e40bd913627cd3d27d1c090176370ca591e238bee7f65292b4483f9cb6"],
                     expiration: {
                         blockHeight: 100,
                     },
@@ -62,10 +62,10 @@ describe("API - Auctions", () => {
                     Container.Identifiers.DatabaseTransactionRepository,
                 );
 
-                jest.spyOn(transactionRepository, "findOneByExpression").mockResolvedValueOnce({
+                jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
                     ...nftAuction.data,
                     serialized: nftAuction.serialized,
-                });
+                }]);
                 const response = await api.request("GET", `nft/exchange/auctions/${nftAuction.id}`);
                 expect(response.data.data.id).toStrictEqual(nftAuction.id);
                 expect(response.data.data.senderPublicKey).toStrictEqual(nftAuction.data.senderPublicKey);
@@ -88,7 +88,7 @@ describe("API - Auctions", () => {
                 const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
                 // @ts-ignore
                 auctionsAsset[nftAuction.id] = {
-                    nftId: "86b2f1e40bd913627cd3d27d1c090176370ca591e238bee7f65292b4483f9cb6",
+                    nftIds: ["86b2f1e40bd913627cd3d27d1c090176370ca591e238bee7f65292b4483f9cb6"],
                     bids: [],
                 };
                 wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
@@ -160,10 +160,10 @@ describe("API - Auctions", () => {
                     Container.Identifiers.DatabaseTransactionRepository,
                 );
 
-                jest.spyOn(transactionRepository, "findOneByExpression").mockResolvedValueOnce({
+                jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
                     ...nftAuctionCancel.data,
                     serialized: nftAuctionCancel.serialized,
-                });
+                }]);
                 const response = await api.request("GET", `nft/exchange/auctions/canceled/${nftAuctionCancel.id}`);
                 expect(response.data.data.id).toStrictEqual(nftAuctionCancel.id);
                 expect(response.data.data.senderPublicKey).toStrictEqual(nftAuctionCancel.data.senderPublicKey);

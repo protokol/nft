@@ -12,7 +12,7 @@ describe("NFT Auction tests", () => {
         it("should ser/deser correctly ", () => {
             const actual = new NFTAuctionBuilder()
                 .NFTAuctionAsset({
-                    nftId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
+                    nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
                     startAmount: Utils.BigNumber.make("1"),
                     expiration: {
                         blockHeight: 1,
@@ -27,7 +27,7 @@ describe("NFT Auction tests", () => {
 
             // @ts-ignore
             expect(deserialized.data.asset.nftAuction).toStrictEqual({
-                nftId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
+                nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
                 startAmount: Utils.BigNumber.make("1"),
                 expiration: {
                     blockHeight: 1,

@@ -13,7 +13,7 @@ let app: Contracts.Kernel.Application;
 beforeAll(async () => (app = await support.setUp()));
 afterAll(async () => await support.tearDown());
 
-describe("NFT Cancel Bid functional tests", () => {
+describe("NFT Bid Cancel functional tests", () => {
     describe("Signed with one passphrase", () => {
         it("should broadcast, accept and forge it [Signed with 1 Passphrase]", async () => {
             const nftRegisteredCollection = NFTBaseTransactionFactory.initialize(app)
@@ -63,25 +63,25 @@ describe("NFT Cancel Bid functional tests", () => {
             await snoozeForBlock(1);
             await expect(nftCreate.id).toBeForged();
 
-            const nftSellOffer = NFTExchangeTransactionFactory.initialize(app)
+            const nftAuction = NFTExchangeTransactionFactory.initialize(app)
                 .NFTAuction({
                     expiration: {
                         blockHeight: 27,
                     },
                     startAmount: Utils.BigNumber.make("1"),
-                    nftId: nftCreate.id,
+                    nftIds: [nftCreate.id],
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
 
-            await expect(nftSellOffer).toBeAccepted();
+            await expect(nftAuction).toBeAccepted();
             await snoozeForBlock(1);
-            await expect(nftSellOffer.id).toBeForged();
+            await expect(nftAuction.id).toBeForged();
 
             const nftBid = NFTExchangeTransactionFactory.initialize(app)
                 .NFTBid({
                     // @ts-ignore
-                    auctionId: nftSellOffer.id,
+                    auctionId: nftAuction.id,
                     bidAmount: Utils.BigNumber.make("2"),
                 })
                 .withPassphrase(secrets[1])

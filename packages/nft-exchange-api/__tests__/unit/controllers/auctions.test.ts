@@ -41,7 +41,7 @@ beforeEach(() => {
 
     actual = new Builders.NFTAuctionBuilder()
         .NFTAuctionAsset({
-            nftId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
+            nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
             startAmount: Utils.BigNumber.make("1"),
             expiration: {
                 blockHeight: 1,
@@ -80,7 +80,7 @@ describe("Test auctions controller", () => {
             id: actual.id,
             senderPublicKey: actual.data.senderPublicKey,
             nftAuction: {
-                nftId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
+                nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
                 startAmount: Utils.BigNumber.make("1"),
                 expiration: {
                     blockHeight: 1,
@@ -104,7 +104,7 @@ describe("Test auctions controller", () => {
             id: actual.id,
             senderPublicKey: actual.data.senderPublicKey,
             nftAuction: {
-                nftId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
+                nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
                 startAmount: Utils.BigNumber.make("1"),
                 expiration: {
                     blockHeight: 1,
@@ -117,7 +117,7 @@ describe("Test auctions controller", () => {
         const auctionsAsset = senderWallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
         // @ts-ignore
         auctionsAsset[actual.id] = {
-            nftId: "3e1a4b362282b4113d717632b92c939cf689a9919db77c723efba84c6ec0330c",
+            nftIds: ["3e1a4b362282b4113d717632b92c939cf689a9919db77c723efba84c6ec0330c"],
             bids: [],
         };
         senderWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
@@ -130,26 +130,22 @@ describe("Test auctions controller", () => {
         };
         const response = (await auctionsController.showAuctionWallet(request, undefined)) as ItemResponse;
 
-        expect(response.data).toStrictEqual({
-            address: senderWallet.address,
-            publicKey: senderWallet.publicKey,
-            nft: {
-                exchange: {
-                    auctions: {
-                        "1303bc34d495bd48a56a68dd7cd01a9678b256835e8c62b2c98e4eb80b3fe8fb": {
-                            nftId: "3e1a4b362282b4113d717632b92c939cf689a9919db77c723efba84c6ec0330c",
-                            bids: [],
-                        },
-                    },
-                },
-            },
-        });
+        // @ts-ignore
+        expect(response.data.address).toStrictEqual(senderWallet.address);
+        // @ts-ignore
+        expect(response.data.publicKey).toStrictEqual(senderWallet.publicKey);
+        // @ts-ignore
+        expect(response.data.nft.exchange.auctions[actual.id].nftIds).toStrictEqual([
+            "3e1a4b362282b4113d717632b92c939cf689a9919db77c723efba84c6ec0330c",
+        ]);
+        // @ts-ignore
+        expect(response.data.nft.exchange.auctions[actual.id].bids).toStrictEqual([]);
     });
     it("search - by senderPublicKey, nftId, startAmount and expiration", async () => {
         const request: Hapi.Request = {
             payload: {
                 senderPublicKey: actual.data.senderPublicKey,
-                nftId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
+                nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
                 startAmount: Utils.BigNumber.make("1"),
                 expiration: 1,
             },
@@ -166,7 +162,7 @@ describe("Test auctions controller", () => {
             id: actual.id,
             senderPublicKey: actual.data.senderPublicKey,
             nftAuction: {
-                nftId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
+                nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
                 startAmount: Utils.BigNumber.make("1"),
                 expiration: {
                     blockHeight: 1,

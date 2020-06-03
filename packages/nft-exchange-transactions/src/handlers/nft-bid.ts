@@ -12,7 +12,7 @@ import {
     NFTExchangeBidStartAmountToLow,
 } from "../errors";
 import { NFTApplicationEvents } from "../events";
-import { INFTAuctions, NFTExchangeWalletAsset } from "../interfaces";
+import { INFTAuctions } from "../interfaces";
 import { NFTExchangeIndexers } from "../wallet-indexes";
 import { NFTAuctionHandler } from "./nft-auction";
 import { NFTAuctionCancelHandler } from "./nft-auction-cancel";
@@ -80,7 +80,7 @@ export class NFTBidHandler extends Handlers.TransactionHandler {
         }
 
         const auctionWallet = await this.walletRepository.findByPublicKey(auctionTransaction.senderPublicKey);
-        const auctionWalletAsset = auctionWallet.getAttribute<NFTExchangeWalletAsset>("nft.exchange.auctions");
+        const auctionWalletAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions");
         if (!auctionWalletAsset[auctionTransaction.id]) {
             throw new NFTExchangeBidAuctionCanceledOrAccepted();
         }

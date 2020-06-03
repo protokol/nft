@@ -144,7 +144,7 @@ describe("Test collection controller", () => {
         };
 
         const response = (await collectionController.showByWalletId(request, undefined)) as ItemResponse;
-        console.log(response.data);
+
         expect(response.data).toStrictEqual({
             address: senderWallet.address,
             publicKey: senderWallet.publicKey,
