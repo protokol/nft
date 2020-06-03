@@ -2,6 +2,7 @@ import { Utils as AppUtils } from "@arkecosystem/core-kernel";
 import { Transactions, Utils } from "@arkecosystem/crypto";
 import ByteBuffer from "bytebuffer";
 
+import { defaults } from "../defaults";
 import { NFTExchangeTransactionsTypeGroup, NFTStaticFees, NFTTransactionTypes } from "../enums";
 import { NFTAuctionAsset } from "../interfaces";
 
@@ -29,10 +30,16 @@ export class NFTAuctionTransaction extends Transactions.Transaction {
                     properties: {
                         nftAuction: {
                             type: "object",
-                            required: ["nftId", "startAmount", "expiration"],
+                            required: ["nftIds", "startAmount", "expiration"],
                             properties: {
-                                nftId: {
-                                    $ref: "transactionId",
+                                nftIds: {
+                                    type: "array",
+                                    minItems: defaults.nftAuction.minItems,
+                                    maxItems: defaults.nftAuction.maxItems,
+                                    uniqueItems: true,
+                                    items: {
+                                        $ref: "transactionId",
+                                    },
                                 },
                                 startAmount: {
                                     bignumber: { minimum: 1 },
@@ -60,10 +67,12 @@ export class NFTAuctionTransaction extends Transactions.Transaction {
         AppUtils.assert.defined<NFTAuctionAsset>(data.asset?.nftAuction);
         const nftAuctionAsset = data.asset.nftAuction;
 
-        const buffer: ByteBuffer = new ByteBuffer(32 + 8 + 8, true);
+        const buffer: ByteBuffer = new ByteBuffer(32 * nftAuctionAsset.nftIds.length + 8 + 8, true);
 
-        buffer.append(nftAuctionAsset.nftId, "hex");
-
+        buffer.writeByte(nftAuctionAsset.nftIds.length);
+        for (const nftId of nftAuctionAsset.nftIds) {
+            buffer.append(nftId, "hex");
+        }
         buffer.writeUint64(nftAuctionAsset.startAmount.toString());
 
         buffer.writeUint32(nftAuctionAsset.expiration.blockHeight);
@@ -74,8 +83,14 @@ export class NFTAuctionTransaction extends Transactions.Transaction {
     public deserialize(buf: ByteBuffer): void {
         const { data } = this;
 
+        const numberOfNfts = buf.readUint8();
+        const nftIds: string[] = [];
+        for (let i = 0; i < numberOfNfts; i++) {
+            nftIds.push(buf.readBytes(32).toString("hex"));
+        }
+
         const nftAuction: NFTAuctionAsset = {
-            nftId: buf.readBytes(32).toString("hex"),
+            nftIds: nftIds,
             startAmount: Utils.BigNumber.make(buf.readUint64().toString()),
             expiration: {
                 blockHeight: buf.readUint32(),

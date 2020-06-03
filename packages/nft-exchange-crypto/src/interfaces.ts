@@ -1,7 +1,7 @@
 import { Utils } from "@arkecosystem/crypto";
 
 export interface NFTAuctionAsset {
-    nftId: string;
+    nftIds: string[];
     startAmount: Utils.BigNumber;
     expiration: {
         blockHeight: number;
