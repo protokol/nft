@@ -23,6 +23,7 @@ import {
 } from "../../../src/errors";
 import { INFTAuctions } from "../../../src/interfaces";
 import { deregisterTransactions } from "../utils";
+import { NFTApplicationEvents } from "../../../src/events";
 
 let app: Application;
 
@@ -386,6 +387,29 @@ describe("NFT Accept trade tests", () => {
                 .sign(passphrases[0])
                 .build();
             await expect(nftAcceptTradeHandler.throwIfCannotEnterPool(actual)).toResolve();
+        });
+    });
+
+    describe("emitEvents", () => {
+        it("should test dispatch", async () => {
+            const actual = new NFTBuilders.NftAcceptTradeBuilder()
+                .NFTAcceptTradeAsset({
+                    auctionId: "7259d7a1268e862caa1ea090c1ab4c80f58378ad8fff1de89bd9e24a38ce4674",
+                    bidId: "a9694da51aae3f7d9d944fbc4c81991d1b837bb9f8e77ae5f2fa171770749fd4",
+                })
+                .nonce("1")
+                .sign(passphrases[0])
+                .build();
+
+            const emitter: Contracts.Kernel.EventDispatcher = app.get<Contracts.Kernel.EventDispatcher>(
+                Identifiers.EventDispatcherService,
+            );
+
+            const spy = jest.spyOn(emitter, "dispatch");
+
+            nftAcceptTradeHandler.emitEvents(actual, emitter);
+
+            expect(spy).toHaveBeenCalledWith(NFTApplicationEvents.NFTAcceptTrade, expect.anything());
         });
     });
 
