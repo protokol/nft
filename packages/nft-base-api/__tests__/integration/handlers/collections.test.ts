@@ -80,10 +80,10 @@ describe("API - Collections", () => {
                 Container.Identifiers.DatabaseTransactionRepository,
             );
 
-            jest.spyOn(transactionRepository, "findOneByExpression").mockResolvedValueOnce({
+            jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
                 ...nftRegisteredCollection.data,
                 serialized: nftRegisteredCollection.serialized,
-            });
+            }]);
 
             const response = await api.request("GET", `nft/collections/${nftRegisteredCollection.id}`);
 

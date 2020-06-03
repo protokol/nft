@@ -60,10 +60,10 @@ describe("API - Bids", () => {
                     Container.Identifiers.DatabaseTransactionRepository,
                 );
 
-                jest.spyOn(transactionRepository, "findOneByExpression").mockResolvedValueOnce({
+                jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
                     ...nftBid.data,
                     serialized: nftBid.serialized,
-                });
+                }]);
                 const response = await api.request("GET", `nft/exchange/bids/${nftBid.id}`);
                 expect(response.data.data.id).toStrictEqual(nftBid.id);
                 expect(response.data.data.senderPublicKey).toStrictEqual(nftBid.data.senderPublicKey);
