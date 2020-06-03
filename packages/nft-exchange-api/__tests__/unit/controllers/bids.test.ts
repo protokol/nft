@@ -12,9 +12,9 @@ import Hapi from "@hapi/hapi";
 import { buildSenderWallet, ItemResponse, PaginatedResponse } from "@protokol/nft-base-api/__tests__/unit/__support__";
 import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import { Builders, Transactions as ExchangeTransactions } from "@protokol/nft-exchange-crypto";
-import { NFTExchangeWalletAsset } from "@protokol/nft-exchange-transactions/src/interfaces";
 
 import { initApp, transactionHistoryService } from "../__support__";
+import { INFTAuctions } from "../../../../nft-exchange-transactions/src/interfaces";
 import { BidsController } from "../../../src/controllers/bids";
 
 let bidsController: BidsController;
@@ -106,16 +106,13 @@ describe("Test bids controller", () => {
     });
 
     it("showAuctionWallet - return wallet by bids id ", async () => {
-        senderWallet.setAttribute<NFTExchangeWalletAsset>("nft.exchange", {
-            auctions: [
-                {
-                    nftId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
-                    // @ts-ignore
-                    auctionId: actual.id,
-                    bids: ["7a8460fdcad40ae3dda9e50382d7676ce5a8643b01c198484a4a99591bcb0871"],
-                },
-            ],
-        });
+        const auctionsAsset = senderWallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
+        // @ts-ignore
+        auctionsAsset[actual.id] = {
+            nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
+            bids: ["7a8460fdcad40ae3dda9e50382d7676ce5a8643b01c198484a4a99591bcb0871"],
+        };
+        senderWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
         walletRepository.index(senderWallet);
 
         const request: Hapi.Request = {
@@ -125,22 +122,19 @@ describe("Test bids controller", () => {
         };
 
         const response = (await bidsController.showAuctionWallet(request, undefined)) as ItemResponse;
-        expect(response.data).toStrictEqual({
-            address: senderWallet.address,
-            publicKey: senderWallet.publicKey,
-            nft: {
-                exchange: {
-                    auctions: [
-                        {
-                            nftId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
-                            // @ts-ignore
-                            auctionId: actual.id,
-                            bids: ["7a8460fdcad40ae3dda9e50382d7676ce5a8643b01c198484a4a99591bcb0871"],
-                        },
-                    ],
-                },
-            },
-        });
+
+        // @ts-ignore
+        expect(response.data.address).toStrictEqual(senderWallet.address);
+        // @ts-ignore
+        expect(response.data.publicKey).toStrictEqual(senderWallet.publicKey);
+        // @ts-ignore
+        expect(response.data.nft.exchange.auctions[actual.id].nftIds).toStrictEqual([
+            "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
+        ]);
+        // @ts-ignore
+        expect(response.data.nft.exchange.auctions[actual.id].bids).toStrictEqual([
+            "7a8460fdcad40ae3dda9e50382d7676ce5a8643b01c198484a4a99591bcb0871",
+        ]);
     });
 
     it("search - by senderPublicKey, auctionId and bidAmount", async () => {

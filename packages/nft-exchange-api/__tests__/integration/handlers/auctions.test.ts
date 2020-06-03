@@ -26,7 +26,7 @@ describe("API - Auctions", () => {
         beforeEach(async () => {
             nftAuction = NFTExchangeTransactionFactory.initialize(app)
                 .NFTAuction({
-                    nftId: "86b2f1e40bd913627cd3d27d1c090176370ca591e238bee7f65292b4483f9cb6",
+                    nftIds: ["86b2f1e40bd913627cd3d27d1c090176370ca591e238bee7f65292b4483f9cb6"],
                     expiration: {
                         blockHeight: 100,
                     },
@@ -88,7 +88,7 @@ describe("API - Auctions", () => {
                 const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
                 // @ts-ignore
                 auctionsAsset[nftAuction.id] = {
-                    nftId: "86b2f1e40bd913627cd3d27d1c090176370ca591e238bee7f65292b4483f9cb6",
+                    nftIds: ["86b2f1e40bd913627cd3d27d1c090176370ca591e238bee7f65292b4483f9cb6"],
                     bids: [],
                 };
                 wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
