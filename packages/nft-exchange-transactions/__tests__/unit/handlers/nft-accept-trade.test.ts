@@ -23,7 +23,7 @@ import {
 } from "../../../src/errors";
 import { INFTAuctions } from "../../../src/interfaces";
 import { deregisterTransactions } from "../utils";
-import { NFTApplicationEvents } from "../../../src/events";
+import { NFTExchangeApplicationEvents } from "../../../src/events";
 
 let app: Application;
 
@@ -409,7 +409,7 @@ describe("NFT Accept trade tests", () => {
 
             nftAcceptTradeHandler.emitEvents(actual, emitter);
 
-            expect(spy).toHaveBeenCalledWith(NFTApplicationEvents.NFTAcceptTrade, expect.anything());
+            expect(spy).toHaveBeenCalledWith(NFTExchangeApplicationEvents.NFTAcceptTrade, expect.anything());
         });
     });
 

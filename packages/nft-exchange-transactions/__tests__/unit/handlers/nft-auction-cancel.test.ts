@@ -14,10 +14,10 @@ import { Builders as NFTBuilders } from "@protokol/nft-exchange-crypto";
 import { setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
 import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { NFTExchangeAuctionCancelCannotCancel } from "../../../src/errors";
+import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
 import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
 import { deregisterTransactions } from "../utils";
-import { NFTApplicationEvents } from "../../../src/events";
 
 let app: Application;
 
@@ -248,7 +248,7 @@ describe("NFT Auction Cancel tests", () => {
 
             nftCancelSellHandler.emitEvents(actual, emitter);
 
-            expect(spy).toHaveBeenCalledWith(NFTApplicationEvents.NFTCancelSell, expect.anything());
+            expect(spy).toHaveBeenCalledWith(NFTExchangeApplicationEvents.NFTCancelAuction, expect.anything());
         });
     });
 

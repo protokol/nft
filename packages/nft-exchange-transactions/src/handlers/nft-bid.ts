@@ -11,7 +11,7 @@ import {
     NFTExchangeBidNotEnoughFounds,
     NFTExchangeBidStartAmountToLow,
 } from "../errors";
-import { NFTApplicationEvents } from "../events";
+import { NFTExchangeApplicationEvents } from "../events";
 import { INFTAuctions } from "../interfaces";
 import { NFTExchangeIndexers } from "../wallet-indexes";
 import { NFTAuctionHandler } from "./nft-auction";
@@ -59,7 +59,7 @@ export class NFTBidHandler extends Handlers.TransactionHandler {
     }
 
     public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        emitter.dispatch(NFTApplicationEvents.NFTBid, transaction.data);
+        emitter.dispatch(NFTExchangeApplicationEvents.NFTBid, transaction.data);
     }
 
     public async throwIfCannotBeApplied(

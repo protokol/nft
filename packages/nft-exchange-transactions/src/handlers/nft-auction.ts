@@ -13,7 +13,7 @@ import {
     NFTExchangeAuctioneerDoesNotOwnNft,
     NFTExchangeAuctionExpired,
 } from "../errors";
-import { NFTApplicationEvents } from "../events";
+import { NFTExchangeApplicationEvents } from "../events";
 import { INFTAuctions } from "../interfaces";
 import { NFTExchangeIndexers } from "../wallet-indexes";
 
@@ -57,7 +57,7 @@ export class NFTAuctionHandler extends Handlers.TransactionHandler {
     }
 
     public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        emitter.dispatch(NFTApplicationEvents.NFTAuction, transaction.data);
+        emitter.dispatch(NFTExchangeApplicationEvents.NFTAuction, transaction.data);
     }
 
     public async throwIfCannotBeApplied(

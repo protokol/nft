@@ -21,10 +21,10 @@ import {
     NFTExchangeBidNotEnoughFounds,
     NFTExchangeBidStartAmountToLow,
 } from "../../../src/errors";
+import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
 import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
 import { deregisterTransactions } from "../utils";
-import { NFTApplicationEvents } from "../../../src/events";
 
 let app: Application;
 
@@ -409,7 +409,7 @@ describe("NFT Bid tests", () => {
 
             nftBidHandler.emitEvents(actual, emitter);
 
-            expect(spy).toHaveBeenCalledWith(NFTApplicationEvents.NFTBid, expect.anything());
+            expect(spy).toHaveBeenCalledWith(NFTExchangeApplicationEvents.NFTBid, expect.anything());
         });
     });
 

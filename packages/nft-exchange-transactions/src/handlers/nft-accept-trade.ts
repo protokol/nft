@@ -12,7 +12,7 @@ import {
     NFTExchangeAcceptTradeBidDoesNotExists,
     NFTExchangeAcceptTradeWalletCannotTrade,
 } from "../errors";
-import { NFTApplicationEvents } from "../events";
+import { NFTExchangeApplicationEvents } from "../events";
 import { INFTAuctions } from "../interfaces";
 import { NFTExchangeIndexers } from "../wallet-indexes";
 import { NFTAuctionHandler } from "./nft-auction";
@@ -97,7 +97,7 @@ export class NFTAcceptTradeHandler extends Handlers.TransactionHandler {
     }
 
     public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        emitter.dispatch(NFTApplicationEvents.NFTAcceptTrade, transaction.data);
+        emitter.dispatch(NFTExchangeApplicationEvents.NFTAcceptTrade, transaction.data);
     }
 
     public async throwIfCannotBeApplied(

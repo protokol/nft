@@ -21,10 +21,10 @@ import {
     NFTExchangeAuctioneerDoesNotOwnNft,
     NFTExchangeAuctionExpired,
 } from "../../../src/errors";
+import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
 import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
 import { deregisterTransactions } from "../utils";
-import { NFTApplicationEvents } from "../../../src/events";
 
 let app: Application;
 
@@ -277,7 +277,7 @@ describe("NFT Auction tests", () => {
 
             nftAuctionHandler.emitEvents(actual, emitter);
 
-            expect(spy).toHaveBeenCalledWith(NFTApplicationEvents.NFTAuction, expect.anything());
+            expect(spy).toHaveBeenCalledWith(NFTExchangeApplicationEvents.NFTAuction, expect.anything());
         });
     });
     describe("apply logic tests", () => {

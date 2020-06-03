@@ -18,10 +18,10 @@ import {
     NFTExchangeBidCancelBidCanceled,
     NFTExchangeBidCancelBidDoesNotExists,
 } from "../../../src/errors";
+import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
 import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
 import { deregisterTransactions } from "../utils";
-import { NFTApplicationEvents } from "../../../src/events";
 
 let app: Application;
 
@@ -347,7 +347,7 @@ describe("NFT Bid Cancel tests", () => {
 
             nftBidCancelHandler.emitEvents(actual, emitter);
 
-            expect(spy).toHaveBeenCalledWith(NFTApplicationEvents.NFTCancelBid, expect.anything());
+            expect(spy).toHaveBeenCalledWith(NFTExchangeApplicationEvents.NFTCancelBid, expect.anything());
         });
     });
 
