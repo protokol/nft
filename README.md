@@ -90,7 +90,7 @@ You may not use the material for commercial purposes.
 
 If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
 
-#### Legalcode
+#### Legal code
 
 Read the rest of the obligatory [license legal code](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
 
