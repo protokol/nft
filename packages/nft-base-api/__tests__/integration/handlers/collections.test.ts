@@ -6,9 +6,9 @@ import { ApiHelpers } from "@arkecosystem/core-test-framework/src";
 import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { Identities } from "@arkecosystem/crypto";
 import { NFTBaseTransactionFactory } from "@protokol/nft-base-transactions/__tests__/functional/transaction-forging/__support__/transaction-factory";
+import { INFTCollections } from "@protokol/nft-base-transactions/src/interfaces";
 
 import { setUp, tearDown } from "../__support__/setup";
-import { INFTCollections } from "@protokol/nft-base-transactions/src/interfaces";
 
 let app: Contracts.Kernel.Application;
 let api: ApiHelpers;
@@ -66,7 +66,7 @@ describe("API - Collections", () => {
             api.expectPaginator(response);
             expect(response.data.data).toBeArray();
             expect(response.data.data[0].id).toStrictEqual(nftRegisteredCollection.id);
-            expect(response.data.data[0].senderPublicKey).toStrictEqual(nftRegisteredCollection.data.senderPublicKey);
+            expect(response.data.data[0].ownerPublicKey).toStrictEqual(nftRegisteredCollection.data.senderPublicKey);
             expect(response.data.data[0].name).toStrictEqual("Nft card");
             expect(response.data.data[0].description).toStrictEqual("Nft card description");
             expect(response.data.data[0].maximumSupply).toStrictEqual(100);
@@ -80,16 +80,18 @@ describe("API - Collections", () => {
                 Container.Identifiers.DatabaseTransactionRepository,
             );
 
-            jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
-                ...nftRegisteredCollection.data,
-                serialized: nftRegisteredCollection.serialized,
-            }]);
+            jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([
+                {
+                    ...nftRegisteredCollection.data,
+                    serialized: nftRegisteredCollection.serialized,
+                },
+            ]);
 
             const response = await api.request("GET", `nft/collections/${nftRegisteredCollection.id}`);
 
             expect(response).toBeSuccessfulResponse();
             expect(response.data.data.id).toBe(nftRegisteredCollection.id);
-            expect(response.data.data.senderPublicKey).toStrictEqual(nftRegisteredCollection.data.senderPublicKey);
+            expect(response.data.data.ownerPublicKey).toStrictEqual(nftRegisteredCollection.data.senderPublicKey);
             expect(response.data.data.name).toStrictEqual("Nft card");
             expect(response.data.data.description).toStrictEqual("Nft card description");
             expect(response.data.data.maximumSupply).toStrictEqual(100);
@@ -103,10 +105,12 @@ describe("API - Collections", () => {
                 Container.Identifiers.DatabaseTransactionRepository,
             );
 
-            jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
-                ...nftRegisteredCollection.data,
-                serialized: nftRegisteredCollection.serialized,
-            }]);
+            jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([
+                {
+                    ...nftRegisteredCollection.data,
+                    serialized: nftRegisteredCollection.serialized,
+                },
+            ]);
 
             const response = await api.request("GET", `nft/collections/${nftRegisteredCollection.id}/schema`);
 
@@ -188,7 +192,7 @@ describe("API - Collections", () => {
             api.expectPaginator(response);
             expect(response.data.data).toBeArray();
             expect(response.data.data[0].id).toStrictEqual(nftRegisteredCollection.id);
-            expect(response.data.data[0].senderPublicKey).toStrictEqual(nftRegisteredCollection.data.senderPublicKey);
+            expect(response.data.data[0].ownerPublicKey).toStrictEqual(nftRegisteredCollection.data.senderPublicKey);
             expect(response.data.data[0].name).toStrictEqual("Nft card");
             expect(response.data.data[0].description).toStrictEqual("Nft card description");
             expect(response.data.data[0].maximumSupply).toStrictEqual(100);
@@ -223,7 +227,7 @@ describe("API - Collections", () => {
             const response = await api.request("GET", `nft/collections/${nftToken.id}/assets`);
             expect(response).toBeSuccessfulResponse();
             expect(response.data.data[0].id).toStrictEqual(nftToken.id);
-            expect(response.data.data[0].senderPublicKey).toStrictEqual(nftToken.data.senderPublicKey);
+            expect(response.data.data[0].ownerPublicKey).toStrictEqual(nftToken.data.senderPublicKey);
             expect(response.data.data[0].collectionId).toStrictEqual(
                 "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
             );

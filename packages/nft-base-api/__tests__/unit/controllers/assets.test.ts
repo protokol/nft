@@ -84,7 +84,7 @@ describe("Test asset controller", () => {
         const response = (await assetController.index(request, undefined)) as PaginatedResponse;
         expect(response.results[0]).toStrictEqual({
             id: actual.id,
-            senderPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]),
+            ownerPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]),
             collectionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
             attributes: {
                 name: "card name",
@@ -132,7 +132,7 @@ describe("Test asset controller", () => {
 
         expect(response.data).toStrictEqual({
             id: actual.id,
-            senderPublicKey: senderWallet.publicKey,
+            ownerPublicKey: senderWallet.publicKey,
             collectionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
             attributes: {
                 name: "card name",
@@ -158,7 +158,7 @@ describe("Test asset controller", () => {
         const response = (await assetController.showByAsset(request, undefined)) as PaginatedResponse;
         expect(response.results[0]).toStrictEqual({
             id: actual.id,
-            senderPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]),
+            ownerPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]),
             collectionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
             attributes: {
                 name: "card name",

@@ -113,7 +113,7 @@ describe("Test collection controller", () => {
 
         expect(response.results[0]).toStrictEqual({
             id: actual.id,
-            senderPublicKey: actual.data.senderPublicKey,
+            ownerPublicKey: actual.data.senderPublicKey,
             name: "Heartstone card",
             description: "A card from heartstone game",
             maximumSupply: 100,
@@ -172,7 +172,7 @@ describe("Test collection controller", () => {
         const response = (await collectionController.show(request, undefined)) as ItemResponse;
         expect(response.data).toStrictEqual({
             id: actual.id,
-            senderPublicKey: actual.data.senderPublicKey,
+            ownerPublicKey: actual.data.senderPublicKey,
             name: "Heartstone card",
             description: "A card from heartstone game",
             maximumSupply: 100,
@@ -224,7 +224,7 @@ describe("Test collection controller", () => {
         const response = (await collectionController.searchCollection(request, undefined)) as PaginatedResponse;
         expect(response.results[0]).toStrictEqual({
             id: actual.id,
-            senderPublicKey: actual.data.senderPublicKey,
+            ownerPublicKey: actual.data.senderPublicKey,
             name: "Heartstone card",
             description: "A card from heartstone game",
             maximumSupply: 100,
@@ -265,7 +265,7 @@ describe("Test collection controller", () => {
         const response = (await collectionController.showAssetsByCollectionId(request, undefined)) as PaginatedResponse;
         expect(response.results[0]).toStrictEqual({
             id: actual.id,
-            senderPublicKey: actual.data.senderPublicKey,
+            ownerPublicKey: actual.data.senderPublicKey,
             collectionId: "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
             attributes: {
                 number: 5,

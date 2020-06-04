@@ -24,7 +24,7 @@ export class AssetResource implements Contracts.Resource {
     public transform(resource): object {
         return {
             id: resource.id,
-            senderPublicKey: resource.senderPublicKey,
+            ownerPublicKey: resource.senderPublicKey,
             ...resource.asset.nftToken,
         };
     }

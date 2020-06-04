@@ -6,9 +6,9 @@ import { ApiHelpers } from "@arkecosystem/core-test-framework/src";
 import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { Identities } from "@arkecosystem/crypto";
 import { NFTBaseTransactionFactory } from "@protokol/nft-base-transactions/__tests__/functional/transaction-forging/__support__/transaction-factory";
+import { INFTTokens } from "@protokol/nft-base-transactions/src/interfaces";
 
 import { setUp, tearDown } from "../__support__/setup";
-import { INFTTokens } from "@protokol/nft-base-transactions/src/interfaces";
 
 let app: Contracts.Kernel.Application;
 let api: ApiHelpers;
@@ -50,7 +50,7 @@ describe("API - Assets", () => {
 
             const response = await api.request("GET", "nft/assets");
             expect(response.data.data[0].id).toStrictEqual(nftCreate.id);
-            expect(response.data.data[0].senderPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
+            expect(response.data.data[0].ownerPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
             expect(response.data.data[0].collectionId).toStrictEqual(
                 "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
             );
@@ -64,16 +64,17 @@ describe("API - Assets", () => {
                 Container.Identifiers.DatabaseTransactionRepository,
             );
 
-            jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
-                ...nftCreate.data,
-                serialized: nftCreate.serialized,
-            }]);
-
+            jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([
+                {
+                    ...nftCreate.data,
+                    serialized: nftCreate.serialized,
+                },
+            ]);
 
             const response = await api.request("GET", `nft/assets/${nftCreate.id}`);
 
             expect(response.data.data.id).toStrictEqual(nftCreate.id);
-            expect(response.data.data.senderPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
+            expect(response.data.data.ownerPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
             expect(response.data.data.collectionId).toStrictEqual(
                 "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
             );
@@ -124,7 +125,7 @@ describe("API - Assets", () => {
                 damage: 3,
             });
             expect(response.data.data[0].id).toStrictEqual(nftCreate.id);
-            expect(response.data.data[0].senderPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
+            expect(response.data.data[0].ownerPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
             expect(response.data.data[0].collectionId).toStrictEqual(
                 "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
             );
