@@ -6,9 +6,9 @@ import { ApiHelpers } from "@arkecosystem/core-test-framework/src";
 import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { Identities } from "@arkecosystem/crypto";
 import { NFTBaseTransactionFactory } from "@protokol/nft-base-transactions/__tests__/functional/transaction-forging/__support__/transaction-factory";
+import { INFTCollections, INFTTokens } from "@protokol/nft-base-transactions/src/interfaces";
 
 import { setUp, tearDown } from "../__support__/setup";
-import { INFTCollections } from "@protokol/nft-base-transactions/src/interfaces";
 
 let app: Contracts.Kernel.Application;
 let api: ApiHelpers;
@@ -80,10 +80,12 @@ describe("API - Collections", () => {
                 Container.Identifiers.DatabaseTransactionRepository,
             );
 
-            jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
-                ...nftRegisteredCollection.data,
-                serialized: nftRegisteredCollection.serialized,
-            }]);
+            jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([
+                {
+                    ...nftRegisteredCollection.data,
+                    serialized: nftRegisteredCollection.serialized,
+                },
+            ]);
 
             const response = await api.request("GET", `nft/collections/${nftRegisteredCollection.id}`);
 
@@ -103,10 +105,12 @@ describe("API - Collections", () => {
                 Container.Identifiers.DatabaseTransactionRepository,
             );
 
-            jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
-                ...nftRegisteredCollection.data,
-                serialized: nftRegisteredCollection.serialized,
-            }]);
+            jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([
+                {
+                    ...nftRegisteredCollection.data,
+                    serialized: nftRegisteredCollection.serialized,
+                },
+            ]);
 
             const response = await api.request("GET", `nft/collections/${nftRegisteredCollection.id}/schema`);
 
@@ -149,7 +153,7 @@ describe("API - Collections", () => {
                 "state",
                 "blockchain",
             );
-            walletRepository.reset();
+
             const wallet = walletRepository.findByAddress(Identities.Address.fromPassphrase(secrets[0]));
 
             const collectionsWallet = wallet.getAttribute<INFTCollections>("nft.base.collections", {});
@@ -210,6 +214,20 @@ describe("API - Collections", () => {
                 .withPassphrase(secrets[0])
                 .build()[0];
 
+            const walletRepository = app.getTagged<Contracts.State.WalletRepository>(
+                Container.Identifiers.WalletRepository,
+                "state",
+                "blockchain",
+            );
+
+            const wallet = walletRepository.findByAddress(Identities.Address.fromPassphrase(secrets[0]));
+
+            const tokensWallet = wallet.getAttribute<INFTTokens>("nft.base.tokenIds", []);
+            // @ts-ignore
+            tokensWallet[nftToken.data.id] = {};
+            wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
+            walletRepository.index(wallet);
+
             const transactionRepository = app.get<Repositories.TransactionRepository>(
                 Container.Identifiers.DatabaseTransactionRepository,
             );
@@ -221,9 +239,10 @@ describe("API - Collections", () => {
             });
 
             const response = await api.request("GET", `nft/collections/${nftToken.id}/assets`);
+            console.log(response.data.data);
             expect(response).toBeSuccessfulResponse();
             expect(response.data.data[0].id).toStrictEqual(nftToken.id);
-            expect(response.data.data[0].senderPublicKey).toStrictEqual(nftToken.data.senderPublicKey);
+            expect(response.data.data[0].ownerPublicKey).toStrictEqual(nftToken.data.senderPublicKey);
             expect(response.data.data[0].collectionId).toStrictEqual(
                 "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
             );

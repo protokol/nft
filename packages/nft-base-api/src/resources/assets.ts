@@ -1,8 +1,13 @@
 import { Contracts } from "@arkecosystem/core-api";
-import { Container } from "@arkecosystem/core-kernel";
+import { Container, Contracts as CoreContracts } from "@arkecosystem/core-kernel";
+import { Indexers } from "@protokol/nft-base-transactions";
 
 @Container.injectable()
 export class AssetResource implements Contracts.Resource {
+    @Container.inject(Container.Identifiers.WalletRepository)
+    @Container.tagged("state", "blockchain")
+    private readonly walletRepository!: CoreContracts.State.WalletRepository;
+
     /**
      * Return the raw representation of the resource.
      *
@@ -24,7 +29,8 @@ export class AssetResource implements Contracts.Resource {
     public transform(resource): object {
         return {
             id: resource.id,
-            senderPublicKey: resource.senderPublicKey,
+            ownerPublicKey: this.walletRepository.findByIndex(Indexers.NFTIndexers.NFTTokenIndexer, resource.id)
+                .publicKey,
             ...resource.asset.nftToken,
         };
     }
