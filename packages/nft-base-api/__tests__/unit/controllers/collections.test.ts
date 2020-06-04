@@ -10,7 +10,7 @@ import { ITransaction } from "@arkecosystem/crypto/src/interfaces";
 import { configManager } from "@arkecosystem/crypto/src/managers";
 import Hapi from "@hapi/hapi";
 import { Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
-import { INFTCollections } from "@protokol/nft-base-transactions/src/interfaces";
+import { INFTCollections, INFTTokens } from "@protokol/nft-base-transactions/src/interfaces";
 
 import { buildSenderWallet, initApp, ItemResponse, PaginatedResponse } from "../__support__";
 import { CollectionsController } from "../../../src/controllers/collections";
@@ -251,6 +251,12 @@ describe("Test collection controller", () => {
             .sign(passphrases[0])
             .build();
 
+        const tokensWallet = senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
+        // @ts-ignore
+        tokensWallet[actual.id] = {};
+        senderWallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
+        walletRepository.index(senderWallet);
+
         transactionHistoryService.listByCriteria.mockResolvedValueOnce({ rows: [actual.data] });
 
         const request: Hapi.Request = {
@@ -265,7 +271,7 @@ describe("Test collection controller", () => {
         const response = (await collectionController.showAssetsByCollectionId(request, undefined)) as PaginatedResponse;
         expect(response.results[0]).toStrictEqual({
             id: actual.id,
-            senderPublicKey: actual.data.senderPublicKey,
+            ownerPublicKey: actual.data.senderPublicKey,
             collectionId: "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
             attributes: {
                 number: 5,
