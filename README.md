@@ -27,7 +27,6 @@ This work is licensed under [Creative Commons Attribution-NonCommercial-ShareAli
 Prepare and configure your bridgechain network configuration to install and load published packages from npm repository. A testnet configuration example can be found here: https://github.com/protokol/core-nft/blob/conf/nft-token-develop/packages/core/bin/config/testnet/app.json#L20-L44. We need to add the following entries to packages:
 
 ```json
-  ...
   {
       "package": "@protokol/nft-base-transactions"
   },
@@ -43,7 +42,6 @@ Prepare and configure your bridgechain network configuration to install and load
   {
       "package": "@protokol/nft-generator-api"
   },
-  ...
 ```
 
 You could also use our [core-nft](https://github.com/protokol/core-nft) branch of ARK Core-v3, where this is already setup for testnet environment (keep in mind to update package.json in your core bridgechain branch).
@@ -84,7 +82,7 @@ You must give appropriate credit, provide a link to the license, and indicate if
 
 #### NonCommercial
 
-You may not use the material for commercial purposes.
+You may not use the material for commercial purposes. For commercial purposes please reach out to sales@protokol.com.
 
 #### ShareAlike
 
