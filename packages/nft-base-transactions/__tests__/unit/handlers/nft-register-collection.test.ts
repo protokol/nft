@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Application, Contracts } from "@arkecosystem/core-kernel";
+import { Application, Container, Contracts, Providers } from "@arkecosystem/core-kernel";
 import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { Wallets } from "@arkecosystem/core-state";
 import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
@@ -13,7 +13,7 @@ import { Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 
 import { setMockTransaction } from "../__mocks__/transaction-repository";
 import { buildWallet, initApp } from "../__support__/app";
-import { NFTBaseInvalidAjvSchemaError } from "../../../src/errors";
+import { NFTBaseInvalidAjvSchemaError, NFTBaseUnauthorizedCollectionRegistrator } from "../../../src/errors";
 import { NFTApplicationEvents } from "../../../src/events";
 import { NFTIndexers } from "../../../src/wallet-indexes";
 import { collectionWalletCheck, deregisterTransactions } from "../utils/utils";
@@ -119,6 +119,33 @@ describe("NFT Register collection tests", () => {
 
             await expect(handler.throwIfCannotBeApplied(actual, senderWallet, walletRepository)).rejects.toThrowError(
                 NFTBaseInvalidAjvSchemaError,
+            );
+        });
+
+        it("should allow everyone to register a collection", async () => {
+            app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set(
+                "authorizedRegistrators",
+                [],
+            );
+
+            await expect(handler.throwIfCannotBeApplied(actual, senderWallet, walletRepository)).toResolve();
+        });
+
+        it("should allow to register a collection for authorized registrators only", async () => {
+            app.get<Providers.PluginConfiguration>(
+                Container.Identifiers.PluginConfiguration,
+            ).set("authorizedRegistrators", [senderWallet.publicKey]);
+
+            await expect(handler.throwIfCannotBeApplied(actual, senderWallet, walletRepository)).toResolve();
+        });
+
+        it("should prevent to register a collection for unauthorized registrators", async () => {
+            app.get<Providers.PluginConfiguration>(
+                Container.Identifiers.PluginConfiguration,
+            ).set("authorizedRegistrators", ["authorizedPublicKey"]);
+
+            await expect(handler.throwIfCannotBeApplied(actual, senderWallet, walletRepository)).rejects.toThrowError(
+                NFTBaseUnauthorizedCollectionRegistrator,
             );
         });
     });

@@ -1,18 +1,22 @@
 import { Models } from "@arkecosystem/core-database";
-import { Container, Contracts, Utils as AppUtils } from "@arkecosystem/core-kernel";
+import { Container, Contracts, Providers, Utils as AppUtils } from "@arkecosystem/core-kernel";
 import { Handlers, TransactionReader } from "@arkecosystem/core-transactions";
 import { Interfaces, Managers, Transactions } from "@arkecosystem/crypto";
 import { Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import Ajv from "ajv";
 
-import { NFTBaseInvalidAjvSchemaError } from "../errors";
+import { NFTBaseInvalidAjvSchemaError, NFTBaseUnauthorizedCollectionRegistrator } from "../errors";
 import { NFTApplicationEvents } from "../events";
-import { NFTIndexers } from "../wallet-indexes";
 import { INFTCollections } from "../interfaces";
+import { NFTIndexers } from "../wallet-indexes";
 
 @Container.injectable()
 export class NFTRegisterCollectionHandler extends Handlers.TransactionHandler {
+    @Container.inject(Container.Identifiers.PluginConfiguration)
+    @Container.tagged("plugin", "@protokol/nft-base-transactions")
+    private readonly configuration!: Providers.PluginConfiguration;
+
     public getConstructor(): Transactions.TransactionConstructor {
         return NFTTransactions.NFTRegisterCollectionTransaction;
     }
@@ -68,6 +72,11 @@ export class NFTRegisterCollectionHandler extends Handlers.TransactionHandler {
             if (!ajv.validateSchema(nftCollectionAsset.jsonSchema)) {
                 throw new NFTBaseInvalidAjvSchemaError();
             }
+        }
+
+        const authorizedRegistrators = this.configuration.get<string[]>("authorizedRegistrators");
+        if (sender.publicKey && authorizedRegistrators?.length && !authorizedRegistrators.includes(sender.publicKey)) {
+            throw new NFTBaseUnauthorizedCollectionRegistrator();
         }
         return super.throwIfCannotBeApplied(transaction, sender, customWalletRepository);
     }
