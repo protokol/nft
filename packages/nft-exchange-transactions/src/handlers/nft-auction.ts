@@ -102,16 +102,23 @@ export class NFTAuctionHandler extends Handlers.TransactionHandler {
     public async throwIfCannotEnterPool(transaction: Interfaces.ITransaction): Promise<void> {
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
 
-        const nftId: string = transaction.data.asset!.nftAuction.nftId;
+        const nftIds: string = transaction.data.asset!.nftAuction.nftIds;
         const hasNft: boolean = this.poolQuery
             .getAllBySender(transaction.data.senderPublicKey)
             .whereKind(transaction)
-            .wherePredicate((t) => t.data.asset?.nftAuction.nftId === nftId)
+            .wherePredicate((t) => {
+                for (const nftId of nftIds) {
+                    if (t.data.asset?.nftAuction.nftIds.includes(nftId)) {
+                        return true;
+                    }
+                }
+                return false;
+            })
             .has();
 
         if (hasNft) {
             throw new Contracts.TransactionPool.PoolError(
-                `NFT Auction, auction for ${nftId} nft already in pool`,
+                `NFT Auction, nft id for auction already in pool`,
                 "ERR_PENDING",
                 transaction,
             );
