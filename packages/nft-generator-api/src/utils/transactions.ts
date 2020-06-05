@@ -1,6 +1,6 @@
-import { Interfaces } from "../../../../../packages/crypto";
 import { Builders } from "@protokol/nft-base-crypto";
 
+import { Interfaces } from "../../../../../packages/crypto";
 import { buildTransaction } from "./builder";
 
 export const buildTokenCollection = async (payloadData: {

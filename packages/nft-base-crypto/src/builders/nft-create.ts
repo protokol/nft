@@ -1,18 +1,12 @@
-import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
-
-import { NFTBaseTransactionGroup, NFTBaseTransactionTypes } from "../enums";
+import { Interfaces, Transactions } from "@arkecosystem/crypto";
+import { NFTBaseTransactionTypes } from "../enums";
 import { NFTTokenAsset } from "../interfaces";
-import { NFTCreateTransaction } from "../transactions";
+import { NFTBuilderInit } from "./helpers";
 
 export class NFTCreateBuilder extends Transactions.TransactionBuilder<NFTCreateBuilder> {
     constructor() {
         super();
-        this.data.version = 2;
-        this.data.typeGroup = NFTBaseTransactionGroup;
-        this.data.type = NFTBaseTransactionTypes.NFTCreate;
-        this.data.fee = NFTCreateTransaction.staticFee();
-        this.data.amount = Utils.BigNumber.ZERO;
-        this.data.asset = { nftToken: {} };
+        NFTBuilderInit(this, NFTBaseTransactionTypes.NFTCreate, { nftToken: {} } );
     }
 
     public NFTCreateToken(nftToken: NFTTokenAsset): NFTCreateBuilder {

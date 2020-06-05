@@ -112,4 +112,3 @@ export class NFTExchangeAcceptTradeBidCanceled extends Errors.TransactionError {
         super(`Failed to apply transaction, because bid was already canceled.`);
     }
 }
-

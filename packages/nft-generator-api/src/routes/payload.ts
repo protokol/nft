@@ -1,5 +1,6 @@
 import Hapi from "@hapi/hapi";
 import Joi from "@hapi/joi";
+
 import { PayloadController } from "../controllers/payload";
 
 export const register = (server: Hapi.Server): void => {

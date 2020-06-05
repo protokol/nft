@@ -14,4 +14,3 @@ export interface INFTAuction {
 //     auctionId: string;
 //     bids?: string[];
 // }
-
