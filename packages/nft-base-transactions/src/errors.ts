@@ -13,6 +13,12 @@ export class NFTBaseInvalidAjvSchemaError extends Errors.TransactionError {
     }
 }
 
+export class NFTBaseUnauthorizedCollectionRegistrator extends Errors.TransactionError {
+    public constructor() {
+        super(`Failed to apply transaction, because sender public key is not authorized to register a collection.`);
+    }
+}
+
 // NFTCreate transaction errors
 export class NFTBaseCollectionDoesNotExists extends Errors.TransactionError {
     public constructor() {
