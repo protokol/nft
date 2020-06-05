@@ -1,18 +1,12 @@
-import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
-
-import { NFTBaseTransactionGroup, NFTBaseTransactionTypes } from "../enums";
+import { Interfaces, Transactions } from "@arkecosystem/crypto";
+import { NFTBaseTransactionTypes } from "../enums";
 import { NFTBurnAsset } from "../interfaces";
-import { NFTBurnTransaction } from "../transactions";
+import { NFTBuilderInit } from "./helpers";
 
 export class NFTBurnBuilder extends Transactions.TransactionBuilder<NFTBurnBuilder> {
     constructor() {
         super();
-        this.data.version = 2;
-        this.data.typeGroup = NFTBaseTransactionGroup;
-        this.data.type = NFTBaseTransactionTypes.NFTBurn;
-        this.data.fee = NFTBurnTransaction.staticFee();
-        this.data.amount = Utils.BigNumber.ZERO;
-        this.data.asset = { nftBurn: {} };
+        NFTBuilderInit(this, NFTBaseTransactionTypes.NFTBurn, { nftBurn: {} });
     }
 
     public NFTBurnAsset(nftBurn: NFTBurnAsset): NFTBurnBuilder {
