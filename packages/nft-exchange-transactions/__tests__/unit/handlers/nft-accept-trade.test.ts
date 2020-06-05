@@ -21,9 +21,9 @@ import {
     NFTExchangeAcceptTradeBidDoesNotExists,
     NFTExchangeAcceptTradeWalletCannotTrade,
 } from "../../../src/errors";
+import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
 import { deregisterTransactions } from "../utils";
-import { NFTExchangeApplicationEvents } from "../../../src/events";
 
 let app: Application;
 

@@ -4,10 +4,10 @@ import { Contracts } from "@arkecosystem/core-kernel";
 import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { snoozeForBlock } from "@arkecosystem/core-test-framework/src/utils";
 import { Utils } from "@arkecosystem/crypto";
+import { NFTBaseTransactionFactory } from "@protokol/nft-base-transactions/__tests__/functional/transaction-forging/__support__/transaction-factory";
 
 import * as support from "./__support__";
 import { NFTExchangeTransactionFactory } from "./__support__/transaction-factory";
-import { NFTBaseTransactionFactory } from "@protokol/nft-base-transactions/__tests__/functional/transaction-forging/__support__/transaction-factory";
 
 let app: Contracts.Kernel.Application;
 beforeAll(async () => (app = await support.setUp()));

@@ -1,4 +1,4 @@
-import { Managers, Transactions} from "@arkecosystem/crypto";
+import { Managers, Transactions } from "@arkecosystem/crypto";
 
 import { NftAcceptTradeBuilder } from "../../../src/builders";
 import { NFTAcceptTradeTransaction } from "../../../src/transactions";
