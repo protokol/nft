@@ -5,7 +5,7 @@
     "description": "NFT Functionality For Any ARK Core-v3 Blockchains",
     "engineStrict": true,
     "scripts": {
-        "publish:beta": "cross-env-shell bash ./scripts/publish-beta.sh",
+        "publish:beta": "cross-env bash ./scripts/publish-beta.sh",
         "publish:latest": "cross-env-shell bash ./scripts/publish-latest.sh",
         "test:functional": "cross-env-shell bash ./scripts/test-functional.sh",
         "test:integration": "cross-env-shell bash ./scripts/test-integration.sh",
