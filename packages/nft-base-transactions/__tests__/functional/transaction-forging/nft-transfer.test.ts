@@ -95,5 +95,20 @@ describe("NFT Transfer Functional Tests", () => {
             await snoozeForBlock(1);
             await expect(nftTransfer.id).toBeForged();
         });
+
+        it("should not broadcast, accept and forge it - because wallet does't own nft", async () => {
+            const nftTransfer = NFTBaseTransactionFactory.initialize(app)
+                .NFTTransfer({
+                    // @ts-ignore
+                    nftIds: [nftCreateId],
+                    recipientId: Identities.Address.fromPassphrase(secrets[2]),
+                })
+                .withPassphrase(secrets[1])
+                .createOne();
+
+            await expect(nftTransfer).not.toBeAccepted();
+            await snoozeForBlock(1);
+            await expect(nftTransfer.id).not.toBeForged();
+        });
     });
 });

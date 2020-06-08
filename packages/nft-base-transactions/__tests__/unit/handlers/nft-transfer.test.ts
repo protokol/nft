@@ -281,7 +281,7 @@ describe("NFT Transfer tests", () => {
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                     recipientId: recipientWallet.address,
                 })
-                .nonce("3")
+                .nonce("1")
                 .sign(passphrases[0])
                 .build();
 
@@ -317,7 +317,7 @@ describe("NFT Transfer tests", () => {
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                     recipientId: senderWallet.address,
                 })
-                .nonce("3")
+                .nonce("1")
                 .sign(passphrases[0])
                 .build();
 
@@ -350,7 +350,7 @@ describe("NFT Transfer tests", () => {
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                     recipientId: recipientWallet.address,
                 })
-                .nonce("3")
+                .nonce("1")
                 .sign(passphrases[0])
                 .build();
 
@@ -387,7 +387,7 @@ describe("NFT Transfer tests", () => {
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                     recipientId: recipientWallet.address,
                 })
-                .nonce("3")
+                .nonce("1")
                 .sign(passphrases[0])
                 .build();
 
