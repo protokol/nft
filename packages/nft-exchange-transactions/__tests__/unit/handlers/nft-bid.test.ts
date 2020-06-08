@@ -105,6 +105,10 @@ describe("NFT Bid tests", () => {
 
             expect(wallet.balance).toStrictEqual(Utils.BigNumber.make("7527654210"));
 
+            expect(wallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
+                Utils.BigNumber.make("100"),
+            );
+
             // @ts-ignore
             expect(walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).get(actual.id)).toStrictEqual(
                 auctionWallet,
@@ -152,6 +156,10 @@ describe("NFT Bid tests", () => {
             });
 
             expect(wallet.balance).toStrictEqual(Utils.BigNumber.make("7527654210"));
+
+            expect(wallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
+                Utils.BigNumber.make("100"),
+            );
 
             // @ts-ignore
             expect(walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).get(actual.id)).toStrictEqual(wallet);
@@ -463,6 +471,10 @@ describe("NFT Bid tests", () => {
                     bids: [actual.id],
                 });
 
+                expect(wallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
+                    Utils.BigNumber.make("1"),
+                );
+
                 // @ts-ignore
                 expect(walletRepository.findByIndex(NFTExchangeIndexers.BidIndexer, actual.id)).toStrictEqual(wallet);
             });
@@ -521,6 +533,10 @@ describe("NFT Bid tests", () => {
                 nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                 bids: [],
             });
+
+            expect(wallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
+                Utils.BigNumber.ZERO,
+            );
 
             // @ts-ignore
             expect(walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).get(actual.id)).toBeUndefined();
