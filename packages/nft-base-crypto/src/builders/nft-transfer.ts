@@ -1,12 +1,17 @@
-import { Interfaces, Transactions } from "@arkecosystem/crypto";
-import {  NFTBaseTransactionTypes } from "../enums";
-import { NFTTransferAsset } from "../interfaces";
-import { NFTBuilderInit } from "./helpers";
+import { Utils } from "@arkecosystem/crypto";
 
-export class NFTTransferBuilder extends Transactions.TransactionBuilder<NFTTransferBuilder> {
-    constructor() {
+import { NFTBaseTransactionTypes } from "../enums";
+import { NFTTransferAsset } from "../interfaces";
+import { NFTTransferTransaction } from "../transactions";
+import { NFTBaseTransactionBuilder } from "./nft-base-builder";
+
+export class NFTTransferBuilder extends NFTBaseTransactionBuilder<NFTTransferBuilder> {
+    public constructor() {
         super();
-        NFTBuilderInit(this,NFTBaseTransactionTypes.NFTTransfer,{ nftTransfer: {} });
+        this.data.type = NFTBaseTransactionTypes.NFTTransfer;
+        this.data.amount = Utils.BigNumber.ZERO;
+        this.data.fee = NFTTransferTransaction.staticFee();
+        this.data.asset = { nftTransfer: {} };
     }
 
     public NFTTransferAsset(nftTransfer: NFTTransferAsset): NFTTransferBuilder {
@@ -16,13 +21,6 @@ export class NFTTransferBuilder extends Transactions.TransactionBuilder<NFTTrans
             };
         }
         return this;
-    }
-
-    public getStruct(): Interfaces.ITransactionData {
-        const struct: Interfaces.ITransactionData = super.getStruct();
-        struct.amount = this.data.amount;
-        struct.asset = this.data.asset;
-        return struct;
     }
 
     protected instance(): NFTTransferBuilder {

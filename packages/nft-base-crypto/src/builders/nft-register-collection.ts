@@ -1,12 +1,17 @@
-import { Interfaces, Transactions } from "@arkecosystem/crypto";
+import { Utils } from "@arkecosystem/crypto";
+
 import { NFTBaseTransactionTypes } from "../enums";
 import { NFTCollectionAsset } from "../interfaces";
-import { NFTBuilderInit } from "./helpers";
+import { NFTRegisterCollectionTransaction } from "../transactions";
+import { NFTBaseTransactionBuilder } from "./nft-base-builder";
 
-export class NFTRegisterCollectionBuilder extends Transactions.TransactionBuilder<NFTRegisterCollectionBuilder> {
-    constructor() {
+export class NFTRegisterCollectionBuilder extends NFTBaseTransactionBuilder<NFTRegisterCollectionBuilder> {
+    public constructor() {
         super();
-        NFTBuilderInit(this, NFTBaseTransactionTypes.NFTRegisterCollection, { nftCollection: {} });
+        this.data.type = NFTBaseTransactionTypes.NFTRegisterCollection;
+        this.data.amount = Utils.BigNumber.ZERO;
+        this.data.fee = NFTRegisterCollectionTransaction.staticFee();
+        this.data.asset = { nftCollection: {} };
     }
 
     public NFTRegisterCollectionAsset(nftCollection: NFTCollectionAsset): NFTRegisterCollectionBuilder {
@@ -16,13 +21,6 @@ export class NFTRegisterCollectionBuilder extends Transactions.TransactionBuilde
             };
         }
         return this;
-    }
-
-    public getStruct(): Interfaces.ITransactionData {
-        const struct: Interfaces.ITransactionData = super.getStruct();
-        struct.amount = this.data.amount;
-        struct.asset = this.data.asset;
-        return struct;
     }
 
     protected instance(): NFTRegisterCollectionBuilder {

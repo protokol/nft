@@ -1,12 +1,17 @@
-import { Interfaces, Transactions } from "@arkecosystem/crypto";
+import { Utils } from "@arkecosystem/crypto";
+
 import { NFTBaseTransactionTypes } from "../enums";
 import { NFTBurnAsset } from "../interfaces";
-import { NFTBuilderInit } from "./helpers";
+import { NFTRegisterCollectionTransaction } from "../transactions";
+import { NFTBaseTransactionBuilder } from "./nft-base-builder";
 
-export class NFTBurnBuilder extends Transactions.TransactionBuilder<NFTBurnBuilder> {
-    constructor() {
+export class NFTBurnBuilder extends NFTBaseTransactionBuilder<NFTBurnBuilder> {
+    public constructor() {
         super();
-        NFTBuilderInit(this, NFTBaseTransactionTypes.NFTBurn, { nftBurn: {} });
+        this.data.type = NFTBaseTransactionTypes.NFTBurn;
+        this.data.amount = Utils.BigNumber.ZERO;
+        this.data.fee = NFTRegisterCollectionTransaction.staticFee();
+        this.data.asset = { nftBurn: {} };
     }
 
     public NFTBurnAsset(nftBurn: NFTBurnAsset): NFTBurnBuilder {
@@ -16,13 +21,6 @@ export class NFTBurnBuilder extends Transactions.TransactionBuilder<NFTBurnBuild
             };
         }
         return this;
-    }
-
-    public getStruct(): Interfaces.ITransactionData {
-        const struct: Interfaces.ITransactionData = super.getStruct();
-        struct.amount = this.data.amount;
-        struct.asset = this.data.asset;
-        return struct;
     }
 
     protected instance(): NFTBurnBuilder {
