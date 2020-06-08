@@ -133,6 +133,8 @@ export class NFTTransferHandler extends Handlers.TransactionHandler {
         transaction: Interfaces.ITransaction,
         customWalletRepository?: Contracts.State.WalletRepository,
     ): Promise<void> {
+        await super.applyToSender(transaction, customWalletRepository);
+
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
         AppUtils.assert.defined<NFTInterfaces.NFTTransferAsset>(transaction.data.asset?.nftTransfer);
         AppUtils.assert.defined<string>(transaction.data.id);
@@ -156,6 +158,8 @@ export class NFTTransferHandler extends Handlers.TransactionHandler {
         transaction: Interfaces.ITransaction,
         customWalletRepository?: Contracts.State.WalletRepository,
     ): Promise<void> {
+        await super.revertForSender(transaction, customWalletRepository);
+
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
         AppUtils.assert.defined<NFTInterfaces.NFTTransferAsset>(transaction.data.asset?.nftTransfer);
         AppUtils.assert.defined<string>(transaction.data.id);
