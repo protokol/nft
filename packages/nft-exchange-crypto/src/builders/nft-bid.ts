@@ -1,14 +1,13 @@
-import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
+import { Utils } from "@arkecosystem/crypto";
 
-import { NFTExchangeTransactionsTypeGroup, NFTTransactionTypes } from "../enums";
+import { NFTTransactionTypes } from "../enums";
 import { NFTBidAsset } from "../interfaces";
 import { NFTBidTransaction } from "../transactions";
+import { NFTExchangeTransactionBuilder } from "./nft-exchange-builder";
 
-export class NFTBidBuilder extends Transactions.TransactionBuilder<NFTBidBuilder> {
-    constructor() {
+export class NFTBidBuilder extends NFTExchangeTransactionBuilder<NFTBidBuilder> {
+    public constructor() {
         super();
-        this.data.version = 2;
-        this.data.typeGroup = NFTExchangeTransactionsTypeGroup;
         this.data.type = NFTTransactionTypes.NFTBid;
         this.data.fee = NFTBidTransaction.staticFee();
         this.data.amount = Utils.BigNumber.ZERO;
@@ -22,13 +21,6 @@ export class NFTBidBuilder extends Transactions.TransactionBuilder<NFTBidBuilder
             };
         }
         return this;
-    }
-
-    public getStruct(): Interfaces.ITransactionData {
-        const struct: Interfaces.ITransactionData = super.getStruct();
-        struct.amount = this.data.amount;
-        struct.asset = this.data.asset;
-        return struct;
     }
 
     protected instance(): NFTBidBuilder {
