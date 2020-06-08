@@ -17,10 +17,10 @@ import { INFTAuctions } from "../interfaces";
 import { NFTExchangeIndexers } from "../wallet-indexes";
 import { NFTAuctionHandler } from "./nft-auction";
 import { NFTBidHandler } from "./nft-bid";
-import { NFTExchangeHandler } from "./nft-exchange-handler";
+import { NFTExchangeTransactionHandler } from "./nft-exchange-handler";
 
 @Container.injectable()
-export class NFTAcceptTradeHandler extends NFTExchangeHandler {
+export class NFTAcceptTradeHandler extends NFTExchangeTransactionHandler {
     @Container.inject(Container.Identifiers.TransactionHistoryService)
     private readonly transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
 

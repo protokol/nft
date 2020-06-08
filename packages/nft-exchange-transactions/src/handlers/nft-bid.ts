@@ -16,10 +16,10 @@ import { INFTAuctions } from "../interfaces";
 import { NFTExchangeIndexers } from "../wallet-indexes";
 import { NFTAuctionHandler } from "./nft-auction";
 import { NFTAuctionCancelHandler } from "./nft-auction-cancel";
-import { NFTExchangeHandler } from "./nft-exchange-handler";
+import { NFTExchangeTransactionHandler } from "./nft-exchange-handler";
 
 @Container.injectable()
-export class NFTBidHandler extends NFTExchangeHandler {
+export class NFTBidHandler extends NFTExchangeTransactionHandler {
     public getConstructor(): Transactions.TransactionConstructor {
         return NFTTransactions.NFTBidTransaction;
     }

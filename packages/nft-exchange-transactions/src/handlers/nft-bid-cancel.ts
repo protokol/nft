@@ -13,10 +13,10 @@ import { NFTExchangeApplicationEvents } from "../events";
 import { INFTAuctions } from "../interfaces";
 import { NFTExchangeIndexers } from "../wallet-indexes";
 import { NFTBidHandler } from "./nft-bid";
-import { NFTExchangeHandler } from "./nft-exchange-handler";
+import { NFTExchangeTransactionHandler } from "./nft-exchange-handler";
 
 @Container.injectable()
-export class NFTBidCancelHandler extends NFTExchangeHandler {
+export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
     @Container.inject(Container.Identifiers.TransactionPoolQuery)
     private readonly poolQuery!: Contracts.TransactionPool.Query;
 
