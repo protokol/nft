@@ -9,11 +9,11 @@ import { NFTBaseBurnCannotBeApplied, NFTBaseBurnWalletDoesntOwnSpecifiedNftToken
 import { NFTApplicationEvents } from "../events";
 import { INFTCollections, INFTTokens } from "../interfaces";
 import { NFTIndexers } from "../wallet-indexes";
-import { NFTBaseHandler } from "./nft-base-handler";
+import { NFTBaseTransactionHandler } from "./nft-base-handler";
 import { NFTCreateHandler } from "./nft-create";
 
 @Container.injectable()
-export class NFTBurnHandler extends NFTBaseHandler {
+export class NFTBurnHandler extends NFTBaseTransactionHandler {
     @Container.inject(Container.Identifiers.TransactionPoolQuery)
     private readonly poolQuery!: Contracts.TransactionPool.Query;
 

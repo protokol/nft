@@ -10,10 +10,10 @@ import { NFTBaseInvalidAjvSchemaError, NFTBaseUnauthorizedCollectionRegistrator 
 import { NFTApplicationEvents } from "../events";
 import { INFTCollections } from "../interfaces";
 import { NFTIndexers } from "../wallet-indexes";
-import { NFTBaseHandler } from "./nft-base-handler";
+import { NFTBaseTransactionHandler } from "./nft-base-handler";
 
 @Container.injectable()
-export class NFTRegisterCollectionHandler extends NFTBaseHandler {
+export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
     @Container.inject(Container.Identifiers.PluginConfiguration)
     @Container.tagged("plugin", "@protokol/nft-base-transactions")
     private readonly configuration!: Providers.PluginConfiguration;

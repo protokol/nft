@@ -16,10 +16,10 @@ import { NFTApplicationEvents } from "../events";
 import { INFTCollections, INFTTokens } from "../interfaces";
 import { NFTIndexers } from "../wallet-indexes";
 import { NFTRegisterCollectionHandler } from "./nft-register-collection";
-import { NFTBaseHandler } from "./nft-base-handler";
+import { NFTBaseTransactionHandler } from "./nft-base-handler";
 
 @Container.injectable()
-export class NFTCreateHandler extends NFTBaseHandler {
+export class NFTCreateHandler extends NFTBaseTransactionHandler {
     public getConstructor(): Transactions.TransactionConstructor {
         return NFTTransactions.NFTCreateTransaction;
     }

@@ -13,10 +13,10 @@ import { NFTApplicationEvents } from "../events";
 import { INFTTokens } from "../interfaces";
 import { NFTIndexers } from "../wallet-indexes";
 import { NFTCreateHandler } from "./nft-create";
-import { NFTBaseHandler } from "./nft-base-handler";
+import { NFTBaseTransactionHandler } from "./nft-base-handler";
 
 @Container.injectable()
-export class NFTTransferHandler extends NFTBaseHandler {
+export class NFTTransferHandler extends NFTBaseTransactionHandler {
     @Container.inject(Container.Identifiers.TransactionPoolQuery)
     private readonly poolQuery!: Contracts.TransactionPool.Query;
 
