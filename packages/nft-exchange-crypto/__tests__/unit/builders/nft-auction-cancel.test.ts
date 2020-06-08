@@ -22,5 +22,17 @@ describe("NFT Auction Cancel tests", () => {
             expect(actual.build().verified).toBeTrue();
             expect(actual.verify()).toBeTrue();
         });
+
+        it("object should remain the same if asset is undefined", () => {
+            const actual = new NFTAuctionCancelBuilder();
+            actual.data.asset = undefined;
+
+            const result = actual.NFTAuctionCancelAsset({
+                auctionId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
+            });
+
+            expect(actual.data.asset).toBeUndefined();
+            expect(actual).toBe(result);
+        });
     });
 });

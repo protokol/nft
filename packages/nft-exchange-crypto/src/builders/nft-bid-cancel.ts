@@ -1,14 +1,13 @@
-import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
+import { Utils } from "@arkecosystem/crypto";
 
-import { NFTExchangeTransactionsTypeGroup, NFTTransactionTypes } from "../enums";
+import { NFTTransactionTypes } from "../enums";
 import { NFTBidCancelAsset } from "../interfaces";
 import { NFTBidCancelTransaction } from "../transactions";
+import { NFTExchangeTransactionBuilder } from "./nft-exchange-builder";
 
-export class NFTBidCancelBuilder extends Transactions.TransactionBuilder<NFTBidCancelBuilder> {
-    constructor() {
+export class NFTBidCancelBuilder extends NFTExchangeTransactionBuilder<NFTBidCancelBuilder> {
+    public constructor() {
         super();
-        this.data.version = 2;
-        this.data.typeGroup = NFTExchangeTransactionsTypeGroup;
         this.data.type = NFTTransactionTypes.NFTBidCancel;
         this.data.fee = NFTBidCancelTransaction.staticFee();
         this.data.amount = Utils.BigNumber.ZERO;
@@ -22,13 +21,6 @@ export class NFTBidCancelBuilder extends Transactions.TransactionBuilder<NFTBidC
             };
         }
         return this;
-    }
-
-    public getStruct(): Interfaces.ITransactionData {
-        const struct: Interfaces.ITransactionData = super.getStruct();
-        struct.amount = this.data.amount;
-        struct.asset = this.data.asset;
-        return struct;
     }
 
     protected instance(): NFTBidCancelBuilder {

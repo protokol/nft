@@ -28,5 +28,17 @@ describe("NFT Accept trade tests", () => {
                 bidId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
             });
         });
+
+        it("should throw if asset is undefined", () => {
+            const actual = new NftAcceptTradeBuilder()
+                .NFTAcceptTradeAsset({
+                    auctionId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
+                    bidId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
+                })
+                .nonce("5");
+
+            actual.data.asset = undefined;
+            expect(() => actual.sign("passphrase")).toThrow();
+        });
     });
 });
