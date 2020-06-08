@@ -115,6 +115,8 @@ describe("Test bids controller", () => {
         senderWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
         walletRepository.index(senderWallet);
 
+        senderWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.make("100"));
+
         const request: Hapi.Request = {
             params: {
                 id: "7a8460fdcad40ae3dda9e50382d7676ce5a8643b01c198484a4a99591bcb0871",
@@ -122,7 +124,6 @@ describe("Test bids controller", () => {
         };
 
         const response = (await bidsController.showAuctionWallet(request, undefined)) as ItemResponse;
-
         // @ts-ignore
         expect(response.data.address).toStrictEqual(senderWallet.address);
         // @ts-ignore
@@ -135,6 +136,8 @@ describe("Test bids controller", () => {
         expect(response.data.nft.exchange.auctions[actual.id].bids).toStrictEqual([
             "7a8460fdcad40ae3dda9e50382d7676ce5a8643b01c198484a4a99591bcb0871",
         ]);
+        // @ts-ignore
+        expect(response.data.nft.exchange.lockedBalance).toStrictEqual(Utils.BigNumber.make("100"));
     });
 
     it("search - by senderPublicKey, auctionId and bidAmount", async () => {
