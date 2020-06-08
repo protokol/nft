@@ -29,7 +29,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
     }
 
     public walletAttributes(): ReadonlyArray<string> {
-        return [];
+        return ["nft.exchange.lockedBalance"];
     }
 
     public async bootstrap(): Promise<void> {
@@ -41,6 +41,15 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
             const nftBidAsset: NFTInterfaces.NFTBidAsset = transaction.asset.nftBid;
 
             wallet.balance = wallet.balance.minus(nftBidAsset.bidAmount);
+
+            const lockedBalance = wallet.getAttribute<Utils.BigNumber>(
+                "nft.exchange.lockedBalance",
+                Utils.BigNumber.ZERO,
+            );
+            wallet.setAttribute<Utils.BigNumber>(
+                "nft.exchange.lockedBalance",
+                lockedBalance.plus(nftBidAsset.bidAmount),
+            );
 
             const auctionTransaction: Models.Transaction = await this.transactionRepository.findById(
                 nftBidAsset.auctionId,
@@ -115,6 +124,9 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
         const sender: Contracts.State.Wallet = walletRepository.findByPublicKey(transaction.data.senderPublicKey);
         sender.balance = sender.balance.minus(nftBidAsset.bidAmount);
 
+        const lockedBalance = sender.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.ZERO);
+        sender.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.plus(nftBidAsset.bidAmount));
+
         const auctionTransaction: Models.Transaction = await this.transactionRepository.findById(nftBidAsset.auctionId);
 
         const auctionWallet = walletRepository.findByPublicKey(auctionTransaction.senderPublicKey);
@@ -141,6 +153,9 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
 
         const sender: Contracts.State.Wallet = walletRepository.findByPublicKey(transaction.data.senderPublicKey);
         sender.balance = sender.balance.plus(nftBidAsset.bidAmount);
+
+        const lockedBalance = sender.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.ZERO);
+        sender.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.minus(nftBidAsset.bidAmount));
 
         const auctionTransaction: Models.Transaction = await this.transactionRepository.findById(nftBidAsset.auctionId);
 

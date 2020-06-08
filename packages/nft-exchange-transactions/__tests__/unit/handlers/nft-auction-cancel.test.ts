@@ -118,6 +118,10 @@ describe("NFT Auction Cancel tests", () => {
 
             expect(wallet.balance).toStrictEqual(Utils.BigNumber.make("7527654410"));
 
+            expect(wallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
+                Utils.BigNumber.make("100"),
+            );
+
             expect(
                 wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[
                     "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
@@ -312,6 +316,10 @@ describe("NFT Auction Cancel tests", () => {
 
             expect(wallet.balance).toStrictEqual(Utils.BigNumber.make("7027654410"));
 
+            expect(wallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
+                Utils.BigNumber.make("100"),
+            );
+
             expect(
                 wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[
                     "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
@@ -429,6 +437,10 @@ describe("NFT Auction Cancel tests", () => {
             });
 
             expect(wallet.balance).toStrictEqual(Utils.BigNumber.make("7527654310"));
+
+            expect(wallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
+                Utils.BigNumber.ZERO,
+            );
 
             // @ts-ignore
             expect(walletRepository.findByIndex(NFTExchangeIndexers.AuctionIndexer, actualAuction.id)).toStrictEqual(

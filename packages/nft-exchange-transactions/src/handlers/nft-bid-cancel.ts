@@ -1,7 +1,7 @@
 import { Models } from "@arkecosystem/core-database";
 import { Container, Contracts, Utils as AppUtils } from "@arkecosystem/core-kernel";
 import { Handlers, TransactionReader } from "@arkecosystem/core-transactions";
-import { Interfaces, Transactions } from "@arkecosystem/crypto";
+import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Enums, Interfaces as NFTInterfaces, Transactions as NFTTransactions } from "@protokol/nft-exchange-crypto";
 
 import {
@@ -42,7 +42,15 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
             const wallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
                 bidTransaction.senderPublicKey,
             );
-            wallet.balance = wallet.balance.plus(bidTransaction.asset.nftBid.bidAmount);
+            const bidAmount: Utils.BigNumber = bidTransaction.asset.nftBid.bidAmount;
+
+            wallet.balance = wallet.balance.plus(bidAmount);
+
+            const lockedBalance = wallet.getAttribute<Utils.BigNumber>(
+                "nft.exchange.lockedBalance",
+                Utils.BigNumber.ZERO,
+            );
+            wallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.minus(bidAmount));
 
             const auctionTransaction = await this.transactionRepository.findById(bidTransaction.asset.nftBid.auctionId);
             const auctionWallet = this.walletRepository.findByPublicKey(auctionTransaction.senderPublicKey);
@@ -125,7 +133,12 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
 
         const bidTransaction = await this.transactionRepository.findById(cancelBidAsset.bidId);
         const wallet: Contracts.State.Wallet = walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
-        wallet.balance = wallet.balance.plus(bidTransaction.asset.nftBid.bidAmount);
+        const bidAmount: Utils.BigNumber = bidTransaction.asset.nftBid.bidAmount;
+
+        wallet.balance = wallet.balance.plus(bidAmount);
+
+        const lockedBalance = wallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.ZERO);
+        wallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.minus(bidAmount));
 
         const auctionTransaction = await this.transactionRepository.findById(bidTransaction.asset.nftBid.auctionId);
         const auctionWallet = walletRepository.findByPublicKey(auctionTransaction.senderPublicKey);
@@ -153,7 +166,12 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
 
         const bidTransaction = await this.transactionRepository.findById(cancelBidAsset.bidId);
         const wallet: Contracts.State.Wallet = walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
-        wallet.balance = wallet.balance.minus(bidTransaction.asset.nftBid.bidAmount);
+        const bidAmount: Utils.BigNumber = bidTransaction.asset.nftBid.bidAmount;
+
+        wallet.balance = wallet.balance.minus(bidAmount);
+
+        const lockedBalance = wallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.ZERO);
+        wallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.plus(bidAmount));
 
         const auctionTransaction = await this.transactionRepository.findById(bidTransaction.asset.nftBid.auctionId);
         const auctionWallet = walletRepository.findByPublicKey(auctionTransaction.senderPublicKey);
