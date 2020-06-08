@@ -1,7 +1,7 @@
 import { Models } from "@arkecosystem/core-database";
 import { Container, Contracts, Providers, Utils as AppUtils } from "@arkecosystem/core-kernel";
 import { Handlers, TransactionReader } from "@arkecosystem/core-transactions";
-import { Interfaces, Managers, Transactions } from "@arkecosystem/crypto";
+import { Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import Ajv from "ajv";
@@ -10,9 +10,10 @@ import { NFTBaseInvalidAjvSchemaError, NFTBaseUnauthorizedCollectionRegistrator 
 import { NFTApplicationEvents } from "../events";
 import { INFTCollections } from "../interfaces";
 import { NFTIndexers } from "../wallet-indexes";
+import { NFTBaseHandler } from "./nft-base-handler";
 
 @Container.injectable()
-export class NFTRegisterCollectionHandler extends Handlers.TransactionHandler {
+export class NFTRegisterCollectionHandler extends NFTBaseHandler {
     @Container.inject(Container.Identifiers.PluginConfiguration)
     @Container.tagged("plugin", "@protokol/nft-base-transactions")
     private readonly configuration!: Providers.PluginConfiguration;
@@ -27,10 +28,6 @@ export class NFTRegisterCollectionHandler extends Handlers.TransactionHandler {
 
     public walletAttributes(): ReadonlyArray<string> {
         return ["nft.base", "nft.base.collections"];
-    }
-
-    public async isActivated(): Promise<boolean> {
-        return Managers.configManager.getMilestone().aip11 === true;
     }
 
     public async bootstrap(): Promise<void> {
