@@ -1,7 +1,7 @@
 import { Models } from "@arkecosystem/core-database";
 import { Container, Contracts, Utils as AppUtils } from "@arkecosystem/core-kernel";
 import { Handlers, TransactionReader } from "@arkecosystem/core-transactions";
-import { Interfaces, Managers, Transactions } from "@arkecosystem/crypto";
+import { Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Handlers as NFTBaseHandlers } from "@protokol/nft-base-transactions";
 import { Interfaces as NFTBaseInterfaces } from "@protokol/nft-base-transactions";
 import { Transactions as NFTTransactions } from "@protokol/nft-exchange-crypto";
@@ -16,9 +16,10 @@ import {
 import { NFTExchangeApplicationEvents } from "../events";
 import { INFTAuctions } from "../interfaces";
 import { NFTExchangeIndexers } from "../wallet-indexes";
+import { NFTExchangeHandler } from "./nft-exchange-handler";
 
 @Container.injectable()
-export class NFTAuctionHandler extends Handlers.TransactionHandler {
+export class NFTAuctionHandler extends NFTExchangeHandler {
     @Container.inject(Container.Identifiers.TransactionPoolQuery)
     private readonly poolQuery!: Contracts.TransactionPool.Query;
 
@@ -32,10 +33,6 @@ export class NFTAuctionHandler extends Handlers.TransactionHandler {
 
     public walletAttributes(): ReadonlyArray<string> {
         return ["nft.exchange", "nft.exchange.auctions"];
-    }
-
-    public async isActivated(): Promise<boolean> {
-        return Managers.configManager.getMilestone().aip11 === true;
     }
 
     public async bootstrap(): Promise<void> {
