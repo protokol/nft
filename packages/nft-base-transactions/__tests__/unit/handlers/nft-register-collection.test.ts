@@ -101,6 +101,15 @@ describe("NFT Register collection tests", () => {
             await expect(handler.throwIfCannotBeApplied(actual, senderWallet, walletRepository)).toResolve();
         });
 
+        it("should throw if nftToken is undefined", async () => {
+            const undefinedTokenInTransaction = { ...actual };
+            undefinedTokenInTransaction.data.asset = undefined;
+
+            await expect(
+                handler.throwIfCannotBeApplied(undefinedTokenInTransaction, senderWallet, walletRepository),
+            ).toReject();
+        });
+
         it("should throw NFTBaseInvalidAjvSchemaError", async () => {
             const actual = new Builders.NFTRegisterCollectionBuilder()
                 .NFTRegisterCollectionAsset({
@@ -174,6 +183,10 @@ describe("NFT Register collection tests", () => {
             // @ts-ignore
             expect(walletRepository.findByIndex(NFTIndexers.CollectionIndexer, actual.id)).toStrictEqual(senderWallet);
         });
+
+        it("should test applyToSender method with undefined wallet repository", async () => {
+            await expect(handler.applyToSender(actual, undefined)).toResolve();
+        });
     });
 
     describe("revert tests", () => {
@@ -186,6 +199,12 @@ describe("NFT Register collection tests", () => {
             expect(senderWallet.getAttribute("nft.base.collections")[actual.id]).toBeUndefined();
             // @ts-ignore
             expect(walletRepository.getIndex(NFTIndexers.CollectionIndexer).get(actual.id)).toBeUndefined();
+        });
+
+        it("should test revert method with undefined wallet repository", async () => {
+            await handler.apply(actual, walletRepository);
+
+            await expect(handler.revert(actual, undefined)).toResolve();
         });
     });
 });
