@@ -12,7 +12,7 @@ import { INFTTokens } from "@protokol/nft-base-transactions/src/interfaces";
 import { Enums } from "@protokol/nft-exchange-crypto";
 import { Builders as NFTBuilders } from "@protokol/nft-exchange-crypto";
 
-import { setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
+import { setMockFindByIds, setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
 import { buildWallet, initApp } from "../__support__/app";
 import {
     NFTExchangeAcceptTradeAuctionCanceled,
@@ -110,6 +110,7 @@ describe("NFT Accept trade tests", () => {
             walletRepository.index(wallet);
 
             setMockTransactions([actualAuction, actualBid]);
+            setMockFindByIds([actualBid]);
             setMockTransaction(actual);
 
             await expect(nftAcceptTradeHandler.bootstrap()).toResolve();
@@ -174,6 +175,7 @@ describe("NFT Accept trade tests", () => {
             walletRepository.index(wallet);
 
             setMockTransactions([actualAuction, actualBid]);
+            setMockFindByIds([actualBid]);
             setMockTransaction(actual);
             await expect(nftAcceptTradeHandler.bootstrap()).toResolve();
             expect(
@@ -467,6 +469,7 @@ describe("NFT Accept trade tests", () => {
             walletRepository.index(wallet);
 
             setMockTransactions([actualAuction, actualBid]);
+            setMockFindByIds([actualBid]);
 
             await expect(nftAcceptTradeHandler.apply(actual, walletRepository)).toResolve();
 
@@ -531,6 +534,7 @@ describe("NFT Accept trade tests", () => {
             walletRepository.index(wallet);
 
             setMockTransactions([actualAuction, actualBid]);
+            setMockFindByIds([actualBid]);
             setMockTransaction(actual);
 
             await expect(nftAcceptTradeHandler.apply(actual, walletRepository)).toResolve();
@@ -597,6 +601,7 @@ describe("NFT Accept trade tests", () => {
             walletRepository.index(wallet);
 
             setMockTransactions([actualAuction, actualBid]);
+            setMockFindByIds([actualBid]);
 
             await nftAcceptTradeHandler.apply(actual, walletRepository);
 
