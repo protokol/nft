@@ -12,8 +12,8 @@ import {
 import { NFTApplicationEvents } from "../events";
 import { INFTTokens } from "../interfaces";
 import { NFTIndexers } from "../wallet-indexes";
-import { NFTCreateHandler } from "./nft-create";
 import { NFTBaseTransactionHandler } from "./nft-base-handler";
+import { NFTCreateHandler } from "./nft-create";
 
 @Container.injectable()
 export class NFTTransferHandler extends NFTBaseTransactionHandler {
@@ -109,7 +109,7 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
             .whereKind(transaction)
             .wherePredicate((t) => {
                 for (const nftId of nftIds) {
-                    if (t.data.asset?.nftTransfer.nftIds.includes(nftId)) {
+                    if (t.data.asset!.nftTransfer.nftIds.includes(nftId)) {
                         return true;
                     }
                 }
@@ -133,13 +133,14 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
         await super.applyToSender(transaction, customWalletRepository);
 
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
-        AppUtils.assert.defined<NFTInterfaces.NFTTransferAsset>(transaction.data.asset?.nftTransfer);
+        // Line is already checked inside throwIfCannotBeApplied run by super.applyToSender method
+        //AppUtils.assert.defined<NFTInterfaces.NFTTransferAsset>(transaction.data.asset?.nftTransfer);
         AppUtils.assert.defined<string>(transaction.data.id);
 
         const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
 
         const senderWallet: Contracts.State.Wallet = walletRepository.findByPublicKey(transaction.data.senderPublicKey);
-        const nftTransferAsset: NFTInterfaces.NFTTransferAsset = transaction.data.asset.nftTransfer;
+        const nftTransferAsset: NFTInterfaces.NFTTransferAsset = transaction.data.asset!.nftTransfer;
 
         const senderTokensWallet = senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
         for (const token of nftTransferAsset.nftIds) {

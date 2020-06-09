@@ -85,7 +85,7 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
         const hasNft: boolean = this.poolQuery
             .getAllBySender(transaction.data.senderPublicKey)
             .whereKind(transaction)
-            .wherePredicate((t) => t.data.asset?.nftBurn.nftId === nftId)
+            .wherePredicate((t) => t.data.asset!.nftBurn.nftId === nftId)
             .has();
 
         if (hasNft) {
@@ -103,9 +103,10 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
         await super.applyToSender(transaction, customWalletRepository);
 
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
-        AppUtils.assert.defined<NFTInterfaces.NFTBurnAsset>(transaction.data.asset?.nftBurn);
+        // Line is already checked inside throwIfCannotBeApplied run by super.applyToSender method
+        //AppUtils.assert.defined<NFTInterfaces.NFTBurnAsset>(transaction.data.asset?.nftBurn);
 
-        const nftBurnAsset: NFTInterfaces.NFTBurnAsset = transaction.data.asset.nftBurn;
+        const nftBurnAsset: NFTInterfaces.NFTBurnAsset = transaction.data.asset!.nftBurn;
 
         const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
 
