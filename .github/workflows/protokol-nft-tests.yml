@@ -22,7 +22,6 @@ jobs:
               uses: actions/checkout@v2
               with:
                   repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
                   ref: conf/nft-token-develop
 
             - name: Checkout protokol/nft-plugins
@@ -76,8 +75,8 @@ jobs:
                   cd protokol/packages/nft-exchange-api
                   yarn test:unit:coverage --coverageDirectory .coverage/unit-exchange-api --maxWorkers=2
 
-    functional-register-collection-transactions:
-        name: REGISTER COLLECTION TEST
+    test-functional-base:
+        name: BASE FUNCTIONAL TESTS
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -105,7 +104,6 @@ jobs:
               uses: actions/checkout@v2
               with:
                   repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
                   ref: conf/nft-token-develop
 
             - name: Checkout protokol/nft-plugins
@@ -126,25 +124,19 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
 
-            - name: Update system
-              run: sudo apt-get update -y
-
-            - name: Install xsel & postgresql-client
-              run: sudo apt-get install -q xsel postgresql-client
-
             - name: Install and build packages
               run: yarn setup
 
             - name: Create .core/database directory
               run: mkdir -p $HOME/.core/database
 
-            - name: TEST
+            - name: TEST FUNCTIONAL BASE-TRANSACTIONS
               run: |
                   cd protokol/packages/nft-base-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-register-collection.test.ts
+                  yarn test:functional:coverage --coverageDirectory .coverage/functional-base
 
-    functional-create-asset-transactions:
-        name: CREATE ASSET TEST
+    test-exchange-functional:
+        name: EXCHANGE FUNCTIONAL TESTS
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -172,7 +164,6 @@ jobs:
               uses: actions/checkout@v2
               with:
                   repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
                   ref: conf/nft-token-develop
 
             - name: Checkout protokol/nft-plugins
@@ -193,491 +184,16 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
 
-            - name: Update system
-              run: sudo apt-get update -y
-
-            - name: Install xsel & postgresql-client
-              run: sudo apt-get install -q xsel postgresql-client
-
             - name: Install and build packages
               run: yarn setup
 
             - name: Create .core/database directory
               run: mkdir -p $HOME/.core/database
 
-            - name: TEST
-              run: |
-                  cd protokol/packages/nft-base-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-create.test.ts
-
-    functional-transfer-asset-transactions:
-        name: TRANSFER ASSET TEST
-        runs-on: ubuntu-latest
-        services:
-            postgres:
-                image: postgres:12
-                env:
-                    POSTGRES_USER: ark
-                    POSTGRES_PASSWORD: password
-                    POSTGRES_DB: ark_unitnet
-                ports:
-                    - 5432:5432
-                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
-        strategy:
-            matrix:
-                node-version: [12.x]
-        env:
-            CORE_DB_DATABASE: ark_unitnet
-            CORE_DB_USERNAME: ark
-            POSTGRES_USER: ark
-            POSTGRES_PASSWORD: password
-            POSTGRES_DB: ark_unitnet
-
-        steps:
-            - name: Checkout Protokol NFT-CORE
-              uses: actions/checkout@v2
-              with:
-                  repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
-                  ref: conf/nft-token-develop
-
-            - name: Checkout protokol/nft-plugins
-              uses: actions/checkout@v2
-              with:
-                  path: protokol/
-
-            - name: Cache node modules
-              uses: actions/cache@v2
-              id: yarn-cache
-              with:
-                  path: node_modules
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-                  restore-keys: ${{ runner.os }}-yarn-
-
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
-              with:
-                  node-version: ${{ matrix.node-version }}
-
-            - name: Update system
-              run: sudo apt-get update -y
-
-            - name: Install xsel & postgresql-client
-              run: sudo apt-get install -q xsel postgresql-client
-
-            - name: Install and build packages
-              run: yarn setup
-
-            - name: Create .core/database directory
-              run: mkdir -p $HOME/.core/database
-
-            - name: TEST
-              run: |
-                  cd protokol/packages/nft-base-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-transfer.test.ts
-
-    functional-burn-asset-transactions:
-        name: BURN ASSET TEST
-        runs-on: ubuntu-latest
-        services:
-            postgres:
-                image: postgres:12
-                env:
-                    POSTGRES_USER: ark
-                    POSTGRES_PASSWORD: password
-                    POSTGRES_DB: ark_unitnet
-                ports:
-                    - 5432:5432
-                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
-        strategy:
-            matrix:
-                node-version: [12.x]
-        env:
-            CORE_DB_DATABASE: ark_unitnet
-            CORE_DB_USERNAME: ark
-            POSTGRES_USER: ark
-            POSTGRES_PASSWORD: password
-            POSTGRES_DB: ark_unitnet
-
-        steps:
-            - name: Checkout Protokol NFT-CORE
-              uses: actions/checkout@v2
-              with:
-                  repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
-                  ref: conf/nft-token-develop
-
-            - name: Checkout protokol/nft-plugins
-              uses: actions/checkout@v2
-              with:
-                  path: protokol/
-
-            - name: Cache node modules
-              uses: actions/cache@v2
-              id: yarn-cache
-              with:
-                  path: node_modules
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-                  restore-keys: ${{ runner.os }}-yarn-
-
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
-              with:
-                  node-version: ${{ matrix.node-version }}
-
-            - name: Update system
-              run: sudo apt-get update -y
-
-            - name: Install xsel & postgresql-client
-              run: sudo apt-get install -q xsel postgresql-client
-
-            - name: Install and build packages
-              run: yarn setup
-
-            - name: Create .core/database directory
-              run: mkdir -p $HOME/.core/database
-
-            - name: TEST
-              run: |
-                  cd protokol/packages/nft-base-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-burn.test.ts
-
-    functional-auction-transactions:
-        name: AUCTION TEST
-        runs-on: ubuntu-latest
-        services:
-            postgres:
-                image: postgres:12
-                env:
-                    POSTGRES_USER: ark
-                    POSTGRES_PASSWORD: password
-                    POSTGRES_DB: ark_unitnet
-                ports:
-                    - 5432:5432
-                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
-        strategy:
-            matrix:
-                node-version: [12.x]
-        env:
-            CORE_DB_DATABASE: ark_unitnet
-            CORE_DB_USERNAME: ark
-            POSTGRES_USER: ark
-            POSTGRES_PASSWORD: password
-            POSTGRES_DB: ark_unitnet
-
-        steps:
-            - name: Checkout Protokol NFT-CORE
-              uses: actions/checkout@v2
-              with:
-                  repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
-                  ref: conf/nft-token-develop
-
-            - name: Checkout protokol/nft-plugins
-              uses: actions/checkout@v2
-              with:
-                  path: protokol/
-
-            - name: Cache node modules
-              uses: actions/cache@v2
-              id: yarn-cache
-              with:
-                  path: node_modules
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-                  restore-keys: ${{ runner.os }}-yarn-
-
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
-              with:
-                  node-version: ${{ matrix.node-version }}
-
-            - name: Update system
-              run: sudo apt-get update -y
-
-            - name: Install xsel & postgresql-client
-              run: sudo apt-get install -q xsel postgresql-client
-
-            - name: Install and build packages
-              run: yarn setup
-
-            - name: Create .core/database directory
-              run: mkdir -p $HOME/.core/database
-
-            - name: TEST
+            - name: TEST FUNCTIONAL EXCHANGE-TRANSACTIONS
               run: |
                   cd protokol/packages/nft-exchange-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-auction.test.ts
-
-    functional-auction-cancel-transactions:
-        name: AUCTION-CANCEL TEST
-        runs-on: ubuntu-latest
-        services:
-            postgres:
-                image: postgres:12
-                env:
-                    POSTGRES_USER: ark
-                    POSTGRES_PASSWORD: password
-                    POSTGRES_DB: ark_unitnet
-                ports:
-                    - 5432:5432
-                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
-        strategy:
-            matrix:
-                node-version: [12.x]
-        env:
-            CORE_DB_DATABASE: ark_unitnet
-            CORE_DB_USERNAME: ark
-            POSTGRES_USER: ark
-            POSTGRES_PASSWORD: password
-            POSTGRES_DB: ark_unitnet
-
-        steps:
-            - name: Checkout Protokol NFT-CORE
-              uses: actions/checkout@v2
-              with:
-                  repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
-                  ref: conf/nft-token-develop
-
-            - name: Checkout protokol/nft-plugins
-              uses: actions/checkout@v2
-              with:
-                  path: protokol/
-
-            - name: Cache node modules
-              uses: actions/cache@v2
-              id: yarn-cache
-              with:
-                  path: node_modules
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-                  restore-keys: ${{ runner.os }}-yarn-
-
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
-              with:
-                  node-version: ${{ matrix.node-version }}
-
-            - name: Update system
-              run: sudo apt-get update -y
-
-            - name: Install xsel & postgresql-client
-              run: sudo apt-get install -q xsel postgresql-client
-
-            - name: Install and build packages
-              run: yarn setup
-
-            - name: Create .core/database directory
-              run: mkdir -p $HOME/.core/database
-
-            - name: TEST
-              run: |
-                  cd protokol/packages/nft-exchange-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-auction-cancel.test.ts
-
-    functional-bid-transactions:
-        name: BID TEST
-        runs-on: ubuntu-latest
-        services:
-            postgres:
-                image: postgres:12
-                env:
-                    POSTGRES_USER: ark
-                    POSTGRES_PASSWORD: password
-                    POSTGRES_DB: ark_unitnet
-                ports:
-                    - 5432:5432
-                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
-        strategy:
-            matrix:
-                node-version: [12.x]
-        env:
-            CORE_DB_DATABASE: ark_unitnet
-            CORE_DB_USERNAME: ark
-            POSTGRES_USER: ark
-            POSTGRES_PASSWORD: password
-            POSTGRES_DB: ark_unitnet
-
-        steps:
-            - name: Checkout Protokol NFT-CORE
-              uses: actions/checkout@v2
-              with:
-                  repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
-                  ref: conf/nft-token-develop
-
-            - name: Checkout protokol/nft-plugins
-              uses: actions/checkout@v2
-              with:
-                  path: protokol/
-
-            - name: Cache node modules
-              uses: actions/cache@v2
-              id: yarn-cache
-              with:
-                  path: node_modules
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-                  restore-keys: ${{ runner.os }}-yarn-
-
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
-              with:
-                  node-version: ${{ matrix.node-version }}
-
-            - name: Update system
-              run: sudo apt-get update -y
-
-            - name: Install xsel & postgresql-client
-              run: sudo apt-get install -q xsel postgresql-client
-
-            - name: Install and build packages
-              run: yarn setup
-
-            - name: Create .core/database directory
-              run: mkdir -p $HOME/.core/database
-
-            - name: TEST
-              run: |
-                  cd protokol/packages/nft-exchange-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-bid.test.ts
-
-    functional-bid-cancel-transactions:
-        name: BID-CANCEL TEST
-        runs-on: ubuntu-latest
-        services:
-            postgres:
-                image: postgres:12
-                env:
-                    POSTGRES_USER: ark
-                    POSTGRES_PASSWORD: password
-                    POSTGRES_DB: ark_unitnet
-                ports:
-                    - 5432:5432
-                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
-        strategy:
-            matrix:
-                node-version: [12.x]
-        env:
-            CORE_DB_DATABASE: ark_unitnet
-            CORE_DB_USERNAME: ark
-            POSTGRES_USER: ark
-            POSTGRES_PASSWORD: password
-            POSTGRES_DB: ark_unitnet
-
-        steps:
-            - name: Checkout Protokol NFT-CORE
-              uses: actions/checkout@v2
-              with:
-                  repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
-                  ref: conf/nft-token-develop
-
-            - name: Checkout protokol/nft-plugins
-              uses: actions/checkout@v2
-              with:
-                  path: protokol/
-
-            - name: Cache node modules
-              uses: actions/cache@v2
-              id: yarn-cache
-              with:
-                  path: node_modules
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-                  restore-keys: ${{ runner.os }}-yarn-
-
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
-              with:
-                  node-version: ${{ matrix.node-version }}
-
-            - name: Update system
-              run: sudo apt-get update -y
-
-            - name: Install xsel & postgresql-client
-              run: sudo apt-get install -q xsel postgresql-client
-
-            - name: Install and build packages
-              run: yarn setup
-
-            - name: Create .core/database directory
-              run: mkdir -p $HOME/.core/database
-
-            - name: TEST
-              run: |
-                  cd protokol/packages/nft-exchange-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-bid-cancel.test.ts
-
-    functional-accept-trade-transactions:
-        name: ACCEPT-TRADE TEST
-        runs-on: ubuntu-latest
-        services:
-            postgres:
-                image: postgres:12
-                env:
-                    POSTGRES_USER: ark
-                    POSTGRES_PASSWORD: password
-                    POSTGRES_DB: ark_unitnet
-                ports:
-                    - 5432:5432
-                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
-        strategy:
-            matrix:
-                node-version: [12.x]
-        env:
-            CORE_DB_DATABASE: ark_unitnet
-            CORE_DB_USERNAME: ark
-            POSTGRES_USER: ark
-            POSTGRES_PASSWORD: password
-            POSTGRES_DB: ark_unitnet
-
-        steps:
-            - name: Checkout Protokol NFT-CORE
-              uses: actions/checkout@v2
-              with:
-                  repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
-                  ref: conf/nft-token-develop
-
-            - name: Checkout protokol/nft-plugins
-              uses: actions/checkout@v2
-              with:
-                  path: protokol/
-
-            - name: Cache node modules
-              uses: actions/cache@v2
-              id: yarn-cache
-              with:
-                  path: node_modules
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-                  restore-keys: ${{ runner.os }}-yarn-
-
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
-              with:
-                  node-version: ${{ matrix.node-version }}
-
-            - name: Update system
-              run: sudo apt-get update -y
-
-            - name: Install xsel & postgresql-client
-              run: sudo apt-get install -q xsel postgresql-client
-
-            - name: Install and build packages
-              run: yarn setup
-
-            - name: Create .core/database directory
-              run: mkdir -p $HOME/.core/database
-
-            - name: TEST
-              run: |
-                  cd protokol/packages/nft-exchange-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-accept-trade.test.ts
+                  yarn test:functional:coverage --coverageDirectory .coverage/functional-exchange
 
     api-integration:
         name: INTEGRATION API TESTS
@@ -708,7 +224,6 @@ jobs:
               uses: actions/checkout@v2
               with:
                   repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
                   ref: conf/nft-token-develop
 
             - name: Checkout protokol/nft-plugins
@@ -731,9 +246,6 @@ jobs:
 
             - name: Update system
               run: sudo apt-get update -y
-
-            - name: Install xsel & postgresql-client
-              run: sudo apt-get install -q xsel postgresql-client
 
             - name: Install and build packages
               run: yarn setup
