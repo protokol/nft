@@ -62,13 +62,11 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         AppUtils.assert.defined<NFTInterfaces.NFTCollectionAsset>(transaction.data.asset?.nftCollection);
         const nftCollectionAsset: NFTInterfaces.NFTCollectionAsset = transaction.data.asset.nftCollection;
 
-        if (nftCollectionAsset.jsonSchema) {
-            const ajv = new Ajv({
-                allErrors: true,
-            });
-            if (!ajv.validateSchema(nftCollectionAsset.jsonSchema)) {
-                throw new NFTBaseInvalidAjvSchemaError();
-            }
+        const ajv = new Ajv({
+            allErrors: true,
+        });
+        if (!ajv.validateSchema(nftCollectionAsset.jsonSchema)) {
+            throw new NFTBaseInvalidAjvSchemaError();
         }
 
         const authorizedRegistrators = this.configuration.get<string[]>("authorizedRegistrators");
@@ -84,7 +82,8 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
     ): Promise<void> {
         await super.applyToSender(transaction, customWalletRepository);
 
-        AppUtils.assert.defined<NFTInterfaces.NFTCollectionAsset>(transaction.data.asset?.nftCollection);
+        // Line is already checked inside throwIfCannotBeApplied run by super.applyToSender method
+        //AppUtils.assert.defined<NFTInterfaces.NFTCollectionAsset>(transaction.data.asset?.nftCollection);
         AppUtils.assert.defined<string>(transaction.data.id);
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
 
@@ -92,7 +91,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
 
         const senderWallet: Contracts.State.Wallet = walletRepository.findByPublicKey(transaction.data.senderPublicKey);
 
-        const collectionAsset: NFTInterfaces.NFTCollectionAsset = transaction.data.asset.nftCollection;
+        const collectionAsset: NFTInterfaces.NFTCollectionAsset = transaction.data.asset!.nftCollection;
         const collectionsWallet = senderWallet.getAttribute<INFTCollections>("nft.base.collections", {});
 
         collectionsWallet[transaction.data.id] = {

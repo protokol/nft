@@ -1,12 +1,6 @@
 import { Errors } from "@arkecosystem/core-transactions";
 
 // NFTRegisterSchema transaction errors
-export class NFTBaseJsonSchemaParseError extends Errors.TransactionError {
-    public constructor() {
-        super(`Failed to apply transaction, because an error occurred while parsing schema object.`);
-    }
-}
-
 export class NFTBaseInvalidAjvSchemaError extends Errors.TransactionError {
     public constructor() {
         super(`Failed to apply transaction, because of invalid ajv json schema.`);
