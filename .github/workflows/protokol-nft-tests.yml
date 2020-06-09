@@ -130,7 +130,7 @@ jobs:
             - name: Create .core/database directory
               run: mkdir -p $HOME/.core/database
 
-            - name: TEST
+            - name: TEST FUNCTIONAL BASE-TRANSACTIONS
               run: |
                   cd protokol/packages/nft-base-transactions
                   yarn test:functional:coverage --coverageDirectory .coverage/functional-base
@@ -190,7 +190,7 @@ jobs:
             - name: Create .core/database directory
               run: mkdir -p $HOME/.core/database
 
-            - name: TEST
+            - name: TEST FUNCTIONAL EXCHANGE-TRANSACTIONS
               run: |
                   cd protokol/packages/nft-exchange-transactions
                   yarn test:functional:coverage --coverageDirectory .coverage/functional-exchange
