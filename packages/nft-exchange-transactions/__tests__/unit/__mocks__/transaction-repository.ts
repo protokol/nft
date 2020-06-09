@@ -2,6 +2,7 @@ import { ITransaction } from "@arkecosystem/crypto/src/interfaces";
 
 let mockTransaction: ITransaction | null;
 let mockTransactions: ITransaction[] = [];
+let mockFindByIds: ITransaction[] = [];
 
 export const setMockTransaction = (transaction: ITransaction | null) => {
     mockTransaction = transaction;
@@ -9,6 +10,10 @@ export const setMockTransaction = (transaction: ITransaction | null) => {
 
 export const setMockTransactions = (transactions: ITransaction[]) => {
     mockTransactions = transactions;
+};
+
+export const setMockFindByIds = (transactions: ITransaction[]) => {
+    mockFindByIds = transactions;
 };
 
 export const transactionRepository = {
@@ -20,7 +25,8 @@ export const transactionRepository = {
         return trx?.data;
     },
     findByIds: async () => {
-        return mockTransaction ? [mockTransaction.data] : [];
+        const mocks = mockFindByIds.map((mock) => mock.data);
+        return mockFindByIds ? mocks : [];
     },
     findByType: async () => {
         return mockTransaction ? [mockTransaction.data] : [];

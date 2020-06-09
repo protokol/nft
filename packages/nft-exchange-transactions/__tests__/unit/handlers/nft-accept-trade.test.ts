@@ -12,7 +12,7 @@ import { INFTTokens } from "@protokol/nft-base-transactions/src/interfaces";
 import { Enums } from "@protokol/nft-exchange-crypto";
 import { Builders as NFTBuilders } from "@protokol/nft-exchange-crypto";
 
-import { setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
+import { setMockFindByIds, setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
 import { buildWallet, initApp } from "../__support__/app";
 import {
     NFTExchangeAcceptTradeAuctionCanceled,
@@ -110,6 +110,7 @@ describe("NFT Accept trade tests", () => {
             walletRepository.index(wallet);
 
             setMockTransactions([actualAuction, actualBid]);
+            setMockFindByIds([actualBid]);
             setMockTransaction(actual);
 
             await expect(nftAcceptTradeHandler.bootstrap()).toResolve();
@@ -143,6 +144,8 @@ describe("NFT Accept trade tests", () => {
 
             const secondWallet = buildWallet(app, passphrases[1]);
             walletRepository.index(secondWallet);
+            secondWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.make("100"));
+
             const actualBid = new NFTBuilders.NFTBidBuilder()
                 .NFTBidAsset({
                     // @ts-ignore
@@ -172,6 +175,7 @@ describe("NFT Accept trade tests", () => {
             walletRepository.index(wallet);
 
             setMockTransactions([actualAuction, actualBid]);
+            setMockFindByIds([actualBid]);
             setMockTransaction(actual);
             await expect(nftAcceptTradeHandler.bootstrap()).toResolve();
             expect(
@@ -181,6 +185,9 @@ describe("NFT Accept trade tests", () => {
                 ),
             ).toStrictEqual(secondWallet);
             expect(wallet.balance).toStrictEqual(Utils.BigNumber.make("7527654410"));
+            expect(secondWallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
+                Utils.BigNumber.ZERO,
+            );
         });
     });
 
@@ -462,6 +469,7 @@ describe("NFT Accept trade tests", () => {
             walletRepository.index(wallet);
 
             setMockTransactions([actualAuction, actualBid]);
+            setMockFindByIds([actualBid]);
 
             await expect(nftAcceptTradeHandler.apply(actual, walletRepository)).toResolve();
 
@@ -494,6 +502,8 @@ describe("NFT Accept trade tests", () => {
 
             const secondWallet = buildWallet(app, passphrases[1]);
             walletRepository.index(secondWallet);
+            secondWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.make("100"));
+
             const actualBid = new NFTBuilders.NFTBidBuilder()
                 .NFTBidAsset({
                     // @ts-ignore
@@ -524,6 +534,7 @@ describe("NFT Accept trade tests", () => {
             walletRepository.index(wallet);
 
             setMockTransactions([actualAuction, actualBid]);
+            setMockFindByIds([actualBid]);
             setMockTransaction(actual);
 
             await expect(nftAcceptTradeHandler.apply(actual, walletRepository)).toResolve();
@@ -534,6 +545,10 @@ describe("NFT Accept trade tests", () => {
                 ),
             ).toStrictEqual(secondWallet);
             expect(wallet.balance).toStrictEqual(Utils.BigNumber.make("7027654410"));
+
+            expect(secondWallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
+                Utils.BigNumber.ZERO,
+            );
         });
     });
 
@@ -586,6 +601,7 @@ describe("NFT Accept trade tests", () => {
             walletRepository.index(wallet);
 
             setMockTransactions([actualAuction, actualBid]);
+            setMockFindByIds([actualBid]);
 
             await nftAcceptTradeHandler.apply(actual, walletRepository);
 
