@@ -7,16 +7,16 @@ import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import Ajv from "ajv";
 
 import {
-    NFTBaseMaximumSupplyError,
     NFTBaseCollectionDoesNotExists,
+    NFTBaseMaximumSupplyError,
     NFTBaseSchemaDoesNotMatch,
     NFTBaseSenderPublicKeyDoesNotExists,
 } from "../errors";
 import { NFTApplicationEvents } from "../events";
 import { INFTCollections, INFTTokens } from "../interfaces";
 import { NFTIndexers } from "../wallet-indexes";
-import { NFTRegisterCollectionHandler } from "./nft-register-collection";
 import { NFTBaseTransactionHandler } from "./nft-base-handler";
+import { NFTRegisterCollectionHandler } from "./nft-register-collection";
 
 @Container.injectable()
 export class NFTCreateHandler extends NFTBaseTransactionHandler {
@@ -109,7 +109,8 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
 
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
         AppUtils.assert.defined<string>(transaction.data.id);
-        AppUtils.assert.defined<NFTInterfaces.NFTTokenAsset>(transaction.data.asset?.nftToken);
+        // Line is already checked inside throwIfCannotBeApplied run by super.applyToSender method
+        //AppUtils.assert.defined<NFTInterfaces.NFTTokenAsset>(transaction.data.asset?.nftToken);
 
         const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
 
@@ -120,7 +121,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         sender.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
         walletRepository.index(sender);
 
-        const collectionId = transaction.data.asset.nftToken.collectionId;
+        const collectionId = transaction.data.asset!.nftToken.collectionId;
         const genesisWallet = walletRepository.findByIndex(NFTIndexers.CollectionIndexer, collectionId);
         const genesisWalletCollection = genesisWallet.getAttribute<INFTCollections>("nft.base.collections");
         genesisWalletCollection[collectionId].currentSupply += 1;

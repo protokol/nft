@@ -19,10 +19,10 @@ import {
     NFTBaseSchemaDoesNotMatch,
     NFTBaseSenderPublicKeyDoesNotExists,
 } from "../../../src/errors";
+import { NFTApplicationEvents } from "../../../src/events";
 import { INFTCollections, INFTTokens } from "../../../src/interfaces";
 import { NFTIndexers } from "../../../src/wallet-indexes";
 import { collectionWalletCheck, deregisterTransactions } from "../utils/utils";
-import { NFTApplicationEvents } from "../../../src/events";
 
 let app: Application;
 
@@ -168,6 +168,29 @@ describe("NFT Create tests", () => {
             await expect(nftCreateHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).toResolve();
         });
 
+        it("should not throw if it is allowed issuer", async () => {
+            const collectionsWallet = wallet.getAttribute<INFTCollections>("nft.base.collections", {});
+            collectionsWallet["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {
+                currentSupply: 0,
+                nftCollectionAsset: {
+                    ...nftCollectionAsset,
+                    allowedIssuers: [Identities.PublicKey.fromPassphrase(passphrases[0])],
+                },
+            };
+            wallet.setAttribute("nft.base.collections", collectionsWallet);
+
+            await expect(nftCreateHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).toResolve();
+        });
+
+        it("should throw if nftToken is undefined", async () => {
+            const undefinedTokenInTransaction = { ...actual };
+            undefinedTokenInTransaction.data.asset = undefined;
+
+            await expect(
+                nftCreateHandler.throwIfCannotBeApplied(undefinedTokenInTransaction, wallet, walletRepository),
+            ).toReject();
+        });
+
         it("should throw NFTMaximumSupplyError", async () => {
             const collectionsWallet = wallet.getAttribute<INFTCollections>("nft.base.collections", {});
             collectionsWallet["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {
@@ -217,6 +240,7 @@ describe("NFT Create tests", () => {
                 nftCreateHandler.throwIfCannotBeApplied(actual, wallet, walletRepository),
             ).rejects.toThrowError(NFTBaseSchemaDoesNotMatch);
         });
+
         it("should throw NFTSenderPublicKeyDoesNotExists", async () => {
             const collectionsWallet = wallet.getAttribute<INFTCollections>("nft.base.collections", {});
             collectionsWallet["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {
@@ -297,6 +321,10 @@ describe("NFT Create tests", () => {
             // @ts-ignore
             expect(walletRepository.findByIndex(NFTIndexers.NFTTokenIndexer, actual.id)).toStrictEqual(wallet);
         });
+
+        it("should test apply method with undefined wallet repository", async () => {
+            await expect(nftCreateHandler.apply(actual, undefined)).toResolve();
+        });
     });
 
     describe("revert tests", () => {
@@ -315,6 +343,18 @@ describe("NFT Create tests", () => {
 
             // @ts-ignore
             expect(walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).get(actual.id)).toBeUndefined();
+        });
+
+        it("should throw if nftToken is undefined", async () => {
+            await nftCreateHandler.apply(actual, walletRepository);
+            actual.data.asset = undefined;
+            await expect(nftCreateHandler.revert(actual, walletRepository)).toReject();
+        });
+
+        it("should test revert method with undefined wallet repository", async () => {
+            await nftCreateHandler.apply(actual, walletRepository);
+
+            await expect(nftCreateHandler.revert(actual, undefined)).toResolve();
         });
     });
 });
