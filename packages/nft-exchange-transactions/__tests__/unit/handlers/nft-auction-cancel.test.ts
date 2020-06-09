@@ -11,7 +11,7 @@ import { Transactions, Utils } from "@arkecosystem/crypto";
 import { Enums } from "@protokol/nft-exchange-crypto";
 import { Builders as NFTBuilders } from "@protokol/nft-exchange-crypto";
 
-import { setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
+import { setMockFindByIds, setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
 import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { NFTExchangeAuctionCancelCannotCancel } from "../../../src/errors";
 import { NFTExchangeApplicationEvents } from "../../../src/events";
@@ -113,6 +113,7 @@ describe("NFT Auction Cancel tests", () => {
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
             walletRepository.index(wallet);
             setMockTransactions([actualBid]);
+            setMockFindByIds([actualBid]);
 
             await expect(nftCancelSellHandler.bootstrap()).toResolve();
 
@@ -303,6 +304,8 @@ describe("NFT Auction Cancel tests", () => {
                 .sign(passphrases[0])
                 .build();
             setMockTransactions([actualBid]);
+            setMockFindByIds([actualBid]);
+
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             auctionsAsset["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {
                 nftIds: ["cd853bc1e0f4d43397df80bb6fb474a9473345cbcf409efa6d88952491efde4d"],
@@ -405,6 +408,7 @@ describe("NFT Auction Cancel tests", () => {
                 .sign(passphrases[0])
                 .build();
             setMockTransactions([actualAuction, actualBid]);
+            setMockFindByIds([actualBid]);
 
             transactionHistoryService.findManyByCriteria.mockResolvedValueOnce([actualBid.data]);
 
@@ -482,6 +486,7 @@ describe("NFT Auction Cancel tests", () => {
                 .sign(passphrases[0])
                 .build();
             setMockTransactions([actualAuction, actualBid, actualCancelBid]);
+            setMockFindByIds([actualBid]);
 
             transactionHistoryService.findManyByCriteria.mockResolvedValueOnce([actualBid.data]);
             transactionHistoryService.findOneByCriteria.mockResolvedValueOnce([actualCancelBid.data]);
