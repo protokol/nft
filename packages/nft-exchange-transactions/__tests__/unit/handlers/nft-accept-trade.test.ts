@@ -143,6 +143,8 @@ describe("NFT Accept trade tests", () => {
 
             const secondWallet = buildWallet(app, passphrases[1]);
             walletRepository.index(secondWallet);
+            secondWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.make("100"));
+
             const actualBid = new NFTBuilders.NFTBidBuilder()
                 .NFTBidAsset({
                     // @ts-ignore
@@ -181,6 +183,9 @@ describe("NFT Accept trade tests", () => {
                 ),
             ).toStrictEqual(secondWallet);
             expect(wallet.balance).toStrictEqual(Utils.BigNumber.make("7527654410"));
+            expect(secondWallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
+                Utils.BigNumber.ZERO,
+            );
         });
     });
 
@@ -494,6 +499,8 @@ describe("NFT Accept trade tests", () => {
 
             const secondWallet = buildWallet(app, passphrases[1]);
             walletRepository.index(secondWallet);
+            secondWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.make("100"));
+
             const actualBid = new NFTBuilders.NFTBidBuilder()
                 .NFTBidAsset({
                     // @ts-ignore
@@ -534,6 +541,10 @@ describe("NFT Accept trade tests", () => {
                 ),
             ).toStrictEqual(secondWallet);
             expect(wallet.balance).toStrictEqual(Utils.BigNumber.make("7027654410"));
+
+            expect(secondWallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
+                Utils.BigNumber.ZERO,
+            );
         });
     });
 
