@@ -16,7 +16,7 @@ import { buildWallet, initApp } from "../__support__/app";
 import {
     NFTBaseBurnCannotBeApplied,
     NFTBaseBurnNFTIsOnAuction,
-    NFTBaseBurnWalletDoesntOwnSpecifiedNftToken,
+    NFTBaseBurnWalletDoesntOwnSpecifiedToken,
 } from "../../../src/errors";
 import { NFTApplicationEvents } from "../../../src/events";
 import { INFTCollections, INFTTokens } from "../../../src/interfaces";
@@ -192,7 +192,7 @@ describe("NFT Burn tests", () => {
             const actual = buildActualBurn("05187f38e583cd9ca285bd9ee48af41d04af0f432410ef110ceb87212f4a49aa");
 
             await expect(nftBurnHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).rejects.toThrowError(
-                NFTBaseBurnWalletDoesntOwnSpecifiedNftToken,
+                NFTBaseBurnWalletDoesntOwnSpecifiedToken,
             );
         });
 

@@ -8,7 +8,7 @@ import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import {
     NFTBaseBurnCannotBeApplied,
     NFTBaseBurnNFTIsOnAuction,
-    NFTBaseBurnWalletDoesntOwnSpecifiedNftToken,
+    NFTBaseBurnWalletDoesntOwnSpecifiedToken,
 } from "../errors";
 import { NFTApplicationEvents } from "../events";
 import { INFTCollections, INFTTokens } from "../interfaces";
@@ -77,7 +77,7 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
         }
         const nftBaseWalletAsset = wallet.getAttribute<INFTTokens>("nft.base.tokenIds");
         if (!nftBaseWalletAsset[nftBurnAsset.nftId]) {
-            throw new NFTBaseBurnWalletDoesntOwnSpecifiedNftToken();
+            throw new NFTBaseBurnWalletDoesntOwnSpecifiedToken();
         }
 
         const auctionsWalletAsset = wallet.getAttribute("nft.exchange.auctions", {});
