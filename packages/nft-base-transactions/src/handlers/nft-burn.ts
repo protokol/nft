@@ -5,7 +5,11 @@ import { Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 
-import { NFTBaseBurnCannotBeApplied, NFTBaseBurnWalletDoesntOwnSpecifiedNftToken } from "../errors";
+import {
+    NFTBaseBurnCannotBeApplied,
+    NFTBaseBurnNFTIsOnAuction,
+    NFTBaseBurnWalletDoesntOwnSpecifiedNftToken,
+} from "../errors";
 import { NFTApplicationEvents } from "../events";
 import { INFTCollections, INFTTokens } from "../interfaces";
 import { NFTIndexers } from "../wallet-indexes";
@@ -74,6 +78,17 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
         const nftBaseWalletAsset = wallet.getAttribute<INFTTokens>("nft.base.tokenIds");
         if (!nftBaseWalletAsset[nftBurnAsset.nftId]) {
             throw new NFTBaseBurnWalletDoesntOwnSpecifiedNftToken();
+        }
+
+        const auctionsWalletAsset = wallet.getAttribute("nft.exchange.auctions", {});
+
+        for (const auction of Object.keys(auctionsWalletAsset)) {
+            if (
+                auctionsWalletAsset.hasOwnProperty(auction) &&
+                auctionsWalletAsset[auction].nftIds.includes(nftBurnAsset.nftId)
+            ) {
+                throw new NFTBaseBurnNFTIsOnAuction();
+            }
         }
         return super.throwIfCannotBeApplied(transaction, wallet, customWalletRepository);
     }

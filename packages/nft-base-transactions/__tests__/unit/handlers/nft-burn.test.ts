@@ -13,7 +13,11 @@ import { Builders as NFTBuilders } from "@protokol/nft-base-crypto";
 
 import { setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
 import { buildWallet, initApp } from "../__support__/app";
-import { NFTBaseBurnCannotBeApplied, NFTBaseBurnWalletDoesntOwnSpecifiedNftToken } from "../../../src/errors";
+import {
+    NFTBaseBurnCannotBeApplied,
+    NFTBaseBurnNFTIsOnAuction,
+    NFTBaseBurnWalletDoesntOwnSpecifiedNftToken,
+} from "../../../src/errors";
 import { NFTApplicationEvents } from "../../../src/events";
 import { INFTCollections, INFTTokens } from "../../../src/interfaces";
 import { NFTIndexers } from "../../../src/wallet-indexes";
@@ -190,6 +194,42 @@ describe("NFT Burn tests", () => {
             await expect(nftBurnHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).rejects.toThrowError(
                 NFTBaseBurnWalletDoesntOwnSpecifiedNftToken,
             );
+        });
+
+        it("should throw because nft is on auction", async () => {
+            const tokensWallet = wallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
+            tokensWallet["05187f38e583cd9ca285bd9ee48af41d04af0f432410ef110ceb87212f4a49aa"] = {};
+            wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
+
+            const nftExchangeWalletAsset = wallet.getAttribute("nft.exchange.auctions", {});
+            nftExchangeWalletAsset["7259d7a1268e862caa1ea090c1ab4c80f58378ad8fff1de89bd9e24a38ce4674"] = {
+                nftIds: ["05187f38e583cd9ca285bd9ee48af41d04af0f432410ef110ceb87212f4a49aa"],
+                bids: [],
+            };
+            wallet.setAttribute("nft.exchange.auctions", nftExchangeWalletAsset);
+
+            const actual = buildActualBurn("05187f38e583cd9ca285bd9ee48af41d04af0f432410ef110ceb87212f4a49aa");
+
+            await expect(nftBurnHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).rejects.toThrowError(
+                NFTBaseBurnNFTIsOnAuction,
+            );
+        });
+
+        it("should not throw if cannot find nft", async () => {
+            const tokensWallet = wallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
+            tokensWallet["05187f38e583cd9ca285bd9ee48af41d04af0f432410ef110ceb87212f4a49aa"] = {};
+            wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
+
+            const nftExchangeWalletAsset = wallet.getAttribute("nft.exchange.auctions", {});
+            nftExchangeWalletAsset["7259d7a1268e862caa1ea090c1ab4c80f58378ad8fff1de89bd9e24a38ce4674"] = {
+                nftIds: [],
+                bids: [],
+            };
+            wallet.setAttribute("nft.exchange.auctions", nftExchangeWalletAsset);
+
+            const actual = buildActualBurn("05187f38e583cd9ca285bd9ee48af41d04af0f432410ef110ceb87212f4a49aa");
+
+            await expect(nftBurnHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).toResolve();
         });
     });
 
