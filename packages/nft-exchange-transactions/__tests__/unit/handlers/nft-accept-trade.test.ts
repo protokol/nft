@@ -4,6 +4,7 @@ import { Application, Contracts } from "@arkecosystem/core-kernel";
 import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { Wallets } from "@arkecosystem/core-state";
 import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
+import { Mempool } from "@arkecosystem/core-transaction-pool";
 import { TransactionHandler } from "@arkecosystem/core-transactions/src/handlers";
 import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
 import { Transactions, Utils } from "@arkecosystem/crypto";
@@ -13,7 +14,7 @@ import { Enums } from "@protokol/nft-exchange-crypto";
 import { Builders as NFTBuilders } from "@protokol/nft-exchange-crypto";
 
 import { setMockFindByIds, setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
-import { buildWallet, initApp } from "../__support__/app";
+import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import {
     NFTExchangeAcceptTradeAuctionCanceled,
     NFTExchangeAcceptTradeAuctionDoesNotExists,
@@ -23,7 +24,7 @@ import {
 } from "../../../src/errors";
 import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
-import { deregisterTransactions } from "../utils";
+import { buildActualAuction, buildActualBid, deregisterTransactions } from "../utils";
 
 let app: Application;
 
@@ -67,27 +68,14 @@ describe("NFT Accept trade tests", () => {
 
             walletRepository.index(wallet);
 
-            const actualAuction = new NFTBuilders.NFTAuctionBuilder()
-                .NFTAuctionAsset({
-                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    startAmount: Utils.BigNumber.make("1"),
-                    expiration: {
-                        blockHeight: 1,
-                    },
-                })
-                .nonce("1")
-                .sign(passphrases[0])
-                .build();
+            const actualAuction = buildActualAuction({ blockHeight: 1 });
+            const actualBid = buildActualBid({ auctionId: actualAuction.id!, bidAmount: 100 });
 
-            const actualBid = new NFTBuilders.NFTBidBuilder()
-                .NFTBidAsset({
-                    // @ts-ignore
-                    auctionId: actualAuction.data.id,
-                    bidAmount: Utils.BigNumber.make("100"),
-                })
-                .nonce("1")
-                .sign(passphrases[0])
-                .build();
+            const actualBidTwo = buildActualBid({
+                auctionId: actualAuction.id!,
+                bidAmount: 100,
+                passphrase: passphrases[1],
+            });
 
             const actual = new NFTBuilders.NftAcceptTradeBuilder()
                 .NFTAcceptTradeAsset({
@@ -103,14 +91,14 @@ describe("NFT Accept trade tests", () => {
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             // @ts-ignore
             auctionsAsset[actualAuction.id] = {
-                nftId: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
+                nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                 bids: [actualBid.id],
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
             walletRepository.index(wallet);
 
-            setMockTransactions([actualAuction, actualBid]);
-            setMockFindByIds([actualBid]);
+            setMockTransactions([actualAuction, actualBid, actualBidTwo]);
+            setMockFindByIds([actualBid, actualBidTwo]);
             setMockTransaction(actual);
 
             await expect(nftAcceptTradeHandler.bootstrap()).toResolve();
@@ -130,37 +118,22 @@ describe("NFT Accept trade tests", () => {
 
             walletRepository.index(wallet);
 
-            const actualAuction = new NFTBuilders.NFTAuctionBuilder()
-                .NFTAuctionAsset({
-                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    startAmount: Utils.BigNumber.make("1"),
-                    expiration: {
-                        blockHeight: 1,
-                    },
-                })
-                .nonce("1")
-                .sign(passphrases[0])
-                .build();
-
+            const actualAuction = buildActualAuction({ blockHeight: 1 });
             const secondWallet = buildWallet(app, passphrases[1]);
             walletRepository.index(secondWallet);
             secondWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.make("100"));
 
-            const actualBid = new NFTBuilders.NFTBidBuilder()
-                .NFTBidAsset({
-                    // @ts-ignore
-                    auctionId: actualAuction.data.id,
-                    bidAmount: Utils.BigNumber.make("100"),
-                })
-                .nonce("1")
-                .sign(passphrases[1])
-                .build();
+            const actualBid = buildActualBid({
+                auctionId: actualAuction.id!,
+                bidAmount: 100,
+                passphrase: passphrases[1],
+            });
 
             const actual = new NFTBuilders.NftAcceptTradeBuilder()
                 .NFTAcceptTradeAsset({
                     // @ts-ignore
                     auctionId: actualAuction.data.id,
-                    bidId: actualBid.data.id,
+                    bidId: actualBid.id!,
                 })
                 .nonce("1")
                 .sign(passphrases[0])
@@ -168,7 +141,7 @@ describe("NFT Accept trade tests", () => {
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             // @ts-ignore
             auctionsAsset[actualAuction.id] = {
-                nftId: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
+                nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                 bids: [actualBid.id],
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
@@ -193,27 +166,8 @@ describe("NFT Accept trade tests", () => {
 
     describe("throwIfCannotBeApplied tests", () => {
         it("should not throw", async () => {
-            const actualAuction = new NFTBuilders.NFTAuctionBuilder()
-                .NFTAuctionAsset({
-                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    startAmount: Utils.BigNumber.make("1"),
-                    expiration: {
-                        blockHeight: 1,
-                    },
-                })
-                .nonce("1")
-                .sign(passphrases[0])
-                .build();
-
-            const actualBid = new NFTBuilders.NFTBidBuilder()
-                .NFTBidAsset({
-                    // @ts-ignore
-                    auctionId: actualAuction.data.id,
-                    bidAmount: Utils.BigNumber.make("1"),
-                })
-                .nonce("1")
-                .sign(passphrases[0])
-                .build();
+            const actualAuction = buildActualAuction({ blockHeight: 1 });
+            const actualBid = buildActualBid({ auctionId: actualAuction.id! });
 
             const actual = new NFTBuilders.NftAcceptTradeBuilder()
                 .NFTAcceptTradeAsset({
@@ -239,6 +193,20 @@ describe("NFT Accept trade tests", () => {
             setMockTransactions([actualAuction, actualBid]);
 
             await expect(nftAcceptTradeHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).toResolve();
+        });
+
+        it("should throw if nftAcceptTrade is undefined", async () => {
+            const actual = new NFTBuilders.NftAcceptTradeBuilder()
+                .NFTAcceptTradeAsset({
+                    auctionId: "101879d38d914d8e9e7cb05e2153abfbfc48d9ec8193cf245112fc4de3f08e87",
+                    bidId: "738fd7dc9f8d720eedb3dc89908e6310e5d15447bd367963a71dafcddf148283",
+                })
+                .nonce("1")
+                .sign(passphrases[0])
+                .build();
+            actual.data.asset = undefined;
+
+            await expect(nftAcceptTradeHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).toReject();
         });
 
         it("should throw NFTExchangeAcceptTradeWalletCannotTrade", async () => {
@@ -272,15 +240,9 @@ describe("NFT Accept trade tests", () => {
 
         it("should throw NFTExchangeAcceptTradeAuctionDoesNotExists", async () => {
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", {});
-            const actualBid = new NFTBuilders.NFTBidBuilder()
-                .NFTBidAsset({
-                    // @ts-ignore
-                    auctionId: "101879d38d914d8e9e7cb05e2153abfbfc48d9ec8193cf245112fc4de3f08e87",
-                    bidAmount: Utils.BigNumber.make("1"),
-                })
-                .nonce("1")
-                .sign(passphrases[0])
-                .build();
+            const actualBid = buildActualBid({
+                auctionId: "101879d38d914d8e9e7cb05e2153abfbfc48d9ec8193cf245112fc4de3f08e87",
+            });
 
             setMockTransactions([actualBid]);
             const actual = new NFTBuilders.NftAcceptTradeBuilder()
@@ -299,33 +261,15 @@ describe("NFT Accept trade tests", () => {
 
         it("should throw NFTExchangeAcceptTradeAuctionCanceled", async () => {
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", {});
-            const actualAuction = new NFTBuilders.NFTAuctionBuilder()
-                .NFTAuctionAsset({
-                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    startAmount: Utils.BigNumber.make("1"),
-                    expiration: {
-                        blockHeight: 1,
-                    },
-                })
-                .nonce("1")
-                .sign(passphrases[0])
-                .build();
-            const actualBid = new NFTBuilders.NFTBidBuilder()
-                .NFTBidAsset({
-                    // @ts-ignore
-                    auctionId: actualAuction.id,
-                    bidAmount: Utils.BigNumber.make("1"),
-                })
-                .nonce("1")
-                .sign(passphrases[0])
-                .build();
+            const actualAuction = buildActualAuction({ blockHeight: 1 });
+            const actualBid = buildActualBid({ auctionId: actualAuction.id! });
 
             setMockTransactions([actualBid, actualAuction]);
             const actual = new NFTBuilders.NftAcceptTradeBuilder()
                 .NFTAcceptTradeAsset({
                     // @ts-ignore
                     auctionId: actualAuction.id,
-                    bidId: actualBid.id,
+                    bidId: actualBid.id!,
                 })
                 .nonce("1")
                 .sign(passphrases[0])
@@ -336,33 +280,15 @@ describe("NFT Accept trade tests", () => {
         });
 
         it("should throw NFTExchangeAcceptTradeBidCanceled", async () => {
-            const actualAuction = new NFTBuilders.NFTAuctionBuilder()
-                .NFTAuctionAsset({
-                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    startAmount: Utils.BigNumber.make("1"),
-                    expiration: {
-                        blockHeight: 1,
-                    },
-                })
-                .nonce("1")
-                .sign(passphrases[0])
-                .build();
-            const actualBid = new NFTBuilders.NFTBidBuilder()
-                .NFTBidAsset({
-                    // @ts-ignore
-                    auctionId: actualAuction.id,
-                    bidAmount: Utils.BigNumber.make("1"),
-                })
-                .nonce("1")
-                .sign(passphrases[0])
-                .build();
+            const actualAuction = buildActualAuction({ blockHeight: 1 });
+            const actualBid = buildActualBid({ auctionId: actualAuction.id! });
 
             setMockTransactions([actualBid, actualAuction]);
             const actual = new NFTBuilders.NftAcceptTradeBuilder()
                 .NFTAcceptTradeAsset({
                     // @ts-ignore
                     auctionId: actualAuction.id,
-                    bidId: actualBid.id,
+                    bidId: actualBid.id!,
                 })
                 .nonce("1")
                 .sign(passphrases[0])
@@ -394,6 +320,43 @@ describe("NFT Accept trade tests", () => {
                 .sign(passphrases[0])
                 .build();
             await expect(nftAcceptTradeHandler.throwIfCannotEnterPool(actual)).toResolve();
+        });
+
+        it("should throw because transaction for accept trade is already in pool", async () => {
+            const actualAuction = buildActualAuction({ blockHeight: 1 });
+            const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
+            auctionsAsset["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {
+                nftIds: ["cd853bc1e0f4d43397df80bb6fb474a9473345cbcf409efa6d88952491efde4d"],
+                bids: ["738fd7dc9f8d720eedb3dc89908e6310e5d15447bd367963a71dafcddf148283"],
+            };
+
+            const actualBid = buildActualBid({ auctionId: actualAuction.id!, bidAmount: 100 });
+
+            auctionsAsset[actualAuction.id!] = {
+                nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
+                bids: [actualBid.id!],
+            };
+
+            const tokensWallet = wallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
+            tokensWallet["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {};
+            wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
+            wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
+            walletRepository.index(wallet);
+
+            setMockTransactions([actualAuction, actualBid]);
+
+            const actual = new NFTBuilders.NftAcceptTradeBuilder()
+                .NFTAcceptTradeAsset({
+                    auctionId: actualAuction.id!,
+                    bidId: actualBid.id!,
+                })
+                .nonce("1")
+                .sign(passphrases[0])
+                .build();
+
+            await app.get<Mempool>(Identifiers.TransactionPoolMempool).addTransaction(actual);
+
+            await expect(nftAcceptTradeHandler.throwIfCannotEnterPool(actual)).rejects.toThrowError();
         });
     });
 
@@ -427,33 +390,14 @@ describe("NFT Accept trade tests", () => {
             wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
 
             walletRepository.index(wallet);
-            const actualAuction = new NFTBuilders.NFTAuctionBuilder()
-                .NFTAuctionAsset({
-                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    startAmount: Utils.BigNumber.make("1"),
-                    expiration: {
-                        blockHeight: 1,
-                    },
-                })
-                .nonce("1")
-                .sign(passphrases[0])
-                .build();
-
-            const actualBid = new NFTBuilders.NFTBidBuilder()
-                .NFTBidAsset({
-                    // @ts-ignore
-                    auctionId: actualAuction.data.id,
-                    bidAmount: Utils.BigNumber.make("100"),
-                })
-                .nonce("1")
-                .sign(passphrases[0])
-                .build();
+            const actualAuction = buildActualAuction({ blockHeight: 1 });
+            const actualBid = buildActualBid({ auctionId: actualAuction.id!, bidAmount: 100 });
 
             const actual = new NFTBuilders.NftAcceptTradeBuilder()
                 .NFTAcceptTradeAsset({
                     // @ts-ignore
                     auctionId: actualAuction.data.id,
-                    bidId: actualBid.data.id,
+                    bidId: actualBid.id!,
                 })
                 .nonce("1")
                 .sign(passphrases[0])
@@ -488,37 +432,22 @@ describe("NFT Accept trade tests", () => {
             wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
 
             walletRepository.index(wallet);
-            const actualAuction = new NFTBuilders.NFTAuctionBuilder()
-                .NFTAuctionAsset({
-                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    startAmount: Utils.BigNumber.make("1"),
-                    expiration: {
-                        blockHeight: 1,
-                    },
-                })
-                .nonce("1")
-                .sign(passphrases[0])
-                .build();
-
+            const actualAuction = buildActualAuction({ blockHeight: 1 });
             const secondWallet = buildWallet(app, passphrases[1]);
             walletRepository.index(secondWallet);
             secondWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.make("100"));
 
-            const actualBid = new NFTBuilders.NFTBidBuilder()
-                .NFTBidAsset({
-                    // @ts-ignore
-                    auctionId: actualAuction.data.id,
-                    bidAmount: Utils.BigNumber.make("100"),
-                })
-                .nonce("1")
-                .sign(passphrases[1])
-                .build();
+            const actualBid = buildActualBid({
+                auctionId: actualAuction.id!,
+                bidAmount: 100,
+                passphrase: passphrases[1],
+            });
 
             const actual = new NFTBuilders.NftAcceptTradeBuilder()
                 .NFTAcceptTradeAsset({
                     // @ts-ignore
                     auctionId: actualAuction.data.id,
-                    bidId: actualBid.data.id,
+                    bidId: actualBid.id!,
                 })
                 .nonce("1")
                 .sign(passphrases[0])
@@ -559,33 +488,14 @@ describe("NFT Accept trade tests", () => {
             wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
 
             walletRepository.index(wallet);
-            const actualAuction = new NFTBuilders.NFTAuctionBuilder()
-                .NFTAuctionAsset({
-                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    startAmount: Utils.BigNumber.make("1"),
-                    expiration: {
-                        blockHeight: 1,
-                    },
-                })
-                .nonce("1")
-                .sign(passphrases[0])
-                .build();
-
-            const actualBid = new NFTBuilders.NFTBidBuilder()
-                .NFTBidAsset({
-                    // @ts-ignore
-                    auctionId: actualAuction.data.id,
-                    bidAmount: Utils.BigNumber.make("100"),
-                })
-                .nonce("1")
-                .sign(passphrases[0])
-                .build();
+            const actualAuction = buildActualAuction({ blockHeight: 1 });
+            const actualBid = buildActualBid({ auctionId: actualAuction.id!, bidAmount: 100 });
 
             const actual = new NFTBuilders.NftAcceptTradeBuilder()
                 .NFTAcceptTradeAsset({
                     // @ts-ignore
                     auctionId: actualAuction.data.id,
-                    bidId: actualBid.data.id,
+                    bidId: actualBid.id!,
                 })
                 .nonce("1")
                 .sign(passphrases[0])
@@ -602,10 +512,86 @@ describe("NFT Accept trade tests", () => {
 
             setMockTransactions([actualAuction, actualBid]);
             setMockFindByIds([actualBid]);
+            transactionHistoryService.findManyByCriteria.mockResolvedValueOnce([actualBid.data]);
 
             await nftAcceptTradeHandler.apply(actual, walletRepository);
 
             await expect(nftAcceptTradeHandler.revert(actual, walletRepository)).toResolve();
+        });
+
+        it("should throw if nftAcceptTrade is undefined", async () => {
+            const tokensWallet = wallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
+            tokensWallet["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {};
+            wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
+
+            walletRepository.index(wallet);
+            const actualAuction = buildActualAuction({ blockHeight: 1 });
+
+            const actualBid = buildActualBid({ auctionId: actualAuction.id!, bidAmount: 100 });
+
+            const actual = new NFTBuilders.NftAcceptTradeBuilder()
+                .NFTAcceptTradeAsset({
+                    // @ts-ignore
+                    auctionId: actualAuction.data.id,
+                    bidId: actualBid.id!,
+                })
+                .nonce("1")
+                .sign(passphrases[0])
+                .build();
+
+            const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
+            // @ts-ignore
+            auctionsAsset[actualAuction.id] = {
+                nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
+                bids: [actualBid.id],
+            };
+            wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
+            walletRepository.index(wallet);
+
+            setMockTransactions([actualAuction, actualBid]);
+            setMockFindByIds([actualBid]);
+            transactionHistoryService.findManyByCriteria.mockResolvedValueOnce([actualBid.data]);
+
+            await nftAcceptTradeHandler.apply(actual, walletRepository);
+            actual.data.asset = undefined;
+            await expect(nftAcceptTradeHandler.revert(actual, walletRepository)).toReject();
+        });
+
+        it("should test revert method with undefined wallet repository", async () => {
+            const tokensWallet = wallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
+            tokensWallet["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {};
+            wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
+
+            walletRepository.index(wallet);
+            const actualAuction = buildActualAuction({ blockHeight: 1 });
+            const actualBid = buildActualBid({ auctionId: actualAuction.id!, bidAmount: 100 });
+
+            const actual = new NFTBuilders.NftAcceptTradeBuilder()
+                .NFTAcceptTradeAsset({
+                    // @ts-ignore
+                    auctionId: actualAuction.data.id,
+                    bidId: actualBid.id!,
+                })
+                .nonce("1")
+                .sign(passphrases[0])
+                .build();
+
+            const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
+            // @ts-ignore
+            auctionsAsset[actualAuction.id] = {
+                nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
+                bids: [actualBid.id],
+            };
+            wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
+            walletRepository.index(wallet);
+
+            setMockTransactions([actualAuction, actualBid]);
+            setMockFindByIds([actualBid]);
+            transactionHistoryService.findManyByCriteria.mockResolvedValueOnce([actualBid.data]);
+            transactionHistoryService.findOneByCriteria.mockResolvedValueOnce([actual.data]);
+
+            await nftAcceptTradeHandler.apply(actual, walletRepository);
+            await expect(nftAcceptTradeHandler.revert(actual, undefined)).toResolve();
         });
     });
 });

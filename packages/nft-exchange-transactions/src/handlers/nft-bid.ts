@@ -114,12 +114,13 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
     ): Promise<void> {
         await super.applyToSender(transaction, customWalletRepository);
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
-        AppUtils.assert.defined<NFTInterfaces.NFTBidAsset>(transaction.data.asset?.nftBid);
+        // Line is already checked inside throwIfCannotBeApplied run by super.applyToSender method
+        //AppUtils.assert.defined<NFTInterfaces.NFTBidAsset>(transaction.data.asset?.nftBid);
         AppUtils.assert.defined<string>(transaction.data.id);
 
         const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
 
-        const nftBidAsset: NFTInterfaces.NFTBidAsset = transaction.data.asset.nftBid;
+        const nftBidAsset: NFTInterfaces.NFTBidAsset = transaction.data.asset!.nftBid;
 
         const sender: Contracts.State.Wallet = walletRepository.findByPublicKey(transaction.data.senderPublicKey);
         sender.balance = sender.balance.minus(nftBidAsset.bidAmount);
