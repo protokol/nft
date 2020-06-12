@@ -23,7 +23,7 @@ import {
 import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
 import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
-import { buildActualAuction, buildActualBid, deregisterTransactions } from "../utils";
+import { buildAuctionTransaction, buildBidTransaction, deregisterTransactions } from "../utils";
 
 let app: Application;
 
@@ -62,7 +62,7 @@ describe("NFT Bid tests", () => {
     describe("bootstrap tests", () => {
         it("should test bootstrap method", async () => {
             const auctionWallet = buildWallet(app, passphrases[1]);
-            const actualAuction = buildActualAuction({ blockHeight: 5, passphrase: passphrases[1] });
+            const actualAuction = buildAuctionTransaction({ blockHeight: 5, passphrase: passphrases[1] });
             setMockTransactions([actualAuction]);
 
             const auctionsAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
@@ -74,7 +74,7 @@ describe("NFT Bid tests", () => {
             auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
             walletRepository.index(auctionWallet);
 
-            const actual = buildActualBid({ auctionId: actualAuction.id!, bidAmount: 100 });
+            const actual = buildBidTransaction({ auctionId: actualAuction.id!, bidAmount: 100 });
             setMockTransaction(actual);
 
             await expect(nftBidHandler.bootstrap()).toResolve();
@@ -98,7 +98,7 @@ describe("NFT Bid tests", () => {
         });
 
         it("should test bootstrap with the same wallet", async () => {
-            const actualAuction = buildActualAuction({ blockHeight: 5 });
+            const actualAuction = buildAuctionTransaction({ blockHeight: 5 });
             setMockTransactions([actualAuction]);
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             // @ts-ignore
@@ -109,7 +109,7 @@ describe("NFT Bid tests", () => {
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
             walletRepository.index(wallet);
 
-            const actual = buildActualBid({ auctionId: actualAuction.id!, bidAmount: 100 });
+            const actual = buildBidTransaction({ auctionId: actualAuction.id!, bidAmount: 100 });
             setMockTransaction(actual);
 
             await expect(nftBidHandler.bootstrap()).toResolve();
@@ -139,10 +139,10 @@ describe("NFT Bid tests", () => {
             StateStore.prototype.getLastBlock = mockGetLastBlock;
             mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
-            const actualAuction = buildActualAuction({ blockHeight: 57 });
+            const actualAuction = buildAuctionTransaction({ blockHeight: 57 });
             setMockTransactions([actualAuction]);
 
-            const actual = buildActualBid({ auctionId: actualAuction.id! });
+            const actual = buildBidTransaction({ auctionId: actualAuction.id! });
 
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             // @ts-ignore
@@ -157,7 +157,7 @@ describe("NFT Bid tests", () => {
         });
 
         it("should throw if nftBid is undefined", async () => {
-            const actual = buildActualBid({
+            const actual = buildBidTransaction({
                 auctionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
             });
             actual.data.asset = undefined;
@@ -166,7 +166,7 @@ describe("NFT Bid tests", () => {
         });
 
         it("should throw NFTExchangeBidAuctionDoesNotExists", async () => {
-            const actual = buildActualBid({
+            const actual = buildBidTransaction({
                 auctionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
             });
 
@@ -176,10 +176,10 @@ describe("NFT Bid tests", () => {
         });
 
         it("should throw NFTExchangeBidAuctionCanceledOrAccepted", async () => {
-            const actualAuction = buildActualAuction({ blockHeight: 57 });
+            const actualAuction = buildAuctionTransaction({ blockHeight: 57 });
             setMockTransactions([actualAuction]);
 
-            const actual = buildActualBid({ auctionId: actualAuction.id! });
+            const actual = buildBidTransaction({ auctionId: actualAuction.id! });
 
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             // @ts-ignore
@@ -202,10 +202,10 @@ describe("NFT Bid tests", () => {
             StateStore.prototype.getLastBlock = mockGetLastBlock;
             mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
-            const actualAuction = buildActualAuction({ blockHeight: 2 });
+            const actualAuction = buildAuctionTransaction({ blockHeight: 2 });
             setMockTransactions([actualAuction]);
 
-            const actual = buildActualBid({ auctionId: actualAuction.id! });
+            const actual = buildBidTransaction({ auctionId: actualAuction.id! });
 
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             // @ts-ignore
@@ -228,10 +228,10 @@ describe("NFT Bid tests", () => {
             StateStore.prototype.getLastBlock = mockGetLastBlock;
             mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
-            const actualAuction = buildActualAuction({ blockHeight: 57 });
+            const actualAuction = buildAuctionTransaction({ blockHeight: 57 });
             setMockTransactions([actualAuction]);
 
-            const actual = buildActualBid({ auctionId: actualAuction.id!, bidAmount: 7527654311 });
+            const actual = buildBidTransaction({ auctionId: actualAuction.id!, bidAmount: 7527654311 });
 
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             // @ts-ignore
@@ -254,10 +254,10 @@ describe("NFT Bid tests", () => {
             StateStore.prototype.getLastBlock = mockGetLastBlock;
             mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
-            const actualAuction = buildActualAuction({ blockHeight: 57, startAmount: 2 });
+            const actualAuction = buildAuctionTransaction({ blockHeight: 57, startAmount: 2 });
             setMockTransactions([actualAuction]);
 
-            const actual = buildActualBid({ auctionId: actualAuction.id! });
+            const actual = buildBidTransaction({ auctionId: actualAuction.id! });
 
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             // @ts-ignore
@@ -276,7 +276,7 @@ describe("NFT Bid tests", () => {
 
     describe("emitEvents", () => {
         it("should test dispatch", async () => {
-            const actualAuction = buildActualAuction({
+            const actualAuction = buildAuctionTransaction({
                 blockHeight: 5 + defaults.safetyDistance,
             });
 
@@ -302,7 +302,7 @@ describe("NFT Bid tests", () => {
                 StateStore.prototype.getLastBlock = mockGetLastBlock;
                 mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
-                actualAuction = buildActualAuction({
+                actualAuction = buildAuctionTransaction({
                     blockHeight: 5 + defaults.safetyDistance,
                 });
 
@@ -318,7 +318,7 @@ describe("NFT Bid tests", () => {
                 setMockTransactions([actualAuction]);
             });
             it("should apply correctly", async () => {
-                const actual = buildActualBid({ auctionId: actualAuction.id });
+                const actual = buildBidTransaction({ auctionId: actualAuction.id });
                 await expect(nftBidHandler.applyToSender(actual, walletRepository)).toResolve();
 
                 // @ts-ignore
@@ -336,7 +336,7 @@ describe("NFT Bid tests", () => {
             });
 
             it("should test applyToSender method with undefined wallet repository", async () => {
-                const actual = buildActualBid({ auctionId: actualAuction.id });
+                const actual = buildBidTransaction({ auctionId: actualAuction.id });
                 await expect(nftBidHandler.applyToSender(actual, undefined)).toResolve();
             });
         });
@@ -351,7 +351,7 @@ describe("NFT Bid tests", () => {
             StateStore.prototype.getLastBlock = mockGetLastBlock;
             mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
-            actualAuction = buildActualAuction({
+            actualAuction = buildAuctionTransaction({
                 blockHeight: 5 + defaults.safetyDistance,
             });
 
@@ -368,7 +368,7 @@ describe("NFT Bid tests", () => {
         });
 
         it("should revert correctly", async () => {
-            const actual = buildActualBid({ auctionId: actualAuction.id });
+            const actual = buildBidTransaction({ auctionId: actualAuction.id });
 
             await nftBidHandler.applyToSender(actual, walletRepository);
 
@@ -389,7 +389,7 @@ describe("NFT Bid tests", () => {
         });
 
         it("should throw if nftBid is undefined", async () => {
-            const actual = buildActualBid({ auctionId: actualAuction.id });
+            const actual = buildBidTransaction({ auctionId: actualAuction.id });
 
             await nftBidHandler.applyToSender(actual, walletRepository);
             actual.data.asset = undefined;
@@ -397,7 +397,7 @@ describe("NFT Bid tests", () => {
         });
 
         it("should test revertForSender method with undefined wallet repository", async () => {
-            const actual = buildActualBid({ auctionId: actualAuction.id });
+            const actual = buildBidTransaction({ auctionId: actualAuction.id });
 
             await nftBidHandler.apply(actual, walletRepository);
             await expect(nftBidHandler.revert(actual, undefined)).toResolve();

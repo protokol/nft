@@ -17,7 +17,7 @@ import { NFTExchangeAuctionCancelCannotCancel } from "../../../src/errors";
 import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
 import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
-import { buildActualAuction, buildActualBid, deregisterTransactions } from "../utils";
+import { buildAuctionTransaction, buildBidTransaction, deregisterTransactions } from "../utils";
 
 let app: Application;
 
@@ -49,7 +49,7 @@ beforeEach(() => {
     );
     walletRepository.index(wallet);
 
-    actualBid = buildActualBid({
+    actualBid = buildBidTransaction({
         auctionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
         bidAmount: 100,
     });
@@ -342,7 +342,7 @@ describe("NFT Auction Cancel tests", () => {
 
     describe("revert tests", () => {
         it("should revert correctly", async () => {
-            const actualAuction = buildActualAuction({
+            const actualAuction = buildAuctionTransaction({
                 blockHeight: 4,
                 startAmount: 100,
                 nftIds: ["3e1a4b362282b4113d717632b92c939cf689a9919db77c723efba84c6ec0330c"],
@@ -384,7 +384,7 @@ describe("NFT Auction Cancel tests", () => {
         });
 
         it("should revert correctly with bids", async () => {
-            const actualAuction = buildActualAuction({
+            const actualAuction = buildAuctionTransaction({
                 blockHeight: 4,
                 startAmount: 100,
                 nftIds: ["3e1a4b362282b4113d717632b92c939cf689a9919db77c723efba84c6ec0330c"],
@@ -439,7 +439,7 @@ describe("NFT Auction Cancel tests", () => {
         });
 
         it("should revert correctly with bids and cancel bids", async () => {
-            const actualAuction = buildActualAuction({
+            const actualAuction = buildAuctionTransaction({
                 blockHeight: 4,
                 startAmount: 100,
                 nftIds: ["3e1a4b362282b4113d717632b92c939cf689a9919db77c723efba84c6ec0330c"],
@@ -497,7 +497,7 @@ describe("NFT Auction Cancel tests", () => {
         });
 
         it("should throw if nftAuctionCancel is undefined", async () => {
-            const actualAuction = buildActualAuction({ blockHeight: 4, startAmount: 100 });
+            const actualAuction = buildAuctionTransaction({ blockHeight: 4, startAmount: 100 });
             setMockTransactions([actualAuction]);
 
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
@@ -524,7 +524,7 @@ describe("NFT Auction Cancel tests", () => {
         });
 
         it("should test revert method with undefined wallet repository", async () => {
-            const actualAuction = buildActualAuction({ blockHeight: 4, startAmount: 100 });
+            const actualAuction = buildAuctionTransaction({ blockHeight: 4, startAmount: 100 });
             setMockTransactions([actualAuction]);
 
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});

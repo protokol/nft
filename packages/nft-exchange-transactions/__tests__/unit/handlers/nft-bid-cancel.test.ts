@@ -22,7 +22,7 @@ import {
 import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
 import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
-import { buildActualAuction, buildActualBid, deregisterTransactions } from "../utils";
+import { buildAuctionTransaction, buildBidTransaction, deregisterTransactions } from "../utils";
 
 let app: Application;
 
@@ -60,9 +60,9 @@ afterEach(() => {
 describe("NFT Bid Cancel tests", () => {
     describe("bootstrap tests", () => {
         it("should test bootstrap method", async () => {
-            const actualAuction = buildActualAuction({ blockHeight: 4 });
+            const actualAuction = buildAuctionTransaction({ blockHeight: 4 });
 
-            const actualBid = buildActualBid({ auctionId: actualAuction.id! });
+            const actualBid = buildBidTransaction({ auctionId: actualAuction.id! });
             setMockTransactions([actualBid, actualAuction]);
 
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
@@ -136,8 +136,8 @@ describe("NFT Bid Cancel tests", () => {
         });
 
         it("should throw NFTExchangeBidCancelAuctionCanceledOrAccepted", async () => {
-            const actualAuction = buildActualAuction({ blockHeight: 4 });
-            const actualBid = buildActualBid({ auctionId: actualAuction.id! });
+            const actualAuction = buildAuctionTransaction({ blockHeight: 4 });
+            const actualBid = buildBidTransaction({ auctionId: actualAuction.id! });
 
             setMockTransactions([actualAuction, actualBid]);
 
@@ -164,8 +164,8 @@ describe("NFT Bid Cancel tests", () => {
         });
 
         it("should throw NFTExchangeBidCancelBidCanceled", async () => {
-            const actualAuction = buildActualAuction({ blockHeight: 4 });
-            const actualBid = buildActualBid({ auctionId: actualAuction.id! });
+            const actualAuction = buildAuctionTransaction({ blockHeight: 4 });
+            const actualBid = buildBidTransaction({ auctionId: actualAuction.id! });
 
             setMockTransactions([actualAuction, actualBid]);
 
@@ -193,8 +193,8 @@ describe("NFT Bid Cancel tests", () => {
         });
 
         it("should not throw ", async () => {
-            const actualAuction = buildActualAuction({ blockHeight: 4 });
-            const actualBid = buildActualBid({ auctionId: actualAuction.id! });
+            const actualAuction = buildAuctionTransaction({ blockHeight: 4 });
+            const actualBid = buildBidTransaction({ auctionId: actualAuction.id! });
 
             setMockTransactions([actualAuction, actualBid]);
 
@@ -234,8 +234,8 @@ describe("NFT Bid Cancel tests", () => {
         });
 
         it("should throw error", async () => {
-            const actualAuction = buildActualAuction({ blockHeight: 4 });
-            const actualBid = buildActualBid({ auctionId: actualAuction.id! });
+            const actualAuction = buildAuctionTransaction({ blockHeight: 4 });
+            const actualBid = buildBidTransaction({ auctionId: actualAuction.id! });
 
             setMockTransactions([actualAuction, actualBid]);
 
@@ -294,8 +294,8 @@ describe("NFT Bid Cancel tests", () => {
 
     describe("apply tests", () => {
         it("should apply correctly", async () => {
-            const actualAuction = buildActualAuction({ blockHeight: 4 });
-            const actualBid = buildActualBid({ auctionId: actualAuction.id! });
+            const actualAuction = buildAuctionTransaction({ blockHeight: 4 });
+            const actualBid = buildBidTransaction({ auctionId: actualAuction.id! });
 
             setMockTransactions([actualBid, actualAuction]);
 
@@ -346,8 +346,8 @@ describe("NFT Bid Cancel tests", () => {
             StateStore.prototype.getLastBlock = mockGetLastBlock;
             mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
-            actualAuction = buildActualAuction({ blockHeight: 4 });
-            actualBid = buildActualBid({ auctionId: actualAuction.id });
+            actualAuction = buildAuctionTransaction({ blockHeight: 4 });
+            actualBid = buildBidTransaction({ auctionId: actualAuction.id });
 
             setMockTransactions([actualBid, actualAuction]);
 

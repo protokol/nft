@@ -16,7 +16,7 @@ export const deregisterTransactions = () => {
     Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTAcceptTradeTransaction);
 };
 
-export const buildActualAuction = ({
+export const buildAuctionTransaction = ({
     blockHeight,
     passphrase,
     startAmount,
@@ -39,7 +39,7 @@ export const buildActualAuction = ({
         .sign(passphrase || passphrases[0])
         .build();
 
-export const buildActualBid = ({
+export const buildBidTransaction = ({
     auctionId,
     bidAmount,
     nonce,
