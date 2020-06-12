@@ -105,7 +105,7 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
             .whereKind(transaction)
             .wherePredicate((t) => {
                 for (const nftId of nftIds) {
-                    if (t.data.asset?.nftAuction.nftIds.includes(nftId)) {
+                    if (t.data.asset!.nftAuction.nftIds.includes(nftId)) {
                         return true;
                     }
                 }
@@ -130,13 +130,14 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
 
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
         AppUtils.assert.defined<string>(transaction.data.id);
-        AppUtils.assert.defined<NFTExchangeInterfaces.NFTAuctionAsset>(transaction.data.asset?.nftAuction);
+        // Line is already checked inside throwIfCannotBeApplied run by super.applyToSender method
+        //AppUtils.assert.defined<NFTExchangeInterfaces.NFTAuctionAsset>(transaction.data.asset?.nftAuction);
 
         const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
 
         const sender: Contracts.State.Wallet = walletRepository.findByPublicKey(transaction.data.senderPublicKey);
 
-        const nftAuctionAsset: NFTExchangeInterfaces.NFTAuctionAsset = transaction.data.asset.nftAuction;
+        const nftAuctionAsset: NFTExchangeInterfaces.NFTAuctionAsset = transaction.data.asset!.nftAuction;
         const auctionsWalletAsset = sender.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
 
         auctionsWalletAsset[transaction.data.id] = {
