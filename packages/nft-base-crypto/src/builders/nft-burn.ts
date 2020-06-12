@@ -2,7 +2,7 @@ import { Utils } from "@arkecosystem/crypto";
 
 import { NFTBaseTransactionTypes } from "../enums";
 import { NFTBurnAsset } from "../interfaces";
-import { NFTRegisterCollectionTransaction } from "../transactions";
+import { NFTBurnTransaction } from "../transactions";
 import { NFTBaseTransactionBuilder } from "./nft-base-builder";
 
 export class NFTBurnBuilder extends NFTBaseTransactionBuilder<NFTBurnBuilder> {
@@ -10,7 +10,7 @@ export class NFTBurnBuilder extends NFTBaseTransactionBuilder<NFTBurnBuilder> {
         super();
         this.data.type = NFTBaseTransactionTypes.NFTBurn;
         this.data.amount = Utils.BigNumber.ZERO;
-        this.data.fee = NFTRegisterCollectionTransaction.staticFee();
+        this.data.fee = NFTBurnTransaction.staticFee();
         this.data.asset = { nftBurn: {} };
     }
 
