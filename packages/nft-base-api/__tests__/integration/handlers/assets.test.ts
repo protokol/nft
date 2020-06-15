@@ -67,6 +67,7 @@ describe("API - Assets", () => {
             const response = await api.request("GET", "nft/assets");
             expect(response.data.data[0].id).toStrictEqual(nftCreate.id);
             expect(response.data.data[0].ownerPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
+            expect(response.data.data[0].senderPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
             expect(response.data.data[0].collectionId).toStrictEqual(
                 "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
             );
@@ -91,6 +92,7 @@ describe("API - Assets", () => {
 
             expect(response.data.data.id).toStrictEqual(nftCreate.id);
             expect(response.data.data.ownerPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
+            expect(response.data.data.senderPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
             expect(response.data.data.collectionId).toStrictEqual(
                 "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
             );
@@ -139,6 +141,7 @@ describe("API - Assets", () => {
             console.log(response.data.data);
             expect(response.data.data[0].id).toStrictEqual(nftCreate.id);
             expect(response.data.data[0].ownerPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
+            expect(response.data.data[0].senderPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
             expect(response.data.data[0].collectionId).toStrictEqual(
                 "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
             );

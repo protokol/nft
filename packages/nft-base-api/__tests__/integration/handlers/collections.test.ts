@@ -243,6 +243,7 @@ describe("API - Collections", () => {
             expect(response).toBeSuccessfulResponse();
             expect(response.data.data[0].id).toStrictEqual(nftToken.id);
             expect(response.data.data[0].ownerPublicKey).toStrictEqual(nftToken.data.senderPublicKey);
+            expect(response.data.data[0].senderPublicKey).toStrictEqual(nftToken.data.senderPublicKey);
             expect(response.data.data[0].collectionId).toStrictEqual(
                 "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
             );
