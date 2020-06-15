@@ -272,6 +272,7 @@ describe("Test collection controller", () => {
         expect(response.results[0]).toStrictEqual({
             id: actual.id,
             ownerPublicKey: actual.data.senderPublicKey,
+            senderPublicKey: actual.data.senderPublicKey,
             collectionId: "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
             attributes: {
                 number: 5,

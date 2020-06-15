@@ -91,6 +91,7 @@ describe("Test asset controller", () => {
         expect(response.results[0]).toStrictEqual({
             id: actual.id,
             ownerPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]),
+            senderPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]),
             collectionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
             attributes: {
                 name: "card name",
@@ -139,6 +140,7 @@ describe("Test asset controller", () => {
         expect(response.data).toStrictEqual({
             id: actual.id,
             ownerPublicKey: senderWallet.publicKey,
+            senderPublicKey: senderWallet.publicKey,
             collectionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
             attributes: {
                 name: "card name",
@@ -165,6 +167,7 @@ describe("Test asset controller", () => {
         expect(response.results[0]).toStrictEqual({
             id: actual.id,
             ownerPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]),
+            senderPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]),
             collectionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
             attributes: {
                 name: "card name",
