@@ -173,7 +173,6 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
         genesisWallet.setAttribute<INFTCollections>("nft.base.collections", collectionsWallet);
 
         walletRepository.index(sender);
-        walletRepository.index(genesisWallet);
     }
 
     public async applyToRecipient(
