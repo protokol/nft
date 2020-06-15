@@ -8,6 +8,7 @@ import {
     NFTExchangeBidAuctionCanceledOrAccepted,
     NFTExchangeBidAuctionDoesNotExists,
     NFTExchangeBidAuctionExpired,
+    NFTExchangeBidCannotBidOwnItem,
     NFTExchangeBidNotEnoughFounds,
     NFTExchangeBidStartAmountToLow,
 } from "../errors";
@@ -56,6 +57,8 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
             );
             const auctionWallet = this.walletRepository.findByPublicKey(auctionTransaction.senderPublicKey);
 
+            this.checkBiddingOnOwnAuction(auctionWallet, wallet);
+
             const auctionWalletAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions");
             auctionWalletAsset[nftBidAsset.auctionId].bids.push(transaction.id);
             auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
@@ -91,6 +94,8 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
             throw new NFTExchangeBidAuctionCanceledOrAccepted();
         }
 
+        this.checkBiddingOnOwnAuction(auctionWallet, sender);
+
         const lastBlock: Interfaces.IBlock = this.app.get<any>(Container.Identifiers.StateStore).getLastBlock();
         if (lastBlock.data.height >= auctionTransaction.asset.nftAuction.expiration.blockHeight) {
             throw new NFTExchangeBidAuctionExpired();
@@ -114,12 +119,13 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
     ): Promise<void> {
         await super.applyToSender(transaction, customWalletRepository);
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
-        AppUtils.assert.defined<NFTInterfaces.NFTBidAsset>(transaction.data.asset?.nftBid);
+        // Line is already checked inside throwIfCannotBeApplied run by super.applyToSender method
+        //AppUtils.assert.defined<NFTInterfaces.NFTBidAsset>(transaction.data.asset?.nftBid);
         AppUtils.assert.defined<string>(transaction.data.id);
 
         const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
 
-        const nftBidAsset: NFTInterfaces.NFTBidAsset = transaction.data.asset.nftBid;
+        const nftBidAsset: NFTInterfaces.NFTBidAsset = transaction.data.asset!.nftBid;
 
         const sender: Contracts.State.Wallet = walletRepository.findByPublicKey(transaction.data.senderPublicKey);
         sender.balance = sender.balance.minus(nftBidAsset.bidAmount);
@@ -182,4 +188,10 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
         customWalletRepository?: Contracts.State.WalletRepository,
         // tslint:disable-next-line:no-empty
     ): Promise<void> {}
+
+    private checkBiddingOnOwnAuction(auctionWallet: Contracts.State.Wallet, bidWallet: Contracts.State.Wallet): void {
+        if (auctionWallet.publicKey === bidWallet.publicKey) {
+            throw new NFTExchangeBidCannotBidOwnItem();
+        }
+    }
 }

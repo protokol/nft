@@ -64,8 +64,14 @@ export class NFTBaseBurnCannotBeApplied extends Errors.TransactionError {
     }
 }
 
-export class NFTBaseBurnWalletDoesntOwnSpecifiedNftToken extends Errors.TransactionError {
+export class NFTBaseBurnWalletDoesntOwnSpecifiedToken extends Errors.TransactionError {
     public constructor() {
         super(`Failed to apply transaction, because wallet does not own specified nft token.`);
+    }
+}
+
+export class NFTBaseBurnNFTIsOnAuction extends Errors.TransactionError {
+    public constructor() {
+        super(`Failed to apply transaction, because nft is already on auction.`);
     }
 }

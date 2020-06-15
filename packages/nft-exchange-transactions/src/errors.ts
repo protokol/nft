@@ -53,13 +53,19 @@ export class NFTExchangeBidAuctionExpired extends Errors.TransactionError {
 
 export class NFTExchangeBidNotEnoughFounds extends Errors.TransactionError {
     public constructor() {
-        super(`Failed to apply transaction, because wallet doesn't have enough founds.`);
+        super(`Failed to apply transaction, because wallet doesn't have enough funds.`);
     }
 }
 
 export class NFTExchangeBidStartAmountToLow extends Errors.TransactionError {
     public constructor() {
         super(`Failed to apply transaction, because bid amount is to low.`);
+    }
+}
+
+export class NFTExchangeBidCannotBidOwnItem extends Errors.TransactionError {
+    public constructor() {
+        super(`Failed to apply transaction, because it is not allowed to bid on own auction.`);
     }
 }
 

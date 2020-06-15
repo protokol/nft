@@ -76,7 +76,7 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
         customWalletRepository?: Contracts.State.WalletRepository,
     ): Promise<void> {
         AppUtils.assert.defined<NFTInterfaces.NFTBidCancelAsset>(transaction.data.asset?.nftBidCancel);
-        const nftBidCancelAsset = transaction.data.asset?.nftBidCancel;
+        const nftBidCancelAsset = transaction.data.asset.nftBidCancel;
 
         const bidTransaction = await this.transactionRepository.findById(nftBidCancelAsset.bidId);
         if (
@@ -108,7 +108,7 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
         const hasNft: boolean = this.poolQuery
             .getAllBySender(transaction.data.senderPublicKey)
             .whereKind(transaction)
-            .wherePredicate((t) => t.data.asset?.nftBidCancel.bidId === bidId)
+            .wherePredicate((t) => t.data.asset!.nftBidCancel.bidId === bidId)
             .has();
 
         if (hasNft) {
@@ -125,11 +125,12 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
         customWalletRepository?: Contracts.State.WalletRepository,
     ): Promise<void> {
         await super.applyToSender(transaction, customWalletRepository);
-        AppUtils.assert.defined<NFTInterfaces.NFTBidCancelAsset>(transaction.data.asset?.nftBidCancel);
+        // Line is already checked inside throwIfCannotBeApplied run by super.applyToSender method
+        //AppUtils.assert.defined<NFTInterfaces.NFTBidCancelAsset>(transaction.data.asset?.nftBidCancel);
 
         const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
 
-        const cancelBidAsset: NFTInterfaces.NFTBidCancelAsset = transaction.data.asset.nftBidCancel;
+        const cancelBidAsset: NFTInterfaces.NFTBidCancelAsset = transaction.data.asset!.nftBidCancel;
 
         const bidTransaction = await this.transactionRepository.findById(cancelBidAsset.bidId);
         const wallet: Contracts.State.Wallet = walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
