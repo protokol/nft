@@ -1,11 +1,13 @@
 import { Assets } from "./assets";
 import { Burns } from "./burns";
 import { Configurations } from "./configurations";
+import { Transfers } from "./transfers";
 
 export const NFTBaseResources = {
     assets: Assets,
     burns: Burns,
-    configuration: Configurations,
+    configurations: Configurations,
+    transfers: Transfers,
 };
 
 export type NFTBaseAvailableResourcesName = keyof typeof NFTBaseResources;
