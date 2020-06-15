@@ -8,6 +8,7 @@ import {
     NFTExchangeBidAuctionCanceledOrAccepted,
     NFTExchangeBidAuctionDoesNotExists,
     NFTExchangeBidAuctionExpired,
+    NFTExchangeBidCannotBidOwnItem,
     NFTExchangeBidNotEnoughFounds,
     NFTExchangeBidStartAmountToLow,
 } from "../errors";
@@ -56,6 +57,8 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
             );
             const auctionWallet = this.walletRepository.findByPublicKey(auctionTransaction.senderPublicKey);
 
+            this.checkBiddingOnOwnAuction(auctionWallet, wallet);
+
             const auctionWalletAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions");
             auctionWalletAsset[nftBidAsset.auctionId].bids.push(transaction.id);
             auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
@@ -90,6 +93,8 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
         if (!auctionWalletAsset[auctionTransaction.id]) {
             throw new NFTExchangeBidAuctionCanceledOrAccepted();
         }
+
+        this.checkBiddingOnOwnAuction(auctionWallet, sender);
 
         const lastBlock: Interfaces.IBlock = this.app.get<any>(Container.Identifiers.StateStore).getLastBlock();
         if (lastBlock.data.height >= auctionTransaction.asset.nftAuction.expiration.blockHeight) {
@@ -183,4 +188,10 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
         customWalletRepository?: Contracts.State.WalletRepository,
         // tslint:disable-next-line:no-empty
     ): Promise<void> {}
+
+    private checkBiddingOnOwnAuction(auctionWallet: Contracts.State.Wallet, bidWallet: Contracts.State.Wallet): void {
+        if (auctionWallet.publicKey === bidWallet.publicKey) {
+            throw new NFTExchangeBidCannotBidOwnItem();
+        }
+    }
 }
