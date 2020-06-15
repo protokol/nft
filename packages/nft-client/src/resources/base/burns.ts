@@ -1,3 +1,3 @@
-import { Resource } from "@arkecosystem/client/dist/resources/resource";
+import { Resource } from "@arkecosystem/client";
 
 export class Burns extends Resource {}

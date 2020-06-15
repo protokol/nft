@@ -1,5 +1,4 @@
-import { ApiQuery, ApiResponse, ApiResponseWithPagination } from "@arkecosystem/client";
-import { Resource } from "@arkecosystem/client/dist/resources/resource";
+import { ApiQuery, ApiResponse, ApiResponseWithPagination, Resource } from "@arkecosystem/client";
 
 import {
     AllAssetsQuery,

@@ -1,5 +1,4 @@
-import { ApiResponse } from "@arkecosystem/client";
-import { Resource } from "@arkecosystem/client/dist/resources/resource";
+import { ApiResponse, Resource } from "@arkecosystem/client";
 
 import { Configurations as ConfigurationsResource } from "../../resourcesTypes/base";
 
