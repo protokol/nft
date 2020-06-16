@@ -66,13 +66,13 @@ export class AuctionsController extends Controller {
                 senderPublicKey: request.payload.senderPublicKey,
             });
         }
-        if (request.payload.nftId) {
+        if (request.payload.nftIds) {
             criteria.push({
                 typeGroup: Enums.NFTExchangeTransactionsTypeGroup,
                 type: Enums.NFTTransactionTypes.NFTAuction,
                 asset: {
                     nftAuction: {
-                        nftId: request.payload.nftId,
+                        nftIds: request.payload.nftIds,
                     },
                 },
             });

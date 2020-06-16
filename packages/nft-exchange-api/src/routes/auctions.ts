@@ -62,7 +62,7 @@ export const register = (server: Hapi.Server): void => {
                 }),
                 payload: Joi.object({
                     senderPublicKey: Joi.string().hex().length(66).optional(),
-                    nftId: Joi.string().hex().length(64).optional(),
+                    nftIds: Joi.array().items(Joi.string().hex().length(64)).optional(),
                     startAmount: Joi.string().optional(),
                     expiration: Joi.object({
                         blockHeight: Joi.number().positive(),
