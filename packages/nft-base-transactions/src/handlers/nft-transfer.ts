@@ -72,7 +72,6 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
     public async throwIfCannotBeApplied(
         transaction: Interfaces.ITransaction,
         sender: Contracts.State.Wallet,
-        customWalletRepository?: Contracts.State.WalletRepository,
     ): Promise<void> {
         AppUtils.assert.defined<NFTInterfaces.NFTTransferAsset>(transaction.data.asset?.nftTransfer);
 
@@ -97,7 +96,7 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
                 }
             }
         }
-        return super.throwIfCannotBeApplied(transaction, sender, customWalletRepository);
+        return super.throwIfCannotBeApplied(transaction, sender);
     }
 
     public async throwIfCannotEnterPool(transaction: Interfaces.ITransaction): Promise<void> {
@@ -126,45 +125,39 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
         }
     }
 
-    public async applyToSender(
-        transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
-    ): Promise<void> {
-        await super.applyToSender(transaction, customWalletRepository);
+    public async applyToSender(transaction: Interfaces.ITransaction): Promise<void> {
+        await super.applyToSender(transaction);
 
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
         // Line is already checked inside throwIfCannotBeApplied run by super.applyToSender method
         //AppUtils.assert.defined<NFTInterfaces.NFTTransferAsset>(transaction.data.asset?.nftTransfer);
         AppUtils.assert.defined<string>(transaction.data.id);
 
-        const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
-
-        const senderWallet: Contracts.State.Wallet = walletRepository.findByPublicKey(transaction.data.senderPublicKey);
+        const senderWallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
+            transaction.data.senderPublicKey,
+        );
         const nftTransferAsset: NFTInterfaces.NFTTransferAsset = transaction.data.asset!.nftTransfer;
 
         const senderTokensWallet = senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
         for (const token of nftTransferAsset.nftIds) {
             delete senderTokensWallet[token];
-            walletRepository.forgetByIndex(NFTIndexers.NFTTokenIndexer, token);
+            this.walletRepository.forgetByIndex(NFTIndexers.NFTTokenIndexer, token);
         }
         senderWallet.setAttribute<INFTTokens>("nft.base.tokenIds", senderTokensWallet);
 
-        walletRepository.index(senderWallet);
+        this.walletRepository.index(senderWallet);
     }
 
-    public async revertForSender(
-        transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
-    ): Promise<void> {
-        await super.revertForSender(transaction, customWalletRepository);
+    public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
+        await super.revertForSender(transaction);
 
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
         AppUtils.assert.defined<NFTInterfaces.NFTTransferAsset>(transaction.data.asset?.nftTransfer);
         AppUtils.assert.defined<string>(transaction.data.id);
 
-        const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
-
-        const senderWallet: Contracts.State.Wallet = walletRepository.findByPublicKey(transaction.data.senderPublicKey);
+        const senderWallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
+            transaction.data.senderPublicKey,
+        );
 
         const nftTransferAsset: NFTInterfaces.NFTTransferAsset = transaction.data.asset.nftTransfer;
 
@@ -173,40 +166,34 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
             senderTokensWallet[token] = {};
         }
         senderWallet.setAttribute<INFTTokens>("nft.base.tokenIds", senderTokensWallet);
-        walletRepository.index(senderWallet);
+        this.walletRepository.index(senderWallet);
     }
 
-    public async applyToRecipient(
-        transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
-    ): Promise<void> {
+    public async applyToRecipient(transaction: Interfaces.ITransaction): Promise<void> {
         AppUtils.assert.defined<NFTInterfaces.NFTTransferAsset>(transaction.data.asset?.nftTransfer);
-
-        const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
 
         const nftTransferAsset: NFTInterfaces.NFTTransferAsset = transaction.data.asset.nftTransfer;
 
-        const recipientWallet: Contracts.State.Wallet = walletRepository.findByAddress(nftTransferAsset.recipientId);
+        const recipientWallet: Contracts.State.Wallet = this.walletRepository.findByAddress(
+            nftTransferAsset.recipientId,
+        );
 
         const recipientTokensWallet = recipientWallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
         for (const token of nftTransferAsset.nftIds) {
             recipientTokensWallet[token] = {};
         }
         recipientWallet.setAttribute<INFTTokens>("nft.base.tokenIds", recipientTokensWallet);
-        walletRepository.index(recipientWallet);
+        this.walletRepository.index(recipientWallet);
     }
 
-    public async revertForRecipient(
-        transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
-    ): Promise<void> {
+    public async revertForRecipient(transaction: Interfaces.ITransaction): Promise<void> {
         AppUtils.assert.defined<NFTInterfaces.NFTTransferAsset>(transaction.data.asset?.nftTransfer);
-
-        const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
 
         const nftTransferAsset: NFTInterfaces.NFTTransferAsset = transaction.data.asset.nftTransfer;
 
-        const recipientWallet: Contracts.State.Wallet = walletRepository.findByAddress(nftTransferAsset.recipientId);
+        const recipientWallet: Contracts.State.Wallet = this.walletRepository.findByAddress(
+            nftTransferAsset.recipientId,
+        );
 
         const recipientTokensWallet = recipientWallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
 
@@ -215,6 +202,6 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
         }
         recipientWallet.setAttribute<INFTTokens>("nft.base.tokenIds", recipientTokensWallet);
 
-        walletRepository.index(recipientWallet);
+        this.walletRepository.index(recipientWallet);
     }
 }

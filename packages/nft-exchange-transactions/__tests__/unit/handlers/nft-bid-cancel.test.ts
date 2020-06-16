@@ -118,7 +118,7 @@ describe("NFT Bid Cancel tests", () => {
                 .build();
             actual.data.asset = undefined;
 
-            await expect(nftBidCancelHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).toReject();
+            await expect(nftBidCancelHandler.throwIfCannotBeApplied(actual, wallet)).toReject();
         });
 
         it("should throw NFTExchangeBidCancelBidDoesNotExists", async () => {
@@ -130,9 +130,9 @@ describe("NFT Bid Cancel tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await expect(
-                nftBidCancelHandler.throwIfCannotBeApplied(actual, wallet, walletRepository),
-            ).rejects.toThrowError(NFTExchangeBidCancelBidDoesNotExists);
+            await expect(nftBidCancelHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
+                NFTExchangeBidCancelBidDoesNotExists,
+            );
         });
 
         it("should throw NFTExchangeBidCancelAuctionCanceledOrAccepted", async () => {
@@ -158,9 +158,9 @@ describe("NFT Bid Cancel tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await expect(
-                nftBidCancelHandler.throwIfCannotBeApplied(actual, wallet, walletRepository),
-            ).rejects.toThrowError(NFTExchangeBidCancelAuctionCanceledOrAccepted);
+            await expect(nftBidCancelHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
+                NFTExchangeBidCancelAuctionCanceledOrAccepted,
+            );
         });
 
         it("should throw NFTExchangeBidCancelBidCanceled", async () => {
@@ -187,9 +187,9 @@ describe("NFT Bid Cancel tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await expect(
-                nftBidCancelHandler.throwIfCannotBeApplied(actual, wallet, walletRepository),
-            ).rejects.toThrowError(NFTExchangeBidCancelBidCanceled);
+            await expect(nftBidCancelHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
+                NFTExchangeBidCancelBidCanceled,
+            );
         });
 
         it("should not throw ", async () => {
@@ -216,7 +216,7 @@ describe("NFT Bid Cancel tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await expect(nftBidCancelHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).toResolve();
+            await expect(nftBidCancelHandler.throwIfCannotBeApplied(actual, wallet)).toResolve();
         });
     });
 
@@ -318,7 +318,7 @@ describe("NFT Bid Cancel tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await expect(nftBidCancelHandler.applyToSender(actual, walletRepository)).toResolve();
+            await expect(nftBidCancelHandler.applyToSender(actual)).toResolve();
 
             // @ts-ignore
             expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actualAuction.id]).toStrictEqual({
@@ -372,8 +372,8 @@ describe("NFT Bid Cancel tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await nftBidCancelHandler.apply(actual, walletRepository);
-            await expect(nftBidCancelHandler.revert(actual, walletRepository)).toResolve();
+            await nftBidCancelHandler.apply(actual);
+            await expect(nftBidCancelHandler.revert(actual)).toResolve();
 
             // @ts-ignore
             expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actualAuction.id]).toStrictEqual({
@@ -402,23 +402,9 @@ describe("NFT Bid Cancel tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await nftBidCancelHandler.apply(actual, walletRepository);
+            await nftBidCancelHandler.apply(actual);
             actual.data.asset = undefined;
-            await expect(nftBidCancelHandler.revert(actual, walletRepository)).toReject();
-        });
-
-        it("should test revert method with undefined wallet repository", async () => {
-            const actual = new NFTBuilders.NFTBidCancelBuilder()
-                .NFTBidCancelAsset({
-                    // @ts-ignore
-                    bidId: actualBid.id,
-                })
-                .nonce("1")
-                .sign(passphrases[0])
-                .build();
-
-            await nftBidCancelHandler.apply(actual, walletRepository);
-            await expect(nftBidCancelHandler.revert(actual, undefined)).toResolve();
+            await expect(nftBidCancelHandler.revert(actual)).toReject();
         });
     });
 });

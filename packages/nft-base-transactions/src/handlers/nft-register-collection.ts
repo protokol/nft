@@ -57,7 +57,6 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
     public async throwIfCannotBeApplied(
         transaction: Interfaces.ITransaction,
         sender: Contracts.State.Wallet,
-        customWalletRepository?: Contracts.State.WalletRepository,
     ): Promise<void> {
         AppUtils.assert.defined<NFTInterfaces.NFTCollectionAsset>(transaction.data.asset?.nftCollection);
         const nftCollectionAsset: NFTInterfaces.NFTCollectionAsset = transaction.data.asset.nftCollection;
@@ -73,23 +72,20 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         if (sender.publicKey && authorizedRegistrators?.length && !authorizedRegistrators.includes(sender.publicKey)) {
             throw new NFTBaseUnauthorizedCollectionRegistrator();
         }
-        return super.throwIfCannotBeApplied(transaction, sender, customWalletRepository);
+        return super.throwIfCannotBeApplied(transaction, sender);
     }
 
-    public async applyToSender(
-        transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
-    ): Promise<void> {
-        await super.applyToSender(transaction, customWalletRepository);
+    public async applyToSender(transaction: Interfaces.ITransaction): Promise<void> {
+        await super.applyToSender(transaction);
 
         // Line is already checked inside throwIfCannotBeApplied run by super.applyToSender method
         //AppUtils.assert.defined<NFTInterfaces.NFTCollectionAsset>(transaction.data.asset?.nftCollection);
         AppUtils.assert.defined<string>(transaction.data.id);
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
 
-        const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
-
-        const senderWallet: Contracts.State.Wallet = walletRepository.findByPublicKey(transaction.data.senderPublicKey);
+        const senderWallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
+            transaction.data.senderPublicKey,
+        );
 
         const collectionAsset: NFTInterfaces.NFTCollectionAsset = transaction.data.asset!.nftCollection;
         const collectionsWallet = senderWallet.getAttribute<INFTCollections>("nft.base.collections", {});
@@ -100,39 +96,34 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         };
         senderWallet.setAttribute("nft.base.collections", collectionsWallet);
 
-        walletRepository.index(senderWallet);
+        this.walletRepository.index(senderWallet);
     }
 
-    public async revertForSender(
-        transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
-    ): Promise<void> {
-        await super.revertForSender(transaction, customWalletRepository);
+    public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
+        await super.revertForSender(transaction);
 
         AppUtils.assert.defined<string>(transaction.data.id);
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
 
-        const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
-
-        const senderWallet: Contracts.State.Wallet = walletRepository.findByPublicKey(transaction.data.senderPublicKey);
+        const senderWallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
+            transaction.data.senderPublicKey,
+        );
 
         const collectionsWallet = senderWallet.getAttribute<INFTCollections>("nft.base.collections");
         delete collectionsWallet[transaction.data.id];
         senderWallet.setAttribute("nft.base.collections", collectionsWallet);
 
-        walletRepository.forgetByIndex(NFTIndexers.CollectionIndexer, transaction.data.id);
-        walletRepository.index(senderWallet);
+        this.walletRepository.forgetByIndex(NFTIndexers.CollectionIndexer, transaction.data.id);
+        this.walletRepository.index(senderWallet);
     }
 
     public async applyToRecipient(
         transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
         // tslint:disable-next-line: no-empty
     ): Promise<void> {}
 
     public async revertForRecipient(
         transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
         // tslint:disable-next-line:no-empty
     ): Promise<void> {}
 }

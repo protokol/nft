@@ -74,7 +74,6 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
     public async throwIfCannotBeApplied(
         transaction: Interfaces.ITransaction,
         sender: Contracts.State.Wallet,
-        customWalletRepository?: Contracts.State.WalletRepository,
     ): Promise<void> {
         AppUtils.assert.defined<NFTInterfaces.NFTAuctionCancel>(transaction.data.asset?.nftAuctionCancel);
         const nftAuctionCancel: NFTInterfaces.NFTAuctionCancel = transaction.data.asset.nftAuctionCancel;
@@ -89,7 +88,7 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
             throw new NFTExchangeAuctionCancelCannotCancel();
         }
 
-        return super.throwIfCannotBeApplied(transaction, sender, customWalletRepository);
+        return super.throwIfCannotBeApplied(transaction, sender);
     }
 
     public async throwIfCannotEnterPool(transaction: Interfaces.ITransaction): Promise<void> {
@@ -111,20 +110,15 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
         }
     }
 
-    public async applyToSender(
-        transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
-    ): Promise<void> {
-        await super.applyToSender(transaction, customWalletRepository);
+    public async applyToSender(transaction: Interfaces.ITransaction): Promise<void> {
+        await super.applyToSender(transaction);
 
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
         // Line is already checked inside throwIfCannotBeApplied run by super.applyToSender method
         //AppUtils.assert.defined<NFTInterfaces.NFTAuctionCancel>(transaction.data.asset?.nftAuctionCancel);
         const nftAuctionCancelAsset: NFTInterfaces.NFTAuctionCancel = transaction.data.asset!.nftAuctionCancel;
 
-        const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
-
-        const sender: Contracts.State.Wallet = walletRepository.findByPublicKey(transaction.data.senderPublicKey);
+        const sender: Contracts.State.Wallet = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
 
         const auctionsWalletAsset = sender.getAttribute<INFTAuctions>("nft.exchange.auctions");
 
@@ -150,22 +144,17 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
         delete auctionsWalletAsset[nftAuctionCancelAsset.auctionId];
         sender.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
 
-        walletRepository.forgetByIndex(NFTExchangeIndexers.AuctionIndexer, nftAuctionCancelAsset.auctionId);
-        walletRepository.index(sender);
+        this.walletRepository.forgetByIndex(NFTExchangeIndexers.AuctionIndexer, nftAuctionCancelAsset.auctionId);
+        this.walletRepository.index(sender);
     }
 
-    public async revertForSender(
-        transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
-    ): Promise<void> {
-        await super.revertForSender(transaction, customWalletRepository);
+    public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
+        await super.revertForSender(transaction);
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
         AppUtils.assert.defined<NFTInterfaces.NFTAuctionCancel>(transaction.data.asset?.nftAuctionCancel);
         const nftAuctionCancelAsset = transaction.data.asset.nftAuctionCancel;
 
-        const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
-
-        const sender: Contracts.State.Wallet = walletRepository.findByPublicKey(transaction.data.senderPublicKey);
+        const sender: Contracts.State.Wallet = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
 
         const nftAuctionTransaction: Models.Transaction = await this.transactionRepository.findById(
             nftAuctionCancelAsset.auctionId,
@@ -193,7 +182,7 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
 
         for (const bid of activeBids) {
             const bidTransaction: Models.Transaction = await this.transactionRepository.findById(bid);
-            const bidWallet = walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
+            const bidWallet = this.walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
             const bidAmount: Utils.BigNumber = bidTransaction.asset.nftBid.bidAmount;
 
             bidWallet.balance = bidWallet.balance.minus(bidAmount);
@@ -203,7 +192,7 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
             );
             bidWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.minus(bidAmount));
 
-            walletRepository.index(bidWallet);
+            this.walletRepository.index(bidWallet);
         }
 
         const auctionsWalletAsset = sender.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
@@ -212,18 +201,16 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
             bids: activeBids,
         };
         sender.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
-        walletRepository.index(sender);
+        this.walletRepository.index(sender);
     }
 
     public async applyToRecipient(
         transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
         // tslint:disable-next-line: no-empty
     ): Promise<void> {}
 
     public async revertForRecipient(
         transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
         // tslint:disable-next-line:no-empty
     ): Promise<void> {}
 }

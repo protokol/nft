@@ -145,7 +145,7 @@ describe("NFT Bid tests", () => {
 
             const actual = buildBidTransaction({ auctionId: actualAuction.id!, passphrase: passphrases[0] });
 
-            await expect(nftBidHandler.throwIfCannotBeApplied(actual, bidWallet, walletRepository)).toResolve();
+            await expect(nftBidHandler.throwIfCannotBeApplied(actual, bidWallet)).toResolve();
         });
 
         it("should throw if nftBid is undefined", async () => {
@@ -154,7 +154,7 @@ describe("NFT Bid tests", () => {
             });
             actual.data.asset = undefined;
 
-            await expect(nftBidHandler.throwIfCannotBeApplied(actual, bidWallet, walletRepository)).toReject();
+            await expect(nftBidHandler.throwIfCannotBeApplied(actual, bidWallet)).toReject();
         });
 
         it("should throw NFTExchangeBidAuctionDoesNotExists", async () => {
@@ -162,9 +162,9 @@ describe("NFT Bid tests", () => {
                 auctionId: id,
             });
 
-            await expect(
-                nftBidHandler.throwIfCannotBeApplied(actual, bidWallet, walletRepository),
-            ).rejects.toThrowError(NFTExchangeBidAuctionDoesNotExists);
+            await expect(nftBidHandler.throwIfCannotBeApplied(actual, bidWallet)).rejects.toThrowError(
+                NFTExchangeBidAuctionDoesNotExists,
+            );
         });
 
         it("should throw NFTExchangeBidAuctionCanceledOrAccepted", async () => {
@@ -182,9 +182,9 @@ describe("NFT Bid tests", () => {
             bidWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
             walletRepository.index(bidWallet);
 
-            await expect(
-                nftBidHandler.throwIfCannotBeApplied(actual, bidWallet, walletRepository),
-            ).rejects.toThrowError(NFTExchangeBidAuctionCanceledOrAccepted);
+            await expect(nftBidHandler.throwIfCannotBeApplied(actual, bidWallet)).rejects.toThrowError(
+                NFTExchangeBidAuctionCanceledOrAccepted,
+            );
         });
 
         it("should throw NFTExchangeBidAuctionExpired", async () => {
@@ -208,9 +208,9 @@ describe("NFT Bid tests", () => {
             auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
             walletRepository.index(auctionWallet);
 
-            await expect(
-                nftBidHandler.throwIfCannotBeApplied(actual, bidWallet, walletRepository),
-            ).rejects.toThrowError(NFTExchangeBidAuctionExpired);
+            await expect(nftBidHandler.throwIfCannotBeApplied(actual, bidWallet)).rejects.toThrowError(
+                NFTExchangeBidAuctionExpired,
+            );
         });
 
         it("should throw NFTExchangeBidNotEnoughFounds", async () => {
@@ -234,9 +234,9 @@ describe("NFT Bid tests", () => {
             auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
             walletRepository.index(auctionWallet);
 
-            await expect(
-                nftBidHandler.throwIfCannotBeApplied(actual, bidWallet, walletRepository),
-            ).rejects.toThrowError(NFTExchangeBidNotEnoughFounds);
+            await expect(nftBidHandler.throwIfCannotBeApplied(actual, bidWallet)).rejects.toThrowError(
+                NFTExchangeBidNotEnoughFounds,
+            );
         });
 
         it("should throw NFTExchangeBidStartAmountToLow", async () => {
@@ -264,9 +264,9 @@ describe("NFT Bid tests", () => {
             auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
             walletRepository.index(auctionWallet);
 
-            await expect(
-                nftBidHandler.throwIfCannotBeApplied(actual, bidWallet, walletRepository),
-            ).rejects.toThrowError(NFTExchangeBidStartAmountToLow);
+            await expect(nftBidHandler.throwIfCannotBeApplied(actual, bidWallet)).rejects.toThrowError(
+                NFTExchangeBidStartAmountToLow,
+            );
         });
     });
 
@@ -317,7 +317,7 @@ describe("NFT Bid tests", () => {
 
             it("should apply correctly", async () => {
                 const actual = buildBidTransaction({ auctionId: actualAuction.id });
-                await expect(nftBidHandler.applyToSender(actual, walletRepository)).toResolve();
+                await expect(nftBidHandler.applyToSender(actual)).toResolve();
 
                 // @ts-ignore
                 expect(
@@ -335,11 +335,6 @@ describe("NFT Bid tests", () => {
                 expect(walletRepository.findByIndex(NFTExchangeIndexers.BidIndexer, actual.id)).toStrictEqual(
                     auctionWallet,
                 );
-            });
-
-            it("should test applyToSender method with undefined wallet repository", async () => {
-                const actual = buildBidTransaction({ auctionId: actualAuction.id });
-                await expect(nftBidHandler.applyToSender(actual, undefined)).toResolve();
             });
         });
     });
@@ -373,9 +368,9 @@ describe("NFT Bid tests", () => {
         it("should revert correctly", async () => {
             const actual = buildBidTransaction({ auctionId: actualAuction.id });
 
-            await nftBidHandler.applyToSender(actual, walletRepository);
+            await nftBidHandler.apply(actual);
 
-            await expect(nftBidHandler.revertForSender(actual, walletRepository)).toResolve();
+            await expect(nftBidHandler.revert(actual)).toResolve();
 
             // @ts-ignore
             expect(auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actualAuction.id]).toStrictEqual({
@@ -394,16 +389,9 @@ describe("NFT Bid tests", () => {
         it("should throw if nftBid is undefined", async () => {
             const actual = buildBidTransaction({ auctionId: actualAuction.id });
 
-            await nftBidHandler.applyToSender(actual, walletRepository);
+            await nftBidHandler.applyToSender(actual);
             actual.data.asset = undefined;
-            await expect(nftBidHandler.revertForSender(actual, walletRepository)).toReject();
-        });
-
-        it("should test revertForSender method with undefined wallet repository", async () => {
-            const actual = buildBidTransaction({ auctionId: actualAuction.id });
-
-            await nftBidHandler.apply(actual, walletRepository);
-            await expect(nftBidHandler.revert(actual, undefined)).toResolve();
+            await expect(nftBidHandler.revertForSender(actual)).toReject();
         });
     });
 });

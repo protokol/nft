@@ -73,7 +73,6 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
     public async throwIfCannotBeApplied(
         transaction: Interfaces.ITransaction,
         sender: Contracts.State.Wallet,
-        customWalletRepository?: Contracts.State.WalletRepository,
     ): Promise<void> {
         AppUtils.assert.defined<NFTInterfaces.NFTBidCancelAsset>(transaction.data.asset?.nftBidCancel);
         const nftBidCancelAsset = transaction.data.asset.nftBidCancel;
@@ -98,7 +97,7 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
             throw new NFTExchangeBidCancelBidCanceled();
         }
 
-        return super.throwIfCannotBeApplied(transaction, sender, customWalletRepository);
+        return super.throwIfCannotBeApplied(transaction, sender);
     }
 
     public async throwIfCannotEnterPool(transaction: Interfaces.ITransaction): Promise<void> {
@@ -120,20 +119,15 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
         }
     }
 
-    public async applyToSender(
-        transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
-    ): Promise<void> {
-        await super.applyToSender(transaction, customWalletRepository);
+    public async applyToSender(transaction: Interfaces.ITransaction): Promise<void> {
+        await super.applyToSender(transaction);
         // Line is already checked inside throwIfCannotBeApplied run by super.applyToSender method
         //AppUtils.assert.defined<NFTInterfaces.NFTBidCancelAsset>(transaction.data.asset?.nftBidCancel);
-
-        const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
 
         const cancelBidAsset: NFTInterfaces.NFTBidCancelAsset = transaction.data.asset!.nftBidCancel;
 
         const bidTransaction = await this.transactionRepository.findById(cancelBidAsset.bidId);
-        const wallet: Contracts.State.Wallet = walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
+        const wallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
         const bidAmount: Utils.BigNumber = bidTransaction.asset.nftBid.bidAmount;
 
         wallet.balance = wallet.balance.plus(bidAmount);
@@ -142,7 +136,7 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
         wallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.minus(bidAmount));
 
         const auctionTransaction = await this.transactionRepository.findById(bidTransaction.asset.nftBid.auctionId);
-        const auctionWallet = walletRepository.findByPublicKey(auctionTransaction.senderPublicKey);
+        const auctionWallet = this.walletRepository.findByPublicKey(auctionTransaction.senderPublicKey);
 
         const auctionWalletAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions");
         auctionWalletAsset[auctionTransaction.id].bids = auctionWalletAsset[auctionTransaction.id].bids.filter(
@@ -150,23 +144,18 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
         );
         auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
 
-        walletRepository.forgetByIndex(NFTExchangeIndexers.BidIndexer, cancelBidAsset.bidId);
-        walletRepository.index(auctionWallet);
+        this.walletRepository.forgetByIndex(NFTExchangeIndexers.BidIndexer, cancelBidAsset.bidId);
+        this.walletRepository.index(auctionWallet);
     }
 
-    public async revertForSender(
-        transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
-    ): Promise<void> {
-        await super.revertForSender(transaction, customWalletRepository);
+    public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
+        await super.revertForSender(transaction);
         AppUtils.assert.defined<NFTInterfaces.NFTBidCancelAsset>(transaction.data.asset?.nftBidCancel);
-
-        const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
 
         const cancelBidAsset: NFTInterfaces.NFTBidCancelAsset = transaction.data.asset.nftBidCancel;
 
         const bidTransaction = await this.transactionRepository.findById(cancelBidAsset.bidId);
-        const wallet: Contracts.State.Wallet = walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
+        const wallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
         const bidAmount: Utils.BigNumber = bidTransaction.asset.nftBid.bidAmount;
 
         wallet.balance = wallet.balance.minus(bidAmount);
@@ -175,24 +164,22 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
         wallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.plus(bidAmount));
 
         const auctionTransaction = await this.transactionRepository.findById(bidTransaction.asset.nftBid.auctionId);
-        const auctionWallet = walletRepository.findByPublicKey(auctionTransaction.senderPublicKey);
+        const auctionWallet = this.walletRepository.findByPublicKey(auctionTransaction.senderPublicKey);
 
         const auctionWalletAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions");
         auctionWalletAsset[auctionTransaction.id].bids.push(cancelBidAsset.bidId);
         auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
 
-        walletRepository.index(auctionWallet);
+        this.walletRepository.index(auctionWallet);
     }
 
     public async applyToRecipient(
         transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
         // tslint:disable-next-line: no-empty
     ): Promise<void> {}
 
     public async revertForRecipient(
         transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
         // tslint:disable-next-line:no-empty
     ): Promise<void> {}
 }

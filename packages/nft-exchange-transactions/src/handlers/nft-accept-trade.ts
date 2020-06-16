@@ -107,7 +107,6 @@ export class NFTAcceptTradeHandler extends NFTExchangeTransactionHandler {
     public async throwIfCannotBeApplied(
         transaction: Interfaces.ITransaction,
         sender: Contracts.State.Wallet,
-        customWalletRepository?: Contracts.State.WalletRepository,
     ): Promise<void> {
         AppUtils.assert.defined<NFTInterfaces.NFTAcceptTradeAsset>(transaction.data.asset?.nftAcceptTrade);
 
@@ -143,7 +142,7 @@ export class NFTAcceptTradeHandler extends NFTExchangeTransactionHandler {
         if (!auctionWalletAsset[auctionId].bids.some((bid) => bid === bidId)) {
             throw new NFTExchangeAcceptTradeBidCanceled();
         }
-        return super.throwIfCannotBeApplied(transaction, sender, customWalletRepository);
+        return super.throwIfCannotBeApplied(transaction, sender);
     }
 
     public async throwIfCannotEnterPool(transaction: Interfaces.ITransaction): Promise<void> {
@@ -167,16 +166,11 @@ export class NFTAcceptTradeHandler extends NFTExchangeTransactionHandler {
         }
     }
 
-    public async apply(
-        transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
-    ): Promise<void> {
-        await super.apply(transaction, customWalletRepository);
+    public async apply(transaction: Interfaces.ITransaction): Promise<void> {
+        await super.apply(transaction);
         // Line is already checked inside throwIfCannotBeApplied run by super.apply method
         //AppUtils.assert.defined<NFTInterfaces.NFTAcceptTradeAsset>(transaction.data.asset?.nftAcceptTrade);
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
-
-        const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
 
         const auctionId = transaction.data.asset!.nftAcceptTrade.auctionId;
         const bidId = transaction.data.asset!.nftAcceptTrade.bidId;
@@ -184,8 +178,8 @@ export class NFTAcceptTradeHandler extends NFTExchangeTransactionHandler {
         const auctionTransaction = await this.transactionRepository.findById(auctionId);
         const bidTransaction = await this.transactionRepository.findById(bidId);
 
-        const auctionWallet = walletRepository.findByPublicKey(transaction.data.senderPublicKey);
-        const bidWallet = walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
+        const auctionWallet = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
+        const bidWallet = this.walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
 
         const nftIds = auctionTransaction.asset.nftAuction.nftIds;
 
@@ -227,20 +221,15 @@ export class NFTAcceptTradeHandler extends NFTExchangeTransactionHandler {
         delete auctionWalletAsset[auctionId];
         auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
 
-        walletRepository.forgetByIndex(NFTExchangeIndexers.AuctionIndexer, auctionTransaction.id);
-        walletRepository.index(auctionWallet);
-        walletRepository.index(bidWallet);
+        this.walletRepository.forgetByIndex(NFTExchangeIndexers.AuctionIndexer, auctionTransaction.id);
+        this.walletRepository.index(auctionWallet);
+        this.walletRepository.index(bidWallet);
     }
 
-    public async revert(
-        transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
-    ): Promise<void> {
-        await super.revert(transaction, customWalletRepository);
+    public async revert(transaction: Interfaces.ITransaction): Promise<void> {
+        await super.revert(transaction);
         AppUtils.assert.defined<NFTInterfaces.NFTAcceptTradeAsset>(transaction.data.asset?.nftAcceptTrade);
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
-
-        const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
 
         const auctionId = transaction.data.asset.nftAcceptTrade.auctionId;
         const bidId = transaction.data.asset.nftAcceptTrade.bidId;
@@ -248,8 +237,8 @@ export class NFTAcceptTradeHandler extends NFTExchangeTransactionHandler {
         const auctionTransaction = await this.transactionRepository.findById(auctionId);
         const bidTransaction = await this.transactionRepository.findById(bidId);
 
-        const auctionWallet = walletRepository.findByPublicKey(transaction.data.senderPublicKey);
-        const bidWallet = walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
+        const auctionWallet = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
+        const bidWallet = this.walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
 
         const nftIds = auctionTransaction.asset.nftAuction.nftIds;
 
@@ -304,19 +293,17 @@ export class NFTAcceptTradeHandler extends NFTExchangeTransactionHandler {
         auctionWallet.balance = auctionWallet.balance.minus(bidTransaction.asset.nftBid.bidAmount);
         auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletExchangeAsset);
 
-        walletRepository.index(auctionWallet);
-        walletRepository.index(bidWallet);
+        this.walletRepository.index(auctionWallet);
+        this.walletRepository.index(bidWallet);
     }
 
     public async applyToRecipient(
         transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
         // tslint:disable-next-line: no-empty
     ): Promise<void> {}
 
     public async revertForRecipient(
         transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
         // tslint:disable-next-line:no-empty
     ): Promise<void> {}
 }
