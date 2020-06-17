@@ -18,6 +18,7 @@ import {
     NFTExchangeBidCancelAuctionCanceledOrAccepted,
     NFTExchangeBidCancelBidCanceled,
     NFTExchangeBidCancelBidDoesNotExists,
+    NFTExchangeBidCancelCannotCancelOtherBids,
 } from "../../../src/errors";
 import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
@@ -119,6 +120,26 @@ describe("NFT Bid Cancel tests", () => {
             actual.data.asset = undefined;
 
             await expect(nftBidCancelHandler.throwIfCannotBeApplied(actual, wallet)).toReject();
+        });
+
+        it("should throw NFTExchangeBidCancelCannotCancelOtherBids if trying to cancel other user's bid", async () => {
+            const bid = buildBidTransaction({
+                auctionId: "e5ff17de47e33551c7991b72921201b55e1362ef897542e0fd7a038cd262b971",
+                passphrase: passphrases[1],
+            });
+
+            setMockTransactions([bid]);
+            const cancelBid = new NFTBuilders.NFTBidCancelBuilder()
+                .NFTBidCancelAsset({
+                    bidId: bid.id!,
+                })
+                .nonce("1")
+                .sign(passphrases[0])
+                .build();
+
+            await expect(nftBidCancelHandler.throwIfCannotBeApplied(cancelBid, wallet)).rejects.toThrowError(
+                NFTExchangeBidCancelCannotCancelOtherBids,
+            );
         });
 
         it("should throw NFTExchangeBidCancelBidDoesNotExists", async () => {

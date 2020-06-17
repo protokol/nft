@@ -88,6 +88,12 @@ export class NFTExchangeBidCancelBidCanceled extends Errors.TransactionError {
     }
 }
 
+export class NFTExchangeBidCancelCannotCancelOtherBids extends Errors.TransactionError {
+    public constructor() {
+        super(`Failed to apply transaction, because it is not allowed to cancel other user's bids.`);
+    }
+}
+
 // Accept trade errors
 export class NFTExchangeAcceptTradeWalletCannotTrade extends Errors.TransactionError {
     public constructor() {
