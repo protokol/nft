@@ -1,4 +1,4 @@
-export interface Configurations {
+export interface BaseConfigurations {
     package: {
         name: string;
         currentVersion: string;

@@ -1,4 +1,4 @@
-export interface Configurations {
+export interface ExchangeConfigurations {
     package: {
         name: string;
         currentVersion: string;
