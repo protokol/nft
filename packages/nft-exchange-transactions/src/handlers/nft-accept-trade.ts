@@ -161,7 +161,6 @@ export class NFTAcceptTradeHandler extends NFTExchangeTransactionHandler {
             throw new Contracts.TransactionPool.PoolError(
                 `NFT Accept Trade, Accept Trade for auction ${auctionId} and bid ${bidId} already in pool`,
                 "ERR_PENDING",
-                transaction,
             );
         }
     }

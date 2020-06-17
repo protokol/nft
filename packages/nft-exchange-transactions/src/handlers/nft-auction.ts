@@ -116,7 +116,6 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
             throw new Contracts.TransactionPool.PoolError(
                 `NFT Auction, nft id for auction already in pool`,
                 "ERR_PENDING",
-                transaction,
             );
         }
     }

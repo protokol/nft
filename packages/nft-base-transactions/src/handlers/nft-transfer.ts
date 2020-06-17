@@ -120,7 +120,6 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
             throw new Contracts.TransactionPool.PoolError(
                 `NFT transfer, nftId for transfer already in pool`,
                 "ERR_PENDING",
-                transaction,
             );
         }
     }

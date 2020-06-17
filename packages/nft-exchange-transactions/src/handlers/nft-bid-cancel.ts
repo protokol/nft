@@ -114,7 +114,6 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
             throw new Contracts.TransactionPool.PoolError(
                 `NFT Bid Cancel, bid cancel for ${bidId} bid already in pool`,
                 "ERR_PENDING",
-                transaction,
             );
         }
     }

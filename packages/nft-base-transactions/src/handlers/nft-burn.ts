@@ -106,7 +106,6 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
             throw new Contracts.TransactionPool.PoolError(
                 `NFT Burn, nftId for "${nftId}" already in pool`,
                 "ERR_PENDING",
-                transaction,
             );
         }
     }
