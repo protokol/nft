@@ -109,6 +109,7 @@ describe("NFT Auction Cancel tests", () => {
                 bids: [actualBid.id],
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
+            wallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.make(100));
             walletRepository.index(wallet);
             setMockTransactions([actualBid]);
             setMockFindByIds([actualBid]);
@@ -118,7 +119,7 @@ describe("NFT Auction Cancel tests", () => {
             expect(wallet.balance).toStrictEqual(Utils.BigNumber.make("7527654410"));
 
             expect(wallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
-                Utils.BigNumber.make("100"),
+                Utils.BigNumber.ZERO,
             );
 
             expect(
@@ -151,7 +152,7 @@ describe("NFT Auction Cancel tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await expect(nftCancelSellHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).toResolve();
+            await expect(nftCancelSellHandler.throwIfCannotBeApplied(actual, wallet)).toResolve();
         });
 
         it("should throw if nftAuctionCancel is undefined", async () => {
@@ -164,7 +165,7 @@ describe("NFT Auction Cancel tests", () => {
                 .build();
             actual.data.asset = undefined;
 
-            await expect(nftCancelSellHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).toReject();
+            await expect(nftCancelSellHandler.throwIfCannotBeApplied(actual, wallet)).toReject();
         });
 
         it("should throw NFTExchangeAuctionCancelCannotCancel, because wallet doesn't own nft.exchange", async () => {
@@ -176,9 +177,9 @@ describe("NFT Auction Cancel tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await expect(
-                nftCancelSellHandler.throwIfCannotBeApplied(actual, wallet, walletRepository),
-            ).rejects.toThrowError(NFTExchangeAuctionCancelCannotCancel);
+            await expect(nftCancelSellHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
+                NFTExchangeAuctionCancelCannotCancel,
+            );
         });
 
         it("should throw NFTExchangeAuctionCancelCannotCancel, because wallet doesn't own wanted auction", async () => {
@@ -197,9 +198,9 @@ describe("NFT Auction Cancel tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await expect(
-                nftCancelSellHandler.throwIfCannotBeApplied(actual, wallet, walletRepository),
-            ).rejects.toThrowError(NFTExchangeAuctionCancelCannotCancel);
+            await expect(nftCancelSellHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
+                NFTExchangeAuctionCancelCannotCancel,
+            );
         });
     });
 
@@ -285,7 +286,7 @@ describe("NFT Auction Cancel tests", () => {
                 .nonce("1")
                 .sign(passphrases[0])
                 .build();
-            await expect(nftCancelSellHandler.applyToSender(actual, walletRepository)).toResolve();
+            await expect(nftCancelSellHandler.applyToSender(actual)).toResolve();
 
             expect(
                 wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[
@@ -316,14 +317,15 @@ describe("NFT Auction Cancel tests", () => {
                 bids: [actualBid.id],
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
+            wallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.make(100));
             walletRepository.index(wallet);
 
-            await expect(nftCancelSellHandler.applyToSender(actual, walletRepository)).toResolve();
+            await expect(nftCancelSellHandler.applyToSender(actual)).toResolve();
 
             expect(wallet.balance).toStrictEqual(Utils.BigNumber.make("7027654410"));
 
             expect(wallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
-                Utils.BigNumber.make("100"),
+                Utils.BigNumber.ZERO,
             );
 
             expect(
@@ -348,6 +350,8 @@ describe("NFT Auction Cancel tests", () => {
                 nftIds: ["3e1a4b362282b4113d717632b92c939cf689a9919db77c723efba84c6ec0330c"],
             });
             setMockTransactions([actualAuction]);
+            transactionHistoryService.findManyByCriteria.mockResolvedValueOnce([actualBid.data]);
+            transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actualBid.data);
 
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             // @ts-ignore
@@ -367,9 +371,9 @@ describe("NFT Auction Cancel tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await nftCancelSellHandler.applyToSender(actual, walletRepository);
+            await nftCancelSellHandler.applyToSender(actual);
 
-            await expect(nftCancelSellHandler.revertForSender(actual, walletRepository)).toResolve();
+            await expect(nftCancelSellHandler.revertForSender(actual)).toResolve();
 
             // @ts-ignore
             expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actualAuction.id]).toStrictEqual({
@@ -413,9 +417,9 @@ describe("NFT Auction Cancel tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await nftCancelSellHandler.applyToSender(actual, walletRepository);
+            await nftCancelSellHandler.apply(actual);
 
-            await expect(nftCancelSellHandler.revertForSender(actual, walletRepository)).toResolve();
+            await expect(nftCancelSellHandler.revert(actual)).toResolve();
 
             // @ts-ignore
             expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actualAuction.id]).toStrictEqual({
@@ -457,15 +461,16 @@ describe("NFT Auction Cancel tests", () => {
             setMockFindByIds([actualBid]);
 
             transactionHistoryService.findManyByCriteria.mockResolvedValueOnce([actualBid.data]);
-            transactionHistoryService.findOneByCriteria.mockResolvedValueOnce([actualCancelBid.data]);
 
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
-            // @ts-ignore
-            auctionsAsset[actualAuction.id] = {
+            const auctionAsset = {
                 nftIds: ["3e1a4b362282b4113d717632b92c939cf689a9919db77c723efba84c6ec0330c"],
-                bids: [],
+                bids: [actualBid.id!],
             };
+            // @ts-ignore
+            auctionsAsset[actualAuction.id] = auctionAsset;
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
+            wallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.make(110));
             walletRepository.index(wallet);
 
             const actual = new NFTBuilders.NFTAuctionCancelBuilder()
@@ -477,23 +482,30 @@ describe("NFT Auction Cancel tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await nftCancelSellHandler.applyToSender(actual, walletRepository);
+            await nftCancelSellHandler.applyToSender(actual);
 
-            await expect(nftCancelSellHandler.revertForSender(actual, walletRepository)).toResolve();
+            // auction and bids should be canceled after apply
+            expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actualAuction.id!]).toBeUndefined();
+            // locked balanced should be decreased after canceling auction with bids
+            expect(wallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
+                Utils.BigNumber.make(10),
+            );
 
-            // @ts-ignore
-            expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actualAuction.id]).toStrictEqual({
-                nftIds: ["3e1a4b362282b4113d717632b92c939cf689a9919db77c723efba84c6ec0330c"],
-                bids: [],
-            });
+            await expect(nftCancelSellHandler.revertForSender(actual)).toResolve();
+
+            // auction and bids should be restored after revert
+            expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actualAuction.id!]).toStrictEqual(
+                auctionAsset,
+            );
+            // locked balance should be restored after revert
+            expect(wallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
+                Utils.BigNumber.make(110),
+            );
 
             // @ts-ignore
             expect(walletRepository.findByIndex(NFTExchangeIndexers.AuctionIndexer, actualAuction.id)).toStrictEqual(
                 wallet,
             );
-
-            // @ts-ignore
-            expect(walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).get(actualBid.id)).toBeUndefined();
         });
 
         it("should throw if nftAuctionCancel is undefined", async () => {
@@ -518,35 +530,9 @@ describe("NFT Auction Cancel tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await nftCancelSellHandler.applyToSender(actual, walletRepository);
+            await nftCancelSellHandler.applyToSender(actual);
             actual.data.asset = undefined;
-            await expect(nftCancelSellHandler.revertForSender(actual, walletRepository)).toReject();
-        });
-
-        it("should test revert method with undefined wallet repository", async () => {
-            const actualAuction = buildAuctionTransaction({ blockHeight: 4, startAmount: 100 });
-            setMockTransactions([actualAuction]);
-
-            const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
-            // @ts-ignore
-            auctionsAsset[actualAuction.id] = {
-                nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                bids: [],
-            };
-            wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
-            walletRepository.index(wallet);
-
-            const actual = new NFTBuilders.NFTAuctionCancelBuilder()
-                .NFTAuctionCancelAsset({
-                    // @ts-ignore
-                    auctionId: actualAuction.id,
-                })
-                .nonce("1")
-                .sign(passphrases[0])
-                .build();
-
-            await nftCancelSellHandler.apply(actual, walletRepository);
-            await expect(nftCancelSellHandler.revert(actual, undefined)).toResolve();
+            await expect(nftCancelSellHandler.revertForSender(actual)).toReject();
         });
     });
 });

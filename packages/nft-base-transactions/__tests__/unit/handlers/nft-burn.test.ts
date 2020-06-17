@@ -164,22 +164,20 @@ describe("NFT Burn tests", () => {
 
             const actual = buildActualBurn("05187f38e583cd9ca285bd9ee48af41d04af0f432410ef110ceb87212f4a49aa");
 
-            await expect(nftBurnHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).toResolve();
+            await expect(nftBurnHandler.throwIfCannotBeApplied(actual, wallet)).toResolve();
         });
 
         it("should throw if nftBurn is undefined", async () => {
             const undefinedTokenInTransaction = { ...actualCreate };
             undefinedTokenInTransaction.data.asset = undefined;
 
-            await expect(
-                nftBurnHandler.throwIfCannotBeApplied(undefinedTokenInTransaction, wallet, walletRepository),
-            ).toReject();
+            await expect(nftBurnHandler.throwIfCannotBeApplied(undefinedTokenInTransaction, wallet)).toReject();
         });
 
         it("should throw because wallet doesnt have nft.base", async () => {
             const actual = buildActualBurn("05187f38e583cd9ca285bd9ee48af41d04af0f432410ef110ceb87212f4a49aa");
 
-            await expect(nftBurnHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).rejects.toThrowError(
+            await expect(nftBurnHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
                 NFTBaseBurnCannotBeApplied,
             );
         });
@@ -191,7 +189,7 @@ describe("NFT Burn tests", () => {
 
             const actual = buildActualBurn("05187f38e583cd9ca285bd9ee48af41d04af0f432410ef110ceb87212f4a49aa");
 
-            await expect(nftBurnHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).rejects.toThrowError(
+            await expect(nftBurnHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
                 NFTBaseBurnWalletDoesntOwnSpecifiedToken,
             );
         });
@@ -210,7 +208,7 @@ describe("NFT Burn tests", () => {
 
             const actual = buildActualBurn("05187f38e583cd9ca285bd9ee48af41d04af0f432410ef110ceb87212f4a49aa");
 
-            await expect(nftBurnHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).rejects.toThrowError(
+            await expect(nftBurnHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
                 NFTBaseBurnNFTIsOnAuction,
             );
         });
@@ -229,7 +227,7 @@ describe("NFT Burn tests", () => {
 
             const actual = buildActualBurn("05187f38e583cd9ca285bd9ee48af41d04af0f432410ef110ceb87212f4a49aa");
 
-            await expect(nftBurnHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).toResolve();
+            await expect(nftBurnHandler.throwIfCannotBeApplied(actual, wallet)).toResolve();
         });
     });
 
@@ -291,7 +289,7 @@ describe("NFT Burn tests", () => {
 
             const actual = buildActualBurn(actualCreate.id);
 
-            await expect(nftBurnHandler.apply(actual, walletRepository)).toResolve();
+            await expect(nftBurnHandler.apply(actual)).toResolve();
             checkApply();
         });
     });
@@ -306,8 +304,8 @@ describe("NFT Burn tests", () => {
 
             setMockTransaction(actual);
 
-            await nftBurnHandler.apply(actual, walletRepository);
-            await expect(nftBurnHandler.revert(actual, walletRepository)).toResolve();
+            await nftBurnHandler.apply(actual);
+            await expect(nftBurnHandler.revert(actual)).toResolve();
             expect(
                 walletRepository.findByIndex(
                     NFTIndexers.CollectionIndexer,
@@ -327,22 +325,9 @@ describe("NFT Burn tests", () => {
 
             setMockTransaction(actual);
 
-            await nftBurnHandler.apply(actual, walletRepository);
+            await nftBurnHandler.apply(actual);
             actual.data.asset = undefined;
-            await expect(nftBurnHandler.revert(actual, walletRepository)).toReject();
-        });
-
-        it("should test revert method with undefined wallet repository", async () => {
-            prepareWallet();
-
-            setMockTransactions([actualCreate]);
-
-            const actual = buildActualBurn(actualCreate.id);
-
-            setMockTransaction(actual);
-
-            await nftBurnHandler.apply(actual, walletRepository);
-            await expect(nftBurnHandler.revert(actual, undefined)).toResolve();
+            await expect(nftBurnHandler.revert(actual)).toReject();
         });
     });
 });

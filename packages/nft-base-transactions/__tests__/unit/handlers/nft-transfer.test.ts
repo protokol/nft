@@ -146,7 +146,7 @@ describe("NFT Transfer tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await expect(nftTransferHandler.throwIfCannotBeApplied(actual, senderWallet, walletRepository)).toResolve();
+            await expect(nftTransferHandler.throwIfCannotBeApplied(actual, senderWallet)).toResolve();
         });
 
         it("should throw if nftTransfer is undefined", async () => {
@@ -164,7 +164,7 @@ describe("NFT Transfer tests", () => {
                 .build();
             actual.data.asset = undefined;
 
-            await expect(nftTransferHandler.throwIfCannotBeApplied(actual, senderWallet, walletRepository)).toReject();
+            await expect(nftTransferHandler.throwIfCannotBeApplied(actual, senderWallet)).toReject();
         });
 
         it("should throw NFTBaseTransferCannotBeApplied", async () => {
@@ -177,9 +177,9 @@ describe("NFT Transfer tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await expect(
-                nftTransferHandler.throwIfCannotBeApplied(actual, senderWallet, walletRepository),
-            ).rejects.toThrowError(NFTBaseTransferCannotBeApplied);
+            await expect(nftTransferHandler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
+                NFTBaseTransferCannotBeApplied,
+            );
         });
 
         it("should throw NFTBaseTransferWalletDoesntOwnSpecifiedNftToken", async () => {
@@ -195,9 +195,9 @@ describe("NFT Transfer tests", () => {
                 .nonce("1")
                 .sign(passphrases[0])
                 .build();
-            await expect(
-                nftTransferHandler.throwIfCannotBeApplied(actual, senderWallet, walletRepository),
-            ).rejects.toThrowError(NFTBaseTransferWalletDoesntOwnSpecifiedNftToken);
+            await expect(nftTransferHandler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
+                NFTBaseTransferWalletDoesntOwnSpecifiedNftToken,
+            );
         });
 
         it("should throw NFTBaseTransferNFTIsOnAuction", async () => {
@@ -219,9 +219,9 @@ describe("NFT Transfer tests", () => {
                 .nonce("1")
                 .sign(passphrases[0])
                 .build();
-            await expect(
-                nftTransferHandler.throwIfCannotBeApplied(actual, senderWallet, walletRepository),
-            ).rejects.toThrowError(NFTBaseTransferNFTIsOnAuction);
+            await expect(nftTransferHandler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
+                NFTBaseTransferNFTIsOnAuction,
+            );
         });
 
         it("should not throw if cannot find nft in nftIds", async () => {
@@ -243,7 +243,7 @@ describe("NFT Transfer tests", () => {
                 .nonce("1")
                 .sign(passphrases[0])
                 .build();
-            await expect(nftTransferHandler.throwIfCannotBeApplied(actual, senderWallet, walletRepository)).toResolve();
+            await expect(nftTransferHandler.throwIfCannotBeApplied(actual, senderWallet)).toResolve();
         });
     });
 
@@ -351,7 +351,7 @@ describe("NFT Transfer tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await expect(nftTransferHandler.apply(actual, walletRepository)).toResolve();
+            await expect(nftTransferHandler.apply(actual)).toResolve();
 
             expect(
                 senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
@@ -387,7 +387,7 @@ describe("NFT Transfer tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await expect(nftTransferHandler.apply(actual, walletRepository)).toResolve();
+            await expect(nftTransferHandler.apply(actual)).toResolve();
 
             expect(
                 senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
@@ -418,8 +418,8 @@ describe("NFT Transfer tests", () => {
                 .build();
             actual.data.asset = undefined;
 
-            await expect(nftTransferHandler.applyToSender(actual, walletRepository)).toReject();
-            await expect(nftTransferHandler.applyToRecipient(actual, walletRepository)).toReject();
+            await expect(nftTransferHandler.applyToSender(actual)).toReject();
+            await expect(nftTransferHandler.applyToRecipient(actual)).toReject();
         });
     });
 
@@ -439,8 +439,8 @@ describe("NFT Transfer tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await nftTransferHandler.apply(actual, walletRepository);
-            await expect(nftTransferHandler.revert(actual, walletRepository)).toResolve();
+            await nftTransferHandler.apply(actual);
+            await expect(nftTransferHandler.revert(actual)).toResolve();
 
             expect(
                 senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
@@ -477,8 +477,8 @@ describe("NFT Transfer tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await nftTransferHandler.apply(actual, walletRepository);
-            await expect(nftTransferHandler.revert(actual, walletRepository)).toResolve();
+            await nftTransferHandler.apply(actual);
+            await expect(nftTransferHandler.revert(actual)).toResolve();
 
             expect(
                 senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
@@ -508,29 +508,10 @@ describe("NFT Transfer tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await nftTransferHandler.apply(actual, walletRepository);
+            await nftTransferHandler.apply(actual);
             actual.data.asset = undefined;
-            await expect(nftTransferHandler.revertForSender(actual, walletRepository)).toReject();
-            await expect(nftTransferHandler.revertForRecipient(actual, walletRepository)).toReject();
-        });
-
-        it("should test revert method with undefined wallet repository", async () => {
-            const tokensWallet = senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
-            tokensWallet["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {};
-            senderWallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
-            walletRepository.index(senderWallet);
-
-            const actual = new Builders.NFTTransferBuilder()
-                .NFTTransferAsset({
-                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    recipientId: recipientWallet.address,
-                })
-                .nonce("1")
-                .sign(passphrases[0])
-                .build();
-
-            await nftTransferHandler.apply(actual, walletRepository);
-            await expect(nftTransferHandler.revert(actual, undefined)).toResolve();
+            await expect(nftTransferHandler.revertForSender(actual)).toReject();
+            await expect(nftTransferHandler.revertForRecipient(actual)).toReject();
         });
     });
 });

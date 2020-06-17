@@ -59,7 +59,6 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
     public async throwIfCannotBeApplied(
         transaction: Interfaces.ITransaction,
         wallet: Contracts.State.Wallet,
-        customWalletRepository?: Contracts.State.WalletRepository,
     ): Promise<void> {
         AppUtils.assert.defined<NFTInterfaces.NFTTokenAsset>(transaction.data.asset?.nftToken);
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
@@ -98,58 +97,48 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
             throw new NFTBaseMaximumSupplyError();
         }
 
-        return super.throwIfCannotBeApplied(transaction, wallet, customWalletRepository);
+        return super.throwIfCannotBeApplied(transaction, wallet);
     }
 
-    public async applyToSender(
-        transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
-    ): Promise<void> {
-        await super.applyToSender(transaction, customWalletRepository);
+    public async applyToSender(transaction: Interfaces.ITransaction): Promise<void> {
+        await super.applyToSender(transaction);
 
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
         AppUtils.assert.defined<string>(transaction.data.id);
         // Line is already checked inside throwIfCannotBeApplied run by super.applyToSender method
         //AppUtils.assert.defined<NFTInterfaces.NFTTokenAsset>(transaction.data.asset?.nftToken);
 
-        const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
-
-        const sender: Contracts.State.Wallet = walletRepository.findByPublicKey(transaction.data.senderPublicKey);
+        const sender: Contracts.State.Wallet = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
 
         const tokensWallet = sender.getAttribute<INFTTokens>("nft.base.tokenIds", {});
         tokensWallet[transaction.data.id] = {};
         sender.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
-        walletRepository.index(sender);
+        this.walletRepository.index(sender);
 
         const collectionId = transaction.data.asset!.nftToken.collectionId;
-        const genesisWallet = walletRepository.findByIndex(NFTIndexers.CollectionIndexer, collectionId);
+        const genesisWallet = this.walletRepository.findByIndex(NFTIndexers.CollectionIndexer, collectionId);
         const genesisWalletCollection = genesisWallet.getAttribute<INFTCollections>("nft.base.collections");
         genesisWalletCollection[collectionId].currentSupply += 1;
         genesisWallet.setAttribute<INFTCollections>("nft.base.collections", genesisWalletCollection);
     }
 
-    public async revertForSender(
-        transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
-    ): Promise<void> {
-        await super.revertForSender(transaction, customWalletRepository);
+    public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
+        await super.revertForSender(transaction);
 
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
         AppUtils.assert.defined<string>(transaction.data.id);
         AppUtils.assert.defined<NFTInterfaces.NFTTokenAsset>(transaction.data.asset?.nftToken);
 
-        const walletRepository: Contracts.State.WalletRepository = customWalletRepository ?? this.walletRepository;
-
-        const sender: Contracts.State.Wallet = walletRepository.findByPublicKey(transaction.data.senderPublicKey);
+        const sender: Contracts.State.Wallet = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
 
         const tokensWallet = sender.getAttribute<INFTTokens>("nft.base.tokenIds");
         delete tokensWallet[transaction.data.id];
         sender.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
-        walletRepository.forgetByIndex(NFTIndexers.NFTTokenIndexer, transaction.data.id);
-        walletRepository.index(sender);
+        this.walletRepository.forgetByIndex(NFTIndexers.NFTTokenIndexer, transaction.data.id);
+        this.walletRepository.index(sender);
 
         const collectionId = transaction.data.asset.nftToken.collectionId;
-        const genesisWallet = walletRepository.findByIndex(NFTIndexers.CollectionIndexer, collectionId);
+        const genesisWallet = this.walletRepository.findByIndex(NFTIndexers.CollectionIndexer, collectionId);
         const genesisWalletCollection = genesisWallet.getAttribute<INFTCollections>("nft.base.collections");
         genesisWalletCollection[collectionId].currentSupply -= 1;
         genesisWallet.setAttribute<INFTCollections>("nft.base.collections", genesisWalletCollection);
@@ -157,13 +146,11 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
 
     public async applyToRecipient(
         transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
         // tslint:disable-next-line: no-empty
     ): Promise<void> {}
 
     public async revertForRecipient(
         transaction: Interfaces.ITransaction,
-        customWalletRepository?: Contracts.State.WalletRepository,
         // tslint:disable-next-line:no-empty
     ): Promise<void> {}
 }

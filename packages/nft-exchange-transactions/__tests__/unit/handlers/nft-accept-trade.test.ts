@@ -192,7 +192,7 @@ describe("NFT Accept trade tests", () => {
 
             setMockTransactions([actualAuction, actualBid]);
 
-            await expect(nftAcceptTradeHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).toResolve();
+            await expect(nftAcceptTradeHandler.throwIfCannotBeApplied(actual, wallet)).toResolve();
         });
 
         it("should throw if nftAcceptTrade is undefined", async () => {
@@ -206,7 +206,7 @@ describe("NFT Accept trade tests", () => {
                 .build();
             actual.data.asset = undefined;
 
-            await expect(nftAcceptTradeHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).toReject();
+            await expect(nftAcceptTradeHandler.throwIfCannotBeApplied(actual, wallet)).toReject();
         });
 
         it("should throw NFTExchangeAcceptTradeWalletCannotTrade", async () => {
@@ -218,9 +218,9 @@ describe("NFT Accept trade tests", () => {
                 .nonce("1")
                 .sign(passphrases[0])
                 .build();
-            await expect(
-                nftAcceptTradeHandler.throwIfCannotBeApplied(actual, wallet, walletRepository),
-            ).rejects.toThrowError(NFTExchangeAcceptTradeWalletCannotTrade);
+            await expect(nftAcceptTradeHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
+                NFTExchangeAcceptTradeWalletCannotTrade,
+            );
         });
 
         it("should throw NFTExchangeAcceptTradeBidDoesNotExists", async () => {
@@ -233,9 +233,9 @@ describe("NFT Accept trade tests", () => {
                 .nonce("1")
                 .sign(passphrases[0])
                 .build();
-            await expect(
-                nftAcceptTradeHandler.throwIfCannotBeApplied(actual, wallet, walletRepository),
-            ).rejects.toThrowError(NFTExchangeAcceptTradeBidDoesNotExists);
+            await expect(nftAcceptTradeHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
+                NFTExchangeAcceptTradeBidDoesNotExists,
+            );
         });
 
         it("should throw NFTExchangeAcceptTradeAuctionDoesNotExists", async () => {
@@ -254,9 +254,9 @@ describe("NFT Accept trade tests", () => {
                 .nonce("1")
                 .sign(passphrases[0])
                 .build();
-            await expect(
-                nftAcceptTradeHandler.throwIfCannotBeApplied(actual, wallet, walletRepository),
-            ).rejects.toThrowError(NFTExchangeAcceptTradeAuctionDoesNotExists);
+            await expect(nftAcceptTradeHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
+                NFTExchangeAcceptTradeAuctionDoesNotExists,
+            );
         });
 
         it("should throw NFTExchangeAcceptTradeAuctionCanceled", async () => {
@@ -274,9 +274,9 @@ describe("NFT Accept trade tests", () => {
                 .nonce("1")
                 .sign(passphrases[0])
                 .build();
-            await expect(
-                nftAcceptTradeHandler.throwIfCannotBeApplied(actual, wallet, walletRepository),
-            ).rejects.toThrowError(NFTExchangeAcceptTradeAuctionCanceled);
+            await expect(nftAcceptTradeHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
+                NFTExchangeAcceptTradeAuctionCanceled,
+            );
         });
 
         it("should throw NFTExchangeAcceptTradeBidCanceled", async () => {
@@ -303,9 +303,9 @@ describe("NFT Accept trade tests", () => {
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
             walletRepository.index(wallet);
 
-            await expect(
-                nftAcceptTradeHandler.throwIfCannotBeApplied(actual, wallet, walletRepository),
-            ).rejects.toThrowError(NFTExchangeAcceptTradeBidCanceled);
+            await expect(nftAcceptTradeHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
+                NFTExchangeAcceptTradeBidCanceled,
+            );
         });
     });
 
@@ -415,7 +415,7 @@ describe("NFT Accept trade tests", () => {
             setMockTransactions([actualAuction, actualBid]);
             setMockFindByIds([actualBid]);
 
-            await expect(nftAcceptTradeHandler.apply(actual, walletRepository)).toResolve();
+            await expect(nftAcceptTradeHandler.apply(actual)).toResolve();
 
             expect(
                 walletRepository.findByIndex(
@@ -466,7 +466,7 @@ describe("NFT Accept trade tests", () => {
             setMockFindByIds([actualBid]);
             setMockTransaction(actual);
 
-            await expect(nftAcceptTradeHandler.apply(actual, walletRepository)).toResolve();
+            await expect(nftAcceptTradeHandler.apply(actual)).toResolve();
             expect(
                 walletRepository.findByIndex(
                     Indexers.NFTIndexers.NFTTokenIndexer,
@@ -512,11 +512,14 @@ describe("NFT Accept trade tests", () => {
 
             setMockTransactions([actualAuction, actualBid]);
             setMockFindByIds([actualBid]);
-            transactionHistoryService.findManyByCriteria.mockResolvedValueOnce([actualBid.data]);
+            transactionHistoryService.findManyByCriteria.mockResolvedValueOnce([actualBid.data, actualBid.data]);
+            transactionHistoryService.findOneByCriteria
+                .mockResolvedValueOnce(actual.data)
+                .mockResolvedValueOnce(undefined);
 
-            await nftAcceptTradeHandler.apply(actual, walletRepository);
+            await nftAcceptTradeHandler.apply(actual);
 
-            await expect(nftAcceptTradeHandler.revert(actual, walletRepository)).toResolve();
+            await expect(nftAcceptTradeHandler.revert(actual)).toResolve();
         });
 
         it("should throw if nftAcceptTrade is undefined", async () => {
@@ -552,46 +555,9 @@ describe("NFT Accept trade tests", () => {
             setMockFindByIds([actualBid]);
             transactionHistoryService.findManyByCriteria.mockResolvedValueOnce([actualBid.data]);
 
-            await nftAcceptTradeHandler.apply(actual, walletRepository);
+            await nftAcceptTradeHandler.apply(actual);
             actual.data.asset = undefined;
-            await expect(nftAcceptTradeHandler.revert(actual, walletRepository)).toReject();
-        });
-
-        it("should test revert method with undefined wallet repository", async () => {
-            const tokensWallet = wallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
-            tokensWallet["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {};
-            wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
-
-            walletRepository.index(wallet);
-            const actualAuction = buildAuctionTransaction({ blockHeight: 1 });
-            const actualBid = buildBidTransaction({ auctionId: actualAuction.id!, bidAmount: 100 });
-
-            const actual = new NFTBuilders.NftAcceptTradeBuilder()
-                .NFTAcceptTradeAsset({
-                    // @ts-ignore
-                    auctionId: actualAuction.data.id,
-                    bidId: actualBid.id!,
-                })
-                .nonce("1")
-                .sign(passphrases[0])
-                .build();
-
-            const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
-            // @ts-ignore
-            auctionsAsset[actualAuction.id] = {
-                nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                bids: [actualBid.id],
-            };
-            wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
-            walletRepository.index(wallet);
-
-            setMockTransactions([actualAuction, actualBid]);
-            setMockFindByIds([actualBid]);
-            transactionHistoryService.findManyByCriteria.mockResolvedValueOnce([actualBid.data]);
-            transactionHistoryService.findOneByCriteria.mockResolvedValueOnce([actual.data]);
-
-            await nftAcceptTradeHandler.apply(actual, walletRepository);
-            await expect(nftAcceptTradeHandler.revert(actual, undefined)).toResolve();
+            await expect(nftAcceptTradeHandler.revert(actual)).toReject();
         });
     });
 });

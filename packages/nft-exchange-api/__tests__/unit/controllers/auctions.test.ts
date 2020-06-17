@@ -130,16 +130,20 @@ describe("Test auctions controller", () => {
         };
         const response = (await auctionsController.showAuctionWallet(request, undefined)) as ItemResponse;
 
-        // @ts-ignore
-        expect(response.data.address).toStrictEqual(senderWallet.address);
-        // @ts-ignore
-        expect(response.data.publicKey).toStrictEqual(senderWallet.publicKey);
-        // @ts-ignore
-        expect(response.data.nft.exchange.auctions[actual.id].nftIds).toStrictEqual([
-            "3e1a4b362282b4113d717632b92c939cf689a9919db77c723efba84c6ec0330c",
-        ]);
-        // @ts-ignore
-        expect(response.data.nft.exchange.auctions[actual.id].bids).toStrictEqual([]);
+        expect(response.data).toStrictEqual({
+            address: senderWallet.address,
+            publicKey: senderWallet.publicKey,
+            nft: {
+                collections: [],
+                auctions: [
+                    {
+                        auctionId: actual.id,
+                        nftIds: ["3e1a4b362282b4113d717632b92c939cf689a9919db77c723efba84c6ec0330c"],
+                        bids: [],
+                    },
+                ],
+            },
+        });
     });
     it("search - by senderPublicKey, nftId, startAmount and expiration", async () => {
         const request: Hapi.Request = {
