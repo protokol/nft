@@ -87,17 +87,17 @@ describe("NFT Auction tests", () => {
         it("should throw NFTExchangeAuctionExpired", async () => {
             const actual = buildAuctionTransaction({ blockHeight: 1 });
 
-            await expect(
-                nftAuctionHandler.throwIfCannotBeApplied(actual, wallet, walletRepository),
-            ).rejects.toThrowError(NFTExchangeAuctionExpired);
+            await expect(nftAuctionHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
+                NFTExchangeAuctionExpired,
+            );
         });
 
         it("should throw NFTExchangeAuctioneerDoesNotOwnAnyNft, because wallet doesn't have nft property", async () => {
             const actual = buildAuctionTransaction({ blockHeight: 56 });
 
-            await expect(
-                nftAuctionHandler.throwIfCannotBeApplied(actual, wallet, walletRepository),
-            ).rejects.toThrowError(NFTExchangeAuctioneerDoesNotOwnAnyNft);
+            await expect(nftAuctionHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
+                NFTExchangeAuctioneerDoesNotOwnAnyNft,
+            );
         });
 
         it("should not throw, because data is correct", async () => {
@@ -107,7 +107,7 @@ describe("NFT Auction tests", () => {
 
             const actual = buildAuctionTransaction({ blockHeight: 56 });
 
-            await expect(nftAuctionHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).toResolve();
+            await expect(nftAuctionHandler.throwIfCannotBeApplied(actual, wallet)).toResolve();
         });
 
         it("should throw NFTExchangeAuctioneerDoesNotOwnNft, because wallet doesn't own wanted nft", async () => {
@@ -117,9 +117,9 @@ describe("NFT Auction tests", () => {
 
             const actual = buildAuctionTransaction({ blockHeight: 56 });
 
-            await expect(
-                nftAuctionHandler.throwIfCannotBeApplied(actual, wallet, walletRepository),
-            ).rejects.toThrowError(NFTExchangeAuctioneerDoesNotOwnNft);
+            await expect(nftAuctionHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
+                NFTExchangeAuctioneerDoesNotOwnNft,
+            );
         });
 
         it("should throw NFTExchangeAuctionAlreadyInProgress", async () => {
@@ -137,9 +137,9 @@ describe("NFT Auction tests", () => {
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", nftExchangeWalletAsset);
 
-            await expect(
-                nftAuctionHandler.throwIfCannotBeApplied(actual, wallet, walletRepository),
-            ).rejects.toThrowError(NFTExchangeAuctionAlreadyInProgress);
+            await expect(nftAuctionHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
+                NFTExchangeAuctionAlreadyInProgress,
+            );
         });
 
         it("should not throw if there is no auction for selected ntf", async () => {
@@ -157,14 +157,14 @@ describe("NFT Auction tests", () => {
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", nftExchangeWalletAsset);
 
-            await expect(nftAuctionHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).toResolve();
+            await expect(nftAuctionHandler.throwIfCannotBeApplied(actual, wallet)).toResolve();
         });
 
         it("should throw if nftAuction is undefined", async () => {
             const actual = buildAuctionTransaction({ blockHeight: 56 });
             actual.data.asset = undefined;
 
-            await expect(nftAuctionHandler.throwIfCannotBeApplied(actual, wallet, walletRepository)).toReject();
+            await expect(nftAuctionHandler.throwIfCannotBeApplied(actual, wallet)).toReject();
         });
     });
 
@@ -230,7 +230,7 @@ describe("NFT Auction tests", () => {
 
                 const actual = buildAuctionTransaction({ blockHeight: 56 });
 
-                await expect(nftAuctionHandler.applyToSender(actual, walletRepository)).toResolve();
+                await expect(nftAuctionHandler.applyToSender(actual)).toResolve();
 
                 // @ts-ignore
                 expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actual.id]).toStrictEqual({
@@ -255,27 +255,15 @@ describe("NFT Auction tests", () => {
 
                 const actual = buildAuctionTransaction({ blockHeight: 56 });
 
-                await nftAuctionHandler.applyToSender(actual, walletRepository);
+                await nftAuctionHandler.apply(actual);
 
-                await expect(nftAuctionHandler.revertForSender(actual, walletRepository)).toResolve();
+                await expect(nftAuctionHandler.revert(actual)).toResolve();
 
                 // @ts-ignore
                 expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actual.id]).toBeUndefined();
 
                 // @ts-ignore
                 expect(walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).get(actual.id)).toBeUndefined();
-            });
-
-            it("should test revert method with undefined wallet repository", async () => {
-                const nftBaseWalletAsset = wallet.getAttribute<NFTBaseInterfaces.INFTTokens>("nft.base.tokenIds", {});
-                nftBaseWalletAsset["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {};
-                wallet.setAttribute<NFTBaseInterfaces.INFTTokens>("nft.base.tokenIds", nftBaseWalletAsset);
-
-                const actual = buildAuctionTransaction({ blockHeight: 56 });
-
-                await nftAuctionHandler.apply(actual, walletRepository);
-
-                await expect(nftAuctionHandler.revert(actual, undefined)).toResolve();
             });
         });
     });

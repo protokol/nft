@@ -98,16 +98,14 @@ describe("NFT Register collection tests", () => {
 
     describe("throwIfCannotBeApplied tests", () => {
         it("should not throw", async () => {
-            await expect(handler.throwIfCannotBeApplied(actual, senderWallet, walletRepository)).toResolve();
+            await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).toResolve();
         });
 
         it("should throw if nftToken is undefined", async () => {
             const undefinedTokenInTransaction = { ...actual };
             undefinedTokenInTransaction.data.asset = undefined;
 
-            await expect(
-                handler.throwIfCannotBeApplied(undefinedTokenInTransaction, senderWallet, walletRepository),
-            ).toReject();
+            await expect(handler.throwIfCannotBeApplied(undefinedTokenInTransaction, senderWallet)).toReject();
         });
 
         it("should throw NFTBaseInvalidAjvSchemaError", async () => {
@@ -126,7 +124,7 @@ describe("NFT Register collection tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            await expect(handler.throwIfCannotBeApplied(actual, senderWallet, walletRepository)).rejects.toThrowError(
+            await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
                 NFTBaseInvalidAjvSchemaError,
             );
         });
@@ -137,7 +135,7 @@ describe("NFT Register collection tests", () => {
                 [],
             );
 
-            await expect(handler.throwIfCannotBeApplied(actual, senderWallet, walletRepository)).toResolve();
+            await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).toResolve();
         });
 
         it("should allow to register a collection for authorized registrators only", async () => {
@@ -145,7 +143,7 @@ describe("NFT Register collection tests", () => {
                 Container.Identifiers.PluginConfiguration,
             ).set("authorizedRegistrators", [senderWallet.publicKey]);
 
-            await expect(handler.throwIfCannotBeApplied(actual, senderWallet, walletRepository)).toResolve();
+            await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).toResolve();
         });
 
         it("should prevent to register a collection for unauthorized registrators", async () => {
@@ -153,7 +151,7 @@ describe("NFT Register collection tests", () => {
                 Container.Identifiers.PluginConfiguration,
             ).set("authorizedRegistrators", ["authorizedPublicKey"]);
 
-            await expect(handler.throwIfCannotBeApplied(actual, senderWallet, walletRepository)).rejects.toThrowError(
+            await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
                 NFTBaseUnauthorizedCollectionRegistrator,
             );
         });
@@ -175,7 +173,7 @@ describe("NFT Register collection tests", () => {
 
     describe("apply tests", () => {
         it("should test apply method", async () => {
-            await expect(handler.apply(actual, walletRepository)).toResolve();
+            await expect(handler.apply(actual)).toResolve();
 
             // @ts-ignore
             collectionWalletCheck(senderWallet, actual.id, 0, nftCollectionAsset);
@@ -183,28 +181,18 @@ describe("NFT Register collection tests", () => {
             // @ts-ignore
             expect(walletRepository.findByIndex(NFTIndexers.CollectionIndexer, actual.id)).toStrictEqual(senderWallet);
         });
-
-        it("should test applyToSender method with undefined wallet repository", async () => {
-            await expect(handler.applyToSender(actual, undefined)).toResolve();
-        });
     });
 
     describe("revert tests", () => {
         it("should test revert method", async () => {
-            await handler.apply(actual, walletRepository);
+            await handler.apply(actual);
 
-            await expect(handler.revert(actual, walletRepository)).toResolve();
+            await expect(handler.revert(actual)).toResolve();
 
             // @ts-ignore
             expect(senderWallet.getAttribute("nft.base.collections")[actual.id]).toBeUndefined();
             // @ts-ignore
             expect(walletRepository.getIndex(NFTIndexers.CollectionIndexer).get(actual.id)).toBeUndefined();
-        });
-
-        it("should test revert method with undefined wallet repository", async () => {
-            await handler.apply(actual, walletRepository);
-
-            await expect(handler.revert(actual, undefined)).toResolve();
         });
     });
 });
