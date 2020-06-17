@@ -53,7 +53,7 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
                     "nft.exchange.lockedBalance",
                     Utils.BigNumber.ZERO,
                 );
-                bidWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.plus(bidAmount));
+                bidWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.minus(bidAmount));
 
                 this.walletRepository.forgetByIndex(NFTExchangeIndexers.BidIndexer, bid.id);
                 this.walletRepository.index(bidWallet);
@@ -134,7 +134,7 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
                 "nft.exchange.lockedBalance",
                 Utils.BigNumber.ZERO,
             );
-            bidWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.plus(bidAmount));
+            bidWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.minus(bidAmount));
 
             this.walletRepository.forgetByIndex(NFTExchangeIndexers.BidIndexer, bid.id);
             this.walletRepository.index(bidWallet);
@@ -165,17 +165,15 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
             asset: { nftBid: { auctionId: nftAuctionCancelAsset.auctionId } },
         });
         const activeBids: string[] = [];
-        if (bidTransactions) {
-            for (const bidTransaction of bidTransactions) {
-                const bidCancel = await this.transactionHistoryService.findOneByCriteria({
-                    typeGroup: NFTExchangeEnums.NFTExchangeTransactionsTypeGroup,
-                    type: NFTExchangeEnums.NFTTransactionTypes.NFTBidCancel,
-                    asset: { nftBidCancel: { bidId: bidTransaction.id } },
-                });
-                if (!bidCancel) {
-                    // @ts-ignore
-                    activeBids.push(bidTransaction.id);
-                }
+        for (const bidTransaction of bidTransactions) {
+            const bidCancel = await this.transactionHistoryService.findOneByCriteria({
+                typeGroup: NFTExchangeEnums.NFTExchangeTransactionsTypeGroup,
+                type: NFTExchangeEnums.NFTTransactionTypes.NFTBidCancel,
+                asset: { nftBidCancel: { bidId: bidTransaction.id } },
+            });
+            if (!bidCancel) {
+                // @ts-ignore
+                activeBids.push(bidTransaction.id);
             }
         }
 
@@ -189,7 +187,7 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
                 "nft.exchange.lockedBalance",
                 Utils.BigNumber.ZERO,
             );
-            bidWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.minus(bidAmount));
+            bidWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.plus(bidAmount));
 
             this.walletRepository.index(bidWallet);
         }
