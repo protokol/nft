@@ -22,13 +22,19 @@ export class WalletsResource implements Contracts.Resource {
      * @memberof Resource
      */
     public transform(resource): object {
+        const collections: object[] = [];
+        for (const [key, value] of Object.entries(resource.attributes.attributes.nft.base.collections)) {
+            const currentValue: any = value;
+            collections.push({
+                collectionId: key,
+                ...currentValue,
+            });
+        }
         return {
             address: resource.address,
             publicKey: resource.publicKey,
             nft: {
-                collections: resource.attributes.attributes.nft.base.collections
-                    ? resource.attributes.attributes.nft.base.collections
-                    : [],
+                collections: collections,
                 assetsIds: resource.attributes.attributes.nft.base.tokenIds
                     ? Object.keys(resource.attributes.attributes.nft.base.tokenIds)
                     : [],
