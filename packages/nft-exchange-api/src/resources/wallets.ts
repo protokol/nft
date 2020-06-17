@@ -23,7 +23,7 @@ export class WalletResource implements Contracts.Resource {
      */
     public transform(resource): object {
         const collections: object[] = [];
-        if (resource.attributes.attributes.nft.base && resource.attributes.attributes.nft.base.collections) {
+        if (resource.attributes.attributes.nft.base?.collections) {
             for (const [key, value] of Object.entries(resource.attributes.attributes.nft.base.collections)) {
                 const currentValue: any = value;
                 collections.push({
@@ -34,7 +34,7 @@ export class WalletResource implements Contracts.Resource {
         }
 
         const auctions: object[] = [];
-        if (resource.attributes.attributes.nft.exchange && resource.attributes.attributes.nft.exchange.auctions) {
+        if (resource.attributes.attributes.nft.exchange?.auctions) {
             for (const [key, value] of Object.entries(resource.attributes.attributes.nft.exchange.auctions)) {
                 const currentValue: any = value;
                 auctions.push({
