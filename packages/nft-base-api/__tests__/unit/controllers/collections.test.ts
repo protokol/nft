@@ -149,12 +149,13 @@ describe("Test collection controller", () => {
             address: senderWallet.address,
             publicKey: senderWallet.publicKey,
             nft: {
-                collections: {
-                    "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61": {
+                collections: [
+                    {
+                        collectionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
                         currentSupply: 0,
                         nftCollectionAsset: nftCollectionAsset,
                     },
-                },
+                ],
                 assetsIds: [],
             },
         });

@@ -124,20 +124,21 @@ describe("Test bids controller", () => {
         };
 
         const response = (await bidsController.showAuctionWallet(request, undefined)) as ItemResponse;
-        // @ts-ignore
-        expect(response.data.address).toStrictEqual(senderWallet.address);
-        // @ts-ignore
-        expect(response.data.publicKey).toStrictEqual(senderWallet.publicKey);
-        // @ts-ignore
-        expect(response.data.nft.exchange.auctions[actual.id].nftIds).toStrictEqual([
-            "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
-        ]);
-        // @ts-ignore
-        expect(response.data.nft.exchange.auctions[actual.id].bids).toStrictEqual([
-            "7a8460fdcad40ae3dda9e50382d7676ce5a8643b01c198484a4a99591bcb0871",
-        ]);
-        // @ts-ignore
-        expect(response.data.nft.exchange.lockedBalance).toStrictEqual(Utils.BigNumber.make("100"));
+
+        expect(response.data).toStrictEqual({
+            address: senderWallet.address,
+            publicKey: senderWallet.publicKey,
+            nft: {
+                collections: [],
+                auctions: [
+                    {
+                        auctionId: actual.id,
+                        nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
+                        bids: ["7a8460fdcad40ae3dda9e50382d7676ce5a8643b01c198484a4a99591bcb0871"],
+                    },
+                ],
+            },
+        });
     });
 
     it("search - by senderPublicKey, auctionId and bidAmount", async () => {
