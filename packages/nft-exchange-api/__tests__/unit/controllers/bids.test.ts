@@ -137,6 +137,7 @@ describe("Test bids controller", () => {
                         bids: ["7a8460fdcad40ae3dda9e50382d7676ce5a8643b01c198484a4a99591bcb0871"],
                     },
                 ],
+                lockedBalance: "100",
             },
         });
     });
