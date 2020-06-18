@@ -32,6 +32,7 @@ export interface AuctionsWallet {
             nftIds: string[];
             bids: string[];
         }[];
+        lockedBalance: string;
     };
 }
 

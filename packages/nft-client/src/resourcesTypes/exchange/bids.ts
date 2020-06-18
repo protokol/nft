@@ -34,6 +34,7 @@ export interface BidsWallet {
             nftIds: string[];
             bids: string[];
         }[];
+        lockedBalance: string;
     };
 }
 
