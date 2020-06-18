@@ -50,7 +50,9 @@ export class WalletResource implements Contracts.Resource {
             nft: {
                 collections: collections,
                 auctions: auctions,
-                lockedBalance: resource.attributes.attributes.nft.exchange?.lockedBalance.toFixed() || "0",
+                lockedBalance: resource.attributes.attributes.nft.exchange.lockedBalance
+                    ? resource.attributes.attributes.nft.exchange.lockedBalance.toFixed()
+                    : "0",
             },
         };
     }
