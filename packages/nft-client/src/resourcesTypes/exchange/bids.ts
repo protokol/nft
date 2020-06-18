@@ -19,13 +19,21 @@ export interface BidsWallet {
     publicKey: string;
     nft: {
         collections: {
-            base: {
-                [collectionId: string]: any;
+            collectionId: string;
+            currentSupply: number;
+            nftCollectionAsset: {
+                name: string;
+                description: string;
+                maximumSupply: number;
+                // eslint-disable-next-line @typescript-eslint/member-ordering
+                [jsonSchema: string]: any;
             };
-            exchange: {
-                [auctionId: string]: any;
-            };
-        };
+        }[];
+        auctions: {
+            auctionId: string;
+            nftIds: string[];
+            bids: string[];
+        }[];
     };
 }
 
