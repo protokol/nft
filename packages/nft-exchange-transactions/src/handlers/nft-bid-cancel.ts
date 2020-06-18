@@ -8,6 +8,7 @@ import {
     NFTExchangeBidCancelAuctionCanceledOrAccepted,
     NFTExchangeBidCancelBidCanceled,
     NFTExchangeBidCancelBidDoesNotExists,
+    NFTExchangeBidCancelCannotCancelOtherBids,
 } from "../errors";
 import { NFTExchangeApplicationEvents } from "../events";
 import { INFTAuctions } from "../interfaces";
@@ -84,6 +85,10 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
             bidTransaction.type !== Enums.NFTTransactionTypes.NFTBid
         ) {
             throw new NFTExchangeBidCancelBidDoesNotExists();
+        }
+
+        if (sender.publicKey !== bidTransaction.senderPublicKey) {
+            throw new NFTExchangeBidCancelCannotCancelOtherBids();
         }
 
         const auctionTransaction = await this.transactionRepository.findById(bidTransaction.asset.nftBid.auctionId);
