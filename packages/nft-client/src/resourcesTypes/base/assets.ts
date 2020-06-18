@@ -13,8 +13,16 @@ export interface AssetsWallet {
     publicKey: string;
     nft: {
         collections: {
-            [collectionId: string]: any;
-        };
+            collectionId: string;
+            currentSupply: number;
+            nftCollectionAsset: {
+                name: string;
+                description: string;
+                maximumSupply: number;
+                // eslint-disable-next-line @typescript-eslint/member-ordering
+                [jsonSchema: string]: any;
+            };
+        }[];
     };
     assetsIds: string[];
 }
