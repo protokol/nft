@@ -142,6 +142,7 @@ describe("Test auctions controller", () => {
                         bids: [],
                     },
                 ],
+                lockedBalance: "0",
             },
         });
     });
