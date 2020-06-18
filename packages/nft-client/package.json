@@ -1,12 +1,12 @@
 {
-	"name": "@protokol/base-client",
+	"name": "@protokol/nft-client",
 	"description": "A simple TypeScript API client for NFT functionalities.",
 	"version": "0.0.1",
 	"contributors": [
         "Žan Kovač <zan@protokol.com",
         "Kristjan Košič <kristjan@protokol.com>"
     ],
-	"license": "MIT",
+	"license": "CC-BY-NC-SA-4.0",
 	"files": [
 		"/dist"
 	],
