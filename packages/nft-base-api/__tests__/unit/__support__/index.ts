@@ -1,14 +1,13 @@
 import { Application, Container, Contracts, Providers, Services } from "@arkecosystem/core-kernel";
 import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { Wallets } from "@arkecosystem/core-state";
-
+import { publicKeysIndexer } from "@arkecosystem/core-state/src/wallets/indexers/indexers";
 import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { One, Two } from "@arkecosystem/core-transactions/src/handlers";
 import { TransactionHandlerProvider } from "@arkecosystem/core-transactions/src/handlers/handler-provider";
 import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
 import { Identities, Utils } from "@arkecosystem/crypto";
 import { Handlers, Indexers } from "@protokol/nft-base-transactions";
-import { publicKeysIndexer } from "@arkecosystem/core-state/src/wallets/indexers/indexers";
 
 export type PaginatedResponse = {
     totalCount: number;
@@ -18,6 +17,12 @@ export type PaginatedResponse = {
 
 export type ItemResponse = {
     data: object;
+};
+
+export type ErrorResponse = {
+    output: {
+        statusCode: number;
+    };
 };
 
 export const buildSenderWallet = (app: Application): Contracts.State.Wallet => {
