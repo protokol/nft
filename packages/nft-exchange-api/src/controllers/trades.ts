@@ -59,11 +59,11 @@ export class TradesController extends Controller {
         const { senderPublicKey, auctionId, bidId } = request.payload;
         const criteria: Contracts.Search.OrCriteria<Contracts.Shared.TransactionCriteria> = [];
         if (senderPublicKey) {
-            criteria.push({
-                typeGroup: Enums.NFTExchangeTransactionsTypeGroup,
-                type: Enums.NFTTransactionTypes.NFTAcceptTrade,
-                senderPublicKey,
-            });
+            criteria.push(
+                this.buildTradeCriteria({
+                    senderPublicKey,
+                }),
+            );
         }
         if (auctionId) {
             criteria.push(
