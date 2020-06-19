@@ -1,7 +1,7 @@
 {
 	"name": "@protokol/nft-client",
-	"description": "A simple TypeScript API client for NFT functionalities.",
-	"version": "0.0.1",
+	"description": "A Light TypeScript Client Supporting NFT And Public ARK REST API",
+	"version": "1.0.0-beta.2",
 	"contributors": [
         "Žan Kovač <zan@protokol.com",
         "Kristjan Košič <kristjan@protokol.com>"
@@ -23,46 +23,7 @@
 		"test": "jest",
 		"test:watch": "jest --watchAll"
 	},
-	"jest": {
-		"bail": false,
-		"collectCoverage": true,
-		"collectCoverageFrom": [
-			"src/**/*.ts",
-			"!src/index.ts",
-			"!**/node_modules/**"
-		],
-		"coverageDirectory": "<rootDir>/.coverage",
-		"coverageReporters": [
-			"json",
-			"lcov",
-			"text",
-			"clover",
-			"html"
-		],
-		"moduleFileExtensions": [
-			"ts",
-			"tsx",
-			"js",
-			"jsx",
-			"json",
-			"node"
-		],
-		"setupFilesAfterEnv": [
-			"jest-extended"
-		],
-		"testEnvironment": "node",
-		"testMatch": [
-			"**/*.test.ts"
-		],
-		"transform": {
-			"^.+\\.tsx?$": "ts-jest"
-		},
-		"verbose": true
-	},
 	"dependencies": {
-		"is-url-superb": "^3.0.0",
-		"ky": "^0.20.0",
-		"ky-universal": "^0.7.0",
         "@arkecosystem/client": "^1.1.4"
 	},
 	"devDependencies": {
@@ -85,5 +46,8 @@
 	},
 	"engines": {
 		"node": ">=10.x"
-	}
+	},
+    "publishConfig": {
+        "access": "public"
+    }
 }
