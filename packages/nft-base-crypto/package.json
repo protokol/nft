@@ -1,10 +1,11 @@
 {
     "name": "@protokol/nft-base-crypto",
-    "version": "1.0.0-beta.3",
-    "description": "NFT Base Crypto library",
+    "version": "1.0.0-beta.4",
+    "description": "Transaction Builders For Base NFT Transaction Types",
     "license": "CC-BY-NC-SA-4.0",
     "contributors": [
         "Žan Kovač <zan@protokol.com",
+        "Amadej Pevec <amadej@protokol.com>",
         "Kristjan Košič <kristjan@protokol.com>"
     ],
     "files": [
