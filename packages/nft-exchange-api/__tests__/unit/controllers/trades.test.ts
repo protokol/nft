@@ -5,11 +5,17 @@ import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { Wallets } from "@arkecosystem/core-state";
 import { Generators } from "@arkecosystem/core-test-framework/src";
 import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
-import { Managers, Transactions } from "@arkecosystem/crypto";
+import { Managers, Transactions, Utils } from "@arkecosystem/crypto";
 import { ITransaction } from "@arkecosystem/crypto/src/interfaces";
 import { configManager } from "@arkecosystem/crypto/src/managers";
+import { cloneDeep } from "@arkecosystem/utils";
 import Hapi from "@hapi/hapi";
-import { buildSenderWallet, PaginatedResponse } from "@protokol/nft-base-api/__tests__/unit/__support__";
+import {
+    buildSenderWallet,
+    ErrorResponse,
+    ItemResponse,
+    PaginatedResponse,
+} from "@protokol/nft-base-api/__tests__/unit/__support__";
 import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import { Builders, Transactions as ExchangeTransactions } from "@protokol/nft-exchange-crypto";
 
@@ -42,8 +48,8 @@ beforeEach(() => {
 
     actual = new Builders.NftAcceptTradeBuilder()
         .NFTAcceptTradeAsset({
-            auctionId: "dab749f35c9c43c16f2a9a85b21e69551ae52a630a7fa73ef1d799931b108c2f",
-            bidId: "6fce81fb8dc8aa58f3e25f0f23d1ca04ca9057a54b66ac40335cefbee8d5892b",
+            auctionId: "ec0f6ad8ff46c844e25ec31d49e9b166d8a0fef3d365621d39a86d73a244354c",
+            bidId: "c12f814ab08bb82be251622aeb35fd72d9c7632828b91cab38c458ead8c782a9",
         })
         .sign(passphrases[0])
         .build();
@@ -79,39 +85,115 @@ describe("Test trades controller", () => {
             id: actual.id,
             senderPublicKey: actual.data.senderPublicKey,
             completedTrade: {
-                auctionId: "dab749f35c9c43c16f2a9a85b21e69551ae52a630a7fa73ef1d799931b108c2f",
-                bidId: "6fce81fb8dc8aa58f3e25f0f23d1ca04ca9057a54b66ac40335cefbee8d5892b",
+                auctionId: actual.data.asset!.nftAcceptTrade.auctionId,
+                bidId: actual.data.asset!.nftAcceptTrade.bidId,
             },
         });
     });
 
-    it("show - specific trade and its bids and auction by its id", async () => {
-        // TODO
+    describe("Get trade by id", () => {
+        it("should return 404 - NotFound for non existing id", async () => {
+            const request: Hapi.Request = {
+                params: {
+                    id: actual.id,
+                },
+            };
+
+            const response = (await tradesController.show(request, undefined)) as ErrorResponse;
+
+            expect(response.output.statusCode).toEqual(404);
+        });
+
+        it("show - specific trade and its bids and auction by its id", async () => {
+            const auction = new Builders.NFTAuctionBuilder()
+                .NFTAuctionAsset({
+                    nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
+                    startAmount: Utils.BigNumber.make("1"),
+                    expiration: {
+                        blockHeight: 1,
+                    },
+                })
+                .sign(passphrases[0])
+                .build();
+            const bid = new Builders.NFTBidBuilder()
+                .NFTBidAsset({
+                    auctionId: actual.data.asset!.nftAcceptTrade.auctionId,
+                    bidAmount: Utils.BigNumber.make("1"),
+                })
+                .sign(passphrases[0])
+                .build();
+            transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actual.data);
+            transactionHistoryService.findManyByCriteria.mockResolvedValueOnce([auction.data, bid.data]);
+
+            const request: Hapi.Request = {
+                params: {
+                    id: actual.id,
+                },
+            };
+
+            const response = (await tradesController.show(request, undefined)) as ItemResponse;
+
+            expect(response.data).toStrictEqual({
+                id: actual.id,
+                senderPublicKey: actual.data.senderPublicKey,
+                completedTrade: {
+                    auction: {
+                        id: auction.data.id,
+                        ...auction.data.asset!.nftAuction,
+                    },
+                    bid: {
+                        id: bid.data.id,
+                        ...bid.data.asset!.nftBid,
+                    },
+                },
+            });
+        });
     });
 
-    it("search - by senderPublicKey, auctionId and bidId", async () => {
+    it("search - by senderPublicKey, auctionId or bidId", async () => {
         const request: Hapi.Request = {
-            payload: {
-                senderPublicKey: actual.data.senderPublicKey,
-                auctionId: "dab749f35c9c43c16f2a9a85b21e69551ae52a630a7fa73ef1d799931b108c2f",
-                bidId: "6fce81fb8dc8aa58f3e25f0f23d1ca04ca9057a54b66ac40335cefbee8d5892b",
-            },
+            payload: {},
             query: {
                 page: 1,
                 limit: 100,
             },
         };
+        const requestWithPublicKey: Hapi.Request = cloneDeep(request);
+        requestWithPublicKey.payload.senderPublicKey = actual.data.senderPublicKey;
 
-        transactionHistoryService.listByCriteria.mockResolvedValueOnce({ rows: [actual.data] });
+        const requestWithAuctionId: Hapi.Request = cloneDeep(request);
+        requestWithAuctionId.payload.auctionId = actual.data.asset!.nftAcceptTrade.auctionId;
 
-        const response = (await tradesController.search(request, undefined)) as PaginatedResponse;
-        expect(response.results[0]).toStrictEqual({
+        const requestWithBidId: Hapi.Request = cloneDeep(request);
+        requestWithBidId.payload.bidId = actual.data.asset!.nftAcceptTrade.bidId;
+
+        transactionHistoryService.listByCriteria.mockResolvedValue({ rows: [actual.data] });
+
+        const expectedResponse = {
             id: actual.id,
             senderPublicKey: actual.data.senderPublicKey,
             completedTrade: {
-                auctionId: "dab749f35c9c43c16f2a9a85b21e69551ae52a630a7fa73ef1d799931b108c2f",
-                bidId: "6fce81fb8dc8aa58f3e25f0f23d1ca04ca9057a54b66ac40335cefbee8d5892b",
+                auctionId: actual.data.asset!.nftAcceptTrade.auctionId,
+                bidId: actual.data.asset!.nftAcceptTrade.bidId,
             },
-        });
+        };
+
+        // search by public key
+        const responseByPublicKey = (await tradesController.search(
+            requestWithPublicKey,
+            undefined,
+        )) as PaginatedResponse;
+        expect(responseByPublicKey.results[0]).toStrictEqual(expectedResponse);
+
+        // search by auction id
+        const responseByAuctionId = (await tradesController.search(
+            requestWithAuctionId,
+            undefined,
+        )) as PaginatedResponse;
+        expect(responseByAuctionId.results[0]).toStrictEqual(expectedResponse);
+
+        // search by bid id
+        const responseByBidId = (await tradesController.search(requestWithBidId, undefined)) as PaginatedResponse;
+        expect(responseByBidId.results[0]).toStrictEqual(expectedResponse);
     });
 });
