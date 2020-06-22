@@ -84,7 +84,7 @@ You must give appropriate credit, provide a link to the license, and indicate if
 
 #### NonCommercial
 
-You may not use the material for commercial purposes. For commercial purposes please reach out to sales@protokol.com.
+You may not use the material for commercial purposes. For commercial purposes please reach out to info@protokol.com.
 
 #### ShareAlike
 
