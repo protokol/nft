@@ -65,7 +65,7 @@ describe("NFT Register Collection tests ", () => {
         });
 
         it("should verify correctly with allowedSchemaIssuers", () => {
-            defaults.nftCollectionByteSize = 100000;
+            defaults.nftCollectionJsonSchemaByteSize = 100000;
 
             Transactions.TransactionRegistry.deregisterTransactionType(NFTRegisterCollectionTransaction);
             Transactions.TransactionRegistry.registerTransactionType(NFTRegisterCollectionTransaction);
