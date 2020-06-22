@@ -1,3 +1,4 @@
+![Img](nft-core.png)
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 # NFT Functionality For ARK Core-v3 Bridgechains
@@ -41,10 +42,10 @@ Prepare and configure your bridgechain network configuration to install and load
   },
   {
       "package": "@protokol/nft-generator-api"
-  },
+  }
 ```
 
-You could also use our [core-nft](https://github.com/protokol/core-nft) branch of ARK Core-v3, where this is already setup for testnet environment (keep in mind to update package.json in your core bridgechain branch).
+You could also use our [core-nft](https://github.com/protokol/core-nft) branch of ARK Core-v3, where this is already setup for testnet environment (don't forget to update package.json in your core bridgechain branch).
 
 ## Source Install
 ### Development environment setup
