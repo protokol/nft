@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-
-for dir in `find packages -mindepth 1 -maxdepth 1 -type d | sort -nr`; do
-    git checkout master
-    cd $dir
-    echo $PWD
-    npm publish --tag latest
-    cd ../..
-done
+cd packages/nft-base-crypto && npm publish --tag latest && cd ../..
+cd packages/nft-base-transactions && npm publish --tag latest && cd ../..
+cd packages/nft-base-api && npm publish --tag latest && cd ../..
+cd packages/nft-exchange-crypto && npm publish --tag latest && cd ../..
+cd packages/nft-exchange-transactions && npm publish --tag latest && cd ../..
+cd packages/nft-exchange-api && npm publish --tag latest && cd ../..
+cd packages/nft-generator-api && npm publish --tag latest && cd ../..
+cd packages/nft-client && npm publish --tag latest && cd ../..
