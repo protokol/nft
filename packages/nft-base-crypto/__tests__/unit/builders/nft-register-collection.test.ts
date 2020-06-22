@@ -39,7 +39,7 @@ describe("NFT Register Collection tests ", () => {
         });
         it("should not verify correctly, because byte size is to big", () => {
             Transactions.TransactionRegistry.deregisterTransactionType(NFTRegisterCollectionTransaction);
-            defaults.nftCollectionByteSize = 1;
+            defaults.nftCollectionJsonSchemaByteSize = 1;
             Transactions.TransactionRegistry.registerTransactionType(NFTRegisterCollectionTransaction);
 
             const actual = new NFTRegisterCollectionBuilder()

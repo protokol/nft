@@ -29,7 +29,7 @@ describe("NFT Create tests ", () => {
         });
 
         it("should not verify correctly, because byte size is to big", () => {
-            defaults.nftTokenByteSize = 1;
+            defaults.nftTokenAttributesByteSize = 1;
             Transactions.TransactionRegistry.deregisterTransactionType(NFTCreateTransaction);
             Transactions.TransactionRegistry.registerTransactionType(NFTCreateTransaction);
 
