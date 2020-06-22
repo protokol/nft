@@ -18,7 +18,7 @@ export class TradesController extends Controller {
             this.getListingOrder(request),
             this.getListingPage(request),
         );
-        return this.toPagination(transactions, TradeResource);
+        return this.toPagination(transactions, TradeResource, request.query.transform);
     }
 
     public async show(request: Hapi.Request, h: Hapi.ResponseToolkit) {
