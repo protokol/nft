@@ -23,6 +23,7 @@ This work is licensed under [Creative Commons Attribution-NonCommercial-ShareAli
 | [nft-exchange-crypto](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-crypto) | Exchange crypto transaction support  | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-crypto/beta)
 | [nft-exchange-transactions](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-transactions) | Exchange NFT Core v3 transactions engine | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-transactions/beta)
 | [nft-generator-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-generator-api) | Helper plugin for quick asset generation | ![](https://img.shields.io/npm/v/@protokol/nft-generator-api/beta)
+| [nft-client](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-client) | NFT and ARK API REST Client Implementation | ![](https://img.shields.io/npm/v/@protokol/nft-client/beta)
 
 ## Production install
 Prepare and configure your bridgechain network configuration to install and load published packages from npm repository. A testnet configuration example can be found here: https://github.com/protokol/core-nft/blob/conf/nft-token-develop/packages/core/bin/config/testnet/app.json#L20-L44. We need to add the following entries to packages:
