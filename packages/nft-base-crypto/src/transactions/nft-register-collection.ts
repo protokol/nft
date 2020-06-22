@@ -17,8 +17,8 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
     protected static defaultStaticFee = Utils.BigNumber.make(NFTBaseStaticFees.NFTRegisterCollection);
 
     public static getSchema(): Transactions.schemas.TransactionSchema {
-        Validation.validator.removeKeyword("collectionByteSize");
-        Validation.validator.addKeyword("collectionByteSize", {
+        Validation.validator.removeKeyword("collectionJsonSchemaByteSize");
+        Validation.validator.addKeyword("collectionJsonSchemaByteSize", {
             compile(schema, parentSchema) {
                 return (data) => {
                     return Buffer.from(JSON.stringify(data), "utf8").byteLength <= schema;
@@ -69,7 +69,7 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
                                 },
                                 jsonSchema: {
                                     type: "object",
-                                    collectionByteSize: defaults.nftCollectionByteSize,
+                                    collectionJsonSchemaByteSize: defaults.nftCollectionJsonSchemaByteSize,
                                 },
                                 allowedIssuers: {
                                     type: "array",

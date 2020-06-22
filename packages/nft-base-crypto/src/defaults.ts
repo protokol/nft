@@ -16,6 +16,6 @@ export const defaults = {
         minItems: 1,
         maxItems: 10,
     },
-    nftCollectionByteSize: 10000,
+    nftCollectionJsonSchemaByteSize: 10000,
     nftTokenByteSize: 10000,
 };
