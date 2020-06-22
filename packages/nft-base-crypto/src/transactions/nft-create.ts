@@ -17,8 +17,8 @@ export class NFTCreateTransaction extends Transactions.Transaction {
     protected static defaultStaticFee = Utils.BigNumber.make(NFTBaseStaticFees.NFTCreate);
 
     public static getSchema(): Transactions.schemas.TransactionSchema {
-        Validation.validator.removeKeyword("tokenByteSize");
-        Validation.validator.addKeyword("tokenByteSize", {
+        Validation.validator.removeKeyword("tokenAttributesByteSize");
+        Validation.validator.addKeyword("tokenAttributesByteSize", {
             compile(schema, parentSchema) {
                 return (data) => {
                     return Buffer.from(JSON.stringify(data), "utf8").byteLength <= schema;
@@ -51,7 +51,7 @@ export class NFTCreateTransaction extends Transactions.Transaction {
                                 },
                                 attributes: {
                                     type: "object",
-                                    tokenByteSize: defaults.nftTokenByteSize,
+                                    tokenAttributesByteSize: defaults.nftTokenAttributesByteSize,
                                 },
                             },
                         },
