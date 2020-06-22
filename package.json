@@ -1,12 +1,12 @@
 {
     "private": true,
     "name": "nft-core",
-    "version": "1.0.0-beta.3",
-    "description": "NFT Functionality For Any ARK Core-v3 Blockchains",
+    "version": "1.0.0-beta.4",
+    "description": "NFT Functionality For Any ARK Core-v3 Bridgechain",
     "engineStrict": true,
     "scripts": {
         "build": "cross-env bash ./scripts/build.sh",
-        "publish:beta": "cross-env bash ./scripts/publish-beta.sh",
+        "publish:beta": "cross-env-shell bash ./scripts/publish-beta.sh",
         "publish:latest": "cross-env-shell bash ./scripts/publish-latest.sh",
         "test:functional": "cross-env-shell bash ./scripts/test-functional.sh",
         "test:integration": "cross-env-shell bash ./scripts/test-integration.sh",
