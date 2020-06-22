@@ -14,12 +14,7 @@ export class TradesController extends Controller {
 
     public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
         const transactions = await this.transactionHistoryService.listByCriteria(
-            [
-                {
-                    typeGroup: Enums.NFTExchangeTransactionsTypeGroup,
-                    type: Enums.NFTTransactionTypes.NFTAcceptTrade,
-                },
-            ],
+            this.buildTradeCriteria(),
             this.getListingOrder(request),
             this.getListingPage(request),
         );
@@ -27,69 +22,70 @@ export class TradesController extends Controller {
     }
 
     public async show(request: Hapi.Request, h: Hapi.ResponseToolkit) {
-        const transaction = await this.transactionHistoryService.findOneByCriteria({
-            ...request.query,
-            typeGroup: Enums.NFTExchangeTransactionsTypeGroup,
-            type: Enums.NFTTransactionTypes.NFTAcceptTrade,
-            id: request.params.id,
-        });
+        const transaction = await this.transactionHistoryService.findOneByCriteria(
+            this.buildTradeCriteria({
+                ...request.query,
+                id: request.params.id,
+            }),
+        );
         if (!transaction) {
             return Boom.notFound("Trade was not found!");
         }
 
-        const auctionTransaction = await this.transactionHistoryService.findOneByCriteria({
+        const { nftAcceptTrade } = transaction.asset!;
+        const criteria: Contracts.Search.OrCriteria<Contracts.Shared.TransactionCriteria> = [];
+        criteria.push({
             typeGroup: Enums.NFTExchangeTransactionsTypeGroup,
             type: Enums.NFTTransactionTypes.NFTAuction,
-            // @ts-ignore
-            id: transaction.asset.nftAcceptTrade.auctionId,
+            id: nftAcceptTrade.auctionId,
         });
-
-        const bidTransaction = await this.transactionHistoryService.findOneByCriteria({
+        criteria.push({
             typeGroup: Enums.NFTExchangeTransactionsTypeGroup,
             type: Enums.NFTTransactionTypes.NFTBid,
-            // @ts-ignore
-            id: transaction.asset.nftAcceptTrade.bidId,
+            id: nftAcceptTrade.bidId,
         });
+        const transactions = await this.transactionHistoryService.findManyByCriteria(criteria);
 
         const result = {
             transaction: transaction,
-            auction: auctionTransaction,
-            bid: bidTransaction,
+            auction: transactions.find((tx) => tx.id === nftAcceptTrade.auctionId),
+            bid: transactions.find((tx) => tx.id === nftAcceptTrade.bidId),
         };
 
         return this.respondWithResource(result, TradeDetailsResource);
     }
 
     public async search(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+        const { senderPublicKey, auctionId, bidId } = request.payload;
         const criteria: Contracts.Search.OrCriteria<Contracts.Shared.TransactionCriteria> = [];
-        if (request.payload.senderPublicKey) {
-            criteria.push({
-                typeGroup: Enums.NFTExchangeTransactionsTypeGroup,
-                type: Enums.NFTTransactionTypes.NFTAcceptTrade,
-                senderPublicKey: request.payload.senderPublicKey,
-            });
+        if (senderPublicKey) {
+            criteria.push(
+                this.buildTradeCriteria({
+                    senderPublicKey,
+                }),
+            );
         }
-        if (request.payload.auctionId) {
-            criteria.push({
-                typeGroup: Enums.NFTExchangeTransactionsTypeGroup,
-                type: Enums.NFTTransactionTypes.NFTAcceptTrade,
-                asset: {
-                    nftAcceptTrade: {
-                        auctionId: request.payload.auctionId,
+        if (auctionId) {
+            criteria.push(
+                this.buildTradeCriteria({
+                    asset: {
+                        nftAcceptTrade: {
+                            auctionId,
+                        },
                     },
-                },
-            });
+                }),
+            );
         }
-        if (request.payload.bidId) {
-            criteria.push({
-                typeGroup: Enums.NFTExchangeTransactionsTypeGroup,
-                type: Enums.NFTTransactionTypes.NFTAcceptTrade,
-                asset: {
-                    nftAcceptTrade: {
-                        auctionId: request.payload.auctionId,
+        if (bidId) {
+            criteria.push(
+                this.buildTradeCriteria({
+                    asset: {
+                        nftAcceptTrade: {
+                            bidId,
+                        },
                     },
-                },
-            });
+                }),
+            );
         }
 
         const transactions = await this.transactionHistoryService.listByCriteria(
@@ -99,5 +95,13 @@ export class TradesController extends Controller {
         );
 
         return this.toPagination(transactions, TradeResource);
+    }
+
+    private buildTradeCriteria(otherCriteria?: object) {
+        return {
+            typeGroup: Enums.NFTExchangeTransactionsTypeGroup,
+            type: Enums.NFTTransactionTypes.NFTAcceptTrade,
+            ...otherCriteria,
+        };
     }
 }

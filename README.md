@@ -1,3 +1,4 @@
+![Img](nft-core.png)
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 # NFT Functionality For ARK Core-v3 Bridgechains
@@ -22,6 +23,7 @@ This work is licensed under [Creative Commons Attribution-NonCommercial-ShareAli
 | [nft-exchange-crypto](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-crypto) | Exchange crypto transaction support  | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-crypto/beta)
 | [nft-exchange-transactions](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-transactions) | Exchange NFT Core v3 transactions engine | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-transactions/beta)
 | [nft-generator-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-generator-api) | Helper plugin for quick asset generation | ![](https://img.shields.io/npm/v/@protokol/nft-generator-api/beta)
+| [nft-client](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-client) | NFT and ARK API REST Client Implementation | ![](https://img.shields.io/npm/v/@protokol/nft-client/beta)
 
 ## Production install
 Prepare and configure your bridgechain network configuration to install and load published packages from npm repository. A testnet configuration example can be found here: https://github.com/protokol/core-nft/blob/conf/nft-token-develop/packages/core/bin/config/testnet/app.json#L20-L44. We need to add the following entries to packages:
@@ -41,10 +43,10 @@ Prepare and configure your bridgechain network configuration to install and load
   },
   {
       "package": "@protokol/nft-generator-api"
-  },
+  }
 ```
 
-You could also use our [core-nft](https://github.com/protokol/core-nft) branch of ARK Core-v3, where this is already setup for testnet environment (keep in mind to update package.json in your core bridgechain branch).
+You could also use our [core-nft](https://github.com/protokol/core-nft) branch of ARK Core-v3, where this is already setup for testnet environment (don't forget to update package.json in your core bridgechain branch).
 
 ## Source Install
 ### Development environment setup

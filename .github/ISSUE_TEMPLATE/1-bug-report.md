@@ -1,6 +1,6 @@
 ---
 name: "\U0001F41EBug report"
-about: Report a bug 
+about: Report a bug
 ---
 <!--🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅
 
@@ -48,10 +48,14 @@ Issues that don't have enough info and can't be reproduced will be closed.
 
 ## 🌍  Your Environment
 
-**Core Version:**
+**Package Version:**
 <pre><code>
 <!-- ✍️-->
+</code></pre>
 
+**ARK CORE Version:**
+<pre><code>
+<!-- ✍️-->
 </code></pre>
 
 **Anything else relevant?**
