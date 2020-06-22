@@ -1,7 +1,8 @@
 import { Utils as AppUtils } from "@arkecosystem/core-kernel";
-import { Transactions, Utils } from "@arkecosystem/crypto";
+import { Transactions, Utils, Validation } from "@arkecosystem/crypto";
 import ByteBuffer from "bytebuffer";
 
+import { defaults } from "../defaults";
 import { NFTBaseStaticFees, NFTBaseTransactionGroup, NFTBaseTransactionTypes } from "../enums";
 import { NFTTokenAsset } from "../interfaces";
 
@@ -16,6 +17,19 @@ export class NFTCreateTransaction extends Transactions.Transaction {
     protected static defaultStaticFee = Utils.BigNumber.make(NFTBaseStaticFees.NFTCreate);
 
     public static getSchema(): Transactions.schemas.TransactionSchema {
+        Validation.validator.removeKeyword("tokenByteSize");
+        Validation.validator.addKeyword("tokenByteSize", {
+            compile(schema, parentSchema) {
+                return (data) => {
+                    return Buffer.from(JSON.stringify(data), "utf8").byteLength <= schema;
+                };
+            },
+            errors: true,
+            metaSchema: {
+                type: "integer",
+                minimum: 0,
+            },
+        });
         return schemas.extend(schemas.transactionBaseSchema, {
             $id: "NFTCreate",
             required: ["asset", "typeGroup"],
@@ -37,6 +51,7 @@ export class NFTCreateTransaction extends Transactions.Transaction {
                                 },
                                 attributes: {
                                     type: "object",
+                                    tokenByteSize: defaults.nftTokenByteSize,
                                 },
                             },
                         },
