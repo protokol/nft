@@ -23,6 +23,8 @@ export interface BaseConfigurations {
                 minItems: number;
                 maxItems: number;
             };
+            nftCollectionJsonSchemaByteSize: number;
+            nftTokenAttributesByteSize: number;
         };
     };
     transactions: {

@@ -1,5 +1,5 @@
 import { Utils as AppUtils } from "@arkecosystem/core-kernel";
-import { Transactions, Utils } from "@arkecosystem/crypto";
+import { Transactions, Utils, Validation } from "@arkecosystem/crypto";
 import ByteBuffer from "bytebuffer";
 
 import { defaults } from "../defaults";
@@ -17,6 +17,19 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
     protected static defaultStaticFee = Utils.BigNumber.make(NFTBaseStaticFees.NFTRegisterCollection);
 
     public static getSchema(): Transactions.schemas.TransactionSchema {
+        Validation.validator.removeKeyword("collectionJsonSchemaByteSize");
+        Validation.validator.addKeyword("collectionJsonSchemaByteSize", {
+            compile(schema, parentSchema) {
+                return (data) => {
+                    return Buffer.from(JSON.stringify(data), "utf8").byteLength <= schema;
+                };
+            },
+            errors: true,
+            metaSchema: {
+                type: "integer",
+                minimum: 0,
+            },
+        });
         return schemas.extend(schemas.transactionBaseSchema, {
             $id: "NFTRegisterCollection",
             required: ["asset", "typeGroup"],
@@ -56,6 +69,7 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
                                 },
                                 jsonSchema: {
                                     type: "object",
+                                    collectionJsonSchemaByteSize: defaults.nftCollectionJsonSchemaByteSize,
                                 },
                                 allowedIssuers: {
                                     type: "array",

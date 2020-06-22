@@ -4,6 +4,7 @@ import { Managers, Transactions } from "@arkecosystem/crypto";
 
 import { NFTCreateBuilder } from "../../../src/builders";
 import { NFTCreateTransaction } from "../../../src/transactions";
+import { defaults } from "../../../src/defaults";
 
 describe("NFT Create tests ", () => {
     describe("Verify tests", () => {
@@ -25,6 +26,26 @@ describe("NFT Create tests ", () => {
 
             expect(actual.build().verified).toBeTrue();
             expect(actual.verify()).toBeTrue();
+        });
+
+        it("should not verify correctly, because byte size is to big", () => {
+            defaults.nftTokenAttributesByteSize = 1;
+            Transactions.TransactionRegistry.deregisterTransactionType(NFTCreateTransaction);
+            Transactions.TransactionRegistry.registerTransactionType(NFTCreateTransaction);
+
+            const actual = new NFTCreateBuilder()
+                .NFTCreateToken({
+                    collectionId: "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
+                    attributes: {
+                        string: "something",
+                    },
+                })
+                .nonce("4")
+                .sign("clay harbor enemy utility margin pretty hub comic piece aerobic umbrella acquire");
+
+            expect(() => {
+                actual.build();
+            }).toThrowError();
         });
 
         it("object should remain the same if asset is undefined", () => {
