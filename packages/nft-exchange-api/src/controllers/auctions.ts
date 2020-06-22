@@ -29,7 +29,7 @@ export class AuctionsController extends Controller {
             this.getListingOrder(request),
             this.getListingPage(request),
         );
-        return this.toPagination(transactions, AuctionResource);
+        return this.toPagination(transactions, AuctionResource, request.query.transform);
     }
 
     public async show(request: Hapi.Request, h: Hapi.ResponseToolkit) {
@@ -45,7 +45,6 @@ export class AuctionsController extends Controller {
         return this.respondWithResource(transaction, AuctionResource);
     }
 
-    // todo revisit - check indexer not working correctly
     public async showAuctionWallet(request: Hapi.Request, h: Hapi.ResponseToolkit) {
         let wallet: Contracts.State.Wallet;
         try {
@@ -119,7 +118,7 @@ export class AuctionsController extends Controller {
             this.getListingOrder(request),
             this.getListingPage(request),
         );
-        return this.toPagination(transactions, AuctionCancelResource);
+        return this.toPagination(transactions, AuctionCancelResource, request.query.transform);
     }
 
     public async showAuctionCanceled(request: Hapi.Request, h: Hapi.ResponseToolkit) {
