@@ -1,6 +1,6 @@
-import { Connection } from "@arkecosystem/client";
 import { Identities, Managers, Transactions, Utils } from "@arkecosystem/crypto";
 import { Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
+import { NFTConnection } from "@protokol/nft-client";
 
 export const NFTTransfer = async () => {
     // Configure manager and register transaction type
@@ -9,7 +9,7 @@ export const NFTTransfer = async () => {
     Transactions.TransactionRegistry.registerTransactionType(NFTTransactions.NFTTransferTransaction);
 
     // Configure our API client
-    const client = new Connection("http://nft.protokol.com:4003/api");
+    const client = new NFTConnection("http://nft.protokol.com:4003/api");
     const passphrase = "clay harbor enemy utility margin pretty hub comic piece aerobic umbrella acquire";
 
     // Step 1: Retrieve the nonce of the sender wallet
