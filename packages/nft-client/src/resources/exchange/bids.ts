@@ -12,28 +12,28 @@ import {
 
 export class Bids extends Resource {
     public async getAllBids(query?: AllBidsQuery): Promise<ApiResponse<BidsResource>> {
-        return this.sendGet("exchange/bids");
+        return this.sendGet("nft/exchange/bids");
     }
 
     public async getBidById(id: string): Promise<ApiResponse<BidsResource>> {
-        return this.sendGet(`exchange/bids/${id}`);
+        return this.sendGet(`nft/exchange/bids/${id}`);
     }
 
     public async getBidsWallets(id: string): Promise<ApiResponse<BidsWallet>> {
-        return this.sendGet(`exchange/bids/${id}/wallets`);
+        return this.sendGet(`nft/exchange/bids/${id}/wallets`);
     }
 
     public async searchByBid(
         payload: SearchBidsApiBody,
         query?: SearchBidsApiQuery,
     ): Promise<ApiResponseWithPagination<BidsResource[]>> {
-        return this.sendPost("exchange/bids/search", payload, query);
+        return this.sendPost("nft/exchange/bids/search", payload, query);
     }
 
     public async getAllCanceledBids(query?: AllBidsCanceledQuery): Promise<ApiResponse<BidCanceled>> {
-        return this.sendGet("exchange/bids/canceled");
+        return this.sendGet("nft/exchange/bids/canceled");
     }
     public async getCanceledBidById(id: string): Promise<ApiResponse<BidCanceled>> {
-        return this.sendGet(`exchange/bids/canceled/${id}`);
+        return this.sendGet(`nft/exchange/bids/canceled/${id}`);
     }
 }
