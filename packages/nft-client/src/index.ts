@@ -1,5 +1,5 @@
 export * from "./nft-connection";
-export * from "./resources/base";
-export * from "./resources/exchange";
-export * from "./resourcesTypes/base";
-export * from "./resourcesTypes/exchange";
+export * as BaseResources from "./resources/base";
+export * as ExchangeResources from "./resources/exchange";
+export * as BaseResourcesTypes from "./resourcesTypes/base";
+export * as ExchangeResourcesTypes from "./resourcesTypes/exchange";

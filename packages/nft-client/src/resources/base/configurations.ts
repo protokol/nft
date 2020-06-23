@@ -4,6 +4,6 @@ import { BaseConfigurations as ConfigurationsResource } from "../../resourcesTyp
 
 export class Configurations extends Resource {
     public async index(): Promise<ApiResponse<ConfigurationsResource>> {
-        return this.sendGet("configurations");
+        return this.sendGet("nft/configurations");
     }
 }

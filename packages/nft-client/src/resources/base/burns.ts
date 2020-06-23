@@ -4,10 +4,10 @@ import { AllBurnsQuery, Burns as BurnsResource } from "../../resourcesTypes/base
 
 export class Burns extends Resource {
     public async all(query?: AllBurnsQuery): Promise<ApiResponseWithPagination<BurnsResource[]>> {
-        return this.sendGet("burns", query);
+        return this.sendGet("nft/burns", query);
     }
 
     public async get(id: string): Promise<ApiResponse<BurnsResource>> {
-        return this.sendGet(`burns/${id}`);
+        return this.sendGet(`nft/burns/${id}`);
     }
 }

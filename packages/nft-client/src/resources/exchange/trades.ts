@@ -10,17 +10,17 @@ import {
 
 export class Trades extends Resource {
     public async all(query?: AllTradesQuery): Promise<ApiResponse<TradesResource>> {
-        return this.sendGet("exchange/trades");
+        return this.sendGet("nft/exchange/trades");
     }
 
     public async get(id: string): Promise<ApiResponse<TradeById>> {
-        return this.sendGet(`exchange/trades/${id}`);
+        return this.sendGet(`nft/exchange/trades/${id}`);
     }
 
     public async search(
         payload: SearchTradesApiBody,
         query?: SearchTradesApiQuery,
     ): Promise<ApiResponseWithPagination<TradesResource[]>> {
-        return this.sendPost("exchange/trades/search", payload, query);
+        return this.sendPost("nft/exchange/trades/search", payload, query);
     }
 }
