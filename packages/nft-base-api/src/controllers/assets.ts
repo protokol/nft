@@ -36,7 +36,7 @@ export class AssetsController extends Controller {
         try {
             wallet = this.walletRepository.findByIndex(Indexers.NFTIndexers.NFTTokenIndexer, request.params.id);
         } catch (e) {
-            return Boom.notFound("Wallet not found");
+            return Boom.notFound("Asset not found or it was burned");
         }
 
         return this.respondWithResource(wallet, WalletsResource);
@@ -50,7 +50,7 @@ export class AssetsController extends Controller {
             id: request.params.id,
         });
         if (!transaction) {
-            return Boom.notFound("Transaction not found");
+            return Boom.notFound("Asset not found");
         }
         return this.respondWithResource(transaction, AssetResource);
     }
