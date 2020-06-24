@@ -1,0 +1,37 @@
+{
+    "name": "@protokol/nft-tx-tester-cli",
+    "version": "0.0.1",
+    "description": "A simple command line utility to create and broadcast NFT transactions.",
+    "license": "CC-BY-NC-SA-4.0",
+    "contributors": [
+        "Žan Kovač <zan@protokol.com",
+        "Amadej Pevec <amadej@protokol.com>",
+        "Kristjan Košič <kristjan@protokol.com>"
+    ],
+    "files": [
+        "/dist"
+    ],
+    "main": "dist/index",
+    "types": "dist/index",
+    "scripts": {
+        "start": "node dist/index.js",
+        "debug": "node --inspect-brk src/index.js",
+        "dev": "nodemon src/index.js",
+        "build": "yarn clean && tsc",
+        "build:watch": "yarn build -w",
+        "clean": "rimraf .coverage dist tmp",
+        "format": "yarn lint && yarn prettier",
+        "lint": "tslint -c tslint.json -p tslint.json 'src/**/*.ts' --fix",
+        "prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\""
+    },
+    "dependencies": {
+        "@arkecosystem/core-magistrate-crypto": "^3.0.0-next.0",
+        "@arkecosystem/core-kernel": "^3.0.0-next.0",
+        "@arkecosystem/crypto": "^3.0.0-next.0",
+        "fs-extra": "^9.0.1"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.0",
+        "typescript": "^3.8.3"
+    }
+}
