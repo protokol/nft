@@ -2,19 +2,22 @@ import "@arkecosystem/core-test-framework/src/matchers";
 
 import { Contracts } from "@arkecosystem/core-kernel";
 import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
-import { snoozeForBlock } from "@arkecosystem/core-test-framework/src/utils";
+import { snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework/src/utils";
 import { Identities } from "@arkecosystem/crypto";
 
 import * as support from "./__support__";
 import { NFTBaseTransactionFactory } from "./__support__/transaction-factory";
+import { generateMnemonic } from "bip39";
 
 let app: Contracts.Kernel.Application;
 beforeAll(async () => (app = await support.setUp()));
 afterAll(async () => await support.tearDown());
 
 describe("NFT Create functional tests", () => {
+    let collectionId;
     describe("Signed with one passphrase", () => {
-        it("should broadcast, accept and forge it - nftJsonSchema [Signed with 1 Passphrase] ", async () => {
+        it("should broadcast, accept and forge it [Signed with 1 Passphrase] ", async () => {
+            // Register collection
             const nftRegisteredCollection = NFTBaseTransactionFactory.initialize(app)
                 .NFTRegisterCollection({
                     name: "Nft card",
@@ -44,6 +47,9 @@ describe("NFT Create functional tests", () => {
             await snoozeForBlock(1);
             await expect(nftRegisteredCollection.id).toBeForged();
 
+            collectionId = nftRegisteredCollection.id;
+
+            // Create token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
                     // @ts-ignore
@@ -63,7 +69,8 @@ describe("NFT Create functional tests", () => {
             await expect(nftCreate.id).toBeForged();
         });
 
-        it("should test maximum supply", async () => {
+        it("should test maximum supply [Signed with 1 Passphrase]", async () => {
+            // Register collection
             const nftRegisteredSchema = NFTBaseTransactionFactory.initialize(app)
                 .NFTRegisterCollection({
                     name: "Nft card",
@@ -94,6 +101,7 @@ describe("NFT Create functional tests", () => {
             await expect(nftRegisteredSchema.id).toBeForged();
 
             for (let i = 0; i < 3; i++) {
+                // Create tokens
                 const nftCreate = NFTBaseTransactionFactory.initialize(app)
                     .NFTCreate({
                         // @ts-ignore
@@ -113,6 +121,7 @@ describe("NFT Create functional tests", () => {
                 await expect(nftCreate.id).toBeForged();
             }
 
+            // Create token which should fail
             const nftCreate2 = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
                     // @ts-ignore
@@ -132,8 +141,9 @@ describe("NFT Create functional tests", () => {
             await expect(nftCreate2.id).not.toBeForged();
         });
 
-        it("should broadcast, accept and forge it - allowedSchemaIssuers [Signed with 1 Passphrase] ", async () => {
-            const nftRegisteredSchema = NFTBaseTransactionFactory.initialize(app)
+        let registeredCollectionWithAllowedIssuers;
+        it("should broadcast, accept and forge it - allowedIssuers [Signed with 1 Passphrase] ", async () => {
+            const nftRegisteredCollection = NFTBaseTransactionFactory.initialize(app)
                 .NFTRegisterCollection({
                     name: "Nft card",
                     description: "Nft card description",
@@ -158,15 +168,16 @@ describe("NFT Create functional tests", () => {
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
+            registeredCollectionWithAllowedIssuers = nftRegisteredCollection.id;
 
-            await expect(nftRegisteredSchema).toBeAccepted();
+            await expect(nftRegisteredCollection).toBeAccepted();
             await snoozeForBlock(1);
-            await expect(nftRegisteredSchema.id).toBeForged();
+            await expect(nftRegisteredCollection.id).toBeForged();
 
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
                     // @ts-ignore
-                    collectionId: nftRegisteredSchema.id,
+                    collectionId: nftRegisteredCollection.id,
                     attributes: {
                         name: "card name",
                         damage: 3,
@@ -175,6 +186,143 @@ describe("NFT Create functional tests", () => {
                     },
                 })
                 .withPassphrase(secrets[0])
+                .createOne();
+
+            await expect(nftCreate).toBeAccepted();
+            await snoozeForBlock(1);
+            await expect(nftCreate.id).toBeForged();
+        });
+
+        it("should not broadcast, accept and forge it, because its not allowed issuer", async () => {
+            // Create token
+            const nftCreate = NFTBaseTransactionFactory.initialize(app)
+                .NFTCreate({
+                    // @ts-ignore
+                    collectionId: registeredCollectionWithAllowedIssuers,
+                    attributes: {
+                        name: "card name",
+                        damage: 3,
+                        health: 2,
+                        mana: 2,
+                    },
+                })
+                .withPassphrase(secrets[1])
+                .createOne();
+
+            await expect(nftCreate).not.toBeAccepted();
+            await snoozeForBlock(1);
+            await expect(nftCreate.id).not.toBeForged();
+        });
+    });
+
+    describe("Signed with 2 Passphrases", () => {
+        it("should broadcast, accept and forge it [Signed with 2 Passphrases] ", async () => {
+            // Prepare a fresh wallet for the tests
+            const passphrase = generateMnemonic();
+            const secondPassphrase = generateMnemonic();
+
+            // Initial Funds
+            const initialFunds = TransactionFactory.initialize(app)
+                .transfer(Identities.Address.fromPassphrase(passphrase), 150 * 1e8)
+                .withPassphrase(secrets[0])
+                .createOne();
+
+            await expect(initialFunds).toBeAccepted();
+            await snoozeForBlock(1);
+            await expect(initialFunds.id).toBeForged();
+
+            // Register a second passphrase
+            const secondSignature = TransactionFactory.initialize(app)
+                .secondSignature(secondPassphrase)
+                .withPassphrase(passphrase)
+                .createOne();
+
+            await expect(secondSignature).toBeAccepted();
+            await snoozeForBlock(1);
+            await expect(secondSignature.id).toBeForged();
+
+            // Create Token
+            const nftCreate = NFTBaseTransactionFactory.initialize(app)
+                .NFTCreate({
+                    // @ts-ignore
+                    collectionId: collectionId,
+                    attributes: {
+                        name: "card name",
+                        damage: 3,
+                        health: 2,
+                        mana: 2,
+                    },
+                })
+                .withPassphrase(passphrase)
+                .withSecondPassphrase(secondPassphrase)
+                .createOne();
+
+            await expect(nftCreate).toBeAccepted();
+            await snoozeForBlock(1);
+            await expect(nftCreate.id).toBeForged();
+        });
+    });
+
+    describe("Signed with multi signature [3 of 3]", () => {
+        // Register a multi signature wallet with defaults
+        const passphrase = generateMnemonic();
+        const passphrases = [passphrase, secrets[4], secrets[5]];
+        const participants = [
+            Identities.PublicKey.fromPassphrase(passphrases[0]),
+            Identities.PublicKey.fromPassphrase(passphrases[1]),
+            Identities.PublicKey.fromPassphrase(passphrases[2]),
+        ];
+        it("should broadcast, accept and forge it [3-of-3 multisig] ", async () => {
+            // Funds to register a multi signature wallet
+            const initialFunds = TransactionFactory.initialize(app)
+                .transfer(Identities.Address.fromPassphrase(passphrase), 50 * 1e8)
+                .withPassphrase(secrets[0])
+                .createOne();
+
+            await expect(initialFunds).toBeAccepted();
+            await snoozeForBlock(1);
+            await expect(initialFunds.id).toBeForged();
+
+            // Registering a multi-signature wallet
+            const multiSignature = TransactionFactory.initialize(app)
+                .multiSignature(participants, 3)
+                .withPassphrase(passphrase)
+                .withPassphraseList(passphrases)
+                .createOne();
+
+            await expect(multiSignature).toBeAccepted();
+            await snoozeForBlock(1);
+            await expect(multiSignature.id).toBeForged();
+
+            // Send funds to multi signature wallet
+            // @ts-ignore
+            const multiSigAddress = Identities.Address.fromMultiSignatureAsset(multiSignature.asset.multiSignature);
+            // @ts-ignore
+            const multiSigPublicKey = Identities.PublicKey.fromMultiSignatureAsset(multiSignature.asset.multiSignature);
+
+            const multiSignatureFunds = TransactionFactory.initialize(app)
+                .transfer(multiSigAddress, 100 * 1e8)
+                .withPassphrase(secrets[0])
+                .createOne();
+
+            await expect(multiSignatureFunds).toBeAccepted();
+            await snoozeForBlock(1);
+            await expect(multiSignatureFunds.id).toBeForged();
+
+            // Create Token
+            const nftCreate = NFTBaseTransactionFactory.initialize(app)
+                .NFTCreate({
+                    // @ts-ignore
+                    collectionId: collectionId,
+                    attributes: {
+                        name: "card name",
+                        damage: 3,
+                        health: 2,
+                        mana: 2,
+                    },
+                })
+                .withSenderPublicKey(multiSigPublicKey)
+                .withPassphraseList(passphrases)
                 .createOne();
 
             await expect(nftCreate).toBeAccepted();
