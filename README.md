@@ -3,12 +3,16 @@
 
 # NFT Functionality For ARK Core-v3 Bridgechains
 
-A monorepository containing a set of ARK Core v3 plugins, providing base and exchange NFT Token Support for ARK Core v3 based bridgechains. Plugins support following main features - powered by Protokol NFT:
+A monorepository containing a set of `@protokol` packages providing Digital Asset (NFT) Support for any ARK Core v3 based bridgechains. Plugins support the following main features:
 
 - asset creation (JSON Schema based asset structure)
 - token trading (auction, bid, trade)
 - token burning
-- full REST API Support (https://docs.protokol.com/nft/) for exchange and crypto.
+- full REST API Support for exchange and crypto.
+
+For more information and detailed documentation follow this link: https://docs.protokol.com/nft/. 
+
+For examples head over to [nft-examples](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-examples) package. 
 
 This work is licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 
