@@ -251,6 +251,47 @@ export class Builder {
             } else if (type === 17 && Managers.configManager.getMilestone().aip11) {
                 // NFTRegisterCollection
                 transaction.NFTRegisterCollectionAsset(config.nft.registerCollection);
+            } else if (type === 18 && Managers.configManager.getMilestone().aip11) {
+                // NFTCreateToken
+                if (!config.nft.createAsset.collectionId) {
+                    if (!senderWallet.attributes.nft?.base?.collections) {
+                        throw new Error("Wallet doesn't have any collections");
+                    }
+                    config.nft.createAsset.collectionId = Object.keys(senderWallet.attributes.nft.base.collections)[0];
+                }
+                transaction.NFTCreateToken(config.nft.createAsset);
+            } else if (type === 19 && Managers.configManager.getMilestone().aip11) {
+                // NFTTransferAsset
+                if (!config.nft.transferAsset.nftIds?.length) {
+                    if (
+                        !senderWallet.attributes.nft?.base?.tokenIds ||
+                        !Object.keys(senderWallet.attributes.nft.base.tokenIds).length
+                    ) {
+                        throw new Error("Wallet doesn't own any assets");
+                    }
+
+                    // @ts-ignore
+                    config.nft.transferAsset.nftIds = [Object.keys(senderWallet.attributes.nft.base.tokenIds)[0]];
+                }
+
+                if (!config.nft.transferAsset.recipientId) {
+                    config.nft.transferAsset.recipientId = recipientId;
+                }
+                transaction.NFTTransferAsset(config.nft.transferAsset);
+            } else if (type === 20 && Managers.configManager.getMilestone().aip11) {
+                // NFTBurnAsset
+                if (!config.nft.burnAsset.nftId) {
+                    if (
+                        !senderWallet.attributes.nft?.base?.tokenIds ||
+                        !Object.keys(senderWallet.attributes.nft.base.tokenIds).length
+                    ) {
+                        throw new Error("Wallet doesn't own any assets");
+                    }
+
+                    config.nft.burnAsset.nftId = Object.keys(senderWallet.attributes.nft.base.tokenIds)[0];
+                }
+
+                transaction.NFTBurnAsset(config.nft.burnAsset);
             } else {
                 throw new Error("Version 2 not supported.");
             }

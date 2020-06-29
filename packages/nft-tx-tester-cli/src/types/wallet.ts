@@ -21,4 +21,5 @@ export interface ExtendedWallet extends Wallet {
     secondPublicKey?: string;
     nonce: any;
     vote: any;
+    attributes: any;
 }

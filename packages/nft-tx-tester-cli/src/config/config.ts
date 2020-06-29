@@ -141,23 +141,22 @@ export const config = {
                     pac: {
                         type: "number",
                     },
-                    sho: {
-                        type: "number",
-                    },
-                    pas: {
-                        type: "number",
-                    },
-                    dri: {
-                        type: "number",
-                    },
-                    def: {
-                        type: "number",
-                    },
-                    phy: {
-                        type: "number",
-                    },
                 },
             },
+        },
+        createAsset: {
+            collectionId: "",
+            attributes: {
+                name: "Tests auction 1",
+                pac: 90,
+            },
+        },
+        transferAsset: {
+            nftIds: [],
+            recipientId: "AW8n3yvSAqUJkyfcG5u3bgRxsNKzXYPamN",
+        },
+        burnAsset: {
+            nftId: "",
         },
     },
 };

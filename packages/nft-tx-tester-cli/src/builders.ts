@@ -14,6 +14,8 @@ Transactions.TransactionRegistry.registerTransactionType(
 Transactions.TransactionRegistry.registerTransactionType(MagistrateCrypto.Transactions.BridgechainUpdateTransaction);
 Transactions.TransactionRegistry.registerTransactionType(NFTCrypto.Transactions.NFTRegisterCollectionTransaction);
 Transactions.TransactionRegistry.registerTransactionType(NFTCrypto.Transactions.NFTCreateTransaction);
+Transactions.TransactionRegistry.registerTransactionType(NFTCrypto.Transactions.NFTTransferTransaction);
+Transactions.TransactionRegistry.registerTransactionType(NFTCrypto.Transactions.NFTBurnTransaction);
 
 export const builders = {
     0: { name: "Transfer", builder: Transactions.BuilderFactory.transfer },
@@ -48,4 +50,6 @@ export const builders = {
     // NFT transaction types
     17: { name: "NFT Register Collection", builder: () => new NFTCrypto.Builders.NFTRegisterCollectionBuilder() },
     18: { name: "NFT Create Token", builder: () => new NFTCrypto.Builders.NFTCreateBuilder() },
+    19: { name: "NFT Transfer Asset", builder: () => new NFTCrypto.Builders.NFTTransferBuilder() },
+    20: { name: "NFT Burn Asset", builder: () => new NFTCrypto.Builders.NFTBurnBuilder() },
 };
