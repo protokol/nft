@@ -146,6 +146,52 @@ describe("NFT Transfer Functional Tests", () => {
             await expect(nftTransfer.id).toBeForged();
             await expect(nftTransfer2.id).not.toBeForged();
         });
+
+        it("should reject transfer because burn is already applied", async () => {
+            // Create token
+            const nftCreate = NFTBaseTransactionFactory.initialize(app)
+                .NFTCreate({
+                    // @ts-ignore
+                    collectionId: collectionId,
+                    attributes: {
+                        name: "card name",
+                        damage: 3,
+                        health: 2,
+                        mana: 2,
+                    },
+                })
+                .withPassphrase(secrets[0])
+                .createOne();
+
+            await expect(nftCreate).toBeAccepted();
+            await snoozeForBlock(1);
+            await expect(nftCreate.id).toBeForged();
+
+            // Burn token
+            const nftBurn = NFTBaseTransactionFactory.initialize(app)
+                .NFTBurn({
+                    // @ts-ignore
+                    nftId: nftCreate.id,
+                })
+                .withPassphrase(secrets[0])
+                .createOne();
+
+            // Transfer token
+            const nftTransfer = NFTBaseTransactionFactory.initialize(app)
+                .NFTTransfer({
+                    // @ts-ignore
+                    nftIds: [nftCreate.id],
+                    recipientId: Identities.Address.fromPassphrase(secrets[2]),
+                })
+                .withNonce(nftBurn.nonce.plus(1))
+                .withPassphrase(secrets[0])
+                .createOne();
+
+            await expect([nftBurn, nftTransfer]).not.toBeAllAccepted();
+            await snoozeForBlock(1);
+            await expect(nftBurn.id).toBeForged();
+            await expect(nftTransfer.id).not.toBeForged();
+        });
     });
 
     describe("Signed with 2 Passphrases", () => {

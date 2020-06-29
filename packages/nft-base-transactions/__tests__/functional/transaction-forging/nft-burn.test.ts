@@ -3,11 +3,11 @@ import "@arkecosystem/core-test-framework/src/matchers";
 import { Contracts } from "@arkecosystem/core-kernel";
 import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework/src/utils";
+import { Identities } from "@arkecosystem/crypto";
+import { generateMnemonic } from "bip39";
 
 import * as support from "./__support__";
 import { NFTBaseTransactionFactory } from "./__support__/transaction-factory";
-import { generateMnemonic } from "bip39";
-import { Identities } from "@arkecosystem/crypto";
 
 let app: Contracts.Kernel.Application;
 beforeAll(async () => (app = await support.setUp()));
@@ -123,6 +123,52 @@ describe("NFT Burn functional tests", () => {
             await snoozeForBlock(1);
             await expect(nftBurn.id).toBeForged();
             await expect(nftBurn2.id).not.toBeForged();
+        });
+
+        it("should reject burn because transfer is already applied", async () => {
+            // Create token
+            const nftCreate = NFTBaseTransactionFactory.initialize(app)
+                .NFTCreate({
+                    // @ts-ignore
+                    collectionId: registerCollectionId,
+                    attributes: {
+                        name: "card name",
+                        damage: 3,
+                        health: 2,
+                        mana: 2,
+                    },
+                })
+                .withPassphrase(secrets[0])
+                .createOne();
+
+            await expect(nftCreate).toBeAccepted();
+            await snoozeForBlock(1);
+            await expect(nftCreate.id).toBeForged();
+
+            // Transfer token
+            const nftTransfer = NFTBaseTransactionFactory.initialize(app)
+                .NFTTransfer({
+                    // @ts-ignore
+                    nftIds: [nftCreate.id],
+                    recipientId: Identities.Address.fromPassphrase(secrets[2]),
+                })
+                .withPassphrase(secrets[0])
+                .createOne();
+
+            // Burn token
+            const nftBurn = NFTBaseTransactionFactory.initialize(app)
+                .NFTBurn({
+                    // @ts-ignore
+                    nftId: nftCreate.id,
+                })
+                .withNonce(nftTransfer.nonce.plus(1))
+                .withPassphrase(secrets[0])
+                .createOne();
+
+            await expect([nftTransfer, nftBurn]).not.toBeAllAccepted();
+            await snoozeForBlock(1);
+            await expect(nftTransfer.id).toBeForged();
+            await expect(nftBurn.id).not.toBeForged();
         });
     });
 
