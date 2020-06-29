@@ -6,7 +6,7 @@ import { Wallet } from "./types";
 const configPath = join(__dirname, `config`);
 
 export class Filesystem {
-    async loadWallets(preset: string): Promise<Wallet[]> {
+    public async loadWallets(preset: string): Promise<Wallet[]> {
         let path = join(configPath, `${preset}/wallets-snapshot.json`);
 
         if (!(await pathExists(path))) {
@@ -16,7 +16,7 @@ export class Filesystem {
         return await readJson(path);
     }
 
-    async saveWalletsSnapshot(preset: string, wallets: Wallet[]) {
+    public async saveWalletsSnapshot(preset: string, wallets: Wallet[]) {
         const path = join(configPath, `${preset}/wallets-snapshot.json`);
 
         await outputJson(path, wallets);

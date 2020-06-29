@@ -68,7 +68,7 @@ export class Builder {
     public async buildTransaction(type: number, quantity: number, senderAddress?: string, recipientAddress?: string) {
         await configureCrypto(this.app);
 
-        const builder = builders[type];
+        const { builder } = builders[type];
         if (!builder) {
             throw new Error("Unknown type");
         }
@@ -248,6 +248,9 @@ export class Builder {
                 }
 
                 transaction.bridgechainUpdateAsset(config.bridgechain.update);
+            } else if (type === 17 && Managers.configManager.getMilestone().aip11) {
+                // NFTRegisterCollection
+                transaction.NFTRegisterCollectionAsset(config.nft.registerCollection);
             } else {
                 throw new Error("Version 2 not supported.");
             }

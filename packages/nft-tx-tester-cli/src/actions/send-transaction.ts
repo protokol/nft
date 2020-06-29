@@ -1,7 +1,6 @@
 import { Builder } from "../builder";
-import { transactions } from "../builders";
-import { App } from "../types";
-import { Action } from "../types/propmpt";
+import { builders } from "../builders";
+import { Action, App } from "../types";
 
 const sendTransaction = async (app: App, data: any) => {
     try {
@@ -25,8 +24,8 @@ const sendTransaction = async (app: App, data: any) => {
 const selectTransactionQuestion = () => {
     let question = "\nSelect transaction:";
 
-    for (const key of Object.keys(transactions)) {
-        question += `\n [${key}] - ${transactions[key]}`;
+    for (const key of Object.keys(builders)) {
+        question += `\n [${key}] - ${builders[key].name}`;
     }
 
     question += "\n";

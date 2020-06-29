@@ -1,5 +1,4 @@
-import { App } from "../types";
-import { Action } from "../types/propmpt";
+import { Action, App } from "../types";
 
 export const action: Action = {
     description: "Save wallets",

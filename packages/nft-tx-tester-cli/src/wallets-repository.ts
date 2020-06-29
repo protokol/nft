@@ -60,7 +60,6 @@ export class WalletRepository {
                         wallet.signType = WalletSignType.SecondSignature;
                         wallet.secondPassphrase = walletChange.secondPassphrase;
                     } else {
-                        // @ts-ignore
                         const wallet: Wallet = {
                             signType: WalletSignType.MultiSignature,
                             passphrases: walletChange.passphrases,

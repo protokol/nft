@@ -3,7 +3,7 @@ import { App } from "./types";
 export class Prompt {
     public constructor(private app: App) {}
 
-    prompt(question, callback: Function): Promise<void> {
+    public prompt(question, callback: Function): Promise<void> {
         return new Promise((resolve) => {
             const stdin = process.stdin;
             const stdout = process.stdout;

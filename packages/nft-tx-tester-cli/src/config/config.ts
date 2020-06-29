@@ -128,4 +128,36 @@ export const config = {
             bridgechainId: undefined,
         },
     },
+    nft: {
+        registerCollection: {
+            name: "FIFA-20-PLAYERS",
+            description: "FIFA 2020 Players",
+            maximumSupply: 10,
+            jsonSchema: {
+                properties: {
+                    name: {
+                        type: "string",
+                    },
+                    pac: {
+                        type: "number",
+                    },
+                    sho: {
+                        type: "number",
+                    },
+                    pas: {
+                        type: "number",
+                    },
+                    dri: {
+                        type: "number",
+                    },
+                    def: {
+                        type: "number",
+                    },
+                    phy: {
+                        type: "number",
+                    },
+                },
+            },
+        },
+    },
 };

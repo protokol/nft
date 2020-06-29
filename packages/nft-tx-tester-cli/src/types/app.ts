@@ -9,11 +9,9 @@ interface Config {
 
 export interface App {
     config: Config;
-
     client: Client;
     walletRepository: WalletRepository;
     filesystem: Filesystem;
-
     nonces: any;
     prompt: Prompt;
 }

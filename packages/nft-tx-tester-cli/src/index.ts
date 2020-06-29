@@ -57,22 +57,18 @@ import { WalletRepository } from "./wallets-repository";
 const main = async () => {
     const filesystem = new Filesystem();
 
-    filesystem.loadWallets("testnet");
-
     // @ts-ignore
     const app: App = {
         config: config,
-
         client: new Client(),
         walletRepository: new WalletRepository(await filesystem.loadWallets(config.network)),
         filesystem: filesystem,
-
         nonces: {},
     };
 
     app.prompt = new Prompt(app);
 
-    app.prompt.prompt(selectActionQuestion(), resolveAction);
+    await app.prompt.prompt(selectActionQuestion(), resolveAction);
 };
 
 const actions = [cliActions.sendTransaction, cliActions.listWallets, cliActions.saveWallets];
@@ -101,7 +97,7 @@ const resolveAction = async (app: App, data: any) => {
     } catch (ex) {
         console.log(ex.message);
     } finally {
-        app.prompt.prompt(selectActionQuestion(), resolveAction);
+        await app.prompt.prompt(selectActionQuestion(), resolveAction);
     }
 };
 
