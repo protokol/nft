@@ -104,7 +104,6 @@ jobs:
               uses: actions/checkout@v2
               with:
                   repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
                   ref: conf/nft-token-develop
 
             - name: Checkout protokol/nft-dapps
@@ -170,7 +169,6 @@ jobs:
               uses: actions/checkout@v2
               with:
                   repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
                   ref: conf/nft-token-develop
 
             - name: Checkout protokol/nft-dapps
@@ -236,7 +234,6 @@ jobs:
               uses: actions/checkout@v2
               with:
                   repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
                   ref: conf/nft-token-develop
 
             - name: Checkout protokol/nft-dapps
@@ -302,7 +299,6 @@ jobs:
               uses: actions/checkout@v2
               with:
                   repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
                   ref: conf/nft-token-develop
 
             - name: Checkout protokol/nft-dapps
@@ -368,7 +364,6 @@ jobs:
               uses: actions/checkout@v2
               with:
                   repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
                   ref: conf/nft-token-develop
 
             - name: Checkout protokol/nft-dapps
@@ -434,7 +429,6 @@ jobs:
               uses: actions/checkout@v2
               with:
                   repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
                   ref: conf/nft-token-develop
 
             - name: Checkout protokol/nft-dapps
@@ -500,7 +494,6 @@ jobs:
               uses: actions/checkout@v2
               with:
                   repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
                   ref: conf/nft-token-develop
 
             - name: Checkout protokol/nft-dapps
@@ -566,7 +559,6 @@ jobs:
               uses: actions/checkout@v2
               with:
                   repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
                   ref: conf/nft-token-develop
 
             - name: Checkout protokol/nft-dapps
@@ -632,7 +624,6 @@ jobs:
               uses: actions/checkout@v2
               with:
                   repository: protokol/core-nft
-                  token: ${{ secrets.PAT_TOKEN }}
                   ref: conf/nft-token-develop
 
             - name: Checkout protokol/nft-dapps
