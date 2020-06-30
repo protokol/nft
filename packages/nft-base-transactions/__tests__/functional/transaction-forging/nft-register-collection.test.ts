@@ -143,10 +143,10 @@ describe("NFT Register collection functional tests", () => {
             await expect(multiSignature.id).toBeForged();
 
             // Send funds to multi signature wallet
-            // @ts-ignore
-            const multiSigAddress = Identities.Address.fromMultiSignatureAsset(multiSignature.asset.multiSignature);
-            // @ts-ignore
-            const multiSigPublicKey = Identities.PublicKey.fromMultiSignatureAsset(multiSignature.asset.multiSignature);
+            const multiSigAddress = Identities.Address.fromMultiSignatureAsset(multiSignature.asset!.multiSignature!);
+            const multiSigPublicKey = Identities.PublicKey.fromMultiSignatureAsset(
+                multiSignature.asset!.multiSignature!,
+            );
 
             const multiSignatureFunds = TransactionFactory.initialize(app)
                 .transfer(multiSigAddress, 100 * 1e8)

@@ -55,8 +55,7 @@ describe("NFT Transfer Functional Tests", () => {
             // Create token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
-                    collectionId: nftRegisteredCollection.id,
+                    collectionId: nftRegisteredCollection.id!,
                     attributes: {
                         name: "card name",
                         damage: 3,
@@ -71,12 +70,12 @@ describe("NFT Transfer Functional Tests", () => {
             await snoozeForBlock(1);
             await expect(nftCreate.id).toBeForged();
 
-            nftCreateId = nftCreate.id;
+            nftCreateId = nftCreate.id!;
 
             // Transfer token
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
-                    nftIds: [nftCreate.id],
+                    nftIds: [nftCreate.id!],
                     recipientId: Identities.Address.fromPassphrase(secrets[2]),
                 })
                 .withPassphrase(secrets[1])
@@ -91,7 +90,6 @@ describe("NFT Transfer Functional Tests", () => {
             // Transfer token
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
-                    // @ts-ignore
                     nftIds: [nftCreateId],
                     recipientId: Identities.Address.fromPassphrase(secrets[2]),
                 })
@@ -107,7 +105,6 @@ describe("NFT Transfer Functional Tests", () => {
             // Transfer token
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
-                    // @ts-ignore
                     nftIds: [nftCreateId],
                     recipientId: Identities.Address.fromPassphrase(secrets[2]),
                 })
@@ -123,7 +120,6 @@ describe("NFT Transfer Functional Tests", () => {
             // Transfer token
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
-                    // @ts-ignore
                     nftIds: [nftCreateId],
                     recipientId: Identities.Address.fromPassphrase(secrets[2]),
                 })
@@ -132,7 +128,6 @@ describe("NFT Transfer Functional Tests", () => {
             // Transfer token
             const nftTransfer2 = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
-                    // @ts-ignore
                     nftIds: [nftCreateId],
                     recipientId: Identities.Address.fromPassphrase(secrets[2]),
                 })
@@ -151,7 +146,6 @@ describe("NFT Transfer Functional Tests", () => {
             // Create token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
                     collectionId: collectionId,
                     attributes: {
                         name: "card name",
@@ -170,8 +164,7 @@ describe("NFT Transfer Functional Tests", () => {
             // Burn token
             const nftBurn = NFTBaseTransactionFactory.initialize(app)
                 .NFTBurn({
-                    // @ts-ignore
-                    nftId: nftCreate.id,
+                    nftId: nftCreate.id!,
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
@@ -179,11 +172,10 @@ describe("NFT Transfer Functional Tests", () => {
             // Transfer token
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
-                    // @ts-ignore
-                    nftIds: [nftCreate.id],
+                    nftIds: [nftCreate.id!],
                     recipientId: Identities.Address.fromPassphrase(secrets[2]),
                 })
-                .withNonce(nftBurn.nonce.plus(1))
+                .withNonce(nftBurn.nonce!.plus(1))
                 .withPassphrase(secrets[0])
                 .createOne();
 
@@ -223,7 +215,6 @@ describe("NFT Transfer Functional Tests", () => {
             // Create Token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
                     collectionId: collectionId,
                     attributes: {
                         name: "card name",
@@ -243,8 +234,7 @@ describe("NFT Transfer Functional Tests", () => {
             // Transfer
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
-                    // @ts-ignore
-                    nftIds: [nftCreate.id],
+                    nftIds: [nftCreate.id!],
                     recipientId: Identities.Address.fromPassphrase(secrets[2]),
                 })
                 .withPassphrase(passphrase)
@@ -289,10 +279,10 @@ describe("NFT Transfer Functional Tests", () => {
             await expect(multiSignature.id).toBeForged();
 
             // Send funds to multi signature wallet
-            // @ts-ignore
-            const multiSigAddress = Identities.Address.fromMultiSignatureAsset(multiSignature.asset.multiSignature);
-            // @ts-ignore
-            const multiSigPublicKey = Identities.PublicKey.fromMultiSignatureAsset(multiSignature.asset.multiSignature);
+            const multiSigAddress = Identities.Address.fromMultiSignatureAsset(multiSignature.asset!.multiSignature!);
+            const multiSigPublicKey = Identities.PublicKey.fromMultiSignatureAsset(
+                multiSignature.asset!.multiSignature!,
+            );
 
             const multiSignatureFunds = TransactionFactory.initialize(app)
                 .transfer(multiSigAddress, 100 * 1e8)
@@ -306,7 +296,6 @@ describe("NFT Transfer Functional Tests", () => {
             // Create Token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
                     collectionId: collectionId,
                     attributes: {
                         name: "card name",
@@ -326,8 +315,7 @@ describe("NFT Transfer Functional Tests", () => {
             // Transfer
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
-                    // @ts-ignore
-                    nftIds: [nftCreate.id],
+                    nftIds: [nftCreate.id!],
                     recipientId: Identities.Address.fromPassphrase(secrets[2]),
                 })
                 .withSenderPublicKey(multiSigPublicKey)

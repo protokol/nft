@@ -51,8 +51,7 @@ describe("NFT Burn functional tests", () => {
             // Create token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
-                    collectionId: nftRegisteredCollection.id,
+                    collectionId: nftRegisteredCollection.id!,
                     attributes: {
                         name: "card name",
                         damage: 3,
@@ -70,7 +69,7 @@ describe("NFT Burn functional tests", () => {
             // Burn token
             const nftBurn = NFTBaseTransactionFactory.initialize(app)
                 .NFTBurn({
-                    nftId: nftCreate.id,
+                    nftId: nftCreate.id!,
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
@@ -84,7 +83,6 @@ describe("NFT Burn functional tests", () => {
             // Create token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
                     collectionId: registerCollectionId,
                     attributes: {
                         name: "card name",
@@ -103,8 +101,7 @@ describe("NFT Burn functional tests", () => {
             // Burn token
             const nftBurn = NFTBaseTransactionFactory.initialize(app)
                 .NFTBurn({
-                    // @ts-ignore
-                    nftId: nftCreate.id,
+                    nftId: nftCreate.id!,
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
@@ -112,11 +109,10 @@ describe("NFT Burn functional tests", () => {
             // Burn token
             const nftBurn2 = NFTBaseTransactionFactory.initialize(app)
                 .NFTBurn({
-                    // @ts-ignore
-                    nftId: nftCreate.id,
+                    nftId: nftCreate.id!,
                 })
                 .withPassphrase(secrets[0])
-                .withNonce(nftBurn.nonce.plus(1))
+                .withNonce(nftBurn.nonce!.plus(1))
                 .createOne();
 
             await expect([nftBurn, nftBurn2]).not.toBeAllAccepted();
@@ -129,7 +125,6 @@ describe("NFT Burn functional tests", () => {
             // Create token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
                     collectionId: registerCollectionId,
                     attributes: {
                         name: "card name",
@@ -148,8 +143,7 @@ describe("NFT Burn functional tests", () => {
             // Transfer token
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
-                    // @ts-ignore
-                    nftIds: [nftCreate.id],
+                    nftIds: [nftCreate.id!],
                     recipientId: Identities.Address.fromPassphrase(secrets[2]),
                 })
                 .withPassphrase(secrets[0])
@@ -158,10 +152,9 @@ describe("NFT Burn functional tests", () => {
             // Burn token
             const nftBurn = NFTBaseTransactionFactory.initialize(app)
                 .NFTBurn({
-                    // @ts-ignore
-                    nftId: nftCreate.id,
+                    nftId: nftCreate.id!,
                 })
-                .withNonce(nftTransfer.nonce.plus(1))
+                .withNonce(nftTransfer.nonce!.plus(1))
                 .withPassphrase(secrets[0])
                 .createOne();
 
@@ -201,7 +194,6 @@ describe("NFT Burn functional tests", () => {
             // Create Token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
                     collectionId: registerCollectionId,
                     attributes: {
                         name: "card name",
@@ -221,8 +213,7 @@ describe("NFT Burn functional tests", () => {
             // Burn token
             const nftBurn = NFTBaseTransactionFactory.initialize(app)
                 .NFTBurn({
-                    // @ts-ignore
-                    nftId: nftCreate.id,
+                    nftId: nftCreate.id!,
                 })
                 .withPassphrase(passphrase)
                 .withSecondPassphrase(secondPassphrase)
@@ -283,7 +274,6 @@ describe("NFT Burn functional tests", () => {
             // Create Token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
                     collectionId: registerCollectionId,
                     attributes: {
                         name: "card name",
@@ -303,8 +293,7 @@ describe("NFT Burn functional tests", () => {
             // Burn token
             const nftBurn = NFTBaseTransactionFactory.initialize(app)
                 .NFTBurn({
-                    // @ts-ignore
-                    nftId: nftCreate.id,
+                    nftId: nftCreate.id!,
                 })
                 .withSenderPublicKey(multiSigPublicKey)
                 .withPassphraseList(passphrases)

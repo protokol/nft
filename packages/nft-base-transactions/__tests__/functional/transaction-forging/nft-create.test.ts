@@ -4,10 +4,10 @@ import { Contracts } from "@arkecosystem/core-kernel";
 import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework/src/utils";
 import { Identities } from "@arkecosystem/crypto";
+import { generateMnemonic } from "bip39";
 
 import * as support from "./__support__";
 import { NFTBaseTransactionFactory } from "./__support__/transaction-factory";
-import { generateMnemonic } from "bip39";
 
 let app: Contracts.Kernel.Application;
 beforeAll(async () => (app = await support.setUp()));
@@ -52,8 +52,7 @@ describe("NFT Create functional tests", () => {
             // Create token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
-                    collectionId: nftRegisteredCollection.id,
+                    collectionId: nftRegisteredCollection.id!,
                     attributes: {
                         name: "card name",
                         damage: 3,
@@ -104,8 +103,7 @@ describe("NFT Create functional tests", () => {
                 // Create tokens
                 const nftCreate = NFTBaseTransactionFactory.initialize(app)
                     .NFTCreate({
-                        // @ts-ignore
-                        collectionId: nftRegisteredSchema.id,
+                        collectionId: nftRegisteredSchema.id!,
                         attributes: {
                             name: "card name",
                             damage: 3,
@@ -124,8 +122,7 @@ describe("NFT Create functional tests", () => {
             // Create token which should fail
             const nftCreate2 = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
-                    collectionId: nftRegisteredSchema.id,
+                    collectionId: nftRegisteredSchema.id!,
                     attributes: {
                         name: "card name",
                         damage: 3,
@@ -176,8 +173,7 @@ describe("NFT Create functional tests", () => {
 
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
-                    collectionId: nftRegisteredCollection.id,
+                    collectionId: nftRegisteredCollection.id!,
                     attributes: {
                         name: "card name",
                         damage: 3,
@@ -197,7 +193,6 @@ describe("NFT Create functional tests", () => {
             // Create token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
                     collectionId: registeredCollectionWithAllowedIssuers,
                     attributes: {
                         name: "card name",
@@ -244,7 +239,6 @@ describe("NFT Create functional tests", () => {
             // Create Token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
                     collectionId: collectionId,
                     attributes: {
                         name: "card name",
@@ -295,10 +289,10 @@ describe("NFT Create functional tests", () => {
             await expect(multiSignature.id).toBeForged();
 
             // Send funds to multi signature wallet
-            // @ts-ignore
-            const multiSigAddress = Identities.Address.fromMultiSignatureAsset(multiSignature.asset.multiSignature);
-            // @ts-ignore
-            const multiSigPublicKey = Identities.PublicKey.fromMultiSignatureAsset(multiSignature.asset.multiSignature);
+            const multiSigAddress = Identities.Address.fromMultiSignatureAsset(multiSignature.asset!.multiSignature!);
+            const multiSigPublicKey = Identities.PublicKey.fromMultiSignatureAsset(
+                multiSignature.asset!.multiSignature!,
+            );
 
             const multiSignatureFunds = TransactionFactory.initialize(app)
                 .transfer(multiSigAddress, 100 * 1e8)
@@ -312,7 +306,6 @@ describe("NFT Create functional tests", () => {
             // Create Token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
                     collectionId: collectionId,
                     attributes: {
                         name: "card name",
