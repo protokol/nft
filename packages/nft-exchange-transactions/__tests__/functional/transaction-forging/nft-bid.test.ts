@@ -53,8 +53,7 @@ describe("NFT Bid functional tests", () => {
             // Create token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
-                    collectionId: nftRegisteredCollection.id,
+                    collectionId: nftRegisteredCollection.id!,
                     attributes: {
                         name: "card name",
                         damage: 3,
@@ -76,7 +75,7 @@ describe("NFT Bid functional tests", () => {
                         blockHeight: 10,
                     },
                     startAmount: Utils.BigNumber.make("1"),
-                    nftIds: [nftCreate.id],
+                    nftIds: [nftCreate.id!],
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
@@ -88,8 +87,7 @@ describe("NFT Bid functional tests", () => {
             // Create bid
             const nftBid = NFTExchangeTransactionFactory.initialize(app)
                 .NFTBid({
-                    // @ts-ignore
-                    auctionId: nftAuction.id,
+                    auctionId: nftAuction.id!,
                     bidAmount: Utils.BigNumber.make("2"),
                 })
                 .withPassphrase(secrets[1])
@@ -104,7 +102,6 @@ describe("NFT Bid functional tests", () => {
             // Create token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
                     collectionId: collectionId,
                     attributes: {
                         name: "card name",
@@ -127,8 +124,7 @@ describe("NFT Bid functional tests", () => {
                         blockHeight: 12,
                     },
                     startAmount: Utils.BigNumber.make("1"),
-                    // @ts-ignore
-                    nftIds: [nftCreate.id],
+                    nftIds: [nftCreate.id!],
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
@@ -140,8 +136,7 @@ describe("NFT Bid functional tests", () => {
             // Create bid
             const nftBid = NFTExchangeTransactionFactory.initialize(app)
                 .NFTBid({
-                    // @ts-ignore
-                    auctionId: nftAuction.id,
+                    auctionId: nftAuction.id!,
                     bidAmount: Utils.BigNumber.make("2"),
                 })
                 .withPassphrase(secrets[1])
@@ -156,7 +151,6 @@ describe("NFT Bid functional tests", () => {
             // Create token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
                     collectionId: collectionId,
                     attributes: {
                         name: "card name",
@@ -179,8 +173,7 @@ describe("NFT Bid functional tests", () => {
                         blockHeight: 50,
                     },
                     startAmount: Utils.BigNumber.make("1"),
-                    // @ts-ignore
-                    nftIds: [nftCreate.id],
+                    nftIds: [nftCreate.id!],
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
@@ -192,8 +185,7 @@ describe("NFT Bid functional tests", () => {
             // Cancel auction
             const nftAuctionCancel = NFTExchangeTransactionFactory.initialize(app)
                 .NFTAuctionCancel({
-                    // @ts-ignore
-                    auctionId: nftAuction.id,
+                    auctionId: nftAuction.id!,
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
@@ -205,8 +197,7 @@ describe("NFT Bid functional tests", () => {
             // Create bid
             const nftBid = NFTExchangeTransactionFactory.initialize(app)
                 .NFTBid({
-                    // @ts-ignore
-                    auctionId: nftAuction.id,
+                    auctionId: nftAuction.id!,
                     bidAmount: Utils.BigNumber.make("2"),
                 })
                 .withPassphrase(secrets[1])
@@ -247,7 +238,6 @@ describe("NFT Bid functional tests", () => {
             // Create Token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
                     collectionId: collectionId,
                     attributes: {
                         name: "card name",
@@ -270,8 +260,7 @@ describe("NFT Bid functional tests", () => {
                         blockHeight: 50,
                     },
                     startAmount: Utils.BigNumber.make("1"),
-                    // @ts-ignore
-                    nftIds: [nftCreate.id],
+                    nftIds: [nftCreate.id!],
                 })
                 .withPassphrase(secrets[1])
                 .createOne();
@@ -283,8 +272,7 @@ describe("NFT Bid functional tests", () => {
             // Create bid
             const nftBid = NFTExchangeTransactionFactory.initialize(app)
                 .NFTBid({
-                    // @ts-ignore
-                    auctionId: nftAuction.id,
+                    auctionId: nftAuction.id!,
                     bidAmount: Utils.BigNumber.make("2"),
                 })
                 .withPassphrase(passphrase)
@@ -329,10 +317,10 @@ describe("NFT Bid functional tests", () => {
             await expect(multiSignature.id).toBeForged();
 
             // Send funds to multi signature wallet
-            // @ts-ignore
-            const multiSigAddress = Identities.Address.fromMultiSignatureAsset(multiSignature.asset.multiSignature);
-            // @ts-ignore
-            const multiSigPublicKey = Identities.PublicKey.fromMultiSignatureAsset(multiSignature.asset.multiSignature);
+            const multiSigAddress = Identities.Address.fromMultiSignatureAsset(multiSignature.asset!.multiSignature!);
+            const multiSigPublicKey = Identities.PublicKey.fromMultiSignatureAsset(
+                multiSignature.asset!.multiSignature!,
+            );
 
             const multiSignatureFunds = TransactionFactory.initialize(app)
                 .transfer(multiSigAddress, 100 * 1e8)
@@ -346,7 +334,6 @@ describe("NFT Bid functional tests", () => {
             // Create Token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
                     collectionId: collectionId,
                     attributes: {
                         name: "card name",
@@ -369,8 +356,7 @@ describe("NFT Bid functional tests", () => {
                         blockHeight: 70,
                     },
                     startAmount: Utils.BigNumber.make("1"),
-                    // @ts-ignore
-                    nftIds: [nftCreate.id],
+                    nftIds: [nftCreate.id!],
                 })
                 .withPassphrase(secrets[1])
                 .createOne();
@@ -382,8 +368,7 @@ describe("NFT Bid functional tests", () => {
             // Create bid
             const nftBid = NFTExchangeTransactionFactory.initialize(app)
                 .NFTBid({
-                    // @ts-ignore
-                    auctionId: nftAuction.id,
+                    auctionId: nftAuction.id!,
                     bidAmount: Utils.BigNumber.make("2"),
                 })
                 .withSenderPublicKey(multiSigPublicKey)

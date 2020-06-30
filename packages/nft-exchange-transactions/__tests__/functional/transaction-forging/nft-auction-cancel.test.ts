@@ -51,8 +51,7 @@ describe("NFT Auction Cancel functional tests", () => {
 
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
-                    collectionId: nftRegisteredCollection.id,
+                    collectionId: nftRegisteredCollection.id!,
                     attributes: {
                         name: "card name",
                         damage: 3,
@@ -73,8 +72,7 @@ describe("NFT Auction Cancel functional tests", () => {
                         blockHeight: 30,
                     },
                     startAmount: Utils.BigNumber.make("1"),
-                    // @ts-ignore
-                    nftIds: [nftCreate.id],
+                    nftIds: [nftCreate.id!],
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
@@ -85,8 +83,7 @@ describe("NFT Auction Cancel functional tests", () => {
 
             const nftAuctionCancel = NFTExchangeTransactionFactory.initialize(app)
                 .NFTAuctionCancel({
-                    // @ts-ignore
-                    auctionId: nftAuction.id,
+                    auctionId: nftAuction.id!,
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
@@ -99,7 +96,6 @@ describe("NFT Auction Cancel functional tests", () => {
         it("should reject, because auction was already canceled", async () => {
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
                     collectionId: collectionId,
                     attributes: {
                         name: "card name",
@@ -121,8 +117,7 @@ describe("NFT Auction Cancel functional tests", () => {
                         blockHeight: 30,
                     },
                     startAmount: Utils.BigNumber.make("1"),
-                    // @ts-ignore
-                    nftIds: [nftCreate.id],
+                    nftIds: [nftCreate.id!],
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
@@ -133,8 +128,7 @@ describe("NFT Auction Cancel functional tests", () => {
 
             const nftAuctionCancel = NFTExchangeTransactionFactory.initialize(app)
                 .NFTAuctionCancel({
-                    // @ts-ignore
-                    auctionId: nftAuction.id,
+                    auctionId: nftAuction.id!,
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
@@ -145,8 +139,7 @@ describe("NFT Auction Cancel functional tests", () => {
 
             const nftAuctionCancelTwo = NFTExchangeTransactionFactory.initialize(app)
                 .NFTAuctionCancel({
-                    // @ts-ignore
-                    auctionId: nftAuction.id,
+                    auctionId: nftAuction.id!,
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
@@ -159,7 +152,6 @@ describe("NFT Auction Cancel functional tests", () => {
         it("should reject because auction cancel is already in pool", async () => {
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
                     collectionId: collectionId,
                     attributes: {
                         name: "card name",
@@ -181,8 +173,7 @@ describe("NFT Auction Cancel functional tests", () => {
                         blockHeight: 30,
                     },
                     startAmount: Utils.BigNumber.make("1"),
-                    // @ts-ignore
-                    nftIds: [nftCreate.id],
+                    nftIds: [nftCreate.id!],
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
@@ -193,18 +184,16 @@ describe("NFT Auction Cancel functional tests", () => {
 
             const nftAuctionCancel = NFTExchangeTransactionFactory.initialize(app)
                 .NFTAuctionCancel({
-                    // @ts-ignore
-                    auctionId: nftAuction.id,
+                    auctionId: nftAuction.id!,
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
 
             const nftAuctionCancelTwo = NFTExchangeTransactionFactory.initialize(app)
                 .NFTAuctionCancel({
-                    // @ts-ignore
-                    auctionId: nftAuction.id,
+                    auctionId: nftAuction.id!,
                 })
-                .withNonce(nftAuction.nonce.plus(1))
+                .withNonce(nftAuction.nonce!.plus(1))
                 .withPassphrase(secrets[0])
                 .createOne();
 
@@ -243,7 +232,6 @@ describe("NFT Auction Cancel functional tests", () => {
             // Create Token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
                     collectionId: collectionId,
                     attributes: {
                         name: "card name",
@@ -267,8 +255,7 @@ describe("NFT Auction Cancel functional tests", () => {
                         blockHeight: 33,
                     },
                     startAmount: Utils.BigNumber.make("1"),
-                    // @ts-ignore
-                    nftIds: [nftCreate.id],
+                    nftIds: [nftCreate.id!],
                 })
                 .withPassphrase(passphrase)
                 .withSecondPassphrase(secondPassphrase)
@@ -280,8 +267,7 @@ describe("NFT Auction Cancel functional tests", () => {
 
             const nftAuctionCancel = NFTExchangeTransactionFactory.initialize(app)
                 .NFTAuctionCancel({
-                    // @ts-ignore
-                    auctionId: nftAuction.id,
+                    auctionId: nftAuction.id!,
                 })
                 .withPassphrase(passphrase)
                 .withSecondPassphrase(secondPassphrase)
@@ -325,10 +311,10 @@ describe("NFT Auction Cancel functional tests", () => {
             await expect(multiSignature.id).toBeForged();
 
             // Send funds to multi signature wallet
-            // @ts-ignore
-            const multiSigAddress = Identities.Address.fromMultiSignatureAsset(multiSignature.asset.multiSignature);
-            // @ts-ignore
-            const multiSigPublicKey = Identities.PublicKey.fromMultiSignatureAsset(multiSignature.asset.multiSignature);
+            const multiSigAddress = Identities.Address.fromMultiSignatureAsset(multiSignature.asset!.multiSignature!);
+            const multiSigPublicKey = Identities.PublicKey.fromMultiSignatureAsset(
+                multiSignature.asset!.multiSignature!,
+            );
 
             const multiSignatureFunds = TransactionFactory.initialize(app)
                 .transfer(multiSigAddress, 100 * 1e8)
@@ -342,7 +328,6 @@ describe("NFT Auction Cancel functional tests", () => {
             // Create Token
             const nftCreate = NFTBaseTransactionFactory.initialize(app)
                 .NFTCreate({
-                    // @ts-ignore
                     collectionId: collectionId,
                     attributes: {
                         name: "card name",
@@ -366,8 +351,7 @@ describe("NFT Auction Cancel functional tests", () => {
                         blockHeight: 42,
                     },
                     startAmount: Utils.BigNumber.make("1"),
-                    // @ts-ignore
-                    nftIds: [nftCreate.id],
+                    nftIds: [nftCreate.id!],
                 })
                 .withSenderPublicKey(multiSigPublicKey)
                 .withPassphraseList(passphrases)
@@ -379,8 +363,7 @@ describe("NFT Auction Cancel functional tests", () => {
 
             const nftAuctionCancel = NFTExchangeTransactionFactory.initialize(app)
                 .NFTAuctionCancel({
-                    // @ts-ignore
-                    auctionId: nftAuction.id,
+                    auctionId: nftAuction.id!,
                 })
                 .withSenderPublicKey(multiSigPublicKey)
                 .withPassphraseList(passphrases)
