@@ -33,13 +33,12 @@ export class CollectionsController extends Controller {
         return this.toPagination(transactionListResult, CollectionResource, request.query.transform);
     }
 
-    // todo rethink implementation and introduce transformer
     public async showByWalletId(request: Hapi.Request, h: Hapi.ResponseToolkit) {
         let wallet: Contracts.State.Wallet;
         try {
             wallet = this.walletRepository.findByIndex(Indexers.NFTIndexers.CollectionIndexer, request.params.id);
         } catch (e) {
-            return Boom.notFound("Wallet not found");
+            return Boom.notFound("Collection not found");
         }
 
         return this.respondWithResource(wallet, WalletsResource);
