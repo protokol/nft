@@ -50,7 +50,7 @@ export class BidsController extends Controller {
         try {
             wallet = this.walletRepository.findByIndex(Indexers.NFTExchangeIndexers.BidIndexer, request.params.id);
         } catch (e) {
-            return Boom.notFound("Bid Not Found");
+            return Boom.notFound("Bid not found or it was already accepted/canceled");
         }
 
         return this.respondWithResource(wallet, WalletResource);

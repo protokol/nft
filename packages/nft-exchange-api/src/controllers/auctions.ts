@@ -50,7 +50,7 @@ export class AuctionsController extends Controller {
         try {
             wallet = this.walletRepository.findByIndex(Indexers.NFTExchangeIndexers.AuctionIndexer, request.params.id);
         } catch (e) {
-            return Boom.notFound("Auction Not Found");
+            return Boom.notFound("Auction not found or it was already completed/canceled");
         }
 
         return this.respondWithResource(wallet, WalletResource);

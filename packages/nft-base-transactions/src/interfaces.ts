@@ -8,15 +8,3 @@ export interface INFTCollection {
 }
 
 export type INFTTokens = {};
-
-// TODO: remove
-export interface NFTRegisteredCollection {
-    nftCollectionAsset: Interfaces.NFTCollectionAsset;
-    currentSupply: number;
-    collectionId: string;
-}
-
-export interface NFTBaseWalletAsset {
-    nftCollections?: NFTRegisteredCollection[];
-    nftIds?: string[];
-}
