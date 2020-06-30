@@ -14,8 +14,6 @@ export interface ExchangeConfigurations {
         };
     };
     transactions: {
-        defaults: {
-            safetyDistance: number;
-        };
+        defaults: {};
     };
 }
