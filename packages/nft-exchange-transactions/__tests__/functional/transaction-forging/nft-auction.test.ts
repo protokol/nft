@@ -414,7 +414,7 @@ describe("NFT Auction functional tests", () => {
             const nftAuction = NFTExchangeTransactionFactory.initialize(app)
                 .NFTAuction({
                     expiration: {
-                        blockHeight: 42,
+                        blockHeight: 50,
                     },
                     startAmount: Utils.BigNumber.make("1"),
                     nftIds: [nftCreate.id!],
