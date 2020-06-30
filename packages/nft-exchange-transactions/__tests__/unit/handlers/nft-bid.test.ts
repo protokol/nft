@@ -12,7 +12,6 @@ import { Enums } from "@protokol/nft-exchange-crypto";
 
 import { setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
 import { buildWallet, initApp } from "../__support__/app";
-import { defaults } from "../../../src/defaults";
 import {
     NFTExchangeBidAuctionCanceledOrAccepted,
     NFTExchangeBidAuctionDoesNotExists,
@@ -273,7 +272,7 @@ describe("NFT Bid tests", () => {
     describe("emitEvents", () => {
         it("should test dispatch", async () => {
             const actualAuction = buildAuctionTransaction({
-                blockHeight: 5 + defaults.safetyDistance,
+                blockHeight: 5,
             });
 
             const emitter: Contracts.Kernel.EventDispatcher = app.get<Contracts.Kernel.EventDispatcher>(
@@ -299,7 +298,7 @@ describe("NFT Bid tests", () => {
                 mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
                 actualAuction = buildAuctionTransaction({
-                    blockHeight: 5 + defaults.safetyDistance,
+                    blockHeight: 5,
                     passphrase: passphrases[1],
                 });
 
@@ -349,7 +348,7 @@ describe("NFT Bid tests", () => {
             mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
             actualAuction = buildAuctionTransaction({
-                blockHeight: 5 + defaults.safetyDistance,
+                blockHeight: 5,
                 passphrase: passphrases[1],
             });
 
