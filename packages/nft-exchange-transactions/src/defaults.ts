@@ -1,3 +1,1 @@
-export const defaults = {
-    safetyDistance: 51,
-};
+export const defaults = {};
