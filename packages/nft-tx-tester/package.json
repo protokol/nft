@@ -1,5 +1,5 @@
 {
-    "name": "@protokol/nft-tx-tester-cli",
+    "name": "@protokol/nft-tx-tester",
     "version": "0.0.1",
     "description": "A simple command line utility to create and broadcast NFT transactions.",
     "license": "CC-BY-NC-SA-4.0",
