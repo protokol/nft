@@ -1,6 +1,7 @@
 import * as MagistrateCrypto from "@arkecosystem/core-magistrate-crypto";
 import { Transactions } from "@arkecosystem/crypto";
-import * as NFTCrypto from "@protokol/nft-base-crypto";
+import * as NFTBaseCrypto from "@protokol/nft-base-crypto";
+import * as NFTExchangeCrypto from "@protokol/nft-exchange-crypto";
 
 Transactions.TransactionRegistry.registerTransactionType(MagistrateCrypto.Transactions.BusinessRegistrationTransaction);
 Transactions.TransactionRegistry.registerTransactionType(MagistrateCrypto.Transactions.BusinessResignationTransaction);
@@ -12,10 +13,15 @@ Transactions.TransactionRegistry.registerTransactionType(
     MagistrateCrypto.Transactions.BridgechainResignationTransaction,
 );
 Transactions.TransactionRegistry.registerTransactionType(MagistrateCrypto.Transactions.BridgechainUpdateTransaction);
-Transactions.TransactionRegistry.registerTransactionType(NFTCrypto.Transactions.NFTRegisterCollectionTransaction);
-Transactions.TransactionRegistry.registerTransactionType(NFTCrypto.Transactions.NFTCreateTransaction);
-Transactions.TransactionRegistry.registerTransactionType(NFTCrypto.Transactions.NFTTransferTransaction);
-Transactions.TransactionRegistry.registerTransactionType(NFTCrypto.Transactions.NFTBurnTransaction);
+Transactions.TransactionRegistry.registerTransactionType(NFTBaseCrypto.Transactions.NFTRegisterCollectionTransaction);
+Transactions.TransactionRegistry.registerTransactionType(NFTBaseCrypto.Transactions.NFTCreateTransaction);
+Transactions.TransactionRegistry.registerTransactionType(NFTBaseCrypto.Transactions.NFTTransferTransaction);
+Transactions.TransactionRegistry.registerTransactionType(NFTBaseCrypto.Transactions.NFTBurnTransaction);
+Transactions.TransactionRegistry.registerTransactionType(NFTExchangeCrypto.Transactions.NFTAuctionTransaction);
+Transactions.TransactionRegistry.registerTransactionType(NFTExchangeCrypto.Transactions.NFTAuctionCancelTransaction);
+Transactions.TransactionRegistry.registerTransactionType(NFTExchangeCrypto.Transactions.NFTBidTransaction);
+Transactions.TransactionRegistry.registerTransactionType(NFTExchangeCrypto.Transactions.NFTBidCancelTransaction);
+Transactions.TransactionRegistry.registerTransactionType(NFTExchangeCrypto.Transactions.NFTAcceptTradeTransaction);
 
 export const builders = {
     0: { name: "Transfer", builder: Transactions.BuilderFactory.transfer },
@@ -48,8 +54,13 @@ export const builders = {
     16: { name: "Bridgechain Update", builder: () => new MagistrateCrypto.Builders.BridgechainUpdateBuilder() },
 
     // NFT transaction types
-    17: { name: "NFT Register Collection", builder: () => new NFTCrypto.Builders.NFTRegisterCollectionBuilder() },
-    18: { name: "NFT Create Token", builder: () => new NFTCrypto.Builders.NFTCreateBuilder() },
-    19: { name: "NFT Transfer Asset", builder: () => new NFTCrypto.Builders.NFTTransferBuilder() },
-    20: { name: "NFT Burn Asset", builder: () => new NFTCrypto.Builders.NFTBurnBuilder() },
+    17: { name: "NFT Register Collection", builder: () => new NFTBaseCrypto.Builders.NFTRegisterCollectionBuilder() },
+    18: { name: "NFT Create Token", builder: () => new NFTBaseCrypto.Builders.NFTCreateBuilder() },
+    19: { name: "NFT Transfer Asset", builder: () => new NFTBaseCrypto.Builders.NFTTransferBuilder() },
+    20: { name: "NFT Burn Asset", builder: () => new NFTBaseCrypto.Builders.NFTBurnBuilder() },
+    21: { name: "NFT Auction", builder: () => new NFTExchangeCrypto.Builders.NFTAuctionBuilder() },
+    22: { name: "NFT Cancel Auction", builder: () => new NFTExchangeCrypto.Builders.NFTAuctionCancelBuilder() },
+    23: { name: "NFT Bid", builder: () => new NFTExchangeCrypto.Builders.NFTBidBuilder() },
+    24: { name: "NFT Cancel Bid", builder: () => new NFTExchangeCrypto.Builders.NFTBidCancelBuilder() },
+    25: { name: "NFT Accept Trade", builder: () => new NFTExchangeCrypto.Builders.NftAcceptTradeBuilder() },
 };

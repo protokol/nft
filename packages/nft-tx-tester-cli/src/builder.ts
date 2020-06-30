@@ -78,9 +78,9 @@ export class Builder {
         let senderWallet = (senderAddress
             ? this.app.walletRepository.getWallet(senderAddress)
             : this.app.walletRepository.getRandomWallet()) as ExtendedWallet;
-        const recipientWallet = recipientAddress
+        const recipientWallet = (recipientAddress
             ? this.app.walletRepository.getWallet(recipientAddress)
-            : this.app.walletRepository.getRandomWallet();
+            : this.app.walletRepository.getRandomWallet()) as ExtendedWallet;
 
         const recipientId = recipientWallet.address;
 
@@ -253,16 +253,18 @@ export class Builder {
                 transaction.NFTRegisterCollectionAsset(config.nft.registerCollection);
             } else if (type === 18 && Managers.configManager.getMilestone().aip11) {
                 // NFTCreateToken
-                if (!config.nft.createAsset.collectionId) {
+                const createAsset = { ...config.nft.createAsset };
+                if (!createAsset.collectionId) {
                     if (!senderWallet.attributes.nft?.base?.collections) {
                         throw new Error("Wallet doesn't have any collections");
                     }
-                    config.nft.createAsset.collectionId = Object.keys(senderWallet.attributes.nft.base.collections)[0];
+                    createAsset.collectionId = Object.keys(senderWallet.attributes.nft.base.collections)[0];
                 }
-                transaction.NFTCreateToken(config.nft.createAsset);
+                transaction.NFTCreateToken(createAsset);
             } else if (type === 19 && Managers.configManager.getMilestone().aip11) {
                 // NFTTransferAsset
-                if (!config.nft.transferAsset.nftIds?.length) {
+                const transferAsset = { ...config.nft.transferAsset };
+                if (!transferAsset.nftIds?.length) {
                     if (
                         !senderWallet.attributes.nft?.base?.tokenIds ||
                         !Object.keys(senderWallet.attributes.nft.base.tokenIds).length
@@ -271,16 +273,17 @@ export class Builder {
                     }
 
                     // @ts-ignore
-                    config.nft.transferAsset.nftIds = [Object.keys(senderWallet.attributes.nft.base.tokenIds)[0]];
+                    transferAsset.nftIds = [Object.keys(senderWallet.attributes.nft.base.tokenIds)[i]];
                 }
 
-                if (!config.nft.transferAsset.recipientId) {
-                    config.nft.transferAsset.recipientId = recipientId;
+                if (!transferAsset.recipientId) {
+                    transferAsset.recipientId = recipientId;
                 }
-                transaction.NFTTransferAsset(config.nft.transferAsset);
+                transaction.NFTTransferAsset(transferAsset);
             } else if (type === 20 && Managers.configManager.getMilestone().aip11) {
                 // NFTBurnAsset
-                if (!config.nft.burnAsset.nftId) {
+                const burnAsset = { ...config.nft.burnAsset };
+                if (!burnAsset.nftId) {
                     if (
                         !senderWallet.attributes.nft?.base?.tokenIds ||
                         !Object.keys(senderWallet.attributes.nft.base.tokenIds).length
@@ -288,10 +291,100 @@ export class Builder {
                         throw new Error("Wallet doesn't own any assets");
                     }
 
-                    config.nft.burnAsset.nftId = Object.keys(senderWallet.attributes.nft.base.tokenIds)[0];
+                    burnAsset.nftId = Object.keys(senderWallet.attributes.nft.base.tokenIds)[i];
                 }
 
-                transaction.NFTBurnAsset(config.nft.burnAsset);
+                transaction.NFTBurnAsset(burnAsset);
+            } else if (type === 21 && Managers.configManager.getMilestone().aip11) {
+                // NFTAuctionAsset
+                const auctionAsset = { ...config.nft.auctionAsset };
+                if (!auctionAsset.nftIds?.length) {
+                    if (
+                        !senderWallet.attributes.nft?.base?.tokenIds ||
+                        !Object.keys(senderWallet.attributes.nft.base.tokenIds).length
+                    ) {
+                        throw new Error("Wallet doesn't own any assets");
+                    }
+
+                    // @ts-ignore
+                    auctionAsset.nftIds = [Object.keys(senderWallet.attributes.nft.base.tokenIds)[i]];
+                }
+
+                transaction.NFTAuctionAsset(auctionAsset);
+            } else if (type === 22 && Managers.configManager.getMilestone().aip11) {
+                // NFTCancelAuctionAsset
+                const cancelAuction = { ...config.nft.cancelAuction };
+                if (!cancelAuction.auctionId) {
+                    if (
+                        !senderWallet.attributes.nft?.exchange?.auctions ||
+                        !Object.keys(senderWallet.attributes.nft.exchange.auctions).length
+                    ) {
+                        throw new Error("Wallet doesn't own any auctions");
+                    }
+
+                    cancelAuction.auctionId = Object.keys(senderWallet.attributes.nft.exchange.auctions)[i];
+                }
+
+                transaction.NFTAuctionCancelAsset(cancelAuction);
+            } else if (type === 23 && Managers.configManager.getMilestone().aip11) {
+                // NFTBidAsset
+                const bidAsset = { ...config.nft.bidAsset };
+                if (!bidAsset.auctionId) {
+                    if (
+                        !recipientWallet.attributes.nft?.exchange?.auctions ||
+                        !Object.keys(recipientWallet.attributes.nft.exchange.auctions).length
+                    ) {
+                        throw new Error("Wallet doesn't own any auctions");
+                    }
+
+                    bidAsset.auctionId = Object.keys(recipientWallet.attributes.nft.exchange.auctions)[i];
+                }
+
+                // set different bid amount for multiple bids
+                bidAsset.bidAmount += i;
+
+                transaction.NFTBidAsset(bidAsset);
+            } else if (type === 24 && Managers.configManager.getMilestone().aip11) {
+                // NFTCancelBidAsset
+                const cancelBidAsset = { ...config.nft.cancelBidAsset };
+                if (!cancelBidAsset.bidId) {
+                    const bids = await this.app.client.retrieveBidsByPublicKey(senderWallet.publicKey);
+                    if (!bids.length) {
+                        throw new Error("Wallet doesn't have any bids");
+                    }
+
+                    cancelBidAsset.bidId = bids[i].id;
+                }
+
+                transaction.NFTBidCancelAsset(cancelBidAsset);
+            } else if (type === 25 && Managers.configManager.getMilestone().aip11) {
+                // NFTAcceptTradeAsset
+                const acceptTradeAsset = { ...config.nft.acceptTradeAsset };
+
+                if (!acceptTradeAsset.auctionId) {
+                    if (
+                        !senderWallet.attributes.nft?.exchange?.auctions ||
+                        !Object.keys(senderWallet.attributes.nft.exchange.auctions).length
+                    ) {
+                        throw new Error("Wallet doesn't own any auctions");
+                    }
+
+                    acceptTradeAsset.auctionId = Object.keys(senderWallet.attributes.nft.exchange.auctions)[i];
+                }
+
+                if (!acceptTradeAsset.bidId) {
+                    if (
+                        !Object.keys(senderWallet.attributes.nft.exchange.auctions[acceptTradeAsset.auctionId].bids)
+                            .length
+                    ) {
+                        throw new Error("Auction doesn't own any bids");
+                    }
+
+                    acceptTradeAsset.bidId =
+                        senderWallet.attributes.nft.exchange.auctions[acceptTradeAsset.auctionId].bids[0];
+                }
+
+                transaction.NFTAcceptTradeAsset(acceptTradeAsset);
             } else {
                 throw new Error("Version 2 not supported.");
             }

@@ -70,6 +70,15 @@ export class Client {
         return Object.keys(wallet.attributes.business.bridgechains).reverse()[0];
     }
 
+    public async retrieveBidsByPublicKey(sender) {
+        const response = await Utils.http.post(`http://${this.getSeed()}:4003/api/nft/exchange/bids/search`, {
+            body: {
+                senderPublicKey: sender,
+            },
+        });
+        return response.data.data;
+    }
+
     public async postTransaction(transactions) {
         try {
             if (config.coldrun) {

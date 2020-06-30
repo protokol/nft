@@ -158,5 +158,21 @@ export const config = {
         burnAsset: {
             nftId: "",
         },
+        auctionAsset: {
+            nftIds: [],
+            startAmount: 1,
+            expiration: {
+                blockHeight: 1000000,
+            },
+        },
+        cancelAuction: {
+            auctionId: "",
+        },
+        bidAsset: { auctionId: "fc23547c034ca442a9d8bcd19b74b309df65c479bb5b0d58d431ddab40bac03d", bidAmount: 1 },
+        cancelBidAsset: { bidId: "" },
+        acceptTradeAsset: {
+            bidId: "",
+            auctionId: "",
+        },
     },
 };
