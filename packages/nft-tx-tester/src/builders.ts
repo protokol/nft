@@ -3,16 +3,7 @@ import { Transactions } from "@arkecosystem/crypto";
 import * as NFTBaseCrypto from "@protokol/nft-base-crypto";
 import * as NFTExchangeCrypto from "@protokol/nft-exchange-crypto";
 
-Transactions.TransactionRegistry.registerTransactionType(MagistrateCrypto.Transactions.BusinessRegistrationTransaction);
-Transactions.TransactionRegistry.registerTransactionType(MagistrateCrypto.Transactions.BusinessResignationTransaction);
-Transactions.TransactionRegistry.registerTransactionType(MagistrateCrypto.Transactions.BusinessUpdateTransaction);
-Transactions.TransactionRegistry.registerTransactionType(
-    MagistrateCrypto.Transactions.BridgechainRegistrationTransaction,
-);
-Transactions.TransactionRegistry.registerTransactionType(
-    MagistrateCrypto.Transactions.BridgechainResignationTransaction,
-);
-Transactions.TransactionRegistry.registerTransactionType(MagistrateCrypto.Transactions.BridgechainUpdateTransaction);
+Transactions.TransactionRegistry.registerTransactionType(MagistrateCrypto.Transactions.EntityTransaction);
 Transactions.TransactionRegistry.registerTransactionType(NFTBaseCrypto.Transactions.NFTRegisterCollectionTransaction);
 Transactions.TransactionRegistry.registerTransactionType(NFTBaseCrypto.Transactions.NFTCreateTransaction);
 Transactions.TransactionRegistry.registerTransactionType(NFTBaseCrypto.Transactions.NFTTransferTransaction);
@@ -39,28 +30,16 @@ export const builders = {
     // TECHNICALLY, the AIP103 types are in typeGroup 2
     // and range from type 0 - 5. But to keep things simple we simply
     // pretend they follow up on HTLC.
-
-    11: { name: "Business Registration", builder: () => new MagistrateCrypto.Builders.BusinessRegistrationBuilder() },
-    12: { name: "Business Resignation", builder: () => new MagistrateCrypto.Builders.BusinessResignationBuilder() },
-    13: { name: "Business Update", builder: () => new MagistrateCrypto.Builders.BusinessUpdateBuilder() },
-    14: {
-        name: "Bridgechain Registration",
-        builder: () => new MagistrateCrypto.Builders.BridgechainRegistrationBuilder(),
-    },
-    15: {
-        name: "Bridgechain Resignation",
-        builder: () => new MagistrateCrypto.Builders.BridgechainResignationBuilder(),
-    },
-    16: { name: "Bridgechain Update", builder: () => new MagistrateCrypto.Builders.BridgechainUpdateBuilder() },
+    11: { name: "Entity", builder: () => new MagistrateCrypto.Builders.EntityBuilder() },
 
     // NFT transaction types
-    17: { name: "NFT Register Collection", builder: () => new NFTBaseCrypto.Builders.NFTRegisterCollectionBuilder() },
-    18: { name: "NFT Create Token", builder: () => new NFTBaseCrypto.Builders.NFTCreateBuilder() },
-    19: { name: "NFT Transfer Asset", builder: () => new NFTBaseCrypto.Builders.NFTTransferBuilder() },
-    20: { name: "NFT Burn Asset", builder: () => new NFTBaseCrypto.Builders.NFTBurnBuilder() },
-    21: { name: "NFT Auction", builder: () => new NFTExchangeCrypto.Builders.NFTAuctionBuilder() },
-    22: { name: "NFT Cancel Auction", builder: () => new NFTExchangeCrypto.Builders.NFTAuctionCancelBuilder() },
-    23: { name: "NFT Bid", builder: () => new NFTExchangeCrypto.Builders.NFTBidBuilder() },
-    24: { name: "NFT Cancel Bid", builder: () => new NFTExchangeCrypto.Builders.NFTBidCancelBuilder() },
-    25: { name: "NFT Accept Trade", builder: () => new NFTExchangeCrypto.Builders.NftAcceptTradeBuilder() },
+    12: { name: "NFT Register Collection", builder: () => new NFTBaseCrypto.Builders.NFTRegisterCollectionBuilder() },
+    13: { name: "NFT Create Token", builder: () => new NFTBaseCrypto.Builders.NFTCreateBuilder() },
+    14: { name: "NFT Transfer Asset", builder: () => new NFTBaseCrypto.Builders.NFTTransferBuilder() },
+    15: { name: "NFT Burn Asset", builder: () => new NFTBaseCrypto.Builders.NFTBurnBuilder() },
+    16: { name: "NFT Auction", builder: () => new NFTExchangeCrypto.Builders.NFTAuctionBuilder() },
+    17: { name: "NFT Cancel Auction", builder: () => new NFTExchangeCrypto.Builders.NFTAuctionCancelBuilder() },
+    18: { name: "NFT Bid", builder: () => new NFTExchangeCrypto.Builders.NFTBidBuilder() },
+    19: { name: "NFT Cancel Bid", builder: () => new NFTExchangeCrypto.Builders.NFTBidCancelBuilder() },
+    20: { name: "NFT Accept Trade", builder: () => new NFTExchangeCrypto.Builders.NftAcceptTradeBuilder() },
 };

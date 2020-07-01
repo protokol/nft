@@ -34,11 +34,13 @@ export class WalletRepository {
         this.wallets.push(wallet);
     }
 
-    public getWallet(address: string): Wallet {
-        const wallet = this.wallets.find((x) => x.address === address);
+    public getWallet(addressOrPassphrase: string): Wallet {
+        const wallet = this.wallets.find(
+            (x) => x.address === addressOrPassphrase || x.passphrase === addressOrPassphrase,
+        );
 
         if (!wallet) {
-            throw new Error(`Wallet ${address} not found`);
+            throw new Error(`Wallet ${addressOrPassphrase} not found`);
         }
 
         return wallet;

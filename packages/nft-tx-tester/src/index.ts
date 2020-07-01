@@ -11,6 +11,18 @@ import { WalletRepository } from "./wallets-repository";
  * Ѧ 0      ENTER - send a transfer
  * Ѧ 0 10   ENTER - send 10 transfers
  *
+ * Specifics for entity transactions :
+ * $ node index.js
+ *
+ * Ѧ 11 1 business register my_business QmV1n5F9PuBE2ovW9jVfFpxyvWZxYHjSdfLrYL2nDcb1gW
+ * ENTER - send a register entity for business with name and ipfs hash
+ *
+ * Ѧ 11 1 plugin-core update 521b65c4f1f08716f9cc70f3a0c4d1ea5899f35a122d238b2114eed8161c0d5f QmV1n5F9PuBE2ovW9jVfFpxyvWZxYHjSdfLrYL2nDcb1gW
+ * ENTER - send a update entity for plugin-core with associated registration id and updated ipfs hash
+ *
+ * Ѧ 11 1 plugin-desktop resign 521b65c4f1f08716f9cc70f3a0c4d1ea5899f35a122d238b2114eed8161c0d5f
+ * ENTER - send a resign entity for plugin-core with associated registration id
+ *
  * CTRL-C to exit.
  * Use config below to tweak script and make it deterministic.
  *
@@ -37,12 +49,7 @@ import { WalletRepository } from "./wallets-repository";
  * 10 - HTLC Refund
  *
  * (These types are actually wrong and only used in this script to keep things simple)
- * 11 - BusinessRegistration
- * 12 - BusinessResignation
- * 13 - BusinessUpdate
- * 14 - BridgechainRegistration
- * 15 - BridgechainResignation
- * 16 - BridgechainUpdate
+ * 11 - Entity
  *
  * Multisignature:
  * - First register a new multisig wallet (address is derived from the asset `participants` and `min`)

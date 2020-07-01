@@ -4,14 +4,15 @@ import { Action, App } from "../types";
 
 const sendTransaction = async (app: App, data: any) => {
     try {
-        let [type, quantity, sender, recipient] = data.split(" ");
+        const splitInput = data.split(" ");
+        let [type, quantity] = splitInput;
 
         type = +type;
         quantity = quantity ? +quantity : 1;
 
         const builder = new Builder(app);
 
-        const { transactions, walletChanges } = await builder.buildTransaction(type, quantity, sender, recipient);
+        const { transactions, walletChanges } = await builder.buildTransaction(type, quantity, splitInput);
 
         const response = await app.client.postTransaction(transactions);
 

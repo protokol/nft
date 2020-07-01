@@ -1,3 +1,4 @@
+import * as MagistrateCrypto from "@arkecosystem/core-magistrate-crypto";
 import { Crypto, Enums, Identities, Managers, Transactions, Utils } from "@arkecosystem/crypto";
 
 import { builders } from "./builders";
@@ -65,7 +66,7 @@ const configureCrypto = async (app) => {
 export class Builder {
     public constructor(private app: App) {}
 
-    public async buildTransaction(type: number, quantity: number, senderAddress?: string, recipientAddress?: string) {
+    public async buildTransaction(type: number, quantity: number, splitInput: string[]) {
         await configureCrypto(this.app);
 
         const { builder } = builders[type];
@@ -75,13 +76,13 @@ export class Builder {
 
         const walletChanges: WalletChange[] = [];
 
-        let senderWallet = (senderAddress
-            ? this.app.walletRepository.getWallet(senderAddress)
-            : this.app.walletRepository.getRandomWallet()) as ExtendedWallet;
-        const recipientWallet = (recipientAddress
-            ? this.app.walletRepository.getWallet(recipientAddress)
+        let senderWallet = (config.passphrase
+            ? this.app.walletRepository.getWallet(config.passphrase as any)
             : this.app.walletRepository.getRandomWallet()) as ExtendedWallet;
 
+        const recipientWallet = (config.recipientId
+            ? this.app.walletRepository.getWallet(config.recipientId as any)
+            : this.app.walletRepository.getRandomWallet()) as ExtendedWallet;
         const recipientId = recipientWallet.address;
 
         senderWallet = {
@@ -215,43 +216,40 @@ export class Builder {
 
                 transaction.htlcRefundAsset({ lockTransactionId });
             } else if (type === 11 && Managers.configManager.getMilestone().aip11) {
-                // BusinessRegistration
-                transaction.businessRegistrationAsset(config.business.registration);
-            } else if (type == 12 && Managers.configManager.getMilestone().aip11) {
-                // BusinessResignation
-            } else if (type == 13 && Managers.configManager.getMilestone().aip11) {
-                // BusinessUpdate
-                transaction.businessUpdateAsset(config.business.update);
-            } else if (type == 14 && Managers.configManager.getMilestone().aip11) {
-                // BridgechainRegistration
-                transaction.bridgechainRegistrationAsset(config.bridgechain.registration);
-            } else if (type == 15 && Managers.configManager.getMilestone().aip11) {
-                // BridgechainResignation
-                if (!config.bridgechain.resignation.bridgechainId) {
-                    // @ts-ignore TODO
-                    config.bridgechain.resignation.bridgechainId =
-                        (await this.app.client.retrieveBridgechainId(senderWallet.publicKey)) || "";
+                // Entity
+                const EntityType = MagistrateCrypto.Enums.EntityType;
+                const EntitySubType = MagistrateCrypto.Enums.EntitySubType;
+                const mapTypeAndSubtype = {
+                    business: { type: EntityType.Business, subType: EntitySubType.None },
+                    bridgechain: { type: EntityType.Bridgechain, subType: EntitySubType.None },
+                    developer: { type: EntityType.Developer, subType: EntitySubType.None },
+                    "plugin-core": { type: EntityType.Plugin, subType: EntitySubType.PluginCore },
+                    "plugin-desktop": { type: EntityType.Plugin, subType: EntitySubType.PluginDesktop },
+                };
+                const mapAction = {
+                    register: { action: MagistrateCrypto.Enums.EntityAction.Register },
+                    update: { action: MagistrateCrypto.Enums.EntityAction.Update },
+                    resign: { action: MagistrateCrypto.Enums.EntityAction.Resign },
+                };
+                const entityAsset = {
+                    ...mapTypeAndSubtype[splitInput[2]],
+                    ...mapAction[splitInput[3]],
+                    data: {},
+                };
+                if (entityAsset.action === MagistrateCrypto.Enums.EntityAction.Register) {
+                    entityAsset.data.name = splitInput[4];
+                    entityAsset.data.ipfsData = splitInput[5];
+                } else if (entityAsset.action === MagistrateCrypto.Enums.EntityAction.Update) {
+                    entityAsset.registrationId = splitInput[4];
+                    entityAsset.data.ipfsData = splitInput[5];
+                } else if (entityAsset.action === MagistrateCrypto.Enums.EntityAction.Resign) {
+                    entityAsset.registrationId = splitInput[4];
                 }
-                transaction.bridgechainResignationAsset(config.bridgechain.resignation.bridgechainId);
-            } else if (type === 16 && Managers.configManager.getMilestone().aip11) {
-                // BridgechainUpdate
-                if (!config.bridgechain.update.bridgechainId) {
-                    // @ts-ignore // TODO
-                    config.bridgechain.update.bridgechainId = await this.app.client.retrieveBridgechainId(
-                        senderWallet.publicKey,
-                    );
-                }
-
-                if (!config.bridgechain.update.seedNodes.length) {
-                    // @ts-ignore // TODO
-                    config.bridgechain.update.seedNodes.push(this.app.client.getRandomSeed());
-                }
-
-                transaction.bridgechainUpdateAsset(config.bridgechain.update);
-            } else if (type === 17 && Managers.configManager.getMilestone().aip11) {
+                transaction.asset(entityAsset);
+            } else if (type === 12 && Managers.configManager.getMilestone().aip11) {
                 // NFTRegisterCollection
                 transaction.NFTRegisterCollectionAsset(config.nft.registerCollection);
-            } else if (type === 18 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === 13 && Managers.configManager.getMilestone().aip11) {
                 // NFTCreateToken
                 const createAsset = { ...config.nft.createAsset };
                 if (!createAsset.collectionId) {
@@ -261,7 +259,7 @@ export class Builder {
                     createAsset.collectionId = Object.keys(senderWallet.attributes.nft.base.collections)[0];
                 }
                 transaction.NFTCreateToken(createAsset);
-            } else if (type === 19 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === 14 && Managers.configManager.getMilestone().aip11) {
                 // NFTTransferAsset
                 const transferAsset = { ...config.nft.transferAsset };
                 if (!transferAsset.nftIds?.length) {
@@ -280,7 +278,7 @@ export class Builder {
                     transferAsset.recipientId = recipientId;
                 }
                 transaction.NFTTransferAsset(transferAsset);
-            } else if (type === 20 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === 15 && Managers.configManager.getMilestone().aip11) {
                 // NFTBurnAsset
                 const burnAsset = { ...config.nft.burnAsset };
                 if (!burnAsset.nftId) {
@@ -295,7 +293,7 @@ export class Builder {
                 }
 
                 transaction.NFTBurnAsset(burnAsset);
-            } else if (type === 21 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === 16 && Managers.configManager.getMilestone().aip11) {
                 // NFTAuctionAsset
                 const auctionAsset = { ...config.nft.auctionAsset };
                 if (!auctionAsset.nftIds?.length) {
@@ -311,7 +309,7 @@ export class Builder {
                 }
 
                 transaction.NFTAuctionAsset(auctionAsset);
-            } else if (type === 22 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === 17 && Managers.configManager.getMilestone().aip11) {
                 // NFTCancelAuctionAsset
                 const cancelAuction = { ...config.nft.cancelAuction };
                 if (!cancelAuction.auctionId) {
@@ -326,7 +324,7 @@ export class Builder {
                 }
 
                 transaction.NFTAuctionCancelAsset(cancelAuction);
-            } else if (type === 23 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === 18 && Managers.configManager.getMilestone().aip11) {
                 // NFTBidAsset
                 const bidAsset = { ...config.nft.bidAsset };
                 if (!bidAsset.auctionId) {
@@ -344,7 +342,7 @@ export class Builder {
                 bidAsset.bidAmount += i;
 
                 transaction.NFTBidAsset(bidAsset);
-            } else if (type === 24 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === 19 && Managers.configManager.getMilestone().aip11) {
                 // NFTCancelBidAsset
                 const cancelBidAsset = { ...config.nft.cancelBidAsset };
                 if (!cancelBidAsset.bidId) {
@@ -357,7 +355,7 @@ export class Builder {
                 }
 
                 transaction.NFTBidCancelAsset(cancelBidAsset);
-            } else if (type === 25 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === 20 && Managers.configManager.getMilestone().aip11) {
                 // NFTAcceptTradeAsset
                 const acceptTradeAsset = { ...config.nft.acceptTradeAsset };
 
