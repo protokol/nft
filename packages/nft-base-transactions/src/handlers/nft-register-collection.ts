@@ -122,8 +122,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         delete collectionsWallet[transaction.data.id];
         senderWallet.setAttribute("nft.base.collections", collectionsWallet);
 
-        this.walletRepository.forgetByIndex(NFTIndexers.CollectionIndexer, transaction.data.id);
-        this.walletRepository.index(senderWallet);
+        this.walletRepository.getIndex(NFTIndexers.CollectionIndexer).forget(transaction.data.id);
     }
 
     public async applyToRecipient(

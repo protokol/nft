@@ -142,8 +142,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         const tokensWallet = sender.getAttribute<INFTTokens>("nft.base.tokenIds");
         delete tokensWallet[transaction.data.id];
         sender.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
-        this.walletRepository.forgetByIndex(NFTIndexers.NFTTokenIndexer, transaction.data.id);
-        this.walletRepository.index(sender);
+        this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).forget(transaction.data.id);
 
         const collectionId = transaction.data.asset.nftToken.collectionId;
         const genesisWallet = this.walletRepository.findByIndex(NFTIndexers.CollectionIndexer, collectionId);
