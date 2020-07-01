@@ -45,6 +45,7 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
             const tokenIdsWallet = wallet.getAttribute<INFTTokens>("nft.base.tokenIds");
             delete tokenIdsWallet[nftBurnAsset.nftId];
             wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokenIdsWallet);
+            this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).forget(nftBurnAsset.nftId);
 
             const nftCreateTransaction = await this.transactionRepository.findById(nftBurnAsset.nftId);
             const collectionId = nftCreateTransaction.asset.nftToken.collectionId;
@@ -54,9 +55,6 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
             collectionsWallet[collectionId].currentSupply -= 1;
             collectionsWallet[collectionId].nftCollectionAsset.maximumSupply -= 1;
             genesisWallet.setAttribute<INFTCollections>("nft.base.collections", collectionsWallet);
-
-            this.walletRepository.forgetByIndex(NFTIndexers.NFTTokenIndexer, nftBurnAsset.nftId);
-            this.walletRepository.index(genesisWallet);
         }
     }
 
@@ -123,6 +121,7 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
         const tokenIdsWallet = sender.getAttribute<INFTTokens>("nft.base.tokenIds");
         delete tokenIdsWallet[nftBurnAsset.nftId];
         sender.setAttribute<INFTTokens>("nft.base.tokenIds", tokenIdsWallet);
+        this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).forget(nftBurnAsset.nftId);
 
         const nftCreateTransaction = await this.transactionRepository.findById(nftBurnAsset.nftId);
         const collectionId = nftCreateTransaction.asset.nftToken.collectionId;
@@ -132,9 +131,6 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
         collectionsWallet[collectionId].currentSupply -= 1;
         collectionsWallet[collectionId].nftCollectionAsset.maximumSupply -= 1;
         genesisWallet.setAttribute<INFTCollections>("nft.base.collections", collectionsWallet);
-
-        this.walletRepository.forgetByIndex(NFTIndexers.NFTTokenIndexer, nftBurnAsset.nftId);
-        this.walletRepository.index(genesisWallet);
     }
 
     public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
@@ -150,6 +146,7 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
         const tokenIdsWallet = sender.getAttribute<INFTTokens>("nft.base.tokenIds");
         tokenIdsWallet[nftBurnAsset.nftId] = {};
         sender.setAttribute<INFTTokens>("nft.base.tokenIds", tokenIdsWallet);
+        this.walletRepository.index(sender);
 
         const nftCreateTransaction = await this.transactionRepository.findById(nftBurnAsset.nftId);
         const collectionId = nftCreateTransaction.asset.nftToken.collectionId;
@@ -159,8 +156,6 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
         collectionsWallet[collectionId].currentSupply += 1;
         collectionsWallet[collectionId].nftCollectionAsset.maximumSupply += 1;
         genesisWallet.setAttribute<INFTCollections>("nft.base.collections", collectionsWallet);
-
-        this.walletRepository.index(sender);
     }
 
     public async applyToRecipient(
