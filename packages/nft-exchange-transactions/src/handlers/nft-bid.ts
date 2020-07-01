@@ -162,8 +162,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
         );
         auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
 
-        this.walletRepository.forgetByIndex(NFTExchangeIndexers.BidIndexer, transaction.data.id);
-        this.walletRepository.index(auctionWallet);
+        this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).forget(transaction.data.id);
     }
 
     public async applyToRecipient(

@@ -140,11 +140,9 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
         const senderTokensWallet = senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
         for (const token of nftTransferAsset.nftIds) {
             delete senderTokensWallet[token];
-            this.walletRepository.forgetByIndex(NFTIndexers.NFTTokenIndexer, token);
+            this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).forget(token);
         }
         senderWallet.setAttribute<INFTTokens>("nft.base.tokenIds", senderTokensWallet);
-
-        this.walletRepository.index(senderWallet);
     }
 
     public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
@@ -198,9 +196,9 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
 
         for (const token of nftTransferAsset.nftIds) {
             delete recipientTokensWallet[token];
+            // already get overwritten by revertForSender logic
+            // this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).forget(token);
         }
         recipientWallet.setAttribute<INFTTokens>("nft.base.tokenIds", recipientTokensWallet);
-
-        this.walletRepository.index(recipientWallet);
     }
 }

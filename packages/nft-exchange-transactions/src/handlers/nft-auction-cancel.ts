@@ -55,15 +55,13 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
                 );
                 bidWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.minus(bidAmount));
 
-                this.walletRepository.forgetByIndex(NFTExchangeIndexers.BidIndexer, bid.id);
-                this.walletRepository.index(bidWallet);
+                this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).forget(bid.id);
             }
 
             delete auctionsWalletAsset[nftAuctionCancelAsset.auctionId];
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
 
-            this.walletRepository.forgetByIndex(NFTExchangeIndexers.AuctionIndexer, nftAuctionCancelAsset.auctionId);
-            this.walletRepository.index(wallet);
+            this.walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).forget(nftAuctionCancelAsset.auctionId);
         }
     }
 
@@ -136,15 +134,13 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
             );
             bidWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.minus(bidAmount));
 
-            this.walletRepository.forgetByIndex(NFTExchangeIndexers.BidIndexer, bid.id);
-            this.walletRepository.index(bidWallet);
+            this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).forget(bid.id);
         }
 
         delete auctionsWalletAsset[nftAuctionCancelAsset.auctionId];
         sender.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
 
-        this.walletRepository.forgetByIndex(NFTExchangeIndexers.AuctionIndexer, nftAuctionCancelAsset.auctionId);
-        this.walletRepository.index(sender);
+        this.walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).forget(nftAuctionCancelAsset.auctionId);
     }
 
     public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
@@ -172,8 +168,7 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
                 asset: { nftBidCancel: { bidId: bidTransaction.id } },
             });
             if (!bidCancel) {
-                // @ts-ignore
-                activeBids.push(bidTransaction.id);
+                activeBids.push(bidTransaction.id!);
             }
         }
 
