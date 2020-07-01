@@ -1,7 +1,5 @@
 import { Crypto } from "@arkecosystem/crypto";
 
-const randomName = (type) => `${type}-${Math.round(Math.random() * 1000000000000)}`;
-
 export const config = {
     network: "testnet",
     // log sent transaction payload
@@ -86,46 +84,6 @@ export const config = {
         refund: {
             // by default it tries to retrieve the last lock transaction id from given sender via API
             lockTransactionId: undefined,
-        },
-    },
-    business: {
-        registration: {
-            name: randomName("business"),
-            website: "http://dexplorer.ark.io",
-            vat: undefined, // NOTE: will be renamed soon
-            repository: undefined,
-        },
-        update: {
-            name: randomName("business"),
-            website: "http://dexplorer.ark.io",
-            vat: undefined, // NOTE: will be renamed soon
-            repository: undefined,
-        },
-    },
-    bridgechain: {
-        registration: {
-            name: randomName("bridgechain"),
-            seedNodes: ["1.1.1.1", "1.2.3.4"],
-            genesisHash: Crypto.HashAlgorithms.sha256("my genesis hash").toString("hex"),
-            // default is empty
-            bridgechainRepository: "https://github.com/ArkEcosystem/core",
-            ports: {
-                "@arkecosystem/core-api": 4003,
-            },
-        },
-        update: {
-            // Each registration generates a unique id,
-            // inspect wallet to get the bridgechainId or trust
-            // this script to lookup the correct one for you.
-            bridgechainId: undefined,
-            // by defaults creates random seeds to replace the existing ones.
-            seedNodes: [],
-        },
-        resignation: {
-            // Each registration generates a unique id,
-            // inspect wallet to get the bridgechainId or trust
-            // this script to lookup the correct one for you.
-            bridgechainId: undefined,
         },
     },
     nft: {

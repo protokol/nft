@@ -1,5 +1,4 @@
 import { Utils } from "@arkecosystem/core-kernel";
-import { Identities } from "@arkecosystem/crypto";
 
 import { config } from "./config/config";
 import { seeds } from "./config/testnet";
@@ -60,16 +59,6 @@ export class Client {
             return 1;
         }
     }
-
-    public async retrieveBridgechainId(sender) {
-        // if (config.multiSignature.enabled) {
-        //     sender = multiSignatureAddress().publicKey
-        // }
-
-        const wallet = await this.retrieveSenderWallet(Identities.Address.fromPublicKey(sender));
-        return Object.keys(wallet.attributes.business.bridgechains).reverse()[0];
-    }
-
     public async retrieveBidsByPublicKey(sender) {
         const response = await Utils.http.post(`http://${this.getSeed()}:4003/api/nft/exchange/bids/search`, {
             body: {
