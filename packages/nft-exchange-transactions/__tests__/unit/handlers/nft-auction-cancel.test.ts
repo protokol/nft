@@ -11,7 +11,7 @@ import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Enums } from "@protokol/nft-exchange-crypto";
 import { Builders as NFTBuilders } from "@protokol/nft-exchange-crypto";
 
-import { setMockFindByIds, setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
+import { setMockFindByIds, setMockTransactions } from "../__mocks__/transaction-repository";
 import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { NFTExchangeAuctionCancelCannotCancel } from "../../../src/errors";
 import { NFTExchangeApplicationEvents } from "../../../src/events";
@@ -78,8 +78,9 @@ describe("NFT Auction Cancel tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            setMockTransaction(actual);
-
+            transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
+                yield actual.data;
+            });
             await expect(nftCancelSellHandler.bootstrap()).toResolve();
 
             expect(
@@ -100,8 +101,9 @@ describe("NFT Auction Cancel tests", () => {
                 .nonce("1")
                 .sign(passphrases[0])
                 .build();
-            setMockTransaction(actual);
-
+            transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
+                yield actual.data;
+            });
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             auctionsAsset["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {
                 nftIds: ["cd853bc1e0f4d43397df80bb6fb474a9473345cbcf409efa6d88952491efde4d"],

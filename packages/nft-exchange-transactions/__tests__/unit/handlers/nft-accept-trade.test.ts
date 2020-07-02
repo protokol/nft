@@ -99,7 +99,9 @@ describe("NFT Accept trade tests", () => {
 
             setMockTransactions([actualAuction, actualBid, actualBidTwo]);
             setMockFindByIds([actualBid, actualBidTwo]);
-            setMockTransaction(actual);
+            transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
+                yield actual.data;
+            });
 
             await expect(nftAcceptTradeHandler.bootstrap()).toResolve();
             expect(
@@ -149,7 +151,10 @@ describe("NFT Accept trade tests", () => {
 
             setMockTransactions([actualAuction, actualBid]);
             setMockFindByIds([actualBid]);
-            setMockTransaction(actual);
+            transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
+                yield actual.data;
+            });
+
             await expect(nftAcceptTradeHandler.bootstrap()).toResolve();
             expect(
                 walletRepository.findByIndex(
