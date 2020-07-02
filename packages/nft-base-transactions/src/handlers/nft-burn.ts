@@ -1,6 +1,5 @@
-import { Models } from "@arkecosystem/core-database";
 import { Container, Contracts, Utils as AppUtils } from "@arkecosystem/core-kernel";
-import { Handlers, TransactionReader } from "@arkecosystem/core-transactions";
+import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
