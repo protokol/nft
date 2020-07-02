@@ -1,6 +1,5 @@
-import { Models } from "@arkecosystem/core-database";
 import { Container, Contracts, Providers, Utils as AppUtils } from "@arkecosystem/core-kernel";
-import { Handlers, TransactionReader } from "@arkecosystem/core-transactions";
+import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
@@ -18,6 +17,9 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
     @Container.tagged("plugin", "@protokol/nft-base-transactions")
     private readonly configuration!: Providers.PluginConfiguration;
 
+    @Container.inject(Container.Identifiers.TransactionHistoryService)
+    private readonly transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
+
     public getConstructor(): Transactions.TransactionConstructor {
         return NFTTransactions.NFTRegisterCollectionTransaction;
     }
@@ -31,9 +33,16 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
     }
 
     public async bootstrap(): Promise<void> {
-        const reader: TransactionReader = this.getTransactionReader();
-        const transactions: Models.Transaction[] = await reader.read();
-        for (const transaction of transactions) {
+        const criteria = {
+            typeGroup: this.getConstructor().typeGroup,
+            type: this.getConstructor().type,
+        };
+
+        for await (const transaction of this.transactionHistoryService.streamByCriteria(criteria)) {
+            AppUtils.assert.defined<string>(transaction.id);
+            AppUtils.assert.defined<string>(transaction.senderPublicKey);
+            AppUtils.assert.defined<NFTInterfaces.NFTCollectionAsset>(transaction.asset?.nftCollection);
+
             const senderWallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
                 transaction.senderPublicKey,
             );

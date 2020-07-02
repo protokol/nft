@@ -1,6 +1,5 @@
-import { Models } from "@arkecosystem/core-database";
 import { Container, Contracts, Utils as AppUtils } from "@arkecosystem/core-kernel";
-import { Handlers, TransactionReader } from "@arkecosystem/core-transactions";
+import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Interfaces as NFTInterfaces, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 
@@ -17,6 +16,9 @@ import { NFTCreateHandler } from "./nft-create";
 
 @Container.injectable()
 export class NFTTransferHandler extends NFTBaseTransactionHandler {
+    @Container.inject(Container.Identifiers.TransactionHistoryService)
+    private readonly transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
+
     @Container.inject(Container.Identifiers.TransactionPoolQuery)
     private readonly poolQuery!: Contracts.TransactionPool.Query;
 
@@ -33,10 +35,15 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
     }
 
     public async bootstrap(): Promise<void> {
-        const reader: TransactionReader = this.getTransactionReader();
-        const transactions: Models.Transaction[] = await reader.read();
+        const criteria = {
+            typeGroup: this.getConstructor().typeGroup,
+            type: this.getConstructor().type,
+        };
 
-        for (const transaction of transactions) {
+        for await (const transaction of this.transactionHistoryService.streamByCriteria(criteria)) {
+            AppUtils.assert.defined<NFTInterfaces.NFTTransferAsset>(transaction.asset?.nftTransfer);
+            AppUtils.assert.defined<string>(transaction.senderPublicKey);
+
             const recipientWallet: Contracts.State.Wallet = this.walletRepository.findByAddress(
                 transaction.asset.nftTransfer.recipientId,
             );
