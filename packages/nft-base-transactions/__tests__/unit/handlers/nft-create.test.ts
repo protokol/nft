@@ -11,7 +11,6 @@ import { Enums } from "@protokol/nft-base-crypto";
 import { Builders as NFTBuilders } from "@protokol/nft-base-crypto";
 import { Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 
-import { setMockTransaction } from "../__mocks__/transaction-repository";
 import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import {
     NFTBaseCollectionDoesNotExists,
@@ -148,7 +147,9 @@ describe("NFT Create tests", () => {
                 .sign(passphrases[1])
                 .build();
 
-            setMockTransaction(actualTwo);
+            transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
+                yield actualTwo.data;
+            });
             await expect(nftCreateHandler.bootstrap()).toResolve();
 
             collectionWalletCheck(

@@ -12,8 +12,8 @@ import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Enums } from "@protokol/nft-exchange-crypto";
 import { Builders as NFTBuilders } from "@protokol/nft-exchange-crypto";
 
-import { setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
-import { buildWallet, initApp } from "../__support__/app";
+import { setMockTransactions } from "../__mocks__/transaction-repository";
+import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import {
     NFTExchangeBidCancelAuctionCanceledOrAccepted,
     NFTExchangeBidCancelBidCanceled,
@@ -86,8 +86,9 @@ describe("NFT Bid Cancel tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            setMockTransaction(actual);
-
+            transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
+                yield actual.data;
+            });
             await expect(nftBidCancelHandler.bootstrap()).toResolve();
 
             // @ts-ignore
