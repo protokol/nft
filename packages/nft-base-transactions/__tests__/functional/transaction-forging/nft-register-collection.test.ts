@@ -1,6 +1,6 @@
 import "@arkecosystem/core-test-framework/src/matchers";
 
-import { Contracts } from "@arkecosystem/core-kernel";
+import { Container, Contracts } from "@arkecosystem/core-kernel";
 import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework/src/utils";
 import { Identities } from "@arkecosystem/crypto";
@@ -10,7 +10,18 @@ import * as support from "./__support__";
 import { NFTBaseTransactionFactory } from "./__support__/transaction-factory";
 
 let app: Contracts.Kernel.Application;
-beforeAll(async () => (app = await support.setUp()));
+let blockChainService: Contracts.Blockchain.Blockchain;
+let walletRepository: Contracts.State.WalletRepository;
+
+beforeAll(async () => {
+    app = await support.setUp();
+    blockChainService = app.get<Contracts.Blockchain.Blockchain>(Container.Identifiers.BlockchainService);
+    walletRepository = app.getTagged<Contracts.State.WalletRepository>(
+        Container.Identifiers.WalletRepository,
+        "state",
+        "blockchain",
+    );
+});
 afterAll(async () => await support.tearDown());
 
 describe("NFT Register collection functional tests", () => {
@@ -47,6 +58,46 @@ describe("NFT Register collection functional tests", () => {
             await expect(nftRegisteredCollection).toBeAccepted();
             await snoozeForBlock(1);
             await expect(nftRegisteredCollection.id).toBeForged();
+        });
+
+        describe("Apply and revert nft-collection", () => {
+            it("should revert collection", async () => {
+                // Register collection
+                const nftRegisteredCollection = NFTBaseTransactionFactory.initialize(app)
+                    .NFTRegisterCollection({
+                        name: "Nft card",
+                        description: "Nft card description",
+                        maximumSupply: 100,
+                        jsonSchema: {
+                            properties: {
+                                additionalProperties: false,
+                                name: {
+                                    type: "string",
+                                    minLength: 3,
+                                },
+                                damage: {
+                                    type: "integer",
+                                },
+                                health: {
+                                    type: "integer",
+                                },
+                                mana: {
+                                    type: "integer",
+                                },
+                            },
+                        },
+                    })
+                    .withPassphrase(secrets[1])
+                    .createOne();
+
+                await expect(nftRegisteredCollection).toBeAccepted();
+                await snoozeForBlock(1);
+                await expect(nftRegisteredCollection.id).toBeForged();
+
+                await blockChainService.removeTopBlocks(1);
+                const recipientWallet = walletRepository.findByAddress(Identities.Address.fromPassphrase(secrets[1]));
+                console.log(recipientWallet.getAttribute("nft.base"));
+            });
         });
     });
 

@@ -1,16 +1,29 @@
 import "@arkecosystem/core-test-framework/src/matchers";
 
-import { Contracts } from "@arkecosystem/core-kernel";
+import { Container, Contracts } from "@arkecosystem/core-kernel";
 import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework/src/utils";
 import { Identities } from "@arkecosystem/crypto";
 import { generateMnemonic } from "bip39";
 
+// import { INFTTokens } from "../../../src/interfaces";
 import * as support from "./__support__";
 import { NFTBaseTransactionFactory } from "./__support__/transaction-factory";
 
 let app: Contracts.Kernel.Application;
-beforeAll(async () => (app = await support.setUp()));
+let blockChainService: Contracts.Blockchain.Blockchain;
+// @ts-ignore
+let walletRepository: Contracts.State.WalletRepository;
+
+beforeAll(async () => {
+    app = await support.setUp();
+    blockChainService = app.get<Contracts.Blockchain.Blockchain>(Container.Identifiers.BlockchainService);
+    walletRepository = app.getTagged<Contracts.State.WalletRepository>(
+        Container.Identifiers.WalletRepository,
+        "state",
+        "blockchain",
+    );
+});
 afterAll(async () => await support.tearDown());
 
 describe("NFT Transfer Functional Tests", () => {
@@ -86,6 +99,63 @@ describe("NFT Transfer Functional Tests", () => {
             await expect(nftTransfer.id).toBeForged();
         });
 
+        describe("Apply and revert nft-transfer", () => {
+            it("should revert to previous state", async () => {
+                // Create token
+                const nftCreate = NFTBaseTransactionFactory.initialize(app)
+                    .NFTCreate({
+                        collectionId: collectionId,
+                        attributes: {
+                            name: "card name",
+                            damage: 3,
+                            health: 2,
+                            mana: 2,
+                        },
+                    })
+                    .withPassphrase(secrets[10])
+                    .createOne();
+
+                await expect(nftCreate).toBeAccepted();
+                await snoozeForBlock(1);
+                await expect(nftCreate.id).toBeForged();
+
+                // Transfer token
+                const nftTransfer = NFTBaseTransactionFactory.initialize(app)
+                    .NFTTransfer({
+                        nftIds: [nftCreate.id!],
+                        recipientId: Identities.Address.fromPassphrase(secrets[9]),
+                    })
+                    .withPassphrase(secrets[10])
+                    .createOne();
+
+                await expect(nftTransfer).toBeAccepted();
+                await snoozeForBlock(1);
+                await expect(nftTransfer.id).toBeForged();
+
+                // Revert block
+                await blockChainService.removeBlocks(1);
+
+                // Transfer token
+                const nftTransfer2 = NFTBaseTransactionFactory.initialize(app)
+                    .NFTTransfer({
+                        nftIds: [nftCreate.id!],
+                        recipientId: Identities.Address.fromPassphrase(secrets[9]),
+                    })
+                    .withPassphrase(secrets[10])
+                    .createOne();
+
+                await expect(nftTransfer2).toBeAccepted();
+                await snoozeForBlock(1);
+                await expect(nftTransfer2.id).toBeForged();
+                // // Recipient should have undefined state
+                // const recipientWallet = walletRepository.findByAddress(Identities.Address.fromPassphrase(secrets[9]));
+                // expect(recipientWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[nftCreate.id!]).toBeUndefined();
+                //
+                // // Sender should have token
+                // const senderWallet = walletRepository.findByAddress(Identities.Address.fromPassphrase(secrets[10]));
+                // expect(senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[nftCreate.id!]).toBeObject();
+            });
+        });
         it("should broadcast, accept and forge it - resend", async () => {
             // Transfer token
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
@@ -184,6 +254,7 @@ describe("NFT Transfer Functional Tests", () => {
             await expect(nftBurn.id).toBeForged();
             await expect(nftTransfer.id).not.toBeForged();
         });
+
     });
 
     describe("Signed with 2 Passphrases", () => {
