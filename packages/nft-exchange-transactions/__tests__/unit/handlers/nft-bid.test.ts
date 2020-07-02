@@ -10,8 +10,8 @@ import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/
 import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Enums } from "@protokol/nft-exchange-crypto";
 
-import { setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
-import { buildWallet, initApp } from "../__support__/app";
+import { setMockTransactions } from "../__mocks__/transaction-repository";
+import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import {
     NFTExchangeBidAuctionCanceledOrAccepted,
     NFTExchangeBidAuctionDoesNotExists,
@@ -82,8 +82,9 @@ describe("NFT Bid tests", () => {
             walletRepository.index(auctionWallet);
 
             const actual = buildBidTransaction({ auctionId: actualAuction.id!, bidAmount: 100 });
-            setMockTransaction(actual);
-
+            transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
+                yield actual.data;
+            });
             await expect(nftBidHandler.bootstrap()).toResolve();
 
             // @ts-ignore
@@ -116,8 +117,9 @@ describe("NFT Bid tests", () => {
             walletRepository.index(bidWallet);
 
             const actual = buildBidTransaction({ auctionId: actualAuction.id!, bidAmount: 100 });
-            setMockTransaction(actual);
-
+            transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
+                yield actual.data;
+            });
             await expect(nftBidHandler.bootstrap()).rejects.toThrowError(NFTExchangeBidCannotBidOwnItem);
         });
     });

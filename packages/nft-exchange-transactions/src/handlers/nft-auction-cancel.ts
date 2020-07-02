@@ -1,6 +1,6 @@
 import { Models } from "@arkecosystem/core-database";
 import { Container, Contracts, Utils as AppUtils } from "@arkecosystem/core-kernel";
-import { Handlers, TransactionReader } from "@arkecosystem/core-transactions";
+import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Interfaces as NFTInterfaces, Transactions as NFTTransactions } from "@protokol/nft-exchange-crypto";
 import { Enums as NFTExchangeEnums } from "@protokol/nft-exchange-crypto";
@@ -33,9 +33,15 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
     }
 
     public async bootstrap(): Promise<void> {
-        const reader: TransactionReader = this.getTransactionReader();
-        const transactions: Models.Transaction[] = await reader.read();
-        for (const transaction of transactions) {
+        const criteria = {
+            typeGroup: this.getConstructor().typeGroup,
+            type: this.getConstructor().type,
+        };
+
+        for await (const transaction of this.transactionHistoryService.streamByCriteria(criteria)) {
+            AppUtils.assert.defined<string>(transaction.senderPublicKey);
+            AppUtils.assert.defined<NFTInterfaces.NFTAuctionCancel>(transaction.asset?.nftAuctionCancel);
+
             const nftAuctionCancelAsset: NFTInterfaces.NFTAuctionCancel = transaction.asset.nftAuctionCancel;
             const wallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(transaction.senderPublicKey);
             const auctionsWalletAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions");

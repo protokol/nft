@@ -45,6 +45,7 @@ const logger = {
 export const transactionHistoryService = {
     findManyByCriteria: jest.fn(),
     findOneByCriteria: jest.fn(),
+    streamByCriteria: jest.fn(),
 };
 
 export const initApp = (): Application => {
@@ -176,6 +177,7 @@ export const initApp = (): Application => {
 
     transactionHistoryService.findManyByCriteria.mockReset();
     transactionHistoryService.findOneByCriteria.mockReset();
+    transactionHistoryService.streamByCriteria.mockReset();
     app.bind(Identifiers.TransactionHistoryService).toConstantValue(transactionHistoryService);
 
     // nft base transactions
