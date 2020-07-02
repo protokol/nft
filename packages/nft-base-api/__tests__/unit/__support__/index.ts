@@ -25,6 +25,18 @@ export type ErrorResponse = {
     };
 };
 
+const logger = {
+    notice: jest.fn(),
+    debug: jest.fn(),
+    warning: jest.fn(),
+};
+
+export const transactionHistoryService = {
+    findManyByCriteria: jest.fn(),
+    findOneByCriteria: jest.fn(),
+    listByCriteria: jest.fn(),
+};
+
 export const buildSenderWallet = (app: Application): Contracts.State.Wallet => {
     const walletRepository = app.get<Wallets.WalletRepository>(Identifiers.WalletRepository);
 
@@ -41,6 +53,7 @@ export const buildSenderWallet = (app: Application): Contracts.State.Wallet => {
 export const initApp = (): Application => {
     const app = new Application(new Container.Container());
 
+    app.bind(Container.Identifiers.LogService).toConstantValue(logger);
     app.bind(Container.Identifiers.PluginConfiguration).to(Providers.PluginConfiguration).inSingletonScope();
     app.bind(Container.Identifiers.StateStore).toConstantValue({});
     app.bind(Container.Identifiers.BlockchainService).toConstantValue({});
@@ -51,6 +64,7 @@ export const initApp = (): Application => {
     app.bind(Container.Identifiers.PeerStorage).toConstantValue({});
     app.bind(Container.Identifiers.TransactionPoolQuery).toConstantValue({});
     app.bind(Container.Identifiers.TransactionPoolProcessorFactory).toConstantValue({});
+    app.bind(Container.Identifiers.TransactionHistoryService).toConstantValue(transactionHistoryService);
 
     app.bind(Identifiers.TransactionHandler).to(One.TransferTransactionHandler);
     app.bind(Identifiers.TransactionHandler).to(Two.TransferTransactionHandler);

@@ -12,7 +12,7 @@ import Hapi from "@hapi/hapi";
 import { Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import { INFTTokens } from "@protokol/nft-base-transactions/src/interfaces";
 
-import { buildSenderWallet, initApp, ItemResponse, PaginatedResponse } from "../__support__";
+import { buildSenderWallet, initApp, ItemResponse, PaginatedResponse, transactionHistoryService } from "../__support__";
 import { AssetsController } from "../../../src/controllers/assets";
 
 let app: Application;
@@ -21,12 +21,6 @@ let assetController: AssetsController;
 
 let senderWallet: Contracts.State.Wallet;
 let walletRepository: Wallets.WalletRepository;
-
-const transactionHistoryService = {
-    findManyByCriteria: jest.fn(),
-    findOneByCriteria: jest.fn(),
-    listByCriteria: jest.fn(),
-};
 
 let actual: ITransaction;
 
@@ -44,8 +38,6 @@ beforeEach(() => {
     transactionHistoryService.findManyByCriteria.mockReset();
     transactionHistoryService.findOneByCriteria.mockReset();
     transactionHistoryService.listByCriteria.mockReset();
-
-    app.bind(Identifiers.TransactionHistoryService).toConstantValue(transactionHistoryService);
 
     assetController = app.resolve<AssetsController>(AssetsController);
 

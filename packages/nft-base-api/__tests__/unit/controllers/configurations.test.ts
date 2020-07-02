@@ -1,7 +1,6 @@
 import "jest-extended";
 
 import { Application } from "@arkecosystem/core-kernel";
-import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { Generators } from "@arkecosystem/core-test-framework/src";
 import { Managers, Transactions } from "@arkecosystem/crypto";
 import { configManager } from "@arkecosystem/crypto/src/managers";
@@ -10,18 +9,12 @@ import { Defaults as CryptoDefaults } from "@protokol/nft-base-crypto";
 import { Defaults as TransactionsDefaults } from "@protokol/nft-base-transactions";
 import latestVersion from "latest-version";
 
-import { initApp, ItemResponse } from "../__support__";
+import { initApp, ItemResponse, transactionHistoryService } from "../__support__";
 import { ConfigurationController } from "../../../src/controllers/configurations";
 
 let app: Application;
 
 let configurationsController: ConfigurationController;
-
-const transactionHistoryService = {
-    findManyByCriteria: jest.fn(),
-    findOneByCriteria: jest.fn(),
-    listByCriteria: jest.fn(),
-};
 
 beforeEach(() => {
     const config = Generators.generateCryptoConfigRaw();
@@ -33,8 +26,6 @@ beforeEach(() => {
     transactionHistoryService.findManyByCriteria.mockReset();
     transactionHistoryService.findOneByCriteria.mockReset();
     transactionHistoryService.listByCriteria.mockReset();
-
-    app.bind(Identifiers.TransactionHistoryService).toConstantValue(transactionHistoryService);
 
     configurationsController = app.resolve<ConfigurationController>(ConfigurationController);
 });

@@ -1,25 +1,19 @@
 import "jest-extended";
 
-import Hapi from "@hapi/hapi";
 import { Application } from "@arkecosystem/core-kernel";
-import { initApp, ItemResponse, PaginatedResponse } from "../__support__";
-import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
-import { Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
-import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { Generators } from "@arkecosystem/core-test-framework/src";
-import { configManager } from "@arkecosystem/crypto/src/managers";
+import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { Identities, Managers, Transactions } from "@arkecosystem/crypto";
-import { TransfersController } from "../../../src/controllers/transfers";
 import { ITransaction } from "@arkecosystem/crypto/src/interfaces";
+import { configManager } from "@arkecosystem/crypto/src/managers";
+import Hapi from "@hapi/hapi";
+import { Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
+
+import { initApp, ItemResponse, PaginatedResponse, transactionHistoryService } from "../__support__";
+import { TransfersController } from "../../../src/controllers/transfers";
 let app: Application;
 
 let transfersController: TransfersController;
-
-const transactionHistoryService = {
-    findManyByCriteria: jest.fn(),
-    findOneByCriteria: jest.fn(),
-    listByCriteria: jest.fn(),
-};
 
 let actual: ITransaction;
 
@@ -33,8 +27,6 @@ beforeEach(() => {
     transactionHistoryService.findManyByCriteria.mockReset();
     transactionHistoryService.findOneByCriteria.mockReset();
     transactionHistoryService.listByCriteria.mockReset();
-
-    app.bind(Identifiers.TransactionHistoryService).toConstantValue(transactionHistoryService);
 
     transfersController = app.resolve<TransfersController>(TransfersController);
 
