@@ -46,6 +46,12 @@ const logger = {
     warning: jest.fn(),
 };
 
+export const transactionHistoryService = {
+    findManyByCriteria: jest.fn(),
+    findOneByCriteria: jest.fn(),
+    streamByCriteria: jest.fn(),
+};
+
 export const initApp = (): Application => {
     const config = Generators.generateCryptoConfigRaw();
     configManager.setConfig(config);
@@ -181,6 +187,11 @@ export const initApp = (): Application => {
         name: NFTIndexers.CollectionIndexer,
         indexer: nftCollectionIndexer,
     });
+
+    transactionHistoryService.findManyByCriteria.mockReset();
+    transactionHistoryService.findOneByCriteria.mockReset();
+    transactionHistoryService.streamByCriteria.mockReset();
+    app.bind(Identifiers.TransactionHistoryService).toConstantValue(transactionHistoryService);
 
     app.bind(Identifiers.TransactionHandler).to(NFTRegisterCollectionHandler);
     app.bind(Identifiers.TransactionHandler).to(NFTCreateHandler);

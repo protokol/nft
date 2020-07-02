@@ -12,7 +12,7 @@ import { Enums, Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 import { Builders as NFTBuilders } from "@protokol/nft-base-crypto";
 
 import { setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
-import { buildWallet, initApp } from "../__support__/app";
+import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import {
     NFTBaseBurnCannotBeApplied,
     NFTBaseBurnNFTIsOnAuction,
@@ -149,8 +149,9 @@ describe("NFT Burn tests", () => {
 
             const actual = buildActualBurn(actualCreate.id);
 
-            setMockTransaction(actual);
-
+            transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
+                yield actual.data;
+            });
             await expect(nftBurnHandler.bootstrap()).toResolve();
             checkApply();
         });
