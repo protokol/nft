@@ -1,6 +1,5 @@
-import { Models } from "@arkecosystem/core-database";
 import { Container, Contracts, Utils as AppUtils } from "@arkecosystem/core-kernel";
-import { Handlers, TransactionReader } from "@arkecosystem/core-transactions";
+import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Enums, Interfaces as NFTInterfaces, Transactions as NFTTransactions } from "@protokol/nft-exchange-crypto";
 
@@ -18,6 +17,9 @@ import { NFTExchangeTransactionHandler } from "./nft-exchange-handler";
 
 @Container.injectable()
 export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
+    @Container.inject(Container.Identifiers.TransactionHistoryService)
+    private readonly transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
+
     @Container.inject(Container.Identifiers.TransactionPoolQuery)
     private readonly poolQuery!: Contracts.TransactionPool.Query;
 
@@ -34,10 +36,15 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
     }
 
     public async bootstrap(): Promise<void> {
-        const reader: TransactionReader = this.getTransactionReader();
-        const transactions: Models.Transaction[] = await reader.read();
+        const criteria = {
+            typeGroup: this.getConstructor().typeGroup,
+            type: this.getConstructor().type,
+        };
 
-        for (const transaction of transactions) {
+        for await (const transaction of this.transactionHistoryService.streamByCriteria(criteria)) {
+            AppUtils.assert.defined<string>(transaction.senderPublicKey);
+            AppUtils.assert.defined<NFTInterfaces.NFTBidCancelAsset>(transaction.asset?.nftBidCancel);
+
             const cancelBidAsset: NFTInterfaces.NFTBidCancelAsset = transaction.asset.nftBidCancel;
             const bidTransaction = await this.transactionRepository.findById(cancelBidAsset.bidId);
             const wallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
