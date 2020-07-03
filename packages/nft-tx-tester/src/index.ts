@@ -67,7 +67,6 @@ const main = async () => {
     // read config from file or take default
     const configPath = process.argv[2];
     const config = configPath.endsWith(".json") ? JSON.parse(fs.readFileSync(configPath, "utf8")) : defaultConfig;
-    console.log(config);
 
     const filesystem = new Filesystem();
 
