@@ -3,6 +3,22 @@
     "version": "1.0.0-beta.4",
     "description": "Transaction Types For Exchange NFT Core Support",
     "license": "CC-BY-NC-SA-4.0",
+    "homepage": "https://docs.protokol.com/nft/",
+    "bugs": {
+        "url": "https://github.com/protokol/nft-plugins/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/protokol/nft-plugins.git"
+    },
+    "keywords": [
+        "protokol",
+        "ark",
+        "core",
+        "sdk",
+        "nft",
+        "blockchain"
+    ],
     "contributors": [
         "Žan Kovač <zan@protokol.com>",
         "Amadej Pevec <amadej@protokol.com>",
