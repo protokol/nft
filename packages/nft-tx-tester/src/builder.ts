@@ -246,10 +246,10 @@ export class Builder {
                     entityAsset.registrationId = splitInput[4];
                 }
                 transaction.asset(entityAsset);
-            } else if (type === 12 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === 20 && Managers.configManager.getMilestone().aip11) {
                 // NFTRegisterCollection
                 transaction.NFTRegisterCollectionAsset(config.nft.registerCollection);
-            } else if (type === 13 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === 21 && Managers.configManager.getMilestone().aip11) {
                 // NFTCreateToken
                 const createAsset = { ...config.nft.createAsset };
                 if (!createAsset.collectionId) {
@@ -259,7 +259,7 @@ export class Builder {
                     createAsset.collectionId = Object.keys(senderWallet.attributes.nft.base.collections)[0];
                 }
                 transaction.NFTCreateToken(createAsset);
-            } else if (type === 14 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === 22 && Managers.configManager.getMilestone().aip11) {
                 // NFTTransferAsset
                 const transferAsset = { ...config.nft.transferAsset };
                 if (!transferAsset.nftIds?.length) {
@@ -278,7 +278,7 @@ export class Builder {
                     transferAsset.recipientId = recipientId;
                 }
                 transaction.NFTTransferAsset(transferAsset);
-            } else if (type === 15 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === 23 && Managers.configManager.getMilestone().aip11) {
                 // NFTBurnAsset
                 const burnAsset = { ...config.nft.burnAsset };
                 if (!burnAsset.nftId) {
@@ -293,7 +293,7 @@ export class Builder {
                 }
 
                 transaction.NFTBurnAsset(burnAsset);
-            } else if (type === 16 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === 24 && Managers.configManager.getMilestone().aip11) {
                 // NFTAuctionAsset
                 const auctionAsset = { ...config.nft.auctionAsset };
                 if (!auctionAsset.nftIds?.length) {
@@ -309,7 +309,7 @@ export class Builder {
                 }
 
                 transaction.NFTAuctionAsset(auctionAsset);
-            } else if (type === 17 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === 25 && Managers.configManager.getMilestone().aip11) {
                 // NFTCancelAuctionAsset
                 const cancelAuction = { ...config.nft.cancelAuction };
                 if (!cancelAuction.auctionId) {
@@ -324,7 +324,7 @@ export class Builder {
                 }
 
                 transaction.NFTAuctionCancelAsset(cancelAuction);
-            } else if (type === 18 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === 26 && Managers.configManager.getMilestone().aip11) {
                 // NFTBidAsset
                 const bidAsset = { ...config.nft.bidAsset };
                 if (!bidAsset.auctionId) {
@@ -342,7 +342,7 @@ export class Builder {
                 bidAsset.bidAmount += i;
 
                 transaction.NFTBidAsset(bidAsset);
-            } else if (type === 19 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === 27 && Managers.configManager.getMilestone().aip11) {
                 // NFTCancelBidAsset
                 const cancelBidAsset = { ...config.nft.cancelBidAsset };
                 if (!cancelBidAsset.bidId) {
@@ -355,7 +355,7 @@ export class Builder {
                 }
 
                 transaction.NFTBidCancelAsset(cancelBidAsset);
-            } else if (type === 20 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === 28 && Managers.configManager.getMilestone().aip11) {
                 // NFTAcceptTradeAsset
                 const acceptTradeAsset = { ...config.nft.acceptTradeAsset };
 

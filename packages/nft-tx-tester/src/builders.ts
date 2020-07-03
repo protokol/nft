@@ -33,13 +33,13 @@ export const builders = {
     11: { name: "Entity", builder: () => new MagistrateCrypto.Builders.EntityBuilder() },
 
     // NFT transaction types
-    12: { name: "NFT Register Collection", builder: () => new NFTBaseCrypto.Builders.NFTRegisterCollectionBuilder() },
-    13: { name: "NFT Create Token", builder: () => new NFTBaseCrypto.Builders.NFTCreateBuilder() },
-    14: { name: "NFT Transfer Asset", builder: () => new NFTBaseCrypto.Builders.NFTTransferBuilder() },
-    15: { name: "NFT Burn Asset", builder: () => new NFTBaseCrypto.Builders.NFTBurnBuilder() },
-    16: { name: "NFT Auction", builder: () => new NFTExchangeCrypto.Builders.NFTAuctionBuilder() },
-    17: { name: "NFT Cancel Auction", builder: () => new NFTExchangeCrypto.Builders.NFTAuctionCancelBuilder() },
-    18: { name: "NFT Bid", builder: () => new NFTExchangeCrypto.Builders.NFTBidBuilder() },
-    19: { name: "NFT Cancel Bid", builder: () => new NFTExchangeCrypto.Builders.NFTBidCancelBuilder() },
-    20: { name: "NFT Accept Trade", builder: () => new NFTExchangeCrypto.Builders.NftAcceptTradeBuilder() },
+    20: { name: "NFT Register Collection", builder: () => new NFTBaseCrypto.Builders.NFTRegisterCollectionBuilder() },
+    21: { name: "NFT Create Token", builder: () => new NFTBaseCrypto.Builders.NFTCreateBuilder() },
+    22: { name: "NFT Transfer Asset", builder: () => new NFTBaseCrypto.Builders.NFTTransferBuilder() },
+    23: { name: "NFT Burn Asset", builder: () => new NFTBaseCrypto.Builders.NFTBurnBuilder() },
+    24: { name: "NFT Auction", builder: () => new NFTExchangeCrypto.Builders.NFTAuctionBuilder() },
+    25: { name: "NFT Cancel Auction", builder: () => new NFTExchangeCrypto.Builders.NFTAuctionCancelBuilder() },
+    26: { name: "NFT Bid", builder: () => new NFTExchangeCrypto.Builders.NFTBidBuilder() },
+    27: { name: "NFT Cancel Bid", builder: () => new NFTExchangeCrypto.Builders.NFTBidCancelBuilder() },
+    28: { name: "NFT Accept Trade", builder: () => new NFTExchangeCrypto.Builders.NftAcceptTradeBuilder() },
 };
