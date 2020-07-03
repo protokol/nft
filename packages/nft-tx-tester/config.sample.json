@@ -1,0 +1,98 @@
+{
+    "network": "testnet",
+    "verbose": true,
+    "peer": null,
+    "ecdsa": false,
+    "passphrase": null,
+    "coldrun": false,
+    "recipientId": null,
+    "startNonce": null,
+    "expiration": null,
+    "amount": "1",
+    "fee": null,
+    "vendorField": {
+        "value": null,
+        "random": true
+    },
+    "secondPassphrase": null,
+    "delegateName": null,
+    "vote": null,
+    "unvote": null,
+    "multiSignature": {
+        "enabled": false,
+        "asset": {
+            "participants": ["multisig participant 1", "multisig participant 2", "multisig participant 3"],
+            "min": 2
+        },
+        "passphrases": [
+            { "index": 0, "passphrase": "multisig participant 1" },
+            { "index": 1, "passphrase": "multisig participant 2" },
+            { "index": 2, "passphrase": "multisig participant 3" }
+        ]
+    },
+    "ipfs": "QmYSK2JyM3RyDyB52caZCTKFR3HKniEcMnNJYdk8DQ6KKB",
+    "multiPayments": [],
+    "htlc": {
+        "lock": {
+            "secretHash": "secret",
+            "expiration": {
+                "type": 1,
+                "value": 416
+            }
+        },
+        "claim": {
+            "lockTransactionId": null,
+            "unlockSecret": "unlock"
+        },
+        "refund": {
+            "lockTransactionId": null
+        }
+    },
+    "nft": {
+        "registerCollection": {
+            "name": "FIFA-20-PLAYERS",
+            "description": "FIFA 2020 Players",
+            "maximumSupply": 10,
+            "jsonSchema": {
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "pac": {
+                        "type": "number"
+                    }
+                }
+            }
+        },
+        "createAsset": {
+            "collectionId": "",
+            "attributes": {
+                "name": "Tests auction 1",
+                "pac": 90
+            }
+        },
+        "transferAsset": {
+            "nftIds": [],
+            "recipientId": "AW8n3yvSAqUJkyfcG5u3bgRxsNKzXYPamN"
+        },
+        "burnAsset": {
+            "nftId": ""
+        },
+        "auctionAsset": {
+            "nftIds": [],
+            "startAmount": 1,
+            "expiration": {
+                "blockHeight": 1000000
+            }
+        },
+        "cancelAuction": {
+            "auctionId": ""
+        },
+        "bidAsset": { "auctionId": "fc23547c034ca442a9d8bcd19b74b309df65c479bb5b0d58d431ddab40bac03d", "bidAmount": 1 },
+        "cancelBidAsset": { "bidId": "" },
+        "acceptTradeAsset": {
+            "bidId": "",
+            "auctionId": "1"
+        }
+    }
+}
