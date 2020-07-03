@@ -10,11 +10,15 @@ A monorepository containing a set of `@protokol` packages providing Digital Asse
 - token burning
 - full REST API Support for exchange and crypto.
 
+This work is licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+
+### Documentation
+
 For more information and detailed documentation follow this link: https://docs.protokol.com/nft/. 
 
-For examples head over to [nft-examples](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-examples) package. 
+### Examples
 
-This work is licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+For examples head over to [nft-examples](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-examples) package. 
 
 ## List of plugins:
 
