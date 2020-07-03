@@ -20,7 +20,9 @@ For more information and detailed documentation follow this link: https://docs.p
 
 For examples head over to [nft-examples](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-examples) package. 
 
-## List of plugins:
+## List of packages:
+
+This is a monorepo which contains many tools and packages:
 
 | Plugin        | Description      | Version
 | ------------- |--------------|---|
