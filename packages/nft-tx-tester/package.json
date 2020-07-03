@@ -6,7 +6,9 @@
     "contributors": [
         "Žan Kovač <zan@protokol.com",
         "Amadej Pevec <amadej@protokol.com>",
-        "Kristjan Košič <kristjan@protokol.com>"
+        "Kristjan Košič <kristjan@protokol.com>",
+        "Joshua Noack <joshua@ark.io>",
+        "Sebastijan Kuzner <sebastijan@ark.io>"
     ],
     "files": [
         "/dist"
