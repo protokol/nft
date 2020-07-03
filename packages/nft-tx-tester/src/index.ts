@@ -1,18 +1,20 @@
+import fs from "fs";
+
 import * as cliActions from "./actions";
 import { Client } from "./client";
-import { config } from "./config/config";
+import { config as defaultConfig } from "./config/config";
 import { Filesystem } from "./filesystem";
 import { Prompt } from "./prompt";
 import { App } from "./types";
 import { WalletRepository } from "./wallets-repository";
 
 /**
- * $ node index.js
+ * $ node index.js pathToConfigFile
  * Ѧ 0      ENTER - send a transfer
  * Ѧ 0 10   ENTER - send 10 transfers
  *
  * Specifics for entity transactions :
- * $ node index.js
+ * $ node index.js pathToConfigFile
  *
  * Ѧ 11 1 business register my_business QmV1n5F9PuBE2ovW9jVfFpxyvWZxYHjSdfLrYL2nDcb1gW
  * ENTER - send a register entity for business with name and ipfs hash
@@ -62,12 +64,17 @@ import { WalletRepository } from "./wallets-repository";
  */
 
 const main = async () => {
+    // read config from file or take default
+    const configPath = process.argv[2];
+    const config = configPath.endsWith(".json") ? JSON.parse(fs.readFileSync(configPath, "utf8")) : defaultConfig;
+    console.log(config);
+
     const filesystem = new Filesystem();
 
     // @ts-ignore
     const app: App = {
-        config: config,
-        client: new Client(),
+        config,
+        client: new Client(config),
         walletRepository: new WalletRepository(await filesystem.loadWallets(config.network)),
         filesystem: filesystem,
         nonces: {},

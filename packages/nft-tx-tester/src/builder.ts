@@ -1,73 +1,16 @@
 import * as MagistrateCrypto from "@arkecosystem/core-magistrate-crypto";
-import { Crypto, Enums, Identities, Managers, Transactions, Utils } from "@arkecosystem/crypto";
+import { Crypto, Enums, Identities, Interfaces, Managers, Transactions, Utils } from "@arkecosystem/crypto";
+import assert from "assert";
 
 import { builders } from "./builders";
-import { config } from "./config/config";
 import { WalletSignType } from "./enums";
 import { App, ExtendedWallet, WalletChange } from "./types";
-import assert = require("assert");
-
-const multiSignatureAddress = () => {
-    return {
-        publicKey: Identities.PublicKey.fromMultiSignatureAsset({
-            min: config.multiSignature.asset.min,
-            publicKeys: config.multiSignature.asset.participants.map((passphrase) =>
-                Identities.PublicKey.fromPassphrase(passphrase),
-            ),
-        }),
-        address: Identities.Address.fromMultiSignatureAsset({
-            min: config.multiSignature.asset.min,
-            publicKeys: config.multiSignature.asset.participants.map((passphrase) =>
-                Identities.PublicKey.fromPassphrase(passphrase),
-            ),
-        }),
-    };
-};
-
-const sign = (builder, passphrase) => {
-    if (!config.ecdsa) {
-        builder.sign(passphrase);
-    } else {
-        const buffer = Transactions.Utils.toHash(builder.data, {
-            excludeSignature: true,
-            excludeSecondSignature: true,
-        });
-
-        builder.data.signature = Crypto.Hash.signECDSA(buffer, Identities.Keys.fromPassphrase(passphrase));
-    }
-};
-
-const secondSign = (builder, passphrase) => {
-    if (!config.ecdsa) {
-        builder.secondSign(passphrase);
-    } else {
-        const buffer = Transactions.Utils.toHash(builder.data, {
-            excludeSecondSignature: true,
-        });
-
-        builder.data.secondSignature = Crypto.Hash.signECDSA(buffer, Identities.Keys.fromPassphrase(passphrase));
-    }
-};
-
-const configureCrypto = async (app) => {
-    // @ts-ignore
-    Managers.configManager.setFromPreset(config.network);
-
-    try {
-        const height = await app.client.retrieveHeight();
-
-        Managers.configManager.setHeight(height);
-    } catch (ex) {
-        console.log("configureCrypto: " + ex.message);
-        process.exit();
-    }
-};
 
 export class Builder {
     public constructor(private app: App) {}
 
     public async buildTransaction(type: number, quantity: number, splitInput: string[]) {
-        await configureCrypto(this.app);
+        await this.configureCrypto();
 
         const { builder } = builders[type];
         if (!builder) {
@@ -76,12 +19,12 @@ export class Builder {
 
         const walletChanges: WalletChange[] = [];
 
-        let senderWallet = (config.passphrase
-            ? this.app.walletRepository.getWallet(config.passphrase as any)
+        let senderWallet = (this.app.config.passphrase
+            ? this.app.walletRepository.getWallet(this.app.config.passphrase)
             : this.app.walletRepository.getRandomWallet()) as ExtendedWallet;
 
-        const recipientWallet = (config.recipientId
-            ? this.app.walletRepository.getWallet(config.recipientId as any)
+        const recipientWallet = (this.app.config.recipientId
+            ? this.app.walletRepository.getWallet(this.app.config.recipientId)
             : this.app.walletRepository.getRandomWallet()) as ExtendedWallet;
         const recipientId = recipientWallet.address;
 
@@ -90,17 +33,18 @@ export class Builder {
             ...(await this.app.client.retrieveSenderWallet(Identities.Address.fromPublicKey(senderWallet.publicKey))),
         };
 
-        const transactions = [];
+        const transactions: Interfaces.ITransactionJson[] = [];
 
         for (let i = 0; i < quantity; i++) {
             let nonce = this.app.nonces[senderWallet.publicKey];
             if (!nonce) {
                 let senderNonce = senderWallet.nonce;
-                if (config.multiSignature.enabled) {
-                    senderNonce = (await this.app.client.retrieveSenderWallet(multiSignatureAddress().address)).nonce;
+                if (this.app.config.multiSignature.enabled) {
+                    senderNonce = (await this.app.client.retrieveSenderWallet(this.getMultiSignatureAddress().address))
+                        .nonce;
                 }
 
-                nonce = Utils.BigNumber.make(config.startNonce || senderNonce || 0).plus(1);
+                nonce = Utils.BigNumber.make(this.app.config.startNonce || senderNonce || 0).plus(1);
             } else {
                 nonce = nonce.plus(1);
             }
@@ -108,32 +52,32 @@ export class Builder {
 
             const transaction = builder().nonce(nonce.toFixed()).senderPublicKey(senderWallet.publicKey);
 
-            if (config.fee) {
-                transaction.fee(config.fee);
+            if (this.app.config.fee) {
+                transaction.fee(this.app.config.fee);
             }
 
             if (type === Enums.TransactionType.Transfer) {
                 transaction.recipientId(recipientId);
-                transaction.amount(config.amount);
-                transaction.expiration(config.expiration || 0);
+                transaction.amount(this.app.config.amount);
+                transaction.expiration(this.app.config.expiration || 0);
             } else if (type === Enums.TransactionType.SecondSignature) {
-                const secondPassphrase = config.secondPassphrase || "second passphrase";
+                const secondPassphrase = this.app.config.secondPassphrase || "second passphrase";
                 transaction.signatureAsset(secondPassphrase);
 
                 walletChanges.push({
                     transaction: transaction,
                     address: senderWallet.address,
                     publicKey: undefined || "", // TODO
-                    secondPassphrase: config.secondPassphrase || "second passphrase",
+                    secondPassphrase: this.app.config.secondPassphrase || "second passphrase",
                 });
             } else if (type === Enums.TransactionType.DelegateRegistration) {
-                const username = config.delegateName || `delegate.${senderWallet.publicKey.slice(0, 10)}`;
+                const username = this.app.config.delegateName || `delegate.${senderWallet.publicKey.slice(0, 10)}`;
                 transaction.usernameAsset(username);
             } else if (type === Enums.TransactionType.Vote) {
-                if (config.vote) {
-                    transaction.votesAsset([`+${config.vote}`]);
-                } else if (config.unvote) {
-                    transaction.votesAsset([`-${config.unvote}`]);
+                if (this.app.config.vote) {
+                    transaction.votesAsset([`+${this.app.config.vote}`]);
+                } else if (this.app.config.unvote) {
+                    transaction.votesAsset([`-${this.app.config.unvote}`]);
                 } else {
                     if (senderWallet.vote) {
                         transaction.votesAsset([`-${senderWallet.vote}`]);
@@ -142,11 +86,11 @@ export class Builder {
                     }
                 }
             } else if (type === Enums.TransactionType.MultiSignature && Managers.configManager.getMilestone().aip11) {
-                for (const passphrase of config.multiSignature.asset.participants) {
+                for (const passphrase of this.app.config.multiSignature.asset.participants) {
                     transaction.participant(Identities.PublicKey.fromPassphrase(passphrase));
                 }
 
-                transaction.min(config.multiSignature.asset.min);
+                transaction.min(this.app.config.multiSignature.asset.min);
 
                 const multiSignatureAddress = Identities.Address.fromMultiSignatureAsset(
                     transaction.data.asset.multiSignature,
@@ -154,7 +98,7 @@ export class Builder {
                 console.log(`Created MultiSignature address: ${multiSignatureAddress}`);
                 transaction.senderPublicKey(senderWallet.publicKey);
 
-                const participants = config.multiSignature.asset.participants;
+                const participants = this.app.config.multiSignature.asset.participants;
                 for (let i = 0; i < participants.length; i++) {
                     transaction.multiSign(participants[i], i);
                 }
@@ -162,14 +106,14 @@ export class Builder {
                 walletChanges.push({
                     transaction: transaction,
                     address: multiSignatureAddress,
-                    passphrases: config.multiSignature.asset.participants,
+                    passphrases: this.app.config.multiSignature.asset.participants,
                     publicKey: Identities.PublicKey.fromMultiSignatureAsset(transaction.data.asset.multiSignature),
                 });
             } else if (type === Enums.TransactionType.Ipfs && Managers.configManager.getMilestone().aip11) {
-                transaction.ipfsAsset(config.ipfs);
+                transaction.ipfsAsset(this.app.config.ipfs);
             } else if (type === Enums.TransactionType.MultiPayment && Managers.configManager.getMilestone().aip11) {
                 let payments;
-                if (!config.multiPayments || config.multiPayments.length === 0) {
+                if (!this.app.config.multiPayments || this.app.config.multiPayments.length === 0) {
                     payments = [];
                     const count = Math.floor(Math.random() * (128 - 64 + 1) + 64);
                     for (let i = 0; i < count; i++) {
@@ -179,7 +123,7 @@ export class Builder {
                         });
                     }
                 } else {
-                    payments = config.multiPayments;
+                    payments = this.app.config.multiPayments;
                 }
 
                 for (const payment of payments) {
@@ -191,25 +135,25 @@ export class Builder {
             ) {
             } else if (type === Enums.TransactionType.HtlcLock && Managers.configManager.getMilestone().aip11) {
                 transaction.recipientId(recipientId);
-                transaction.amount(config.amount);
+                transaction.amount(this.app.config.amount);
 
-                if (config.htlc.lock.expiration.type === Enums.HtlcLockExpirationType.EpochTimestamp) {
+                if (this.app.config.htlc.lock.expiration.type === Enums.HtlcLockExpirationType.EpochTimestamp) {
                     const networktime = await this.app.client.retrieveNetworktime();
-                    if (config.htlc.lock.expiration.value < networktime) {
-                        config.htlc.lock.expiration.value += networktime;
+                    if (this.app.config.htlc.lock.expiration.value < networktime) {
+                        this.app.config.htlc.lock.expiration.value += networktime;
                     }
                 }
 
-                transaction.htlcLockAsset(config.htlc.lock);
+                transaction.htlcLockAsset(this.app.config.htlc.lock);
             } else if (type === Enums.TransactionType.HtlcClaim && Managers.configManager.getMilestone().aip11) {
-                const claim = config.htlc.claim;
+                const claim = this.app.config.htlc.claim;
                 const lockTransactionId =
                     claim.lockTransactionId ||
                     (await this.app.client.retrieveTransaction(senderWallet.publicKey, 8))[0].id;
 
                 transaction.htlcClaimAsset({ ...claim, lockTransactionId });
             } else if (type === Enums.TransactionType.HtlcRefund && Managers.configManager.getMilestone().aip11) {
-                const refund = config.htlc.refund;
+                const refund = this.app.config.htlc.refund;
                 const lockTransactionId =
                     refund.lockTransactionId ||
                     (await this.app.client.retrieveTransaction(senderWallet.publicKey, 8))[0].id;
@@ -248,10 +192,10 @@ export class Builder {
                 transaction.asset(entityAsset);
             } else if (type === 20 && Managers.configManager.getMilestone().aip11) {
                 // NFTRegisterCollection
-                transaction.NFTRegisterCollectionAsset(config.nft.registerCollection);
+                transaction.NFTRegisterCollectionAsset(this.app.config.nft.registerCollection);
             } else if (type === 21 && Managers.configManager.getMilestone().aip11) {
                 // NFTCreateToken
-                const createAsset = { ...config.nft.createAsset };
+                const createAsset = { ...this.app.config.nft.createAsset };
                 if (!createAsset.collectionId) {
                     if (!senderWallet.attributes.nft?.base?.collections) {
                         throw new Error("Wallet doesn't have any collections");
@@ -261,7 +205,7 @@ export class Builder {
                 transaction.NFTCreateToken(createAsset);
             } else if (type === 22 && Managers.configManager.getMilestone().aip11) {
                 // NFTTransferAsset
-                const transferAsset = { ...config.nft.transferAsset };
+                const transferAsset = { ...this.app.config.nft.transferAsset };
                 if (!transferAsset.nftIds?.length) {
                     if (
                         !senderWallet.attributes.nft?.base?.tokenIds ||
@@ -270,7 +214,6 @@ export class Builder {
                         throw new Error("Wallet doesn't own any assets");
                     }
 
-                    // @ts-ignore
                     transferAsset.nftIds = [Object.keys(senderWallet.attributes.nft.base.tokenIds)[i]];
                 }
 
@@ -280,7 +223,7 @@ export class Builder {
                 transaction.NFTTransferAsset(transferAsset);
             } else if (type === 23 && Managers.configManager.getMilestone().aip11) {
                 // NFTBurnAsset
-                const burnAsset = { ...config.nft.burnAsset };
+                const burnAsset = { ...this.app.config.nft.burnAsset };
                 if (!burnAsset.nftId) {
                     if (
                         !senderWallet.attributes.nft?.base?.tokenIds ||
@@ -295,7 +238,7 @@ export class Builder {
                 transaction.NFTBurnAsset(burnAsset);
             } else if (type === 24 && Managers.configManager.getMilestone().aip11) {
                 // NFTAuctionAsset
-                const auctionAsset = { ...config.nft.auctionAsset };
+                const auctionAsset = { ...this.app.config.nft.auctionAsset };
                 if (!auctionAsset.nftIds?.length) {
                     if (
                         !senderWallet.attributes.nft?.base?.tokenIds ||
@@ -304,14 +247,13 @@ export class Builder {
                         throw new Error("Wallet doesn't own any assets");
                     }
 
-                    // @ts-ignore
                     auctionAsset.nftIds = [Object.keys(senderWallet.attributes.nft.base.tokenIds)[i]];
                 }
 
                 transaction.NFTAuctionAsset(auctionAsset);
             } else if (type === 25 && Managers.configManager.getMilestone().aip11) {
                 // NFTCancelAuctionAsset
-                const cancelAuction = { ...config.nft.cancelAuction };
+                const cancelAuction = { ...this.app.config.nft.cancelAuction };
                 if (!cancelAuction.auctionId) {
                     if (
                         !senderWallet.attributes.nft?.exchange?.auctions ||
@@ -326,7 +268,7 @@ export class Builder {
                 transaction.NFTAuctionCancelAsset(cancelAuction);
             } else if (type === 26 && Managers.configManager.getMilestone().aip11) {
                 // NFTBidAsset
-                const bidAsset = { ...config.nft.bidAsset };
+                const bidAsset = { ...this.app.config.nft.bidAsset };
                 if (!bidAsset.auctionId) {
                     if (
                         !recipientWallet.attributes.nft?.exchange?.auctions ||
@@ -344,7 +286,7 @@ export class Builder {
                 transaction.NFTBidAsset(bidAsset);
             } else if (type === 27 && Managers.configManager.getMilestone().aip11) {
                 // NFTCancelBidAsset
-                const cancelBidAsset = { ...config.nft.cancelBidAsset };
+                const cancelBidAsset = { ...this.app.config.nft.cancelBidAsset };
                 if (!cancelBidAsset.bidId) {
                     const bids = await this.app.client.retrieveBidsByPublicKey(senderWallet.publicKey);
                     if (!bids.length) {
@@ -357,7 +299,7 @@ export class Builder {
                 transaction.NFTBidCancelAsset(cancelBidAsset);
             } else if (type === 28 && Managers.configManager.getMilestone().aip11) {
                 // NFTAcceptTradeAsset
-                const acceptTradeAsset = { ...config.nft.acceptTradeAsset };
+                const acceptTradeAsset = { ...this.app.config.nft.acceptTradeAsset };
 
                 if (!acceptTradeAsset.auctionId) {
                     if (
@@ -387,10 +329,8 @@ export class Builder {
                 throw new Error("Version 2 not supported.");
             }
 
-            let vendorField = config.vendorField.value;
-            // @ts-ignore
-            if (!vendorField && config.vendorField.random && (type === 0 || type === 6 || type === 8)) {
-                // @ts-ignore TODO
+            let vendorField = this.app.config.vendorField.value;
+            if (!vendorField && this.app.config.vendorField.random && (type === 0 || type === 6 || type === 8)) {
                 vendorField = Math.random().toString();
             }
 
@@ -399,32 +339,86 @@ export class Builder {
             }
 
             if (senderWallet.signType === WalletSignType.Basic) {
-                sign(transaction, senderWallet.passphrase);
+                this.sign(transaction, senderWallet.passphrase);
             }
 
             if (senderWallet.signType === WalletSignType.SecondSignature) {
-                sign(transaction, senderWallet.passphrase);
-                secondSign(transaction, config.secondPassphrase || "second passphrase");
+                this.sign(transaction, senderWallet.passphrase);
+                this.secondSign(transaction, this.app.config.secondPassphrase || "second passphrase");
             }
 
             if (senderWallet.signType === WalletSignType.MultiSignature) {
-                for (const { index, passphrase } of config.multiSignature.passphrases) {
+                for (const { index, passphrase } of this.app.config.multiSignature.passphrases) {
                     transaction.multiSign(passphrase, index);
                 }
             }
 
-            const instance = transaction.build();
+            const instance: Interfaces.ITransaction = transaction.build();
             const payload = instance.toJson();
 
-            if (config.verbose) {
+            if (this.app.config.verbose) {
                 console.log(`Transaction: ${JSON.stringify(payload, undefined, 4)}`);
             }
 
             assert(instance.verify() || senderWallet.signType === WalletSignType.MultiSignature);
-            // @ts-ignore TODO
             transactions.push(payload);
         }
 
         return { transactions, walletChanges };
+    }
+
+    private async configureCrypto() {
+        Managers.configManager.setFromPreset(this.app.config.network);
+
+        try {
+            const height = await this.app.client.retrieveHeight();
+
+            Managers.configManager.setHeight(height);
+        } catch (ex) {
+            console.log("configureCrypto: " + ex.message);
+            process.exit();
+        }
+    }
+
+    private secondSign(builder, passphrase) {
+        if (!this.app.config.ecdsa) {
+            builder.secondSign(passphrase);
+        } else {
+            const buffer = Transactions.Utils.toHash(builder.data, {
+                excludeSecondSignature: true,
+            });
+
+            builder.data.secondSignature = Crypto.Hash.signECDSA(buffer, Identities.Keys.fromPassphrase(passphrase));
+        }
+    }
+
+    private sign(builder, passphrase) {
+        if (!this.app.config.ecdsa) {
+            builder.sign(passphrase);
+        } else {
+            const buffer = Transactions.Utils.toHash(builder.data, {
+                excludeSignature: true,
+                excludeSecondSignature: true,
+            });
+
+            builder.data.signature = Crypto.Hash.signECDSA(buffer, Identities.Keys.fromPassphrase(passphrase));
+        }
+    }
+
+    private getMultiSignatureAddress() {
+        return {
+            publicKey: Identities.PublicKey.fromMultiSignatureAsset({
+                min: this.app.config.multiSignature.asset.min,
+                publicKeys: this.app.config.multiSignature.asset.participants.map((passphrase) =>
+                    Identities.PublicKey.fromPassphrase(passphrase),
+                ),
+            }),
+            address: Identities.Address.fromMultiSignatureAsset({
+                min: this.app.config.multiSignature.asset.min,
+                publicKeys: this.app.config.multiSignature.asset.participants.map((passphrase) =>
+                    Identities.PublicKey.fromPassphrase(passphrase),
+                ),
+            }),
+        };
     }
 }

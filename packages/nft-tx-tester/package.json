@@ -15,8 +15,8 @@
     "types": "dist/index",
     "scripts": {
         "start": "node dist/index.js",
-        "debug": "node --inspect-brk src/index.js",
-        "dev": "nodemon src/index.js",
+        "debug": "node --inspect-brk dist/index.js",
+        "dev": "nodemon dist/index.js",
         "build": "yarn clean && tsc",
         "build:watch": "yarn build -w",
         "clean": "rimraf .coverage dist tmp",

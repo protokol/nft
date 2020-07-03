@@ -1,16 +1,18 @@
 import { Utils } from "@arkecosystem/core-kernel";
 
-import { config } from "./config/config";
 import { seeds } from "./config/testnet";
+import { App } from "./types";
 
 export class Client {
+    public constructor(private config: App["config"]) {}
+
     public getRandomSeed() {
         return seeds[Math.floor(Math.random() * seeds.length)];
     }
 
     public getSeed() {
-        if (config.peer) {
-            return config.peer;
+        if (this.config.peer) {
+            return this.config.peer;
         }
 
         return this.getRandomSeed();
@@ -70,7 +72,7 @@ export class Client {
 
     public async postTransaction(transactions) {
         try {
-            if (config.coldrun) {
+            if (this.config.coldrun) {
                 return;
             }
 
