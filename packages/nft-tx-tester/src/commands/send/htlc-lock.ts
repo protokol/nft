@@ -11,6 +11,7 @@ export default class HtlcLock extends SendBase {
         secretHash: flags.string({ description: "sha256 of secret" }),
         expirationType: flags.integer({ description: "Expiration type: 1=EpochTimestamp, 2=BlockHeight" }),
         expirationValue: flags.integer({ description: "Lock expiration in seconds or blocks" }),
+        recipientId: flags.string({ char: "r", description: "Recipient id - Address" }),
     };
 
     public type = TransactionType.HtlcLock;
@@ -25,6 +26,9 @@ export default class HtlcLock extends SendBase {
         }
         if (flags.expirationValue) {
             mergedConfig.htlc.lock.expiration.value = flags.expirationValue;
+        }
+        if (flags.recipientId) {
+            config.recipientId = flags.recipientId;
         }
 
         return mergedConfig;

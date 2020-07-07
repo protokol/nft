@@ -44,8 +44,14 @@ export const builders = {
     11: { name: "Entity", builder: () => new MagistrateCrypto.Builders.EntityBuilder() },
 
     // NFT transaction types
-    20: { name: "NFT Register Collection", builder: () => new NFTBaseCrypto.Builders.NFTRegisterCollectionBuilder() },
-    21: { name: "NFT Create Token", builder: () => new NFTBaseCrypto.Builders.NFTCreateBuilder() },
+    [TransactionType.NFTRegisterCollection]: {
+        name: "NFT Register Collection",
+        builder: () => new NFTBaseCrypto.Builders.NFTRegisterCollectionBuilder(),
+    },
+    [TransactionType.NFTCreateToken]: {
+        name: "NFT Create Token",
+        builder: () => new NFTBaseCrypto.Builders.NFTCreateBuilder(),
+    },
     22: { name: "NFT Transfer Asset", builder: () => new NFTBaseCrypto.Builders.NFTTransferBuilder() },
     23: { name: "NFT Burn Asset", builder: () => new NFTBaseCrypto.Builders.NFTBurnBuilder() },
     24: { name: "NFT Auction", builder: () => new NFTExchangeCrypto.Builders.NFTAuctionBuilder() },

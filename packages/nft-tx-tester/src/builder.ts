@@ -187,17 +187,22 @@ export class Builder {
                     entityAsset.registrationId = splitInput[4];
                 }
                 transaction.asset(entityAsset);
-            } else if (type === 20 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.NFTRegisterCollection && Managers.configManager.getMilestone().aip11) {
                 // NFTRegisterCollection
                 transaction.NFTRegisterCollectionAsset(this.app.config.nft.registerCollection);
-            } else if (type === 21 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.NFTCreateToken && Managers.configManager.getMilestone().aip11) {
                 // NFTCreateToken
                 const createAsset = { ...this.app.config.nft.createAsset };
                 if (!createAsset.collectionId) {
                     if (!senderWallet.attributes.nft?.base?.collections) {
                         throw new Error("Wallet doesn't have any collections");
                     }
-                    createAsset.collectionId = Object.keys(senderWallet.attributes.nft.base.collections)[0];
+
+                    createAsset.collectionId = Object.keys(senderWallet.attributes.nft.base.collections).find(
+                        (x) =>
+                            senderWallet.attributes.nft.base.collections[x].currentSupply <
+                            senderWallet.attributes.nft.base.collections[x].nftCollectionAsset.maximumSupply,
+                    );
                 }
                 transaction.NFTCreateToken(createAsset);
             } else if (type === 22 && Managers.configManager.getMilestone().aip11) {
