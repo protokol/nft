@@ -5,13 +5,13 @@ import { TransactionType } from "../../enums";
 import { SendBase } from "../../shared/send-base";
 
 export default class DelegateRegistration extends SendBase {
+    public static description = SendBase.defaultDescription + builders[TransactionType.DelegateRegistration].name;
     public static flags = {
         ...SendBase.defaultFlags,
         delegateName: flags.string({ char: "d", description: "Delegate name" }),
     };
 
     public type = TransactionType.DelegateRegistration;
-    public description = SendBase.defaultDescription + builders[this.type].name;
 
     protected prepareConfig(config, flags) {
         const mergedConfig = { ...config };

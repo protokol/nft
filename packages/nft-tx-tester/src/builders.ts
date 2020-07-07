@@ -29,11 +29,14 @@ export const builders = {
     [TransactionType.Vote]: { name: "Vote", builder: Transactions.BuilderFactory.vote },
     [TransactionType.MultiSignature]: { name: "Multi Signature", builder: Transactions.BuilderFactory.multiSignature },
     [TransactionType.Ipfs]: { name: "Ipfs", builder: Transactions.BuilderFactory.ipfs },
-    6: { name: "Multi Payment", builder: Transactions.BuilderFactory.multiPayment },
-    7: { name: "Delegate Resignation", builder: Transactions.BuilderFactory.delegateResignation },
-    8: { name: "Htlc Lock", builder: Transactions.BuilderFactory.htlcLock },
-    9: { name: "Htlc Claim", builder: Transactions.BuilderFactory.htlcClaim },
-    10: { name: "Htlc Refund", builder: Transactions.BuilderFactory.htlcRefund },
+    [TransactionType.MultiPayment]: { name: "Multi Payment", builder: Transactions.BuilderFactory.multiPayment },
+    [TransactionType.DelegateResignation]: {
+        name: "Delegate Resignation",
+        builder: Transactions.BuilderFactory.delegateResignation,
+    },
+    [TransactionType.HtlcLock]: { name: "Htlc Lock", builder: Transactions.BuilderFactory.htlcLock },
+    [TransactionType.HtlcClaim]: { name: "Htlc Claim", builder: Transactions.BuilderFactory.htlcClaim },
+    [TransactionType.HtlcRefund]: { name: "Htlc Refund", builder: Transactions.BuilderFactory.htlcRefund },
 
     // TECHNICALLY, the AIP103 types are in typeGroup 2
     // and range from type 0 - 5. But to keep things simple we simply

@@ -5,6 +5,7 @@ import { TransactionType } from "../../enums";
 import { SendBase } from "../../shared/send-base";
 
 export default class MultiSignature extends SendBase {
+    public static description = SendBase.defaultDescription + builders[TransactionType.MultiSignature].name;
     public static flags = {
         ...SendBase.defaultFlags,
         participants: flags.string({
@@ -20,7 +21,6 @@ export default class MultiSignature extends SendBase {
     };
 
     public type = TransactionType.MultiSignature;
-    public description = SendBase.defaultDescription + builders[this.type].name;
 
     protected prepareConfig(config, flags) {
         const mergedConfig = { ...config };

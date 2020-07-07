@@ -4,25 +4,25 @@ import { builders } from "../../builders";
 import { TransactionType } from "../../enums";
 import { SendBase } from "../../shared/send-base";
 
-export default class Ipfs extends SendBase {
-    public static description = SendBase.defaultDescription + builders[TransactionType.Ipfs].name;
+export default class HtlcRefund extends SendBase {
+    public static description = SendBase.defaultDescription + builders[TransactionType.HtlcRefund].name;
     public static flags = {
         ...SendBase.defaultFlags,
-        ipfs: flags.string({ char: "i", description: "Ipfs" }),
+        lockTransactionId: flags.string({ description: "Lock transaction id" }),
     };
 
-    public type = TransactionType.Ipfs;
+    public type = TransactionType.HtlcRefund;
 
     protected prepareConfig(config, flags) {
         const mergedConfig = { ...config };
-        if (flags.ipfs) {
-            mergedConfig.ipfs = flags.ipfs;
+        if (flags.lockTransactionId) {
+            mergedConfig.htlc.refund.lockTransactionId = flags.lockTransactionId;
         }
 
         return mergedConfig;
     }
 
     protected getCommand(): any {
-        return Ipfs;
+        return HtlcRefund;
     }
 }

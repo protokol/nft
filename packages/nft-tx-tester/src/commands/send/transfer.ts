@@ -5,6 +5,7 @@ import { TransactionType } from "../../enums";
 import { SendBase } from "../../shared/send-base";
 
 export default class Transfer extends SendBase {
+    public static description = SendBase.defaultDescription + builders[TransactionType.Transfer].name;
     public static flags = {
         ...SendBase.defaultFlags,
         amount: flags.string({ char: "a", description: "Amount to transfer" }),
@@ -13,7 +14,6 @@ export default class Transfer extends SendBase {
     };
 
     public type = TransactionType.Transfer;
-    public description = SendBase.defaultDescription + builders[this.type].name;
 
     protected prepareConfig(config, flags) {
         const mergedConfig = { ...config };

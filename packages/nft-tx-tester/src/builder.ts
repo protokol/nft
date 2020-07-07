@@ -111,7 +111,7 @@ export class Builder {
                 });
             } else if (type === TransactionType.Ipfs && Managers.configManager.getMilestone().aip11) {
                 transaction.ipfsAsset(this.app.config.ipfs);
-            } else if (type === Enums.TransactionType.MultiPayment && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.MultiPayment && Managers.configManager.getMilestone().aip11) {
                 let payments;
                 if (!this.app.config.multiPayments || this.app.config.multiPayments.length === 0) {
                     payments = [];
@@ -129,11 +129,8 @@ export class Builder {
                 for (const payment of payments) {
                     transaction.addPayment(payment.recipientId, payment.amount);
                 }
-            } else if (
-                type === Enums.TransactionType.DelegateResignation &&
-                Managers.configManager.getMilestone().aip11
-            ) {
-            } else if (type === Enums.TransactionType.HtlcLock && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.DelegateResignation && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.HtlcLock && Managers.configManager.getMilestone().aip11) {
                 transaction.recipientId(recipientId);
                 transaction.amount(this.app.config.amount);
 
@@ -145,14 +142,14 @@ export class Builder {
                 }
 
                 transaction.htlcLockAsset(this.app.config.htlc.lock);
-            } else if (type === Enums.TransactionType.HtlcClaim && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.HtlcClaim && Managers.configManager.getMilestone().aip11) {
                 const claim = this.app.config.htlc.claim;
                 const lockTransactionId =
                     claim.lockTransactionId ||
                     (await this.app.client.retrieveTransaction(senderWallet.publicKey, 8))[0].id;
 
                 transaction.htlcClaimAsset({ ...claim, lockTransactionId });
-            } else if (type === Enums.TransactionType.HtlcRefund && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.HtlcRefund && Managers.configManager.getMilestone().aip11) {
                 const refund = this.app.config.htlc.refund;
                 const lockTransactionId =
                     refund.lockTransactionId ||
