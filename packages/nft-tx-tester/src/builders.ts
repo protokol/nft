@@ -3,6 +3,8 @@ import { Transactions } from "@arkecosystem/crypto";
 import * as NFTBaseCrypto from "@protokol/nft-base-crypto";
 import * as NFTExchangeCrypto from "@protokol/nft-exchange-crypto";
 
+import { TransactionType } from "./enums";
+
 Transactions.TransactionRegistry.registerTransactionType(MagistrateCrypto.Transactions.EntityTransaction);
 Transactions.TransactionRegistry.registerTransactionType(NFTBaseCrypto.Transactions.NFTRegisterCollectionTransaction);
 Transactions.TransactionRegistry.registerTransactionType(NFTBaseCrypto.Transactions.NFTCreateTransaction);
@@ -15,14 +17,17 @@ Transactions.TransactionRegistry.registerTransactionType(NFTExchangeCrypto.Trans
 Transactions.TransactionRegistry.registerTransactionType(NFTExchangeCrypto.Transactions.NFTAcceptTradeTransaction);
 
 export const builders = {
-    0: { name: "Transfer", builder: Transactions.BuilderFactory.transfer },
-    1: { name: "Second Signature", builder: Transactions.BuilderFactory.secondSignature },
+    [TransactionType.Transfer]: { name: "Transfer", builder: Transactions.BuilderFactory.transfer },
+    [TransactionType.SecondSignature]: {
+        name: "Second Signature",
+        builder: Transactions.BuilderFactory.secondSignature,
+    },
     2: { name: "Delegate Registration", builder: Transactions.BuilderFactory.delegateRegistration },
     3: { name: "Vote", builder: Transactions.BuilderFactory.vote },
     4: { name: "Multi Signature", builder: Transactions.BuilderFactory.multiSignature },
     5: { name: "Ipfs", builder: Transactions.BuilderFactory.ipfs },
     6: { name: "Multi Payment", builder: Transactions.BuilderFactory.multiPayment },
-    7: { name: "Delegate Registration", builder: Transactions.BuilderFactory.delegateResignation },
+    7: { name: "Delegate Resignation", builder: Transactions.BuilderFactory.delegateResignation },
     8: { name: "Htlc Lock", builder: Transactions.BuilderFactory.htlcLock },
     9: { name: "Htlc Claim", builder: Transactions.BuilderFactory.htlcClaim },
     10: { name: "Htlc Refund", builder: Transactions.BuilderFactory.htlcRefund },

@@ -27,12 +27,17 @@
         "Sebastijan Kuzner <sebastijan@ark.io>"
     ],
     "files": [
-        "/dist"
+        "/dist",
+        "/bin",
+        "/oclif.manifest.json"
     ],
+    "bin": {
+        "nft-tx-tester": "./bin/run"
+    },
     "main": "dist/index",
     "types": "dist/index",
     "scripts": {
-        "start": "node dist/index.js",
+        "start": "node dist/main.js",
         "debug": "node --inspect-brk dist/index.js",
         "dev": "nodemon dist/index.js",
         "build": "yarn clean && tsc",
@@ -40,7 +45,10 @@
         "clean": "rimraf .coverage dist tmp",
         "format": "yarn lint && yarn prettier",
         "lint": "tslint -c tslint.json -p tslint.json 'src/**/*.ts' --fix",
-        "prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\""
+        "prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\"",
+        "postpack": "rm -f oclif.manifest.json",
+        "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
+        "compile": "../../../node_modules/typescript/bin/tsc"
     },
     "dependencies": {
         "@arkecosystem/core-magistrate-crypto": "^3.0.0-next.0",
@@ -48,10 +56,22 @@
         "@arkecosystem/crypto": "^3.0.0-next.0",
         "fs-extra": "^9.0.1",
         "@protokol/nft-base-crypto": "^1.0.0-beta.4",
-        "@protokol/nft-exchange-crypto": "^1.0.0-beta.4"
+        "@protokol/nft-exchange-crypto": "^1.0.0-beta.4",
+        "@oclif/command": "^1",
+        "@oclif/config": "^1",
+        "@oclif/plugin-help": "^3"
     },
     "devDependencies": {
         "nodemon": "^2.0.0",
-        "typescript": "^3.8.3"
+        "typescript": "^3.8.3",
+        "@oclif/dev-cli": "^1",
+        "ts-node": "^8"
+    },
+    "oclif": {
+        "commands": "./src/commands",
+        "bin": "nft-tx-tester",
+        "plugins": [
+            "@oclif/plugin-help"
+        ]
     }
 }

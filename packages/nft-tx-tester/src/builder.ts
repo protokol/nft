@@ -1,9 +1,9 @@
 import * as MagistrateCrypto from "@arkecosystem/core-magistrate-crypto";
 import { Crypto, Enums, Identities, Interfaces, Managers, Transactions, Utils } from "@arkecosystem/crypto";
-import assert from "assert";
 
+// import assert from "assert";
 import { builders } from "./builders";
-import { WalletSignType } from "./enums";
+import { TransactionType, WalletSignType } from "./enums";
 import { App, ExtendedWallet, WalletChange } from "./types";
 
 export class Builder {
@@ -56,11 +56,11 @@ export class Builder {
                 transaction.fee(this.app.config.fee);
             }
 
-            if (type === Enums.TransactionType.Transfer) {
+            if (type === TransactionType.Transfer) {
                 transaction.recipientId(recipientId);
                 transaction.amount(this.app.config.amount);
                 transaction.expiration(this.app.config.expiration || 0);
-            } else if (type === Enums.TransactionType.SecondSignature) {
+            } else if (type === TransactionType.SecondSignature) {
                 const secondPassphrase = this.app.config.secondPassphrase || "second passphrase";
                 transaction.signatureAsset(secondPassphrase);
 
@@ -68,7 +68,7 @@ export class Builder {
                     transaction: transaction,
                     address: senderWallet.address,
                     publicKey: undefined || "", // TODO
-                    secondPassphrase: this.app.config.secondPassphrase || "second passphrase",
+                    secondPassphrase,
                 });
             } else if (type === Enums.TransactionType.DelegateRegistration) {
                 const username = this.app.config.delegateName || `delegate.${senderWallet.publicKey.slice(0, 10)}`;
@@ -360,7 +360,7 @@ export class Builder {
                 console.log(`Transaction: ${JSON.stringify(payload, undefined, 4)}`);
             }
 
-            assert(instance.verify() || senderWallet.signType === WalletSignType.MultiSignature);
+            //assert(instance.verify() || senderWallet.signType === WalletSignType.MultiSignature);
             transactions.push(payload);
         }
 
