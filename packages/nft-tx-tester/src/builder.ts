@@ -70,10 +70,10 @@ export class Builder {
                     publicKey: undefined || "", // TODO
                     secondPassphrase,
                 });
-            } else if (type === Enums.TransactionType.DelegateRegistration) {
+            } else if (type === TransactionType.DelegateRegistration) {
                 const username = this.app.config.delegateName || `delegate.${senderWallet.publicKey.slice(0, 10)}`;
                 transaction.usernameAsset(username);
-            } else if (type === Enums.TransactionType.Vote) {
+            } else if (type === TransactionType.Vote) {
                 if (this.app.config.vote) {
                     transaction.votesAsset([`+${this.app.config.vote}`]);
                 } else if (this.app.config.unvote) {
@@ -85,7 +85,7 @@ export class Builder {
                         transaction.votesAsset([`+${senderWallet.publicKey}`]);
                     }
                 }
-            } else if (type === Enums.TransactionType.MultiSignature && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.MultiSignature && Managers.configManager.getMilestone().aip11) {
                 for (const passphrase of this.app.config.multiSignature.asset.participants) {
                     transaction.participant(Identities.PublicKey.fromPassphrase(passphrase));
                 }
@@ -109,7 +109,7 @@ export class Builder {
                     passphrases: this.app.config.multiSignature.asset.participants,
                     publicKey: Identities.PublicKey.fromMultiSignatureAsset(transaction.data.asset.multiSignature),
                 });
-            } else if (type === Enums.TransactionType.Ipfs && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.Ipfs && Managers.configManager.getMilestone().aip11) {
                 transaction.ipfsAsset(this.app.config.ipfs);
             } else if (type === Enums.TransactionType.MultiPayment && Managers.configManager.getMilestone().aip11) {
                 let payments;

@@ -6,13 +6,12 @@ import { config as defaultConfig } from "../config/config";
 import { Filesystem } from "../filesystem";
 import { WalletRepository } from "../wallets-repository";
 
-export abstract class Send extends Command {
+export abstract class SendBase extends Command {
     public static defaultDescription = `${sendTransaction.description}: `;
     public static defaultFlags = {
         help: flags.help({ char: "h" }),
         quantity: flags.integer({ char: "q", description: "Number of transactions", default: 1 }),
         passphrase: flags.string({ char: "p", description: "Sender passphrase" }),
-        recipientId: flags.string({ char: "r", description: "Recipient id - Address" }),
         fee: flags.string({ char: "f", description: "Transaction fee" }),
         startNonce: flags.integer({ char: "n", description: "Start nonce" }),
     };
@@ -28,9 +27,6 @@ export abstract class Send extends Command {
 
         if (flags.passphrase) {
             config.passphrase = flags.passphrase;
-        }
-        if (flags.recipientId) {
-            config.recipientId = flags.recipientId;
         }
         if (flags.fee) {
             config.fee = flags.fee;

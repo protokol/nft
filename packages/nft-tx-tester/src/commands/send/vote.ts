@@ -4,25 +4,29 @@ import { builders } from "../../builders";
 import { TransactionType } from "../../enums";
 import { SendBase } from "../../shared/send-base";
 
-export default class SecondSignature extends SendBase {
+export default class Vote extends SendBase {
     public static flags = {
         ...SendBase.defaultFlags,
-        secondPassphrase: flags.string({ char: "s", description: "Second passphrase" }),
+        vote: flags.string({ char: "v", description: "Vote" }),
+        unvote: flags.string({ char: "u", description: "Unvote" }),
     };
 
-    public type = TransactionType.SecondSignature;
+    public type = TransactionType.Vote;
     public description = SendBase.defaultDescription + builders[this.type].name;
 
     protected prepareConfig(config, flags) {
         const mergedConfig = { ...config };
-        if (flags.secondPassphrase) {
-            mergedConfig.secondPassphrase = flags.secondPassphrase;
+        if (flags.vote) {
+            mergedConfig.vote = flags.vote;
+        }
+        if (flags.unvote) {
+            mergedConfig.unvote = flags.unvote;
         }
 
         return mergedConfig;
     }
 
     protected getCommand(): any {
-        return SecondSignature;
+        return Vote;
     }
 }

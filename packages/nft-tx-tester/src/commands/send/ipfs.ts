@@ -4,25 +4,25 @@ import { builders } from "../../builders";
 import { TransactionType } from "../../enums";
 import { SendBase } from "../../shared/send-base";
 
-export default class SecondSignature extends SendBase {
+export default class Ipfs extends SendBase {
     public static flags = {
         ...SendBase.defaultFlags,
-        secondPassphrase: flags.string({ char: "s", description: "Second passphrase" }),
+        ipfs: flags.string({ char: "i", description: "Ipfs" }),
     };
 
-    public type = TransactionType.SecondSignature;
+    public type = TransactionType.Ipfs;
     public description = SendBase.defaultDescription + builders[this.type].name;
 
     protected prepareConfig(config, flags) {
         const mergedConfig = { ...config };
-        if (flags.secondPassphrase) {
-            mergedConfig.secondPassphrase = flags.secondPassphrase;
+        if (flags.ipfs) {
+            mergedConfig.ipfs = flags.ipfs;
         }
 
         return mergedConfig;
     }
 
     protected getCommand(): any {
-        return SecondSignature;
+        return Ipfs;
     }
 }

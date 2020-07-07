@@ -70,6 +70,11 @@
     "oclif": {
         "commands": "./src/commands",
         "bin": "nft-tx-tester",
+        "topics": {
+            "send": {
+                "description": "Send transactions of various types"
+            }
+        },
         "plugins": [
             "@oclif/plugin-help"
         ]
