@@ -16,6 +16,8 @@ export abstract class SendBase extends Command {
         fee: flags.string({ char: "f", description: "Transaction fee" }),
         startNonce: flags.integer({ char: "n", description: "Start nonce" }),
         vendorField: flags.string({ description: "Vendor field" }),
+        peer: flags.string({ description: "Peer seed node" }),
+        network: flags.string({ description: "Network" }),
     };
 
     protected type: number | undefined;
@@ -38,6 +40,12 @@ export abstract class SendBase extends Command {
         }
         if (flags.vendorField) {
             config.vendorField.value = flags.vendorField;
+        }
+        if (flags.peer) {
+            config.peer = flags.peer;
+        }
+        if (flags.network) {
+            config.network = flags.network;
         }
 
         const app: App = {

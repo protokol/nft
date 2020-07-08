@@ -23,7 +23,7 @@ export class Builder {
             ? this.app.walletRepository.getWallet(this.app.config.passphrase)
             : this.app.walletRepository.getRandomWallet()) as ExtendedWallet;
 
-        const recipientWallet = (this.app.config.recipientId
+        let recipientWallet = (this.app.config.recipientId
             ? this.app.walletRepository.getWallet(this.app.config.recipientId)
             : this.app.walletRepository.getRandomWallet()) as ExtendedWallet;
         const recipientId = recipientWallet.address;
@@ -31,6 +31,13 @@ export class Builder {
         senderWallet = {
             ...senderWallet,
             ...(await this.app.client.retrieveSenderWallet(Identities.Address.fromPublicKey(senderWallet.publicKey))),
+        };
+
+        recipientWallet = {
+            ...recipientWallet,
+            ...(await this.app.client.retrieveSenderWallet(
+                Identities.Address.fromPublicKey(recipientWallet.publicKey),
+            )),
         };
 
         const transactions: Interfaces.ITransactionJson[] = [];
