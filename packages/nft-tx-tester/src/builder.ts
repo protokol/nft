@@ -205,7 +205,7 @@ export class Builder {
                     );
                 }
                 transaction.NFTCreateToken(createAsset);
-            } else if (type === 22 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.NFTTransferAsset && Managers.configManager.getMilestone().aip11) {
                 // NFTTransferAsset
                 const transferAsset = { ...this.app.config.nft.transferAsset };
                 if (!transferAsset.nftIds?.length) {
@@ -223,7 +223,7 @@ export class Builder {
                     transferAsset.recipientId = recipientId;
                 }
                 transaction.NFTTransferAsset(transferAsset);
-            } else if (type === 23 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.NFTBurnAsset && Managers.configManager.getMilestone().aip11) {
                 // NFTBurnAsset
                 const burnAsset = { ...this.app.config.nft.burnAsset };
                 if (!burnAsset.nftId) {
@@ -238,7 +238,7 @@ export class Builder {
                 }
 
                 transaction.NFTBurnAsset(burnAsset);
-            } else if (type === 24 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.NFTAuction && Managers.configManager.getMilestone().aip11) {
                 // NFTAuctionAsset
                 const auctionAsset = { ...this.app.config.nft.auctionAsset };
                 if (!auctionAsset.nftIds?.length) {
@@ -253,7 +253,7 @@ export class Builder {
                 }
 
                 transaction.NFTAuctionAsset(auctionAsset);
-            } else if (type === 25 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.NFTCancelAuction && Managers.configManager.getMilestone().aip11) {
                 // NFTCancelAuctionAsset
                 const cancelAuction = { ...this.app.config.nft.cancelAuction };
                 if (!cancelAuction.auctionId) {
@@ -268,7 +268,7 @@ export class Builder {
                 }
 
                 transaction.NFTAuctionCancelAsset(cancelAuction);
-            } else if (type === 26 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.NFTBid && Managers.configManager.getMilestone().aip11) {
                 // NFTBidAsset
                 const bidAsset = { ...this.app.config.nft.bidAsset };
                 if (!bidAsset.auctionId) {
@@ -286,7 +286,7 @@ export class Builder {
                 bidAsset.bidAmount += i;
 
                 transaction.NFTBidAsset(bidAsset);
-            } else if (type === 27 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.NftCancelBid && Managers.configManager.getMilestone().aip11) {
                 // NFTCancelBidAsset
                 const cancelBidAsset = { ...this.app.config.nft.cancelBidAsset };
                 if (!cancelBidAsset.bidId) {
@@ -299,7 +299,7 @@ export class Builder {
                 }
 
                 transaction.NFTBidCancelAsset(cancelBidAsset);
-            } else if (type === 28 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.NFTAcceptTrade && Managers.configManager.getMilestone().aip11) {
                 // NFTAcceptTradeAsset
                 const acceptTradeAsset = { ...this.app.config.nft.acceptTradeAsset };
 

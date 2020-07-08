@@ -52,11 +52,29 @@ export const builders = {
         name: "NFT Create Token",
         builder: () => new NFTBaseCrypto.Builders.NFTCreateBuilder(),
     },
-    22: { name: "NFT Transfer Asset", builder: () => new NFTBaseCrypto.Builders.NFTTransferBuilder() },
-    23: { name: "NFT Burn Asset", builder: () => new NFTBaseCrypto.Builders.NFTBurnBuilder() },
-    24: { name: "NFT Auction", builder: () => new NFTExchangeCrypto.Builders.NFTAuctionBuilder() },
-    25: { name: "NFT Cancel Auction", builder: () => new NFTExchangeCrypto.Builders.NFTAuctionCancelBuilder() },
-    26: { name: "NFT Bid", builder: () => new NFTExchangeCrypto.Builders.NFTBidBuilder() },
-    27: { name: "NFT Cancel Bid", builder: () => new NFTExchangeCrypto.Builders.NFTBidCancelBuilder() },
-    28: { name: "NFT Accept Trade", builder: () => new NFTExchangeCrypto.Builders.NftAcceptTradeBuilder() },
+    [TransactionType.NFTTransferAsset]: {
+        name: "NFT Transfer Asset",
+        builder: () => new NFTBaseCrypto.Builders.NFTTransferBuilder(),
+    },
+    [TransactionType.NFTBurnAsset]: {
+        name: "NFT Burn Asset",
+        builder: () => new NFTBaseCrypto.Builders.NFTBurnBuilder(),
+    },
+    [TransactionType.NFTAuction]: {
+        name: "NFT Auction",
+        builder: () => new NFTExchangeCrypto.Builders.NFTAuctionBuilder(),
+    },
+    [TransactionType.NFTCancelAuction]: {
+        name: "NFT Cancel Auction",
+        builder: () => new NFTExchangeCrypto.Builders.NFTAuctionCancelBuilder(),
+    },
+    [TransactionType.NFTBid]: { name: "NFT Bid", builder: () => new NFTExchangeCrypto.Builders.NFTBidBuilder() },
+    [TransactionType.NftCancelBid]: {
+        name: "NFT Cancel Bid",
+        builder: () => new NFTExchangeCrypto.Builders.NFTBidCancelBuilder(),
+    },
+    [TransactionType.NFTAcceptTrade]: {
+        name: "NFT Accept Trade",
+        builder: () => new NFTExchangeCrypto.Builders.NftAcceptTradeBuilder(),
+    },
 };
