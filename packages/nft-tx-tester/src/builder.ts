@@ -1,15 +1,15 @@
 import * as MagistrateCrypto from "@arkecosystem/core-magistrate-crypto";
 import { Crypto, Enums, Identities, Interfaces, Managers, Transactions, Utils } from "@arkecosystem/crypto";
-import assert from "assert";
+import { strict as assert } from "assert";
 
 import { builders } from "./builders";
-import { WalletSignType } from "./enums";
+import { TransactionType, WalletSignType } from "./enums";
 import { App, ExtendedWallet, WalletChange } from "./types";
 
 export class Builder {
     public constructor(private app: App) {}
 
-    public async buildTransaction(type: number, quantity: number, splitInput: string[]) {
+    public async buildTransaction(type: number, quantity: number) {
         await this.configureCrypto();
 
         const { builder } = builders[type];
@@ -23,7 +23,7 @@ export class Builder {
             ? this.app.walletRepository.getWallet(this.app.config.passphrase)
             : this.app.walletRepository.getRandomWallet()) as ExtendedWallet;
 
-        const recipientWallet = (this.app.config.recipientId
+        let recipientWallet = (this.app.config.recipientId
             ? this.app.walletRepository.getWallet(this.app.config.recipientId)
             : this.app.walletRepository.getRandomWallet()) as ExtendedWallet;
         const recipientId = recipientWallet.address;
@@ -31,6 +31,13 @@ export class Builder {
         senderWallet = {
             ...senderWallet,
             ...(await this.app.client.retrieveSenderWallet(Identities.Address.fromPublicKey(senderWallet.publicKey))),
+        };
+
+        recipientWallet = {
+            ...recipientWallet,
+            ...(await this.app.client.retrieveSenderWallet(
+                Identities.Address.fromPublicKey(recipientWallet.publicKey),
+            )),
         };
 
         const transactions: Interfaces.ITransactionJson[] = [];
@@ -56,11 +63,11 @@ export class Builder {
                 transaction.fee(this.app.config.fee);
             }
 
-            if (type === Enums.TransactionType.Transfer) {
+            if (type === TransactionType.Transfer) {
                 transaction.recipientId(recipientId);
                 transaction.amount(this.app.config.amount);
                 transaction.expiration(this.app.config.expiration || 0);
-            } else if (type === Enums.TransactionType.SecondSignature) {
+            } else if (type === TransactionType.SecondSignature) {
                 const secondPassphrase = this.app.config.secondPassphrase || "second passphrase";
                 transaction.signatureAsset(secondPassphrase);
 
@@ -68,12 +75,12 @@ export class Builder {
                     transaction: transaction,
                     address: senderWallet.address,
                     publicKey: undefined || "", // TODO
-                    secondPassphrase: this.app.config.secondPassphrase || "second passphrase",
+                    secondPassphrase,
                 });
-            } else if (type === Enums.TransactionType.DelegateRegistration) {
+            } else if (type === TransactionType.DelegateRegistration) {
                 const username = this.app.config.delegateName || `delegate.${senderWallet.publicKey.slice(0, 10)}`;
                 transaction.usernameAsset(username);
-            } else if (type === Enums.TransactionType.Vote) {
+            } else if (type === TransactionType.Vote) {
                 if (this.app.config.vote) {
                     transaction.votesAsset([`+${this.app.config.vote}`]);
                 } else if (this.app.config.unvote) {
@@ -85,7 +92,7 @@ export class Builder {
                         transaction.votesAsset([`+${senderWallet.publicKey}`]);
                     }
                 }
-            } else if (type === Enums.TransactionType.MultiSignature && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.MultiSignature && Managers.configManager.getMilestone().aip11) {
                 for (const passphrase of this.app.config.multiSignature.asset.participants) {
                     transaction.participant(Identities.PublicKey.fromPassphrase(passphrase));
                 }
@@ -109,9 +116,9 @@ export class Builder {
                     passphrases: this.app.config.multiSignature.asset.participants,
                     publicKey: Identities.PublicKey.fromMultiSignatureAsset(transaction.data.asset.multiSignature),
                 });
-            } else if (type === Enums.TransactionType.Ipfs && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.Ipfs && Managers.configManager.getMilestone().aip11) {
                 transaction.ipfsAsset(this.app.config.ipfs);
-            } else if (type === Enums.TransactionType.MultiPayment && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.MultiPayment && Managers.configManager.getMilestone().aip11) {
                 let payments;
                 if (!this.app.config.multiPayments || this.app.config.multiPayments.length === 0) {
                     payments = [];
@@ -129,11 +136,8 @@ export class Builder {
                 for (const payment of payments) {
                     transaction.addPayment(payment.recipientId, payment.amount);
                 }
-            } else if (
-                type === Enums.TransactionType.DelegateResignation &&
-                Managers.configManager.getMilestone().aip11
-            ) {
-            } else if (type === Enums.TransactionType.HtlcLock && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.DelegateResignation && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.HtlcLock && Managers.configManager.getMilestone().aip11) {
                 transaction.recipientId(recipientId);
                 transaction.amount(this.app.config.amount);
 
@@ -145,22 +149,23 @@ export class Builder {
                 }
 
                 transaction.htlcLockAsset(this.app.config.htlc.lock);
-            } else if (type === Enums.TransactionType.HtlcClaim && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.HtlcClaim && Managers.configManager.getMilestone().aip11) {
                 const claim = this.app.config.htlc.claim;
                 const lockTransactionId =
                     claim.lockTransactionId ||
                     (await this.app.client.retrieveTransaction(senderWallet.publicKey, 8))[0].id;
 
                 transaction.htlcClaimAsset({ ...claim, lockTransactionId });
-            } else if (type === Enums.TransactionType.HtlcRefund && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.HtlcRefund && Managers.configManager.getMilestone().aip11) {
                 const refund = this.app.config.htlc.refund;
                 const lockTransactionId =
                     refund.lockTransactionId ||
                     (await this.app.client.retrieveTransaction(senderWallet.publicKey, 8))[0].id;
 
                 transaction.htlcRefundAsset({ lockTransactionId });
-            } else if (type === 11 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.Entity && Managers.configManager.getMilestone().aip11) {
                 // Entity
+                const { entity } = this.app.config;
                 const EntityType = MagistrateCrypto.Enums.EntityType;
                 const EntitySubType = MagistrateCrypto.Enums.EntitySubType;
                 const mapTypeAndSubtype = {
@@ -176,34 +181,38 @@ export class Builder {
                     resign: { action: MagistrateCrypto.Enums.EntityAction.Resign },
                 };
                 const entityAsset = {
-                    ...mapTypeAndSubtype[splitInput[2]],
-                    ...mapAction[splitInput[3]],
+                    ...mapTypeAndSubtype[entity.type],
+                    ...mapAction[entity.action],
                     data: {},
                 };
                 if (entityAsset.action === MagistrateCrypto.Enums.EntityAction.Register) {
-                    entityAsset.data.name = splitInput[4];
-                    entityAsset.data.ipfsData = splitInput[5];
+                    entityAsset.data = entity.data;
                 } else if (entityAsset.action === MagistrateCrypto.Enums.EntityAction.Update) {
-                    entityAsset.registrationId = splitInput[4];
-                    entityAsset.data.ipfsData = splitInput[5];
+                    entityAsset.registrationId = entity.registrationId;
+                    entityAsset.data.ipfsData = entity.data.ipfsData;
                 } else if (entityAsset.action === MagistrateCrypto.Enums.EntityAction.Resign) {
-                    entityAsset.registrationId = splitInput[4];
+                    entityAsset.registrationId = entity.registrationId;
                 }
                 transaction.asset(entityAsset);
-            } else if (type === 20 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.NFTRegisterCollection && Managers.configManager.getMilestone().aip11) {
                 // NFTRegisterCollection
                 transaction.NFTRegisterCollectionAsset(this.app.config.nft.registerCollection);
-            } else if (type === 21 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.NFTCreateToken && Managers.configManager.getMilestone().aip11) {
                 // NFTCreateToken
                 const createAsset = { ...this.app.config.nft.createAsset };
                 if (!createAsset.collectionId) {
                     if (!senderWallet.attributes.nft?.base?.collections) {
                         throw new Error("Wallet doesn't have any collections");
                     }
-                    createAsset.collectionId = Object.keys(senderWallet.attributes.nft.base.collections)[0];
+
+                    createAsset.collectionId = Object.keys(senderWallet.attributes.nft.base.collections).find(
+                        (x) =>
+                            senderWallet.attributes.nft.base.collections[x].currentSupply <
+                            senderWallet.attributes.nft.base.collections[x].nftCollectionAsset.maximumSupply,
+                    );
                 }
                 transaction.NFTCreateToken(createAsset);
-            } else if (type === 22 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.NFTTransferAsset && Managers.configManager.getMilestone().aip11) {
                 // NFTTransferAsset
                 const transferAsset = { ...this.app.config.nft.transferAsset };
                 if (!transferAsset.nftIds?.length) {
@@ -221,7 +230,7 @@ export class Builder {
                     transferAsset.recipientId = recipientId;
                 }
                 transaction.NFTTransferAsset(transferAsset);
-            } else if (type === 23 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.NFTBurnAsset && Managers.configManager.getMilestone().aip11) {
                 // NFTBurnAsset
                 const burnAsset = { ...this.app.config.nft.burnAsset };
                 if (!burnAsset.nftId) {
@@ -236,7 +245,7 @@ export class Builder {
                 }
 
                 transaction.NFTBurnAsset(burnAsset);
-            } else if (type === 24 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.NFTAuction && Managers.configManager.getMilestone().aip11) {
                 // NFTAuctionAsset
                 const auctionAsset = { ...this.app.config.nft.auctionAsset };
                 if (!auctionAsset.nftIds?.length) {
@@ -251,7 +260,7 @@ export class Builder {
                 }
 
                 transaction.NFTAuctionAsset(auctionAsset);
-            } else if (type === 25 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.NFTCancelAuction && Managers.configManager.getMilestone().aip11) {
                 // NFTCancelAuctionAsset
                 const cancelAuction = { ...this.app.config.nft.cancelAuction };
                 if (!cancelAuction.auctionId) {
@@ -266,7 +275,7 @@ export class Builder {
                 }
 
                 transaction.NFTAuctionCancelAsset(cancelAuction);
-            } else if (type === 26 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.NFTBid && Managers.configManager.getMilestone().aip11) {
                 // NFTBidAsset
                 const bidAsset = { ...this.app.config.nft.bidAsset };
                 if (!bidAsset.auctionId) {
@@ -284,7 +293,7 @@ export class Builder {
                 bidAsset.bidAmount += i;
 
                 transaction.NFTBidAsset(bidAsset);
-            } else if (type === 27 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.NftCancelBid && Managers.configManager.getMilestone().aip11) {
                 // NFTCancelBidAsset
                 const cancelBidAsset = { ...this.app.config.nft.cancelBidAsset };
                 if (!cancelBidAsset.bidId) {
@@ -297,7 +306,7 @@ export class Builder {
                 }
 
                 transaction.NFTBidCancelAsset(cancelBidAsset);
-            } else if (type === 28 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.NFTAcceptTrade && Managers.configManager.getMilestone().aip11) {
                 // NFTAcceptTradeAsset
                 const acceptTradeAsset = { ...this.app.config.nft.acceptTradeAsset };
 

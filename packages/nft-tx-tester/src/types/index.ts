@@ -1,3 +1,3 @@
 export * from "./app";
 export * from "./wallet";
-export * from "./prompt";
+export * from "./action";

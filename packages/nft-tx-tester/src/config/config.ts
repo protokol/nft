@@ -86,6 +86,15 @@ export const config = {
             lockTransactionId: undefined,
         },
     },
+    entity: {
+        type: "business",
+        action: "register",
+        data: {
+            name: "my_business",
+            ipfsData: "QmV1n5F9PuBE2ovW9jVfFpxyvWZxYHjSdfLrYL2nDcb1gW",
+        },
+        registrationId: "521b65c4f1f08716f9cc70f3a0c4d1ea5899f35a122d238b2114eed8161c0d5f",
+    },
     nft: {
         registerCollection: {
             name: "FIFA-20-PLAYERS",
