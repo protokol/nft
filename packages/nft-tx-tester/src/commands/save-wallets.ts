@@ -13,7 +13,6 @@ export default class SaveWallets extends Command {
     public async run() {
         const filesystem = new Filesystem();
 
-        // @ts-ignore
         const app: App = {
             config,
             client: new Client(config),
@@ -22,6 +21,6 @@ export default class SaveWallets extends Command {
             nonces: {},
         };
 
-        await saveWallets.handler(app, "");
+        await saveWallets.handler(app);
     }
 }

@@ -37,9 +37,6 @@
     "main": "dist/index",
     "types": "dist/index",
     "scripts": {
-        "start": "node dist/main.js",
-        "debug": "node --inspect-brk dist/index.js",
-        "dev": "nodemon dist/index.js",
         "build": "yarn clean && tsc",
         "build:watch": "yarn build -w",
         "clean": "rimraf .coverage dist tmp",
@@ -62,7 +59,6 @@
         "@oclif/plugin-help": "^3"
     },
     "devDependencies": {
-        "nodemon": "^2.0.0",
         "typescript": "^3.8.3",
         "@oclif/dev-cli": "^1",
         "ts-node": "^8"

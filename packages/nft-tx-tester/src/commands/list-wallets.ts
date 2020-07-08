@@ -13,7 +13,6 @@ export default class ListWallets extends Command {
     public async run() {
         const filesystem = new Filesystem();
 
-        // @ts-ignore
         const app: App = {
             config,
             client: new Client(config),
@@ -22,6 +21,6 @@ export default class ListWallets extends Command {
             nonces: {},
         };
 
-        await listWallets.handler(app, "");
+        await listWallets.handler(app);
     }
 }

@@ -1,7 +1,7 @@
 import * as MagistrateCrypto from "@arkecosystem/core-magistrate-crypto";
 import { Crypto, Enums, Identities, Interfaces, Managers, Transactions, Utils } from "@arkecosystem/crypto";
+import { strict as assert } from "assert";
 
-// import assert from "assert";
 import { builders } from "./builders";
 import { TransactionType, WalletSignType } from "./enums";
 import { App, ExtendedWallet, WalletChange } from "./types";
@@ -362,7 +362,7 @@ export class Builder {
                 console.log(`Transaction: ${JSON.stringify(payload, undefined, 4)}`);
             }
 
-            //assert(instance.verify() || senderWallet.signType === WalletSignType.MultiSignature);
+            assert(instance.verify() || senderWallet.signType === WalletSignType.MultiSignature);
             transactions.push(payload);
         }
 

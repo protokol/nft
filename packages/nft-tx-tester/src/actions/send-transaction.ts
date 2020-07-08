@@ -1,5 +1,4 @@
 import { Builder } from "../builder";
-import { builders } from "../builders";
 import { Action, App } from "../types";
 
 const sendTransaction = async (app: App, type: number, quantity: number) => {
@@ -16,22 +15,9 @@ const sendTransaction = async (app: App, type: number, quantity: number) => {
     }
 };
 
-const selectTransactionQuestion = () => {
-    let question = "\nSelect transaction:";
-
-    for (const key of Object.keys(builders)) {
-        question += `\n [${key}] - ${builders[key].name}`;
-    }
-
-    question += "\n";
-
-    return question;
-};
-
 export const action: Action = {
     description: "Send transaction",
-    handler: async (app, data) => {
-        await app.prompt.prompt(selectTransactionQuestion(), sendTransaction);
+    handler: async (app, type, quantity) => {
+        await sendTransaction(app, type!, quantity!);
     },
-    sendTransaction,
 };

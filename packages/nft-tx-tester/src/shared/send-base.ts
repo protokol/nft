@@ -4,6 +4,7 @@ import { sendTransaction } from "../actions";
 import { Client } from "../client";
 import { config as defaultConfig } from "../config/config";
 import { Filesystem } from "../filesystem";
+import { App } from "../types";
 import { WalletRepository } from "../wallets-repository";
 
 export abstract class SendBase extends Command {
@@ -14,9 +15,10 @@ export abstract class SendBase extends Command {
         passphrase: flags.string({ char: "p", description: "Sender passphrase" }),
         fee: flags.string({ char: "f", description: "Transaction fee" }),
         startNonce: flags.integer({ char: "n", description: "Start nonce" }),
+        vendorField: flags.string({ description: "Vendor field" }),
     };
 
-    protected type: number | undefined = undefined;
+    protected type: number | undefined;
 
     public async run() {
         const { flags }: { flags: any } = this.parse(this.getCommand());
@@ -34,8 +36,10 @@ export abstract class SendBase extends Command {
         if (flags.startNonce) {
             config.startNonce = flags.startNonce;
         }
+        if (flags.vendorField) {
+            config.vendorField.value = flags.vendorField;
+        }
 
-        // @ts-ignore
         const app: App = {
             config,
             client: new Client(config),
@@ -44,7 +48,7 @@ export abstract class SendBase extends Command {
             nonces: {},
         };
 
-        await sendTransaction.sendTransaction(app, this.type, flags.quantity);
+        await sendTransaction.handler(app, this.type, flags.quantity);
     }
 
     protected abstract prepareConfig(config, flags): typeof defaultConfig;
