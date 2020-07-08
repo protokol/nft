@@ -41,7 +41,7 @@ export const builders = {
     // TECHNICALLY, the AIP103 types are in typeGroup 2
     // and range from type 0 - 5. But to keep things simple we simply
     // pretend they follow up on HTLC.
-    11: { name: "Entity", builder: () => new MagistrateCrypto.Builders.EntityBuilder() },
+    [TransactionType.Entity]: { name: "Entity", builder: () => new MagistrateCrypto.Builders.EntityBuilder() },
 
     // NFT transaction types
     [TransactionType.NFTRegisterCollection]: {

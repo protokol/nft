@@ -2,21 +2,11 @@ import { Builder } from "../builder";
 import { builders } from "../builders";
 import { Action, App } from "../types";
 
-const sendTransaction = async (app: App, type: number, quantity: number, data: any) => {
+const sendTransaction = async (app: App, type: number, quantity: number) => {
     try {
-        const splitInput = data.split(" ");
-        //let [type, quantity] = splitInput;
-
-        //type = +type;
-        //quantity = quantity ? +quantity : 1;
-
         const builder = new Builder(app);
 
-        const { transactions, walletChanges } = await builder.buildTransaction(
-            type,
-            quantity ? +quantity : 1,
-            splitInput,
-        );
+        const { transactions, walletChanges } = await builder.buildTransaction(type, quantity ? +quantity : 1);
 
         const response = await app.client.postTransaction(transactions);
 

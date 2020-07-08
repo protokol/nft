@@ -44,7 +44,7 @@ export abstract class SendBase extends Command {
             nonces: {},
         };
 
-        await sendTransaction.sendTransaction(app, this.type, flags.quantity, "");
+        await sendTransaction.sendTransaction(app, this.type, flags.quantity);
     }
 
     protected abstract prepareConfig(config, flags): typeof defaultConfig;

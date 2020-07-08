@@ -9,7 +9,7 @@ import { App, ExtendedWallet, WalletChange } from "./types";
 export class Builder {
     public constructor(private app: App) {}
 
-    public async buildTransaction(type: number, quantity: number, splitInput: string[]) {
+    public async buildTransaction(type: number, quantity: number) {
         await this.configureCrypto();
 
         const { builder } = builders[type];
@@ -156,8 +156,9 @@ export class Builder {
                     (await this.app.client.retrieveTransaction(senderWallet.publicKey, 8))[0].id;
 
                 transaction.htlcRefundAsset({ lockTransactionId });
-            } else if (type === 11 && Managers.configManager.getMilestone().aip11) {
+            } else if (type === TransactionType.Entity && Managers.configManager.getMilestone().aip11) {
                 // Entity
+                const { entity } = this.app.config;
                 const EntityType = MagistrateCrypto.Enums.EntityType;
                 const EntitySubType = MagistrateCrypto.Enums.EntitySubType;
                 const mapTypeAndSubtype = {
@@ -173,18 +174,17 @@ export class Builder {
                     resign: { action: MagistrateCrypto.Enums.EntityAction.Resign },
                 };
                 const entityAsset = {
-                    ...mapTypeAndSubtype[splitInput[2]],
-                    ...mapAction[splitInput[3]],
+                    ...mapTypeAndSubtype[entity.type],
+                    ...mapAction[entity.action],
                     data: {},
                 };
                 if (entityAsset.action === MagistrateCrypto.Enums.EntityAction.Register) {
-                    entityAsset.data.name = splitInput[4];
-                    entityAsset.data.ipfsData = splitInput[5];
+                    entityAsset.data = entity.data;
                 } else if (entityAsset.action === MagistrateCrypto.Enums.EntityAction.Update) {
-                    entityAsset.registrationId = splitInput[4];
-                    entityAsset.data.ipfsData = splitInput[5];
+                    entityAsset.registrationId = entity.registrationId;
+                    entityAsset.data.ipfsData = entity.data.ipfsData;
                 } else if (entityAsset.action === MagistrateCrypto.Enums.EntityAction.Resign) {
-                    entityAsset.registrationId = splitInput[4];
+                    entityAsset.registrationId = entity.registrationId;
                 }
                 transaction.asset(entityAsset);
             } else if (type === TransactionType.NFTRegisterCollection && Managers.configManager.getMilestone().aip11) {
