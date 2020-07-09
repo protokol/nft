@@ -92,11 +92,11 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
             }
         }
 
-        const ajv = new Ajv({
-            allErrors: true,
-            removeAdditional: true,
+        const ajv = new Ajv({ allErrors: true });
+        const validate = ajv.compile({
+            additionalProperties: false,
+            ...genesisWalletCollection.nftCollectionAsset.jsonSchema,
         });
-        const validate = ajv.compile(genesisWalletCollection.nftCollectionAsset.jsonSchema);
         if (!validate(transaction.data.asset.nftToken.attributes)) {
             throw new NFTBaseSchemaDoesNotMatch();
         }
