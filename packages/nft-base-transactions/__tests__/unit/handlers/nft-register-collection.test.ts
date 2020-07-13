@@ -11,8 +11,7 @@ import { Builders } from "@protokol/nft-base-crypto";
 import { Enums } from "@protokol/nft-base-crypto";
 import { Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 
-import { setMockTransaction } from "../__mocks__/transaction-repository";
-import { buildWallet, initApp } from "../__support__/app";
+import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { NFTBaseInvalidAjvSchemaError, NFTBaseUnauthorizedCollectionRegistrator } from "../../../src/errors";
 import { NFTApplicationEvents } from "../../../src/events";
 import { NFTIndexers } from "../../../src/wallet-indexes";
@@ -84,7 +83,9 @@ afterEach(() => {
 describe("NFT Register collection tests", () => {
     describe("bootstrap tests", () => {
         it("should test bootstrap method", async () => {
-            setMockTransaction(actual);
+            transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
+                yield actual.data;
+            });
 
             await expect(handler.bootstrap()).toResolve();
 

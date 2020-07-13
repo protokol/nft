@@ -12,8 +12,7 @@ import { Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Interfaces as NFTBaseInterfaces } from "@protokol/nft-base-transactions";
 import { Enums } from "@protokol/nft-exchange-crypto";
 
-import { setMockTransaction } from "../__mocks__/transaction-repository";
-import { buildWallet, initApp } from "../__support__/app";
+import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import {
     NFTExchangeAuctionAlreadyInProgress,
     NFTExchangeAuctioneerDoesNotOwnAnyNft,
@@ -62,8 +61,9 @@ describe("NFT Auction tests", () => {
     describe("bootstrap tests", () => {
         it("should test bootstrap method", async () => {
             const actual = buildAuctionTransaction({ blockHeight: 1 });
-            setMockTransaction(actual);
-
+            transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
+                yield actual.data;
+            });
             await expect(nftAuctionHandler.bootstrap()).toResolve();
 
             // @ts-ignore

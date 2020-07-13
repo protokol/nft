@@ -11,8 +11,7 @@ import { Identities, Transactions } from "@arkecosystem/crypto";
 import { Builders } from "@protokol/nft-base-crypto";
 import { Enums } from "@protokol/nft-base-crypto";
 
-import { setMockTransaction } from "../__mocks__/transaction-repository";
-import { buildWallet, initApp } from "../__support__/app";
+import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import {
     NFTBaseTransferCannotBeApplied,
     NFTBaseTransferNFTIsOnAuction,
@@ -75,8 +74,9 @@ describe("NFT Transfer tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            setMockTransaction(actual);
-
+            transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
+                yield actual.data;
+            });
             await expect(nftTransferHandler.bootstrap()).toResolve();
 
             expect(
@@ -113,7 +113,10 @@ describe("NFT Transfer tests", () => {
                 .sign(passphrases[0])
                 .build();
 
-            setMockTransaction(actual);
+            transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
+                yield actual.data;
+            });
+
             await expect(nftTransferHandler.bootstrap()).toResolve();
 
             expect(

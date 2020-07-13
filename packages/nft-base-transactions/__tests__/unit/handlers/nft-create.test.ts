@@ -11,8 +11,7 @@ import { Enums } from "@protokol/nft-base-crypto";
 import { Builders as NFTBuilders } from "@protokol/nft-base-crypto";
 import { Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 
-import { setMockTransaction } from "../__mocks__/transaction-repository";
-import { buildWallet, initApp } from "../__support__/app";
+import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import {
     NFTBaseCollectionDoesNotExists,
     NFTBaseMaximumSupplyError,
@@ -110,7 +109,10 @@ afterEach(() => {
 describe("NFT Create tests", () => {
     describe("bootstrap tests", () => {
         it("should test with the same wallet", async () => {
-            setMockTransaction(actual);
+            transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
+                yield actual.data;
+            });
+
             await expect(nftCreateHandler.bootstrap()).toResolve();
 
             // @ts-ignore
@@ -145,7 +147,9 @@ describe("NFT Create tests", () => {
                 .sign(passphrases[1])
                 .build();
 
-            setMockTransaction(actualTwo);
+            transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
+                yield actualTwo.data;
+            });
             await expect(nftCreateHandler.bootstrap()).toResolve();
 
             collectionWalletCheck(

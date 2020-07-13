@@ -20,6 +20,12 @@ export type ItemResponse = {
     data: object;
 };
 
+const logger = {
+    notice: jest.fn(),
+    debug: jest.fn(),
+    warning: jest.fn(),
+};
+
 export const transactionHistoryService = {
     findManyByCriteria: jest.fn(),
     findOneByCriteria: jest.fn(),
@@ -41,6 +47,7 @@ export const buildSenderWallet = (app: Application): Contracts.State.Wallet => {
 export const initApp = (): Application => {
     const app = new Application(new Container.Container());
 
+    app.bind(Container.Identifiers.LogService).toConstantValue(logger);
     app.bind(Container.Identifiers.PluginConfiguration).to(Providers.PluginConfiguration).inSingletonScope();
     app.bind(Container.Identifiers.StateStore).toConstantValue({});
     app.bind(Container.Identifiers.BlockchainService).toConstantValue({});
