@@ -3,6 +3,8 @@ import { Container, Contracts, Providers } from "@arkecosystem/core-kernel";
 import { NFTBurnHandler, NFTCreateHandler, NFTRegisterCollectionHandler, NFTTransferHandler } from "./handlers";
 import { nftCollectionIndexer, nftIndexer, NFTIndexers } from "./wallet-indexes";
 
+const pluginName = require("../package.json").name;
+
 export class ServiceProvider extends Providers.ServiceProvider {
     public async register(): Promise<void> {
         this.registerIndexers();
@@ -11,6 +13,12 @@ export class ServiceProvider extends Providers.ServiceProvider {
         this.app.bind(Container.Identifiers.TransactionHandler).to(NFTCreateHandler);
         this.app.bind(Container.Identifiers.TransactionHandler).to(NFTTransferHandler);
         this.app.bind(Container.Identifiers.TransactionHandler).to(NFTBurnHandler);
+
+        const cacheFactory: any = this.app.get(Container.Identifiers.CacheFactory);
+        this.app
+            .bind(Container.Identifiers.CacheService)
+            .toConstantValue(await cacheFactory())
+            .whenTargetTagged("cache", pluginName);
     }
 
     private registerIndexers() {
