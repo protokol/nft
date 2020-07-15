@@ -98,7 +98,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         }
 
         const validate = await this.tokenSchemaValidator.get(nftTokenAsset.collectionId);
-        if (!validate || !validate(transaction.data.asset.nftToken.attributes)) {
+        if (!validate?.(transaction.data.asset.nftToken.attributes)) {
             throw new NFTBaseSchemaDoesNotMatch();
         }
 
