@@ -129,6 +129,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         const collectionsWallet = senderWallet.getAttribute<INFTCollections>("nft.base.collections");
         delete collectionsWallet[transaction.data.id];
         senderWallet.setAttribute("nft.base.collections", collectionsWallet);
+        await this.tokenSchemaValidator.forget(transaction.id!);
 
         this.walletRepository.getIndex(NFTIndexers.CollectionIndexer).forget(transaction.data.id);
     }
@@ -143,7 +144,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         // tslint:disable-next-line:no-empty
     ): Promise<void> {}
 
-    private async persistSchemaValidation(id, jsonSchema) {
+    public async persistSchemaValidation(id, jsonSchema) {
         const ajv = new Ajv({ allErrors: true });
         const validate = ajv.compile({
             additionalProperties: false,

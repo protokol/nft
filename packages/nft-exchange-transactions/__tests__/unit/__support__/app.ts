@@ -1,5 +1,6 @@
 import { Application, Container, Contracts, Providers, Services } from "@arkecosystem/core-kernel";
 import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
+import { MemoryCacheStore } from "@arkecosystem/core-kernel/src/services/cache/drivers/memory";
 import { NullEventDispatcher } from "@arkecosystem/core-kernel/src/services/events/drivers/null";
 import { Wallets } from "@arkecosystem/core-state";
 import { StateStore } from "@arkecosystem/core-state/src/stores/state";
@@ -192,6 +193,8 @@ export const initApp = (): Application => {
     app.bind(Identifiers.TransactionHandler).to(NFTExchangeHandlers.NFTBidHandler);
     app.bind(Identifiers.TransactionHandler).to(NFTExchangeHandlers.NFTBidCancelHandler);
     app.bind(Identifiers.TransactionHandler).to(NFTExchangeHandlers.NFTAcceptTradeHandler);
+
+    app.bind(Container.Identifiers.CacheService).to(MemoryCacheStore).inSingletonScope();
 
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Indexers.NFTIndexers.NFTTokenIndexer,
