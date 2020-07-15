@@ -24,7 +24,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
 
     @Container.inject(Container.Identifiers.CacheService)
     @Container.tagged("cache", pluginName)
-    private readonly tokenSchemaValidator!: Contracts.Kernel.CacheStore<string, any>;
+    private readonly tokenSchemaValidatorCache!: Contracts.Kernel.CacheStore<string, any>;
 
     public getConstructor(): Transactions.TransactionConstructor {
         return NFTTransactions.NFTRegisterCollectionTransaction;
@@ -59,7 +59,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
                 currentSupply: 0,
                 nftCollectionAsset: collectionAsset,
             };
-            await this.persistSchemaValidation(transaction.id, collectionAsset.jsonSchema);
+            await this.compileAndPersistSchema(transaction.id, collectionAsset.jsonSchema);
 
             senderWallet.setAttribute("nft.base.collections", collectionsWallet);
             this.walletRepository.index(senderWallet);
@@ -111,7 +111,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
             nftCollectionAsset: collectionAsset,
         };
         senderWallet.setAttribute("nft.base.collections", collectionsWallet);
-        await this.persistSchemaValidation(transaction.id, collectionAsset.jsonSchema);
+        await this.compileAndPersistSchema(transaction.id, collectionAsset.jsonSchema);
 
         this.walletRepository.index(senderWallet);
     }
@@ -129,7 +129,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         const collectionsWallet = senderWallet.getAttribute<INFTCollections>("nft.base.collections");
         delete collectionsWallet[transaction.data.id];
         senderWallet.setAttribute("nft.base.collections", collectionsWallet);
-        await this.tokenSchemaValidator.forget(transaction.id!);
+        await this.tokenSchemaValidatorCache.forget(transaction.id!);
 
         this.walletRepository.getIndex(NFTIndexers.CollectionIndexer).forget(transaction.data.id);
     }
@@ -144,12 +144,12 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         // tslint:disable-next-line:no-empty
     ): Promise<void> {}
 
-    public async persistSchemaValidation(id, jsonSchema) {
+    public async compileAndPersistSchema(id, jsonSchema) {
         const ajv = new Ajv({ allErrors: true });
         const validate = ajv.compile({
             additionalProperties: false,
             ...jsonSchema,
         });
-        await this.tokenSchemaValidator.put(id, validate, -1);
+        await this.tokenSchemaValidatorCache.put(id, validate, -1);
     }
 }

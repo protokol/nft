@@ -25,7 +25,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
 
     @Container.inject(Container.Identifiers.CacheService)
     @Container.tagged("cache", pluginName)
-    private readonly tokenSchemaValidator!: Contracts.Kernel.CacheStore<string, any>;
+    private readonly tokenSchemaValidatorCache!: Contracts.Kernel.CacheStore<string, any>;
 
     public getConstructor(): Transactions.TransactionConstructor {
         return NFTTransactions.NFTCreateTransaction;
@@ -97,7 +97,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
             }
         }
 
-        const validate = await this.tokenSchemaValidator.get(nftTokenAsset.collectionId);
+        const validate = await this.tokenSchemaValidatorCache.get(nftTokenAsset.collectionId);
         if (!validate?.(transaction.data.asset.nftToken.attributes)) {
             throw new NFTBaseSchemaDoesNotMatch();
         }
