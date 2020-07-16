@@ -3,7 +3,6 @@ import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
-import Ajv from "ajv";
 
 import {
     NFTBaseCollectionDoesNotExists,
@@ -17,10 +16,16 @@ import { NFTIndexers } from "../wallet-indexes";
 import { NFTBaseTransactionHandler } from "./nft-base-handler";
 import { NFTRegisterCollectionHandler } from "./nft-register-collection";
 
+const pluginName = require("../../package.json").name;
+
 @Container.injectable()
 export class NFTCreateHandler extends NFTBaseTransactionHandler {
     @Container.inject(Container.Identifiers.TransactionHistoryService)
     private readonly transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
+
+    @Container.inject(Container.Identifiers.CacheService)
+    @Container.tagged("cache", pluginName)
+    private readonly tokenSchemaValidatorCache!: Contracts.Kernel.CacheStore<string, any>;
 
     public getConstructor(): Transactions.TransactionConstructor {
         return NFTTransactions.NFTCreateTransaction;
@@ -92,12 +97,8 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
             }
         }
 
-        const ajv = new Ajv({ allErrors: true });
-        const validate = ajv.compile({
-            additionalProperties: false,
-            ...genesisWalletCollection.nftCollectionAsset.jsonSchema,
-        });
-        if (!validate(transaction.data.asset.nftToken.attributes)) {
+        const validate = await this.tokenSchemaValidatorCache.get(nftTokenAsset.collectionId);
+        if (!validate?.(transaction.data.asset.nftToken.attributes)) {
             throw new NFTBaseSchemaDoesNotMatch();
         }
 
