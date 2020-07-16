@@ -21,6 +21,11 @@ export const register = (server: Hapi.Server): void => {
                     },
                 }),
             },
+            plugins: {
+                pagination: {
+                    enabled: true,
+                },
+            },
         },
     });
 
