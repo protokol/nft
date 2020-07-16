@@ -8,7 +8,7 @@ import passphrases from "@arkecosystem/core-test-framework/src/internal/passphra
 import { Mempool } from "@arkecosystem/core-transaction-pool";
 import { TransactionHandler } from "@arkecosystem/core-transactions/src/handlers";
 import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
-import { Interfaces, Transactions } from "@arkecosystem/crypto";
+import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Interfaces as NFTBaseInterfaces } from "@protokol/nft-base-transactions";
 import { Enums } from "@protokol/nft-exchange-crypto";
 
@@ -23,6 +23,8 @@ import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
 import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
 import { buildAuctionTransaction, deregisterTransactions } from "../utils";
+import { FeeType } from "../../../src/enums";
+import { defaults } from "../../../src/defaults";
 
 let app: Application;
 
@@ -265,6 +267,47 @@ describe("NFT Auction tests", () => {
                 // @ts-ignore
                 expect(walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).get(actual.id)).toBeUndefined();
             });
+        });
+    });
+
+    describe("fee tests", () => {
+        let actual;
+        beforeEach(() => {
+            actual = buildAuctionTransaction({ blockHeight: 56 });
+        });
+        it("should test dynamic fee", async () => {
+            expect(
+                nftAuctionHandler.dynamicFee({
+                    transaction: actual,
+                    addonBytes: 150,
+                    satoshiPerByte: 3,
+                    height: 1,
+                }),
+            ).toEqual(Utils.BigNumber.make((Math.round(actual.serialized.length / 2) + 150) * 3));
+        });
+
+        it("should test static fee", async () => {
+            defaults.feeType = FeeType.Static;
+            expect(
+                nftAuctionHandler.dynamicFee({
+                    transaction: actual,
+                    addonBytes: 150,
+                    satoshiPerByte: 3,
+                    height: 1,
+                }),
+            ).toEqual(Utils.BigNumber.make(nftAuctionHandler.getConstructor().staticFee()));
+        });
+
+        it("should test none fee", async () => {
+            defaults.feeType = FeeType.None;
+            expect(
+                nftAuctionHandler.dynamicFee({
+                    transaction: actual,
+                    addonBytes: 150,
+                    satoshiPerByte: 3,
+                    height: 1,
+                }),
+            ).toEqual(Utils.BigNumber.ZERO);
         });
     });
 });
