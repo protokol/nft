@@ -6,7 +6,7 @@ import { Wallets } from "@arkecosystem/core-state";
 import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { TransactionHandler } from "@arkecosystem/core-transactions/src/handlers";
 import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
-import { Interfaces, Transactions } from "@arkecosystem/crypto";
+import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Builders } from "@protokol/nft-base-crypto";
 import { Enums } from "@protokol/nft-base-crypto";
 import { Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
@@ -16,6 +16,8 @@ import { NFTBaseInvalidAjvSchemaError, NFTBaseUnauthorizedCollectionRegistrator 
 import { NFTApplicationEvents } from "../../../src/events";
 import { NFTIndexers } from "../../../src/wallet-indexes";
 import { collectionWalletCheck, deregisterTransactions } from "../utils/utils";
+import { FeeType } from "../../../src/enums";
+import { defaults } from "../../../src/defaults";
 
 let app: Application;
 
@@ -194,6 +196,43 @@ describe("NFT Register collection tests", () => {
             expect(senderWallet.getAttribute("nft.base.collections")[actual.id]).toBeUndefined();
             // @ts-ignore
             expect(walletRepository.getIndex(NFTIndexers.CollectionIndexer).get(actual.id)).toBeUndefined();
+        });
+    });
+
+    describe("fee tests", () => {
+        it("should test dynamic fee", async () => {
+            expect(
+                handler.dynamicFee({
+                    transaction: actual,
+                    addonBytes: 150,
+                    satoshiPerByte: 3,
+                    height: 1,
+                }),
+            ).toEqual(Utils.BigNumber.make((Math.round(actual.serialized.length / 2) + 150) * 3));
+        });
+
+        it("should test static fee", async () => {
+            defaults.feeType = FeeType.Static;
+            expect(
+                handler.dynamicFee({
+                    transaction: actual,
+                    addonBytes: 150,
+                    satoshiPerByte: 3,
+                    height: 1,
+                }),
+            ).toEqual(Utils.BigNumber.make(handler.getConstructor().staticFee()));
+        });
+
+        it("should test none fee", async () => {
+            defaults.feeType = FeeType.None;
+            expect(
+                handler.dynamicFee({
+                    transaction: actual,
+                    addonBytes: 150,
+                    satoshiPerByte: 3,
+                    height: 1,
+                }),
+            ).toEqual(Utils.BigNumber.ZERO);
         });
     });
 });
