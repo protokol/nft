@@ -11,14 +11,20 @@ import { INFTCollections } from "../interfaces";
 import { NFTIndexers } from "../wallet-indexes";
 import { NFTBaseTransactionHandler } from "./nft-base-handler";
 
+const pluginName = require("../../package.json").name;
+
 @Container.injectable()
 export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
     @Container.inject(Container.Identifiers.PluginConfiguration)
-    @Container.tagged("plugin", "@protokol/nft-base-transactions")
+    @Container.tagged("plugin", pluginName)
     private readonly configuration!: Providers.PluginConfiguration;
 
     @Container.inject(Container.Identifiers.TransactionHistoryService)
     private readonly transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
+
+    @Container.inject(Container.Identifiers.CacheService)
+    @Container.tagged("cache", pluginName)
+    private readonly tokenSchemaValidatorCache!: Contracts.Kernel.CacheStore<string, any>;
 
     public getConstructor(): Transactions.TransactionConstructor {
         return NFTTransactions.NFTRegisterCollectionTransaction;
@@ -53,6 +59,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
                 currentSupply: 0,
                 nftCollectionAsset: collectionAsset,
             };
+            await this.compileAndPersistSchema(transaction.id, collectionAsset.jsonSchema);
 
             senderWallet.setAttribute("nft.base.collections", collectionsWallet);
             this.walletRepository.index(senderWallet);
@@ -104,6 +111,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
             nftCollectionAsset: collectionAsset,
         };
         senderWallet.setAttribute("nft.base.collections", collectionsWallet);
+        await this.compileAndPersistSchema(transaction.id, collectionAsset.jsonSchema);
 
         this.walletRepository.index(senderWallet);
     }
@@ -121,6 +129,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         const collectionsWallet = senderWallet.getAttribute<INFTCollections>("nft.base.collections");
         delete collectionsWallet[transaction.data.id];
         senderWallet.setAttribute("nft.base.collections", collectionsWallet);
+        await this.tokenSchemaValidatorCache.forget(transaction.id!);
 
         this.walletRepository.getIndex(NFTIndexers.CollectionIndexer).forget(transaction.data.id);
     }
@@ -134,4 +143,13 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         transaction: Interfaces.ITransaction,
         // tslint:disable-next-line:no-empty
     ): Promise<void> {}
+
+    public async compileAndPersistSchema(id, jsonSchema) {
+        const ajv = new Ajv({ allErrors: true });
+        const validate = ajv.compile({
+            additionalProperties: false,
+            ...jsonSchema,
+        });
+        await this.tokenSchemaValidatorCache.put(id, validate, -1);
+    }
 }

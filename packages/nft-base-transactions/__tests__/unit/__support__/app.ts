@@ -1,5 +1,6 @@
 import { Application, Container, Contracts, Providers, Services } from "@arkecosystem/core-kernel";
 import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
+import { MemoryCacheStore } from "@arkecosystem/core-kernel/src/services/cache/drivers/memory";
 import { NullEventDispatcher } from "@arkecosystem/core-kernel/src/services/events/drivers/null";
 import { Wallets } from "@arkecosystem/core-state";
 import { StateStore } from "@arkecosystem/core-state/src/stores/state";
@@ -11,6 +12,7 @@ import {
     usernamesIndexer,
 } from "@arkecosystem/core-state/src/wallets/indexers/indexers";
 import { Mocks } from "@arkecosystem/core-test-framework";
+import { Generators } from "@arkecosystem/core-test-framework/src";
 import { Collator } from "@arkecosystem/core-transaction-pool/src";
 import {
     ApplyTransactionAction,
@@ -28,17 +30,16 @@ import { One, Two } from "@arkecosystem/core-transactions/src/handlers";
 import { TransactionHandlerProvider } from "@arkecosystem/core-transactions/src/handlers/handler-provider";
 import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
 import { Identities, Managers, Utils } from "@arkecosystem/crypto";
+import { configManager } from "@arkecosystem/crypto/src/managers";
 
 import { transactionRepository } from "../__mocks__/transaction-repository";
-import { Generators } from "@arkecosystem/core-test-framework/src";
-import { configManager } from "@arkecosystem/crypto/src/managers";
-import { nftCollectionIndexer, nftIndexer, NFTIndexers } from "../../../src/wallet-indexes";
 import {
     NFTBurnHandler,
     NFTCreateHandler,
     NFTRegisterCollectionHandler,
     NFTTransferHandler,
 } from "../../../src/handlers";
+import { nftCollectionIndexer, nftIndexer, NFTIndexers } from "../../../src/wallet-indexes";
 
 const logger = {
     notice: jest.fn(),
@@ -197,6 +198,8 @@ export const initApp = (): Application => {
     app.bind(Identifiers.TransactionHandler).to(NFTCreateHandler);
     app.bind(Identifiers.TransactionHandler).to(NFTBurnHandler);
     app.bind(Identifiers.TransactionHandler).to(NFTTransferHandler);
+
+    app.bind(Container.Identifiers.CacheService).to(MemoryCacheStore).inSingletonScope();
 
     return app;
 };

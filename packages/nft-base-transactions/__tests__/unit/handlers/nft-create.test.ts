@@ -19,6 +19,7 @@ import {
     NFTBaseSenderPublicKeyDoesNotExists,
 } from "../../../src/errors";
 import { NFTApplicationEvents } from "../../../src/events";
+import { NFTRegisterCollectionHandler } from "../../../src/handlers";
 import { INFTCollections, INFTTokens } from "../../../src/interfaces";
 import { NFTIndexers } from "../../../src/wallet-indexes";
 import { collectionWalletCheck, deregisterTransactions } from "../utils/utils";
@@ -60,7 +61,9 @@ const nftCollectionAsset: NFTInterfaces.NFTCollectionAsset = {
     },
 };
 
-beforeEach(() => {
+const collectionId = "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61";
+
+beforeEach(async () => {
     app = initApp();
 
     wallet = buildWallet(app, passphrases[0]);
@@ -78,10 +81,19 @@ beforeEach(() => {
     );
     const collectionsWallet = wallet.getAttribute<INFTCollections>("nft.base.collections", {});
 
-    collectionsWallet["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {
+    collectionsWallet[collectionId] = {
         currentSupply: 0,
         nftCollectionAsset: nftCollectionAsset,
     };
+
+    const nftRegisterHandler = (transactionHandlerRegistry.getRegisteredHandlerByType(
+        Transactions.InternalTransactionType.from(
+            Enums.NFTBaseTransactionTypes.NFTRegisterCollection,
+            Enums.NFTBaseTransactionGroup,
+        ),
+        2,
+    ) as unknown) as NFTRegisterCollectionHandler;
+    await nftRegisterHandler.compileAndPersistSchema(collectionId, nftCollectionAsset.jsonSchema);
 
     wallet.setAttribute("nft.base.collections", collectionsWallet);
 
@@ -89,7 +101,7 @@ beforeEach(() => {
 
     actual = new NFTBuilders.NFTCreateBuilder()
         .NFTCreateToken({
-            collectionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+            collectionId,
             attributes: {
                 name: "card name",
                 damage: 3,
@@ -118,12 +130,7 @@ describe("NFT Create tests", () => {
             // @ts-ignore
             expect(wallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actual.id]).toBeObject();
 
-            collectionWalletCheck(
-                wallet,
-                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
-                1,
-                nftCollectionAsset,
-            );
+            collectionWalletCheck(wallet, collectionId, 1, nftCollectionAsset);
 
             // @ts-ignore
             expect(walletRepository.findByIndex(NFTIndexers.NFTTokenIndexer, actual.id)).toStrictEqual(wallet);
@@ -135,7 +142,7 @@ describe("NFT Create tests", () => {
 
             const actualTwo = new NFTBuilders.NFTCreateBuilder()
                 .NFTCreateToken({
-                    collectionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+                    collectionId,
                     attributes: {
                         name: "card name",
                         damage: 3,
@@ -152,12 +159,7 @@ describe("NFT Create tests", () => {
             });
             await expect(nftCreateHandler.bootstrap()).toResolve();
 
-            collectionWalletCheck(
-                wallet,
-                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
-                1,
-                nftCollectionAsset,
-            );
+            collectionWalletCheck(wallet, collectionId, 1, nftCollectionAsset);
 
             // @ts-ignore
             expect(secondWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actualTwo.id]).toBeObject();
@@ -174,7 +176,7 @@ describe("NFT Create tests", () => {
 
         it("should not throw if it is allowed issuer", async () => {
             const collectionsWallet = wallet.getAttribute<INFTCollections>("nft.base.collections", {});
-            collectionsWallet["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {
+            collectionsWallet[collectionId] = {
                 currentSupply: 0,
                 nftCollectionAsset: {
                     ...nftCollectionAsset,
@@ -195,7 +197,7 @@ describe("NFT Create tests", () => {
 
         it("should throw NFTMaximumSupplyError", async () => {
             const collectionsWallet = wallet.getAttribute<INFTCollections>("nft.base.collections", {});
-            collectionsWallet["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {
+            collectionsWallet[collectionId] = {
                 currentSupply: 100,
                 nftCollectionAsset: nftCollectionAsset,
             };
@@ -229,7 +231,7 @@ describe("NFT Create tests", () => {
         it("should throw NFTSchemaDoesNotMatch", async () => {
             const actual = new NFTBuilders.NFTCreateBuilder()
                 .NFTCreateToken({
-                    collectionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+                    collectionId,
                     attributes: {
                         name: "a",
                     },
@@ -245,7 +247,7 @@ describe("NFT Create tests", () => {
 
         it("should throw NFTSenderPublicKeyDoesNotExists", async () => {
             const collectionsWallet = wallet.getAttribute<INFTCollections>("nft.base.collections", {});
-            collectionsWallet["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {
+            collectionsWallet[collectionId] = {
                 currentSupply: 100,
                 nftCollectionAsset: {
                     name: "Nft card",
@@ -275,7 +277,7 @@ describe("NFT Create tests", () => {
 
             const actual = new NFTBuilders.NFTCreateBuilder()
                 .NFTCreateToken({
-                    collectionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+                    collectionId,
                     attributes: {
                         name: "card name",
                         damage: 3,
@@ -313,12 +315,7 @@ describe("NFT Create tests", () => {
             // @ts-ignore
             expect(wallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actual.id]).toBeObject();
 
-            collectionWalletCheck(
-                wallet,
-                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
-                1,
-                nftCollectionAsset,
-            );
+            collectionWalletCheck(wallet, collectionId, 1, nftCollectionAsset);
 
             // @ts-ignore
             expect(walletRepository.findByIndex(NFTIndexers.NFTTokenIndexer, actual.id)).toStrictEqual(wallet);
@@ -332,12 +329,7 @@ describe("NFT Create tests", () => {
             // @ts-ignore
             expect(wallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actual.id]).toBeUndefined();
 
-            collectionWalletCheck(
-                wallet,
-                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
-                0,
-                nftCollectionAsset,
-            );
+            collectionWalletCheck(wallet, collectionId, 0, nftCollectionAsset);
 
             // @ts-ignore
             expect(walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).get(actual.id)).toBeUndefined();

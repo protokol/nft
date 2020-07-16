@@ -1,5 +1,7 @@
 import { Application, Container, Contracts, Providers, Services } from "@arkecosystem/core-kernel";
 import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
+import { MemoryCacheStore } from "@arkecosystem/core-kernel/src/services/cache/drivers/memory";
+import { NullEventDispatcher } from "@arkecosystem/core-kernel/src/services/events/drivers/null";
 import { Wallets } from "@arkecosystem/core-state";
 import { publicKeysIndexer } from "@arkecosystem/core-state/src/wallets/indexers/indexers";
 import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
@@ -85,6 +87,10 @@ export const initApp = (): Application => {
 
     app.bind(Identifiers.TransactionHandlerProvider).to(TransactionHandlerProvider).inSingletonScope();
     app.bind(Identifiers.TransactionHandlerRegistry).to(TransactionHandlerRegistry).inSingletonScope();
+
+    app.bind(Identifiers.EventDispatcherService).to(NullEventDispatcher).inSingletonScope();
+
+    app.bind(Container.Identifiers.CacheService).to(MemoryCacheStore).inSingletonScope();
 
     app.bind(Identifiers.TransactionHandler).to(Handlers.NFTRegisterCollectionHandler);
     app.bind(Identifiers.TransactionHandler).to(Handlers.NFTCreateHandler);
