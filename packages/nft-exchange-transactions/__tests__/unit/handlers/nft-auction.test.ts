@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Application, Contracts } from "@arkecosystem/core-kernel";
+import { Application, Container, Contracts, Providers } from "@arkecosystem/core-kernel";
 import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { Wallets } from "@arkecosystem/core-state";
 import { StateStore } from "@arkecosystem/core-state/src/stores/state";
@@ -24,7 +24,6 @@ import { INFTAuctions } from "../../../src/interfaces";
 import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
 import { buildAuctionTransaction, deregisterTransactions } from "../utils";
 import { FeeType } from "../../../src/enums";
-import { defaults } from "../../../src/defaults";
 
 let app: Application;
 
@@ -287,7 +286,10 @@ describe("NFT Auction tests", () => {
         });
 
         it("should test static fee", async () => {
-            defaults.feeType = FeeType.Static;
+            app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set<FeeType>(
+                "feeType",
+                FeeType.Static,
+            );
             expect(
                 nftAuctionHandler.dynamicFee({
                     transaction: actual,
@@ -299,7 +301,10 @@ describe("NFT Auction tests", () => {
         });
 
         it("should test none fee", async () => {
-            defaults.feeType = FeeType.None;
+            app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set<FeeType>(
+                "feeType",
+                FeeType.None,
+            );
             expect(
                 nftAuctionHandler.dynamicFee({
                     transaction: actual,
