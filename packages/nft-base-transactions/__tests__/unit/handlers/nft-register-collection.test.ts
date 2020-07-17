@@ -12,12 +12,11 @@ import { Enums } from "@protokol/nft-base-crypto";
 import { Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 
 import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
+import { FeeType } from "../../../src/enums";
 import { NFTBaseInvalidAjvSchemaError, NFTBaseUnauthorizedCollectionRegistrator } from "../../../src/errors";
 import { NFTApplicationEvents } from "../../../src/events";
 import { NFTIndexers } from "../../../src/wallet-indexes";
 import { collectionWalletCheck, deregisterTransactions } from "../utils/utils";
-import { FeeType } from "../../../src/enums";
-import { defaults } from "../../../src/defaults";
 
 let app: Application;
 
@@ -212,7 +211,11 @@ describe("NFT Register collection tests", () => {
         });
 
         it("should test static fee", async () => {
-            defaults.feeType = FeeType.Static;
+            app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set<FeeType>(
+                "feeType",
+                FeeType.Static,
+            );
+
             expect(
                 handler.dynamicFee({
                     transaction: actual,
@@ -224,7 +227,10 @@ describe("NFT Register collection tests", () => {
         });
 
         it("should test none fee", async () => {
-            defaults.feeType = FeeType.None;
+            app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set<FeeType>(
+                "feeType",
+                FeeType.None,
+            );
             expect(
                 handler.dynamicFee({
                     transaction: actual,

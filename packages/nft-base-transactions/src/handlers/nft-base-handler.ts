@@ -1,11 +1,16 @@
-import { Contracts } from "@arkecosystem/core-kernel";
+import { Container, Contracts, Providers } from "@arkecosystem/core-kernel";
 import { Handlers } from "@arkecosystem/core-transactions";
 import { Managers, Utils } from "@arkecosystem/crypto";
 
-import { defaults } from "../defaults";
 import { FeeType } from "../enums";
 
+const pluginName = require("../../package.json").name;
+
 export abstract class NFTBaseTransactionHandler extends Handlers.TransactionHandler {
+    @Container.inject(Container.Identifiers.PluginConfiguration)
+    @Container.tagged("plugin", pluginName)
+    protected readonly configuration!: Providers.PluginConfiguration;
+
     public async isActivated(): Promise<boolean> {
         return Managers.configManager.getMilestone().aip11 === true;
     }
@@ -16,10 +21,12 @@ export abstract class NFTBaseTransactionHandler extends Handlers.TransactionHand
         transaction,
         height,
     }: Contracts.Shared.DynamicFeeContext): Utils.BigNumber {
-        if (defaults.feeType === FeeType.Static) {
+        const feeType = this.configuration.get<FeeType>("feeType");
+
+        if (feeType === FeeType.Static) {
             return this.getConstructor().staticFee({ height });
         }
-        if (defaults.feeType === FeeType.None) {
+        if (feeType === FeeType.None) {
             return Utils.BigNumber.ZERO;
         }
 
