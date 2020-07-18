@@ -1,4 +1,3 @@
-import { Controller } from "@arkecosystem/core-api";
 import { Container, Contracts } from "@arkecosystem/core-kernel";
 import Boom from "@hapi/boom";
 import Hapi from "@hapi/hapi";
@@ -6,29 +5,31 @@ import { Enums } from "@protokol/nft-base-crypto";
 import { Indexers } from "@protokol/nft-base-transactions";
 
 import { AssetResource } from "../resources/assets";
+import { ResourceWithBlock } from "../resources/resource-with-block";
 import { WalletsResource } from "../resources/wallets";
+import { BaseController } from "./base-controller";
 
 @Container.injectable()
-export class AssetsController extends Controller {
-    @Container.inject(Container.Identifiers.TransactionHistoryService)
-    private readonly transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
-
+export class AssetsController extends BaseController {
     @Container.inject(Container.Identifiers.WalletRepository)
     @Container.tagged("state", "blockchain")
     private readonly walletRepository!: Contracts.State.WalletRepository;
 
     public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
-        const transactionListResult = await this.transactionHistoryService.listByCriteria(
-            {
-                ...request.query,
-                typeGroup: Enums.NFTBaseTransactionGroup,
-                type: Enums.NFTBaseTransactionTypes.NFTCreate,
-            },
+        const criteria: Contracts.Shared.TransactionCriteria = {
+            ...request.query,
+            typeGroup: Enums.NFTBaseTransactionGroup,
+            type: Enums.NFTBaseTransactionTypes.NFTCreate,
+        };
+
+        return this.paginate(
+            criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
+            request.query.transform,
+            AssetResource,
+            ResourceWithBlock(AssetResource),
         );
-
-        return this.toPagination(transactionListResult, AssetResource, request.query.transform);
     }
 
     public async showAssetWallet(request: Hapi.Request, h: Hapi.ResponseToolkit) {
@@ -56,16 +57,20 @@ export class AssetsController extends Controller {
     }
 
     public async showByAsset(request: Hapi.Request, h: Hapi.ResponseToolkit) {
-        const transactions = await this.transactionHistoryService.listByCriteria(
-            {
-                ...request.query,
-                typeGroup: Enums.NFTBaseTransactionGroup,
-                type: Enums.NFTBaseTransactionTypes.NFTCreate,
-                asset: { nftToken: { attributes: request.payload } },
-            },
+        const criteria: Contracts.Shared.TransactionCriteria = {
+            ...request.query,
+            typeGroup: Enums.NFTBaseTransactionGroup,
+            type: Enums.NFTBaseTransactionTypes.NFTCreate,
+            asset: { nftToken: { attributes: request.payload } },
+        };
+
+        return this.paginate(
+            criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
+            request.query.transform,
+            AssetResource,
+            ResourceWithBlock(AssetResource),
         );
-        return this.toPagination(transactions, AssetResource);
     }
 }

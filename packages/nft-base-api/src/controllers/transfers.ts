@@ -1,28 +1,29 @@
-import { Controller } from "@arkecosystem/core-api";
 import { Container, Contracts } from "@arkecosystem/core-kernel";
 import Boom from "@hapi/boom";
 import Hapi from "@hapi/hapi";
 import { Enums } from "@protokol/nft-base-crypto";
 
+import { ResourceWithBlock } from "../resources/resource-with-block";
 import { TransferResource } from "../resources/transfer";
+import { BaseController } from "./base-controller";
 
 @Container.injectable()
-export class TransfersController extends Controller {
-    @Container.inject(Container.Identifiers.TransactionHistoryService)
-    private readonly transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
-
+export class TransfersController extends BaseController {
     public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
-        const transactionListResult = await this.transactionHistoryService.listByCriteria(
-            {
-                ...request.query,
-                typeGroup: Enums.NFTBaseTransactionGroup,
-                type: Enums.NFTBaseTransactionTypes.NFTTransfer,
-            },
+        const criteria: Contracts.Shared.TransactionCriteria = {
+            ...request.query,
+            typeGroup: Enums.NFTBaseTransactionGroup,
+            type: Enums.NFTBaseTransactionTypes.NFTTransfer,
+        };
+
+        return this.paginate(
+            criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
+            request.query.transform,
+            TransferResource,
+            ResourceWithBlock(TransferResource),
         );
-
-        return this.toPagination(transactionListResult, TransferResource, request.query.transform);
     }
 
     public async show(request: Hapi.Request, h: Hapi.ResponseToolkit) {

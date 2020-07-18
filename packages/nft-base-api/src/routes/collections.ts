@@ -15,10 +15,8 @@ export const register = (server: Hapi.Server): void => {
             validate: {
                 query: Joi.object({
                     ...server.app.schemas.pagination,
-                    ...{
-                        orderBy: server.app.schemas.orderBy,
-                        transform: Joi.bool().default(true),
-                    },
+                    orderBy: server.app.schemas.orderBy,
+                    transform: Joi.bool().default(true),
                 }),
             },
             plugins: {
@@ -77,6 +75,7 @@ export const register = (server: Hapi.Server): void => {
                 query: Joi.object({
                     ...server.app.schemas.pagination,
                     orderBy: server.app.schemas.orderBy,
+                    transform: Joi.bool().default(true),
                 }),
             },
             plugins: {
@@ -95,10 +94,8 @@ export const register = (server: Hapi.Server): void => {
             validate: {
                 query: Joi.object({
                     ...server.app.schemas.pagination,
-                    ...{
-                        orderBy: server.app.schemas.orderBy,
-                        transform: Joi.bool().default(true),
-                    },
+                    orderBy: server.app.schemas.orderBy,
+                    transform: Joi.bool().default(true),
                 }),
             },
             plugins: {
