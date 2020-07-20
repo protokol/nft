@@ -1,8 +1,9 @@
-import { Handlers } from "@arkecosystem/core-transactions";
-import { Managers, Utils } from "@arkecosystem/crypto";
 import { Container, Contracts, Providers } from "@arkecosystem/core-kernel";
+import { Handlers } from "@arkecosystem/core-transactions";
+import { Interfaces, Managers, Utils } from "@arkecosystem/crypto";
 
 import { FeeType } from "../enums";
+import { StaticFeeMismatchError } from "../errors";
 
 const pluginName = require("../../package.json").name;
 
@@ -31,5 +32,21 @@ export abstract class NFTExchangeTransactionHandler extends Handlers.Transaction
         }
 
         return super.dynamicFee({ addonBytes, satoshiPerByte, transaction, height });
+    }
+
+    public async throwIfCannotBeApplied(
+        transaction: Interfaces.ITransaction,
+        wallet: Contracts.State.Wallet,
+    ): Promise<void> {
+        const feeType = this.configuration.get<FeeType>("feeType");
+
+        if (feeType === FeeType.Static) {
+            const staticFee = this.getConstructor().staticFee();
+
+            if (!transaction.data.fee.isEqualTo(staticFee)) {
+                throw new StaticFeeMismatchError(staticFee.toFixed());
+            }
+        }
+        return super.throwIfCannotBeApplied(transaction, wallet);
     }
 }

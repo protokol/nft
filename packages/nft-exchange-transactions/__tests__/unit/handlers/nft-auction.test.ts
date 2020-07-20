@@ -10,20 +10,21 @@ import { TransactionHandler } from "@arkecosystem/core-transactions/src/handlers
 import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
 import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Interfaces as NFTBaseInterfaces } from "@protokol/nft-base-transactions";
-import { Enums } from "@protokol/nft-exchange-crypto";
+import { Builders as NFTBuilders, Enums } from "@protokol/nft-exchange-crypto";
 
 import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
+import { FeeType } from "../../../src/enums";
 import {
     NFTExchangeAuctionAlreadyInProgress,
     NFTExchangeAuctioneerDoesNotOwnAnyNft,
     NFTExchangeAuctioneerDoesNotOwnNft,
     NFTExchangeAuctionExpired,
+    StaticFeeMismatchError,
 } from "../../../src/errors";
 import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
 import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
 import { buildAuctionTransaction, deregisterTransactions } from "../utils";
-import { FeeType } from "../../../src/enums";
 
 let app: Application;
 
@@ -166,6 +167,31 @@ describe("NFT Auction tests", () => {
             actual.data.asset = undefined;
 
             await expect(nftAuctionHandler.throwIfCannotBeApplied(actual, wallet)).toReject();
+        });
+
+        it("should throw StaticFeeMismatchError", async () => {
+            app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set<FeeType>(
+                "feeType",
+                FeeType.Static,
+            );
+            const nftBaseWalletAsset = wallet.getAttribute<NFTBaseInterfaces.INFTTokens>("nft.base.tokenIds", {});
+            nftBaseWalletAsset["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {};
+            wallet.setAttribute<NFTBaseInterfaces.INFTTokens>("nft.base.tokenIds", nftBaseWalletAsset);
+
+            const actual = new NFTBuilders.NFTAuctionBuilder()
+                .NFTAuctionAsset({
+                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
+                    expiration: { blockHeight: 56 },
+                    startAmount: Utils.BigNumber.make(1),
+                })
+                .nonce("1")
+                .sign(passphrases[0])
+                .fee("1")
+                .build();
+
+            await expect(nftAuctionHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
+                StaticFeeMismatchError,
+            );
         });
     });
 

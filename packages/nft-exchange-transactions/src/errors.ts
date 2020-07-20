@@ -124,3 +124,10 @@ export class NFTExchangeAcceptTradeBidCanceled extends Errors.TransactionError {
         super(`Failed to apply transaction, because bid was already canceled.`);
     }
 }
+
+// Fee errors
+export class StaticFeeMismatchError extends Errors.TransactionError {
+    public constructor(staticFee: string) {
+        super(`Failed to apply transaction, because fee doesn't match static fee ${staticFee}.`);
+    }
+}
