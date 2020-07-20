@@ -41,14 +41,14 @@ describe("API - Transfers", () => {
                 count: 1,
                 countIsEstimate: false,
             });
-            const response = await api.request("GET", "nft/transfers");
+            const response = await api.request("GET", "nft/transfers", { transform: false });
 
             expect(response.data.data[0].id).toStrictEqual(nftTransfer.id);
             expect(response.data.data[0].senderPublicKey).toStrictEqual(nftTransfer.data.senderPublicKey);
-            expect(response.data.data[0].nftTransfer.nftIds).toStrictEqual([
+            expect(response.data.data[0].asset.nftTransfer.nftIds).toStrictEqual([
                 "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
             ]);
-            expect(response.data.data[0].nftTransfer.recipientId).toStrictEqual(
+            expect(response.data.data[0].asset.nftTransfer.recipientId).toStrictEqual(
                 Identities.Address.fromPassphrase(secrets[1]),
             );
         });

@@ -64,14 +64,13 @@ describe("API - Assets", () => {
                 countIsEstimate: false,
             });
 
-            const response = await api.request("GET", "nft/assets");
+            const response = await api.request("GET", "nft/assets", { transform: false });
             expect(response.data.data[0].id).toStrictEqual(nftCreate.id);
-            expect(response.data.data[0].ownerPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
             expect(response.data.data[0].senderPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
-            expect(response.data.data[0].collectionId).toStrictEqual(
+            expect(response.data.data[0].asset.nftToken.collectionId).toStrictEqual(
                 "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
             );
-            expect(response.data.data[0].attributes).toBeObject();
+            expect(response.data.data[0].asset.nftToken.attributes).toBeObject();
         });
     });
 
@@ -135,17 +134,16 @@ describe("API - Assets", () => {
                 countIsEstimate: false,
             });
 
-            const response = await api.request("POST", "nft/assets/search", {
+            const response = await api.request("POST", "nft/assets/search?transform=false", {
                 damage: 3,
             });
             console.log(response.data.data);
             expect(response.data.data[0].id).toStrictEqual(nftCreate.id);
-            expect(response.data.data[0].ownerPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
             expect(response.data.data[0].senderPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
-            expect(response.data.data[0].collectionId).toStrictEqual(
+            expect(response.data.data[0].asset.nftToken.collectionId).toStrictEqual(
                 "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
             );
-            expect(response.data.data[0].attributes).toBeObject();
+            expect(response.data.data[0].asset.nftToken.attributes).toBeObject();
         });
     });
 });

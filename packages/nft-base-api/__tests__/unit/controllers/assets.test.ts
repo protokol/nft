@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Application, Contracts } from "@arkecosystem/core-kernel";
+import { Application, Contracts, Utils } from "@arkecosystem/core-kernel";
 import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { Wallets } from "@arkecosystem/core-state";
 import { Generators } from "@arkecosystem/core-test-framework/src";
@@ -24,6 +24,8 @@ let walletRepository: Wallets.WalletRepository;
 
 let actual: ITransaction;
 
+const timestamp = Utils.formatTimestamp(104930456);
+
 beforeEach(() => {
     const config = Generators.generateCryptoConfigRaw();
     configManager.setConfig(config);
@@ -38,6 +40,7 @@ beforeEach(() => {
     transactionHistoryService.findManyByCriteria.mockReset();
     transactionHistoryService.findOneByCriteria.mockReset();
     transactionHistoryService.listByCriteria.mockReset();
+    transactionHistoryService.listByCriteriaJoinBlock.mockReset();
 
     assetController = app.resolve<AssetsController>(AssetsController);
 
@@ -70,12 +73,15 @@ afterEach(() => {
 
 describe("Test asset controller", () => {
     it("index - return all nftCreate transactions", async () => {
-        transactionHistoryService.listByCriteria.mockResolvedValueOnce({ rows: [actual.data] });
+        transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
+            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+        });
 
         const request: Hapi.Request = {
             query: {
                 page: 1,
                 limit: 100,
+                transform: true,
             },
         };
 
@@ -91,6 +97,7 @@ describe("Test asset controller", () => {
                 health: 2,
                 mana: 2,
             },
+            timestamp,
         });
     });
 
@@ -144,7 +151,9 @@ describe("Test asset controller", () => {
     });
 
     it("showByAsset - return transaction by payloads criteria", async () => {
-        transactionHistoryService.listByCriteria.mockResolvedValueOnce({ rows: [actual.data] });
+        transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
+            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+        });
         const request: Hapi.Request = {
             payload: {
                 name: "card name",
@@ -152,6 +161,7 @@ describe("Test asset controller", () => {
             query: {
                 page: 1,
                 limit: 100,
+                transform: true,
             },
         };
 
@@ -167,6 +177,7 @@ describe("Test asset controller", () => {
                 health: 2,
                 mana: 2,
             },
+            timestamp,
         });
     });
 });

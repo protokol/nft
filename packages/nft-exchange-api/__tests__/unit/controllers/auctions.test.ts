@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Application, Contracts } from "@arkecosystem/core-kernel";
+import { Application, Contracts, Utils as AppUtils } from "@arkecosystem/core-kernel";
 import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { Wallets } from "@arkecosystem/core-state";
 import { Generators } from "@arkecosystem/core-test-framework/src";
@@ -25,6 +25,8 @@ let senderWallet: Contracts.State.Wallet;
 let walletRepository: Wallets.WalletRepository;
 
 let actual: ITransaction;
+
+const timestamp = AppUtils.formatTimestamp(104930456);
 
 beforeEach(() => {
     const config = Generators.generateCryptoConfigRaw();
@@ -66,12 +68,15 @@ afterEach(() => {
 
 describe("Test auctions controller", () => {
     it("index - return all auctions", async () => {
-        transactionHistoryService.listByCriteria.mockResolvedValueOnce({ rows: [actual.data] });
+        transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
+            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+        });
 
         const request: Hapi.Request = {
             query: {
                 page: 1,
                 limit: 100,
+                transform: true,
             },
         };
 
@@ -86,6 +91,7 @@ describe("Test auctions controller", () => {
                     blockHeight: 1,
                 },
             },
+            timestamp,
         });
     });
 
@@ -157,10 +163,13 @@ describe("Test auctions controller", () => {
             query: {
                 page: 1,
                 limit: 100,
+                transform: true,
             },
         };
 
-        transactionHistoryService.listByCriteria.mockResolvedValueOnce({ rows: [actual.data] });
+        transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
+            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+        });
 
         const response = (await auctionsController.search(request, undefined)) as PaginatedResponse;
         expect(response.results[0]).toStrictEqual({
@@ -173,6 +182,7 @@ describe("Test auctions controller", () => {
                     blockHeight: 1,
                 },
             },
+            timestamp,
         });
     });
 
@@ -184,12 +194,15 @@ describe("Test auctions controller", () => {
             .sign(passphrases[0])
             .build();
 
-        transactionHistoryService.listByCriteria.mockResolvedValueOnce({ rows: [actualAuctionCanceled.data] });
+        transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
+            rows: [{ data: actualAuctionCanceled.data, block: { timestamp: timestamp.epoch } }],
+        });
 
         const request: Hapi.Request = {
             query: {
                 page: 1,
                 limit: 100,
+                transform: true,
             },
         };
 
@@ -200,6 +213,7 @@ describe("Test auctions controller", () => {
             nftAuctionCancel: {
                 auctionId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
             },
+            timestamp,
         });
     });
 

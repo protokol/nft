@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Application, Contracts } from "@arkecosystem/core-kernel";
+import { Application, Contracts, Utils } from "@arkecosystem/core-kernel";
 import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { Wallets } from "@arkecosystem/core-state";
 import { Generators } from "@arkecosystem/core-test-framework/src";
@@ -23,6 +23,8 @@ let senderWallet: Contracts.State.Wallet;
 let walletRepository: Wallets.WalletRepository;
 
 let actual: ITransaction;
+
+const timestamp = Utils.formatTimestamp(104930456);
 
 const nftCollectionAsset = {
     name: "Nft card",
@@ -63,6 +65,7 @@ beforeEach(() => {
     transactionHistoryService.findManyByCriteria.mockReset();
     transactionHistoryService.findOneByCriteria.mockReset();
     transactionHistoryService.listByCriteria.mockReset();
+    transactionHistoryService.listByCriteriaJoinBlock.mockReset();
 
     collectionController = app.resolve<CollectionsController>(CollectionsController);
 
@@ -93,12 +96,15 @@ afterEach(() => {
 
 describe("Test collection controller", () => {
     it("index - return all collections", async () => {
-        transactionHistoryService.listByCriteria.mockResolvedValueOnce({ rows: [actual.data] });
+        transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
+            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+        });
 
         const request: Hapi.Request = {
             query: {
                 page: 1,
                 limit: 100,
+                transform: true,
             },
         };
         const response = (await collectionController.index(request, undefined)) as PaginatedResponse;
@@ -117,6 +123,7 @@ describe("Test collection controller", () => {
                     string: { type: "string" },
                 },
             },
+            timestamp,
         });
     });
 
@@ -203,7 +210,9 @@ describe("Test collection controller", () => {
     });
 
     it("searchCollection - search collection by payload", async () => {
-        transactionHistoryService.listByCriteria.mockResolvedValueOnce({ rows: [actual.data] });
+        transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
+            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+        });
         const request: Hapi.Request = {
             payload: {
                 type: "number",
@@ -211,6 +220,7 @@ describe("Test collection controller", () => {
             query: {
                 page: 1,
                 limit: 100,
+                transform: true,
             },
         };
 
@@ -229,6 +239,7 @@ describe("Test collection controller", () => {
                     string: { type: "string" },
                 },
             },
+            timestamp,
         });
     });
 
@@ -250,7 +261,9 @@ describe("Test collection controller", () => {
         senderWallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
         walletRepository.index(senderWallet);
 
-        transactionHistoryService.listByCriteria.mockResolvedValueOnce({ rows: [actual.data] });
+        transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
+            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+        });
 
         const request: Hapi.Request = {
             params: {
@@ -259,6 +272,7 @@ describe("Test collection controller", () => {
             query: {
                 page: 1,
                 limit: 100,
+                transform: true,
             },
         };
         const response = (await collectionController.showAssetsByCollectionId(request, undefined)) as PaginatedResponse;
@@ -271,6 +285,7 @@ describe("Test collection controller", () => {
                 number: 5,
                 string: "something",
             },
+            timestamp,
         });
     });
 });

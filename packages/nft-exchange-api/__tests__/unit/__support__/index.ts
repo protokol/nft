@@ -32,6 +32,7 @@ export const transactionHistoryService = {
     findManyByCriteria: jest.fn(),
     findOneByCriteria: jest.fn(),
     listByCriteria: jest.fn(),
+    listByCriteriaJoinBlock: jest.fn(),
 };
 
 export const buildSenderWallet = (app: Application): Contracts.State.Wallet => {
