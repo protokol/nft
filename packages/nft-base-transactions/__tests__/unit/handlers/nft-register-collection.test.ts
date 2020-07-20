@@ -13,7 +13,11 @@ import { Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 
 import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { FeeType } from "../../../src/enums";
-import { NFTBaseInvalidAjvSchemaError, NFTBaseUnauthorizedCollectionRegistrator } from "../../../src/errors";
+import {
+    NFTBaseInvalidAjvSchemaError,
+    NFTBaseUnauthorizedCollectionRegistrator,
+    StaticFeeMismatchError,
+} from "../../../src/errors";
 import { NFTApplicationEvents } from "../../../src/events";
 import { NFTIndexers } from "../../../src/wallet-indexes";
 import { collectionWalletCheck, deregisterTransactions } from "../utils/utils";
@@ -155,6 +159,24 @@ describe("NFT Register collection tests", () => {
 
             await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
                 NFTBaseUnauthorizedCollectionRegistrator,
+            );
+        });
+
+        it("should throw StaticFeeMismatchError", async () => {
+            app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set<FeeType>(
+                "feeType",
+                FeeType.Static,
+            );
+
+            actual = new Builders.NFTRegisterCollectionBuilder()
+                .NFTRegisterCollectionAsset(nftCollectionAsset)
+                .nonce("1")
+                .fee("1")
+                .sign(passphrases[0])
+                .build();
+
+            await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
+                StaticFeeMismatchError,
             );
         });
     });
