@@ -6,13 +6,18 @@ import { Wallets } from "@arkecosystem/core-state";
 import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { TransactionHandler } from "@arkecosystem/core-transactions/src/handlers";
 import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
-import { Interfaces, Transactions } from "@arkecosystem/crypto";
+import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Builders } from "@protokol/nft-base-crypto";
 import { Enums } from "@protokol/nft-base-crypto";
 import { Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 
 import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
-import { NFTBaseInvalidAjvSchemaError, NFTBaseUnauthorizedCollectionRegistrator } from "../../../src/errors";
+import { FeeType } from "../../../src/enums";
+import {
+    NFTBaseInvalidAjvSchemaError,
+    NFTBaseUnauthorizedCollectionRegistrator,
+    StaticFeeMismatchError,
+} from "../../../src/errors";
 import { NFTApplicationEvents } from "../../../src/events";
 import { NFTIndexers } from "../../../src/wallet-indexes";
 import { collectionWalletCheck, deregisterTransactions } from "../utils/utils";
@@ -156,6 +161,24 @@ describe("NFT Register collection tests", () => {
                 NFTBaseUnauthorizedCollectionRegistrator,
             );
         });
+
+        it("should throw StaticFeeMismatchError", async () => {
+            app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set<FeeType>(
+                "feeType",
+                FeeType.Static,
+            );
+
+            actual = new Builders.NFTRegisterCollectionBuilder()
+                .NFTRegisterCollectionAsset(nftCollectionAsset)
+                .nonce("1")
+                .fee("1")
+                .sign(passphrases[0])
+                .build();
+
+            await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
+                StaticFeeMismatchError,
+            );
+        });
     });
 
     describe("emitEvents", () => {
@@ -194,6 +217,50 @@ describe("NFT Register collection tests", () => {
             expect(senderWallet.getAttribute("nft.base.collections")[actual.id]).toBeUndefined();
             // @ts-ignore
             expect(walletRepository.getIndex(NFTIndexers.CollectionIndexer).get(actual.id)).toBeUndefined();
+        });
+    });
+
+    describe("fee tests", () => {
+        it("should test dynamic fee", async () => {
+            expect(
+                handler.dynamicFee({
+                    transaction: actual,
+                    addonBytes: 150,
+                    satoshiPerByte: 3,
+                    height: 1,
+                }),
+            ).toEqual(Utils.BigNumber.make((Math.round(actual.serialized.length / 2) + 150) * 3));
+        });
+
+        it("should test static fee", async () => {
+            app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set<FeeType>(
+                "feeType",
+                FeeType.Static,
+            );
+
+            expect(
+                handler.dynamicFee({
+                    transaction: actual,
+                    addonBytes: 150,
+                    satoshiPerByte: 3,
+                    height: 1,
+                }),
+            ).toEqual(Utils.BigNumber.make(handler.getConstructor().staticFee()));
+        });
+
+        it("should test none fee", async () => {
+            app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set<FeeType>(
+                "feeType",
+                FeeType.None,
+            );
+            expect(
+                handler.dynamicFee({
+                    transaction: actual,
+                    addonBytes: 150,
+                    satoshiPerByte: 3,
+                    height: 1,
+                }),
+            ).toEqual(Utils.BigNumber.ZERO);
         });
     });
 });

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Application, Contracts } from "@arkecosystem/core-kernel";
+import { Application, Container, Contracts, Providers } from "@arkecosystem/core-kernel";
 import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { Wallets } from "@arkecosystem/core-state";
 import { StateStore } from "@arkecosystem/core-state/src/stores/state";
@@ -8,16 +8,18 @@ import passphrases from "@arkecosystem/core-test-framework/src/internal/passphra
 import { Mempool } from "@arkecosystem/core-transaction-pool";
 import { TransactionHandler } from "@arkecosystem/core-transactions/src/handlers";
 import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
-import { Interfaces, Transactions } from "@arkecosystem/crypto";
+import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Interfaces as NFTBaseInterfaces } from "@protokol/nft-base-transactions";
-import { Enums } from "@protokol/nft-exchange-crypto";
+import { Builders as NFTBuilders, Enums } from "@protokol/nft-exchange-crypto";
 
 import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
+import { FeeType } from "../../../src/enums";
 import {
     NFTExchangeAuctionAlreadyInProgress,
     NFTExchangeAuctioneerDoesNotOwnAnyNft,
     NFTExchangeAuctioneerDoesNotOwnNft,
     NFTExchangeAuctionExpired,
+    StaticFeeMismatchError,
 } from "../../../src/errors";
 import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
@@ -166,6 +168,31 @@ describe("NFT Auction tests", () => {
 
             await expect(nftAuctionHandler.throwIfCannotBeApplied(actual, wallet)).toReject();
         });
+
+        it("should throw StaticFeeMismatchError", async () => {
+            app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set<FeeType>(
+                "feeType",
+                FeeType.Static,
+            );
+            const nftBaseWalletAsset = wallet.getAttribute<NFTBaseInterfaces.INFTTokens>("nft.base.tokenIds", {});
+            nftBaseWalletAsset["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {};
+            wallet.setAttribute<NFTBaseInterfaces.INFTTokens>("nft.base.tokenIds", nftBaseWalletAsset);
+
+            const actual = new NFTBuilders.NFTAuctionBuilder()
+                .NFTAuctionAsset({
+                    nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
+                    expiration: { blockHeight: 56 },
+                    startAmount: Utils.BigNumber.make(1),
+                })
+                .nonce("1")
+                .sign(passphrases[0])
+                .fee("1")
+                .build();
+
+            await expect(nftAuctionHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
+                StaticFeeMismatchError,
+            );
+        });
     });
 
     describe("throwIfCannotEnterPool", () => {
@@ -265,6 +292,53 @@ describe("NFT Auction tests", () => {
                 // @ts-ignore
                 expect(walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).get(actual.id)).toBeUndefined();
             });
+        });
+    });
+
+    describe("fee tests", () => {
+        let actual;
+        beforeEach(() => {
+            actual = buildAuctionTransaction({ blockHeight: 56 });
+        });
+        it("should test dynamic fee", async () => {
+            expect(
+                nftAuctionHandler.dynamicFee({
+                    transaction: actual,
+                    addonBytes: 150,
+                    satoshiPerByte: 3,
+                    height: 1,
+                }),
+            ).toEqual(Utils.BigNumber.make((Math.round(actual.serialized.length / 2) + 150) * 3));
+        });
+
+        it("should test static fee", async () => {
+            app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set<FeeType>(
+                "feeType",
+                FeeType.Static,
+            );
+            expect(
+                nftAuctionHandler.dynamicFee({
+                    transaction: actual,
+                    addonBytes: 150,
+                    satoshiPerByte: 3,
+                    height: 1,
+                }),
+            ).toEqual(Utils.BigNumber.make(nftAuctionHandler.getConstructor().staticFee()));
+        });
+
+        it("should test none fee", async () => {
+            app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set<FeeType>(
+                "feeType",
+                FeeType.None,
+            );
+            expect(
+                nftAuctionHandler.dynamicFee({
+                    transaction: actual,
+                    addonBytes: 150,
+                    satoshiPerByte: 3,
+                    height: 1,
+                }),
+            ).toEqual(Utils.BigNumber.ZERO);
         });
     });
 });

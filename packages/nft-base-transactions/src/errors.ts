@@ -75,3 +75,10 @@ export class NFTBaseBurnNFTIsOnAuction extends Errors.TransactionError {
         super(`Failed to apply transaction, because nft is already on auction.`);
     }
 }
+
+// Fee errors
+export class StaticFeeMismatchError extends Errors.TransactionError {
+    public constructor(staticFee: string) {
+        super(`Failed to apply transaction, because fee doesn't match static fee ${staticFee}.`);
+    }
+}
