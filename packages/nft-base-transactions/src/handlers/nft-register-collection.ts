@@ -1,4 +1,4 @@
-import { Container, Contracts, Providers, Utils as AppUtils } from "@arkecosystem/core-kernel";
+import { Container, Contracts, Utils as AppUtils } from "@arkecosystem/core-kernel";
 import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
@@ -15,10 +15,6 @@ const pluginName = require("../../package.json").name;
 
 @Container.injectable()
 export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
-    @Container.inject(Container.Identifiers.PluginConfiguration)
-    @Container.tagged("plugin", pluginName)
-    private readonly configuration!: Providers.PluginConfiguration;
-
     @Container.inject(Container.Identifiers.TransactionHistoryService)
     private readonly transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
 

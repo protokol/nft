@@ -21,6 +21,11 @@ export const register = (server: Hapi.Server): void => {
                     },
                 }),
             },
+            plugins: {
+                pagination: {
+                    enabled: true,
+                },
+            },
         },
     });
 
@@ -52,6 +57,11 @@ export const register = (server: Hapi.Server): void => {
                     auctionId: Joi.string().hex().length(64),
                     bidId: Joi.string().hex().length(64),
                 }),
+            },
+            plugins: {
+                pagination: {
+                    enabled: true,
+                },
             },
         },
     });
