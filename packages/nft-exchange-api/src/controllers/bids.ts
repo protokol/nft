@@ -1,4 +1,3 @@
-import { Controller } from "@arkecosystem/core-api";
 import { Container, Contracts } from "@arkecosystem/core-kernel";
 import Boom from "@hapi/boom";
 import Hapi from "@hapi/hapi";
@@ -7,29 +6,31 @@ import { Indexers } from "@protokol/nft-exchange-transactions";
 
 import { BidResource } from "../resources/bids";
 import { BidCancelResource } from "../resources/bids-cancel";
+import { ResourceWithBlock } from "../resources/resource-with-block";
 import { WalletResource } from "../resources/wallets";
+import { BaseController } from "./base-controller";
 
 @Container.injectable()
-export class BidsController extends Controller {
-    @Container.inject(Container.Identifiers.TransactionHistoryService)
-    private readonly transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
-
+export class BidsController extends BaseController {
     @Container.inject(Container.Identifiers.WalletRepository)
     @Container.tagged("state", "blockchain")
     private readonly walletRepository!: Contracts.State.WalletRepository;
 
     public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
-        const transactions = await this.transactionHistoryService.listByCriteria(
-            [
-                {
-                    typeGroup: Enums.NFTExchangeTransactionsTypeGroup,
-                    type: Enums.NFTTransactionTypes.NFTBid,
-                },
-            ],
+        const criteria: Contracts.Shared.TransactionCriteria = {
+            ...request.query,
+            typeGroup: Enums.NFTExchangeTransactionsTypeGroup,
+            type: Enums.NFTTransactionTypes.NFTBid,
+        };
+
+        return this.paginate(
+            criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
+            request.query.transform,
+            BidResource,
+            ResourceWithBlock(BidResource),
         );
-        return this.toPagination(transactions, BidResource, request.query.transform);
     }
 
     public async show(request: Hapi.Request, h: Hapi.ResponseToolkit) {
@@ -88,26 +89,31 @@ export class BidsController extends Controller {
             });
         }
 
-        const transactions = await this.transactionHistoryService.listByCriteria(
+        return this.paginate(
             criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
+            request.query.transform,
+            BidResource,
+            ResourceWithBlock(BidResource),
         );
-        return this.toPagination(transactions, BidResource);
     }
 
     public async indexCanceled(request: Hapi.Request, h: Hapi.ResponseToolkit) {
-        const transactions = await this.transactionHistoryService.listByCriteria(
-            [
-                {
-                    typeGroup: Enums.NFTExchangeTransactionsTypeGroup,
-                    type: Enums.NFTTransactionTypes.NFTBidCancel,
-                },
-            ],
+        const criteria: Contracts.Shared.TransactionCriteria = {
+            ...request.query,
+            typeGroup: Enums.NFTExchangeTransactionsTypeGroup,
+            type: Enums.NFTTransactionTypes.NFTBidCancel,
+        };
+
+        return this.paginate(
+            criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
+            request.query.transform,
+            BidCancelResource,
+            ResourceWithBlock(BidCancelResource),
         );
-        return this.toPagination(transactions, BidCancelResource, request.query.transform);
     }
 
     public async showAuctionCanceled(request: Hapi.Request, h: Hapi.ResponseToolkit) {

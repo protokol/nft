@@ -1,24 +1,24 @@
-import { Controller } from "@arkecosystem/core-api";
 import { Container, Contracts } from "@arkecosystem/core-kernel";
 import Boom from "@hapi/boom";
 import Hapi from "@hapi/hapi";
 import { Enums } from "@protokol/nft-exchange-crypto";
 
+import { ResourceWithBlock } from "../resources/resource-with-block";
 import { TradeResource } from "../resources/trades";
 import { TradeDetailsResource } from "../resources/trades-show";
+import { BaseController } from "./base-controller";
 
 @Container.injectable()
-export class TradesController extends Controller {
-    @Container.inject(Container.Identifiers.TransactionHistoryService)
-    private readonly transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
-
+export class TradesController extends BaseController {
     public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
-        const transactions = await this.transactionHistoryService.listByCriteria(
+        return this.paginate(
             this.buildTradeCriteria(),
             this.getListingOrder(request),
             this.getListingPage(request),
+            request.query.transform,
+            TradeResource,
+            ResourceWithBlock(TradeResource),
         );
-        return this.toPagination(transactions, TradeResource, request.query.transform);
     }
 
     public async show(request: Hapi.Request, h: Hapi.ResponseToolkit) {
@@ -88,13 +88,14 @@ export class TradesController extends Controller {
             );
         }
 
-        const transactions = await this.transactionHistoryService.listByCriteria(
+        return this.paginate(
             criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
+            request.query.transform,
+            TradeResource,
+            ResourceWithBlock(TradeResource),
         );
-
-        return this.toPagination(transactions, TradeResource);
     }
 
     private buildTradeCriteria(otherCriteria?: object) {
