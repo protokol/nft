@@ -6,7 +6,6 @@ import { Indexers } from "@protokol/nft-exchange-transactions";
 
 import { AuctionResource } from "../resources/auctions";
 import { AuctionCancelResource } from "../resources/auctions-cancel";
-import { ResourceWithBlock } from "../resources/resource-with-block";
 import { WalletResource } from "../resources/wallets";
 import { BaseController } from "./base-controller";
 
@@ -23,13 +22,12 @@ export class AuctionsController extends BaseController {
             type: Enums.NFTTransactionTypes.NFTAuction,
         };
 
-        return this.paginate(
+        return this.paginateWithBlock(
             criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
             request.query.transform,
             AuctionResource,
-            ResourceWithBlock(AuctionResource),
         );
     }
 
@@ -100,13 +98,12 @@ export class AuctionsController extends BaseController {
             });
         }
 
-        return this.paginate(
+        return this.paginateWithBlock(
             criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
             request.query.transform,
             AuctionResource,
-            ResourceWithBlock(AuctionResource),
         );
     }
 
@@ -117,13 +114,12 @@ export class AuctionsController extends BaseController {
             type: Enums.NFTTransactionTypes.NFTAuctionCancel,
         };
 
-        return this.paginate(
+        return this.paginateWithBlock(
             criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
             request.query.transform,
             AuctionCancelResource,
-            ResourceWithBlock(AuctionCancelResource),
         );
     }
 

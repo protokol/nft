@@ -6,7 +6,6 @@ import { Indexers } from "@protokol/nft-base-transactions";
 
 import { AssetResource } from "../resources/assets";
 import { CollectionResource } from "../resources/collections";
-import { ResourceWithBlock } from "../resources/resource-with-block";
 import { SchemaResource } from "../resources/schema";
 import { WalletsResource } from "../resources/wallets";
 import { BaseController } from "./base-controller";
@@ -24,13 +23,12 @@ export class CollectionsController extends BaseController {
             type: Enums.NFTBaseTransactionTypes.NFTRegisterCollection,
         };
 
-        return this.paginate(
+        return this.paginateWithBlock(
             criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
             request.query.transform,
             CollectionResource,
-            ResourceWithBlock(CollectionResource),
         );
     }
 
@@ -79,13 +77,12 @@ export class CollectionsController extends BaseController {
             asset: { nftCollection: request.payload },
         };
 
-        return this.paginate(
+        return this.paginateWithBlock(
             criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
             request.query.transform,
             CollectionResource,
-            ResourceWithBlock(CollectionResource),
         );
     }
 
@@ -97,13 +94,12 @@ export class CollectionsController extends BaseController {
             asset: { nftToken: { collectionId: request.params.id } },
         };
 
-        return this.paginate(
+        return this.paginateWithBlock(
             criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
             request.query.transform,
             AssetResource,
-            ResourceWithBlock(AssetResource),
         );
     }
 }

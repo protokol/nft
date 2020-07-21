@@ -3,7 +3,6 @@ import Boom from "@hapi/boom";
 import Hapi from "@hapi/hapi";
 import { Enums } from "@protokol/nft-exchange-crypto";
 
-import { ResourceWithBlock } from "../resources/resource-with-block";
 import { TradeResource } from "../resources/trades";
 import { TradeDetailsResource } from "../resources/trades-show";
 import { BaseController } from "./base-controller";
@@ -11,13 +10,12 @@ import { BaseController } from "./base-controller";
 @Container.injectable()
 export class TradesController extends BaseController {
     public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
-        return this.paginate(
+        return this.paginateWithBlock(
             this.buildTradeCriteria(),
             this.getListingOrder(request),
             this.getListingPage(request),
             request.query.transform,
             TradeResource,
-            ResourceWithBlock(TradeResource),
         );
     }
 
@@ -88,13 +86,12 @@ export class TradesController extends BaseController {
             );
         }
 
-        return this.paginate(
+        return this.paginateWithBlock(
             criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
             request.query.transform,
             TradeResource,
-            ResourceWithBlock(TradeResource),
         );
     }
 

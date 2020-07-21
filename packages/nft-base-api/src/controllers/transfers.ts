@@ -3,7 +3,6 @@ import Boom from "@hapi/boom";
 import Hapi from "@hapi/hapi";
 import { Enums } from "@protokol/nft-base-crypto";
 
-import { ResourceWithBlock } from "../resources/resource-with-block";
 import { TransferResource } from "../resources/transfer";
 import { BaseController } from "./base-controller";
 
@@ -16,13 +15,12 @@ export class TransfersController extends BaseController {
             type: Enums.NFTBaseTransactionTypes.NFTTransfer,
         };
 
-        return this.paginate(
+        return this.paginateWithBlock(
             criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
             request.query.transform,
             TransferResource,
-            ResourceWithBlock(TransferResource),
         );
     }
 

@@ -5,7 +5,6 @@ import { Enums } from "@protokol/nft-base-crypto";
 import { Indexers } from "@protokol/nft-base-transactions";
 
 import { AssetResource } from "../resources/assets";
-import { ResourceWithBlock } from "../resources/resource-with-block";
 import { WalletsResource } from "../resources/wallets";
 import { BaseController } from "./base-controller";
 
@@ -22,13 +21,12 @@ export class AssetsController extends BaseController {
             type: Enums.NFTBaseTransactionTypes.NFTCreate,
         };
 
-        return this.paginate(
+        return this.paginateWithBlock(
             criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
             request.query.transform,
             AssetResource,
-            ResourceWithBlock(AssetResource),
         );
     }
 
@@ -64,13 +62,12 @@ export class AssetsController extends BaseController {
             asset: { nftToken: { attributes: request.payload } },
         };
 
-        return this.paginate(
+        return this.paginateWithBlock(
             criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
             request.query.transform,
             AssetResource,
-            ResourceWithBlock(AssetResource),
         );
     }
 }

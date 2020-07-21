@@ -4,7 +4,6 @@ import Hapi from "@hapi/hapi";
 import { Enums } from "@protokol/nft-base-crypto";
 
 import { BurnsResource } from "../resources/burns";
-import { ResourceWithBlock } from "../resources/resource-with-block";
 import { BaseController } from "./base-controller";
 
 @Container.injectable()
@@ -16,13 +15,12 @@ export class BurnsController extends BaseController {
             type: Enums.NFTBaseTransactionTypes.NFTBurn,
         };
 
-        return this.paginate(
+        return this.paginateWithBlock(
             criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
             request.query.transform,
             BurnsResource,
-            ResourceWithBlock(BurnsResource),
         );
     }
 

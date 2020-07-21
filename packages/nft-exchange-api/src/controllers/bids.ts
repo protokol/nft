@@ -6,7 +6,6 @@ import { Indexers } from "@protokol/nft-exchange-transactions";
 
 import { BidResource } from "../resources/bids";
 import { BidCancelResource } from "../resources/bids-cancel";
-import { ResourceWithBlock } from "../resources/resource-with-block";
 import { WalletResource } from "../resources/wallets";
 import { BaseController } from "./base-controller";
 
@@ -23,13 +22,12 @@ export class BidsController extends BaseController {
             type: Enums.NFTTransactionTypes.NFTBid,
         };
 
-        return this.paginate(
+        return this.paginateWithBlock(
             criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
             request.query.transform,
             BidResource,
-            ResourceWithBlock(BidResource),
         );
     }
 
@@ -89,13 +87,12 @@ export class BidsController extends BaseController {
             });
         }
 
-        return this.paginate(
+        return this.paginateWithBlock(
             criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
             request.query.transform,
             BidResource,
-            ResourceWithBlock(BidResource),
         );
     }
 
@@ -106,13 +103,12 @@ export class BidsController extends BaseController {
             type: Enums.NFTTransactionTypes.NFTBidCancel,
         };
 
-        return this.paginate(
+        return this.paginateWithBlock(
             criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
             request.query.transform,
             BidCancelResource,
-            ResourceWithBlock(BidCancelResource),
         );
     }
 

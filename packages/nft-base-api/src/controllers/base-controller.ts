@@ -1,18 +1,19 @@
 import { Controller } from "@arkecosystem/core-api";
 import { Container, Contracts } from "@arkecosystem/core-kernel";
 
+import { ResourceWithBlock } from "../resources/resource-with-block";
+
 @Container.injectable()
 export class BaseController extends Controller {
     @Container.inject(Container.Identifiers.TransactionHistoryService)
     protected readonly transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
 
-    public async paginate(
+    public async paginateWithBlock(
         criteria: Contracts.Shared.TransactionCriteria | Contracts.Shared.TransactionCriteria[],
         order: Contracts.Search.ListOrder,
         page: Contracts.Search.ListPage,
         transform: boolean,
         resource,
-        resourceWithBlock,
     ) {
         if (transform) {
             const transactionListResult = await this.transactionHistoryService.listByCriteriaJoinBlock(
@@ -20,7 +21,7 @@ export class BaseController extends Controller {
                 order,
                 page,
             );
-            return this.toPagination(transactionListResult, resourceWithBlock, true);
+            return this.toPagination(transactionListResult, ResourceWithBlock(resource), true);
         } else {
             const transactionListResult = await this.transactionHistoryService.listByCriteria(criteria, order, page);
             return this.toPagination(transactionListResult, resource, false);
