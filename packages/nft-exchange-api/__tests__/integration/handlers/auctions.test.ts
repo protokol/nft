@@ -6,9 +6,9 @@ import { ApiHelpers } from "@arkecosystem/core-test-framework/src";
 import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { Identities, Utils } from "@arkecosystem/crypto";
 import { NFTExchangeTransactionFactory } from "@protokol/nft-exchange-transactions/__tests__/functional/transaction-forging/__support__/transaction-factory";
+import { INFTAuctions } from "@protokol/nft-exchange-transactions/src/interfaces";
 
 import { setUp, tearDown } from "../__support__/setup";
-import { INFTAuctions } from "@protokol/nft-exchange-transactions/src/interfaces";
 
 let app: Contracts.Kernel.Application;
 let api: ApiHelpers;
@@ -47,12 +47,12 @@ describe("API - Auctions", () => {
                     countIsEstimate: false,
                 });
 
-                const response = await api.request("GET", "nft/exchange/auctions");
+                const response = await api.request("GET", "nft/exchange/auctions", { transform: false });
                 api.expectPaginator(response);
                 expect(response.data.data).toBeArray();
                 expect(response.data.data[0].id).toStrictEqual(nftAuction.id);
                 expect(response.data.data[0].senderPublicKey).toStrictEqual(nftAuction.data.senderPublicKey);
-                expect(response.data.data[0].nftAuction).toBeObject();
+                expect(response.data.data[0].asset.nftAuction).toBeObject();
             });
         });
 
@@ -62,10 +62,12 @@ describe("API - Auctions", () => {
                     Container.Identifiers.DatabaseTransactionRepository,
                 );
 
-                jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
-                    ...nftAuction.data,
-                    serialized: nftAuction.serialized,
-                }]);
+                jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([
+                    {
+                        ...nftAuction.data,
+                        serialized: nftAuction.serialized,
+                    },
+                ]);
                 const response = await api.request("GET", `nft/exchange/auctions/${nftAuction.id}`);
                 expect(response.data.data.id).toStrictEqual(nftAuction.id);
                 expect(response.data.data.senderPublicKey).toStrictEqual(nftAuction.data.senderPublicKey);
@@ -111,14 +113,14 @@ describe("API - Auctions", () => {
                     countIsEstimate: false,
                 });
 
-                const response = await api.request("POST", "nft/exchange/auctions/search", {
+                const response = await api.request("POST", "nft/exchange/auctions/search?transform=false", {
                     senderPublicKey: nftAuction.data.senderPublicKey,
                 });
                 api.expectPaginator(response);
                 expect(response.data.data).toBeArray();
                 expect(response.data.data[0].id).toStrictEqual(nftAuction.id);
                 expect(response.data.data[0].senderPublicKey).toStrictEqual(nftAuction.data.senderPublicKey);
-                expect(response.data.data[0].nftAuction).toBeObject();
+                expect(response.data.data[0].asset.nftAuction).toBeObject();
             });
         });
     });
@@ -145,12 +147,12 @@ describe("API - Auctions", () => {
                     countIsEstimate: false,
                 });
 
-                const response = await api.request("GET", "nft/exchange/auctions/canceled");
+                const response = await api.request("GET", "nft/exchange/auctions/canceled", { transform: false });
                 api.expectPaginator(response);
                 expect(response.data.data).toBeArray();
                 expect(response.data.data[0].id).toStrictEqual(nftAuctionCancel.id);
                 expect(response.data.data[0].senderPublicKey).toStrictEqual(nftAuctionCancel.data.senderPublicKey);
-                expect(response.data.data[0].nftAuctionCancel).toBeObject();
+                expect(response.data.data[0].asset.nftAuctionCancel).toBeObject();
             });
         });
 
@@ -160,10 +162,12 @@ describe("API - Auctions", () => {
                     Container.Identifiers.DatabaseTransactionRepository,
                 );
 
-                jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
-                    ...nftAuctionCancel.data,
-                    serialized: nftAuctionCancel.serialized,
-                }]);
+                jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([
+                    {
+                        ...nftAuctionCancel.data,
+                        serialized: nftAuctionCancel.serialized,
+                    },
+                ]);
                 const response = await api.request("GET", `nft/exchange/auctions/canceled/${nftAuctionCancel.id}`);
                 expect(response.data.data.id).toStrictEqual(nftAuctionCancel.id);
                 expect(response.data.data.senderPublicKey).toStrictEqual(nftAuctionCancel.data.senderPublicKey);

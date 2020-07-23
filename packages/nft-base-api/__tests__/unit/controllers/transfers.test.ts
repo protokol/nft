@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Application } from "@arkecosystem/core-kernel";
+import { Application, Utils } from "@arkecosystem/core-kernel";
 import { Generators } from "@arkecosystem/core-test-framework/src";
 import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { Identities, Managers, Transactions } from "@arkecosystem/crypto";
@@ -16,6 +16,8 @@ let app: Application;
 let transfersController: TransfersController;
 
 let actual: ITransaction;
+
+const timestamp = Utils.formatTimestamp(104930456);
 
 beforeEach(() => {
     const config = Generators.generateCryptoConfigRaw();
@@ -48,12 +50,15 @@ afterEach(() => {
 
 describe("Test transfer controller", () => {
     it("index - return all transfer transactions", async () => {
-        transactionHistoryService.listByCriteria.mockResolvedValueOnce({ rows: [actual.data] });
+        transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
+            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+        });
 
         const request: Hapi.Request = {
             query: {
                 page: 1,
                 limit: 100,
+                transform: true,
             },
         };
         const response = (await transfersController.index(request, undefined)) as PaginatedResponse;
@@ -64,6 +69,7 @@ describe("Test transfer controller", () => {
                 nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
                 recipientId: Identities.Address.fromPassphrase(passphrases[1]),
             },
+            timestamp,
         });
     });
 
