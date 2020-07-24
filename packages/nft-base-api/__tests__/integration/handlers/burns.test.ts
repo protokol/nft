@@ -39,11 +39,11 @@ describe("API - Burns", () => {
                 count: 1,
                 countIsEstimate: false,
             });
-            const response = await api.request("GET", "nft/burns");
+            const response = await api.request("GET", "nft/burns", { transform: false });
 
             expect(response.data.data[0].id).toStrictEqual(nftBurn.id);
             expect(response.data.data[0].senderPublicKey).toStrictEqual(nftBurn.data.senderPublicKey);
-            expect(response.data.data[0].nftBurn.nftId).toStrictEqual(
+            expect(response.data.data[0].asset.nftBurn.nftId).toStrictEqual(
                 "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
             );
         });

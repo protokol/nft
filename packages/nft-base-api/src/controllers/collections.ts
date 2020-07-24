@@ -1,4 +1,3 @@
-import { Controller } from "@arkecosystem/core-api";
 import { Container, Contracts } from "@arkecosystem/core-kernel";
 import Boom from "@hapi/boom";
 import Hapi from "@hapi/hapi";
@@ -9,28 +8,28 @@ import { AssetResource } from "../resources/assets";
 import { CollectionResource } from "../resources/collections";
 import { SchemaResource } from "../resources/schema";
 import { WalletsResource } from "../resources/wallets";
+import { BaseController } from "./base-controller";
 
 @Container.injectable()
-export class CollectionsController extends Controller {
-    @Container.inject(Container.Identifiers.TransactionHistoryService)
-    private readonly transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
-
+export class CollectionsController extends BaseController {
     @Container.inject(Container.Identifiers.WalletRepository)
     @Container.tagged("state", "blockchain")
     private readonly walletRepository!: Contracts.State.WalletRepository;
 
     public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
-        const transactionListResult = await this.transactionHistoryService.listByCriteria(
-            {
-                ...request.query,
-                typeGroup: Enums.NFTBaseTransactionGroup,
-                type: Enums.NFTBaseTransactionTypes.NFTRegisterCollection,
-            },
+        const criteria: Contracts.Shared.TransactionCriteria = {
+            ...request.query,
+            typeGroup: Enums.NFTBaseTransactionGroup,
+            type: Enums.NFTBaseTransactionTypes.NFTRegisterCollection,
+        };
+
+        return this.paginateWithBlock(
+            criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
+            request.query.transform,
+            CollectionResource,
         );
-
-        return this.toPagination(transactionListResult, CollectionResource, request.query.transform);
     }
 
     public async showByWalletId(request: Hapi.Request, h: Hapi.ResponseToolkit) {
@@ -71,34 +70,36 @@ export class CollectionsController extends Controller {
     }
 
     public async searchCollection(request: Hapi.Request, h: Hapi.ResponseToolkit) {
-        const transactions = await this.transactionHistoryService.listByCriteria(
-            {
-                ...request.query,
-                typeGroup: Enums.NFTBaseTransactionGroup,
-                type: Enums.NFTBaseTransactionTypes.NFTRegisterCollection,
-                asset: { nftCollection: request.payload },
-            },
+        const criteria: Contracts.Shared.TransactionCriteria = {
+            ...request.query,
+            typeGroup: Enums.NFTBaseTransactionGroup,
+            type: Enums.NFTBaseTransactionTypes.NFTRegisterCollection,
+            asset: { nftCollection: request.payload },
+        };
+
+        return this.paginateWithBlock(
+            criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
+            request.query.transform,
+            CollectionResource,
         );
-        if (!transactions) {
-            return Boom.notFound("No Collections not found");
-        }
-
-        return this.toPagination(transactions, CollectionResource);
     }
 
     public async showAssetsByCollectionId(request: Hapi.Request, h: Hapi.ResponseToolkit) {
-        const transactions = await this.transactionHistoryService.listByCriteria(
-            {
-                ...request.query,
-                typeGroup: Enums.NFTBaseTransactionGroup,
-                type: Enums.NFTBaseTransactionTypes.NFTCreate,
-                asset: { nftToken: { collectionId: request.params.id } },
-            },
+        const criteria: Contracts.Shared.TransactionCriteria = {
+            ...request.query,
+            typeGroup: Enums.NFTBaseTransactionGroup,
+            type: Enums.NFTBaseTransactionTypes.NFTCreate,
+            asset: { nftToken: { collectionId: request.params.id } },
+        };
+
+        return this.paginateWithBlock(
+            criteria,
             this.getListingOrder(request),
             this.getListingPage(request),
+            request.query.transform,
+            AssetResource,
         );
-        return this.toPagination(transactions, AssetResource);
     }
 }

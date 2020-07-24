@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Application, Contracts } from "@arkecosystem/core-kernel";
+import { Application, Contracts, Utils as AppUtils } from "@arkecosystem/core-kernel";
 import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { Wallets } from "@arkecosystem/core-state";
 import { Generators } from "@arkecosystem/core-test-framework/src";
@@ -27,6 +27,8 @@ let senderWallet: Contracts.State.Wallet;
 let walletRepository: Wallets.WalletRepository;
 
 let actual: ITransaction;
+
+const timestamp = AppUtils.formatTimestamp(104930456);
 
 beforeEach(() => {
     const config = Generators.generateCryptoConfigRaw();
@@ -65,12 +67,15 @@ afterEach(() => {
 
 describe("Test bids controller", () => {
     it("index - should return all bids ", async () => {
-        transactionHistoryService.listByCriteria.mockResolvedValueOnce({ rows: [actual.data] });
+        transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
+            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+        });
 
         const request: Hapi.Request = {
             query: {
                 page: 1,
                 limit: 100,
+                transform: true,
             },
         };
 
@@ -82,6 +87,7 @@ describe("Test bids controller", () => {
                 auctionId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
                 bidAmount: Utils.BigNumber.make("1"),
             },
+            timestamp,
         });
     });
 
@@ -152,10 +158,13 @@ describe("Test bids controller", () => {
             query: {
                 page: 1,
                 limit: 100,
+                transform: true,
             },
         };
 
-        transactionHistoryService.listByCriteria.mockResolvedValueOnce({ rows: [actual.data] });
+        transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
+            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+        });
         const response = (await bidsController.search(request, undefined)) as PaginatedResponse;
         expect(response.results[0]).toStrictEqual({
             id: actual.id,
@@ -164,6 +173,7 @@ describe("Test bids controller", () => {
                 auctionId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
                 bidAmount: Utils.BigNumber.make("1"),
             },
+            timestamp,
         });
     });
 
@@ -175,12 +185,15 @@ describe("Test bids controller", () => {
             .sign(passphrases[0])
             .build();
 
-        transactionHistoryService.listByCriteria.mockResolvedValueOnce({ rows: [actualCanceledBid.data] });
+        transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
+            rows: [{ data: actualCanceledBid.data, block: { timestamp: timestamp.epoch } }],
+        });
 
         const request: Hapi.Request = {
             query: {
                 page: 1,
                 limit: 100,
+                transform: true,
             },
         };
 
@@ -191,6 +204,7 @@ describe("Test bids controller", () => {
             nftBidCancel: {
                 bidId: "dab749f35c9c43c16f2a9a85b21e69551ae52a630a7fa73ef1d799931b108c2f",
             },
+            timestamp,
         });
     });
 

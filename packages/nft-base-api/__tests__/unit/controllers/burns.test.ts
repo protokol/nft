@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Application } from "@arkecosystem/core-kernel";
+import { Application, Utils } from "@arkecosystem/core-kernel";
 import { Generators } from "@arkecosystem/core-test-framework/src";
 import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { Managers, Transactions } from "@arkecosystem/crypto";
@@ -17,6 +17,8 @@ let burnsController: BurnsController;
 
 let actual: ITransaction;
 
+const timestamp = Utils.formatTimestamp(104930456);
+
 beforeEach(() => {
     const config = Generators.generateCryptoConfigRaw();
     configManager.setConfig(config);
@@ -27,6 +29,7 @@ beforeEach(() => {
     transactionHistoryService.findManyByCriteria.mockReset();
     transactionHistoryService.findOneByCriteria.mockReset();
     transactionHistoryService.listByCriteria.mockReset();
+    transactionHistoryService.listByCriteriaJoinBlock.mockReset();
 
     burnsController = app.resolve<BurnsController>(BurnsController);
 
@@ -47,12 +50,15 @@ afterEach(() => {
 
 describe("Test burns controller", () => {
     it("index - return all burn transactions", async () => {
-        transactionHistoryService.listByCriteria.mockResolvedValueOnce({ rows: [actual.data] });
+        transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
+            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+        });
 
         const request: Hapi.Request = {
             query: {
                 page: 1,
                 limit: 100,
+                transform: true,
             },
         };
 
@@ -63,6 +69,7 @@ describe("Test burns controller", () => {
             nftBurn: {
                 nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
             },
+            timestamp,
         });
     });
 

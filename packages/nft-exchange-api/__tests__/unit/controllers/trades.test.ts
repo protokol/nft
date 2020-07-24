@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Application, Contracts } from "@arkecosystem/core-kernel";
+import { Application, Contracts, Utils as AppUtils } from "@arkecosystem/core-kernel";
 import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { Wallets } from "@arkecosystem/core-state";
 import { Generators } from "@arkecosystem/core-test-framework/src";
@@ -32,6 +32,8 @@ let senderWallet: Contracts.State.Wallet;
 let walletRepository: Wallets.WalletRepository;
 
 let actual: ITransaction;
+
+const timestamp = AppUtils.formatTimestamp(104930456);
 
 beforeEach(() => {
     const config = Generators.generateCryptoConfigRaw();
@@ -70,12 +72,15 @@ afterEach(() => {
 
 describe("Test trades controller", () => {
     it("index - returns all trade transactions ", async () => {
-        transactionHistoryService.listByCriteria.mockResolvedValueOnce({ rows: [actual.data] });
+        transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
+            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+        });
 
         const request: Hapi.Request = {
             query: {
                 page: 1,
                 limit: 100,
+                transform: true,
             },
         };
 
@@ -88,6 +93,7 @@ describe("Test trades controller", () => {
                 auctionId: actual.data.asset!.nftAcceptTrade.auctionId,
                 bidId: actual.data.asset!.nftAcceptTrade.bidId,
             },
+            timestamp,
         });
     });
 
@@ -156,6 +162,7 @@ describe("Test trades controller", () => {
             query: {
                 page: 1,
                 limit: 100,
+                transform: true,
             },
         };
         const requestWithPublicKey: Hapi.Request = cloneDeep(request);
@@ -167,7 +174,9 @@ describe("Test trades controller", () => {
         const requestWithBidId: Hapi.Request = cloneDeep(request);
         requestWithBidId.payload.bidId = actual.data.asset!.nftAcceptTrade.bidId;
 
-        transactionHistoryService.listByCriteria.mockResolvedValue({ rows: [actual.data] });
+        transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValue({
+            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+        });
 
         const expectedResponse = {
             id: actual.id,
@@ -176,6 +185,7 @@ describe("Test trades controller", () => {
                 auctionId: actual.data.asset!.nftAcceptTrade.auctionId,
                 bidId: actual.data.asset!.nftAcceptTrade.bidId,
             },
+            timestamp,
         };
 
         // search by public key

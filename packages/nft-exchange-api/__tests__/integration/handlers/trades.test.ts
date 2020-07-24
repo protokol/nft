@@ -42,12 +42,12 @@ describe("API - Trades", () => {
                 countIsEstimate: false,
             });
 
-            const response = await api.request("GET", "nft/exchange/trades");
+            const response = await api.request("GET", "nft/exchange/trades", { transform: false });
             api.expectPaginator(response);
             expect(response.data.data).toBeArray();
             expect(response.data.data[0].id).toStrictEqual(nftAcceptTrade.id);
             expect(response.data.data[0].senderPublicKey).toStrictEqual(nftAcceptTrade.data.senderPublicKey);
-            expect(response.data.data[0].completedTrade).toBeObject();
+            expect(response.data.data[0].asset.nftAcceptTrade).toBeObject();
         });
     });
 
@@ -113,14 +113,14 @@ describe("API - Trades", () => {
                 countIsEstimate: false,
             });
 
-            const response = await api.request("POST", "nft/exchange/trades/search", {
+            const response = await api.request("POST", "nft/exchange/trades/search?transform=false", {
                 senderPublicKey: nftAcceptTrade.data.senderPublicKey,
             });
             api.expectPaginator(response);
             expect(response.data.data).toBeArray();
             expect(response.data.data[0].id).toStrictEqual(nftAcceptTrade.id);
             expect(response.data.data[0].senderPublicKey).toStrictEqual(nftAcceptTrade.data.senderPublicKey);
-            expect(response.data.data[0].completedTrade).toBeObject();
+            expect(response.data.data[0].asset.nftAcceptTrade).toBeObject();
         });
     });
 });

@@ -45,12 +45,12 @@ describe("API - Bids", () => {
                     countIsEstimate: false,
                 });
 
-                const response = await api.request("GET", "nft/exchange/bids");
+                const response = await api.request("GET", "nft/exchange/bids", { transform: false });
                 api.expectPaginator(response);
                 expect(response.data.data).toBeArray();
                 expect(response.data.data[0].id).toStrictEqual(nftBid.id);
                 expect(response.data.data[0].senderPublicKey).toStrictEqual(nftBid.data.senderPublicKey);
-                expect(response.data.data[0].nftBid).toBeObject();
+                expect(response.data.data[0].asset.nftBid).toBeObject();
             });
         });
 
@@ -60,10 +60,12 @@ describe("API - Bids", () => {
                     Container.Identifiers.DatabaseTransactionRepository,
                 );
 
-                jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
-                    ...nftBid.data,
-                    serialized: nftBid.serialized,
-                }]);
+                jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([
+                    {
+                        ...nftBid.data,
+                        serialized: nftBid.serialized,
+                    },
+                ]);
                 const response = await api.request("GET", `nft/exchange/bids/${nftBid.id}`);
                 expect(response.data.data.id).toStrictEqual(nftBid.id);
                 expect(response.data.data.senderPublicKey).toStrictEqual(nftBid.data.senderPublicKey);
@@ -107,14 +109,14 @@ describe("API - Bids", () => {
                     countIsEstimate: false,
                 });
 
-                const response = await api.request("POST", "nft/exchange/bids/search", {
+                const response = await api.request("POST", "nft/exchange/bids/search?transform=false", {
                     senderPublicKey: nftBid.data.senderPublicKey,
                 });
                 api.expectPaginator(response);
                 expect(response.data.data).toBeArray();
                 expect(response.data.data[0].id).toStrictEqual(nftBid.id);
                 expect(response.data.data[0].senderPublicKey).toStrictEqual(nftBid.data.senderPublicKey);
-                expect(response.data.data[0].nftBid).toBeObject();
+                expect(response.data.data[0].asset.nftBid).toBeObject();
             });
         });
     });
@@ -142,12 +144,12 @@ describe("API - Bids", () => {
                     countIsEstimate: false,
                 });
 
-                const response = await api.request("GET", "nft/exchange/bids/canceled");
+                const response = await api.request("GET", "nft/exchange/bids/canceled", { transform: false });
                 api.expectPaginator(response);
                 expect(response.data.data).toBeArray();
                 expect(response.data.data[0].id).toStrictEqual(nftBidCancel.id);
                 expect(response.data.data[0].senderPublicKey).toStrictEqual(nftBidCancel.data.senderPublicKey);
-                expect(response.data.data[0].nftBidCancel).toBeObject();
+                expect(response.data.data[0].asset.nftBidCancel).toBeObject();
             });
         });
 
@@ -157,15 +159,17 @@ describe("API - Bids", () => {
                     Container.Identifiers.DatabaseTransactionRepository,
                 );
 
-                jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([{
-                    ...nftBidCancel.data,
-                    serialized: nftBidCancel.serialized,
-                }]);
+                jest.spyOn(transactionRepository, "findManyByExpression").mockResolvedValueOnce([
+                    {
+                        ...nftBidCancel.data,
+                        serialized: nftBidCancel.serialized,
+                    },
+                ]);
                 const response = await api.request("GET", `nft/exchange/bids/canceled/${nftBidCancel.id}`);
                 expect(response.data.data.id).toStrictEqual(nftBidCancel.id);
                 expect(response.data.data.senderPublicKey).toStrictEqual(nftBidCancel.data.senderPublicKey);
                 expect(response.data.data.nftBidCancel).toBeObject();
             });
-        })
+        });
     });
 });

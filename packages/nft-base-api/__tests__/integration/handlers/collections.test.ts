@@ -60,17 +60,17 @@ describe("API - Collections", () => {
                 countIsEstimate: false,
             });
 
-            const response = await api.request("GET", "nft/collections");
+            const response = await api.request("GET", "nft/collections", { transform: false });
 
             expect(response).toBeSuccessfulResponse();
             api.expectPaginator(response);
             expect(response.data.data).toBeArray();
             expect(response.data.data[0].id).toStrictEqual(nftRegisteredCollection.id);
             expect(response.data.data[0].senderPublicKey).toStrictEqual(nftRegisteredCollection.data.senderPublicKey);
-            expect(response.data.data[0].name).toStrictEqual("Nft card");
-            expect(response.data.data[0].description).toStrictEqual("Nft card description");
-            expect(response.data.data[0].maximumSupply).toStrictEqual(100);
-            expect(response.data.data[0].jsonSchema).toBeObject();
+            expect(response.data.data[0].asset.nftCollection.name).toStrictEqual("Nft card");
+            expect(response.data.data[0].asset.nftCollection.description).toStrictEqual("Nft card description");
+            expect(response.data.data[0].asset.nftCollection.maximumSupply).toStrictEqual(100);
+            expect(response.data.data[0].asset.nftCollection.jsonSchema).toBeObject();
         });
     });
 
@@ -185,7 +185,7 @@ describe("API - Collections", () => {
                 countIsEstimate: false,
             });
 
-            const response = await api.request("POST", "nft/collections/search", {
+            const response = await api.request("POST", "nft/collections/search?transform=false", {
                 type: "number",
             });
             expect(response).toBeSuccessfulResponse();
@@ -193,14 +193,14 @@ describe("API - Collections", () => {
             expect(response.data.data).toBeArray();
             expect(response.data.data[0].id).toStrictEqual(nftRegisteredCollection.id);
             expect(response.data.data[0].senderPublicKey).toStrictEqual(nftRegisteredCollection.data.senderPublicKey);
-            expect(response.data.data[0].name).toStrictEqual("Nft card");
-            expect(response.data.data[0].description).toStrictEqual("Nft card description");
-            expect(response.data.data[0].maximumSupply).toStrictEqual(100);
-            expect(response.data.data[0].jsonSchema).toBeObject();
+            expect(response.data.data[0].asset.nftCollection.name).toStrictEqual("Nft card");
+            expect(response.data.data[0].asset.nftCollection.description).toStrictEqual("Nft card description");
+            expect(response.data.data[0].asset.nftCollection.maximumSupply).toStrictEqual(100);
+            expect(response.data.data[0].asset.nftCollection.jsonSchema).toBeObject();
         });
     });
 
-    describe("POST /collections/{id}/assets", () => {
+    describe("GET /collections/{id}/assets", () => {
         let nftToken;
         it("should find assets by collection id", async () => {
             nftToken = NFTBaseTransactionFactory.initialize(app)
@@ -238,16 +238,15 @@ describe("API - Collections", () => {
                 countIsEstimate: false,
             });
 
-            const response = await api.request("GET", `nft/collections/${nftToken.id}/assets`);
+            const response = await api.request("GET", `nft/collections/${nftToken.id}/assets`, { transform: false });
             console.log(response.data.data);
             expect(response).toBeSuccessfulResponse();
             expect(response.data.data[0].id).toStrictEqual(nftToken.id);
-            expect(response.data.data[0].ownerPublicKey).toStrictEqual(nftToken.data.senderPublicKey);
             expect(response.data.data[0].senderPublicKey).toStrictEqual(nftToken.data.senderPublicKey);
-            expect(response.data.data[0].collectionId).toStrictEqual(
+            expect(response.data.data[0].asset.nftToken.collectionId).toStrictEqual(
                 "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
             );
-            expect(response.data.data[0].attributes).toBeObject();
+            expect(response.data.data[0].asset.nftToken.attributes).toBeObject();
         });
     });
 });
