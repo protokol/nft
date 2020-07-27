@@ -7,6 +7,11 @@ export interface Trades {
         auctionId: string;
         bidId: string;
     };
+    timestamp: {
+        epoch: number;
+        unix: number;
+        human: string;
+    };
 }
 
 export interface AllTradesQuery extends ApiQuery {

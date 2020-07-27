@@ -9,6 +9,14 @@ export interface Bids {
     };
 }
 
+export interface BidsTimestamp extends Bids {
+    timestamp: {
+        epoch: number;
+        unix: number;
+        human: string;
+    };
+}
+
 export interface AllBidsQuery extends ApiQuery {
     orderBy?: string;
     transform?: boolean;
@@ -53,6 +61,14 @@ export interface BidCanceled {
     senderPublicKey: string;
     nftBidCancel: {
         bidId: string;
+    };
+}
+
+export interface BidCanceledTimestamp extends BidCanceled {
+    timestamp: {
+        epoch: number;
+        unix: number;
+        human: string;
     };
 }
 
