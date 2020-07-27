@@ -10,6 +10,14 @@ export interface Collections {
     [jsonSchema: string]: any;
 }
 
+export interface CollectionsTimestamp extends Collections {
+    timestamp: {
+        epoch: number;
+        unix: number;
+        human: string;
+    };
+}
+
 export interface AllCollectionsQuery extends ApiQuery {
     orderBy?: string;
     transform?: boolean;
@@ -51,5 +59,9 @@ export interface CollectionsAsset {
     collectionId: string;
     // eslint-disable-next-line @typescript-eslint/member-ordering
     [attributes: string]: any;
+    timestamp: {
+        epoch: number;
+        unix: number;
+        human: string;
+    };
 }
-
