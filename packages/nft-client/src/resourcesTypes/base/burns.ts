@@ -8,6 +8,14 @@ export interface Burns {
     };
 }
 
+export interface BurnsTimestamp extends Burns{
+    timestamp: {
+        epoch: number;
+        unix: number;
+        human: string;
+    };
+}
+
 export interface AllBurnsQuery extends ApiQuery {
     orderBy?: string;
     transform?: boolean;

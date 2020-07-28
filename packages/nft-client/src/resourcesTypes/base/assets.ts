@@ -8,6 +8,14 @@ export interface Assets {
     [attributes: string]: any;
 }
 
+export interface AssetsTimestamp extends Assets{
+    timestamp: {
+        epoch: number;
+        unix: number;
+        human: string;
+    };
+}
+
 export interface AssetsWallet {
     address: string;
     publicKey: string;

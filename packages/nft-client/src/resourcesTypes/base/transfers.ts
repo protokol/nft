@@ -9,6 +9,14 @@ export interface Transfers {
     };
 }
 
+export interface TransfersTimestamp extends Transfers {
+    timestamp: {
+        epoch: number;
+        unix: number;
+        human: string;
+    };
+}
+
 export interface AllTransfersQuery extends ApiQuery {
     orderBy?: string;
     transform?: boolean;
