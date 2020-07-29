@@ -3,8 +3,8 @@ import { ApiResponse, ApiResponseWithPagination, Resource } from "@arkecosystem/
 import {
     AllCollectionsQuery,
     Collections as CollectionsResource,
-    CollectionsTimestamp,
     CollectionsAsset,
+    CollectionsTimestamp,
     CollectionsWallet,
     Schema,
     SearchCollectionsApiBody,
