@@ -2,14 +2,16 @@ import { ApiResponse, ApiResponseWithPagination, Resource } from "@arkecosystem/
 
 import {
     AllCollectionsQuery,
-    Collections as CollectionsResource, CollectionsAsset,
+    Collections as CollectionsResource,
+    CollectionsTimestamp,
+    CollectionsAsset,
     CollectionsWallet,
     Schema,
     SearchCollectionsApiBody,
 } from "../../resourcesTypes/base/collections";
 
 export class Collections extends Resource {
-    public async all(query?: AllCollectionsQuery): Promise<ApiResponseWithPagination<CollectionsResource[]>> {
+    public async all(query?: AllCollectionsQuery): Promise<ApiResponseWithPagination<CollectionsTimestamp[]>> {
         return this.sendGet("nft/collections", query);
     }
 

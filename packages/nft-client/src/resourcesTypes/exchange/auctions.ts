@@ -12,6 +12,14 @@ export interface Auctions {
     };
 }
 
+export interface AuctionsTimestamp extends Auctions {
+    timestamp: {
+        epoch: number;
+        unix: number;
+        human: string;
+    };
+}
+
 export interface AuctionsWallet {
     address: string;
     publicKey: string;
@@ -59,6 +67,14 @@ export interface AuctionCanceled {
     senderPublicKey: string;
     nftAuctionCanceled: {
         auctionId: string;
+    };
+}
+
+export interface AuctionCanceledTimestamp extends AuctionCanceled {
+    timestamp: {
+        epoch: number;
+        unix: number;
+        human: string;
     };
 }
 
