@@ -1,12 +1,12 @@
 import "jest-extended";
 
 import { Configurations } from "../../../src/resources/base/configurations";
-import { configureMocks } from "../../mocks/base";
+import { configureBaseMocks } from "../../mocks/base";
 
-const resource: Configurations = configureMocks<Configurations>(Configurations);
+const resource: Configurations = configureBaseMocks<Configurations>(Configurations);
 
-describe("Base configurations", () => {
-    it('should test base configurations - resources/base/configurations - "index" ', async () => {
+describe("API - 1.0 - Base/Resources - Configurations", () => {
+    it('should call \\"index\\" method', async () => {
         const response = await resource.index();
 
         expect(response.status).toBe(200);

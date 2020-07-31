@@ -1,12 +1,12 @@
 import "jest-extended";
 
 import { Collections } from "../../../src/resources/base/collections";
-import { configureMocks } from "../../mocks/base";
+import { configureBaseMocks } from "../../mocks/base";
 
-const resource: Collections = configureMocks<Collections>(Collections);
+const resource: Collections = configureBaseMocks<Collections>(Collections);
 
-describe("Collections - resources/base/collections", () => {
-    it('should test collections all - "all" ', async () => {
+describe("API - 1.0 - Base/Resources - Collections", () => {
+    it('should call \\"all\\" method" ', async () => {
         const response = await resource.all();
 
         expect(response.status).toBe(200);
@@ -62,7 +62,7 @@ describe("Collections - resources/base/collections", () => {
         expect(response.body.data[0].timestamp.human).toBe("2020-07-29T08:37:52.000Z");
     });
 
-    it('should test collections return by id - "get" ', async () => {
+    it('should call \\"get\\" method" ', async () => {
         const response = await resource.get("e38324971ab923b6d74693448cad180207b4aa99ca4f5c20625dc290cd8b7e55");
 
         expect(response.status).toBe(200);
@@ -102,7 +102,7 @@ describe("Collections - resources/base/collections", () => {
         });
     });
 
-    it('should test collections return schema by id - "getSchema" ', async () => {
+    it('should call \\"getSchema\\" method" ', async () => {
         const response = await resource.getSchema("e38324971ab923b6d74693448cad180207b4aa99ca4f5c20625dc290cd8b7e55");
 
         expect(response.status).toBe(200);
@@ -139,7 +139,7 @@ describe("Collections - resources/base/collections", () => {
         });
     });
 
-    it('should test get wallet - "wallet" ', async () => {
+    it('should call \\"wallet\\" method', async () => {
         const response = await resource.wallet("bc045f0a977d368735030c7eadaa45de5581c1ffb2b0e9e93752c82579c516fe");
 
         expect(response.status).toBe(200);
@@ -187,7 +187,7 @@ describe("Collections - resources/base/collections", () => {
         ]);
     });
 
-    it('should test post searchByCollections - "searchByCollections" ', async () => {
+    it('should call \\"searchByCollection\\" method" ', async () => {
         const response = await resource.searchByCollections({
             jsonSchema: {
                 properties: {
@@ -251,7 +251,7 @@ describe("Collections - resources/base/collections", () => {
         expect(response.body.data[0].timestamp.human).toBe("2020-07-29T08:37:52.000Z");
     });
 
-    it('should search asset by collection id - "assetByCollectionId"', async () => {
+    it('should call \\"assetByCollectionId\\" method', async () => {
         const response = await resource.assetByCollectionId(
             "bc045f0a977d368735030c7eadaa45de5581c1ffb2b0e9e93752c82579c516fe",
         );
