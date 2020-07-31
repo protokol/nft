@@ -1,6 +1,6 @@
 {
     "name": "@protokol/nft-base-transactions",
-    "version": "1.0.0-beta.4",
+    "version": "1.0.0-beta.8",
     "description": "Transaction Types For Base NFT Core Support",
     "license": "CC-BY-NC-SA-4.0",
     "homepage": "https://docs.protokol.com/nft/",
@@ -47,7 +47,7 @@
         "@arkecosystem/core-state": "^3.0.0-alpha.0",
         "@arkecosystem/core-transactions": "^3.0.0-alpha.0",
         "@arkecosystem/crypto": "^3.0.0-alpha.0",
-        "@protokol/nft-base-crypto": "^1.0.0-beta.4"
+        "@protokol/nft-base-crypto": "^1.0.0-beta.8"
     },
     "devDependencies": {
         "@types/prettier": "^2.0.0",
