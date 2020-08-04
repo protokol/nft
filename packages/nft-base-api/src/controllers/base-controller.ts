@@ -1,5 +1,6 @@
 import { Controller } from "@arkecosystem/core-api";
 import { Container, Contracts } from "@arkecosystem/core-kernel";
+import { Interfaces } from "@arkecosystem/crypto";
 
 import { ResourceWithBlock } from "../resources/resource-with-block";
 
@@ -7,6 +8,9 @@ import { ResourceWithBlock } from "../resources/resource-with-block";
 export class BaseController extends Controller {
     @Container.inject(Container.Identifiers.TransactionHistoryService)
     protected readonly transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
+
+    @Container.inject(Container.Identifiers.BlockHistoryService)
+    private readonly blockHistoryService!: Contracts.Shared.BlockHistoryService;
 
     public async paginateWithBlock(
         criteria: Contracts.Shared.TransactionCriteria | Contracts.Shared.TransactionCriteria[],
@@ -25,6 +29,15 @@ export class BaseController extends Controller {
         } else {
             const transactionListResult = await this.transactionHistoryService.listByCriteria(criteria, order, page);
             return this.toPagination(transactionListResult, resource, false);
+        }
+    }
+
+    public async respondWithBlockResource(transaction: Interfaces.ITransactionData, transform: boolean, resource) {
+        if (transform) {
+            const blockData = await this.blockHistoryService.findOneByCriteria({ id: transaction.blockId });
+            return this.respondWithResource({ data: transaction, block: blockData }, ResourceWithBlock(resource), true);
+        } else {
+            return this.respondWithResource(transaction, resource, false);
         }
     }
 }
