@@ -33,6 +33,9 @@ export const register = (server: Hapi.Server): void => {
         handler: controller.show,
         options: {
             validate: {
+                query: Joi.object({
+                    transform: Joi.bool().default(true),
+                }),
                 params: Joi.object({
                     id: Joi.string().hex().length(64),
                 }),
@@ -107,6 +110,9 @@ export const register = (server: Hapi.Server): void => {
         handler: controller.showAuctionCanceled,
         options: {
             validate: {
+                query: Joi.object({
+                    transform: Joi.bool().default(true),
+                }),
                 params: Joi.object({
                     id: Joi.string().hex().length(64),
                 }),

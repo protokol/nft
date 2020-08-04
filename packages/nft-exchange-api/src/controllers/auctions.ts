@@ -41,7 +41,7 @@ export class AuctionsController extends BaseController {
         if (!transaction) {
             return Boom.notFound("Auction not found");
         }
-        return this.respondWithResource(transaction, AuctionResource);
+        return this.respondWithBlockResource(transaction, request.query.transform, AuctionResource);
     }
 
     public async showAuctionWallet(request: Hapi.Request, h: Hapi.ResponseToolkit) {
@@ -133,6 +133,6 @@ export class AuctionsController extends BaseController {
         if (!transaction) {
             return Boom.notFound("Auction not found");
         }
-        return this.respondWithResource(transaction, AuctionCancelResource);
+        return this.respondWithBlockResource(transaction, request.query.transform, AuctionCancelResource);
     }
 }
