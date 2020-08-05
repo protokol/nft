@@ -12,7 +12,14 @@ import Hapi from "@hapi/hapi";
 import { Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import { INFTCollections, INFTTokens } from "@protokol/nft-base-transactions/src/interfaces";
 
-import { buildSenderWallet, initApp, ItemResponse, PaginatedResponse, transactionHistoryService } from "../__support__";
+import {
+    blockHistoryService,
+    buildSenderWallet,
+    initApp,
+    ItemResponse,
+    PaginatedResponse,
+    transactionHistoryService,
+} from "../__support__";
 import { CollectionsController } from "../../../src/controllers/collections";
 
 let app: Application;
@@ -66,6 +73,8 @@ beforeEach(() => {
     transactionHistoryService.findOneByCriteria.mockReset();
     transactionHistoryService.listByCriteria.mockReset();
     transactionHistoryService.listByCriteriaJoinBlock.mockReset();
+
+    blockHistoryService.findOneByCriteria.mockReset();
 
     collectionController = app.resolve<CollectionsController>(CollectionsController);
 
@@ -162,8 +171,12 @@ describe("Test collection controller", () => {
 
     it("show - return specific collection transaction", async () => {
         transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actual.data);
+        blockHistoryService.findOneByCriteria.mockResolvedValueOnce({ timestamp: timestamp.epoch });
 
         const request: Hapi.Request = {
+            query: {
+                transform: true,
+            },
             params: {
                 id: actual.id,
             },
@@ -184,13 +197,18 @@ describe("Test collection controller", () => {
                     string: { type: "string" },
                 },
             },
+            timestamp,
         });
     });
 
     it("showSchema - return schema by specific id", async () => {
         transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actual.data);
+        blockHistoryService.findOneByCriteria.mockResolvedValueOnce({ timestamp: timestamp.epoch });
 
         const request: Hapi.Request = {
+            query: {
+                transform: true,
+            },
             params: {
                 id: actual.id,
             },
@@ -206,6 +224,7 @@ describe("Test collection controller", () => {
                 },
                 string: { type: "string" },
             },
+            timestamp,
         });
     });
 

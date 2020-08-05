@@ -13,7 +13,7 @@ import { buildSenderWallet, ItemResponse, PaginatedResponse } from "@protokol/nf
 import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import { Builders, Transactions as ExchangeTransactions } from "@protokol/nft-exchange-crypto";
 
-import { initApp, transactionHistoryService } from "../__support__";
+import { blockHistoryService, initApp, transactionHistoryService } from "../__support__";
 import { INFTAuctions } from "../../../../nft-exchange-transactions/src/interfaces";
 import { BidsController } from "../../../src/controllers/bids";
 
@@ -93,8 +93,12 @@ describe("Test bids controller", () => {
 
     it("show - should return bid by its id ", async () => {
         transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actual.data);
+        blockHistoryService.findOneByCriteria.mockResolvedValueOnce({ timestamp: timestamp.epoch });
 
         const request: Hapi.Request = {
+            query: {
+                transform: true,
+            },
             params: {
                 id: actual.id,
             },
@@ -108,6 +112,7 @@ describe("Test bids controller", () => {
                 auctionId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
                 bidAmount: Utils.BigNumber.make("1"),
             },
+            timestamp,
         });
     });
 
@@ -217,8 +222,12 @@ describe("Test bids controller", () => {
             .build();
 
         transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actualCanceledBid.data);
+        blockHistoryService.findOneByCriteria.mockResolvedValueOnce({ timestamp: timestamp.epoch });
 
         const request: Hapi.Request = {
+            query: {
+                transform: true,
+            },
             params: {
                 id: actualCanceledBid.id,
             },
@@ -230,6 +239,7 @@ describe("Test bids controller", () => {
             nftBidCancel: {
                 bidId: "dab749f35c9c43c16f2a9a85b21e69551ae52a630a7fa73ef1d799931b108c2f",
             },
+            timestamp,
         });
     });
 });
