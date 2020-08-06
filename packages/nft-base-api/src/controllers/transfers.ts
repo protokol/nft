@@ -34,6 +34,6 @@ export class TransfersController extends BaseController {
         if (!transaction) {
             return Boom.notFound("NTF Transfer Transaction not found");
         }
-        return this.respondWithResource(transaction, TransferResource);
+        return this.respondWithBlockResource(transaction, request.query.transform, TransferResource);
     }
 }

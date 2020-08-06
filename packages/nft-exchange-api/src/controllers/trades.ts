@@ -50,7 +50,7 @@ export class TradesController extends BaseController {
             bid: transactions.find((tx) => tx.id === nftAcceptTrade.bidId),
         };
 
-        return this.respondWithResource(result, TradeDetailsResource);
+        return this.respondWithBlockResource(transaction, request.query.transform, TradeDetailsResource, result);
     }
 
     public async search(request: Hapi.Request, h: Hapi.ResponseToolkit) {

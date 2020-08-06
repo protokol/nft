@@ -12,7 +12,14 @@ import Hapi from "@hapi/hapi";
 import { Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import { INFTTokens } from "@protokol/nft-base-transactions/src/interfaces";
 
-import { buildSenderWallet, initApp, ItemResponse, PaginatedResponse, transactionHistoryService } from "../__support__";
+import {
+    blockHistoryService,
+    buildSenderWallet,
+    initApp,
+    ItemResponse,
+    PaginatedResponse,
+    transactionHistoryService,
+} from "../__support__";
 import { AssetsController } from "../../../src/controllers/assets";
 
 let app: Application;
@@ -41,6 +48,8 @@ beforeEach(() => {
     transactionHistoryService.findOneByCriteria.mockReset();
     transactionHistoryService.listByCriteria.mockReset();
     transactionHistoryService.listByCriteriaJoinBlock.mockReset();
+
+    blockHistoryService.findOneByCriteria.mockReset();
 
     assetController = app.resolve<AssetsController>(AssetsController);
 
@@ -127,8 +136,12 @@ describe("Test asset controller", () => {
 
     it("show - return nftCreate transaction by its id", async () => {
         transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actual.data);
+        blockHistoryService.findOneByCriteria.mockResolvedValueOnce({ timestamp: timestamp.epoch });
 
         const request: Hapi.Request = {
+            query: {
+                transform: true,
+            },
             params: {
                 id: actual.id,
             },
@@ -147,6 +160,7 @@ describe("Test asset controller", () => {
                 health: 2,
                 mana: 2,
             },
+            timestamp,
         });
     });
 
