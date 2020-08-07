@@ -1,19 +1,14 @@
 import { ApiQuery } from "@arkecosystem/client";
 
+import { Timestamp } from "../timestamp";
+
 export interface Assets {
     id: string;
     ownerPublicKey: string;
     collectionId: string;
     // eslint-disable-next-line @typescript-eslint/member-ordering
     [attributes: string]: any;
-}
-
-export interface AssetsTimestamp extends Assets{
-    timestamp: {
-        epoch: number;
-        unix: number;
-        human: string;
-    };
+    timestamp: Timestamp;
 }
 
 export interface AssetsWallet {

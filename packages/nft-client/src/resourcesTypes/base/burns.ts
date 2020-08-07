@@ -1,19 +1,14 @@
 import { ApiQuery } from "@arkecosystem/client";
 
+import { Timestamp } from "../timestamp";
+
 export interface Burns {
     id: string;
     senderPublicKey: string;
     nftBurn: {
         nftId: string;
     };
-}
-
-export interface BurnsTimestamp extends Burns{
-    timestamp: {
-        epoch: number;
-        unix: number;
-        human: string;
-    };
+    timestamp: Timestamp;
 }
 
 export interface AllBurnsQuery extends ApiQuery {
