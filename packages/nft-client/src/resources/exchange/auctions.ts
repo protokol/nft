@@ -4,16 +4,14 @@ import {
     AllAuctionCanceledQuery,
     AllAuctionsQuery,
     AuctionCanceled,
-    AuctionCanceledTimestamp,
     Auctions as AuctionsResource,
-    AuctionsTimestamp,
     AuctionsWallet,
     SearchAuctionsApiBody,
     SearchAuctionsApiQuery,
 } from "../../resourcesTypes/exchange";
 
 export class Auctions extends Resource {
-    public async getAllAuctions(query?: AllAuctionsQuery): Promise<ApiResponseWithPagination<AuctionsTimestamp[]>> {
+    public async getAllAuctions(query?: AllAuctionsQuery): Promise<ApiResponseWithPagination<AuctionsResource[]>> {
         return this.sendGet("nft/exchange/auctions");
     }
 
@@ -28,13 +26,13 @@ export class Auctions extends Resource {
     public async searchByAsset(
         payload: SearchAuctionsApiBody,
         query?: SearchAuctionsApiQuery,
-    ): Promise<ApiResponseWithPagination<AuctionsTimestamp[]>> {
+    ): Promise<ApiResponseWithPagination<AuctionsResource[]>> {
         return this.sendPost("nft/exchange/auctions/search", payload, query);
     }
 
     public async getAllCanceledAuctions(
         query?: AllAuctionCanceledQuery,
-    ): Promise<ApiResponseWithPagination<AuctionCanceledTimestamp[]>> {
+    ): Promise<ApiResponseWithPagination<AuctionCanceled[]>> {
         return this.sendGet("nft/exchange/auctions/canceled");
     }
 

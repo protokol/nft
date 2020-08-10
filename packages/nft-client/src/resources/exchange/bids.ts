@@ -4,16 +4,14 @@ import {
     AllBidsCanceledQuery,
     AllBidsQuery,
     BidCanceled,
-    BidCanceledTimestamp,
     Bids as BidsResource,
-    BidsTimestamp,
     BidsWallet,
     SearchBidsApiBody,
     SearchBidsApiQuery,
 } from "../../resourcesTypes/exchange";
 
 export class Bids extends Resource {
-    public async getAllBids(query?: AllBidsQuery): Promise<ApiResponse<BidsTimestamp>> {
+    public async getAllBids(query?: AllBidsQuery): Promise<ApiResponse<BidsResource>> {
         return this.sendGet("nft/exchange/bids");
     }
 
@@ -28,11 +26,11 @@ export class Bids extends Resource {
     public async searchByBid(
         payload: SearchBidsApiBody,
         query?: SearchBidsApiQuery,
-    ): Promise<ApiResponseWithPagination<BidsTimestamp[]>> {
+    ): Promise<ApiResponseWithPagination<BidsResource[]>> {
         return this.sendPost("nft/exchange/bids/search", payload, query);
     }
 
-    public async getAllCanceledBids(query?: AllBidsCanceledQuery): Promise<ApiResponse<BidCanceledTimestamp>> {
+    public async getAllCanceledBids(query?: AllBidsCanceledQuery): Promise<ApiResponse<BidCanceled>> {
         return this.sendGet("nft/exchange/bids/canceled");
     }
     public async getCanceledBidById(id: string): Promise<ApiResponse<BidCanceled>> {
