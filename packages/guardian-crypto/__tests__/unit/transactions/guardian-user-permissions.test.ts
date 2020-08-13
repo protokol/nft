@@ -9,10 +9,9 @@ import { GuardianUserPermissionsTransaction } from "../../../src/transactions";
 
 const publicKey = "02def27da9336e7fbf63131b8d7e5c9f45b296235db035f1f4242c507398f0f21d";
 
-describe("NFT register collection tests", () => {
+describe("Guardian set user permissions tests", () => {
     Managers.configManager.setFromPreset("testnet");
     Managers.configManager.setHeight(2);
-
     Transactions.TransactionRegistry.registerTransactionType(GuardianUserPermissionsTransaction);
 
     describe("Ser/deser tests", () => {

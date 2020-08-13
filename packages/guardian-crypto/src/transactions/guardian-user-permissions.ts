@@ -4,7 +4,9 @@ import ByteBuffer from "bytebuffer";
 
 import { defaults } from "../defaults";
 import { GuardianStaticFees, GuardianTransactionGroup, GuardianTransactionTypes } from "../enums";
-import { GuardianUserPermissionsAsset, IPermission } from "../interfaces";
+import { GuardianUserPermissionsAsset } from "../interfaces";
+import { amountSchema, groupNameSchema, permissionsSchema, vendorFieldSchema } from "./utils/guardian-schemas";
+import { calculatePermissionsLength, deserializePermissions, serializePermissions } from "./utils/serde";
 
 const { schemas } = Transactions;
 
@@ -23,8 +25,8 @@ export class GuardianUserPermissionsTransaction extends Transactions.Transaction
             properties: {
                 type: { transactionType: this.type },
                 typeGroup: { const: this.typeGroup },
-                amount: { bignumber: { minimum: 0, maximum: 0 } },
-                vendorField: { anyOf: [{ type: "null" }, { type: "string", format: "vendorField" }] },
+                amount: amountSchema,
+                vendorField: vendorFieldSchema,
                 asset: {
                     type: "object",
                     required: ["setUserPermissions"],
@@ -39,35 +41,9 @@ export class GuardianUserPermissionsTransaction extends Transactions.Transaction
                                 groupNames: {
                                     type: "array",
                                     uniqueItems: true,
-                                    items: {
-                                        type: "string",
-                                        minLength: defaults.guardianUserPermissionsGroupName.minLength,
-                                        maxLength: defaults.guardianUserPermissionsGroupName.maxLength,
-                                    },
+                                    items: groupNameSchema,
                                 },
-                                permissions: {
-                                    type: "array",
-                                    items: {
-                                        type: "object",
-                                        required: ["types", "kind"],
-                                        properties: {
-                                            kind: {
-                                                oneOf: [{ const: 0 }, { const: 1 }],
-                                            },
-                                            types: {
-                                                type: "array",
-                                                items: {
-                                                    type: "object",
-                                                    required: ["transactionType", "transactionTypeGroup"],
-                                                    properties: {
-                                                        transactionType: { type: "integer", minimum: 0 },
-                                                        transactionTypeGroup: { type: "integer", minimum: 0 },
-                                                    },
-                                                },
-                                            },
-                                        },
-                                    },
-                                },
+                                permissions: permissionsSchema,
                             },
                         },
                     },
@@ -92,14 +68,12 @@ export class GuardianUserPermissionsTransaction extends Transactions.Transaction
             }
         }
 
-        let permissionsLength = 1;
-        if (setUserPermissionAsset.permissions) {
-            for (const permission of setUserPermissionAsset.permissions) {
-                permissionsLength += 2 + permission.types.length * 8;
-            }
-        }
-
-        const buffer: ByteBuffer = new ByteBuffer(66 /*privateKey*/ + groupNamesLength + permissionsLength, true);
+        const buffer: ByteBuffer = new ByteBuffer(
+            66 + // privateKey
+                groupNamesLength +
+                calculatePermissionsLength(setUserPermissionAsset.permissions),
+            true,
+        );
 
         // publicKey
         buffer.append(Buffer.from(setUserPermissionAsset.publicKey), "hex");
@@ -112,19 +86,7 @@ export class GuardianUserPermissionsTransaction extends Transactions.Transaction
         }
 
         // permissions
-        if (setUserPermissionAsset.permissions) {
-            buffer.writeByte(setUserPermissionAsset.permissions.length);
-            for (const permission of setUserPermissionAsset.permissions) {
-                buffer.writeByte(permission.kind);
-                buffer.writeByte(permission.types.length);
-                for (const type of permission.types) {
-                    buffer.writeUint32(type.transactionType);
-                    buffer.writeUint32(type.transactionTypeGroup);
-                }
-            }
-        } else {
-            buffer.writeByte(0);
-        }
+        serializePermissions(buffer, setUserPermissionAsset.permissions);
 
         return buffer;
     }
@@ -138,6 +100,7 @@ export class GuardianUserPermissionsTransaction extends Transactions.Transaction
             publicKey,
         };
 
+        // groupNames
         const numOfGroupNames = buf.readUint8();
         if (numOfGroupNames) {
             setUserPermissions.groupNames = [];
@@ -147,20 +110,10 @@ export class GuardianUserPermissionsTransaction extends Transactions.Transaction
             }
         }
 
-        const numOfPermissions = buf.readUint8();
-        if (numOfPermissions) {
-            setUserPermissions.permissions = [];
-            for (let i = 0; i < numOfPermissions; i++) {
-                const kind = buf.readUint8();
-                const numOfTypes = buf.readUint8();
-                const types: IPermission["types"] = [];
-                for (let j = 0; j < numOfTypes; j++) {
-                    const transactionType = buf.readUInt32();
-                    const transactionTypeGroup = buf.readUInt32();
-                    types.push({ transactionType, transactionTypeGroup });
-                }
-                setUserPermissions.permissions.push({ kind, types });
-            }
+        // permissions
+        const permissions = deserializePermissions(buf);
+        if (permissions) {
+            setUserPermissions.permissions = permissions;
         }
 
         data.asset = {
