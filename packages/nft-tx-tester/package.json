@@ -52,8 +52,8 @@
         "@arkecosystem/core-kernel": "^3.0.0-alpha.0",
         "@arkecosystem/crypto": "^3.0.0-alpha.0",
         "fs-extra": "^9.0.1",
-        "@protokol/nft-base-crypto": "^1.0.0-beta.8",
-        "@protokol/nft-exchange-crypto": "^1.0.0-beta.8",
+        "@protokol/nft-base-crypto": "^1.0.0-beta.9",
+        "@protokol/nft-exchange-crypto": "^1.0.0-beta.9",
         "@oclif/command": "^1",
         "@oclif/plugin-help": "^3"
     },

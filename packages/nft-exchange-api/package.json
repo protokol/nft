@@ -50,7 +50,7 @@
         "@protokol/nft-exchange-transactions": "^1.0.0-beta.8"
     },
     "devDependencies": {
-        "@protokol/nft-base-transactions": "^1.0.0-beta.4",
+        "@protokol/nft-base-transactions": "^1.0.0-beta.8",
         "@arkecosystem/crypto": "3.0.0-alpha.0",
         "@types/hapi__boom": "^7.4.1",
         "@types/hapi__joi": "^16.0.4",
