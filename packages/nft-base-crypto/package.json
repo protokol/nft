@@ -44,7 +44,6 @@
         "bytebuffer": "^5.0.1"
     },
     "devDependencies": {
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.0",
         "@types/prettier": "^2.0.0",
         "@types/rimraf": "^3.0.0",
         "@types/uuid": "^7.0.2",
