@@ -1,4 +1,4 @@
-import { Utils as AppUtils } from "@arkecosystem/core-kernel";
+import * as AppUtils from "@arkecosystem/core-kernel/dist/utils";
 import { Transactions, Utils } from "@arkecosystem/crypto";
 import { Identities } from "@arkecosystem/crypto";
 import ByteBuffer from "bytebuffer";
