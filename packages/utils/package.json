@@ -1,0 +1,60 @@
+{
+	"name": "@protokol/utils",
+	"description": "Protokol Utils",
+	"version": "1.0.0-beta.0",
+    "homepage": "https://docs.protokol.com/nft/",
+    "bugs": {
+        "url": "https://github.com/protokol/nft-plugins/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/protokol/nft-plugins.git"
+    },
+    "keywords": [
+        "protokol",
+        "ark",
+        "core",
+        "sdk",
+        "nft",
+        "blockchain"
+    ],
+	"contributors": [
+        "Žan Kovač <zan@protokol.com",
+        "Kristjan Košič <kristjan@protokol.com>"
+    ],
+	"license": "CC-BY-NC-SA-4.0",
+	"files": [
+		"/dist"
+	],
+	"main": "dist/index",
+	"types": "dist/index",
+	"scripts": {
+		"build": "yarn clean && tsc",
+		"build:watch": "yarn build -w",
+		"clean": "rimraf .coverage dist tmp",
+		"format": "yarn lint && yarn prettier",
+		"lint": "tslint -c tslint.json -p tslint.json 'src/**/*.ts' --fix",
+		"prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\""
+	},
+	"dependencies": {
+        "@arkecosystem/crypto": "^3.0.0-alpha.0",
+        "@arkecosystem/core-test-framework": "^3.0.0-alpha.0"
+    },
+	"devDependencies": {
+		"@types/prettier": "^2.0.0",
+		"@types/rimraf": "^3.0.0",
+		"@typeskrift/tsconfig": "^0.1.2",
+		"@typeskrift/tslint": "^0.1.5",
+		"cross-env": "^7.0.2",
+		"prettier": "^2.0.0",
+		"rimraf": "^3.0.2",
+		"tslint": "^6.1.0",
+		"typescript": "^3.8.3"
+	},
+	"engines": {
+		"node": ">=10.x"
+	},
+    "publishConfig": {
+        "access": "public"
+    }
+}
