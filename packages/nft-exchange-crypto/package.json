@@ -41,6 +41,7 @@
     },
     "dependencies": {
         "@arkecosystem/crypto": "^3.0.0-alpha.0",
+        "@protokol/utils": "^1.0.0-beta.0",
         "bytebuffer": "^5.0.1"
     },
     "devDependencies": {
