@@ -21,6 +21,9 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
     @Container.tagged("plugin", pluginName)
     protected readonly configuration!: Providers.PluginConfiguration;
 
+    @Container.inject(Container.Identifiers.TransactionPoolQuery)
+    private readonly poolQuery!: Contracts.TransactionPool.Query;
+
     public getConstructor(): Transactions.TransactionConstructor {
         return GuardianTransactions.GuardianUserPermissionsTransaction;
     }
@@ -49,10 +52,7 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
             const userWallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
                 setUserPermissionsAsset.publicKey,
             );
-            const userPermissionsWallet: IUserPermissions = {
-                groups: setUserPermissionsAsset.groupNames || [],
-                permissions: setUserPermissionsAsset.permissions || [],
-            };
+            const userPermissionsWallet: IUserPermissions = this.buildUserPermissions(setUserPermissionsAsset);
 
             userWallet.setAttribute("guardian.userPermissions", userPermissionsWallet);
             this.walletRepository.index(userWallet);
@@ -87,6 +87,24 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
         return super.throwIfCannotBeApplied(transaction, sender);
     }
 
+    public async throwIfCannotEnterPool(transaction: Interfaces.ITransaction): Promise<void> {
+        const {
+            publicKey,
+        }: GuardianInterfaces.GuardianUserPermissionsAsset = transaction.data.asset!.setUserPermissions;
+        const hasUserPermissionsTx: boolean = this.poolQuery
+            .getAll()
+            .whereKind(transaction)
+            .wherePredicate((t) => t.data.asset!.setUserPermissions.publicKey === publicKey)
+            .has();
+
+        if (hasUserPermissionsTx) {
+            throw new Contracts.TransactionPool.PoolError(
+                `Guardian setUserPermissions, user permissions change for "${publicKey}" already in pool`,
+                "ERR_PENDING",
+            );
+        }
+    }
+
     public async applyToRecipient(transaction: Interfaces.ITransaction): Promise<void> {
         // Line is already checked inside throwIfCannotBeApplied run by applyToSender method
         // AppUtils.assert.defined<GuardianInterfaces.GuardianUserPermissionsAsset>(
@@ -97,10 +115,7 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
         const userWallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
             setUserPermissionsAsset.publicKey,
         );
-        const userPermissionsWallet: IUserPermissions = {
-            groups: setUserPermissionsAsset.groupNames || [],
-            permissions: setUserPermissionsAsset.permissions || [],
-        };
+        const userPermissionsWallet: IUserPermissions = this.buildUserPermissions(setUserPermissionsAsset);
 
         userWallet.setAttribute("guardian.userPermissions", userPermissionsWallet);
         this.walletRepository.index(userWallet);
@@ -135,17 +150,22 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
 
         if (!lastUserPermissionsTx) {
             userWallet.forgetAttribute("guardian.userPermissions");
-            this.walletRepository
-                .getIndex(GuardianIndexers.UserPermissionsIndexer)
-                .forget(setUserPermissionsAsset.publicKey);
+            this.walletRepository.forgetByIndex(
+                GuardianIndexers.UserPermissionsIndexer,
+                setUserPermissionsAsset.publicKey,
+            );
         } else {
-            const userPermissionsWallet: IUserPermissions = {
-                groups: lastUserPermissionsTx.asset!.groupNames || [],
-                permissions: lastUserPermissionsTx.asset!.permissions || [],
-            };
-
+            const userPermissionsWallet: IUserPermissions = this.buildUserPermissions(
+                lastUserPermissionsTx.asset!.setUserPermissions,
+            );
             userWallet.setAttribute("guardian.userPermissions", userPermissionsWallet);
             this.walletRepository.index(userWallet);
         }
+    }
+
+    private buildUserPermissions(
+        userPermissionsAsset: GuardianInterfaces.GuardianUserPermissionsAsset,
+    ): IUserPermissions {
+        return { groups: userPermissionsAsset.groupNames || [], permissions: userPermissionsAsset.permissions || [] };
     }
 }

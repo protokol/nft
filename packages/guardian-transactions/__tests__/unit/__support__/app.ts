@@ -46,6 +46,7 @@ export const transactionHistoryService = {
     findManyByCriteria: jest.fn(),
     findOneByCriteria: jest.fn(),
     streamByCriteria: jest.fn(),
+    listByCriteria: jest.fn(),
 };
 
 export const initApp = (): Application => {
