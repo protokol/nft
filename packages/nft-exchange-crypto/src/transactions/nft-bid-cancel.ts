@@ -1,4 +1,4 @@
-import * as AppUtils from "@arkecosystem/core-kernel/dist/utils";
+import { assert } from "@arkecosystem/core-kernel/dist/utils/assert";
 import { Transactions, Utils } from "@arkecosystem/crypto";
 import ByteBuffer from "bytebuffer";
 
@@ -44,7 +44,7 @@ export class NFTBidCancelTransaction extends Transactions.Transaction {
     public serialize(): ByteBuffer {
         const { data } = this;
 
-        AppUtils.assert.defined<NFTBidCancelAsset>(data.asset?.nftBidCancel);
+        assert.defined<NFTBidCancelAsset>(data.asset?.nftBidCancel);
 
         const buffer: ByteBuffer = new ByteBuffer(32, true);
 

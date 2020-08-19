@@ -1,4 +1,4 @@
-import * as AppUtils from "@arkecosystem/core-kernel/dist/utils";
+import { assert } from "@arkecosystem/core-kernel/dist/utils/assert";
 import { Transactions, Utils } from "@arkecosystem/crypto";
 import { Identities } from "@arkecosystem/crypto";
 import ByteBuffer from "bytebuffer";
@@ -56,7 +56,7 @@ export class NFTTransferTransaction extends Transactions.Transaction {
     public serialize(): ByteBuffer {
         const { data } = this;
 
-        AppUtils.assert.defined<NFTTransferAsset>(data.asset?.nftTransfer);
+        assert.defined<NFTTransferAsset>(data.asset?.nftTransfer);
         const nftTransfer: NFTTransferAsset = data.asset.nftTransfer;
 
         const buffer: ByteBuffer = new ByteBuffer(1 + 32 * nftTransfer.nftIds.length + 21, true);
