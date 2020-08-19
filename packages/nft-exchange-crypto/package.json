@@ -40,9 +40,11 @@
         "test:unit:coverage": "cross-env jest __tests__/unit --coverage"
     },
     "dependencies": {
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.0",
         "@arkecosystem/crypto": "^3.0.0-alpha.0",
         "bytebuffer": "^5.0.1"
+    },
+    "devDependencies": {
+        "@arkecosystem/core-kernel": "^3.0.0-alpha.0"
     },
     "publishConfig": {
         "access": "public"
