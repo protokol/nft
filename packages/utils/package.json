@@ -37,10 +37,6 @@
 		"prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\"",
         "prepublishOnly": "yarn build"
     },
-	"dependencies": {
-        "@arkecosystem/crypto": "^3.0.0-alpha.0",
-        "@arkecosystem/core-test-framework": "^3.0.0-alpha.0"
-    },
 	"devDependencies": {
 		"@types/prettier": "^2.0.0",
 		"@types/rimraf": "^3.0.0",
