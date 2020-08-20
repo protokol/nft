@@ -94,7 +94,7 @@ const umdConfig = {
     output: {
         file: pkg["umd:main"],
         format: "iife",
-        name: "NtfBaseCrypto",
+        name: "@protokol/nft-base-crypto",
     },
     plugins: [
         json(),
