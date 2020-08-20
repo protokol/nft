@@ -1,4 +1,2 @@
-import * as Asserts from "./asserts";
-import * as Exceptions from "./exceptions";
-
-export { Asserts, Exceptions };
+export * as Asserts from "./asserts";
+export * as Exceptions from "./exceptions";
