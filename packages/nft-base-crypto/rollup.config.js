@@ -88,35 +88,4 @@ const browserConfig = {
     ],
 };
 
-/** Universal code to be used as a standalone package */
-const umdConfig = {
-    input: "src/index.ts",
-    output: {
-        file: pkg["umd:main"],
-        format: "iife",
-        name: "@protokol/nft-base-crypto",
-    },
-    plugins: [
-        json(),
-        resolve({ preferBuiltins: false, browser: true }),
-        commonjs({ include: /node_modules/ }),
-        ts({
-            transpiler: "babel",
-            transpileOnly: true,
-            tsconfig: {
-                declaration: false,
-            },
-            babelConfig: {
-                presets: [
-                    [
-                        "@babel/preset-env",
-                        { loose: false, modules: false, targets: { browsers: [">0.25%", "not op_mini all"] } },
-                    ],
-                ],
-            },
-        }),
-        ...polyfillsPlugins,
-    ],
-};
-
-export default [moduleConfig, browserConfig, umdConfig];
+export default [moduleConfig, browserConfig];
