@@ -1,27 +1,5 @@
 import "jest-extended";
 import { assert } from "../../../src/asserts";
-import { Blocks, Interfaces, Managers } from "@arkecosystem/crypto";
-import { Generators } from "@arkecosystem/core-test-framework";
-
-let block: Interfaces.IBlock | undefined;
-beforeAll(() => {
-    // todo: completely wrap this into a function to hide the generation and setting of the config?
-    Managers.configManager.setConfig(Generators.generateCryptoConfigRaw());
-
-    // Black Magic to get the genesis block to pass
-    Managers.configManager.getMilestone().aip11 = false;
-
-    const mockGetBlockTimeLookup = (height: number) => {
-        switch (height) {
-            case 1:
-                return 0;
-            default:
-                throw new Error(`Test scenarios should not hit this line`);
-        }
-    };
-
-    block = Blocks.BlockFactory.fromJson(Managers.configManager.get("genesisBlock"), mockGetBlockTimeLookup);
-});
 
 describe("Assertions", () => {
     it(".array", () => {
@@ -33,11 +11,6 @@ describe("Assertions", () => {
         expect(() => assert.bigint("abc")).toThrow('Expected value which is "bigint".');
         expect(() => assert.bigint(1)).toThrow('Expected value which is "bigint".');
         expect(() => assert.bigint(BigInt(1))).not.toThrow();
-    });
-
-    it(".block", () => {
-        expect(() => assert.block("abc")).toThrow('Expected value which is "Crypto.Blocks.Block".');
-        expect(() => assert.block(block)).not.toThrow();
     });
 
     it(".boolean", () => {
@@ -75,11 +48,6 @@ describe("Assertions", () => {
     it(".symbol", () => {
         expect(() => assert.symbol("abc")).toThrow('Expected value which is "symbol".');
         expect(() => assert.symbol(Symbol(1))).not.toThrow();
-    });
-
-    it(".transaction", () => {
-        expect(() => assert.transaction("abc")).toThrow('Expected value which is "Crypto.Transactions.Transaction".');
-        expect(() => assert.transaction(block!.transactions[0])).not.toThrow();
     });
 
     it(".undefined", () => {
