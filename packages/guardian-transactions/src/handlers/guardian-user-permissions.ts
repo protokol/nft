@@ -14,15 +14,9 @@ const pluginName = require("../../package.json").name;
 
 @Container.injectable()
 export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
-    @Container.inject(Container.Identifiers.TransactionHistoryService)
-    private readonly transactionHistoryService!: Contracts.Shared.TransactionHistoryService;
-
     @Container.inject(Container.Identifiers.PluginConfiguration)
     @Container.tagged("plugin", pluginName)
     protected readonly configuration!: Providers.PluginConfiguration;
-
-    @Container.inject(Container.Identifiers.TransactionPoolQuery)
-    private readonly poolQuery!: Contracts.TransactionPool.Query;
 
     public getConstructor(): Transactions.TransactionConstructor {
         return GuardianTransactions.GuardianUserPermissionsTransaction;
@@ -37,12 +31,7 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
     }
 
     public async bootstrap(): Promise<void> {
-        const criteria = {
-            typeGroup: this.getConstructor().typeGroup,
-            type: this.getConstructor().type,
-        };
-
-        for await (const transaction of this.transactionHistoryService.streamByCriteria(criteria)) {
+        for await (const transaction of this.transactionHistoryService.streamByCriteria(this.getDefaultCriteria())) {
             AppUtils.assert.defined<GuardianInterfaces.GuardianUserPermissionsAsset>(
                 transaction.asset?.setUserPermissions,
             );
@@ -83,6 +72,7 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
 
         // TODO check if groups exists
         // TODO check if transaction type from permissions exists
+        // TODO check if permissions by type are unique in permissions array
 
         return super.throwIfCannotBeApplied(transaction, sender);
     }
@@ -128,25 +118,11 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
             setUserPermissionsAsset.publicKey,
         );
 
-        const criteria = {
-            typeGroup: this.getConstructor().typeGroup,
-            type: this.getConstructor().type,
-            asset: {
-                setUserPermissions: {
-                    publicKey: setUserPermissionsAsset.publicKey,
-                },
+        const lastUserPermissionsTx = await this.getLastTxByAsset({
+            setUserPermissions: {
+                publicKey: setUserPermissionsAsset.publicKey,
             },
-        };
-        const order: Contracts.Search.ListOrder = [
-            { property: "timestamp", direction: "desc" },
-            { property: "sequence", direction: "desc" },
-        ];
-        const [lastUserPermissionsTx] = (
-            await this.transactionHistoryService.listByCriteria(criteria, order, {
-                offset: 0,
-                limit: 1,
-            })
-        ).rows;
+        });
 
         if (!lastUserPermissionsTx) {
             userWallet.forgetAttribute("guardian.userPermissions");

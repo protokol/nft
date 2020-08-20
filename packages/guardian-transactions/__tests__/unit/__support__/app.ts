@@ -33,7 +33,7 @@ import { Identities, Managers, Utils } from "@arkecosystem/crypto";
 import { configManager } from "@arkecosystem/crypto/src/managers";
 
 import { transactionRepository } from "../__mocks__/transaction-repository";
-import { GuardianUserPermissionsHandler } from "../../../src/handlers";
+import { GuardianGroupPermissionsHandler, GuardianUserPermissionsHandler } from "../../../src/handlers";
 import { GuardianIndexers, guardianUserPermissionIndexer } from "../../../src/wallet-indexes";
 
 const logger = {
@@ -187,6 +187,7 @@ export const initApp = (): Application => {
     app.bind(Identifiers.TransactionHistoryService).toConstantValue(transactionHistoryService);
 
     app.bind(Identifiers.TransactionHandler).to(GuardianUserPermissionsHandler);
+    app.bind(Identifiers.TransactionHandler).to(GuardianGroupPermissionsHandler);
 
     app.bind(Container.Identifiers.CacheService).to(MemoryCacheStore).inSingletonScope();
 

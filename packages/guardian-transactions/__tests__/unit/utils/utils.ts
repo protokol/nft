@@ -5,4 +5,7 @@ import { Transactions as GuardianTransactions } from "@protokol/guardian-crypto"
 
 export const deregisterTransactions = () => {
     Transactions.TransactionRegistry.deregisterTransactionType(GuardianTransactions.GuardianUserPermissionsTransaction);
+    Transactions.TransactionRegistry.deregisterTransactionType(
+        GuardianTransactions.GuardianGroupPermissionsTransaction,
+    );
 };

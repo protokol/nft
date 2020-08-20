@@ -1,6 +1,6 @@
 import { Container, Contracts, Providers } from "@arkecosystem/core-kernel";
 
-import { GuardianUserPermissionsHandler } from "./handlers";
+import { GuardianGroupPermissionsHandler, GuardianUserPermissionsHandler } from "./handlers";
 import { GuardianIndexers, guardianUserPermissionIndexer } from "./wallet-indexes";
 
 const pluginName = require("../package.json").name;
@@ -10,6 +10,7 @@ export class ServiceProvider extends Providers.ServiceProvider {
         this.registerIndexers();
 
         this.app.bind(Container.Identifiers.TransactionHandler).to(GuardianUserPermissionsHandler);
+        this.app.bind(Container.Identifiers.TransactionHandler).to(GuardianGroupPermissionsHandler);
 
         const cacheFactory: any = this.app.get(Container.Identifiers.CacheFactory);
         this.app

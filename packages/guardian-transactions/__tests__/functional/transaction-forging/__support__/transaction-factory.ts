@@ -18,4 +18,14 @@ export class GuardianTransactionFactory extends TransactionFactory {
 
         return this;
     }
+
+    public GuardianSetGroupPermissions(
+        groupPermissions: GuardianInterfaces.GuardianGroupPermissionsAsset,
+    ): GuardianTransactionFactory {
+        this.builder = new GuardianBuilders.GuardianGroupPermissionsBuilder().GuardianGroupPermissions(
+            groupPermissions,
+        );
+
+        return this;
+    }
 }
