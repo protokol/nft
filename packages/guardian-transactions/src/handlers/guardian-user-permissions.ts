@@ -4,7 +4,7 @@ import { Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Interfaces as GuardianInterfaces } from "@protokol/guardian-crypto";
 import { Transactions as GuardianTransactions } from "@protokol/guardian-crypto";
 
-import { UserInToManyGroupsError } from "../errors";
+import { GroupDoesntExistError, UserInToManyGroupsError } from "../errors";
 import { GuardianApplicationEvents } from "../events";
 import { IUserPermissions } from "../interfaces";
 import { GuardianIndexers } from "../wallet-indexes";
@@ -62,15 +62,20 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
         const setUserPermissionsAsset: GuardianInterfaces.GuardianUserPermissionsAsset =
             transaction.data.asset.setUserPermissions;
 
-        const maxDefinedGroupsPerUser = this.configuration.get<number>("maxDefinedGroupsPerUser");
-        if (
-            setUserPermissionsAsset.groupNames?.length &&
-            setUserPermissionsAsset.groupNames.length > maxDefinedGroupsPerUser!
-        ) {
-            throw new UserInToManyGroupsError();
+        if (setUserPermissionsAsset.groupNames?.length) {
+            const maxDefinedGroupsPerUser = this.configuration.get<number>("maxDefinedGroupsPerUser");
+            if (setUserPermissionsAsset.groupNames.length > maxDefinedGroupsPerUser!) {
+                throw new UserInToManyGroupsError(maxDefinedGroupsPerUser!);
+            }
+
+            // check if all groups exists
+            for (const groupName of setUserPermissionsAsset.groupNames) {
+                if (await this.groupsPermissionsCache.missing(groupName)) {
+                    throw new GroupDoesntExistError(groupName);
+                }
+            }
         }
 
-        // TODO check if groups exists
         // TODO check if transaction type from permissions exists
         // TODO check if permissions by type are unique in permissions array
 
@@ -126,10 +131,9 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
 
         if (!lastUserPermissionsTx) {
             userWallet.forgetAttribute("guardian.userPermissions");
-            this.walletRepository.forgetByIndex(
-                GuardianIndexers.UserPermissionsIndexer,
-                setUserPermissionsAsset.publicKey,
-            );
+            this.walletRepository
+                .getIndex(GuardianIndexers.UserPermissionsIndexer)
+                .forget(setUserPermissionsAsset.publicKey);
         } else {
             const userPermissionsWallet: IUserPermissions = this.buildUserPermissions(
                 lastUserPermissionsTx.asset!.setUserPermissions,

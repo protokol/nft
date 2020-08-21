@@ -12,7 +12,7 @@ import { Builders, Enums, Interfaces as GuardianInterfaces } from "@protokol/gua
 
 import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { PermissionKind } from "../../../../guardian-crypto/src/enums";
-import { UserInToManyGroupsError } from "../../../src/errors";
+import { GroupDoesntExistError, UserInToManyGroupsError } from "../../../src/errors";
 import { GuardianApplicationEvents } from "../../../src/events";
 import { IUserPermissions } from "../../../src/interfaces";
 import { GuardianIndexers } from "../../../src/wallet-indexes";
@@ -49,7 +49,7 @@ const buildUserPermissionsTx = (publicKey, groups, permissions) =>
         .sign(passphrases[0])
         .build();
 
-beforeEach(() => {
+beforeEach(async () => {
     app = initApp();
 
     senderWallet = buildWallet(app, passphrases[0]);
@@ -68,6 +68,18 @@ beforeEach(() => {
     walletRepository.index(senderWallet);
 
     actual = buildUserPermissionsTx(publicKey, userPermissions.groups, userPermissions.permissions);
+
+    const groupsPermissionsCache = app.get<
+        Contracts.Kernel.CacheStore<
+            GuardianInterfaces.GuardianGroupPermissionsAsset["name"],
+            GuardianInterfaces.GuardianGroupPermissionsAsset
+        >
+    >(Identifiers.CacheService);
+    await groupsPermissionsCache.put(
+        userPermissions.groups[0],
+        {} as GuardianInterfaces.GuardianGroupPermissionsAsset,
+        -1,
+    );
 });
 
 afterEach(() => {
@@ -139,6 +151,14 @@ describe("Guardian set user permissions tests", () => {
             actual = buildUserPermissionsTx(publicKey, undefined, userPermissions.permissions);
 
             await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).toResolve();
+        });
+
+        it("should throw if groupName doesn't exists in cache", async () => {
+            actual = buildUserPermissionsTx(publicKey, ["non existing group"], undefined);
+
+            await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
+                GroupDoesntExistError,
+            );
         });
     });
 
