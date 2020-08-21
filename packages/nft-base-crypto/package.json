@@ -1,6 +1,6 @@
 {
     "name": "@protokol/nft-base-crypto",
-    "version": "1.0.0-beta.12",
+    "version": "1.0.0-beta.13",
     "description": "Transaction Builders For Base NFT Transaction Types",
     "license": "CC-BY-NC-SA-4.0",
     "homepage": "https://docs.protokol.com/nft/",
@@ -40,7 +40,7 @@
         "build:watch": "yarn clean && yarn compile -w",
         "clean": "del dist",
         "compile": "./../../node_modules/typescript/bin/tsc",
-        "prepublishOnly": "yarn build:rollup",
+        "prepublishOnly": "yarn build",
         "test": "cross-env CORE_ENV=test jest --runInBand --forceExit",
         "test:unit": "cross-env jest __tests__/unit/** --forceExit",
         "test:unit:coverage": "cross-env jest __tests__/unit --coverage"
