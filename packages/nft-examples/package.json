@@ -39,8 +39,8 @@
 	"dependencies": {
         "@protokol/nft-client": "^1.0.0-beta.8",
         "@arkecosystem/crypto": "^3.0.0-alpha.0",
-        "@protokol/nft-base-crypto": "^1.0.0-beta.11",
-        "@protokol/nft-exchange-crypto": "^1.0.0-beta.11"
+        "@protokol/nft-base-crypto": "^1.0.0-beta.13",
+        "@protokol/nft-exchange-crypto": "^1.0.0-beta.13"
     },
 	"devDependencies": {
 		"@types/prettier": "^2.0.0",
