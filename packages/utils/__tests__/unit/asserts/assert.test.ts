@@ -1,4 +1,5 @@
 import "jest-extended";
+
 import { assert } from "../../../src/asserts";
 
 describe("Assertions", () => {

@@ -1,10 +1,10 @@
 import "jest-extended";
 
 import { Contracts } from "@arkecosystem/core-kernel";
+import { Transactions } from "@arkecosystem/crypto";
 import { Interfaces as NFTInterfaces, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 
 import { INFTCollections } from "../../../src/interfaces";
-import { Transactions } from "@arkecosystem/crypto";
 
 export const collectionWalletCheck = (
     wallet: Contracts.State.Wallet,
@@ -23,4 +23,4 @@ export const deregisterTransactions = () => {
     Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTCreateTransaction);
     Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTBurnTransaction);
     Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTTransferTransaction);
-}
+};

@@ -3,8 +3,8 @@ import "jest-extended";
 import { Managers, Transactions } from "@arkecosystem/crypto";
 
 import { NFTCreateBuilder } from "../../../src/builders";
-import { NFTCreateTransaction } from "../../../src/transactions";
 import { defaults } from "../../../src/defaults";
+import { NFTCreateTransaction } from "../../../src/transactions";
 
 describe("NFT Create tests ", () => {
     describe("Verify tests", () => {
