@@ -1,6 +1,6 @@
 {
     "name": "@protokol/nft-exchange-api",
-    "version": "1.0.0-beta.8",
+    "version": "1.0.0-beta.20",
     "description": "REST API For Exchange NFT Functionality",
     "license": "CC-BY-NC-SA-4.0",
     "homepage": "https://docs.protokol.com/nft/",
@@ -47,10 +47,10 @@
         "@hapi/hapi": "^19.0.0",
         "@hapi/joi": "^17.1.0",
         "latest-version": "^5.1.0",
-        "@protokol/nft-exchange-transactions": "^1.0.0-beta.8"
+        "@protokol/nft-exchange-transactions": "^1.0.0-beta.20"
     },
     "devDependencies": {
-        "@protokol/nft-base-transactions": "^1.0.0-beta.8",
+        "@protokol/nft-base-transactions": "^1.0.0-beta.20",
         "@arkecosystem/crypto": "3.0.0-alpha.0",
         "@types/hapi__boom": "^7.4.1",
         "@types/hapi__joi": "^16.0.4",
