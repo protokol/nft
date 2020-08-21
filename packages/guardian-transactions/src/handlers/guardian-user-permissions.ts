@@ -76,8 +76,10 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
             }
         }
 
-        // TODO check if transaction type from permissions exists
-        // TODO check if permissions by type are unique in permissions array
+        if (setUserPermissionsAsset.permissions) {
+            // TODO check if transaction type from permissions exists
+            this.checkUniquePermissions(setUserPermissionsAsset.permissions);
+        }
 
         return super.throwIfCannotBeApplied(transaction, sender);
     }

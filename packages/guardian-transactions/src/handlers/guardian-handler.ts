@@ -1,8 +1,9 @@
 import { Container, Contracts } from "@arkecosystem/core-kernel";
 import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Managers } from "@arkecosystem/crypto";
+import { Interfaces as GuardianInterfaces } from "@protokol/guardian-crypto";
 
-import { Interfaces as GuardianInterfaces } from "../../../guardian-crypto/dist";
+import { DuplicatePermissionsError } from "../errors";
 
 const pluginName = require("../../package.json").name;
 
@@ -48,5 +49,22 @@ export abstract class GuardianTransactionHandler extends Handlers.TransactionHan
         ).rows;
 
         return lastTx;
+    }
+
+    protected checkUniquePermissions(permissions: GuardianInterfaces.IPermission[]): void {
+        const duplicates = {};
+        for (const permission of permissions) {
+            for (const type of permission.types) {
+                if (!duplicates[type.transactionTypeGroup]) {
+                    duplicates[type.transactionTypeGroup] = {};
+                }
+
+                if (duplicates[type.transactionTypeGroup][type.transactionType]) {
+                    throw new DuplicatePermissionsError();
+                }
+
+                duplicates[type.transactionTypeGroup][type.transactionType] = true;
+            }
+        }
     }
 }

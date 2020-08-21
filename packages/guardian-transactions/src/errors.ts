@@ -1,5 +1,12 @@
 import { Errors } from "@arkecosystem/core-transactions";
 
+// GuardianPermissions transaction errors
+export class DuplicatePermissionsError extends Errors.TransactionError {
+    public constructor() {
+        super(`Failed to apply transaction, because permissions array contains duplicates.`);
+    }
+}
+
 // GuardianUserPermissions transaction errors
 export class UserInToManyGroupsError extends Errors.TransactionError {
     public constructor(numOfGroups: number) {

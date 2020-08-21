@@ -45,8 +45,11 @@ export class GuardianGroupPermissionsHandler extends GuardianTransactionHandler 
             transaction.data.asset?.setGroupPermissions,
         );
 
+        const setGroupPermissionsAsset: GuardianInterfaces.GuardianGroupPermissionsAsset =
+            transaction.data.asset.setGroupPermissions;
+
         // TODO check if transaction type from permissions exists
-        // TODO check if permissions by type are unique in permissions array
+        this.checkUniquePermissions(setGroupPermissionsAsset.permissions);
 
         return super.throwIfCannotBeApplied(transaction, sender);
     }
