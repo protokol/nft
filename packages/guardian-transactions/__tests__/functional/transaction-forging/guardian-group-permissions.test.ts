@@ -4,9 +4,9 @@ import { Contracts } from "@arkecosystem/core-kernel";
 import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
 import { snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework/src/utils";
 import { Identities } from "@arkecosystem/crypto";
+import { Enums } from "@protokol/guardian-crypto";
 import { generateMnemonic } from "bip39";
 
-import { PermissionKind } from "../../../../guardian-crypto/src/enums";
 import * as support from "./__support__";
 import { GuardianTransactionFactory } from "./__support__/transaction-factory";
 
@@ -15,7 +15,17 @@ const groupPermissionsAsset = {
     priority: 1,
     default: false,
     active: true,
-    permissions: [{ types: [{ transactionType: 9000, transactionTypeGroup: 0 }], kind: PermissionKind.Allow }],
+    permissions: [
+        {
+            types: [
+                {
+                    transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
+                    transactionTypeGroup: Enums.GuardianTransactionGroup,
+                },
+            ],
+            kind: Enums.PermissionKind.Allow,
+        },
+    ],
 };
 
 let app: Contracts.Kernel.Application;

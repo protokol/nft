@@ -3,7 +3,7 @@ import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Managers } from "@arkecosystem/crypto";
 import { Interfaces as GuardianInterfaces } from "@protokol/guardian-crypto";
 
-import { DuplicatePermissionsError } from "../errors";
+import { DuplicatePermissionsError, TransactionTypeDoesntExistError } from "../errors";
 
 const pluginName = require("../../package.json").name;
 
@@ -66,5 +66,29 @@ export abstract class GuardianTransactionHandler extends Handlers.TransactionHan
                 duplicates[type.transactionTypeGroup][type.transactionType] = true;
             }
         }
+    }
+
+    protected verifyPermissionsTypes(permissions: GuardianInterfaces.IPermission[]): void {
+        const transactionHandlerRegistry = this.app.getTagged<Handlers.Registry>(
+            Container.Identifiers.TransactionHandlerRegistry,
+            "state",
+            "null",
+        );
+        const registeredTransactionHandlers = transactionHandlerRegistry.getRegisteredHandlers();
+
+        for (const permission of permissions) {
+            for (const type of permission.types) {
+                if (!this.isRegisteredHandler(registeredTransactionHandlers, type)) {
+                    throw new TransactionTypeDoesntExistError();
+                }
+            }
+        }
+    }
+
+    private isRegisteredHandler(handlers: Handlers.TransactionHandler[], type: GuardianInterfaces.Transaction) {
+        return handlers.find((handler) => {
+            const constructor = handler.getConstructor();
+            return constructor.type === type.transactionType && constructor.typeGroup === type.transactionTypeGroup;
+        });
     }
 }

@@ -11,7 +11,7 @@ import { Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Builders, Enums, Interfaces as GuardianInterfaces } from "@protokol/guardian-crypto";
 
 import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
-import { DuplicatePermissionsError } from "../../../src/errors";
+import { DuplicatePermissionsError, TransactionTypeDoesntExistError } from "../../../src/errors";
 import { GuardianApplicationEvents } from "../../../src/events";
 import { deregisterTransactions } from "../utils/utils";
 
@@ -34,7 +34,17 @@ const groupPermissionsAsset = {
     priority: 1,
     default: false,
     active: true,
-    permissions: [{ types: [{ transactionType: 9000, transactionTypeGroup: 0 }], kind: Enums.PermissionKind.Allow }],
+    permissions: [
+        {
+            types: [
+                {
+                    transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
+                    transactionTypeGroup: Enums.GuardianTransactionGroup,
+                },
+            ],
+            kind: Enums.PermissionKind.Allow,
+        },
+    ],
 };
 
 const buildGroupPermissionsTx = (asset?, nonce?) =>
@@ -112,7 +122,10 @@ describe("Guardian set group permissions tests", () => {
         });
 
         it("should throw if types array in permissions contains duplicates", async () => {
-            const type = { transactionType: 9000, transactionTypeGroup: 0 };
+            const type = {
+                transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
+                transactionTypeGroup: Enums.GuardianTransactionGroup,
+            };
             const permissions = [{ types: [type, type], kind: Enums.PermissionKind.Allow }];
             actual = buildGroupPermissionsTx({ ...groupPermissionsAsset, permissions });
 
@@ -122,7 +135,10 @@ describe("Guardian set group permissions tests", () => {
         });
 
         it("should throw if permissions array contains duplicates", async () => {
-            const type = { transactionType: 9000, transactionTypeGroup: 0 };
+            const type = {
+                transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
+                transactionTypeGroup: Enums.GuardianTransactionGroup,
+            };
             const permissions = [
                 { types: [type], kind: Enums.PermissionKind.Allow },
                 { types: [type], kind: Enums.PermissionKind.Deny },
@@ -135,9 +151,15 @@ describe("Guardian set group permissions tests", () => {
         });
 
         it("should not throw if permissions array contains distinct values", async () => {
-            const typeOne = { transactionType: 9000, transactionTypeGroup: 0 };
-            const typeTwo = { transactionType: 9000, transactionTypeGroup: 1 };
-            const typeThree = { transactionType: 9001, transactionTypeGroup: 1 };
+            const typeOne = {
+                transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
+                transactionTypeGroup: Enums.GuardianTransactionGroup,
+            };
+            const typeTwo = {
+                transactionType: Enums.GuardianTransactionTypes.GuardianSetUserPermissions,
+                transactionTypeGroup: Enums.GuardianTransactionGroup,
+            };
+            const typeThree = { transactionType: 0, transactionTypeGroup: 1 };
             const permissions = [
                 { types: [typeOne, typeTwo], kind: Enums.PermissionKind.Allow },
                 { types: [typeThree], kind: Enums.PermissionKind.Deny },
@@ -145,6 +167,19 @@ describe("Guardian set group permissions tests", () => {
             actual = buildGroupPermissionsTx({ ...groupPermissionsAsset, permissions });
 
             await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).toResolve();
+        });
+
+        it("should throw if types array in permissions contains non existing type", async () => {
+            const type = {
+                transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions + 10,
+                transactionTypeGroup: Enums.GuardianTransactionGroup,
+            };
+            const permissions = [{ types: [type], kind: Enums.PermissionKind.Allow }];
+            actual = buildGroupPermissionsTx({ ...groupPermissionsAsset, permissions });
+
+            await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
+                TransactionTypeDoesntExistError,
+            );
         });
     });
 
@@ -160,7 +195,12 @@ describe("Guardian set group permissions tests", () => {
                 ...groupPermissionsAsset,
                 permissions: [
                     {
-                        types: [{ transactionType: 9000, transactionTypeGroup: 0 }],
+                        types: [
+                            {
+                                transactionType: Enums.GuardianTransactionTypes.GuardianSetUserPermissions,
+                                transactionTypeGroup: Enums.GuardianTransactionGroup,
+                            },
+                        ],
                         kind: Enums.PermissionKind.Deny,
                     },
                 ],

@@ -7,6 +7,12 @@ export class DuplicatePermissionsError extends Errors.TransactionError {
     }
 }
 
+export class TransactionTypeDoesntExistError extends Errors.TransactionError {
+    public constructor() {
+        super(`Failed to apply transaction, because permissions array contains transaction type that doesn't exist.`);
+    }
+}
+
 // GuardianUserPermissions transaction errors
 export class UserInToManyGroupsError extends Errors.TransactionError {
     public constructor(numOfGroups: number) {

@@ -1,7 +1,12 @@
 import { PermissionKind } from "./enums";
 
+export interface Transaction {
+    transactionType: number;
+    transactionTypeGroup: number;
+}
+
 export interface IPermission {
-    types: { transactionType: number; transactionTypeGroup: number }[];
+    types: Transaction[];
     kind: PermissionKind;
 }
 
