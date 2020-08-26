@@ -5,7 +5,9 @@ export const NFTRegisterCollection = async () => {
     // Configure manager and register transaction type
     ARKCrypto.Managers.configManager.setFromPreset("testnet");
     ARKCrypto.Managers.configManager.setHeight(2);
-    ARKCrypto.Transactions.TransactionRegistry.registerTransactionType(NFTTransactions.NFTRegisterCollectionTransaction);
+    ARKCrypto.Transactions.TransactionRegistry.registerTransactionType(
+        NFTTransactions.NFTRegisterCollectionTransaction,
+    );
 
     // Configure our API client
     const client = new NFTConnection("http://nft.protokol.com:4003/api");
