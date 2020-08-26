@@ -25,3 +25,10 @@ export class GroupDoesntExistError extends Errors.TransactionError {
         super(`Failed to apply transaction, because group "${groupName}" doesn't exist.`);
     }
 }
+
+// PermissionResolver errors
+export class WalletDoesntHavePermissionsError extends Errors.TransactionError {
+    public constructor() {
+        super(`Failed to verify transaction, because wallet doesn't have enough permissions.`);
+    }
+}
