@@ -38,8 +38,8 @@
         "pretest": "bash ../../../scripts/pre-test.sh"
     },
     "dependencies": {
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.0",
-        "@arkecosystem/core-api": "^3.0.0-alpha.0",
+        "@arkecosystem/core-api": "^3.0.0-alpha.1",
+        "@arkecosystem/core-kernel": "^3.0.0-alpha.1",
         "@hapi/boom": "^9.0.0",
         "@hapi/hapi": "^19.0.0",
         "@hapi/joi": "^17.1.0",

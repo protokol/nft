@@ -48,18 +48,18 @@
         "compile": "../../../node_modules/typescript/bin/tsc"
     },
     "dependencies": {
-        "@arkecosystem/core-magistrate-crypto": "^3.0.0-alpha.0",
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.0",
-        "@arkecosystem/crypto": "^3.0.0-alpha.0",
-        "fs-extra": "^9.0.1",
+        "@arkecosystem/core-kernel": "^3.0.0-alpha.1",
+        "@arkecosystem/core-magistrate-crypto": "^3.0.0-alpha.1",
+        "@arkecosystem/crypto": "^3.0.0-alpha.1",
+        "@oclif/command": "^1",
+        "@oclif/plugin-help": "^3",
         "@protokol/nft-base-crypto": "^1.0.0-beta.20",
         "@protokol/nft-exchange-crypto": "^1.0.0-beta.20",
-        "@oclif/command": "^1",
-        "@oclif/plugin-help": "^3"
+        "fs-extra": "^9.0.1"
     },
     "devDependencies": {
-        "typescript": "^3.8.3",
-        "ts-node": "^8"
+        "ts-node": "^8",
+        "typescript": "^3.8.3"
     },
     "oclif": {
         "commands": "./src/commands",
