@@ -1,7 +1,7 @@
 {
     "private": true,
     "name": "nft-core",
-    "version": "1.0.0-beta.8",
+    "version": "1.0.0-beta.21",
     "description": "NFT Functionality For Any ARK Core-v3 Bridgechain",
     "engineStrict": true,
     "scripts": {

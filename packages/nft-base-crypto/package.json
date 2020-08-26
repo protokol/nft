@@ -46,17 +46,17 @@
         "test:unit:coverage": "cross-env jest __tests__/unit --coverage"
     },
     "dependencies": {
-        "@arkecosystem/crypto": "^3.0.0-alpha.0",
+        "@arkecosystem/crypto": "^3.0.0-alpha.1",
         "@protokol/utils": "^1.0.0-beta.20",
         "bytebuffer": "^5.0.1"
     },
     "devDependencies": {
+        "@arkecosystem/core-kernel": "^3.0.0-alpha.1",
         "@rollup/plugin-babel": "^5.0.4",
         "@rollup/plugin-commonjs": "^13.0.0",
         "@rollup/plugin-inject": "^4.0.2",
         "@rollup/plugin-json": "^4.1.0",
         "@rollup/plugin-node-resolve": "^8.1.0",
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.0",
         "@types/prettier": "^2.0.0",
         "@types/rimraf": "^3.0.0",
         "@types/uuid": "^7.0.2",

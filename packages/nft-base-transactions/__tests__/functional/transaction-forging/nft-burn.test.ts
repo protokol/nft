@@ -1,16 +1,24 @@
 import "@arkecosystem/core-test-framework/src/matchers";
 
-import { Contracts } from "@arkecosystem/core-kernel";
+import { Container, Contracts, Services } from "@arkecosystem/core-kernel";
 import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
-import { snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework/src/utils";
-import { Identities } from "@arkecosystem/crypto";
+import { snoozeForBlock, TransactionFactory, getLastHeight } from "@arkecosystem/core-test-framework/src/utils";
+import { Identities, Interfaces } from "@arkecosystem/crypto";
 import { generateMnemonic } from "bip39";
 
 import * as support from "./__support__";
 import { NFTBaseTransactionFactory } from "./__support__/transaction-factory";
 
 let app: Contracts.Kernel.Application;
-beforeAll(async () => (app = await support.setUp()));
+let networkConfig: Interfaces.NetworkConfig;
+
+beforeAll(async () => {
+    app = await support.setUp();
+
+    // todo: remove the need for this and manual calls to withNetworkConfig on the transaction factory
+    networkConfig = app.get<Services.Config.ConfigRepository>(Container.Identifiers.ConfigRepository).get("crypto");
+});
+
 afterAll(async () => await support.tearDown());
 
 describe("NFT Burn functional tests", () => {
@@ -40,8 +48,10 @@ describe("NFT Burn functional tests", () => {
                         },
                     },
                 })
+                .withNetworkConfig(networkConfig)
                 .withPassphrase(secrets[0])
                 .createOne();
+
             registerCollectionId = nftRegisteredCollection.id;
 
             await expect(nftRegisteredCollection).toBeAccepted();
@@ -71,6 +81,7 @@ describe("NFT Burn functional tests", () => {
                 .NFTBurn({
                     nftId: nftCreate.id!,
                 })
+                .withExpiration(getLastHeight(app) + 2)
                 .withPassphrase(secrets[0])
                 .createOne();
 
@@ -91,6 +102,7 @@ describe("NFT Burn functional tests", () => {
                         mana: 2,
                     },
                 })
+                .withExpiration(getLastHeight(app) + 2)
                 .withPassphrase(secrets[0])
                 .createOne();
 
@@ -103,6 +115,7 @@ describe("NFT Burn functional tests", () => {
                 .NFTBurn({
                     nftId: nftCreate.id!,
                 })
+                .withExpiration(getLastHeight(app) + 2)
                 .withPassphrase(secrets[0])
                 .createOne();
 
@@ -111,6 +124,7 @@ describe("NFT Burn functional tests", () => {
                 .NFTBurn({
                     nftId: nftCreate.id!,
                 })
+                .withExpiration(getLastHeight(app) + 2)
                 .withPassphrase(secrets[0])
                 .withNonce(nftBurn.nonce!.plus(1))
                 .createOne();
@@ -133,6 +147,7 @@ describe("NFT Burn functional tests", () => {
                         mana: 2,
                     },
                 })
+                .withExpiration(getLastHeight(app) + 2)
                 .withPassphrase(secrets[0])
                 .createOne();
 
@@ -146,6 +161,7 @@ describe("NFT Burn functional tests", () => {
                     nftIds: [nftCreate.id!],
                     recipientId: Identities.Address.fromPassphrase(secrets[2]),
                 })
+                .withExpiration(getLastHeight(app) + 2)
                 .withPassphrase(secrets[0])
                 .createOne();
 
@@ -155,6 +171,7 @@ describe("NFT Burn functional tests", () => {
                     nftId: nftCreate.id!,
                 })
                 .withNonce(nftTransfer.nonce!.plus(1))
+                .withExpiration(getLastHeight(app) + 2)
                 .withPassphrase(secrets[0])
                 .createOne();
 
