@@ -2,7 +2,7 @@ import "@arkecosystem/core-test-framework/src/matchers";
 
 import { Container, Contracts, Services } from "@arkecosystem/core-kernel";
 import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
-import { snoozeForBlock, TransactionFactory, getLastHeight } from "@arkecosystem/core-test-framework/src/utils";
+import { getLastHeight, snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework/src/utils";
 import { Identities, Interfaces } from "@arkecosystem/crypto";
 import { generateMnemonic } from "bip39";
 

@@ -1,8 +1,8 @@
 import "jest-extended";
 
 import { Container, Contracts } from "@arkecosystem/core-kernel";
-import { Identities, Managers, Utils } from "@arkecosystem/crypto";
 import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
+import { Identities, Managers, Utils } from "@arkecosystem/crypto";
 import delay from "delay";
 
 jest.setTimeout(1200000);
@@ -117,18 +117,27 @@ export const tearDown = async (): Promise<void> => {
             balance: wallet.balance,
             nonce: wallet.nonce,
             attributes: walletAttributes,
-        }
+        };
     };
-    const sortWallets = (a: Contracts.State.Wallet, b: Contracts.State.Wallet) => a.publicKey!.localeCompare(b.publicKey!);
+    const sortWallets = (a: Contracts.State.Wallet, b: Contracts.State.Wallet) =>
+        a.publicKey!.localeCompare(b.publicKey!);
 
-    const allByPublicKey = walletRepository.allByPublicKey().map(w => w.clone()).sort(sortWallets).map(mapWallets);
+    const allByPublicKey = walletRepository
+        .allByPublicKey()
+        .map((w) => w.clone())
+        .sort(sortWallets)
+        .map(mapWallets);
 
     walletRepository.reset();
 
     await sandbox.app.resolve<StateBuilder>(StateBuilder).run();
     await delay(2000); // if there is an issue with state builder, we wait a bit to be sure to catch it in the logs
 
-    const allByPublicKeyBootstrapped = walletRepository.allByPublicKey().map(w => w.clone()).sort(sortWallets).map(mapWallets);
+    const allByPublicKeyBootstrapped = walletRepository
+        .allByPublicKey()
+        .map((w) => w.clone())
+        .sort(sortWallets)
+        .map(mapWallets);
     expect(allByPublicKeyBootstrapped).toEqual(allByPublicKey);
 };
 
