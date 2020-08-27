@@ -10,8 +10,8 @@ const { schemas } = Transactions;
 export class NFTBurnTransaction extends Transactions.Transaction {
     public static typeGroup: number = NFTBaseTransactionGroup;
     public static type = NFTBaseTransactionTypes.NFTBurn;
-    public static key: string = "NFTBurn";
-    public static version: number = 2;
+    public static key = "NFTBurn";
+    public static version = 2;
 
     protected static defaultStaticFee = Utils.BigNumber.make(NFTBaseStaticFees.NFTBurn);
 

@@ -1,5 +1,5 @@
 export enum WalletSignType {
-    Basic,
-    SecondSignature,
-    MultiSignature,
+	Basic,
+	SecondSignature,
+	MultiSignature,
 }

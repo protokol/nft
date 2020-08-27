@@ -10,11 +10,11 @@ import Hapi from "@hapi/hapi";
 import { Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 
 import {
-    blockHistoryService,
-    initApp,
-    ItemResponse,
-    PaginatedResponse,
-    transactionHistoryService,
+	blockHistoryService,
+	initApp,
+	ItemResponse,
+	PaginatedResponse,
+	transactionHistoryService,
 } from "../__support__";
 import { TransfersController } from "../../../src/controllers/transfers";
 let app: Application;
@@ -26,83 +26,83 @@ let actual: ITransaction;
 const timestamp = Utils.formatTimestamp(104930456);
 
 beforeEach(() => {
-    const config = Generators.generateCryptoConfigRaw();
-    configManager.setConfig(config);
-    Managers.configManager.setConfig(config);
+	const config = Generators.generateCryptoConfigRaw();
+	configManager.setConfig(config);
+	Managers.configManager.setConfig(config);
 
-    app = initApp();
+	app = initApp();
 
-    transactionHistoryService.findManyByCriteria.mockReset();
-    transactionHistoryService.findOneByCriteria.mockReset();
-    transactionHistoryService.listByCriteria.mockReset();
+	transactionHistoryService.findManyByCriteria.mockReset();
+	transactionHistoryService.findOneByCriteria.mockReset();
+	transactionHistoryService.listByCriteria.mockReset();
 
-    blockHistoryService.findOneByCriteria.mockReset();
+	blockHistoryService.findOneByCriteria.mockReset();
 
-    transfersController = app.resolve<TransfersController>(TransfersController);
+	transfersController = app.resolve<TransfersController>(TransfersController);
 
-    actual = new Builders.NFTTransferBuilder()
-        .NFTTransferAsset({
-            nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
-            recipientId: Identities.Address.fromPassphrase(passphrases[1]),
-        })
-        .sign(passphrases[0])
-        .build();
+	actual = new Builders.NFTTransferBuilder()
+		.NFTTransferAsset({
+			nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
+			recipientId: Identities.Address.fromPassphrase(passphrases[1]),
+		})
+		.sign(passphrases[0])
+		.build();
 });
 
 afterEach(() => {
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTRegisterCollectionTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTCreateTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTTransferTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTBurnTransaction);
+	Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTRegisterCollectionTransaction);
+	Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTCreateTransaction);
+	Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTTransferTransaction);
+	Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTBurnTransaction);
 });
 
 describe("Test transfer controller", () => {
-    it("index - return all transfer transactions", async () => {
-        transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
-            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
-        });
+	it("index - return all transfer transactions", async () => {
+		transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
+			rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+		});
 
-        const request: Hapi.Request = {
-            query: {
-                page: 1,
-                limit: 100,
-                transform: true,
-            },
-        };
-        const response = (await transfersController.index(request, undefined)) as PaginatedResponse;
-        expect(response.results[0]).toStrictEqual({
-            id: actual.id,
-            senderPublicKey: actual.data.senderPublicKey,
-            nftTransfer: {
-                nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
-                recipientId: Identities.Address.fromPassphrase(passphrases[1]),
-            },
-            timestamp,
-        });
-    });
+		const request: Hapi.Request = {
+			query: {
+				page: 1,
+				limit: 100,
+				transform: true,
+			},
+		};
+		const response = (await transfersController.index(request, undefined)) as PaginatedResponse;
+		expect(response.results[0]).toStrictEqual({
+			id: actual.id,
+			senderPublicKey: actual.data.senderPublicKey,
+			nftTransfer: {
+				nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
+				recipientId: Identities.Address.fromPassphrase(passphrases[1]),
+			},
+			timestamp,
+		});
+	});
 
-    it("show - return specific transfer transaction by its id", async () => {
-        transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actual.data);
-        blockHistoryService.findOneByCriteria.mockResolvedValueOnce({ timestamp: timestamp.epoch });
+	it("show - return specific transfer transaction by its id", async () => {
+		transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actual.data);
+		blockHistoryService.findOneByCriteria.mockResolvedValueOnce({ timestamp: timestamp.epoch });
 
-        const request: Hapi.Request = {
-            query: {
-                transform: true,
-            },
-            params: {
-                id: actual.id,
-            },
-        };
+		const request: Hapi.Request = {
+			query: {
+				transform: true,
+			},
+			params: {
+				id: actual.id,
+			},
+		};
 
-        const response = (await transfersController.show(request, undefined)) as ItemResponse;
-        expect(response.data).toStrictEqual({
-            id: actual.id,
-            senderPublicKey: actual.data.senderPublicKey,
-            nftTransfer: {
-                nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
-                recipientId: Identities.Address.fromPassphrase(passphrases[1]),
-            },
-            timestamp,
-        });
-    });
+		const response = (await transfersController.show(request, undefined)) as ItemResponse;
+		expect(response.data).toStrictEqual({
+			id: actual.id,
+			senderPublicKey: actual.data.senderPublicKey,
+			nftTransfer: {
+				nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
+				recipientId: Identities.Address.fromPassphrase(passphrases[1]),
+			},
+			timestamp,
+		});
+	});
 });

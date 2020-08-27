@@ -13,12 +13,12 @@ import { Builders, Transactions as NFTTransactions } from "@protokol/nft-base-cr
 import { INFTCollections, INFTTokens } from "@protokol/nft-base-transactions/src/interfaces";
 
 import {
-    blockHistoryService,
-    buildSenderWallet,
-    initApp,
-    ItemResponse,
-    PaginatedResponse,
-    transactionHistoryService,
+	blockHistoryService,
+	buildSenderWallet,
+	initApp,
+	ItemResponse,
+	PaginatedResponse,
+	transactionHistoryService,
 } from "../__support__";
 import { CollectionsController } from "../../../src/controllers/collections";
 
@@ -34,277 +34,277 @@ let actual: ITransaction;
 const timestamp = Utils.formatTimestamp(104930456);
 
 const nftCollectionAsset = {
-    name: "Nft card",
-    description: "Nft card description",
-    maximumSupply: 100,
-    jsonSchema: {
-        type: "object",
-        additionalProperties: false,
-        properties: {
-            name: {
-                type: "string",
-                minLength: 3,
-            },
-            damage: {
-                type: "integer",
-            },
-            health: {
-                type: "integer",
-            },
-            mana: {
-                type: "integer",
-            },
-        },
-    },
+	name: "Nft card",
+	description: "Nft card description",
+	maximumSupply: 100,
+	jsonSchema: {
+		type: "object",
+		additionalProperties: false,
+		properties: {
+			name: {
+				type: "string",
+				minLength: 3,
+			},
+			damage: {
+				type: "integer",
+			},
+			health: {
+				type: "integer",
+			},
+			mana: {
+				type: "integer",
+			},
+		},
+	},
 };
 
 beforeEach(() => {
-    const config = Generators.generateCryptoConfigRaw();
-    configManager.setConfig(config);
-    Managers.configManager.setConfig(config);
+	const config = Generators.generateCryptoConfigRaw();
+	configManager.setConfig(config);
+	Managers.configManager.setConfig(config);
 
-    app = initApp();
+	app = initApp();
 
-    walletRepository = app.get<Wallets.WalletRepository>(Identifiers.WalletRepository);
+	walletRepository = app.get<Wallets.WalletRepository>(Identifiers.WalletRepository);
 
-    senderWallet = buildSenderWallet(app);
+	senderWallet = buildSenderWallet(app);
 
-    transactionHistoryService.findManyByCriteria.mockReset();
-    transactionHistoryService.findOneByCriteria.mockReset();
-    transactionHistoryService.listByCriteria.mockReset();
-    transactionHistoryService.listByCriteriaJoinBlock.mockReset();
+	transactionHistoryService.findManyByCriteria.mockReset();
+	transactionHistoryService.findOneByCriteria.mockReset();
+	transactionHistoryService.listByCriteria.mockReset();
+	transactionHistoryService.listByCriteriaJoinBlock.mockReset();
 
-    blockHistoryService.findOneByCriteria.mockReset();
+	blockHistoryService.findOneByCriteria.mockReset();
 
-    collectionController = app.resolve<CollectionsController>(CollectionsController);
+	collectionController = app.resolve<CollectionsController>(CollectionsController);
 
-    actual = new Builders.NFTRegisterCollectionBuilder()
-        .NFTRegisterCollectionAsset({
-            name: "Heartstone card",
-            description: "A card from heartstone game",
-            maximumSupply: 100,
-            jsonSchema: {
-                properties: {
-                    number: {
-                        type: "number",
-                    },
-                    string: { type: "string" },
-                },
-            },
-        })
-        .sign(passphrases[0])
-        .build();
+	actual = new Builders.NFTRegisterCollectionBuilder()
+		.NFTRegisterCollectionAsset({
+			name: "Heartstone card",
+			description: "A card from heartstone game",
+			maximumSupply: 100,
+			jsonSchema: {
+				properties: {
+					number: {
+						type: "number",
+					},
+					string: { type: "string" },
+				},
+			},
+		})
+		.sign(passphrases[0])
+		.build();
 });
 
 afterEach(() => {
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTRegisterCollectionTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTCreateTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTTransferTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTBurnTransaction);
+	Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTRegisterCollectionTransaction);
+	Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTCreateTransaction);
+	Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTTransferTransaction);
+	Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTBurnTransaction);
 });
 
 describe("Test collection controller", () => {
-    it("index - return all collections", async () => {
-        transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
-            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
-        });
+	it("index - return all collections", async () => {
+		transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
+			rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+		});
 
-        const request: Hapi.Request = {
-            query: {
-                page: 1,
-                limit: 100,
-                transform: true,
-            },
-        };
-        const response = (await collectionController.index(request, undefined)) as PaginatedResponse;
+		const request: Hapi.Request = {
+			query: {
+				page: 1,
+				limit: 100,
+				transform: true,
+			},
+		};
+		const response = (await collectionController.index(request, undefined)) as PaginatedResponse;
 
-        expect(response.results[0]).toStrictEqual({
-            id: actual.id,
-            senderPublicKey: actual.data.senderPublicKey,
-            name: "Heartstone card",
-            description: "A card from heartstone game",
-            maximumSupply: 100,
-            jsonSchema: {
-                properties: {
-                    number: {
-                        type: "number",
-                    },
-                    string: { type: "string" },
-                },
-            },
-            timestamp,
-        });
-    });
+		expect(response.results[0]).toStrictEqual({
+			id: actual.id,
+			senderPublicKey: actual.data.senderPublicKey,
+			name: "Heartstone card",
+			description: "A card from heartstone game",
+			maximumSupply: 100,
+			jsonSchema: {
+				properties: {
+					number: {
+						type: "number",
+					},
+					string: { type: "string" },
+				},
+			},
+			timestamp,
+		});
+	});
 
-    it("showByWalletId - return wallet by collectionId", async () => {
-        const collectionsWallet = senderWallet.getAttribute<INFTCollections>("nft.base.collections", {});
-        collectionsWallet["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {
-            currentSupply: 0,
-            nftCollectionAsset: nftCollectionAsset,
-        };
-        senderWallet.setAttribute("nft.base.collections", collectionsWallet);
-        walletRepository.index(senderWallet);
+	it("showByWalletId - return wallet by collectionId", async () => {
+		const collectionsWallet = senderWallet.getAttribute<INFTCollections>("nft.base.collections", {});
+		collectionsWallet["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {
+			currentSupply: 0,
+			nftCollectionAsset: nftCollectionAsset,
+		};
+		senderWallet.setAttribute("nft.base.collections", collectionsWallet);
+		walletRepository.index(senderWallet);
 
-        const request: Hapi.Request = {
-            params: {
-                id: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
-            },
-        };
+		const request: Hapi.Request = {
+			params: {
+				id: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+			},
+		};
 
-        const response = (await collectionController.showByWalletId(request, undefined)) as ItemResponse;
+		const response = (await collectionController.showByWalletId(request, undefined)) as ItemResponse;
 
-        expect(response.data).toStrictEqual({
-            address: senderWallet.address,
-            publicKey: senderWallet.publicKey,
-            nft: {
-                collections: [
-                    {
-                        collectionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
-                        currentSupply: 0,
-                        nftCollectionAsset: nftCollectionAsset,
-                    },
-                ],
-                assetsIds: [],
-            },
-        });
-    });
+		expect(response.data).toStrictEqual({
+			address: senderWallet.address,
+			publicKey: senderWallet.publicKey,
+			nft: {
+				collections: [
+					{
+						collectionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+						currentSupply: 0,
+						nftCollectionAsset: nftCollectionAsset,
+					},
+				],
+				assetsIds: [],
+			},
+		});
+	});
 
-    it("show - return specific collection transaction", async () => {
-        transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actual.data);
-        blockHistoryService.findOneByCriteria.mockResolvedValueOnce({ timestamp: timestamp.epoch });
+	it("show - return specific collection transaction", async () => {
+		transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actual.data);
+		blockHistoryService.findOneByCriteria.mockResolvedValueOnce({ timestamp: timestamp.epoch });
 
-        const request: Hapi.Request = {
-            query: {
-                transform: true,
-            },
-            params: {
-                id: actual.id,
-            },
-        };
+		const request: Hapi.Request = {
+			query: {
+				transform: true,
+			},
+			params: {
+				id: actual.id,
+			},
+		};
 
-        const response = (await collectionController.show(request, undefined)) as ItemResponse;
-        expect(response.data).toStrictEqual({
-            id: actual.id,
-            senderPublicKey: actual.data.senderPublicKey,
-            name: "Heartstone card",
-            description: "A card from heartstone game",
-            maximumSupply: 100,
-            jsonSchema: {
-                properties: {
-                    number: {
-                        type: "number",
-                    },
-                    string: { type: "string" },
-                },
-            },
-            timestamp,
-        });
-    });
+		const response = (await collectionController.show(request, undefined)) as ItemResponse;
+		expect(response.data).toStrictEqual({
+			id: actual.id,
+			senderPublicKey: actual.data.senderPublicKey,
+			name: "Heartstone card",
+			description: "A card from heartstone game",
+			maximumSupply: 100,
+			jsonSchema: {
+				properties: {
+					number: {
+						type: "number",
+					},
+					string: { type: "string" },
+				},
+			},
+			timestamp,
+		});
+	});
 
-    it("showSchema - return schema by specific id", async () => {
-        transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actual.data);
-        blockHistoryService.findOneByCriteria.mockResolvedValueOnce({ timestamp: timestamp.epoch });
+	it("showSchema - return schema by specific id", async () => {
+		transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actual.data);
+		blockHistoryService.findOneByCriteria.mockResolvedValueOnce({ timestamp: timestamp.epoch });
 
-        const request: Hapi.Request = {
-            query: {
-                transform: true,
-            },
-            params: {
-                id: actual.id,
-            },
-        };
+		const request: Hapi.Request = {
+			query: {
+				transform: true,
+			},
+			params: {
+				id: actual.id,
+			},
+		};
 
-        const response = (await collectionController.showSchema(request, undefined)) as ItemResponse;
-        expect(response.data).toStrictEqual({
-            id: actual.id,
-            senderPublicKey: actual.data.senderPublicKey,
-            properties: {
-                number: {
-                    type: "number",
-                },
-                string: { type: "string" },
-            },
-            timestamp,
-        });
-    });
+		const response = (await collectionController.showSchema(request, undefined)) as ItemResponse;
+		expect(response.data).toStrictEqual({
+			id: actual.id,
+			senderPublicKey: actual.data.senderPublicKey,
+			properties: {
+				number: {
+					type: "number",
+				},
+				string: { type: "string" },
+			},
+			timestamp,
+		});
+	});
 
-    it("searchCollection - search collection by payload", async () => {
-        transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
-            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
-        });
-        const request: Hapi.Request = {
-            payload: {
-                type: "number",
-            },
-            query: {
-                page: 1,
-                limit: 100,
-                transform: true,
-            },
-        };
+	it("searchCollection - search collection by payload", async () => {
+		transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
+			rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+		});
+		const request: Hapi.Request = {
+			payload: {
+				type: "number",
+			},
+			query: {
+				page: 1,
+				limit: 100,
+				transform: true,
+			},
+		};
 
-        const response = (await collectionController.searchCollection(request, undefined)) as PaginatedResponse;
-        expect(response.results[0]).toStrictEqual({
-            id: actual.id,
-            senderPublicKey: actual.data.senderPublicKey,
-            name: "Heartstone card",
-            description: "A card from heartstone game",
-            maximumSupply: 100,
-            jsonSchema: {
-                properties: {
-                    number: {
-                        type: "number",
-                    },
-                    string: { type: "string" },
-                },
-            },
-            timestamp,
-        });
-    });
+		const response = (await collectionController.searchCollection(request, undefined)) as PaginatedResponse;
+		expect(response.results[0]).toStrictEqual({
+			id: actual.id,
+			senderPublicKey: actual.data.senderPublicKey,
+			name: "Heartstone card",
+			description: "A card from heartstone game",
+			maximumSupply: 100,
+			jsonSchema: {
+				properties: {
+					number: {
+						type: "number",
+					},
+					string: { type: "string" },
+				},
+			},
+			timestamp,
+		});
+	});
 
-    it("showAssetsByCollectionId - returns nftTokens by collection id", async () => {
-        const actual = new Builders.NFTCreateBuilder()
-            .NFTCreateToken({
-                collectionId: "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
-                attributes: {
-                    number: 5,
-                    string: "something",
-                },
-            })
-            .sign(passphrases[0])
-            .build();
+	it("showAssetsByCollectionId - returns nftTokens by collection id", async () => {
+		const actual = new Builders.NFTCreateBuilder()
+			.NFTCreateToken({
+				collectionId: "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
+				attributes: {
+					number: 5,
+					string: "something",
+				},
+			})
+			.sign(passphrases[0])
+			.build();
 
-        const tokensWallet = senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
-        // @ts-ignore
-        tokensWallet[actual.id] = {};
-        senderWallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
-        walletRepository.index(senderWallet);
+		const tokensWallet = senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
+		// @ts-ignore
+		tokensWallet[actual.id] = {};
+		senderWallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
+		walletRepository.index(senderWallet);
 
-        transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
-            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
-        });
+		transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
+			rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+		});
 
-        const request: Hapi.Request = {
-            params: {
-                id: "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
-            },
-            query: {
-                page: 1,
-                limit: 100,
-                transform: true,
-            },
-        };
-        const response = (await collectionController.showAssetsByCollectionId(request, undefined)) as PaginatedResponse;
-        expect(response.results[0]).toStrictEqual({
-            id: actual.id,
-            ownerPublicKey: actual.data.senderPublicKey,
-            senderPublicKey: actual.data.senderPublicKey,
-            collectionId: "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
-            attributes: {
-                number: 5,
-                string: "something",
-            },
-            timestamp,
-        });
-    });
+		const request: Hapi.Request = {
+			params: {
+				id: "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
+			},
+			query: {
+				page: 1,
+				limit: 100,
+				transform: true,
+			},
+		};
+		const response = (await collectionController.showAssetsByCollectionId(request, undefined)) as PaginatedResponse;
+		expect(response.results[0]).toStrictEqual({
+			id: actual.id,
+			ownerPublicKey: actual.data.senderPublicKey,
+			senderPublicKey: actual.data.senderPublicKey,
+			collectionId: "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
+			attributes: {
+				number: 5,
+				string: "something",
+			},
+			timestamp,
+		});
+	});
 });

@@ -10,8 +10,8 @@ const { schemas } = Transactions;
 export class NFTBidTransaction extends Transactions.Transaction {
     public static typeGroup: number = NFTExchangeTransactionsTypeGroup;
     public static type: number = NFTTransactionTypes.NFTBid;
-    public static key: string = "NFTBid";
-    public static version: number = 2;
+    public static key = "NFTBid";
+    public static version = 2;
 
     protected static defaultStaticFee = Utils.BigNumber.make(NFTStaticFees.NFTBid);
 

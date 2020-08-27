@@ -1,54 +1,54 @@
 {
-    "private": true,
-    "name": "nft-core",
-    "version": "1.0.0-beta.21",
-    "description": "NFT Functionality For Any ARK Core-v3 Bridgechain",
-    "engineStrict": true,
-    "engines": {
-        "node": "^12 || ^14",
-        "yarn": "^2"
-    },
-    "scripts": {
-        "publish": "yarn workspaces foreach -pt run publish",
-        "build": "yarn workspaces foreach -pt run build",
-        "version": "yarn workspaces foreach version",
-        "version:apply": "yarn workspaces foreach version apply",
-        "version:check": "yarn version check --interactive",
-        "format": "yarn lint && yarn prettier",
-        "lint": "eslint packages/**/src/** --ext .ts --fix",
-        "lint:tests": "eslint packages/**/__tests__/** --ext .ts --fix",
-        "prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\"",
-        "test": "yarn workspaces foreach -pt run test:unit"
-    },
-    "devDependencies": {
-        "@sindresorhus/tsconfig": "^0.7.0",
-        "@types/eslint": "^7.2.0",
-        "@types/eslint-plugin-prettier": "^3.1.0",
-        "@types/jest": "^26.0.9",
-        "@types/node": "^14.0.27",
-        "@types/prettier": "^2.0.2",
-        "@types/rimraf": "^3.0.0",
-        "@typescript-eslint/eslint-plugin": "^3.9.0",
-        "@typescript-eslint/parser": "^3.9.0",
-        "@yarnpkg/pnpify": "^2.1.0",
-        "codecov": "^3.7.2",
-        "cross-env": "^7.0.2",
-        "eslint": "^7.6.0",
-        "eslint-config-prettier": "^6.11.0",
-        "eslint-plugin-jest": "^23.20.0",
-        "eslint-plugin-prettier": "^3.1.4",
-        "eslint-plugin-simple-import-sort": "^5.0.3",
-        "jest": "^26.4.0",
-        "jest-extended": "^0.11.5",
-        "nock": "^13.0.4",
-        "npm-check-updates": "^7.1.0",
-        "prettier": "^2.0.5",
-        "rimraf": "^3.0.2",
-        "ts-jest": "^26.2.0",
-        "typescript": "^3.9.7",
-        "typescript-language-server": "^0.4.0"
-    },
-    "workspaces": [
-        "packages/*"
-    ]
+	"private": true,
+	"name": "nft-core",
+	"version": "1.0.0-beta.21",
+	"description": "NFT Functionality For Any ARK Core-v3 Bridgechain",
+	"engineStrict": true,
+	"engines": {
+		"node": "^12 || ^14",
+		"yarn": "^2"
+	},
+	"scripts": {
+		"publish": "yarn workspaces foreach -pt run publish",
+		"build": "yarn workspaces foreach -pt run build",
+		"version": "yarn workspaces foreach version",
+		"version:apply": "yarn workspaces foreach version apply",
+		"version:check": "yarn version check --interactive",
+		"format": "yarn lint && yarn prettier",
+		"lint": "eslint packages/**/src/** --ext .ts --fix",
+		"lint:tests": "eslint packages/**/__tests__/** --ext .ts --fix",
+		"prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\"",
+		"test": "yarn workspaces foreach -pt run test:unit"
+	},
+	"devDependencies": {
+		"@sindresorhus/tsconfig": "^0.7.0",
+		"@types/eslint": "^7.2.0",
+		"@types/eslint-plugin-prettier": "^3.1.0",
+		"@types/jest": "^26.0.9",
+		"@types/node": "^14.0.27",
+		"@types/prettier": "^2.0.2",
+		"@types/rimraf": "^3.0.0",
+		"@typescript-eslint/eslint-plugin": "^3.9.0",
+		"@typescript-eslint/parser": "^3.9.0",
+		"@yarnpkg/pnpify": "^2.1.0",
+		"codecov": "^3.7.2",
+		"cross-env": "^7.0.2",
+		"eslint": "^7.6.0",
+		"eslint-config-prettier": "^6.11.0",
+		"eslint-plugin-jest": "^23.20.0",
+		"eslint-plugin-prettier": "^3.1.4",
+		"eslint-plugin-simple-import-sort": "^5.0.3",
+		"jest": "^26.4.0",
+		"jest-extended": "^0.11.5",
+		"nock": "^13.0.4",
+		"npm-check-updates": "^7.1.0",
+		"prettier": "^2.0.5",
+		"rimraf": "^3.0.2",
+		"ts-jest": "^26.2.0",
+		"typescript": "^3.9.7",
+		"typescript-language-server": "^0.4.0"
+	},
+	"workspaces": [
+		"packages/*"
+	]
 }

@@ -17,41 +17,41 @@ let app: Application;
 let configurationsController: ConfigurationController;
 
 beforeEach(() => {
-    const config = Generators.generateCryptoConfigRaw();
-    configManager.setConfig(config);
-    Managers.configManager.setConfig(config);
+	const config = Generators.generateCryptoConfigRaw();
+	configManager.setConfig(config);
+	Managers.configManager.setConfig(config);
 
-    app = initApp();
+	app = initApp();
 
-    transactionHistoryService.findManyByCriteria.mockReset();
-    transactionHistoryService.findOneByCriteria.mockReset();
-    transactionHistoryService.listByCriteria.mockReset();
+	transactionHistoryService.findManyByCriteria.mockReset();
+	transactionHistoryService.findOneByCriteria.mockReset();
+	transactionHistoryService.listByCriteria.mockReset();
 
-    configurationsController = app.resolve<ConfigurationController>(ConfigurationController);
+	configurationsController = app.resolve<ConfigurationController>(ConfigurationController);
 });
 
 afterEach(() => {
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTRegisterCollectionTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTCreateTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTTransferTransaction);
-    Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTBurnTransaction);
+	Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTRegisterCollectionTransaction);
+	Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTCreateTransaction);
+	Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTTransferTransaction);
+	Transactions.TransactionRegistry.deregisterTransactionType(NFTTransactions.NFTBurnTransaction);
 });
 
 describe("Test configurations controller", () => {
-    it("index - return package name and version and crypto and transactions default settings", async () => {
-        const response = (await configurationsController.index(undefined, undefined)) as ItemResponse;
-        expect(response.data).toStrictEqual({
-            package: {
-                name: require("../../../package.json").name,
-                currentVersion: require("../../../package.json").version,
-                latestVersion: await latestVersion(require("../../../package.json").name),
-            },
-            crypto: {
-                ...CryptoDefaults,
-            },
-            transactions: {
-                ...TransactionsDefaults,
-            },
-        });
-    });
+	it("index - return package name and version and crypto and transactions default settings", async () => {
+		const response = (await configurationsController.index(undefined, undefined)) as ItemResponse;
+		expect(response.data).toStrictEqual({
+			package: {
+				name: require("../../../package.json").name,
+				currentVersion: require("../../../package.json").version,
+				latestVersion: await latestVersion(require("../../../package.json").name),
+			},
+			crypto: {
+				...CryptoDefaults,
+			},
+			transactions: {
+				...TransactionsDefaults,
+			},
+		});
+	});
 });

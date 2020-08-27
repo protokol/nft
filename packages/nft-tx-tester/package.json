@@ -1,74 +1,74 @@
 {
-    "name": "@protokol/nft-tx-tester",
-    "version": "1.0.0-beta.21",
-    "description": "A simple command line utility to create and broadcast NFT transactions.",
-    "license": "MIT",
-    "homepage": "https://docs.protokol.com/nft/",
-    "bugs": {
-        "url": "https://github.com/protokol/nft-plugins/issues"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/protokol/nft-plugins.git"
-    },
-    "keywords": [
-        "protokol",
-        "ark",
-        "core",
-        "sdk",
-        "nft",
-        "blockchain"
-    ],
-    "contributors": [
-        "Žan Kovač <zan@protokol.com",
-        "Amadej Pevec <amadej@protokol.com>",
-        "Kristjan Košič <kristjan@protokol.com>",
-        "Joshua Noack <joshua@ark.io>",
-        "Sebastijan Kuzner <sebastijan@ark.io>"
-    ],
-    "files": [
-        "/dist",
-        "/bin",
-        "/oclif.manifest.json"
-    ],
-    "bin": "./bin/run",
-    "main": "dist/index",
-    "types": "dist/index",
-    "scripts": {
-        "build": "yarn clean && tsc",
-        "build:watch": "yarn build -w",
-        "clean": "rimraf .coverage dist tmp",
-        "format": "yarn lint && yarn prettier",
-        "lint": "tslint -c tslint.json -p tslint.json 'src/**/*.ts' --fix",
-        "prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\"",
-        "postpack": "rm -f oclif.manifest.json",
-        "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
-        "compile": "../../../node_modules/typescript/bin/tsc"
-    },
-    "dependencies": {
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.1",
-        "@arkecosystem/core-magistrate-crypto": "^3.0.0-alpha.1",
-        "@arkecosystem/crypto": "^3.0.0-alpha.1",
-        "@oclif/command": "^1",
-        "@oclif/plugin-help": "^3",
-        "@protokol/nft-base-crypto": "^1.0.0-beta.21",
-        "@protokol/nft-exchange-crypto": "^1.0.0-beta.21",
-        "fs-extra": "^9.0.1"
-    },
-    "devDependencies": {
-        "ts-node": "^8",
-        "typescript": "^3.8.3"
-    },
-    "oclif": {
-        "commands": "./src/commands",
-        "bin": "nft-tx-tester",
-        "topics": {
-            "send": {
-                "description": "Send transactions of various types"
-            }
-        },
-        "plugins": [
-            "@oclif/plugin-help"
-        ]
-    }
+	"name": "@protokol/nft-tx-tester",
+	"version": "1.0.0-beta.21",
+	"description": "A simple command line utility to create and broadcast NFT transactions.",
+	"license": "MIT",
+	"homepage": "https://docs.protokol.com/nft/",
+	"bugs": {
+		"url": "https://github.com/protokol/nft-plugins/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/protokol/nft-plugins.git"
+	},
+	"keywords": [
+		"protokol",
+		"ark",
+		"core",
+		"sdk",
+		"nft",
+		"blockchain"
+	],
+	"contributors": [
+		"Žan Kovač <zan@protokol.com",
+		"Amadej Pevec <amadej@protokol.com>",
+		"Kristjan Košič <kristjan@protokol.com>",
+		"Joshua Noack <joshua@ark.io>",
+		"Sebastijan Kuzner <sebastijan@ark.io>"
+	],
+	"files": [
+		"/dist",
+		"/bin",
+		"/oclif.manifest.json"
+	],
+	"bin": "./bin/run",
+	"main": "dist/index",
+	"types": "dist/index",
+	"scripts": {
+		"build": "yarn clean && tsc",
+		"build:watch": "yarn build -w",
+		"clean": "rimraf .coverage dist tmp",
+		"format": "yarn lint && yarn prettier",
+		"lint": "tslint -c tslint.json -p tslint.json 'src/**/*.ts' --fix",
+		"prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\"",
+		"postpack": "rm -f oclif.manifest.json",
+		"prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
+		"compile": "../../../node_modules/typescript/bin/tsc"
+	},
+	"dependencies": {
+		"@arkecosystem/core-kernel": "^3.0.0-alpha.1",
+		"@arkecosystem/core-magistrate-crypto": "^3.0.0-alpha.1",
+		"@arkecosystem/crypto": "^3.0.0-alpha.1",
+		"@oclif/command": "^1",
+		"@oclif/plugin-help": "^3",
+		"@protokol/nft-base-crypto": "^1.0.0-beta.21",
+		"@protokol/nft-exchange-crypto": "^1.0.0-beta.21",
+		"fs-extra": "^9.0.1"
+	},
+	"devDependencies": {
+		"ts-node": "^8",
+		"typescript": "^3.8.3"
+	},
+	"oclif": {
+		"commands": "./src/commands",
+		"bin": "nft-tx-tester",
+		"topics": {
+			"send": {
+				"description": "Send transactions of various types"
+			}
+		},
+		"plugins": [
+			"@oclif/plugin-help"
+		]
+	}
 }

@@ -5,24 +5,24 @@ import { TransactionType } from "../../enums";
 import { SendBase } from "../../shared/send-base";
 
 export default class NftCancelBid extends SendBase {
-    public static description = SendBase.defaultDescription + builders[TransactionType.NftCancelBid].name;
-    public static flags = {
-        ...SendBase.defaultFlags,
-        bidId: flags.string({ description: "Bid id" }),
-    };
+	public static description = SendBase.defaultDescription + builders[TransactionType.NftCancelBid].name;
+	public static flags = {
+		...SendBase.defaultFlags,
+		bidId: flags.string({ description: "Bid id" }),
+	};
 
-    public type = TransactionType.NftCancelBid;
+	public type = TransactionType.NftCancelBid;
 
-    protected prepareConfig(config, flags) {
-        const mergedConfig = { ...config };
-        if (flags.bidId) {
-            mergedConfig.nft.cancelBidAsset.bidId = flags.bidId;
-        }
+	protected prepareConfig(config, flags) {
+		const mergedConfig = { ...config };
+		if (flags.bidId) {
+			mergedConfig.nft.cancelBidAsset.bidId = flags.bidId;
+		}
 
-        return mergedConfig;
-    }
+		return mergedConfig;
+	}
 
-    protected getCommand(): any {
-        return NftCancelBid;
-    }
+	protected getCommand(): any {
+		return NftCancelBid;
+	}
 }
