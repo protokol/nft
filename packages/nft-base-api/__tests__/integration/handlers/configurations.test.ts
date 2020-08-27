@@ -2,9 +2,9 @@ import "@arkecosystem/core-test-framework/src/matchers";
 
 import { Contracts } from "@arkecosystem/core-kernel";
 import { ApiHelpers } from "@arkecosystem/core-test-framework/src";
+import latestVersion from "latest-version";
 
 import { setUp, tearDown } from "../__support__/setup";
-import latestVersion from "latest-version";
 
 let app: Contracts.Kernel.Application;
 let api: ApiHelpers;
