@@ -1,7 +1,7 @@
 {
     "name": "@protokol/nft-examples",
     "description": "A TypeScript Examples Supporting Protokol NFT functionalities",
-    "version": "1.0.0-beta.20",
+    "version": "1.0.0-beta.21",
     "homepage": "https://docs.protokol.com/nft/",
     "bugs": {
         "url": "https://github.com/protokol/nft-plugins/issues"
@@ -37,9 +37,9 @@
         "prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\""
     },
     "dependencies": {
-        "@protokol/nft-client": "^1.0.0-beta.20",
-        "@protokol/nft-base-crypto": "^1.0.0-beta.20",
-        "@protokol/nft-exchange-crypto": "^1.0.0-beta.20"
+        "@protokol/nft-client": "^1.0.0-beta.21",
+        "@protokol/nft-base-crypto": "^1.0.0-beta.21",
+        "@protokol/nft-exchange-crypto": "^1.0.0-beta.21"
     },
     "devDependencies": {
         "@types/prettier": "^2.0.0",
