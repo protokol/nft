@@ -2,7 +2,7 @@ import "@arkecosystem/core-test-framework/src/matchers";
 
 import { Container, Contracts, Services } from "@arkecosystem/core-kernel";
 import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
-import { getLastHeight, snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework/src/utils";
+import { snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework/src/utils";
 import { Identities, Interfaces } from "@arkecosystem/crypto";
 import { generateMnemonic } from "bip39";
 
@@ -81,7 +81,6 @@ describe("NFT Burn functional tests", () => {
                 .NFTBurn({
                     nftId: nftCreate.id!,
                 })
-                .withExpiration(getLastHeight(app) + 2)
                 .withPassphrase(secrets[0])
                 .createOne();
 
@@ -102,7 +101,6 @@ describe("NFT Burn functional tests", () => {
                         mana: 2,
                     },
                 })
-                .withExpiration(getLastHeight(app) + 2)
                 .withPassphrase(secrets[0])
                 .createOne();
 
@@ -115,7 +113,6 @@ describe("NFT Burn functional tests", () => {
                 .NFTBurn({
                     nftId: nftCreate.id!,
                 })
-                .withExpiration(getLastHeight(app) + 2)
                 .withPassphrase(secrets[0])
                 .createOne();
 
@@ -124,7 +121,6 @@ describe("NFT Burn functional tests", () => {
                 .NFTBurn({
                     nftId: nftCreate.id!,
                 })
-                .withExpiration(getLastHeight(app) + 2)
                 .withPassphrase(secrets[0])
                 .withNonce(nftBurn.nonce!.plus(1))
                 .createOne();
@@ -147,7 +143,6 @@ describe("NFT Burn functional tests", () => {
                         mana: 2,
                     },
                 })
-                .withExpiration(getLastHeight(app) + 2)
                 .withPassphrase(secrets[0])
                 .createOne();
 
@@ -161,7 +156,6 @@ describe("NFT Burn functional tests", () => {
                     nftIds: [nftCreate.id!],
                     recipientId: Identities.Address.fromPassphrase(secrets[2]),
                 })
-                .withExpiration(getLastHeight(app) + 2)
                 .withPassphrase(secrets[0])
                 .createOne();
 
@@ -171,7 +165,6 @@ describe("NFT Burn functional tests", () => {
                     nftId: nftCreate.id!,
                 })
                 .withNonce(nftTransfer.nonce!.plus(1))
-                .withExpiration(getLastHeight(app) + 2)
                 .withPassphrase(secrets[0])
                 .createOne();
 
