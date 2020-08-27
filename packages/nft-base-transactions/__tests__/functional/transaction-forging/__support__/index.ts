@@ -20,7 +20,7 @@ export const setUp = async (): Promise<Contracts.Kernel.Application> => {
     sandbox.withCoreOptions({
         flags: {
             token: "ark",
-            network: "testnet",
+            network: "unitnet",
             env: "test",
         },
         peers: {
