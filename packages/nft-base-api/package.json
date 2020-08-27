@@ -1,6 +1,6 @@
 {
     "name": "@protokol/nft-base-api",
-    "version": "1.0.0-beta.8",
+    "version": "1.0.0-beta.21",
     "description": "REST API For Base NFT Functionality",
     "license": "CC-BY-NC-SA-4.0",
     "homepage": "https://docs.protokol.com/nft/",
@@ -41,14 +41,14 @@
         "test:integration:coverage": "cross-env CORE_ENV=test jest __tests__/integration --coverage --runInBand --forceExit"
     },
     "dependencies": {
-        "@arkecosystem/core-api": "^3.0.0-alpha.0",
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.0",
+        "@arkecosystem/core-api": "^3.0.0-alpha.1",
+        "@arkecosystem/core-kernel": "^3.0.0-alpha.1",
         "@hapi/boom": "^9.0.0",
         "@hapi/hapi": "^19.0.0",
         "@hapi/joi": "^17.1.0",
-        "@protokol/nft-base-crypto": "^1.0.0-beta.9",
-        "@protokol/nft-base-transactions": "^1.0.0-beta.8",
-        "latest-version": "^5.1.0"
+        "latest-version": "^5.1.0",
+        "@protokol/nft-base-crypto": "^1.0.0-beta.21",
+        "@protokol/nft-base-transactions": "^1.0.0-beta.21"
     },
     "devDependencies": {
         "@sindresorhus/tsconfig": "^0.7.0",

@@ -257,7 +257,6 @@ describe("NFT Accept Trade functional tests", () => {
             await snoozeForBlock(1);
             await expect(nftAcceptTrade.id).toBeForged();
             await expect(nftAcceptTradeTwo.id).not.toBeForged();
-
         });
 
         it("should reject because bid was canceled", async () => {

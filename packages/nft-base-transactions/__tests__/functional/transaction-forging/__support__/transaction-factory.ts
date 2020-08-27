@@ -1,5 +1,5 @@
 import { TransactionFactory } from "@arkecosystem/core-test-framework";
-import { Contracts } from "@packages/core-kernel";
+import { Contracts } from "@arkecosystem/core-kernel";
 import { Builders as NFTBuilders, Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 
 export class NFTBaseTransactionFactory extends TransactionFactory {
