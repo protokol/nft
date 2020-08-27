@@ -27,7 +27,7 @@ let app: Application;
 let senderWallet: Contracts.State.Wallet;
 let recipientWallet: Contracts.State.Wallet;
 
-let walletRepository: Contracts.State.WalletRepository;
+let walletRepository: Wallets.WalletRepository;
 
 let transactionHandlerRegistry: TransactionHandlerRegistry;
 
