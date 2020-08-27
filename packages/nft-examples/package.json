@@ -2,26 +2,26 @@
 	"name": "@protokol/nft-examples",
 	"description": "A TypeScript Examples Supporting Protokol NFT functionalities",
 	"version": "1.0.0-beta.8",
-    "homepage": "https://docs.protokol.com/nft/",
-    "bugs": {
-        "url": "https://github.com/protokol/nft-plugins/issues"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/protokol/nft-plugins.git"
-    },
-    "keywords": [
-        "protokol",
-        "ark",
-        "core",
-        "sdk",
-        "nft",
-        "blockchain"
-    ],
+	"homepage": "https://docs.protokol.com/nft/",
+	"bugs": {
+		"url": "https://github.com/protokol/nft-plugins/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/protokol/nft-plugins.git"
+	},
+	"keywords": [
+		"protokol",
+		"ark",
+		"core",
+		"sdk",
+		"nft",
+		"blockchain"
+	],
 	"contributors": [
-        "Žan Kovač <zan@protokol.com",
-        "Kristjan Košič <kristjan@protokol.com>"
-    ],
+		"Žan Kovač <zan@protokol.com",
+		"Kristjan Košič <kristjan@protokol.com>"
+	],
 	"license": "CC-BY-NC-SA-4.0",
 	"files": [
 		"/dist"
@@ -37,11 +37,11 @@
 		"prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\""
 	},
 	"dependencies": {
-        "@protokol/nft-client": "^1.0.0-beta.8",
-        "@arkecosystem/crypto": "^3.0.0-alpha.0",
-        "@protokol/nft-base-crypto": "^1.0.0-beta.10",
-        "@protokol/nft-exchange-crypto": "^1.0.0-beta.10"
-    },
+		"@arkecosystem/crypto": "^3.0.0-alpha.0",
+		"@protokol/nft-base-crypto": "^1.0.0-beta.10",
+		"@protokol/nft-client": "^1.0.0-beta.8",
+		"@protokol/nft-exchange-crypto": "^1.0.0-beta.10"
+	},
 	"devDependencies": {
 		"@types/prettier": "^2.0.0",
 		"@types/rimraf": "^3.0.0",
@@ -56,7 +56,7 @@
 	"engines": {
 		"node": ">=10.x"
 	},
-    "publishConfig": {
-        "access": "public"
-    }
+	"publishConfig": {
+		"access": "public"
+	}
 }
