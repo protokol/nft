@@ -188,12 +188,12 @@ export const initApp = (): Application => {
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: NFTIndexers.NFTTokenIndexer,
         indexer: nftIndexer,
-        autoIndex: true,
+        autoIndex: false,
     });
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: NFTIndexers.CollectionIndexer,
         indexer: nftCollectionIndexer,
-        autoIndex: true,
+        autoIndex: false,
     });
 
     transactionHistoryService.findManyByCriteria.mockReset();

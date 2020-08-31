@@ -45,9 +45,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
             AppUtils.assert.defined<string>(transaction.senderPublicKey);
             AppUtils.assert.defined<NFTInterfaces.NFTCollectionAsset>(transaction.asset?.nftCollection);
 
-            const senderWallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
-                transaction.senderPublicKey,
-            );
+            const senderWallet = this.walletRepository.findByPublicKey(transaction.senderPublicKey);
             const collectionAsset: NFTInterfaces.NFTCollectionAsset = transaction.asset.nftCollection;
             const collectionsWallet = senderWallet.getAttribute<INFTCollections>("nft.base.collections", {});
 
@@ -58,7 +56,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
             await this.compileAndPersistSchema(transaction.id, collectionAsset.jsonSchema);
 
             senderWallet.setAttribute("nft.base.collections", collectionsWallet);
-            this.walletRepository.index(senderWallet);
+            this.walletRepository.getIndex(NFTIndexers.CollectionIndexer).set(transaction.id, senderWallet);
         }
     }
 
@@ -95,10 +93,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         AppUtils.assert.defined<string>(transaction.data.id);
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
 
-        const senderWallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
-            transaction.data.senderPublicKey,
-        );
-
+        const senderWallet = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
         const collectionAsset: NFTInterfaces.NFTCollectionAsset = transaction.data.asset!.nftCollection;
         const collectionsWallet = senderWallet.getAttribute<INFTCollections>("nft.base.collections", {});
 
@@ -109,7 +104,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         senderWallet.setAttribute("nft.base.collections", collectionsWallet);
         await this.compileAndPersistSchema(transaction.id, collectionAsset.jsonSchema);
 
-        this.walletRepository.index(senderWallet);
+        this.walletRepository.getIndex(NFTIndexers.CollectionIndexer).set(transaction.data.id, senderWallet);
     }
 
     public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
@@ -118,9 +113,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         AppUtils.assert.defined<string>(transaction.data.id);
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
 
-        const senderWallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
-            transaction.data.senderPublicKey,
-        );
+        const senderWallet = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
 
         const collectionsWallet = senderWallet.getAttribute<INFTCollections>("nft.base.collections");
         delete collectionsWallet[transaction.data.id];
