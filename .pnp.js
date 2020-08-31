@@ -434,6 +434,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["xstate", "npm:4.13.0"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:3.0.0-alpha.3", {
+          "packageLocation": "./.yarn/cache/@arkecosystem-core-test-framework-npm-3.0.0-alpha.3-31add94e72-ad7dc68e79.zip/node_modules/@arkecosystem/core-test-framework/",
+          "packageDependencies": [
+            ["@arkecosystem/core-test-framework", "npm:3.0.0-alpha.3"],
+            ["@arkecosystem/core-cli", "npm:3.0.0-alpha.3"],
+            ["@arkecosystem/core-forger", "npm:3.0.0-alpha.3"],
+            ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.3"],
+            ["@arkecosystem/crypto", "npm:3.0.0-alpha.3"],
+            ["bip39", "npm:3.0.2"],
+            ["bs58", "npm:4.0.1"],
+            ["chance", "npm:1.1.7"],
+            ["fast-memoize", "npm:2.5.2"],
+            ["got", "npm:11.5.2"],
+            ["jest-extended", "npm:0.11.5"],
+            ["xstate", "npm:4.13.0"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@arkecosystem/core-transaction-pool", [
@@ -1979,32 +1997,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@arkecosystem/crypto", "npm:3.0.0-alpha.3"],
             ["@protokol/utils", "workspace:packages/utils"],
             ["@sindresorhus/tsconfig", "npm:0.7.0"],
-            ["@types/eslint", "npm:7.2.2"],
-            ["@types/eslint-plugin-prettier", "npm:3.1.0"],
             ["@types/jest", "npm:26.0.10"],
-            ["@types/prettier", "npm:2.1.0"],
             ["@types/rimraf", "npm:3.0.0"],
             ["@types/uuid", "npm:7.0.4"],
-            ["@typescript-eslint/eslint-plugin", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.10.1"],
-            ["@typescript-eslint/parser", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.10.1"],
             ["big-integer", "npm:1.6.48"],
             ["buffer-es6", "npm:4.9.3"],
             ["bytebuffer", "npm:5.0.1"],
             ["codecov", "npm:3.7.2"],
             ["cross-env", "npm:7.0.2"],
-            ["eslint", "npm:7.7.0"],
-            ["eslint-config-prettier", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:6.11.0"],
-            ["eslint-plugin-jest", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:23.20.0"],
-            ["eslint-plugin-prettier", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.1.4"],
-            ["eslint-plugin-simple-import-sort", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:5.0.3"],
             ["jest", "npm:26.4.2"],
             ["jest-extended", "npm:0.11.5"],
-            ["prettier", "npm:2.1.1"],
             ["process-es6", "npm:0.11.6"],
             ["rimraf", "npm:3.0.2"],
-            ["rollup", "npm:2.26.8"],
-            ["rollup-plugin-node-polyfills", "npm:0.2.1"],
-            ["rollup-plugin-terser", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:7.0.1"],
             ["ts-jest", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:26.3.0"],
             ["typedoc", "virtual:772dececd512235e99a9e38182a55a0f55052c3e33f380b55e8f0344d53d51faedcf1d7423f670a8c1697dccd7f24010972ab697cb115fccca09a353fca8a767#npm:0.19.0"],
             ["typescript", "patch:typescript@npm%3A4.0.2#builtin<compat/typescript>::version=4.0.2&hash=5b02a2"],
@@ -2021,37 +2025,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@arkecosystem/core-database", "npm:3.0.0-alpha.3"],
             ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.3"],
             ["@arkecosystem/core-state", "npm:3.0.0-alpha.3"],
+            ["@arkecosystem/core-test-framework", "npm:3.0.0-alpha.3"],
+            ["@arkecosystem/core-transaction-pool", "npm:3.0.0-alpha.3"],
             ["@arkecosystem/core-transactions", "npm:3.0.0-alpha.3"],
             ["@arkecosystem/crypto", "npm:3.0.0-alpha.3"],
             ["@protokol/nft-base-crypto", "workspace:packages/nft-base-crypto"],
             ["@sindresorhus/tsconfig", "npm:0.7.0"],
-            ["@types/eslint", "npm:7.2.2"],
-            ["@types/eslint-plugin-prettier", "npm:3.1.0"],
-            ["@types/prettier", "npm:2.1.0"],
+            ["@types/jest", "npm:22.2.3"],
+            ["@types/node", "npm:14.6.2"],
             ["@types/rimraf", "npm:3.0.0"],
             ["@types/uuid", "npm:7.0.4"],
-            ["@typescript-eslint/eslint-plugin", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.10.1"],
-            ["@typescript-eslint/parser", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.10.1"],
+            ["ajv", "npm:6.12.4"],
             ["big-integer", "npm:1.6.48"],
             ["buffer-es6", "npm:4.9.3"],
             ["codecov", "npm:3.7.2"],
-            ["cross-env", "npm:7.0.2"],
-            ["eslint", "npm:7.7.0"],
-            ["eslint-config-prettier", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:6.11.0"],
-            ["eslint-plugin-jest", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:23.20.0"],
-            ["eslint-plugin-prettier", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.1.4"],
-            ["eslint-plugin-simple-import-sort", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:5.0.3"],
             ["jest", "npm:26.4.2"],
-            ["prettier", "npm:2.1.1"],
+            ["jest-extended", "npm:0.11.5"],
+            ["micromatch", "npm:4.0.2"],
             ["process-es6", "npm:0.11.6"],
             ["rimraf", "npm:3.0.2"],
-            ["rollup", "npm:2.26.8"],
-            ["rollup-plugin-node-polyfills", "npm:0.2.1"],
-            ["rollup-plugin-terser", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:7.0.1"],
             ["ts-jest", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:26.3.0"],
             ["typedoc", "virtual:772dececd512235e99a9e38182a55a0f55052c3e33f380b55e8f0344d53d51faedcf1d7423f670a8c1697dccd7f24010972ab697cb115fccca09a353fca8a767#npm:0.19.0"],
-            ["typescript", "patch:typescript@npm%3A4.0.2#builtin<compat/typescript>::version=4.0.2&hash=5b02a2"],
-            ["util", "npm:0.12.3"]
+            ["typescript", "patch:typescript@npm%3A4.0.2#builtin<compat/typescript>::version=4.0.2&hash=5b02a2"]
           ],
           "linkType": "SOFT",
         }]
@@ -2657,6 +2652,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/jest", [
+        ["npm:22.2.3", {
+          "packageLocation": "./.yarn/cache/@types-jest-npm-22.2.3-4bf3c74651-f8dca1ad6b.zip/node_modules/@types/jest/",
+          "packageDependencies": [
+            ["@types/jest", "npm:22.2.3"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:26.0.10", {
           "packageLocation": "./.yarn/cache/@types-jest-npm-26.0.10-c59ab32e68-bb9f6b06c8.zip/node_modules/@types/jest/",
           "packageDependencies": [
@@ -5798,15 +5800,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/estraverse-npm-5.2.0-b2e8e36350-7dc1b027ae.zip/node_modules/estraverse/",
           "packageDependencies": [
             ["estraverse", "npm:5.2.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["estree-walker", [
-        ["npm:0.6.1", {
-          "packageLocation": "./.yarn/cache/estree-walker-npm-0.6.1-fe92d0e1f6-a63b94b841.zip/node_modules/estree-walker/",
-          "packageDependencies": [
-            ["estree-walker", "npm:0.6.1"]
           ],
           "linkType": "HARD",
         }]
@@ -9068,16 +9061,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["magic-string", [
-        ["npm:0.25.7", {
-          "packageLocation": "./.yarn/cache/magic-string-npm-0.25.7-0a0bd9c864-4b70c13eb2.zip/node_modules/magic-string/",
-          "packageDependencies": [
-            ["magic-string", "npm:0.25.7"],
-            ["sourcemap-codec", "npm:1.4.8"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["make-dir", [
         ["npm:3.1.0", {
           "packageLocation": "./.yarn/cache/make-dir-npm-3.1.0-d1d7505142-54b6f186c2.zip/node_modules/make-dir/",
@@ -11618,65 +11601,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["rollup", [
-        ["npm:2.26.8", {
-          "packageLocation": "./.yarn/cache/rollup-npm-2.26.8-dccd918806-4e10108ef6.zip/node_modules/rollup/",
-          "packageDependencies": [
-            ["rollup", "npm:2.26.8"],
-            ["fsevents", "patch:fsevents@npm%3A2.1.3#builtin<compat/fsevents>::version=2.1.3&hash=495457"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["rollup-plugin-inject", [
-        ["npm:3.0.2", {
-          "packageLocation": "./.yarn/cache/rollup-plugin-inject-npm-3.0.2-db1d368b18-c043f4eba7.zip/node_modules/rollup-plugin-inject/",
-          "packageDependencies": [
-            ["rollup-plugin-inject", "npm:3.0.2"],
-            ["estree-walker", "npm:0.6.1"],
-            ["magic-string", "npm:0.25.7"],
-            ["rollup-pluginutils", "npm:2.8.2"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["rollup-plugin-node-polyfills", [
-        ["npm:0.2.1", {
-          "packageLocation": "./.yarn/cache/rollup-plugin-node-polyfills-npm-0.2.1-d0e4f85f30-ece17e6ff9.zip/node_modules/rollup-plugin-node-polyfills/",
-          "packageDependencies": [
-            ["rollup-plugin-node-polyfills", "npm:0.2.1"],
-            ["rollup-plugin-inject", "npm:3.0.2"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["rollup-plugin-terser", [
-        ["virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:7.0.1", {
-          "packageLocation": "./.yarn/$$virtual/rollup-plugin-terser-virtual-dc2b513784/0/cache/rollup-plugin-terser-npm-7.0.1-13531dbe7d-891e7f5fae.zip/node_modules/rollup-plugin-terser/",
-          "packageDependencies": [
-            ["rollup-plugin-terser", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:7.0.1"],
-            ["@babel/code-frame", "npm:7.10.4"],
-            ["jest-worker", "npm:26.3.0"],
-            ["rollup", "npm:2.26.8"],
-            ["serialize-javascript", "npm:4.0.0"],
-            ["terser", "npm:5.2.1"]
-          ],
-          "packagePeers": [
-            "rollup"
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["rollup-pluginutils", [
-        ["npm:2.8.2", {
-          "packageLocation": "./.yarn/cache/rollup-pluginutils-npm-2.8.2-f554dd6ac5-6922c1a26d.zip/node_modules/rollup-pluginutils/",
-          "packageDependencies": [
-            ["rollup-pluginutils", "npm:2.8.2"],
-            ["estree-walker", "npm:0.6.1"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["rsvp", [
         ["npm:4.8.5", {
           "packageLocation": "./.yarn/cache/rsvp-npm-4.8.5-09f3c6ed40-eb70274fb3.zip/node_modules/rsvp/",
@@ -11822,16 +11746,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/semver-utils-npm-1.1.4-61f884e528-24687c1ebe.zip/node_modules/semver-utils/",
           "packageDependencies": [
             ["semver-utils", "npm:1.1.4"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["serialize-javascript", [
-        ["npm:4.0.0", {
-          "packageLocation": "./.yarn/cache/serialize-javascript-npm-4.0.0-b4aeff413b-f17305aaab.zip/node_modules/serialize-javascript/",
-          "packageDependencies": [
-            ["serialize-javascript", "npm:4.0.0"],
-            ["randombytes", "npm:2.1.0"]
           ],
           "linkType": "HARD",
         }]
@@ -12149,15 +12063,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/source-map-url-npm-0.4.0-011efde48b-84d509cfa1.zip/node_modules/source-map-url/",
           "packageDependencies": [
             ["source-map-url", "npm:0.4.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["sourcemap-codec", [
-        ["npm:1.4.8", {
-          "packageLocation": "./.yarn/cache/sourcemap-codec-npm-1.4.8-3a1a9e60b1-4d56d1232a.zip/node_modules/sourcemap-codec/",
-          "packageDependencies": [
-            ["sourcemap-codec", "npm:1.4.8"]
           ],
           "linkType": "HARD",
         }]
@@ -12734,18 +12639,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["terminal-link", "npm:2.1.1"],
             ["ansi-escapes", "npm:4.3.1"],
             ["supports-hyperlinks", "npm:2.1.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["terser", [
-        ["npm:5.2.1", {
-          "packageLocation": "./.yarn/cache/terser-npm-5.2.1-c314172526-eba43b091d.zip/node_modules/terser/",
-          "packageDependencies": [
-            ["terser", "npm:5.2.1"],
-            ["commander", "npm:2.20.3"],
-            ["source-map", "npm:0.6.1"],
-            ["source-map-support", "npm:0.5.19"]
           ],
           "linkType": "HARD",
         }]

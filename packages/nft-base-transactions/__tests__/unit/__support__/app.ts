@@ -1,36 +1,37 @@
+// TODO addrest DIST imports - sync with CORE v3
 import { Application, Container, Contracts, Providers, Services } from "@arkecosystem/core-kernel";
-import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
-import { MemoryCacheStore } from "@arkecosystem/core-kernel/src/services/cache/drivers/memory";
-import { NullEventDispatcher } from "@arkecosystem/core-kernel/src/services/events/drivers/null";
+import { Identifiers } from "@arkecosystem/core-kernel/dist/ioc";
+import { MemoryCacheStore } from "@arkecosystem/core-kernel/dist/services/cache/drivers/memory";
+import { NullEventDispatcher } from "@arkecosystem/core-kernel/dist/services/events/drivers/null";
 import { Wallets } from "@arkecosystem/core-state";
-import { StateStore } from "@arkecosystem/core-state/src/stores/state";
+import { StateStore } from "@arkecosystem/core-state/dist/stores/state";
 import {
     addressesIndexer,
     ipfsIndexer,
     locksIndexer,
     publicKeysIndexer,
     usernamesIndexer,
-} from "@arkecosystem/core-state/src/wallets/indexers/indexers";
+} from "@arkecosystem/core-state/dist/wallets/indexers/indexers";
 import { Mocks } from "@arkecosystem/core-test-framework";
-import { Generators } from "@arkecosystem/core-test-framework/src";
-import { Collator } from "@arkecosystem/core-transaction-pool/src";
+import { Generators } from "@arkecosystem/core-test-framework/dist";
+import { Collator } from "@arkecosystem/core-transaction-pool/dist";
 import {
     ApplyTransactionAction,
     RevertTransactionAction,
     ThrowIfCannotEnterPoolAction,
     VerifyTransactionAction,
-} from "@arkecosystem/core-transaction-pool/src/actions";
-import { DynamicFeeMatcher } from "@arkecosystem/core-transaction-pool/src/dynamic-fee-matcher";
-import { ExpirationService } from "@arkecosystem/core-transaction-pool/src/expiration-service";
-import { Mempool } from "@arkecosystem/core-transaction-pool/src/mempool";
-import { Query } from "@arkecosystem/core-transaction-pool/src/query";
-import { SenderMempool } from "@arkecosystem/core-transaction-pool/src/sender-mempool";
-import { SenderState } from "@arkecosystem/core-transaction-pool/src/sender-state";
-import { One, Two } from "@arkecosystem/core-transactions/src/handlers";
-import { TransactionHandlerProvider } from "@arkecosystem/core-transactions/src/handlers/handler-provider";
-import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
+} from "@arkecosystem/core-transaction-pool/dist/actions";
+import { DynamicFeeMatcher } from "@arkecosystem/core-transaction-pool/dist/dynamic-fee-matcher";
+import { ExpirationService } from "@arkecosystem/core-transaction-pool/dist/expiration-service";
+import { Mempool } from "@arkecosystem/core-transaction-pool/dist/mempool";
+import { Query } from "@arkecosystem/core-transaction-pool/dist/query";
+import { SenderMempool } from "@arkecosystem/core-transaction-pool/dist/sender-mempool";
+import { SenderState } from "@arkecosystem/core-transaction-pool/dist/sender-state";
+import { One, Two } from "@arkecosystem/core-transactions/dist/handlers";
+import { TransactionHandlerProvider } from "@arkecosystem/core-transactions/dist/handlers/handler-provider";
+import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/dist/handlers/handler-registry";
 import { Identities, Managers, Utils } from "@arkecosystem/crypto";
-import { configManager } from "@arkecosystem/crypto/src/managers";
+import { configManager } from "@arkecosystem/crypto/dist/managers";
 
 import { transactionRepository } from "../__mocks__/transaction-repository";
 import {

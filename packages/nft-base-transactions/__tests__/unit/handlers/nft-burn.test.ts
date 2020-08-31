@@ -1,12 +1,13 @@
 import "jest-extended";
 
+// TODO Check missing exports with ARK-CORE 
 import { Application, Contracts } from "@arkecosystem/core-kernel";
-import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
+import { Identifiers } from "@arkecosystem/core-kernel/dist/ioc";
 import { Wallets } from "@arkecosystem/core-state";
-import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
+import passphrases from "@arkecosystem/core-test-framework/dist/internal/passphrases.json";
 import { Mempool } from "@arkecosystem/core-transaction-pool";
-import { TransactionHandler } from "@arkecosystem/core-transactions/src/handlers";
-import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
+import { TransactionHandler } from "@arkecosystem/core-transactions/dist/handlers";
+import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/dist/handlers/handler-registry";
 import { Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Enums, Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 import { Builders as NFTBuilders } from "@protokol/nft-base-crypto";

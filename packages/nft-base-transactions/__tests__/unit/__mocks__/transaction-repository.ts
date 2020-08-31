@@ -1,4 +1,4 @@
-import { ITransaction } from "@packages/crypto/src/interfaces";
+import { ITransaction } from "@arkecosystem/crypto/dist/interfaces";
 
 let mockTransaction: ITransaction | null;
 let mockTransactions: ITransaction[] = [];

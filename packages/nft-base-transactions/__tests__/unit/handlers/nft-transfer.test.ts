@@ -1,12 +1,13 @@
 import "jest-extended";
 
+//TODO check exports with ARK CORE
 import { Application, Contracts } from "@arkecosystem/core-kernel";
-import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
+import { Identifiers } from "@arkecosystem/core-kernel/dist/ioc";
 import { Wallets } from "@arkecosystem/core-state";
-import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
+import passphrases from "@arkecosystem/core-test-framework/dist/internal/passphrases.json";
 import { Mempool } from "@arkecosystem/core-transaction-pool";
-import { TransactionHandler } from "@arkecosystem/core-transactions/src/handlers";
-import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
+import { TransactionHandler } from "@arkecosystem/core-transactions/dist/handlers";
+import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/dist/handlers/handler-registry";
 import { Identities, Transactions } from "@arkecosystem/crypto";
 import { Builders } from "@protokol/nft-base-crypto";
 import { Enums } from "@protokol/nft-base-crypto";
@@ -81,13 +82,13 @@ describe("NFT Transfer tests", () => {
 
             expect(
                 senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
-                    "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
+                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
                 ],
             ).toBeUndefined();
 
             expect(
                 recipientWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
-                    "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
+                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
                 ],
             ).toBeObject();
 
@@ -121,7 +122,7 @@ describe("NFT Transfer tests", () => {
 
             expect(
                 senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
-                    "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
+                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
                 ],
             ).toBeObject();
 
@@ -358,13 +359,13 @@ describe("NFT Transfer tests", () => {
 
             expect(
                 senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
-                    "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
+                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
                 ],
             ).toBeUndefined();
 
             expect(
                 recipientWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
-                    "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
+                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
                 ],
             ).toBeObject();
 
@@ -394,7 +395,7 @@ describe("NFT Transfer tests", () => {
 
             expect(
                 senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
-                    "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
+                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
                 ],
             ).toBeObject();
 
@@ -447,13 +448,13 @@ describe("NFT Transfer tests", () => {
 
             expect(
                 senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
-                    "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
+                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
                 ],
             ).toBeObject();
 
             expect(
                 recipientWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
-                    "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
+                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
                 ],
             ).toBeUndefined();
 
@@ -485,7 +486,7 @@ describe("NFT Transfer tests", () => {
 
             expect(
                 senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
-                    "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
+                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
                 ],
             ).toBeObject();
             expect(

@@ -1,11 +1,11 @@
 import "jest-extended";
 
 import { Application, Contracts } from "@arkecosystem/core-kernel";
-import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
+import { Identifiers } from "@arkecosystem/core-kernel/dist/ioc";
 import { Wallets } from "@arkecosystem/core-state";
-import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
-import { TransactionHandler } from "@arkecosystem/core-transactions/src/handlers";
-import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
+import passphrases from "@arkecosystem/core-test-framework/dist/internal/passphrases.json";
+import { TransactionHandler } from "@arkecosystem/core-transactions/dist/handlers";
+import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/dist/handlers/handler-registry";
 import { Identities, Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Enums } from "@protokol/nft-base-crypto";
 import { Builders as NFTBuilders } from "@protokol/nft-base-crypto";
