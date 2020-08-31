@@ -1,6 +1,6 @@
 {
     "name": "@protokol/nft-exchange-transactions",
-    "version": "1.0.0-beta.21",
+    "version": "1.0.0-beta.22",
     "description": "Transaction Types For Exchange NFT Core Support",
     "license": "CC-BY-NC-SA-4.0",
     "homepage": "https://docs.protokol.com/nft/",
@@ -42,14 +42,14 @@
         "test:functional:coverage": "cross-env CORE_ENV=test jest __tests__/functional --coverage --forceExit"
     },
     "dependencies": {
-        "@protokol/nft-exchange-crypto": "^1.0.0-beta.21",
-        "@protokol/nft-base-crypto": "^1.0.0-beta.21",
-        "@protokol/nft-base-transactions": "^1.0.0-beta.21",
-        "@arkecosystem/core-database": "^3.0.0-alpha.1",
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.1",
-        "@arkecosystem/core-state": "^3.0.0-alpha.1",
-        "@arkecosystem/core-transactions": "^3.0.0-alpha.1",
-        "@arkecosystem/crypto": "^3.0.0-alpha.1"
+        "@protokol/nft-exchange-crypto": "^1.0.0-beta.22",
+        "@protokol/nft-base-crypto": "^1.0.0-beta.22",
+        "@protokol/nft-base-transactions": "^1.0.0-beta.22",
+        "@arkecosystem/core-database": "^3.0.0-alpha.2",
+        "@arkecosystem/core-kernel": "^3.0.0-alpha.2",
+        "@arkecosystem/core-state": "^3.0.0-alpha.2",
+        "@arkecosystem/core-transactions": "^3.0.0-alpha.2",
+        "@arkecosystem/crypto": "^3.0.0-alpha.2"
     },
     "publishConfig": {
         "access": "public"
