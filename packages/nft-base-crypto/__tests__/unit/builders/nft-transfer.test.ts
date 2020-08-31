@@ -1,6 +1,7 @@
 import "jest-extended";
 
-import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
+// TODO - send PR to CORE for export
+import passphrases from "@arkecosystem/core-test-framework/dist/internal/passphrases.json";
 import { Identities, Managers, Transactions } from "@arkecosystem/crypto";
 
 import { NFTTransferBuilder } from "../../../src/builders";
