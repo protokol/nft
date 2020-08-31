@@ -41,19 +41,19 @@ Prepare and configure your bridgechain network configuration to install and load
 
 ```json
 ({
-	"package": "@protokol/nft-base-transactions"
+    "package": "@protokol/nft-base-transactions"
 },
 {
-	"package": "@protokol/nft-exchange-transactions"
+    "package": "@protokol/nft-exchange-transactions"
 },
 {
-	"package": "@protokol/nft-base-api"
+    "package": "@protokol/nft-base-api"
 },
 {
-	"package": "@protokol/nft-exchange-api"
+    "package": "@protokol/nft-exchange-api"
 },
 {
-	"package": "@protokol/nft-generator-api"
+    "package": "@protokol/nft-generator-api"
 })
 ```
 
