@@ -6,7 +6,10 @@
 		"esModuleInterop": true,
 		"experimentalDecorators": true,
 		"forceConsistentCasingInFileNames": true,
-		"lib": ["es2019", "dom"],
+		"lib": [
+			"es2019",
+			"dom"
+		],
 		"module": "commonjs",
 		"moduleResolution": "node",
 		"newLine": "lf",
@@ -25,5 +28,9 @@
 		"stripInternal": true,
 		"target": "es2019"
 	},
-	"exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"]
+	"exclude": [
+		"dist",
+		"**/*.spec.ts",
+		"**/*.test.ts"
+	]
 }
