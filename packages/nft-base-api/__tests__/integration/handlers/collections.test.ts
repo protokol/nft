@@ -9,6 +9,7 @@ import { NFTBaseTransactionFactory } from "@protokol/nft-base-transactions/__tes
 import { INFTCollections, INFTTokens } from "@protokol/nft-base-transactions/src/interfaces";
 
 import { setUp, tearDown } from "../__support__/setup";
+import { NFTIndexers } from "../../../../nft-base-transactions/src/wallet-indexes";
 
 let app: Contracts.Kernel.Application;
 let api: ApiHelpers;
@@ -163,7 +164,7 @@ describe("API - Collections", () => {
             };
             wallet.setAttribute("nft.base.collections", collectionsWallet);
 
-            walletRepository.index(wallet);
+            walletRepository.getIndex(NFTIndexers.CollectionIndexer).index(wallet);
 
             const response = await api.request(
                 "GET",
@@ -226,7 +227,7 @@ describe("API - Collections", () => {
             // @ts-ignore
             tokensWallet[nftToken.data.id] = {};
             wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
-            walletRepository.index(wallet);
+            walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).index(wallet);
 
             const transactionRepository = app.get<Repositories.TransactionRepository>(
                 Container.Identifiers.DatabaseTransactionRepository,

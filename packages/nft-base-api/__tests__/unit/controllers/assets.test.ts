@@ -20,6 +20,7 @@ import {
     PaginatedResponse,
     transactionHistoryService,
 } from "../__support__";
+import { NFTIndexers } from "../../../../nft-base-transactions/src/wallet-indexes";
 import { AssetsController } from "../../../src/controllers/assets";
 
 let app: Application;
@@ -71,6 +72,7 @@ beforeEach(() => {
     tokensWallet[actual.id] = {};
     senderWallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
     walletRepository.index(senderWallet);
+    walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).index(senderWallet);
 });
 
 afterEach(() => {

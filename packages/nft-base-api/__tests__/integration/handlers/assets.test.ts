@@ -9,6 +9,7 @@ import { NFTBaseTransactionFactory } from "@protokol/nft-base-transactions/__tes
 import { INFTTokens } from "@protokol/nft-base-transactions/src/interfaces";
 
 import { setUp, tearDown } from "../__support__/setup";
+import { NFTIndexers } from "../../../../nft-base-transactions/src/wallet-indexes";
 
 let app: Contracts.Kernel.Application;
 let api: ApiHelpers;
@@ -50,7 +51,7 @@ describe("API - Assets", () => {
         tokensWallet[nftCreate.data.id] = {};
         wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
 
-        walletRepository.index(wallet);
+        walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).index(wallet);
     });
     describe("GET /assets", () => {
         it("should return all nft create transactions", async () => {
@@ -112,7 +113,7 @@ describe("API - Assets", () => {
             tokensWallet["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {};
             wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
 
-            walletRepository.index(wallet);
+            walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).index(wallet);
 
             const response = await api.request(
                 "GET",

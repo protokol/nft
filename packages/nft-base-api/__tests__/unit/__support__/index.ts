@@ -110,13 +110,13 @@ export const initApp = (): Application => {
     app.bind<Contracts.State.WalletIndexerIndex>(Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Indexers.NFTIndexers.CollectionIndexer,
         indexer: Indexers.nftCollectionIndexer,
-        autoIndex: true,
+        autoIndex: false,
     });
 
     app.bind<Contracts.State.WalletIndexerIndex>(Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Indexers.NFTIndexers.NFTTokenIndexer,
         indexer: Indexers.nftIndexer,
-        autoIndex: true,
+        autoIndex: false,
     });
 
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
