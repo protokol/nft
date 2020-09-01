@@ -41,7 +41,7 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
             const userWallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
                 setUserPermissionsAsset.publicKey,
             );
-            const userPermissionsWallet: IUserPermissions = this.buildUserPermissions(setUserPermissionsAsset);
+            const userPermissionsWallet = this.buildUserPermissions(setUserPermissionsAsset);
 
             userWallet.setAttribute("guardian.userPermissions", userPermissionsWallet);
             this.walletRepository.index(userWallet);
@@ -112,7 +112,7 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
         const userWallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
             setUserPermissionsAsset.publicKey,
         );
-        const userPermissionsWallet: IUserPermissions = this.buildUserPermissions(setUserPermissionsAsset);
+        const userPermissionsWallet = this.buildUserPermissions(setUserPermissionsAsset);
 
         userWallet.setAttribute("guardian.userPermissions", userPermissionsWallet);
         this.walletRepository.index(userWallet);
@@ -137,9 +137,7 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
                 .getIndex(GuardianIndexers.UserPermissionsIndexer)
                 .forget(setUserPermissionsAsset.publicKey);
         } else {
-            const userPermissionsWallet: IUserPermissions = this.buildUserPermissions(
-                lastUserPermissionsTx.asset!.setUserPermissions,
-            );
+            const userPermissionsWallet = this.buildUserPermissions(lastUserPermissionsTx.asset!.setUserPermissions);
             userWallet.setAttribute("guardian.userPermissions", userPermissionsWallet);
             this.walletRepository.index(userWallet);
         }

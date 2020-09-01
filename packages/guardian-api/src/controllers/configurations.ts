@@ -3,8 +3,8 @@ import { Container } from "@arkecosystem/core-kernel";
 import Hapi from "@hapi/hapi";
 import { Defaults as CryptoDefaults } from "@protokol/guardian-crypto";
 import { Defaults as TransactionDefaults } from "@protokol/guardian-transactions";
-import latestVersion from "latest-version";
 
+// import latestVersion from "latest-version";
 import { ConfigurationResource } from "../resources/configurations";
 
 const packageName = require("../../package.json").name;
@@ -17,7 +17,7 @@ export class ConfigurationController extends Controller {
             {
                 packageName,
                 currentVersion,
-                latestVersion: await latestVersion(packageName),
+                //latestVersion: await latestVersion(packageName),
                 crypto: CryptoDefaults,
                 transactions: TransactionDefaults,
             },
