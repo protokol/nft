@@ -68,14 +68,12 @@ describe("NFT Auction tests", () => {
             });
             await expect(nftAuctionHandler.bootstrap()).toResolve();
 
-            // @ts-ignore
-            expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actual.id]).toStrictEqual({
+            expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actual.id!]).toStrictEqual({
                 nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                 bids: [],
             });
 
-            // @ts-ignore
-            expect(walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).get(actual.id)).toStrictEqual(wallet);
+            expect(walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).get(actual.id!)).toStrictEqual(wallet);
         });
     });
 
@@ -132,8 +130,7 @@ describe("NFT Auction tests", () => {
             const actual = buildAuctionTransaction({ blockHeight: 56 });
 
             const nftExchangeWalletAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
-            // @ts-ignore
-            nftExchangeWalletAsset[actual.id] = {
+            nftExchangeWalletAsset[actual.id!] = {
                 nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                 bids: [],
             };
@@ -152,8 +149,7 @@ describe("NFT Auction tests", () => {
             const actual = buildAuctionTransaction({ blockHeight: 56 });
 
             const nftExchangeWalletAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
-            // @ts-ignore
-            nftExchangeWalletAsset[actual.id] = {
+            nftExchangeWalletAsset[actual.id!] = {
                 nftIds: [],
                 bids: [],
             };
@@ -259,14 +255,12 @@ describe("NFT Auction tests", () => {
 
                 await expect(nftAuctionHandler.applyToSender(actual)).toResolve();
 
-                // @ts-ignore
-                expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actual.id]).toStrictEqual({
+                expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actual.id!]).toStrictEqual({
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                     bids: [],
                 });
 
-                // @ts-ignore
-                expect(walletRepository.findByIndex(NFTExchangeIndexers.AuctionIndexer, actual.id)).toStrictEqual(
+                expect(walletRepository.findByIndex(NFTExchangeIndexers.AuctionIndexer, actual.id!)).toStrictEqual(
                     wallet,
                 );
             });
@@ -286,11 +280,9 @@ describe("NFT Auction tests", () => {
 
                 await expect(nftAuctionHandler.revert(actual)).toResolve();
 
-                // @ts-ignore
-                expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actual.id]).toBeUndefined();
+                expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actual.id!]).toBeUndefined();
 
-                // @ts-ignore
-                expect(walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).get(actual.id)).toBeUndefined();
+                expect(walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).get(actual.id!)).toBeUndefined();
             });
         });
     });

@@ -47,7 +47,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
             AppUtils.assert.defined<NFTInterfaces.NFTBidAsset>(transaction.asset?.nftBid);
             AppUtils.assert.defined<string>(transaction.id);
 
-            const wallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(transaction.senderPublicKey);
+            const wallet = this.walletRepository.findByPublicKey(transaction.senderPublicKey);
             const nftBidAsset: NFTInterfaces.NFTBidAsset = transaction.asset.nftBid;
 
             wallet.balance = wallet.balance.minus(nftBidAsset.bidAmount);
@@ -72,7 +72,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
             auctionWalletAsset[nftBidAsset.auctionId].bids.push(transaction.id);
             auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
 
-            this.walletRepository.index(auctionWallet);
+            this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).set(transaction.id, auctionWallet);
         }
     }
 
@@ -144,7 +144,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
         auctionWalletAsset[nftBidAsset.auctionId].bids.push(transaction.data.id);
         auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
 
-        this.walletRepository.index(auctionWallet);
+        this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).set(transaction.data.id, auctionWallet);
     }
 
     public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {

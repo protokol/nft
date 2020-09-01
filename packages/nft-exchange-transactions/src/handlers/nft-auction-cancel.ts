@@ -11,6 +11,7 @@ import { INFTAuctions } from "../interfaces";
 import { NFTExchangeIndexers } from "../wallet-indexes";
 import { NFTAuctionHandler } from "./nft-auction";
 import { NFTExchangeTransactionHandler } from "./nft-exchange-handler";
+import { NFTIndexers } from "../../../nft-base-transactions/src/wallet-indexes";
 
 @Container.injectable()
 export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
@@ -155,7 +156,7 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
         AppUtils.assert.defined<NFTInterfaces.NFTAuctionCancel>(transaction.data.asset?.nftAuctionCancel);
         const nftAuctionCancelAsset = transaction.data.asset.nftAuctionCancel;
 
-        const sender: Contracts.State.Wallet = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
+        const sender = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
 
         const nftAuctionTransaction: Models.Transaction = await this.transactionRepository.findById(
             nftAuctionCancelAsset.auctionId,
@@ -189,8 +190,6 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
                 Utils.BigNumber.ZERO,
             );
             bidWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.plus(bidAmount));
-
-            this.walletRepository.index(bidWallet);
         }
 
         const auctionsWalletAsset = sender.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
@@ -199,7 +198,15 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
             bids: activeBids,
         };
         sender.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
-        this.walletRepository.index(sender);
+
+        this.walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).set(nftAuctionCancelAsset.auctionId, sender);
+
+        for (const nftId of auctionsWalletAsset[nftAuctionCancelAsset.auctionId].nftIds) {
+            this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).set(nftId, sender);
+        }
+        for (const bidId of auctionsWalletAsset[nftAuctionCancelAsset.auctionId].bids) {
+            this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).set(bidId, sender);
+        }
     }
 
     public async applyToRecipient(

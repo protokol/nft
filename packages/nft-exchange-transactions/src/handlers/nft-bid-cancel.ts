@@ -47,9 +47,7 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
 
             const cancelBidAsset: NFTInterfaces.NFTBidCancelAsset = transaction.asset.nftBidCancel;
             const bidTransaction = await this.transactionRepository.findById(cancelBidAsset.bidId);
-            const wallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
-                bidTransaction.senderPublicKey,
-            );
+            const wallet = this.walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
             const bidAmount: Utils.BigNumber = bidTransaction.asset.nftBid.bidAmount;
 
             wallet.balance = wallet.balance.plus(bidAmount);
@@ -179,7 +177,7 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
         auctionWalletAsset[auctionTransaction.id].bids.push(cancelBidAsset.bidId);
         auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
 
-        this.walletRepository.index(auctionWallet);
+        this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).set(cancelBidAsset.bidId, auctionWallet);
     }
 
     public async applyToRecipient(
