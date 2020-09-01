@@ -11,7 +11,7 @@ import { INFTAuctions } from "../interfaces";
 import { NFTExchangeIndexers } from "../wallet-indexes";
 import { NFTAuctionHandler } from "./nft-auction";
 import { NFTExchangeTransactionHandler } from "./nft-exchange-handler";
-import { NFTIndexers } from "../../../nft-base-transactions/src/wallet-indexes";
+import { Indexers as NFTBaseIndexers } from "@protokol/nft-base-transactions";
 
 @Container.injectable()
 export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
@@ -202,7 +202,7 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
         this.walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).set(nftAuctionCancelAsset.auctionId, sender);
 
         for (const nftId of auctionsWalletAsset[nftAuctionCancelAsset.auctionId].nftIds) {
-            this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).set(nftId, sender);
+            this.walletRepository.getIndex(NFTBaseIndexers.NFTIndexers.NFTTokenIndexer).set(nftId, sender);
         }
         for (const bidId of auctionsWalletAsset[nftAuctionCancelAsset.auctionId].bids) {
             this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).set(bidId, sender);
