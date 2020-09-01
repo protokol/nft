@@ -9,6 +9,7 @@ import { NFTExchangeTransactionFactory } from "@protokol/nft-exchange-transactio
 
 import { setUp, tearDown } from "../__support__/setup";
 import { INFTAuctions } from "../../../../nft-exchange-transactions/src/interfaces";
+import { NFTExchangeIndexers } from "../../../../nft-exchange-transactions/src/wallet-indexes";
 
 let app: Contracts.Kernel.Application;
 let api: ApiHelpers;
@@ -90,7 +91,8 @@ describe("API - Bids", () => {
                     bids: [nftBid.id],
                 };
                 wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
-                walletRepository.index(wallet);
+                walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(wallet);
+                walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).index(wallet);
 
                 const response = await api.request("GET", `nft/exchange/bids/${nftBid.id}/wallets`);
                 expect(response.data.data).toBeObject();
