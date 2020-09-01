@@ -16,14 +16,14 @@ import { Builders, Transactions as ExchangeTransactions } from "@protokol/nft-ex
 import { blockHistoryService, initApp, transactionHistoryService } from "../__support__";
 import { INFTAuctions } from "../../../../nft-exchange-transactions/src/interfaces";
 import { BidsController } from "../../../src/controllers/bids";
+import { NFTExchangeIndexers } from "../../../../nft-exchange-transactions/src/wallet-indexes";
 
 let bidsController: BidsController;
 
 let app: Application;
 
-// @ts-ignore
 let senderWallet: Contracts.State.Wallet;
-// @ts-ignore
+
 let walletRepository: Wallets.WalletRepository;
 
 let actual: ITransaction;
@@ -118,13 +118,13 @@ describe("Test bids controller", () => {
 
     it("showAuctionWallet - return wallet by bids id ", async () => {
         const auctionsAsset = senderWallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
-        // @ts-ignore
-        auctionsAsset[actual.id] = {
+        auctionsAsset[actual.id!] = {
             nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
             bids: ["7a8460fdcad40ae3dda9e50382d7676ce5a8643b01c198484a4a99591bcb0871"],
         };
         senderWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
-        walletRepository.index(senderWallet);
+        walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(senderWallet);
+        walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).index(senderWallet);
 
         senderWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.make("100"));
 

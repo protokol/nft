@@ -16,6 +16,7 @@ import { INFTAuctions } from "@protokol/nft-exchange-transactions/src/interfaces
 
 import { blockHistoryService, initApp, transactionHistoryService } from "../__support__";
 import { AuctionsController } from "../../../src/controllers/auctions";
+import { NFTExchangeIndexers } from "../../../../nft-exchange-transactions/src/wallet-indexes";
 
 let auctionsController: AuctionsController;
 
@@ -126,13 +127,12 @@ describe("Test auctions controller", () => {
 
     it("showAuctionWallet - show auctions wallet by its id ", async () => {
         const auctionsAsset = senderWallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
-        // @ts-ignore
-        auctionsAsset[actual.id] = {
+        auctionsAsset[actual.id!] = {
             nftIds: ["3e1a4b362282b4113d717632b92c939cf689a9919db77c723efba84c6ec0330c"],
             bids: [],
         };
         senderWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
-        walletRepository.index(senderWallet);
+        walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(senderWallet);
 
         const request: Hapi.Request = {
             params: {
