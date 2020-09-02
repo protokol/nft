@@ -10,7 +10,7 @@ import { setUp, tearDown } from "../__support__/setup";
 let app: Contracts.Kernel.Application;
 let api: ApiHelpers;
 
-const users: any = [
+const users = [
     {
         groups: ["group name1"],
         permissions: [

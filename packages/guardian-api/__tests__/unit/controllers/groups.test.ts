@@ -125,7 +125,7 @@ describe("Test group controller", () => {
             },
         };
 
-        const user: any = {
+        const user = {
             groups: ["group name1"],
             permissions: [],
         };
