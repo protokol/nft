@@ -109,11 +109,13 @@ export const initApp = (): Application => {
     app.bind<Contracts.State.WalletIndexerIndex>(Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Indexers.GuardianIndexers.UserPermissionsIndexer,
         indexer: Indexers.guardianUserPermissionIndexer,
+        autoIndex: true,
     });
 
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Contracts.State.WalletIndexes.PublicKeys,
         indexer: publicKeysIndexer,
+        autoIndex: true,
     });
 
     app.bind(Identifiers.WalletFactory).toFactory<Contracts.State.Wallet>(

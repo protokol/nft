@@ -30,7 +30,11 @@ export class ServiceProvider extends Providers.ServiceProvider {
     private registerIndexers() {
         this.app
             .bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex)
-            .toConstantValue({ name: GuardianIndexers.UserPermissionsIndexer, indexer: guardianUserPermissionIndexer });
+            .toConstantValue({
+                name: GuardianIndexers.UserPermissionsIndexer,
+                indexer: guardianUserPermissionIndexer,
+                autoIndex: true,
+            });
     }
 
     private registerActions(): void {
