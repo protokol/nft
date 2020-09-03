@@ -877,4 +877,4 @@ jobs:
             - name: TEST UNIT GUARDIAN-API
               run: |
                   cd protokol/packages/guardian-api
-                  yarn test:integration:coverage --coverageDirectory .coverage/integration-guardian-api --maxWorkers=2
+                  yarn test:integration:coverage --coverageDirectory .coverage/integration-guardian-api
