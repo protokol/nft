@@ -334,6 +334,18 @@ export class Builder {
                 }
 
                 transaction.NFTAcceptTradeAsset(acceptTradeAsset);
+            } else if (
+                type === TransactionType.GuardianGroupPermissions &&
+                Managers.configManager.getMilestone().aip11
+            ) {
+                // GuardianGroupPermissionsAsset
+                transaction.GuardianGroupPermissions(this.app.config.guardian.groupPermissions);
+            } else if (
+                type === TransactionType.GuardianUserPermissions &&
+                Managers.configManager.getMilestone().aip11
+            ) {
+                // GuardianUserPermissionsAsset
+                transaction.GuardianUserPermissions(this.app.config.guardian.userPermissions);
             } else {
                 throw new Error("Version 2 not supported.");
             }
