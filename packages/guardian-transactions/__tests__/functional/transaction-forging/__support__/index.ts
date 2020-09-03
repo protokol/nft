@@ -20,7 +20,7 @@ export const setUp = async (): Promise<Contracts.Kernel.Application> => {
     sandbox.withCoreOptions({
         flags: {
             token: "ark",
-            network: "testnet",
+            network: "unitnet",
             env: "test",
         },
         peers: {
@@ -31,7 +31,7 @@ export const setUp = async (): Promise<Contracts.Kernel.Application> => {
         await app.bootstrap({
             flags: {
                 token: "ark",
-                network: "unitnet",
+                network: "testnet",
                 env: "test",
                 processType: "core",
             },
@@ -41,8 +41,8 @@ export const setUp = async (): Promise<Contracts.Kernel.Application> => {
                     "@arkecosystem/core-database",
                     "@arkecosystem/core-transactions",
                     "@arkecosystem/core-magistrate-transactions",
-                    "@arkecosystem/core-transaction-pool",
                     "@protokol/guardian-transactions",
+                    "@arkecosystem/core-transaction-pool",
                     "@arkecosystem/core-p2p",
                     "@arkecosystem/core-blockchain",
                     "@arkecosystem/core-api",
