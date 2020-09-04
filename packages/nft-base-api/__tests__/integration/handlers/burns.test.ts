@@ -1,4 +1,4 @@
-import "@arkecosystem/core-test-framework/src/matchers";
+import "@arkecosystem/core-test-framework//matchers";
 
 import { Repositories } from "@arkecosystem/core-database";
 import { Container, Contracts } from "@arkecosystem/core-kernel";
