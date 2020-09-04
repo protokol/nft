@@ -1,7 +1,7 @@
 import "jest-extended";
 
 import { Container, Contracts } from "@arkecosystem/core-kernel";
-import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
+import secrets from "@arkecosystem/core-test-framework/dist/internal/passphrases.json";
 import { Identities, Managers, Utils } from "@arkecosystem/crypto";
 import delay from "delay";
 
@@ -9,8 +9,8 @@ jest.setTimeout(1200000);
 
 import { DatabaseService } from "@arkecosystem/core-database";
 import { DatabaseInteraction } from "@arkecosystem/core-state";
-import { StateBuilder } from "@arkecosystem/core-state/src/state-builder";
-import { Sandbox } from "@arkecosystem/core-test-framework/src";
+import { StateBuilder } from "@arkecosystem/core-state/dist/state-builder";
+import { Sandbox } from "@arkecosystem/core-test-framework/dist";
 
 const sandbox: Sandbox = new Sandbox();
 
