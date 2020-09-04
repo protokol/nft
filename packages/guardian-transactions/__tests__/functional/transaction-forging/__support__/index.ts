@@ -31,7 +31,7 @@ export const setUp = async (): Promise<Contracts.Kernel.Application> => {
         await app.bootstrap({
             flags: {
                 token: "ark",
-                network: "testnet",
+                network: "unitnet",
                 env: "test",
                 processType: "core",
             },
