@@ -4,7 +4,6 @@ import {
     AllCollectionsQuery,
     Collections as CollectionsResource,
     CollectionsAsset,
-    CollectionsTimestamp,
     CollectionsWallet,
     Schema,
     SearchCollectionsApiBody,
