@@ -10,7 +10,7 @@ on:
 
 jobs:
     unit:
-        name: UNIT (API, CRYPTO, TRANSACTIONS, NFT-CLIENT ) TESTS
+        name: UNIT (API, CRYPTO, TRANSACTIONS, NFT-CLIENT) TESTS
         runs-on: ubuntu-latest
 
         strategy:
