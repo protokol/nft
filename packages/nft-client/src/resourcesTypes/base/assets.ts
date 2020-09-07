@@ -5,6 +5,7 @@ import { Timestamp } from "../timestamp";
 export interface Assets {
     id: string;
     ownerPublicKey: string;
+    senderPublicKey: string;
     collectionId: string;
     // eslint-disable-next-line @typescript-eslint/member-ordering
     [attributes: string]: any;
@@ -26,8 +27,8 @@ export interface AssetsWallet {
                 [jsonSchema: string]: any;
             };
         }[];
+        assetsIds: string[];
     };
-    assetsIds: string[];
 }
 
 export interface AllAssetsQuery extends ApiQuery {
