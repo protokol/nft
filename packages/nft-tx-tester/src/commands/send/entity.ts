@@ -8,10 +8,8 @@ export default class Entity extends SendBase {
     public static description = SendBase.defaultDescription + builders[TransactionType.Entity].name;
     public static flags = {
         ...SendBase.defaultFlags,
-        type: flags.string({
-            description: "Entity type",
-            options: ["business", "bridgechain", "developer", "plugin-core", "plugin-desktop"],
-        }),
+        type: flags.integer({ description: "Entity type" }),
+        subType: flags.integer({ description: "Entity subType" }),
         action: flags.string({ description: "Entity action", options: ["register", "update", "resign"] }),
         registrationId: flags.string({ description: "Registration Id" }),
         name: flags.string({ description: "Register name" }),
@@ -22,8 +20,11 @@ export default class Entity extends SendBase {
 
     protected prepareConfig(config, flags) {
         const mergedConfig = { ...config };
-        if (flags.type) {
+        if (flags.type !== undefined) {
             mergedConfig.entity.type = flags.type;
+        }
+        if (flags.subType !== undefined) {
+            mergedConfig.entity.subType = flags.subType;
         }
         if (flags.action) {
             mergedConfig.entity.action = flags.action;
