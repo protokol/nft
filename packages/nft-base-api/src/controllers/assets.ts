@@ -51,7 +51,7 @@ export class AssetsController extends BaseController {
         if (!transaction) {
             return Boom.notFound("Asset not found");
         }
-        return this.respondWithResource(transaction, AssetResource);
+        return this.respondWithBlockResource(transaction, request.query.transform, AssetResource);
     }
 
     public async showByAsset(request: Hapi.Request, h: Hapi.ResponseToolkit) {

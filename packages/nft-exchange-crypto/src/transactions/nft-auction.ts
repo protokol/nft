@@ -1,5 +1,5 @@
-import { Utils as AppUtils } from "@arkecosystem/core-kernel";
 import { Transactions, Utils } from "@arkecosystem/crypto";
+import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 
 import { defaults } from "../defaults";
@@ -64,7 +64,7 @@ export class NFTAuctionTransaction extends Transactions.Transaction {
     public serialize(): ByteBuffer {
         const { data } = this;
 
-        AppUtils.assert.defined<NFTAuctionAsset>(data.asset?.nftAuction);
+        Asserts.assert.defined<NFTAuctionAsset>(data.asset?.nftAuction);
         const nftAuctionAsset = data.asset.nftAuction;
 
         const buffer: ByteBuffer = new ByteBuffer(32 * nftAuctionAsset.nftIds.length + 8 + 8, true);

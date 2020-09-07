@@ -40,6 +40,10 @@ export const transactionHistoryService = {
     listByCriteriaJoinBlock: jest.fn(),
 };
 
+export const blockHistoryService = {
+    findOneByCriteria: jest.fn(),
+};
+
 export const buildSenderWallet = (app: Application): Contracts.State.Wallet => {
     const walletRepository = app.get<Wallets.WalletRepository>(Identifiers.WalletRepository);
 
@@ -67,6 +71,7 @@ export const initApp = (): Application => {
     app.bind(Container.Identifiers.PeerStorage).toConstantValue({});
     app.bind(Container.Identifiers.TransactionPoolQuery).toConstantValue({});
     app.bind(Container.Identifiers.TransactionPoolProcessorFactory).toConstantValue({});
+    app.bind(Identifiers.BlockHistoryService).toConstantValue(blockHistoryService);
     app.bind(Container.Identifiers.TransactionHistoryService).toConstantValue(transactionHistoryService);
 
     app.bind(Identifiers.TransactionHandler).to(One.TransferTransactionHandler);
@@ -105,16 +110,19 @@ export const initApp = (): Application => {
     app.bind<Contracts.State.WalletIndexerIndex>(Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Indexers.NFTIndexers.CollectionIndexer,
         indexer: Indexers.nftCollectionIndexer,
+        autoIndex: true,
     });
 
     app.bind<Contracts.State.WalletIndexerIndex>(Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Indexers.NFTIndexers.NFTTokenIndexer,
         indexer: Indexers.nftIndexer,
+        autoIndex: true,
     });
 
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Contracts.State.WalletIndexes.PublicKeys,
         indexer: publicKeysIndexer,
+        autoIndex: true,
     });
 
     app.bind(Identifiers.WalletFactory).toFactory<Contracts.State.Wallet>(

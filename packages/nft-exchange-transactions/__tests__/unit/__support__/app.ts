@@ -66,26 +66,31 @@ export const initApp = (): Application => {
     app.bind<Contracts.State.WalletIndexerIndex>(Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Contracts.State.WalletIndexes.Addresses,
         indexer: addressesIndexer,
+        autoIndex: true,
     });
 
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Contracts.State.WalletIndexes.PublicKeys,
         indexer: publicKeysIndexer,
+        autoIndex: true,
     });
 
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Contracts.State.WalletIndexes.Usernames,
         indexer: usernamesIndexer,
+        autoIndex: true,
     });
 
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Contracts.State.WalletIndexes.Ipfs,
         indexer: ipfsIndexer,
+        autoIndex: true,
     });
 
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Contracts.State.WalletIndexes.Locks,
         indexer: locksIndexer,
+        autoIndex: true,
     });
 
     app.bind(Identifiers.WalletFactory).toFactory<Contracts.State.Wallet>(
@@ -199,16 +204,19 @@ export const initApp = (): Application => {
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Indexers.NFTIndexers.NFTTokenIndexer,
         indexer: Indexers.nftIndexer,
+        autoIndex: true,
     });
 
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: NFTExchangeIndexers.AuctionIndexer,
         indexer: auctionIndexer,
+        autoIndex: true,
     });
 
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: NFTExchangeIndexers.BidIndexer,
         indexer: bidIndexer,
+        autoIndex: true,
     });
 
     return app;

@@ -1,9 +1,9 @@
 import { ApiResponse, ApiResponseWithPagination, Resource } from "@arkecosystem/client";
 
-import { AllBurnsQuery, Burns as BurnsResource, BurnsTimestamp } from "../../resourcesTypes/base";
+import { AllBurnsQuery, Burns as BurnsResource } from "../../resourcesTypes/base";
 
 export class Burns extends Resource {
-    public async all(query?: AllBurnsQuery): Promise<ApiResponseWithPagination<BurnsTimestamp[]>> {
+    public async all(query?: AllBurnsQuery): Promise<ApiResponseWithPagination<BurnsResource[]>> {
         return this.sendGet("nft/burns", query);
     }
 

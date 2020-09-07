@@ -1,5 +1,7 @@
 import { ApiQuery } from "@arkecosystem/client";
 
+import { Timestamp } from "../timestamp";
+
 export interface Trades {
     id: string;
     senderPublicKey: string;
@@ -7,11 +9,7 @@ export interface Trades {
         auctionId: string;
         bidId: string;
     };
-    timestamp: {
-        epoch: number;
-        unix: number;
-        human: string;
-    };
+    timestamp: Timestamp;
 }
 
 export interface AllTradesQuery extends ApiQuery {

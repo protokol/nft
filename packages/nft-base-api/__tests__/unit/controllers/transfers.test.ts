@@ -9,7 +9,13 @@ import { configManager } from "@arkecosystem/crypto/src/managers";
 import Hapi from "@hapi/hapi";
 import { Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 
-import { initApp, ItemResponse, PaginatedResponse, transactionHistoryService } from "../__support__";
+import {
+    blockHistoryService,
+    initApp,
+    ItemResponse,
+    PaginatedResponse,
+    transactionHistoryService,
+} from "../__support__";
 import { TransfersController } from "../../../src/controllers/transfers";
 let app: Application;
 
@@ -29,6 +35,8 @@ beforeEach(() => {
     transactionHistoryService.findManyByCriteria.mockReset();
     transactionHistoryService.findOneByCriteria.mockReset();
     transactionHistoryService.listByCriteria.mockReset();
+
+    blockHistoryService.findOneByCriteria.mockReset();
 
     transfersController = app.resolve<TransfersController>(TransfersController);
 
@@ -75,8 +83,12 @@ describe("Test transfer controller", () => {
 
     it("show - return specific transfer transaction by its id", async () => {
         transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actual.data);
+        blockHistoryService.findOneByCriteria.mockResolvedValueOnce({ timestamp: timestamp.epoch });
 
         const request: Hapi.Request = {
+            query: {
+                transform: true,
+            },
             params: {
                 id: actual.id,
             },
@@ -90,6 +102,7 @@ describe("Test transfer controller", () => {
                 nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
                 recipientId: Identities.Address.fromPassphrase(passphrases[1]),
             },
+            timestamp,
         });
     });
 });

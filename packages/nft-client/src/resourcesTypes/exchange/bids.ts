@@ -1,5 +1,7 @@
 import { ApiQuery } from "@arkecosystem/client";
 
+import { Timestamp } from "../timestamp";
+
 export interface Bids {
     id: string;
     senderPublicKey: string;
@@ -7,14 +9,7 @@ export interface Bids {
         auctionId: string;
         bidAmount: string;
     };
-}
-
-export interface BidsTimestamp extends Bids {
-    timestamp: {
-        epoch: number;
-        unix: number;
-        human: string;
-    };
+    timestamp: Timestamp;
 }
 
 export interface AllBidsQuery extends ApiQuery {
@@ -62,14 +57,7 @@ export interface BidCanceled {
     nftBidCancel: {
         bidId: string;
     };
-}
-
-export interface BidCanceledTimestamp extends BidCanceled {
-    timestamp: {
-        epoch: number;
-        unix: number;
-        human: string;
-    };
+    timestamp: Timestamp;
 }
 
 export interface AllBidsCanceledQuery extends ApiQuery {

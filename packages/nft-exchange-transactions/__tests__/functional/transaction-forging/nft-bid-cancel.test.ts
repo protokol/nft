@@ -450,7 +450,9 @@ describe("NFT Bid Cancel functional tests", () => {
 
             // Send funds to multi signature wallet
             const multiSigAddress = Identities.Address.fromMultiSignatureAsset(multiSignature.asset!.multiSignature!);
-            const multiSigPublicKey = Identities.PublicKey.fromMultiSignatureAsset(multiSignature.asset!.multiSignature!);
+            const multiSigPublicKey = Identities.PublicKey.fromMultiSignatureAsset(
+                multiSignature.asset!.multiSignature!,
+            );
 
             const multiSignatureFunds = TransactionFactory.initialize(app)
                 .transfer(multiSigAddress, 100 * 1e8)

@@ -19,7 +19,7 @@ import {
 import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import { Builders, Transactions as ExchangeTransactions } from "@protokol/nft-exchange-crypto";
 
-import { initApp, transactionHistoryService } from "../__support__";
+import { blockHistoryService, initApp, transactionHistoryService } from "../__support__";
 import { TradesController } from "../../../src/controllers/trades";
 
 let tradesController: TradesController;
@@ -130,8 +130,12 @@ describe("Test trades controller", () => {
                 .build();
             transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actual.data);
             transactionHistoryService.findManyByCriteria.mockResolvedValueOnce([auction.data, bid.data]);
+            blockHistoryService.findOneByCriteria.mockResolvedValueOnce({ timestamp: timestamp.epoch });
 
             const request: Hapi.Request = {
+                query: {
+                    transform: true,
+                },
                 params: {
                     id: actual.id,
                 },
@@ -152,6 +156,7 @@ describe("Test trades controller", () => {
                         ...bid.data.asset!.nftBid,
                     },
                 },
+                timestamp,
             });
         });
     });

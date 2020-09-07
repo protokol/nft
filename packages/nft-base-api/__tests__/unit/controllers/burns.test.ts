@@ -9,7 +9,13 @@ import { configManager } from "@arkecosystem/crypto/src/managers";
 import Hapi from "@hapi/hapi";
 import { Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 
-import { initApp, ItemResponse, PaginatedResponse, transactionHistoryService } from "../__support__";
+import {
+    blockHistoryService,
+    initApp,
+    ItemResponse,
+    PaginatedResponse,
+    transactionHistoryService,
+} from "../__support__";
 import { BurnsController } from "../../../src/controllers/burns";
 let app: Application;
 
@@ -30,6 +36,8 @@ beforeEach(() => {
     transactionHistoryService.findOneByCriteria.mockReset();
     transactionHistoryService.listByCriteria.mockReset();
     transactionHistoryService.listByCriteriaJoinBlock.mockReset();
+
+    blockHistoryService.findOneByCriteria.mockReset();
 
     burnsController = app.resolve<BurnsController>(BurnsController);
 
@@ -75,8 +83,12 @@ describe("Test burns controller", () => {
 
     it("show - return specific burn by its id", async () => {
         transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actual.data);
+        blockHistoryService.findOneByCriteria.mockResolvedValueOnce({ timestamp: timestamp.epoch });
 
         const request: Hapi.Request = {
+            query: {
+                transform: true,
+            },
             params: {
                 id: actual.id,
             },
@@ -89,6 +101,7 @@ describe("Test burns controller", () => {
             nftBurn: {
                 nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
             },
+            timestamp,
         });
     });
 });

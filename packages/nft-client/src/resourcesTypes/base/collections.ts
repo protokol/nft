@@ -1,5 +1,7 @@
 import { ApiQuery } from "@arkecosystem/client";
 
+import { Timestamp } from "../timestamp";
+
 export interface Collections {
     id: string;
     senderPublicKey: string;
@@ -8,14 +10,7 @@ export interface Collections {
     maximumSupply: number;
     // eslint-disable-next-line @typescript-eslint/member-ordering
     [jsonSchema: string]: any;
-}
-
-export interface CollectionsTimestamp extends Collections {
-    timestamp: {
-        epoch: number;
-        unix: number;
-        human: string;
-    };
+    timestamp: Timestamp;
 }
 
 export interface AllCollectionsQuery extends ApiQuery {
@@ -60,9 +55,5 @@ export interface CollectionsAsset {
     collectionId: string;
     // eslint-disable-next-line @typescript-eslint/member-ordering
     [attributes: string]: any;
-    timestamp: {
-        epoch: number;
-        unix: number;
-        human: string;
-    };
+    timestamp: Timestamp;
 }

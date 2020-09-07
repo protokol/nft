@@ -1,6 +1,6 @@
 {
     "name": "@protokol/nft-tx-tester",
-    "version": "0.0.1",
+    "version": "1.0.0-beta.22",
     "description": "A simple command line utility to create and broadcast NFT transactions.",
     "license": "MIT",
     "homepage": "https://docs.protokol.com/nft/",
@@ -48,18 +48,18 @@
         "compile": "../../../node_modules/typescript/bin/tsc"
     },
     "dependencies": {
-        "@arkecosystem/core-magistrate-crypto": "^3.0.0-next.0",
-        "@arkecosystem/core-kernel": "^3.0.0-next.0",
-        "@arkecosystem/crypto": "^3.0.0-next.0",
-        "fs-extra": "^9.0.1",
-        "@protokol/nft-base-crypto": "^1.0.0-beta.4",
-        "@protokol/nft-exchange-crypto": "^1.0.0-beta.4",
+        "@arkecosystem/core-kernel": "^3.0.0-alpha.2",
+        "@arkecosystem/core-magistrate-crypto": "^3.0.0-alpha.2",
+        "@arkecosystem/crypto": "^3.0.0-alpha.2",
         "@oclif/command": "^1",
-        "@oclif/plugin-help": "^3"
+        "@oclif/plugin-help": "^3",
+        "@protokol/nft-base-crypto": "^1.0.0-beta.22",
+        "@protokol/nft-exchange-crypto": "^1.0.0-beta.22",
+        "fs-extra": "^9.0.1"
     },
     "devDependencies": {
-        "typescript": "^3.8.3",
-        "ts-node": "^8"
+        "ts-node": "^8",
+        "typescript": "^3.8.3"
     },
     "oclif": {
         "commands": "./src/commands",

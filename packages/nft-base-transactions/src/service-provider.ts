@@ -24,10 +24,10 @@ export class ServiceProvider extends Providers.ServiceProvider {
     private registerIndexers() {
         this.app
             .bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex)
-            .toConstantValue({ name: NFTIndexers.NFTTokenIndexer, indexer: nftIndexer });
+            .toConstantValue({ name: NFTIndexers.NFTTokenIndexer, indexer: nftIndexer, autoIndex: true });
 
         this.app
             .bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex)
-            .toConstantValue({ name: NFTIndexers.CollectionIndexer, indexer: nftCollectionIndexer });
+            .toConstantValue({ name: NFTIndexers.CollectionIndexer, indexer: nftCollectionIndexer, autoIndex: true });
     }
 }

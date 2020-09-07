@@ -53,7 +53,7 @@ export class CollectionsController extends BaseController {
         if (!transaction) {
             return Boom.notFound("Collection not found");
         }
-        return this.respondWithResource(transaction, CollectionResource);
+        return this.respondWithBlockResource(transaction, request.query.transform, CollectionResource);
     }
 
     public async showSchema(request: Hapi.Request, h: Hapi.ResponseToolkit) {
@@ -66,7 +66,7 @@ export class CollectionsController extends BaseController {
         if (!transaction) {
             return Boom.notFound("Collection not found");
         }
-        return this.respondWithResource(transaction, SchemaResource);
+        return this.respondWithBlockResource(transaction, request.query.transform, SchemaResource);
     }
 
     public async searchCollection(request: Hapi.Request, h: Hapi.ResponseToolkit) {

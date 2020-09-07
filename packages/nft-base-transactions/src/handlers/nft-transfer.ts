@@ -57,8 +57,9 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
             const senderTokensWallet = senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
             for (const token of nftTransferAsset.nftIds) {
                 delete senderTokensWallet[token];
-                this.walletRepository.forgetByIndex(NFTIndexers.NFTTokenIndexer, token);
+                this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).forget(token);
             }
+
             senderWallet.setAttribute<INFTTokens>("nft.base.tokenIds", senderTokensWallet);
 
             const recipientTokensWallet = recipientWallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
@@ -67,6 +68,8 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
             }
             recipientWallet.setAttribute<INFTTokens>("nft.base.tokenIds", recipientTokensWallet);
 
+            // TODO - this can be removed as we directly call forget above. Needs testing/performance analysis
+            // TODO - need to operate the indexes directly e.g. set/forget and DO NOT CALL general index methods
             this.walletRepository.index(senderWallet);
             this.walletRepository.index(recipientWallet);
         }

@@ -34,6 +34,6 @@ export class BurnsController extends BaseController {
         if (!transaction) {
             return Boom.notFound("Burn Transaction not found");
         }
-        return this.respondWithResource(transaction, BurnsResource);
+        return this.respondWithBlockResource(transaction, request.query.transform, BurnsResource);
     }
 }

@@ -14,7 +14,7 @@ import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import { Builders, Transactions as ExchangeTransactions } from "@protokol/nft-exchange-crypto";
 import { INFTAuctions } from "@protokol/nft-exchange-transactions/src/interfaces";
 
-import { initApp, transactionHistoryService } from "../__support__";
+import { blockHistoryService, initApp, transactionHistoryService } from "../__support__";
 import { AuctionsController } from "../../../src/controllers/auctions";
 
 let auctionsController: AuctionsController;
@@ -97,8 +97,12 @@ describe("Test auctions controller", () => {
 
     it("show - specific auction by its id ", async () => {
         transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actual.data);
+        blockHistoryService.findOneByCriteria.mockResolvedValueOnce({ timestamp: timestamp.epoch });
 
         const request: Hapi.Request = {
+            query: {
+                transform: true,
+            },
             params: {
                 id: actual.id,
             },
@@ -116,6 +120,7 @@ describe("Test auctions controller", () => {
                     blockHeight: 1,
                 },
             },
+            timestamp,
         });
     });
 
@@ -225,8 +230,12 @@ describe("Test auctions controller", () => {
             .sign(passphrases[0])
             .build();
         transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actualAuctionCanceled.data);
+        blockHistoryService.findOneByCriteria.mockResolvedValueOnce({ timestamp: timestamp.epoch });
 
         const request: Hapi.Request = {
+            query: {
+                transform: true,
+            },
             params: {
                 id: actualAuctionCanceled.id,
             },
@@ -239,6 +248,7 @@ describe("Test auctions controller", () => {
             nftAuctionCancel: {
                 auctionId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
             },
+            timestamp,
         });
     });
 });
