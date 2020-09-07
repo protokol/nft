@@ -9,8 +9,7 @@ jest.setTimeout(1200000);
 
 import { DatabaseService } from "@arkecosystem/core-database";
 import { DatabaseInteraction } from "@arkecosystem/core-state";
-import { StateBuilder } from "@arkecosystem/core-state/dist/state-builder";
-import { Sandbox } from "@arkecosystem/core-test-framework/dist";
+import { Sandbox } from "@arkecosystem/core-test-framework";
 
 const sandbox: Sandbox = new Sandbox();
 
@@ -31,7 +30,7 @@ export const setUp = async (): Promise<Contracts.Kernel.Application> => {
         await app.bootstrap({
             flags: {
                 token: "ark",
-                network: "testnet",
+                network: "unitnet",
                 env: "test",
                 processType: "core",
             },
@@ -98,47 +97,7 @@ export const setUp = async (): Promise<Contracts.Kernel.Application> => {
 };
 
 export const tearDown = async (): Promise<void> => {
-    // before shutting down the app, we run wallet bootstrap from database state
-    // which we compare to the wallet state we got from actually running the chain from zero with the tests
-    const walletRepository = sandbox.app.getTagged<Contracts.State.WalletRepository>(
-        Container.Identifiers.WalletRepository,
-        "state",
-        "blockchain",
-    );
-
-    const mapWallets = (wallet: Contracts.State.Wallet) => {
-        const walletAttributes = wallet.getAttributes();
-        if (walletAttributes.delegate) {
-            // we delete delegate attribute which is not built fully from StateBuilder
-            delete walletAttributes.delegate;
-        }
-        return {
-            publicKey: wallet.publicKey,
-            balance: wallet.balance,
-            nonce: wallet.nonce,
-            attributes: walletAttributes,
-        };
-    };
-    const sortWallets = (a: Contracts.State.Wallet, b: Contracts.State.Wallet) =>
-        a.publicKey!.localeCompare(b.publicKey!);
-
-    const allByPublicKey = walletRepository
-        .allByPublicKey()
-        .map((w) => w.clone())
-        .sort(sortWallets)
-        .map(mapWallets);
-
-    walletRepository.reset();
-
-    await sandbox.app.resolve<StateBuilder>(StateBuilder).run();
-    await delay(2000); // if there is an issue with state builder, we wait a bit to be sure to catch it in the logs
-
-    const allByPublicKeyBootstrapped = walletRepository
-        .allByPublicKey()
-        .map((w) => w.clone())
-        .sort(sortWallets)
-        .map(mapWallets);
-    expect(allByPublicKeyBootstrapped).toEqual(allByPublicKey);
+    sandbox.dispose();
 };
 
 export const passphrases = {

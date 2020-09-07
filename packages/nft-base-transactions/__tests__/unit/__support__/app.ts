@@ -31,7 +31,6 @@ import { One, Two } from "@arkecosystem/core-transactions/dist/handlers";
 import { TransactionHandlerProvider } from "@arkecosystem/core-transactions/dist/handlers/handler-provider";
 import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/dist/handlers/handler-registry";
 import { Identities, Managers, Utils } from "@arkecosystem/crypto";
-import { configManager } from "@arkecosystem/crypto/dist/managers";
 
 import { transactionRepository } from "../__mocks__/transaction-repository";
 import {
@@ -56,7 +55,6 @@ export const transactionHistoryService = {
 
 export const initApp = (): Application => {
     const config = Generators.generateCryptoConfigRaw();
-    configManager.setConfig(config);
     Managers.configManager.setConfig(config);
 
     const app: Application = new Application(new Container.Container());

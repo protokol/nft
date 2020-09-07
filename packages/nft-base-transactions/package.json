@@ -34,10 +34,10 @@
         "clean": "rimraf .coverage dist tmp",
         "test": "jest",
         "prepublishOnly": "yarn build",
-        "test:unit": "jest __tests__/unit/** --forceExit",
-        "test:unit:coverage": "jest __tests__/unit --coverage",
-        "test:functional": "CORE_ENV=test jest __tests__/functional --forceExit",
-        "test:functional:coverage": "CORE_ENV=test jest __tests__/functional --coverage --forceExit"
+        "test:unit": "jest __tests__/unit/** --forceExit --detectOpenHandles",
+        "test:unit:coverage": "jest __tests__/unit --coverage --detectOpenHandles",
+        "test:functional": "jest __tests__/functional --forceExit --detectOpenHandles",
+        "test:functional:coverage": "jest __tests__/functional --coverage --forceExit --detectOpenHandles"
     },
     "dependencies": {
         "@arkecosystem/core-database": "^3.0.0-alpha.6",
@@ -70,6 +70,7 @@
         "codecov": "^3.6.5",
         "delay": "4.4.0",
         "eslint": "7.8.1",
+        "eslint-plugin-prettier": "^3.1.4",
         "jest": "~26.4.2",
         "jest-extended": "~0.11.5",
         "jest-localstorage-mock": "2.4.3",

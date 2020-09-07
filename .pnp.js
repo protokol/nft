@@ -2093,6 +2093,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["codecov", "npm:3.7.2"],
             ["delay", "npm:4.4.0"],
             ["eslint", "npm:7.8.1"],
+            ["eslint-plugin-prettier", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.1.4"],
             ["jest", "npm:26.4.2"],
             ["jest-extended", "npm:0.11.5"],
             ["jest-localstorage-mock", "npm:2.4.3"],
