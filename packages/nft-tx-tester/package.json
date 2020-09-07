@@ -55,6 +55,7 @@
         "@oclif/plugin-help": "^3",
         "@protokol/nft-base-crypto": "^1.0.0-beta.22",
         "@protokol/nft-exchange-crypto": "^1.0.0-beta.22",
+        "@protokol/guardian-crypto": "^1.0.0-beta.0",
         "fs-extra": "^9.0.1"
     },
     "devDependencies": {

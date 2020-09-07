@@ -1,5 +1,7 @@
 import * as MagistrateCrypto from "@arkecosystem/core-magistrate-crypto";
 import { Transactions } from "@arkecosystem/crypto";
+import * as GuardianCrypto from "@protokol/guardian-crypto";
+import { ARKCrypto as ARKGuardianCrypto } from "@protokol/guardian-crypto";
 import * as NFTBaseCrypto from "@protokol/nft-base-crypto";
 import { ARKCrypto as ARKBaseNFTCrypto } from "@protokol/nft-base-crypto";
 import * as NFTExchangeCrypto from "@protokol/nft-exchange-crypto";
@@ -34,6 +36,12 @@ ARKExchangeNFTCrypto.Transactions.TransactionRegistry.registerTransactionType(
 );
 ARKExchangeNFTCrypto.Transactions.TransactionRegistry.registerTransactionType(
     NFTExchangeCrypto.Transactions.NFTAcceptTradeTransaction,
+);
+ARKGuardianCrypto.Transactions.TransactionRegistry.registerTransactionType(
+    GuardianCrypto.Transactions.GuardianGroupPermissionsTransaction,
+);
+ARKGuardianCrypto.Transactions.TransactionRegistry.registerTransactionType(
+    GuardianCrypto.Transactions.GuardianUserPermissionsTransaction,
 );
 
 export const builders = {
@@ -96,5 +104,13 @@ export const builders = {
     [TransactionType.NFTAcceptTrade]: {
         name: "NFT Accept Trade",
         builder: () => new NFTExchangeCrypto.Builders.NftAcceptTradeBuilder(),
+    },
+    [TransactionType.GuardianGroupPermissions]: {
+        name: "Guardian group permissions",
+        builder: () => new GuardianCrypto.Builders.GuardianGroupPermissionsBuilder(),
+    },
+    [TransactionType.GuardianUserPermissions]: {
+        name: "Guardian user permissions",
+        builder: () => new GuardianCrypto.Builders.GuardianUserPermissionsBuilder(),
     },
 };
