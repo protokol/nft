@@ -87,7 +87,8 @@ export const config = {
         },
     },
     entity: {
-        type: "business",
+        type: 0,
+        subType: 0,
         action: "register",
         data: {
             name: "my_business",
