@@ -87,7 +87,8 @@ export const config = {
         },
     },
     entity: {
-        type: "business",
+        type: 0,
+        subType: 0,
         action: "register",
         data: {
             name: "my_business",
@@ -140,6 +141,30 @@ export const config = {
         acceptTradeAsset: {
             bidId: "",
             auctionId: "",
+        },
+    },
+    guardian: {
+        groupPermissions: {
+            name: "group name",
+            priority: 1,
+            active: false,
+            default: false,
+            permissions: [
+                {
+                    types: [{ transactionType: 1, transactionTypeGroup: 9002 }],
+                    kind: 1,
+                },
+            ],
+        },
+        userPermissions: {
+            groupNames: ["group name"],
+            publicKey: "03287bfebba4c7881a0509717e71b34b63f31e40021c321f89ae04f84be6d6ac37",
+            permissions: [
+                {
+                    types: [{ transactionType: 1, transactionTypeGroup: 9002 }],
+                    kind: 1,
+                },
+            ],
         },
     },
 };
