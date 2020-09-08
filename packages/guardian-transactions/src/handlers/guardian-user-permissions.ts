@@ -38,13 +38,11 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
 
             const setUserPermissionsAsset: GuardianInterfaces.GuardianUserPermissionsAsset =
                 transaction.asset.setUserPermissions;
-            const userWallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
-                setUserPermissionsAsset.publicKey,
-            );
+            const userWallet = this.walletRepository.findByPublicKey(setUserPermissionsAsset.publicKey);
             const userPermissionsWallet = this.buildUserPermissions(setUserPermissionsAsset);
 
             userWallet.setAttribute("guardian.userPermissions", userPermissionsWallet);
-            this.walletRepository.index(userWallet);
+            this.walletRepository.getIndex(GuardianIndexers.UserPermissionsIndexer).index(userWallet);
         }
     }
 
@@ -109,21 +107,17 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
         // );
         const setUserPermissionsAsset: GuardianInterfaces.GuardianUserPermissionsAsset = transaction.data.asset!
             .setUserPermissions;
-        const userWallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
-            setUserPermissionsAsset.publicKey,
-        );
+        const userWallet = this.walletRepository.findByPublicKey(setUserPermissionsAsset.publicKey);
         const userPermissionsWallet = this.buildUserPermissions(setUserPermissionsAsset);
 
         userWallet.setAttribute("guardian.userPermissions", userPermissionsWallet);
-        this.walletRepository.index(userWallet);
+        this.walletRepository.getIndex(GuardianIndexers.UserPermissionsIndexer).index(userWallet);
     }
 
     public async revertForRecipient(transaction: Interfaces.ITransaction): Promise<void> {
         const setUserPermissionsAsset: GuardianInterfaces.GuardianUserPermissionsAsset = transaction.data.asset!
             .setUserPermissions;
-        const userWallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
-            setUserPermissionsAsset.publicKey,
-        );
+        const userWallet = this.walletRepository.findByPublicKey(setUserPermissionsAsset.publicKey);
 
         const lastUserPermissionsTx = await this.getLastTxByAsset({
             setUserPermissions: {
@@ -139,7 +133,7 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
         } else {
             const userPermissionsWallet = this.buildUserPermissions(lastUserPermissionsTx.asset!.setUserPermissions);
             userWallet.setAttribute("guardian.userPermissions", userPermissionsWallet);
-            this.walletRepository.index(userWallet);
+            this.walletRepository.getIndex(GuardianIndexers.UserPermissionsIndexer).index(userWallet);
         }
     }
 
