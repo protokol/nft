@@ -2,8 +2,8 @@ import "@arkecosystem/core-test-framework/src/matchers";
 
 import { Contracts } from "@arkecosystem/core-kernel";
 import { ApiHelpers } from "@arkecosystem/core-test-framework/src";
+import latestVersion from "latest-version";
 
-// import latestVersion from "latest-version";
 import { setUp, tearDown } from "../__support__/setup";
 
 let app: Contracts.Kernel.Application;
@@ -24,9 +24,9 @@ describe("API - Configurations", () => {
 
             expect(response.data.data.package.name).toStrictEqual(require("../../../package.json").name);
             expect(response.data.data.package.currentVersion).toStrictEqual(require("../../../package.json").version);
-            // expect(response.data.data.package.latestVersion).toStrictEqual(
-            //     await latestVersion(require("../../../package.json").name),
-            // );
+            expect(response.data.data.package.latestVersion).toStrictEqual(
+                await latestVersion(require("../../../package.json").name),
+            );
             expect(response.data.data.crypto).toBeObject();
             expect(response.data.data.transactions).toBeObject();
         });
