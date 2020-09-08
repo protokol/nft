@@ -1,16 +1,16 @@
-import "@arkecosystem/core-test-framework/dist/matchers";
+import "jest-extended";
 
 import { Container, Contracts, Services } from "@arkecosystem/core-kernel";
+import { snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework";
 import secrets from "@arkecosystem/core-test-framework/dist/internal/passphrases.json";
-import { snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework/dist/utils";
-import { Identities, Interfaces } from "@arkecosystem/crypto";
+import { ARKCrypto } from "@protokol/nft-base-crypto";
 import { generateMnemonic } from "bip39";
 
 import * as support from "./__support__";
 import { NFTBaseTransactionFactory } from "./__support__/transaction-factory";
 
 let app: Contracts.Kernel.Application;
-let networkConfig: Interfaces.NetworkConfig;
+let networkConfig: ARKCrypto.Interfaces.NetworkConfig;
 
 beforeAll(async () => {
     app = await support.setUp();
@@ -154,7 +154,7 @@ describe("NFT Burn functional tests", () => {
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
                     nftIds: [nftCreate.id!],
-                    recipientId: Identities.Address.fromPassphrase(secrets[2]),
+                    recipientId: ARKCrypto.Identities.Address.fromPassphrase(secrets[2]),
                 })
                 .withPassphrase(secrets[0])
                 .createOne();
@@ -183,7 +183,7 @@ describe("NFT Burn functional tests", () => {
 
             // Initial Funds
             const initialFunds = TransactionFactory.initialize(app)
-                .transfer(Identities.Address.fromPassphrase(passphrase), 150 * 1e8)
+                .transfer(ARKCrypto.Identities.Address.fromPassphrase(passphrase), 150 * 1e8)
                 .withPassphrase(secrets[0])
                 .createOne();
 
@@ -240,14 +240,14 @@ describe("NFT Burn functional tests", () => {
         const passphrase = generateMnemonic();
         const passphrases = [passphrase, secrets[4], secrets[5]];
         const participants = [
-            Identities.PublicKey.fromPassphrase(passphrases[0]),
-            Identities.PublicKey.fromPassphrase(passphrases[1]),
-            Identities.PublicKey.fromPassphrase(passphrases[2]),
+            ARKCrypto.Identities.PublicKey.fromPassphrase(passphrases[0]),
+            ARKCrypto.Identities.PublicKey.fromPassphrase(passphrases[1]),
+            ARKCrypto.Identities.PublicKey.fromPassphrase(passphrases[2]),
         ];
         it("should broadcast, accept and forge it [3-of-3 multisig] ", async () => {
             // Funds to register a multi signature wallet
             const initialFunds = TransactionFactory.initialize(app)
-                .transfer(Identities.Address.fromPassphrase(passphrase), 50 * 1e8)
+                .transfer(ARKCrypto.Identities.Address.fromPassphrase(passphrase), 50 * 1e8)
                 .withPassphrase(secrets[0])
                 .createOne();
 

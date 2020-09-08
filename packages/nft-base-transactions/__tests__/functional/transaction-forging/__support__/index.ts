@@ -3,7 +3,6 @@ import "jest-extended";
 import { Container, Contracts } from "@arkecosystem/core-kernel";
 import secrets from "@arkecosystem/core-test-framework/dist/internal/passphrases.json";
 import { Identities, Managers, Utils } from "@arkecosystem/crypto";
-import delay from "delay";
 
 jest.setTimeout(1200000);
 

@@ -1,13 +1,13 @@
-import { ITransaction } from "@arkecosystem/crypto/dist/interfaces";
+import { Interfaces } from "@arkecosystem/crypto";
 
-let mockTransaction: ITransaction | null;
-let mockTransactions: ITransaction[] = [];
+let mockTransaction: Interfaces.ITransaction | null;
+let mockTransactions: Interfaces.ITransaction[] = [];
 
-export const setMockTransaction = (transaction: ITransaction | null) => {
+export const setMockTransaction = (transaction: Interfaces.ITransaction | null) => {
     mockTransaction = transaction;
 };
 
-export const setMockTransactions = (transactions: ITransaction[]) => {
+export const setMockTransactions = (transactions: Interfaces.ITransaction[]) => {
     mockTransactions = transactions;
 };
 
