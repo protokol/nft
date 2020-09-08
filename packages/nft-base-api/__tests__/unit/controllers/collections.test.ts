@@ -21,6 +21,7 @@ import {
     transactionHistoryService,
 } from "../__support__";
 import { CollectionsController } from "../../../src/controllers/collections";
+import { NFTIndexers } from "../../../../nft-base-transactions/src/wallet-indexes";
 
 let app: Application;
 
@@ -143,7 +144,7 @@ describe("Test collection controller", () => {
             nftCollectionAsset: nftCollectionAsset,
         };
         senderWallet.setAttribute("nft.base.collections", collectionsWallet);
-        walletRepository.index(senderWallet);
+        walletRepository.getIndex(NFTIndexers.CollectionIndexer).index(senderWallet);
 
         const request: Hapi.Request = {
             params: {
@@ -278,7 +279,7 @@ describe("Test collection controller", () => {
         // @ts-ignore
         tokensWallet[actual.id] = {};
         senderWallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
-        walletRepository.index(senderWallet);
+        walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).index(senderWallet);
 
         transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
             rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],

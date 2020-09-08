@@ -204,19 +204,19 @@ export const initApp = (): Application => {
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Indexers.NFTIndexers.NFTTokenIndexer,
         indexer: Indexers.nftIndexer,
-        autoIndex: true,
+        autoIndex: false,
     });
 
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: NFTExchangeIndexers.AuctionIndexer,
         indexer: auctionIndexer,
-        autoIndex: true,
+        autoIndex: false,
     });
 
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: NFTExchangeIndexers.BidIndexer,
         indexer: bidIndexer,
-        autoIndex: true,
+        autoIndex: false,
     });
 
     return app;

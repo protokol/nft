@@ -116,7 +116,9 @@ const prepareWallet = () => {
     tokensWallet[actualCreate.id] = {};
     wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
 
-    walletRepository.index(wallet);
+    walletRepository
+        .getIndex(NFTIndexers.CollectionIndexer)
+        .set("8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61", wallet);
 };
 
 const checkApply = () => {

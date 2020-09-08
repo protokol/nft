@@ -2,8 +2,6 @@ import { Contracts } from "@arkecosystem/core-kernel";
 
 import { INFTAuctions } from "./interfaces";
 
-// import { NFTExchangeWalletAsset } from "./interfaces";
-
 export enum NFTExchangeIndexers {
     AuctionIndexer = "auctionIndexer",
     BidIndexer = "bidIndexer",

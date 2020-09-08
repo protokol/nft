@@ -66,9 +66,8 @@ const collectionId = "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775
 beforeEach(async () => {
     app = initApp();
 
-    wallet = buildWallet(app, passphrases[0]);
-
     walletRepository = app.get<Wallets.WalletRepository>(Identifiers.WalletRepository);
+
 
     transactionHandlerRegistry = app.get<TransactionHandlerRegistry>(Identifiers.TransactionHandlerRegistry);
 
@@ -79,6 +78,9 @@ beforeEach(async () => {
         ),
         2,
     );
+    wallet = buildWallet(app, passphrases[0]);
+    walletRepository.index(wallet);
+
     const collectionsWallet = wallet.getAttribute<INFTCollections>("nft.base.collections", {});
 
     collectionsWallet[collectionId] = {
@@ -97,7 +99,7 @@ beforeEach(async () => {
 
     wallet.setAttribute("nft.base.collections", collectionsWallet);
 
-    walletRepository.index(wallet);
+    walletRepository.getIndex(NFTIndexers.CollectionIndexer).set(collectionId, wallet);
 
     actual = new NFTBuilders.NFTCreateBuilder()
         .NFTCreateToken({

@@ -50,12 +50,12 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
             AppUtils.assert.defined<string>(transaction.senderPublicKey);
             AppUtils.assert.defined<NFTInterfaces.NFTTokenAsset>(transaction.asset?.nftToken);
 
-            const wallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(transaction.senderPublicKey);
+            const wallet = this.walletRepository.findByPublicKey(transaction.senderPublicKey);
 
             const tokensWallet = wallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
             tokensWallet[transaction.id] = {};
             wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
-            this.walletRepository.index(wallet);
+            this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).set(transaction.id, wallet);
 
             const collectionId = transaction.asset.nftToken.collectionId;
             const genesisWallet = this.walletRepository.findByIndex(NFTIndexers.CollectionIndexer, collectionId);
@@ -117,12 +117,12 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         // Line is already checked inside throwIfCannotBeApplied run by super.applyToSender method
         //AppUtils.assert.defined<NFTInterfaces.NFTTokenAsset>(transaction.data.asset?.nftToken);
 
-        const sender: Contracts.State.Wallet = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
+        const sender = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
 
         const tokensWallet = sender.getAttribute<INFTTokens>("nft.base.tokenIds", {});
         tokensWallet[transaction.data.id] = {};
         sender.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
-        this.walletRepository.index(sender);
+        this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).set(transaction.data.id, sender);
 
         const collectionId = transaction.data.asset!.nftToken.collectionId;
         const genesisWallet = this.walletRepository.findByIndex(NFTIndexers.CollectionIndexer, collectionId);
@@ -138,7 +138,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         AppUtils.assert.defined<string>(transaction.data.id);
         AppUtils.assert.defined<NFTInterfaces.NFTTokenAsset>(transaction.data.asset?.nftToken);
 
-        const sender: Contracts.State.Wallet = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
+        const sender = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
 
         const tokensWallet = sender.getAttribute<INFTTokens>("nft.base.tokenIds");
         delete tokensWallet[transaction.data.id];
