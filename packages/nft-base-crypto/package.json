@@ -42,13 +42,13 @@
         "test:unit:coverage": "jest __tests__/unit --coverage"
     },
     "dependencies": {
-        "@arkecosystem/crypto": "^3.0.0-alpha.6",
+        "@arkecosystem/crypto": "^3.0.0-alpha.9",
         "@protokol/utils": "^1.0.0-beta.24",
         "bytebuffer": "^5.0.1"
     },
     "devDependencies": {
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.6",
-        "@arkecosystem/core-test-framework": "3.0.0-alpha.6",
+        "@arkecosystem/core-kernel": "^3.0.0-alpha.9",
+        "@arkecosystem/core-test-framework": "3.0.0-alpha.9",
         "@sindresorhus/tsconfig": "~0.7.0",
         "@types/jest": "~26.0.10",
         "@types/rimraf": "^3.0.0",
