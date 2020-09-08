@@ -6,8 +6,8 @@ import { Managers } from "@arkecosystem/crypto";
 import { configManager } from "@arkecosystem/crypto/src/managers";
 import { Defaults as CryptoDefaults } from "@protokol/guardian-crypto";
 import { Defaults as TransactionsDefaults } from "@protokol/guardian-transactions";
+import latestVersion from "latest-version";
 
-// import latestVersion from "latest-version";
 import { initApp, ItemResponse } from "../__support__";
 import { ConfigurationController } from "../../../src/controllers/configurations";
 
@@ -33,7 +33,7 @@ describe("Test configurations controller", () => {
             package: {
                 name: require("../../../package.json").name,
                 currentVersion: require("../../../package.json").version,
-                //latestVersion: await latestVersion(require("../../../package.json").name),
+                latestVersion: await latestVersion(require("../../../package.json").name),
             },
             crypto: CryptoDefaults,
             transactions: TransactionsDefaults,
