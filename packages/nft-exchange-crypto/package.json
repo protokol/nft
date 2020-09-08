@@ -41,11 +41,11 @@
     },
     "dependencies": {
         "@protokol/utils": "^1.0.0-beta.23",
-        "@arkecosystem/crypto": "^3.0.0-alpha.2",
+        "@arkecosystem/crypto": "^3.0.0-alpha.9",
         "bytebuffer": "^5.0.1"
     },
     "devDependencies": {
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.2"
+        "@arkecosystem/core-kernel": "^3.0.0-alpha.9"
     },
     "publishConfig": {
         "access": "public"
