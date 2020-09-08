@@ -10,7 +10,7 @@ on:
 
 jobs:
     unit:
-        name: UNIT (API, CRYPTO, TRANSACTIONS) TESTS
+        name: UNIT (API, CRYPTO, TRANSACTIONS, NFT-CLIENT) TESTS
         runs-on: ubuntu-latest
 
         strategy:
@@ -74,6 +74,11 @@ jobs:
               run: |
                   cd protokol/packages/nft-exchange-api
                   yarn test:unit:coverage --coverageDirectory .coverage/unit-exchange-api --maxWorkers=2
+
+            - name: TEST UNIT NFT-CLIENT
+              run: |
+                  cd protokol/packages/nft-client
+                  yarn test:coverage --coverageDirectory .coverage/unit-nft-client --maxWorkers=2
 
             - name: TEST UNIT GUARDIAN-CRYPTO
               run: |

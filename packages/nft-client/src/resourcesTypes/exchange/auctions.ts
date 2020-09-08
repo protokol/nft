@@ -60,7 +60,7 @@ export interface SearchAuctionsApiQuery extends ApiQuery {
 export interface AuctionCanceled {
     id: string;
     senderPublicKey: string;
-    nftAuctionCanceled: {
+    nftAuctionCancel: {
         auctionId: string;
     };
     timestamp: Timestamp;
