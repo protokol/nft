@@ -40,8 +40,8 @@ export interface CollectionsWallet {
                 [jsonSchema: string]: any;
             };
         }[];
+        assetsIds: string[];
     };
-    assetsIds: string[];
 }
 
 export interface SearchCollectionsApiBody {
@@ -51,6 +51,7 @@ export interface SearchCollectionsApiBody {
 export interface CollectionsAsset {
     id: string;
     ownerPublicKey: string;
+    senderPublicKey: string;
     collectionId: string;
     // eslint-disable-next-line @typescript-eslint/member-ordering
     [attributes: string]: any;

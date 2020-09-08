@@ -166,22 +166,14 @@ export class Builder {
             } else if (type === TransactionType.Entity && Managers.configManager.getMilestone().aip11) {
                 // Entity
                 const { entity } = this.app.config;
-                const EntityType = MagistrateCrypto.Enums.EntityType;
-                const EntitySubType = MagistrateCrypto.Enums.EntitySubType;
-                const mapTypeAndSubtype = {
-                    business: { type: EntityType.Business, subType: EntitySubType.None },
-                    bridgechain: { type: EntityType.Bridgechain, subType: EntitySubType.None },
-                    developer: { type: EntityType.Developer, subType: EntitySubType.None },
-                    "plugin-core": { type: EntityType.Plugin, subType: EntitySubType.PluginCore },
-                    "plugin-desktop": { type: EntityType.Plugin, subType: EntitySubType.PluginDesktop },
-                };
                 const mapAction = {
                     register: { action: MagistrateCrypto.Enums.EntityAction.Register },
                     update: { action: MagistrateCrypto.Enums.EntityAction.Update },
                     resign: { action: MagistrateCrypto.Enums.EntityAction.Resign },
                 };
                 const entityAsset = {
-                    ...mapTypeAndSubtype[entity.type],
+                    type: entity.type,
+                    subType: entity.subType,
                     ...mapAction[entity.action],
                     data: {},
                 };
@@ -334,6 +326,18 @@ export class Builder {
                 }
 
                 transaction.NFTAcceptTradeAsset(acceptTradeAsset);
+            } else if (
+                type === TransactionType.GuardianGroupPermissions &&
+                Managers.configManager.getMilestone().aip11
+            ) {
+                // GuardianGroupPermissionsAsset
+                transaction.GuardianGroupPermissions(this.app.config.guardian.groupPermissions);
+            } else if (
+                type === TransactionType.GuardianUserPermissions &&
+                Managers.configManager.getMilestone().aip11
+            ) {
+                // GuardianUserPermissionsAsset
+                transaction.GuardianUserPermissions(this.app.config.guardian.userPermissions);
             } else {
                 throw new Error("Version 2 not supported.");
             }

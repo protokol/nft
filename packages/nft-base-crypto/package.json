@@ -1,6 +1,6 @@
 {
     "name": "@protokol/nft-base-crypto",
-    "version": "1.0.0-beta.22",
+    "version": "1.0.0-beta.23",
     "description": "Transaction Builders For Base NFT Transaction Types",
     "license": "CC-BY-NC-SA-4.0",
     "homepage": "https://docs.protokol.com/nft/",
@@ -46,12 +46,12 @@
         "test:unit:coverage": "cross-env jest __tests__/unit --coverage"
     },
     "dependencies": {
-        "@arkecosystem/crypto": "^3.0.0-alpha.2",
-        "@protokol/utils": "^1.0.0-beta.22",
+        "@arkecosystem/crypto": "^3.0.0-alpha.9",
+        "@protokol/utils": "^1.0.0-beta.23",
         "bytebuffer": "^5.0.1"
     },
     "devDependencies": {
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.2",
+        "@arkecosystem/core-kernel": "^3.0.0-alpha.9",
         "@rollup/plugin-babel": "^5.0.4",
         "@rollup/plugin-commonjs": "^13.0.0",
         "@rollup/plugin-inject": "^4.0.2",
