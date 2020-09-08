@@ -1,21 +1,20 @@
 import nock from "nock";
 
-import { mockPagination } from "../pagination";
 export const mockCollections = (host: string) => {
     nock(host)
         .get("/nft/collections")
         .reply(200, {
-            meta: mockPagination(
-                true,
-                1,
-                1,
-                1,
-                null,
-                null,
-                "/nft/collections?page=1&limit=100&transform=true",
-                "/nft/collections?page=1&limit=100&transform=true",
-                "/nft/collections?page=1&limit=100&transform=true",
-            ),
+            meta: {
+                totalCountIsEstimate: true,
+                count: 1,
+                pageCount: 1,
+                totalCount: 1,
+                next: null,
+                previous: null,
+                self: "/nft/collections?page=1&limit=100&transform=true",
+                first: "/nft/collections?page=1&limit=100&transform=true",
+                last: "/nft/collections?page=1&limit=100&transform=true",
+            },
             data: [
                 {
                     id: "e38324971ab923b6d74693448cad180207b4aa99ca4f5c20625dc290cd8b7e55",
@@ -187,17 +186,17 @@ export const mockCollections = (host: string) => {
             },
         })
         .reply(200, {
-            meta: mockPagination(
-                true,
-                1,
-                1,
-                1,
-                null,
-                null,
-                "/nft/collections/search?page=1&limit=100&transform=true",
-                "/nft/collections/search?page=1&limit=100&transform=true",
-                "/nft/collections/search?page=1&limit=100&transform=true",
-            ),
+            meta: {
+                totalCountIsEstimate: true,
+                count: 1,
+                pageCount: 1,
+                totalCount: 1,
+                next: null,
+                previous: null,
+                self: "/nft/collections/search?page=1&limit=100&transform=true",
+                first: "/nft/collections/search?page=1&limit=100&transform=true",
+                last: "/nft/collections/search?page=1&limit=100&transform=true",
+            },
             data: [
                 {
                     id: "e38324971ab923b6d74693448cad180207b4aa99ca4f5c20625dc290cd8b7e55",
@@ -242,17 +241,20 @@ export const mockCollections = (host: string) => {
     nock(host)
         .get("/nft/collections/bc045f0a977d368735030c7eadaa45de5581c1ffb2b0e9e93752c82579c516fe/assets")
         .reply(200, {
-            meta: mockPagination(
-                true,
-                1,
-                1,
-                1,
-                null,
-                null,
-                "/nft/collections/bc045f0a977d368735030c7eadaa45de5581c1ffb2b0e9e93752c82579c516fe/assets?page=1&limit=100&transform=true",
-                "/nft/collections/bc045f0a977d368735030c7eadaa45de5581c1ffb2b0e9e93752c82579c516fe/assets?page=1&limit=100&transform=true",
-                "/nft/collections/bc045f0a977d368735030c7eadaa45de5581c1ffb2b0e9e93752c82579c516fe/assets?page=1&limit=100&transform=true",
-            ),
+            meta: {
+                totalCountIsEstimate: true,
+                count: 1,
+                pageCount: 1,
+                totalCount: 1,
+                next: null,
+                previous: null,
+                self:
+                    "/nft/collections/bc045f0a977d368735030c7eadaa45de5581c1ffb2b0e9e93752c82579c516fe/assets?page=1&limit=100&transform=true",
+                first:
+                    "/nft/collections/bc045f0a977d368735030c7eadaa45de5581c1ffb2b0e9e93752c82579c516fe/assets?page=1&limit=100&transform=true",
+                last:
+                    "/nft/collections/bc045f0a977d368735030c7eadaa45de5581c1ffb2b0e9e93752c82579c516fe/assets?page=1&limit=100&transform=true",
+            },
             data: [
                 {
                     id: "70faaab7da6bf93f4a8b494b66304d7a4841ecae2336ee0a4456e8d796e1d411",

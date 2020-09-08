@@ -1,22 +1,20 @@
 import nock from "nock";
 
-import { mockPagination } from "../pagination";
-
 export const mockTransfers = (host: string) => {
     nock(host)
         .get("/nft/transfers")
         .reply(200, {
-            meta: mockPagination(
-                true,
-                1,
-                1,
-                1,
-                null,
-                null,
-                "/nft/transfers?page=1&limit=100&transform=true",
-                "/nft/transfers?page=1&limit=100&transform=true",
-                "/nft/transfers?page=1&limit=100&transform=true",
-            ),
+            meta: {
+                totalCountIsEstimate: true,
+                count: 1,
+                pageCount: 1,
+                totalCount: 1,
+                next: null,
+                previous: null,
+                self: "/nft/transfers?page=1&limit=100&transform=true",
+                first: "/nft/transfers?page=1&limit=100&transform=true",
+                last: "/nft/transfers?page=1&limit=100&transform=true",
+            },
             data: [
                 {
                     id: "e1bd043715040cc1622ab19a3527bdcb760f5c08764ec0759fa07518902e03fc",
