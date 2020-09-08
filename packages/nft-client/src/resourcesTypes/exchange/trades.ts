@@ -32,9 +32,10 @@ export interface TradeById {
         bid: {
             id: string;
             auctionId: string;
-            bitAmount: string;
+            bidAmount: string;
         };
     };
+    timestamp: Timestamp;
 }
 
 export interface SearchTradesApiBody {

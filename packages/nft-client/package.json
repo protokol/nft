@@ -37,6 +37,7 @@
         "prepublishOnly": "yarn build",
         "prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\"",
         "test": "jest",
+        "test:coverage": "cross-env jest __tests__ --coverage",
         "test:watch": "jest --watchAll"
     },
     "dependencies": {
