@@ -1,6 +1,6 @@
 {
     "name": "@protokol/guardian-transactions",
-    "version": "1.0.0-beta.0",
+    "version": "1.0.0-beta.23",
     "description": "Transaction Types For Guardian Support",
     "license": "CC-BY-NC-SA-4.0",
     "homepage": "https://docs.protokol.com/nft/",
