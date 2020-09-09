@@ -2,10 +2,9 @@ import "@arkecosystem/core-test-framework/src/matchers";
 
 import { Repositories } from "@arkecosystem/core-database";
 import { Container, Contracts } from "@arkecosystem/core-kernel";
-import { ApiHelpers } from "@arkecosystem/core-test-framework/src";
-import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
+import { ApiHelpers, passphrases } from "@arkecosystem/core-test-framework";
 import { Utils } from "@arkecosystem/crypto";
-import { NFTExchangeTransactionFactory } from "@protokol/nft-exchange-transactions/__tests__/functional/transaction-forging/__support__/transaction-factory";
+import { Builders as NFTExchangeBuilders } from "@protokol/nft-exchange-crypto";
 
 import { setUp, tearDown } from "../__support__/setup";
 
@@ -22,13 +21,13 @@ afterAll(async () => await tearDown());
 describe("API - Trades", () => {
     let nftAcceptTrade;
     beforeEach(async () => {
-        nftAcceptTrade = NFTExchangeTransactionFactory.initialize(app)
-            .NFTAcceptTrade({
-                auctionId: "b4a8bd68fcd29f8a9bd927b0448d6900f61944a11543b53d975ec20b080b9429",
-                bidId: "b1b17cf4c4a3461d784170105c146785b398783ad26e3b2dee1a6481310ff24a",
+        nftAcceptTrade = new NFTExchangeBuilders.NftAcceptTradeBuilder()
+            .NFTAcceptTradeAsset({
+                auctionId: "ec0f6ad8ff46c844e25ec31d49e9b166d8a0fef3d365621d39a86d73a244354c",
+                bidId: "c12f814ab08bb82be251622aeb35fd72d9c7632828b91cab38c458ead8c782a9",
             })
-            .withPassphrase(secrets[10])
-            .build()[0];
+            .sign(passphrases[10])
+            .build();
     });
     describe("GET /trades", () => {
         it("should return all trades transactions", async () => {
@@ -53,22 +52,23 @@ describe("API - Trades", () => {
 
     describe("GET /trades/{id}", () => {
         it("should return specific trade by id", async () => {
-            const [auction] = NFTExchangeTransactionFactory.initialize(app)
-                .NFTAuction({
+            const auction = new NFTExchangeBuilders.NFTAuctionBuilder()
+                .NFTAuctionAsset({
                     nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
                     startAmount: Utils.BigNumber.make("1"),
                     expiration: {
                         blockHeight: 1,
                     },
                 })
-                .withPassphrase(secrets[0])
+                .sign(passphrases[0])
                 .build();
-            const [bid] = NFTExchangeTransactionFactory.initialize(app)
-                .NFTBid({
+
+            const bid = new NFTExchangeBuilders.NFTBidBuilder()
+                .NFTBidAsset({
                     auctionId: nftAcceptTrade.data.asset!.nftAcceptTrade.auctionId,
                     bidAmount: Utils.BigNumber.make("1"),
                 })
-                .withPassphrase(secrets[0])
+                .sign(passphrases[0])
                 .build();
 
             const transactionRepository = app.get<Repositories.TransactionRepository>(

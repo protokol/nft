@@ -1,6 +1,5 @@
 import { Application, Container, Contracts, Providers, Services } from "@arkecosystem/core-kernel";
 import { Wallets } from "@arkecosystem/core-state";
-import { publicKeysIndexer } from "@arkecosystem/core-state/src/wallets/indexers/indexers";
 import { passphrases } from "@arkecosystem/core-test-framework";
 import { Handlers } from "@arkecosystem/core-transactions";
 import { Identities, Utils } from "@arkecosystem/crypto";
@@ -14,12 +13,6 @@ export type PaginatedResponse = {
 
 export type ItemResponse = {
     data: object;
-};
-
-export type ErrorResponse = {
-    output: {
-        statusCode: number;
-    };
 };
 
 const logger = {
@@ -114,12 +107,6 @@ export const initApp = (): Application => {
         name: Indexers.NFTIndexers.NFTTokenIndexer,
         indexer: Indexers.nftIndexer,
         autoIndex: false,
-    });
-
-    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
-        name: Contracts.State.WalletIndexes.PublicKeys,
-        indexer: publicKeysIndexer,
-        autoIndex: true,
     });
 
     app.bind(Container.Identifiers.WalletFactory).toFactory<Contracts.State.Wallet>(

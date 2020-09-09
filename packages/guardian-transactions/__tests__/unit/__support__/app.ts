@@ -1,12 +1,6 @@
 import { Application, Container, Contracts, Providers, Services } from "@arkecosystem/core-kernel";
 import { Stores, Wallets } from "@arkecosystem/core-state";
-import {
-    addressesIndexer,
-    ipfsIndexer,
-    locksIndexer,
-    publicKeysIndexer,
-    usernamesIndexer,
-} from "@arkecosystem/core-state/src/wallets/indexers/indexers";
+import { addressesIndexer, publicKeysIndexer } from "@arkecosystem/core-state/src/wallets/indexers/indexers";
 import { Generators, Mocks } from "@arkecosystem/core-test-framework";
 import {
     ApplyTransactionAction,
@@ -65,24 +59,6 @@ export const initApp = (): Application => {
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Contracts.State.WalletIndexes.PublicKeys,
         indexer: publicKeysIndexer,
-        autoIndex: true,
-    });
-
-    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
-        name: Contracts.State.WalletIndexes.Usernames,
-        indexer: usernamesIndexer,
-        autoIndex: true,
-    });
-
-    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
-        name: Contracts.State.WalletIndexes.Ipfs,
-        indexer: ipfsIndexer,
-        autoIndex: true,
-    });
-
-    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
-        name: Contracts.State.WalletIndexes.Locks,
-        indexer: locksIndexer,
         autoIndex: true,
     });
 

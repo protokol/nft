@@ -1,6 +1,5 @@
 import { Application, Container, Contracts, Providers, Services } from "@arkecosystem/core-kernel";
 import { Wallets } from "@arkecosystem/core-state";
-import { publicKeysIndexer } from "@arkecosystem/core-state/src/wallets/indexers/indexers";
 import { Handlers } from "@arkecosystem/core-transactions";
 import { Identities, Utils } from "@arkecosystem/crypto";
 import { Handlers as GuardianHandlers, Indexers } from "@protokol/guardian-transactions";
@@ -106,12 +105,6 @@ export const initApp = (): Application => {
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Indexers.GuardianIndexers.UserPermissionsIndexer,
         indexer: Indexers.guardianUserPermissionIndexer,
-        autoIndex: true,
-    });
-
-    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
-        name: Contracts.State.WalletIndexes.PublicKeys,
-        indexer: publicKeysIndexer,
         autoIndex: true,
     });
 
