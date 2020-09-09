@@ -1,8 +1,7 @@
 import "@arkecosystem/core-test-framework/src/matchers";
 
 import { Container, Contracts } from "@arkecosystem/core-kernel";
-import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
-import { ApiHelpers } from "@arkecosystem/core-test-framework/src";
+import { ApiHelpers } from "@arkecosystem/core-test-framework";
 import { Enums, Interfaces } from "@protokol/guardian-crypto";
 
 import { setUp, tearDown } from "../__support__/setup";
@@ -51,7 +50,7 @@ beforeAll(async () => {
             Interfaces.GuardianGroupPermissionsAsset["name"],
             Interfaces.GuardianGroupPermissionsAsset
         >
-    >(Identifiers.CacheService, "cache", "@protokol/guardian-transactions");
+    >(Container.Identifiers.CacheService, "cache", "@protokol/guardian-transactions");
 
     // set mock groups
     for (const group of groups) {

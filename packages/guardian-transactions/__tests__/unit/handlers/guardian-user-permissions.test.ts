@@ -1,12 +1,10 @@
 import "jest-extended";
 
 import { Application, Container, Contracts, Providers } from "@arkecosystem/core-kernel";
-import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { Wallets } from "@arkecosystem/core-state";
-import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
+import { passphrases } from "@arkecosystem/core-test-framework";
 import { Mempool } from "@arkecosystem/core-transaction-pool";
-import { TransactionHandler } from "@arkecosystem/core-transactions/src/handlers";
-import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
+import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Builders, Enums, Interfaces as GuardianInterfaces } from "@protokol/guardian-crypto";
 
@@ -28,9 +26,9 @@ let senderWallet: Contracts.State.Wallet;
 
 let walletRepository: Wallets.WalletRepository;
 
-let transactionHandlerRegistry: TransactionHandlerRegistry;
+let transactionHandlerRegistry: Handlers.Registry;
 
-let handler: TransactionHandler;
+let handler: Handlers.TransactionHandler;
 
 let actual: Interfaces.ITransaction;
 
@@ -68,9 +66,9 @@ beforeEach(async () => {
 
     senderWallet = buildWallet(app, passphrases[0]);
 
-    walletRepository = app.get<Wallets.WalletRepository>(Identifiers.WalletRepository);
+    walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
-    transactionHandlerRegistry = app.get<TransactionHandlerRegistry>(Identifiers.TransactionHandlerRegistry);
+    transactionHandlerRegistry = app.get<Handlers.Registry>(Container.Identifiers.TransactionHandlerRegistry);
 
     handler = transactionHandlerRegistry.getRegisteredHandlerByType(
         Transactions.InternalTransactionType.from(
@@ -88,7 +86,7 @@ beforeEach(async () => {
             GuardianInterfaces.GuardianGroupPermissionsAsset["name"],
             GuardianInterfaces.GuardianGroupPermissionsAsset
         >
-    >(Identifiers.CacheService);
+    >(Container.Identifiers.CacheService);
     await groupsPermissionsCache.put(
         userPermissions.groups[0],
         {} as GuardianInterfaces.GuardianGroupPermissionsAsset,
@@ -243,7 +241,7 @@ describe("Guardian set user permissions tests", () => {
         });
 
         it("should throw because set user permissions for specified publicKey is already in pool", async () => {
-            await app.get<Mempool>(Identifiers.TransactionPoolMempool).addTransaction(actual);
+            await app.get<Mempool>(Container.Identifiers.TransactionPoolMempool).addTransaction(actual);
 
             const actualTwo = buildUserPermissionsTx(publicKey, undefined, undefined);
             await expect(handler.throwIfCannotEnterPool(actualTwo)).rejects.toThrow();
@@ -253,7 +251,7 @@ describe("Guardian set user permissions tests", () => {
     describe("emitEvents", () => {
         it("should test dispatch", async () => {
             const emitter: Contracts.Kernel.EventDispatcher = app.get<Contracts.Kernel.EventDispatcher>(
-                Identifiers.EventDispatcherService,
+                Container.Identifiers.EventDispatcherService,
             );
 
             const spy = jest.spyOn(emitter, "dispatch");

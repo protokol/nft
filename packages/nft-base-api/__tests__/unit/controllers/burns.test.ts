@@ -1,11 +1,8 @@
 import "jest-extended";
 
 import { Application, Utils } from "@arkecosystem/core-kernel";
-import { Generators } from "@arkecosystem/core-test-framework/src";
-import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
-import { Managers, Transactions } from "@arkecosystem/crypto";
-import { ITransaction } from "@arkecosystem/crypto/src/interfaces";
-import { configManager } from "@arkecosystem/crypto/src/managers";
+import { Generators, passphrases } from "@arkecosystem/core-test-framework";
+import { Interfaces, Managers, Transactions } from "@arkecosystem/crypto";
 import Hapi from "@hapi/hapi";
 import { Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 
@@ -21,13 +18,12 @@ let app: Application;
 
 let burnsController: BurnsController;
 
-let actual: ITransaction;
+let actual: Interfaces.ITransaction;
 
 const timestamp = Utils.formatTimestamp(104930456);
 
 beforeEach(() => {
     const config = Generators.generateCryptoConfigRaw();
-    configManager.setConfig(config);
     Managers.configManager.setConfig(config);
 
     app = initApp();

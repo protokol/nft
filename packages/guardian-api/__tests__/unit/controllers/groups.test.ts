@@ -1,12 +1,9 @@
 import "jest-extended";
 
-import { Application, Contracts } from "@arkecosystem/core-kernel";
-import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
+import { Application, Container, Contracts } from "@arkecosystem/core-kernel";
 import { Wallets } from "@arkecosystem/core-state";
-import { Generators } from "@arkecosystem/core-test-framework/src";
-import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
+import { Generators, passphrases } from "@arkecosystem/core-test-framework";
 import { Managers, Transactions } from "@arkecosystem/crypto";
-import { configManager } from "@arkecosystem/crypto/src/managers";
 import Hapi from "@hapi/hapi";
 import {
     Enums,
@@ -57,12 +54,11 @@ const groups = [
 
 beforeEach(async () => {
     const config = Generators.generateCryptoConfigRaw();
-    configManager.setConfig(config);
     Managers.configManager.setConfig(config);
 
     app = initApp();
 
-    walletRepository = app.get<Wallets.WalletRepository>(Identifiers.WalletRepository);
+    walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
     groupController = app.resolve<GroupsController>(GroupsController);
 
@@ -71,7 +67,7 @@ beforeEach(async () => {
             GuardianInterfaces.GuardianGroupPermissionsAsset["name"],
             GuardianInterfaces.GuardianGroupPermissionsAsset
         >
-    >(Identifiers.CacheService);
+    >(Container.Identifiers.CacheService);
 
     //set mock groups
     for (const group of groups) {

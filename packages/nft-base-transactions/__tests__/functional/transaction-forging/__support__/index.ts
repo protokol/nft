@@ -1,16 +1,13 @@
 import "jest-extended";
 
+import { DatabaseService } from "@arkecosystem/core-database";
 import { Container, Contracts } from "@arkecosystem/core-kernel";
-import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
+import { DatabaseInteraction, StateBuilder } from "@arkecosystem/core-state";
+import { passphrases, Sandbox } from "@arkecosystem/core-test-framework";
 import { Identities, Managers, Utils } from "@arkecosystem/crypto";
 import delay from "delay";
 
 jest.setTimeout(1200000);
-
-import { DatabaseService } from "@arkecosystem/core-database";
-import { DatabaseInteraction } from "@arkecosystem/core-state";
-import { StateBuilder } from "@arkecosystem/core-state/src/state-builder";
-import { Sandbox } from "@arkecosystem/core-test-framework/src";
 
 const sandbox: Sandbox = new Sandbox();
 
@@ -72,7 +69,7 @@ export const setUp = async (): Promise<Contracts.Kernel.Application> => {
         );
 
         await databaseService.saveRound(
-            secrets.map((secret, i) => {
+            passphrases.map((secret, i) => {
                 const wallet = walletRepository.findByPublicKey(Identities.PublicKey.fromPassphrase(secret));
 
                 wallet.setAttribute("delegate", {
@@ -139,9 +136,4 @@ export const tearDown = async (): Promise<void> => {
         .sort(sortWallets)
         .map(mapWallets);
     expect(allByPublicKeyBootstrapped).toEqual(allByPublicKey);
-};
-
-export const passphrases = {
-    passphrase: "this is top secret passphrase number 1",
-    secondPassphrase: "this is top secret passphrase number 2",
 };

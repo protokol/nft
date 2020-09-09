@@ -1,9 +1,8 @@
 import "jest-extended";
 
 import { Application, Container, Contracts, Providers } from "@arkecosystem/core-kernel";
-import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { Wallets } from "@arkecosystem/core-state";
-import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
+import { passphrases } from "@arkecosystem/core-test-framework";
 import { Interfaces } from "@arkecosystem/crypto";
 import { cloneDeep } from "@arkecosystem/utils";
 import { Builders, Enums, Interfaces as GuardianInterfaces } from "@protokol/guardian-crypto";
@@ -55,9 +54,9 @@ beforeEach(() => {
 
     senderWallet = buildWallet(app, passphrases[0]);
 
-    walletRepository = app.get<Wallets.WalletRepository>(Identifiers.WalletRepository);
+    walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
-    app.get(Identifiers.TransactionHandlerRegistry);
+    app.get(Container.Identifiers.TransactionHandlerRegistry);
 
     actual = buildGroupPermissionsTx();
 
@@ -66,7 +65,7 @@ beforeEach(() => {
             GuardianInterfaces.GuardianGroupPermissionsAsset["name"],
             GuardianInterfaces.GuardianGroupPermissionsAsset
         >
-    >(Identifiers.CacheService);
+    >(Container.Identifiers.CacheService);
     permissionResolver = app.get<PermissionResolver>(GuardianIdentifiers.PermissionsResolver);
     app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set(
         "defaultRuleBehaviour",

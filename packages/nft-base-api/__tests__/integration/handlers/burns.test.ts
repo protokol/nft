@@ -2,9 +2,8 @@ import "@arkecosystem/core-test-framework/src/matchers";
 
 import { Repositories } from "@arkecosystem/core-database";
 import { Container, Contracts } from "@arkecosystem/core-kernel";
-import { ApiHelpers } from "@arkecosystem/core-test-framework/src";
-import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
-import { NFTBaseTransactionFactory } from "@protokol/nft-base-transactions/__tests__/functional/transaction-forging/__support__/transaction-factory";
+import { ApiHelpers, passphrases } from "@arkecosystem/core-test-framework";
+import { Builders as NFTBuilders } from "@protokol/nft-base-crypto";
 
 import { setUp, tearDown } from "../__support__/setup";
 
@@ -21,12 +20,12 @@ afterAll(async () => await tearDown());
 describe("API - Burns", () => {
     let nftBurn;
     beforeEach(async () => {
-        nftBurn = NFTBaseTransactionFactory.initialize(app)
-            .NFTBurn({
+        nftBurn = new NFTBuilders.NFTBurnBuilder()
+            .NFTBurnAsset({
                 nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
             })
-            .withPassphrase(secrets[0])
-            .build()[0];
+            .sign(passphrases[0])
+            .build();
     });
     describe("GET /burns", () => {
         it("should return all burn transactions", async () => {

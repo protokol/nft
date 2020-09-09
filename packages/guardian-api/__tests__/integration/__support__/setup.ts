@@ -1,5 +1,5 @@
 import { Utils as AppUtils } from "@arkecosystem/core-kernel";
-import { Sandbox } from "@arkecosystem/core-test-framework/src";
+import { Sandbox } from "@arkecosystem/core-test-framework";
 import { Managers } from "@arkecosystem/crypto";
 
 const sandbox: Sandbox = new Sandbox();
