@@ -4,9 +4,9 @@ import { Container, Contracts } from "@arkecosystem/core-kernel";
 import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { ApiHelpers } from "@arkecosystem/core-test-framework/src";
 import { Enums, Interfaces } from "@protokol/guardian-crypto";
+import { Indexers } from "@protokol/guardian-transactions";
 
 import { setUp, tearDown } from "../__support__/setup";
-import { GuardianIndexers } from "../../../../guardian-transactions/src/wallet-indexes";
 
 let app: Contracts.Kernel.Application;
 let api: ApiHelpers;
@@ -79,7 +79,7 @@ beforeAll(async () => {
     for (let i = 0; i < users.length; i++) {
         const wallet: Contracts.State.Wallet = walletRepository.findByPublicKey(users[i].publicKey);
         wallet.setAttribute("guardian.userPermissions", users[i]);
-        walletRepository.getIndex(GuardianIndexers.UserPermissionsIndexer).index(wallet);
+        walletRepository.getIndex(Indexers.GuardianIndexers.UserPermissionsIndexer).index(wallet);
         await groupsPermissionsCache.put(
             users[i].groups[0],
             groups[users[i].groups[0]] as Interfaces.GuardianGroupPermissionsAsset,

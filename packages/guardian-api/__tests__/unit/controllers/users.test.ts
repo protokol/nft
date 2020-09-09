@@ -13,9 +13,9 @@ import {
     Interfaces as GuardianInterfaces,
     Transactions as GuardianTransactions,
 } from "@protokol/guardian-crypto";
+import { Indexers } from "@protokol/guardian-transactions";
 
 import { buildWallet, CollectionResponse, ErrorResponse, initApp, ItemResponse } from "../__support__";
-import { GuardianIndexers } from "../../../../guardian-transactions/src/wallet-indexes";
 import { UsersController } from "../../../src/controllers/users";
 
 let userController: UsersController;
@@ -87,7 +87,7 @@ beforeEach(async () => {
     for (let i = 0; i < users.length; i++) {
         const wallet = buildWallet(app, passphrases[i]);
         wallet.setAttribute("guardian.userPermissions", users[i]);
-        walletRepository.getIndex(GuardianIndexers.UserPermissionsIndexer).index(wallet);
+        walletRepository.getIndex(Indexers.GuardianIndexers.UserPermissionsIndexer).index(wallet);
         users[i].publicKey = wallet.publicKey;
         await groupsPermissionsCache.put(
             users[i].groups[0],
