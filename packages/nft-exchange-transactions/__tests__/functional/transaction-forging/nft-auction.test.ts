@@ -1,10 +1,8 @@
 import "@arkecosystem/core-test-framework/src/matchers";
 
 import { Contracts } from "@arkecosystem/core-kernel";
-import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
-import { snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework/src/utils";
+import { passphrases, snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework";
 import { Identities, Utils } from "@arkecosystem/crypto";
-import { NFTBaseTransactionFactory } from "@protokol/nft-base-transactions/__tests__/functional/transaction-forging/__support__/transaction-factory";
 import { generateMnemonic } from "bip39";
 
 import * as support from "./__support__";
@@ -19,7 +17,7 @@ describe("NFT Auction functional tests", () => {
     describe("Signed with one passphrase", () => {
         it("should broadcast, accept and forge it [Signed with 1 Passphrase]", async () => {
             // Register collection
-            const nftRegisteredCollection = NFTBaseTransactionFactory.initialize(app)
+            const nftRegisteredCollection = NFTExchangeTransactionFactory.initialize(app)
                 .NFTRegisterCollection({
                     name: "Nft card",
                     description: "Nft card description",
@@ -41,7 +39,7 @@ describe("NFT Auction functional tests", () => {
                         },
                     },
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             collectionId = nftRegisteredCollection.id;
@@ -51,7 +49,7 @@ describe("NFT Auction functional tests", () => {
             await expect(nftRegisteredCollection.id).toBeForged();
 
             // Create token
-            const nftCreate = NFTBaseTransactionFactory.initialize(app)
+            const nftCreate = NFTExchangeTransactionFactory.initialize(app)
                 .NFTCreate({
                     collectionId: nftRegisteredCollection.id!,
                     attributes: {
@@ -61,7 +59,7 @@ describe("NFT Auction functional tests", () => {
                         mana: 2,
                     },
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftCreate).toBeAccepted();
@@ -77,7 +75,7 @@ describe("NFT Auction functional tests", () => {
                     startAmount: Utils.BigNumber.make("1"),
                     nftIds: [nftCreate.id!],
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftAuction).toBeAccepted();
@@ -87,7 +85,7 @@ describe("NFT Auction functional tests", () => {
 
         it("should not accept second auction", async () => {
             // Create token
-            const nftCreate = NFTBaseTransactionFactory.initialize(app)
+            const nftCreate = NFTExchangeTransactionFactory.initialize(app)
                 .NFTCreate({
                     collectionId: collectionId,
                     attributes: {
@@ -97,7 +95,7 @@ describe("NFT Auction functional tests", () => {
                         mana: 2,
                     },
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftCreate).toBeAccepted();
@@ -113,7 +111,7 @@ describe("NFT Auction functional tests", () => {
                     startAmount: Utils.BigNumber.make("1"),
                     nftIds: [nftCreate.id!],
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftAuction).toBeAccepted();
@@ -129,7 +127,7 @@ describe("NFT Auction functional tests", () => {
                     startAmount: Utils.BigNumber.make("1"),
                     nftIds: [nftCreate.id!],
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftAuctionTwo).not.toBeAccepted();
@@ -139,7 +137,7 @@ describe("NFT Auction functional tests", () => {
 
         it("should reject second auction because auction for nft is in pool", async () => {
             // Create token
-            const nftCreate = NFTBaseTransactionFactory.initialize(app)
+            const nftCreate = NFTExchangeTransactionFactory.initialize(app)
                 .NFTCreate({
                     collectionId: collectionId,
                     attributes: {
@@ -149,7 +147,7 @@ describe("NFT Auction functional tests", () => {
                         mana: 2,
                     },
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftCreate).toBeAccepted();
@@ -165,7 +163,7 @@ describe("NFT Auction functional tests", () => {
                     startAmount: Utils.BigNumber.make("1"),
                     nftIds: [nftCreate.id!],
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             // Create auction
@@ -178,7 +176,7 @@ describe("NFT Auction functional tests", () => {
                     nftIds: [nftCreate.id!],
                 })
                 .withNonce(nftAuction.nonce!.plus(1))
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect([nftAuction, nftAuctionTwo]).not.toBeAllAccepted();
@@ -189,7 +187,7 @@ describe("NFT Auction functional tests", () => {
 
         it("should reject nft transfer because nft is on auction", async () => {
             // Create token
-            const nftCreate = NFTBaseTransactionFactory.initialize(app)
+            const nftCreate = NFTExchangeTransactionFactory.initialize(app)
                 .NFTCreate({
                     collectionId: collectionId,
                     attributes: {
@@ -199,7 +197,7 @@ describe("NFT Auction functional tests", () => {
                         mana: 2,
                     },
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftCreate).toBeAccepted();
@@ -215,17 +213,17 @@ describe("NFT Auction functional tests", () => {
                     startAmount: Utils.BigNumber.make("1"),
                     nftIds: [nftCreate.id!],
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             // Transfer token
-            const nftTransfer = NFTBaseTransactionFactory.initialize(app)
+            const nftTransfer = NFTExchangeTransactionFactory.initialize(app)
                 .NFTTransfer({
                     nftIds: [nftCreate.id!],
-                    recipientId: Identities.Address.fromPassphrase(secrets[2]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[2]),
                 })
                 .withNonce(nftAuction.nonce!.plus(1))
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect([nftAuction, nftTransfer]).not.toBeAllAccepted();
@@ -236,7 +234,7 @@ describe("NFT Auction functional tests", () => {
 
         it("should reject nft burn because nft is on auction", async () => {
             // Create token
-            const nftCreate = NFTBaseTransactionFactory.initialize(app)
+            const nftCreate = NFTExchangeTransactionFactory.initialize(app)
                 .NFTCreate({
                     collectionId: collectionId,
                     attributes: {
@@ -246,7 +244,7 @@ describe("NFT Auction functional tests", () => {
                         mana: 2,
                     },
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftCreate).toBeAccepted();
@@ -262,16 +260,16 @@ describe("NFT Auction functional tests", () => {
                     startAmount: Utils.BigNumber.make("1"),
                     nftIds: [nftCreate.id!],
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             // Burn token
-            const nftBurn = NFTBaseTransactionFactory.initialize(app)
+            const nftBurn = NFTExchangeTransactionFactory.initialize(app)
                 .NFTBurn({
                     nftId: nftCreate.id!,
                 })
                 .withNonce(nftAuction.nonce!.plus(1))
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect([nftAuction, nftBurn]).not.toBeAllAccepted();
@@ -290,7 +288,7 @@ describe("NFT Auction functional tests", () => {
             // Initial Funds
             const initialFunds = TransactionFactory.initialize(app)
                 .transfer(Identities.Address.fromPassphrase(passphrase), 150 * 1e8)
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(initialFunds).toBeAccepted();
@@ -308,7 +306,7 @@ describe("NFT Auction functional tests", () => {
             await expect(secondSignature.id).toBeForged();
 
             // Create Token
-            const nftCreate = NFTBaseTransactionFactory.initialize(app)
+            const nftCreate = NFTExchangeTransactionFactory.initialize(app)
                 .NFTCreate({
                     collectionId: collectionId,
                     attributes: {
@@ -348,17 +346,17 @@ describe("NFT Auction functional tests", () => {
     describe("Signed with multi signature [3 of 3]", () => {
         // Register a multi signature wallet with defaults
         const passphrase = generateMnemonic();
-        const passphrases = [passphrase, secrets[4], secrets[5]];
+        const secrets = [passphrase, passphrases[4], passphrases[5]];
         const participants = [
-            Identities.PublicKey.fromPassphrase(passphrases[0]),
-            Identities.PublicKey.fromPassphrase(passphrases[1]),
-            Identities.PublicKey.fromPassphrase(passphrases[2]),
+            Identities.PublicKey.fromPassphrase(secrets[0]),
+            Identities.PublicKey.fromPassphrase(secrets[1]),
+            Identities.PublicKey.fromPassphrase(secrets[2]),
         ];
         it("should broadcast, accept and forge it [3-of-3 multisig] ", async () => {
             // Funds to register a multi signature wallet
             const initialFunds = TransactionFactory.initialize(app)
                 .transfer(Identities.Address.fromPassphrase(passphrase), 50 * 1e8)
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(initialFunds).toBeAccepted();
@@ -369,7 +367,7 @@ describe("NFT Auction functional tests", () => {
             const multiSignature = TransactionFactory.initialize(app)
                 .multiSignature(participants, 3)
                 .withPassphrase(passphrase)
-                .withPassphraseList(passphrases)
+                .withPassphraseList(secrets)
                 .createOne();
 
             await expect(multiSignature).toBeAccepted();
@@ -384,7 +382,7 @@ describe("NFT Auction functional tests", () => {
 
             const multiSignatureFunds = TransactionFactory.initialize(app)
                 .transfer(multiSigAddress, 100 * 1e8)
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(multiSignatureFunds).toBeAccepted();
@@ -392,7 +390,7 @@ describe("NFT Auction functional tests", () => {
             await expect(multiSignatureFunds.id).toBeForged();
 
             // Create Token
-            const nftCreate = NFTBaseTransactionFactory.initialize(app)
+            const nftCreate = NFTExchangeTransactionFactory.initialize(app)
                 .NFTCreate({
                     collectionId: collectionId,
                     attributes: {
@@ -403,7 +401,7 @@ describe("NFT Auction functional tests", () => {
                     },
                 })
                 .withSenderPublicKey(multiSigPublicKey)
-                .withPassphraseList(passphrases)
+                .withPassphraseList(secrets)
                 .createOne();
 
             await expect(nftCreate).toBeAccepted();
@@ -420,7 +418,7 @@ describe("NFT Auction functional tests", () => {
                     nftIds: [nftCreate.id!],
                 })
                 .withSenderPublicKey(multiSigPublicKey)
-                .withPassphraseList(passphrases)
+                .withPassphraseList(secrets)
                 .createOne();
 
             await expect(nftAuction).toBeAccepted();
