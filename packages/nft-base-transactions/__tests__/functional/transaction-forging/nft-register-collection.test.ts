@@ -1,4 +1,4 @@
-import "@arkecosystem/core-test-framework/src/matchers";
+import "@arkecosystem/core-test-framework/dist/matchers";
 
 import { Container, Contracts, Services } from "@arkecosystem/core-kernel";
 import { passphrases, snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework";
