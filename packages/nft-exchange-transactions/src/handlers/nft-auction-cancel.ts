@@ -201,12 +201,6 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
 
         this.walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).set(nftAuctionCancelAsset.auctionId, sender);
 
-<<<<<<< HEAD
-        for (const nftId of auctionsWalletAsset[nftAuctionCancelAsset.auctionId].nftIds) {
-            this.walletRepository.getIndex(NFTBaseIndexers.NFTIndexers.NFTTokenIndexer).set(nftId, sender);
-        }
-=======
->>>>>>> a131c83d420f0e0c10649b72ef01c2eaef9b3693
         for (const bidId of auctionsWalletAsset[nftAuctionCancelAsset.auctionId].bids) {
             this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).set(bidId, sender);
         }
