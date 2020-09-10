@@ -11,7 +11,6 @@ import { INFTAuctions } from "../interfaces";
 import { NFTExchangeIndexers } from "../wallet-indexes";
 import { NFTAuctionHandler } from "./nft-auction";
 import { NFTExchangeTransactionHandler } from "./nft-exchange-handler";
-import { Indexers as NFTBaseIndexers } from "@protokol/nft-base-transactions";
 
 @Container.injectable()
 export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
