@@ -14,6 +14,8 @@ export interface ExchangeConfigurations {
         };
     };
     transactions: {
-        defaults: {};
+        defaults: {
+            feeType: number;
+        };
     };
 }

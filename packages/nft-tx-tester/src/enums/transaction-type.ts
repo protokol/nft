@@ -20,4 +20,6 @@ export enum TransactionType {
     NFTBid,
     NftCancelBid,
     NFTAcceptTrade,
+    GuardianGroupPermissions,
+    GuardianUserPermissions,
 }

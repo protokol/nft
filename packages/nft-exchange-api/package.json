@@ -1,6 +1,6 @@
 {
     "name": "@protokol/nft-exchange-api",
-    "version": "1.0.0-beta.22",
+    "version": "1.0.0-beta.23",
     "description": "REST API For Exchange NFT Functionality",
     "license": "CC-BY-NC-SA-4.0",
     "homepage": "https://docs.protokol.com/nft/",
@@ -41,17 +41,17 @@
         "test:integration:coverage": "cross-env CORE_ENV=test jest __tests__/integration --coverage --runInBand --forceExit"
     },
     "dependencies": {
-        "@arkecosystem/core-api": "^3.0.0-alpha.2",
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.2",
+        "@arkecosystem/core-api": "^3.0.0-alpha.9",
+        "@arkecosystem/core-kernel": "^3.0.0-alpha.9",
         "@hapi/boom": "^9.0.0",
         "@hapi/hapi": "^19.0.0",
         "@hapi/joi": "^17.1.0",
-        "@protokol/nft-exchange-transactions": "^1.0.0-beta.22",
+        "@protokol/nft-exchange-transactions": "^1.0.0-beta.23",
         "latest-version": "^5.1.0"
     },
     "devDependencies": {
-        "@arkecosystem/crypto": "^3.0.0-alpha.2",
-        "@protokol/nft-base-transactions": "^1.0.0-beta.22",
+        "@arkecosystem/crypto": "^3.0.0-alpha.9",
+        "@protokol/nft-base-transactions": "^1.0.0-beta.23",
         "@types/hapi__boom": "^7.4.1",
         "@types/hapi__joi": "^16.0.4",
         "@types/prettier": "^2.0.0",

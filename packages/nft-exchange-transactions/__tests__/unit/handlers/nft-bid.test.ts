@@ -31,7 +31,7 @@ let bidWallet: Contracts.State.Wallet;
 
 let auctionWallet: Contracts.State.Wallet;
 
-let walletRepository: Contracts.State.WalletRepository;
+let walletRepository: Wallets.WalletRepository;
 
 let transactionHandlerRegistry: TransactionHandlerRegistry;
 
