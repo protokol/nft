@@ -10,6 +10,7 @@ import { Builders, Enums, Interfaces as GuardianInterfaces } from "@protokol/gua
 
 import { Identifiers as GuardianIdentifiers } from "../../src/interfaces";
 import { PermissionResolver } from "../../src/permission-resolver";
+import { GuardianIndexers } from "../../src/wallet-indexes";
 import { buildWallet, initApp } from "./__support__/app";
 import { deregisterTransactions } from "./utils/utils";
 
@@ -165,7 +166,7 @@ describe("Guardian permission resolver tests", () => {
                 permissions: cloneDeep(groupPermissionsAsset.permissions),
             };
             senderWallet.setAttribute("guardian.userPermissions", userPermissions);
-            walletRepository.index(senderWallet);
+            walletRepository.getIndex(GuardianIndexers.UserPermissionsIndexer).index(senderWallet);
 
             const isTxAllowed = await permissionResolver.resolve(actual);
 
@@ -179,7 +180,7 @@ describe("Guardian permission resolver tests", () => {
             };
             userPermissions.permissions[0].kind = Enums.PermissionKind.Deny;
             senderWallet.setAttribute("guardian.userPermissions", userPermissions);
-            walletRepository.index(senderWallet);
+            walletRepository.getIndex(GuardianIndexers.UserPermissionsIndexer).index(senderWallet);
 
             const isTxAllowed = await permissionResolver.resolve(actual);
 
@@ -195,7 +196,7 @@ describe("Guardian permission resolver tests", () => {
                 permissions: [],
             };
             senderWallet.setAttribute("guardian.userPermissions", userPermissions);
-            walletRepository.index(senderWallet);
+            walletRepository.getIndex(GuardianIndexers.UserPermissionsIndexer).index(senderWallet);
 
             const isTxAllowed = await permissionResolver.resolve(actual);
 
@@ -210,7 +211,7 @@ describe("Guardian permission resolver tests", () => {
                 permissions: [],
             };
             senderWallet.setAttribute("guardian.userPermissions", userPermissions);
-            walletRepository.index(senderWallet);
+            walletRepository.getIndex(GuardianIndexers.UserPermissionsIndexer).index(senderWallet);
 
             const isTxAllowed = await permissionResolver.resolve(actual);
 
@@ -223,7 +224,7 @@ describe("Guardian permission resolver tests", () => {
                 permissions: [],
             };
             senderWallet.setAttribute("guardian.userPermissions", userPermissions);
-            walletRepository.index(senderWallet);
+            walletRepository.getIndex(GuardianIndexers.UserPermissionsIndexer).index(senderWallet);
 
             const isTxAllowed = await permissionResolver.resolve(actual);
 

@@ -4,6 +4,7 @@ import { Container, Contracts } from "@arkecosystem/core-kernel";
 import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
 import { ApiHelpers } from "@arkecosystem/core-test-framework/src";
 import { Enums, Interfaces } from "@protokol/guardian-crypto";
+import { Indexers } from "@protokol/guardian-transactions";
 
 import { setUp, tearDown } from "../__support__/setup";
 
@@ -100,7 +101,7 @@ describe("API - Groups", () => {
             };
             const wallet = walletRepository.findByPublicKey(publicKey);
             wallet.setAttribute("guardian.userPermissions", user);
-            walletRepository.index(wallet);
+            walletRepository.getIndex(Indexers.GuardianIndexers.UserPermissionsIndexer).index(wallet);
 
             const response = await api.request("GET", `guardian/groups/${groups[0].name}/users`);
 
