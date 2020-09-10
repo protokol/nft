@@ -23,6 +23,7 @@ export const setUp = async (): Promise<Contracts.Kernel.Application> => {
         peers: {
             list: [{ ip: "127.0.0.1", port: 4000 }],
         },
+        app: require("./app.json"),
     });
     await sandbox.boot(async ({ app }) => {
         await app.bootstrap({
@@ -31,25 +32,6 @@ export const setUp = async (): Promise<Contracts.Kernel.Application> => {
                 network: "unitnet",
                 env: "test",
                 processType: "core",
-            },
-            plugins: {
-                include: [
-                    "@arkecosystem/core-state",
-                    "@arkecosystem/core-database",
-                    "@arkecosystem/core-transactions",
-                    "@arkecosystem/core-magistrate-transactions",
-                    "@protokol/guardian-transactions",
-                    "@arkecosystem/core-transaction-pool",
-                    "@arkecosystem/core-p2p",
-                    "@arkecosystem/core-blockchain",
-                    "@arkecosystem/core-api",
-                    "@arkecosystem/core-forger",
-                ],
-                options: {
-                    "@arkecosystem/core-blockchain": {
-                        networkStart: true,
-                    },
-                },
             },
         });
 
