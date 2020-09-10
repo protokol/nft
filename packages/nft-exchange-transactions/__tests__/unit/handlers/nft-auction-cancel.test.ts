@@ -11,7 +11,6 @@ import { Builders as NFTBuilders, Enums } from "@protokol/nft-exchange-crypto";
 
 import { setMockFindByIds, setMockTransactions } from "../__mocks__/transaction-repository";
 import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
-import { NFTIndexers } from "../../../../nft-base-transactions/src/wallet-indexes";
 import { NFTExchangeAuctionCancelCannotCancel } from "../../../src/errors";
 import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
