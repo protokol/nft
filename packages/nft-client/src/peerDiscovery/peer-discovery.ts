@@ -81,7 +81,22 @@ export class PeerDiscovery {
             opts.timeout = 3000;
         }
 
-        const seed: IPeer = this.seeds[Math.floor(Math.random() * this.seeds.length)];
+        const selectProperPeer = (): IPeer => {
+            const peer = this.seeds[Math.floor(Math.random() * this.seeds.length)];
+            let peerApiPort: number;
+            if (peer.ports) {
+                peerApiPort = peer.ports["@arkecosystem/core-api"];
+                if (peerApiPort) {
+                    return peer;
+                } else {
+                    return selectProperPeer();
+                }
+            } else {
+                return selectProperPeer();
+            }
+        };
+
+        const seed: IPeer = selectProperPeer();
 
         const body: any = await ky(`http://${seed.ip}:${seed.ports!["@arkecosystem/core-api"]}/api/peers`, {
             ...opts,
