@@ -3,6 +3,7 @@ import "@arkecosystem/core-test-framework/dist/matchers";
 import { Container, Contracts } from "@arkecosystem/core-kernel";
 import { ApiHelpers } from "@arkecosystem/core-test-framework";
 import { Enums, Interfaces } from "@protokol/guardian-crypto";
+import { Indexers } from "@protokol/guardian-transactions";
 
 import { setUp, tearDown } from "../__support__/setup";
 
@@ -77,7 +78,7 @@ beforeAll(async () => {
     for (let i = 0; i < users.length; i++) {
         const wallet: Contracts.State.Wallet = walletRepository.findByPublicKey(users[i].publicKey);
         wallet.setAttribute("guardian.userPermissions", users[i]);
-        walletRepository.index(wallet);
+        walletRepository.getIndex(Indexers.GuardianIndexers.UserPermissionsIndexer).index(wallet);
         await groupsPermissionsCache.put(
             users[i].groups[0],
             groups[users[i].groups[0]] as Interfaces.GuardianGroupPermissionsAsset,

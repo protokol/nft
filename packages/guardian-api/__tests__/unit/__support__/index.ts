@@ -105,7 +105,7 @@ export const initApp = (): Application => {
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Indexers.GuardianIndexers.UserPermissionsIndexer,
         indexer: Indexers.guardianUserPermissionIndexer,
-        autoIndex: true,
+        autoIndex: false,
     });
 
     app.bind(Container.Identifiers.WalletFactory).toFactory<Contracts.State.Wallet>(

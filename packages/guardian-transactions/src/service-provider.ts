@@ -33,7 +33,7 @@ export class ServiceProvider extends Providers.ServiceProvider {
             .toConstantValue({
                 name: GuardianIndexers.UserPermissionsIndexer,
                 indexer: guardianUserPermissionIndexer,
-                autoIndex: true,
+                autoIndex: false,
             });
     }
 

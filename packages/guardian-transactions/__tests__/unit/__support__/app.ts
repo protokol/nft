@@ -155,7 +155,7 @@ export const initApp = (): Application => {
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: GuardianIndexers.UserPermissionsIndexer,
         indexer: guardianUserPermissionIndexer,
-        autoIndex: true,
+        autoIndex: false,
     });
 
     transactionHistoryService.findManyByCriteria.mockReset();
