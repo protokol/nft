@@ -17,4 +17,5 @@ export class NFTConnection extends Connection {
         const selectedResourceClass = NFTExchangeResources[name.toLowerCase() as NFTExchangeAvailableResourcesName];
         return new selectedResourceClass(this) as NFTExchangeAvailableResource<T>;
     }
+
 }
