@@ -1,13 +1,10 @@
 import "jest-extended";
 
-import { Application } from "@arkecosystem/core-kernel";
-import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
-import { Generators } from "@arkecosystem/core-test-framework/src";
+import { Application, Container } from "@arkecosystem/core-kernel";
+import { Generators } from "@arkecosystem/core-test-framework";
 import { Managers, Transactions } from "@arkecosystem/crypto";
-import { configManager } from "@arkecosystem/crypto/src/managers";
 import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
-import { Defaults as CryptoDefaults } from "@protokol/nft-exchange-crypto";
-import { Transactions as ExchangeTransactions } from "@protokol/nft-exchange-crypto";
+import { Defaults as CryptoDefaults, Transactions as ExchangeTransactions } from "@protokol/nft-exchange-crypto";
 import { Defaults as TransactionsDefaults } from "@protokol/nft-exchange-transactions";
 import latestVersion from "latest-version";
 
@@ -26,7 +23,6 @@ let app: Application;
 
 beforeEach(() => {
     const config = Generators.generateCryptoConfigRaw();
-    configManager.setConfig(config);
     Managers.configManager.setConfig(config);
 
     app = initApp();
@@ -35,7 +31,7 @@ beforeEach(() => {
     transactionHistoryService.findOneByCriteria.mockReset();
     transactionHistoryService.listByCriteria.mockReset();
 
-    app.bind(Identifiers.TransactionHistoryService).toConstantValue(transactionHistoryService);
+    app.bind(Container.Identifiers.TransactionHistoryService).toConstantValue(transactionHistoryService);
 
     configurationsController = app.resolve<ConfigurationsController>(ConfigurationsController);
 });

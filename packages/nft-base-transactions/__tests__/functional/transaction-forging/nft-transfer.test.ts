@@ -1,8 +1,7 @@
-import "@arkecosystem/core-test-framework/src/matchers";
+import "@arkecosystem/core-test-framework/dist/matchers";
 
 import { Container, Contracts, Services } from "@arkecosystem/core-kernel";
-import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
-import { snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework/src/utils";
+import { passphrases, snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework";
 import { Identities, Interfaces } from "@arkecosystem/crypto";
 import { generateMnemonic } from "bip39";
 
@@ -51,7 +50,7 @@ describe("NFT Transfer Functional Tests", () => {
                         },
                     },
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .withNetworkConfig(networkConfig)
                 .createOne();
 
@@ -72,7 +71,7 @@ describe("NFT Transfer Functional Tests", () => {
                         mana: 2,
                     },
                 })
-                .withPassphrase(secrets[1])
+                .withPassphrase(passphrases[1])
                 .createOne();
 
             await expect(nftCreate).toBeAccepted();
@@ -85,9 +84,9 @@ describe("NFT Transfer Functional Tests", () => {
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
                     nftIds: [nftCreate.id!],
-                    recipientId: Identities.Address.fromPassphrase(secrets[2]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[2]),
                 })
-                .withPassphrase(secrets[1])
+                .withPassphrase(passphrases[1])
                 .createOne();
 
             await expect(nftTransfer).toBeAccepted();
@@ -100,9 +99,9 @@ describe("NFT Transfer Functional Tests", () => {
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
                     nftIds: [nftCreateId],
-                    recipientId: Identities.Address.fromPassphrase(secrets[2]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[2]),
                 })
-                .withPassphrase(secrets[2])
+                .withPassphrase(passphrases[2])
                 .createOne();
 
             await expect(nftTransfer).toBeAccepted();
@@ -115,9 +114,9 @@ describe("NFT Transfer Functional Tests", () => {
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
                     nftIds: [nftCreateId],
-                    recipientId: Identities.Address.fromPassphrase(secrets[2]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[2]),
                 })
-                .withPassphrase(secrets[1])
+                .withPassphrase(passphrases[1])
                 .createOne();
 
             await expect(nftTransfer).not.toBeAccepted();
@@ -130,19 +129,19 @@ describe("NFT Transfer Functional Tests", () => {
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
                     nftIds: [nftCreateId],
-                    recipientId: Identities.Address.fromPassphrase(secrets[2]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[2]),
                 })
-                .withPassphrase(secrets[2])
+                .withPassphrase(passphrases[2])
                 .createOne();
             // Transfer token
             const nftTransfer2 = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
                     nftIds: [nftCreateId],
-                    recipientId: Identities.Address.fromPassphrase(secrets[2]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[2]),
                 })
                 // @ts-ignore
                 .withNonce(nftTransfer.nonce.plus(1))
-                .withPassphrase(secrets[2])
+                .withPassphrase(passphrases[2])
                 .createOne();
 
             await expect([nftTransfer, nftTransfer2]).not.toBeAllAccepted();
@@ -163,7 +162,7 @@ describe("NFT Transfer Functional Tests", () => {
                         mana: 2,
                     },
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftCreate).toBeAccepted();
@@ -175,17 +174,17 @@ describe("NFT Transfer Functional Tests", () => {
                 .NFTBurn({
                     nftId: nftCreate.id!,
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             // Transfer token
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
                     nftIds: [nftCreate.id!],
-                    recipientId: Identities.Address.fromPassphrase(secrets[2]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[2]),
                 })
                 .withNonce(nftBurn.nonce!.plus(1))
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect([nftBurn, nftTransfer]).not.toBeAllAccepted();
@@ -204,7 +203,7 @@ describe("NFT Transfer Functional Tests", () => {
             // Initial Funds
             const initialFunds = TransactionFactory.initialize(app)
                 .transfer(Identities.Address.fromPassphrase(passphrase), 150 * 1e8)
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(initialFunds).toBeAccepted();
@@ -244,7 +243,7 @@ describe("NFT Transfer Functional Tests", () => {
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
                     nftIds: [nftCreate.id!],
-                    recipientId: Identities.Address.fromPassphrase(secrets[2]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[2]),
                 })
                 .withPassphrase(passphrase)
                 .withSecondPassphrase(secondPassphrase)
@@ -259,17 +258,17 @@ describe("NFT Transfer Functional Tests", () => {
     describe("Signed with multi signature [3 of 3]", () => {
         // Register a multi signature wallet with defaults
         const passphrase = generateMnemonic();
-        const passphrases = [passphrase, secrets[4], secrets[5]];
+        const secrets = [passphrase, passphrases[4], passphrases[5]];
         const participants = [
-            Identities.PublicKey.fromPassphrase(passphrases[0]),
-            Identities.PublicKey.fromPassphrase(passphrases[1]),
-            Identities.PublicKey.fromPassphrase(passphrases[2]),
+            Identities.PublicKey.fromPassphrase(secrets[0]),
+            Identities.PublicKey.fromPassphrase(secrets[1]),
+            Identities.PublicKey.fromPassphrase(secrets[2]),
         ];
         it("should broadcast, accept and forge it [3-of-3 multisig] ", async () => {
             // Funds to register a multi signature wallet
             const initialFunds = TransactionFactory.initialize(app)
                 .transfer(Identities.Address.fromPassphrase(passphrase), 50 * 1e8)
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(initialFunds).toBeAccepted();
@@ -280,7 +279,7 @@ describe("NFT Transfer Functional Tests", () => {
             const multiSignature = TransactionFactory.initialize(app)
                 .multiSignature(participants, 3)
                 .withPassphrase(passphrase)
-                .withPassphraseList(passphrases)
+                .withPassphraseList(secrets)
                 .createOne();
 
             await expect(multiSignature).toBeAccepted();
@@ -295,7 +294,7 @@ describe("NFT Transfer Functional Tests", () => {
 
             const multiSignatureFunds = TransactionFactory.initialize(app)
                 .transfer(multiSigAddress, 100 * 1e8)
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(multiSignatureFunds).toBeAccepted();
@@ -314,7 +313,7 @@ describe("NFT Transfer Functional Tests", () => {
                     },
                 })
                 .withSenderPublicKey(multiSigPublicKey)
-                .withPassphraseList(passphrases)
+                .withPassphraseList(secrets)
                 .createOne();
 
             await expect(nftCreate).toBeAccepted();
@@ -325,10 +324,10 @@ describe("NFT Transfer Functional Tests", () => {
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
                     nftIds: [nftCreate.id!],
-                    recipientId: Identities.Address.fromPassphrase(secrets[2]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[2]),
                 })
                 .withSenderPublicKey(multiSigPublicKey)
-                .withPassphraseList(passphrases)
+                .withPassphraseList(secrets)
                 .createOne();
 
             await expect(nftTransfer).toBeAccepted();

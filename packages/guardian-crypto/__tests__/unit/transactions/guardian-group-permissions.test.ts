@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
+import { passphrases } from "@arkecosystem/core-test-framework";
 import { Managers, Transactions } from "@arkecosystem/crypto";
 
 import { GuardianGroupPermissionsBuilder } from "../../../src/builders";

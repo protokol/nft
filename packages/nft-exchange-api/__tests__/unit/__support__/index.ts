@@ -1,15 +1,9 @@
 import { Application, Container, Contracts, Providers, Services } from "@arkecosystem/core-kernel";
-import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
-import { MemoryCacheStore } from "@arkecosystem/core-kernel/src/services/cache/drivers/memory";
-import { NullEventDispatcher } from "@arkecosystem/core-kernel/src/services/events/drivers/null";
 import { Wallets } from "@arkecosystem/core-state";
-import { publicKeysIndexer } from "@arkecosystem/core-state/src/wallets/indexers/indexers";
-import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
-import { One, Two } from "@arkecosystem/core-transactions/src/handlers";
-import { TransactionHandlerProvider } from "@arkecosystem/core-transactions/src/handlers/handler-provider";
-import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
+import { passphrases } from "@arkecosystem/core-test-framework";
+import { Handlers } from "@arkecosystem/core-transactions";
 import { Identities, Utils } from "@arkecosystem/crypto";
-import { Handlers, Indexers } from "@protokol/nft-base-transactions";
+import { Handlers as BaseHandlers, Indexers } from "@protokol/nft-base-transactions";
 import { Handlers as ExchangeHandlers, Indexers as ExchangeIndexers } from "@protokol/nft-exchange-transactions";
 
 export type PaginatedResponse = {
@@ -20,6 +14,12 @@ export type PaginatedResponse = {
 
 export type ItemResponse = {
     data: object;
+};
+
+export type ErrorResponse = {
+    output: {
+        statusCode: number;
+    };
 };
 
 const logger = {
@@ -40,7 +40,7 @@ export const blockHistoryService = {
 };
 
 export const buildSenderWallet = (app: Application): Contracts.State.Wallet => {
-    const walletRepository = app.get<Wallets.WalletRepository>(Identifiers.WalletRepository);
+    const walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
     const wallet: Contracts.State.Wallet = walletRepository.createWallet(
         Identities.Address.fromPassphrase(passphrases[0]),
@@ -70,92 +70,88 @@ export const initApp = (): Application => {
     transactionHistoryService.findOneByCriteria.mockReset();
     transactionHistoryService.listByCriteria.mockReset();
 
-    app.bind(Identifiers.BlockHistoryService).toConstantValue(blockHistoryService);
-    app.bind(Identifiers.TransactionHistoryService).toConstantValue(transactionHistoryService);
+    app.bind(Container.Identifiers.BlockHistoryService).toConstantValue(blockHistoryService);
+    app.bind(Container.Identifiers.TransactionHistoryService).toConstantValue(transactionHistoryService);
 
-    app.bind(Identifiers.TransactionHandler).to(One.TransferTransactionHandler);
-    app.bind(Identifiers.TransactionHandler).to(Two.TransferTransactionHandler);
-    app.bind(Identifiers.TransactionHandler).to(One.SecondSignatureRegistrationTransactionHandler);
-    app.bind(Identifiers.TransactionHandler).to(Two.SecondSignatureRegistrationTransactionHandler);
-    app.bind(Identifiers.TransactionHandler).to(One.DelegateRegistrationTransactionHandler);
-    app.bind(Identifiers.TransactionHandler).to(Two.DelegateRegistrationTransactionHandler);
-    app.bind(Identifiers.TransactionHandler).to(One.VoteTransactionHandler);
-    app.bind(Identifiers.TransactionHandler).to(Two.VoteTransactionHandler);
-    app.bind(Identifiers.TransactionHandler).to(One.MultiSignatureRegistrationTransactionHandler);
-    app.bind(Identifiers.TransactionHandler).to(Two.MultiSignatureRegistrationTransactionHandler);
-    app.bind(Identifiers.TransactionHandler).to(Two.IpfsTransactionHandler);
-    app.bind(Identifiers.TransactionHandler).to(Two.MultiPaymentTransactionHandler);
-    app.bind(Identifiers.TransactionHandler).to(Two.DelegateResignationTransactionHandler);
-    app.bind(Identifiers.TransactionHandler).to(Two.HtlcLockTransactionHandler);
-    app.bind(Identifiers.TransactionHandler).to(Two.HtlcClaimTransactionHandler);
-    app.bind(Identifiers.TransactionHandler).to(Two.HtlcRefundTransactionHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(Handlers.One.TransferTransactionHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(Handlers.Two.TransferTransactionHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(Handlers.One.SecondSignatureRegistrationTransactionHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(Handlers.Two.SecondSignatureRegistrationTransactionHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(Handlers.One.DelegateRegistrationTransactionHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(Handlers.Two.DelegateRegistrationTransactionHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(Handlers.One.VoteTransactionHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(Handlers.Two.VoteTransactionHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(Handlers.One.MultiSignatureRegistrationTransactionHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(Handlers.Two.MultiSignatureRegistrationTransactionHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(Handlers.Two.IpfsTransactionHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(Handlers.Two.MultiPaymentTransactionHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(Handlers.Two.DelegateResignationTransactionHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(Handlers.Two.HtlcLockTransactionHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(Handlers.Two.HtlcClaimTransactionHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(Handlers.Two.HtlcRefundTransactionHandler);
 
-    app.bind(Identifiers.TransactionHandlerProvider).to(TransactionHandlerProvider).inSingletonScope();
-    app.bind(Identifiers.TransactionHandlerRegistry).to(TransactionHandlerRegistry).inSingletonScope();
+    app.bind(Container.Identifiers.TransactionHandlerProvider)
+        .to(Handlers.TransactionHandlerProvider)
+        .inSingletonScope();
+    app.bind(Container.Identifiers.TransactionHandlerRegistry).to(Handlers.Registry).inSingletonScope();
 
-    app.bind(Identifiers.TransactionHandler).to(Handlers.NFTRegisterCollectionHandler);
-    app.bind(Identifiers.TransactionHandler).to(Handlers.NFTCreateHandler);
-    app.bind(Identifiers.TransactionHandler).to(Handlers.NFTTransferHandler);
-    app.bind(Identifiers.TransactionHandler).to(Handlers.NFTBurnHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(BaseHandlers.NFTRegisterCollectionHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(BaseHandlers.NFTCreateHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(BaseHandlers.NFTTransferHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(BaseHandlers.NFTBurnHandler);
 
-    app.bind(Identifiers.TransactionHandler).to(ExchangeHandlers.NFTAuctionHandler);
-    app.bind(Identifiers.TransactionHandler).to(ExchangeHandlers.NFTAuctionCancelHandler);
-    app.bind(Identifiers.TransactionHandler).to(ExchangeHandlers.NFTBidHandler);
-    app.bind(Identifiers.TransactionHandler).to(ExchangeHandlers.NFTBidCancelHandler);
-    app.bind(Identifiers.TransactionHandler).to(ExchangeHandlers.NFTAcceptTradeHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(ExchangeHandlers.NFTAuctionHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(ExchangeHandlers.NFTAuctionCancelHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(ExchangeHandlers.NFTBidHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(ExchangeHandlers.NFTBidCancelHandler);
+    app.bind(Container.Identifiers.TransactionHandler).to(ExchangeHandlers.NFTAcceptTradeHandler);
 
-    app.bind(Identifiers.EventDispatcherService).to(NullEventDispatcher).inSingletonScope();
+    app.bind(Container.Identifiers.EventDispatcherService).to(Services.Events.NullEventDispatcher).inSingletonScope();
 
-    app.bind(Container.Identifiers.CacheService).to(MemoryCacheStore).inSingletonScope();
+    app.bind(Container.Identifiers.CacheService).to(Services.Cache.MemoryCacheStore).inSingletonScope();
 
-    app.bind<Services.Attributes.AttributeSet>(Identifiers.WalletAttributes)
+    app.bind<Services.Attributes.AttributeSet>(Container.Identifiers.WalletAttributes)
         .to(Services.Attributes.AttributeSet)
         .inSingletonScope();
 
-    app.bind<Contracts.State.WalletIndexerIndex>(Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
+    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Indexers.NFTIndexers.CollectionIndexer,
         indexer: Indexers.nftCollectionIndexer,
         autoIndex: true,
     });
 
-    app.bind<Contracts.State.WalletIndexerIndex>(Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
+    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Indexers.NFTIndexers.NFTTokenIndexer,
         indexer: Indexers.nftIndexer,
         autoIndex: false,
     });
 
-    app.bind<Contracts.State.WalletIndexerIndex>(Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
+    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: ExchangeIndexers.NFTExchangeIndexers.AuctionIndexer,
         indexer: ExchangeIndexers.auctionIndexer,
         autoIndex: false,
     });
 
-    app.bind<Contracts.State.WalletIndexerIndex>(Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
+    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: ExchangeIndexers.NFTExchangeIndexers.BidIndexer,
         indexer: ExchangeIndexers.bidIndexer,
         autoIndex: false,
     });
 
-    app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
-        name: Contracts.State.WalletIndexes.PublicKeys,
-        indexer: publicKeysIndexer,
-        autoIndex: true,
-    });
-
-    app.bind(Identifiers.WalletFactory).toFactory<Contracts.State.Wallet>(
+    app.bind(Container.Identifiers.WalletFactory).toFactory<Contracts.State.Wallet>(
         (context: Container.interfaces.Context) => (address: string) =>
             new Wallets.Wallet(
                 address,
                 new Services.Attributes.AttributeMap(
-                    context.container.get<Services.Attributes.AttributeSet>(Identifiers.WalletAttributes),
+                    context.container.get<Services.Attributes.AttributeSet>(Container.Identifiers.WalletAttributes),
                 ),
             ),
     );
 
-    app.bind(Identifiers.WalletRepository).to(Wallets.WalletRepository).inSingletonScope();
+    app.bind(Container.Identifiers.WalletRepository).to(Wallets.WalletRepository).inSingletonScope();
 
     // Triggers registration of indexes
-    app.get<TransactionHandlerRegistry>(Identifiers.TransactionHandlerRegistry);
+    app.get<Handlers.Registry>(Container.Identifiers.TransactionHandlerRegistry);
 
     return app;
 };

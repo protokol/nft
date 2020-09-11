@@ -1,19 +1,16 @@
 import "jest-extended";
 
-import { Application, Contracts } from "@arkecosystem/core-kernel";
-import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
+import { Application, Container, Contracts } from "@arkecosystem/core-kernel";
 import { Wallets } from "@arkecosystem/core-state";
-import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
+import { passphrases } from "@arkecosystem/core-test-framework";
 import { Mempool } from "@arkecosystem/core-transaction-pool";
-import { TransactionHandler } from "@arkecosystem/core-transactions/src/handlers";
-import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
+import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
-import { Enums } from "@protokol/nft-exchange-crypto";
-import { Builders as NFTBuilders } from "@protokol/nft-exchange-crypto";
+import { Indexers } from "@protokol/nft-base-transactions";
+import { Builders as NFTBuilders, Enums } from "@protokol/nft-exchange-crypto";
 
 import { setMockFindByIds, setMockTransactions } from "../__mocks__/transaction-repository";
 import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
-import { NFTIndexers } from "../../../../nft-base-transactions/src/wallet-indexes";
 import { NFTExchangeAuctionCancelCannotCancel } from "../../../src/errors";
 import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
@@ -26,9 +23,9 @@ let wallet: Contracts.State.Wallet;
 
 let walletRepository: Wallets.WalletRepository;
 
-let transactionHandlerRegistry: TransactionHandlerRegistry;
+let transactionHandlerRegistry: Handlers.Registry;
 
-let nftCancelSellHandler: TransactionHandler;
+let nftCancelSellHandler: Handlers.TransactionHandler;
 
 let actualBid: Interfaces.ITransaction;
 
@@ -39,9 +36,9 @@ beforeEach(() => {
 
     wallet = buildWallet(app, passphrases[0]);
 
-    walletRepository = app.get<Wallets.WalletRepository>(Identifiers.WalletRepository);
+    walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
-    transactionHandlerRegistry = app.get<TransactionHandlerRegistry>(Identifiers.TransactionHandlerRegistry);
+    transactionHandlerRegistry = app.get<Handlers.Registry>(Container.Identifiers.TransactionHandlerRegistry);
 
     nftCancelSellHandler = transactionHandlerRegistry.getRegisteredHandlerByType(
         Transactions.InternalTransactionType.from(
@@ -205,14 +202,14 @@ describe("NFT Auction Cancel tests", () => {
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
             walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(wallet);
-            walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).index(wallet);
+            walletRepository.getIndex(Indexers.NFTIndexers.NFTTokenIndexer).index(wallet);
 
             const actual = new NFTBuilders.NFTAuctionCancelBuilder()
                 .NFTAuctionCancelAsset({ auctionId })
                 .nonce("1")
                 .sign(passphrases[0])
                 .build();
-            await app.get<Mempool>(Identifiers.TransactionPoolMempool).addTransaction(actual);
+            await app.get<Mempool>(Container.Identifiers.TransactionPoolMempool).addTransaction(actual);
 
             const actualTwo = new NFTBuilders.NFTAuctionCancelBuilder()
                 .NFTAuctionCancelAsset({ auctionId })
@@ -233,7 +230,7 @@ describe("NFT Auction Cancel tests", () => {
                 .build();
 
             const emitter: Contracts.Kernel.EventDispatcher = app.get<Contracts.Kernel.EventDispatcher>(
-                Identifiers.EventDispatcherService,
+                Container.Identifiers.EventDispatcherService,
             );
 
             const spy = jest.spyOn(emitter, "dispatch");
@@ -253,7 +250,7 @@ describe("NFT Auction Cancel tests", () => {
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
             walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(wallet);
-            walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).index(wallet);
+            walletRepository.getIndex(Indexers.NFTIndexers.NFTTokenIndexer).index(wallet);
 
             const actual = new NFTBuilders.NFTAuctionCancelBuilder()
                 .NFTAuctionCancelAsset({ auctionId })
@@ -285,7 +282,7 @@ describe("NFT Auction Cancel tests", () => {
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
             wallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.make(100));
             walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(wallet);
-            walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).index(wallet);
+            walletRepository.getIndex(Indexers.NFTIndexers.NFTTokenIndexer).index(wallet);
             walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).index(wallet);
 
             await expect(nftCancelSellHandler.applyToSender(actual)).toResolve();
@@ -322,7 +319,7 @@ describe("NFT Auction Cancel tests", () => {
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
             walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(wallet);
-            walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).index(wallet);
+            walletRepository.getIndex(Indexers.NFTIndexers.NFTTokenIndexer).index(wallet);
 
             const actual = new NFTBuilders.NFTAuctionCancelBuilder()
                 .NFTAuctionCancelAsset({
@@ -365,7 +362,7 @@ describe("NFT Auction Cancel tests", () => {
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
             walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(wallet);
-            walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).index(wallet);
+            walletRepository.getIndex(Indexers.NFTIndexers.NFTTokenIndexer).index(wallet);
             walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).index(wallet);
 
             const actual = new NFTBuilders.NFTAuctionCancelBuilder()
@@ -426,7 +423,7 @@ describe("NFT Auction Cancel tests", () => {
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
             wallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.make(110));
             walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(wallet);
-            walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).index(wallet);
+            walletRepository.getIndex(Indexers.NFTIndexers.NFTTokenIndexer).index(wallet);
             walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).index(wallet);
 
             const actual = new NFTBuilders.NFTAuctionCancelBuilder()
@@ -473,7 +470,7 @@ describe("NFT Auction Cancel tests", () => {
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
             walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(wallet);
-            walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).index(wallet);
+            walletRepository.getIndex(Indexers.NFTIndexers.NFTTokenIndexer).index(wallet);
 
             const actual = new NFTBuilders.NFTAuctionCancelBuilder()
                 .NFTAuctionCancelAsset({

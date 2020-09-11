@@ -1,15 +1,11 @@
 import "jest-extended";
 
-import { Application, Contracts } from "@arkecosystem/core-kernel";
-import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
+import { Application, Container, Contracts } from "@arkecosystem/core-kernel";
 import { Wallets } from "@arkecosystem/core-state";
-import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
-import { TransactionHandler } from "@arkecosystem/core-transactions/src/handlers";
-import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
+import { passphrases } from "@arkecosystem/core-test-framework";
+import { Handlers } from "@arkecosystem/core-transactions";
 import { Identities, Interfaces, Transactions } from "@arkecosystem/crypto";
-import { Enums } from "@protokol/nft-base-crypto";
-import { Builders as NFTBuilders } from "@protokol/nft-base-crypto";
-import { Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
+import { Builders as NFTBuilders, Enums, Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 
 import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import {
@@ -30,9 +26,9 @@ let wallet: Contracts.State.Wallet;
 
 let walletRepository: Wallets.WalletRepository;
 
-let transactionHandlerRegistry: TransactionHandlerRegistry;
+let transactionHandlerRegistry: Handlers.Registry;
 
-let nftCreateHandler: TransactionHandler;
+let nftCreateHandler: Handlers.TransactionHandler;
 
 let actual: Interfaces.ITransaction;
 
@@ -66,10 +62,9 @@ const collectionId = "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775
 beforeEach(async () => {
     app = initApp();
 
-    walletRepository = app.get<Wallets.WalletRepository>(Identifiers.WalletRepository);
+    walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
-
-    transactionHandlerRegistry = app.get<TransactionHandlerRegistry>(Identifiers.TransactionHandlerRegistry);
+    transactionHandlerRegistry = app.get<Handlers.Registry>(Container.Identifiers.TransactionHandlerRegistry);
 
     nftCreateHandler = transactionHandlerRegistry.getRegisteredHandlerByType(
         Transactions.InternalTransactionType.from(
@@ -300,7 +295,7 @@ describe("NFT Create tests", () => {
     describe("emitEvents", () => {
         it("should test dispatch", async () => {
             const emitter: Contracts.Kernel.EventDispatcher = app.get<Contracts.Kernel.EventDispatcher>(
-                Identifiers.EventDispatcherService,
+                Container.Identifiers.EventDispatcherService,
             );
 
             const spy = jest.spyOn(emitter, "dispatch");

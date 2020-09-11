@@ -1,12 +1,9 @@
 import "jest-extended";
 
-import { Application, Contracts } from "@arkecosystem/core-kernel";
-import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
-import { Wallets } from "@arkecosystem/core-state";
-import { StateStore } from "@arkecosystem/core-state/src/stores/state";
-import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
-import { TransactionHandler } from "@arkecosystem/core-transactions/src/handlers";
-import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
+import { Application, Container, Contracts } from "@arkecosystem/core-kernel";
+import { Stores, Wallets } from "@arkecosystem/core-state";
+import { passphrases } from "@arkecosystem/core-test-framework";
+import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Enums } from "@protokol/nft-exchange-crypto";
 
@@ -33,9 +30,9 @@ let auctionWallet: Contracts.State.Wallet;
 
 let walletRepository: Wallets.WalletRepository;
 
-let transactionHandlerRegistry: TransactionHandlerRegistry;
+let transactionHandlerRegistry: Handlers.Registry;
 
-let nftBidHandler: TransactionHandler;
+let nftBidHandler: Handlers.TransactionHandler;
 
 const id = "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61";
 
@@ -47,9 +44,9 @@ beforeEach(() => {
     bidWallet = buildWallet(app, passphrases[0]);
     auctionWallet = buildWallet(app, passphrases[1]);
 
-    walletRepository = app.get<Wallets.WalletRepository>(Identifiers.WalletRepository);
+    walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
-    transactionHandlerRegistry = app.get<TransactionHandlerRegistry>(Identifiers.TransactionHandlerRegistry);
+    transactionHandlerRegistry = app.get<Handlers.Registry>(Container.Identifiers.TransactionHandlerRegistry);
 
     nftBidHandler = transactionHandlerRegistry.getRegisteredHandlerByType(
         Transactions.InternalTransactionType.from(
@@ -126,7 +123,7 @@ describe("NFT Bid tests", () => {
             const mockLastBlockData: Partial<Interfaces.IBlockData> = { height: 5 };
 
             const mockGetLastBlock = jest.fn();
-            StateStore.prototype.getLastBlock = mockGetLastBlock;
+            Stores.StateStore.prototype.getLastBlock = mockGetLastBlock;
             mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
             const actualAuction = buildAuctionTransaction({ blockHeight: 6, passphrase: passphrases[1] });
@@ -187,7 +184,7 @@ describe("NFT Bid tests", () => {
             const mockLastBlockData: Partial<Interfaces.IBlockData> = { height: 6 };
 
             const mockGetLastBlock = jest.fn();
-            StateStore.prototype.getLastBlock = mockGetLastBlock;
+            Stores.StateStore.prototype.getLastBlock = mockGetLastBlock;
             mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
             const actualAuction = buildAuctionTransaction({ blockHeight: 2, passphrase: passphrases[1] });
@@ -212,7 +209,7 @@ describe("NFT Bid tests", () => {
             const mockLastBlockData: Partial<Interfaces.IBlockData> = { height: 5 };
 
             const mockGetLastBlock = jest.fn();
-            StateStore.prototype.getLastBlock = mockGetLastBlock;
+            Stores.StateStore.prototype.getLastBlock = mockGetLastBlock;
             mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
             const actualAuction = buildAuctionTransaction({ blockHeight: 57, passphrase: passphrases[1] });
@@ -237,7 +234,7 @@ describe("NFT Bid tests", () => {
             const mockLastBlockData: Partial<Interfaces.IBlockData> = { height: 5 };
 
             const mockGetLastBlock = jest.fn();
-            StateStore.prototype.getLastBlock = mockGetLastBlock;
+            Stores.StateStore.prototype.getLastBlock = mockGetLastBlock;
             mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
             const actualAuction = buildAuctionTransaction({
@@ -270,7 +267,7 @@ describe("NFT Bid tests", () => {
             });
 
             const emitter: Contracts.Kernel.EventDispatcher = app.get<Contracts.Kernel.EventDispatcher>(
-                Identifiers.EventDispatcherService,
+                Container.Identifiers.EventDispatcherService,
             );
 
             const spy = jest.spyOn(emitter, "dispatch");
@@ -288,7 +285,7 @@ describe("NFT Bid tests", () => {
                 const mockLastBlockData: Partial<Interfaces.IBlockData> = { height: 4 };
 
                 const mockGetLastBlock = jest.fn();
-                StateStore.prototype.getLastBlock = mockGetLastBlock;
+                Stores.StateStore.prototype.getLastBlock = mockGetLastBlock;
                 mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
                 actualAuction = buildAuctionTransaction({
@@ -335,7 +332,7 @@ describe("NFT Bid tests", () => {
             const mockLastBlockData: Partial<Interfaces.IBlockData> = { height: 4 };
 
             const mockGetLastBlock = jest.fn();
-            StateStore.prototype.getLastBlock = mockGetLastBlock;
+            Stores.StateStore.prototype.getLastBlock = mockGetLastBlock;
             mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
             actualAuction = buildAuctionTransaction({

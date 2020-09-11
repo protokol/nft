@@ -1,15 +1,13 @@
-import "@arkecosystem/core-test-framework/src/matchers";
+import "@arkecosystem/core-test-framework/dist/matchers";
 
 import { Repositories } from "@arkecosystem/core-database";
 import { Container, Contracts } from "@arkecosystem/core-kernel";
-import { ApiHelpers } from "@arkecosystem/core-test-framework/src";
-import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
+import { ApiHelpers, passphrases } from "@arkecosystem/core-test-framework";
 import { Identities } from "@arkecosystem/crypto";
-import { NFTBaseTransactionFactory } from "@protokol/nft-base-transactions/__tests__/functional/transaction-forging/__support__/transaction-factory";
-import { INFTCollections, INFTTokens } from "@protokol/nft-base-transactions/src/interfaces";
+import { Builders as NFTBuilders } from "@protokol/nft-base-crypto";
+import { Indexers, Interfaces } from "@protokol/nft-base-transactions";
 
 import { setUp, tearDown } from "../__support__/setup";
-import { NFTIndexers } from "../../../../nft-base-transactions/src/wallet-indexes";
 
 let app: Contracts.Kernel.Application;
 let api: ApiHelpers;
@@ -24,8 +22,8 @@ afterAll(async () => await tearDown());
 describe("API - Collections", () => {
     let nftRegisteredCollection;
     beforeEach(async () => {
-        nftRegisteredCollection = NFTBaseTransactionFactory.initialize(app)
-            .NFTRegisterCollection({
+        nftRegisteredCollection = new NFTBuilders.NFTRegisterCollectionBuilder()
+            .NFTRegisterCollectionAsset({
                 name: "Nft card",
                 description: "Nft card description",
                 maximumSupply: 100,
@@ -46,8 +44,8 @@ describe("API - Collections", () => {
                     },
                 },
             })
-            .withPassphrase(secrets[0])
-            .build()[0];
+            .sign(passphrases[0])
+            .build();
     });
     describe("GET /nft/collections", () => {
         it("should GET get all nft collections transactions", async () => {
@@ -155,16 +153,16 @@ describe("API - Collections", () => {
                 "blockchain",
             );
 
-            const wallet = walletRepository.findByAddress(Identities.Address.fromPassphrase(secrets[0]));
+            const wallet = walletRepository.findByAddress(Identities.Address.fromPassphrase(passphrases[0]));
 
-            const collectionsWallet = wallet.getAttribute<INFTCollections>("nft.base.collections", {});
+            const collectionsWallet = wallet.getAttribute<Interfaces.INFTCollections>("nft.base.collections", {});
             collectionsWallet["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {
                 currentSupply: 0,
                 nftCollectionAsset: nftCollectionAsset,
             };
             wallet.setAttribute("nft.base.collections", collectionsWallet);
 
-            walletRepository.getIndex(NFTIndexers.CollectionIndexer).index(wallet);
+            walletRepository.getIndex(Indexers.NFTIndexers.CollectionIndexer).index(wallet);
 
             const response = await api.request(
                 "GET",
@@ -204,16 +202,16 @@ describe("API - Collections", () => {
     describe("GET /collections/{id}/assets", () => {
         let nftToken;
         it("should find assets by collection id", async () => {
-            nftToken = NFTBaseTransactionFactory.initialize(app)
-                .NFTCreate({
+            nftToken = new NFTBuilders.NFTCreateBuilder()
+                .NFTCreateToken({
                     collectionId: "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
                     attributes: {
                         number: 5,
                         string: "something",
                     },
                 })
-                .withPassphrase(secrets[0])
-                .build()[0];
+                .sign(passphrases[0])
+                .build();
 
             const walletRepository = app.getTagged<Contracts.State.WalletRepository>(
                 Container.Identifiers.WalletRepository,
@@ -221,13 +219,13 @@ describe("API - Collections", () => {
                 "blockchain",
             );
 
-            const wallet = walletRepository.findByAddress(Identities.Address.fromPassphrase(secrets[0]));
+            const wallet = walletRepository.findByAddress(Identities.Address.fromPassphrase(passphrases[0]));
 
-            const tokensWallet = wallet.getAttribute<INFTTokens>("nft.base.tokenIds", []);
+            const tokensWallet = wallet.getAttribute<Interfaces.INFTTokens>("nft.base.tokenIds", []);
             // @ts-ignore
             tokensWallet[nftToken.data.id] = {};
-            wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
-            walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).index(wallet);
+            wallet.setAttribute<Interfaces.INFTTokens>("nft.base.tokenIds", tokensWallet);
+            walletRepository.getIndex(Indexers.NFTIndexers.NFTTokenIndexer).index(wallet);
 
             const transactionRepository = app.get<Repositories.TransactionRepository>(
                 Container.Identifiers.DatabaseTransactionRepository,

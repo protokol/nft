@@ -1,9 +1,8 @@
 import "jest-extended";
 
 import { Application } from "@arkecosystem/core-kernel";
-import { Generators } from "@arkecosystem/core-test-framework/src";
+import { Generators } from "@arkecosystem/core-test-framework";
 import { Managers } from "@arkecosystem/crypto";
-import { configManager } from "@arkecosystem/crypto/src/managers";
 import { Defaults as CryptoDefaults } from "@protokol/guardian-crypto";
 import { Defaults as TransactionsDefaults } from "@protokol/guardian-transactions";
 import latestVersion from "latest-version";
@@ -17,7 +16,6 @@ let configurationsController: ConfigurationController;
 
 beforeEach(() => {
     const config = Generators.generateCryptoConfigRaw();
-    configManager.setConfig(config);
     Managers.configManager.setConfig(config);
 
     app = initApp();

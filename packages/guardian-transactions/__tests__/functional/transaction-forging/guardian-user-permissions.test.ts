@@ -1,8 +1,7 @@
-import "@arkecosystem/core-test-framework/src/matchers";
+import "@arkecosystem/core-test-framework/dist/matchers";
 
 import { Contracts } from "@arkecosystem/core-kernel";
-import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
-import { snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework/src/utils";
+import { passphrases, snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework";
 import { Identities } from "@arkecosystem/crypto";
 import { Enums } from "@protokol/guardian-crypto";
 import { generateMnemonic } from "bip39";
@@ -54,7 +53,7 @@ describe("Guardian set user permissions functional tests", () => {
             // Set group permissions
             const setGroupPermissions = GuardianTransactionFactory.initialize(app)
                 .GuardianSetGroupPermissions(groupPermissionsAsset)
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(setGroupPermissions).toBeAccepted();
@@ -64,7 +63,7 @@ describe("Guardian set user permissions functional tests", () => {
             // Set user permissions
             const setUserPermissions = GuardianTransactionFactory.initialize(app)
                 .GuardianSetUserPermissions(userPermissionsAsset)
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(setUserPermissions).toBeAccepted();
@@ -82,7 +81,7 @@ describe("Guardian set user permissions functional tests", () => {
             // Initial Funds
             const initialFunds = TransactionFactory.initialize(app)
                 .transfer(Identities.Address.fromPassphrase(passphrase), 150 * 1e8)
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(initialFunds).toBeAccepted();
@@ -102,7 +101,7 @@ describe("Guardian set user permissions functional tests", () => {
             // Set group permissions
             const setGroupPermissions = GuardianTransactionFactory.initialize(app)
                 .GuardianSetGroupPermissions(groupPermissionsAsset)
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(setGroupPermissions).toBeAccepted();
@@ -125,17 +124,17 @@ describe("Guardian set user permissions functional tests", () => {
     describe("Signed with multi signature [3 of 3]", () => {
         // Register a multi signature wallet with defaults
         const passphrase = generateMnemonic();
-        const passphrases = [passphrase, secrets[4], secrets[5]];
+        const secrets = [passphrase, passphrases[4], passphrases[5]];
         const participants = [
-            Identities.PublicKey.fromPassphrase(passphrases[0]),
-            Identities.PublicKey.fromPassphrase(passphrases[1]),
-            Identities.PublicKey.fromPassphrase(passphrases[2]),
+            Identities.PublicKey.fromPassphrase(secrets[0]),
+            Identities.PublicKey.fromPassphrase(secrets[1]),
+            Identities.PublicKey.fromPassphrase(secrets[2]),
         ];
         it("should broadcast, accept and forge it [3-of-3 multisig] ", async () => {
             // Funds to register a multi signature wallet
             const initialFunds = TransactionFactory.initialize(app)
                 .transfer(Identities.Address.fromPassphrase(passphrase), 50 * 1e8)
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(initialFunds).toBeAccepted();
@@ -146,7 +145,7 @@ describe("Guardian set user permissions functional tests", () => {
             const multiSignature = TransactionFactory.initialize(app)
                 .multiSignature(participants, 3)
                 .withPassphrase(passphrase)
-                .withPassphraseList(passphrases)
+                .withPassphraseList(secrets)
                 .createOne();
 
             await expect(multiSignature).toBeAccepted();
@@ -161,7 +160,7 @@ describe("Guardian set user permissions functional tests", () => {
 
             const multiSignatureFunds = TransactionFactory.initialize(app)
                 .transfer(multiSigAddress, 100 * 1e8)
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(multiSignatureFunds).toBeAccepted();
@@ -171,7 +170,7 @@ describe("Guardian set user permissions functional tests", () => {
             // Set group permissions
             const setGroupPermissions = GuardianTransactionFactory.initialize(app)
                 .GuardianSetGroupPermissions(groupPermissionsAsset)
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(setGroupPermissions).toBeAccepted();
@@ -181,9 +180,9 @@ describe("Guardian set user permissions functional tests", () => {
             // Set user permissions
             const setUserPermissions = GuardianTransactionFactory.initialize(app)
                 .GuardianSetUserPermissions(userPermissionsAsset)
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .withSenderPublicKey(multiSigPublicKey)
-                .withPassphraseList(passphrases)
+                .withPassphraseList(secrets)
                 .createOne();
 
             await expect(setUserPermissions).toBeAccepted();
