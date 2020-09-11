@@ -39,9 +39,9 @@ describe("API - Bids", () => {
                 );
 
                 jest.spyOn(transactionRepository, "listByExpression").mockResolvedValueOnce({
-                    rows: [{ ...nftBid.data, serialized: nftBid.serialized }],
-                    count: 1,
-                    countIsEstimate: false,
+                    results: [{ ...nftBid.data, serialized: nftBid.serialized }],
+                    totalCount: 1,
+                    meta: { totalCountIsEstimate: false },
                 });
 
                 const response = await api.request("GET", "nft/exchange/bids", { transform: false });
@@ -104,9 +104,9 @@ describe("API - Bids", () => {
                 );
 
                 jest.spyOn(transactionRepository, "listByExpression").mockResolvedValueOnce({
-                    rows: [{ ...nftBid.data, serialized: nftBid.serialized }],
-                    count: 1,
-                    countIsEstimate: false,
+                    results: [{ ...nftBid.data, serialized: nftBid.serialized }],
+                    totalCount: 1,
+                    meta: { totalCountIsEstimate: false },
                 });
 
                 const response = await api.request("POST", "nft/exchange/bids/search?transform=false", {
@@ -139,9 +139,9 @@ describe("API - Bids", () => {
                 );
 
                 jest.spyOn(transactionRepository, "listByExpression").mockResolvedValueOnce({
-                    rows: [{ ...nftBidCancel.data, serialized: nftBidCancel.serialized }],
-                    count: 1,
-                    countIsEstimate: false,
+                    results: [{ ...nftBidCancel.data, serialized: nftBidCancel.serialized }],
+                    totalCount: 1,
+                    meta: { totalCountIsEstimate: false },
                 });
 
                 const response = await api.request("GET", "nft/exchange/bids/canceled", { transform: false });

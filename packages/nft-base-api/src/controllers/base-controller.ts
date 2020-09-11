@@ -14,8 +14,8 @@ export class BaseController extends Controller {
 
     public async paginateWithBlock(
         criteria: Contracts.Shared.TransactionCriteria | Contracts.Shared.TransactionCriteria[],
-        order: Contracts.Search.ListOrder,
-        page: Contracts.Search.ListPage,
+        order: Contracts.Search.Sorting,
+        page: Contracts.Search.Pagination,
         transform: boolean,
         resource,
     ) {

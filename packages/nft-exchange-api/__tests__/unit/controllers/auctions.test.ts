@@ -70,7 +70,7 @@ afterEach(() => {
 describe("Test auctions controller", () => {
     it("index - return all auctions", async () => {
         transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
-            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+            results: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
         });
 
         const request: Hapi.Request = {
@@ -173,7 +173,7 @@ describe("Test auctions controller", () => {
         };
 
         transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
-            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+            results: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
         });
 
         const response = (await auctionsController.search(request, undefined)) as PaginatedResponse;
@@ -200,7 +200,7 @@ describe("Test auctions controller", () => {
             .build();
 
         transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
-            rows: [{ data: actualAuctionCanceled.data, block: { timestamp: timestamp.epoch } }],
+            results: [{ data: actualAuctionCanceled.data, block: { timestamp: timestamp.epoch } }],
         });
 
         const request: Hapi.Request = {

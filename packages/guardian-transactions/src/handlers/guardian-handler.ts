@@ -37,7 +37,7 @@ export abstract class GuardianTransactionHandler extends Handlers.TransactionHan
             ...this.getDefaultCriteria(),
             asset,
         };
-        const order: Contracts.Search.ListOrder = [
+        const order: Contracts.Search.Sorting = [
             { property: "timestamp", direction: "desc" },
             { property: "sequence", direction: "desc" },
         ];
@@ -46,7 +46,7 @@ export abstract class GuardianTransactionHandler extends Handlers.TransactionHan
                 offset: 0,
                 limit: 1,
             })
-        ).rows;
+        ).results;
 
         return lastTx;
     }

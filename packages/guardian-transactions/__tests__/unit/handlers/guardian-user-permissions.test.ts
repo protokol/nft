@@ -301,7 +301,7 @@ describe("Guardian set user permissions tests", () => {
     describe("revert tests", () => {
         it("should test revert method if permissions were set only once", async () => {
             await handler.apply(actual);
-            transactionHistoryService.listByCriteria.mockImplementationOnce(() => ({ rows: [] }));
+            transactionHistoryService.listByCriteria.mockImplementationOnce(() => ({ results: [] }));
 
             await expect(handler.revert(actual)).toResolve();
 
@@ -331,7 +331,7 @@ describe("Guardian set user permissions tests", () => {
                 ],
             };
             transactionHistoryService.listByCriteria.mockImplementationOnce(() => ({
-                rows: [
+                results: [
                     {
                         asset: {
                             setUserPermissions: buildUserPermissionsAsset(
