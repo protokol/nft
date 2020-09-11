@@ -1,5 +1,5 @@
 import { NFTConnection } from "./nft-connection";
-import { PeerDiscovery } from "./peerDiscovery";
+import { PeerDiscovery } from "./peer-discovery";
 
 export class NFTConnectionManager {
     private readonly defaultNftConnection: NFTConnection;

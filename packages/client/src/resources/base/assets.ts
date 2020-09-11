@@ -5,7 +5,7 @@ import {
     Assets as AssetsResource,
     AssetsWallet,
     SearchAssetApiBody,
-} from "../../resourcesTypes/base/assets";
+} from "../../resources-types/base/assets";
 
 export class Assets extends Resource {
     public async all(query?: AllAssetsQuery): Promise<ApiResponseWithPagination<AssetsResource[]>> {

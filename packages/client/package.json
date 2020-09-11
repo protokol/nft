@@ -1,5 +1,5 @@
 {
-    "name": "@protokol/nft-client",
+    "name": "@protokol/client",
     "description": "A Light TypeScript Client Supporting NFT And Public ARK REST API",
     "version": "1.0.0-beta.23",
     "homepage": "https://docs.protokol.com/nft/",

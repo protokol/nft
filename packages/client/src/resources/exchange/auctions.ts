@@ -8,7 +8,7 @@ import {
     AuctionsWallet,
     SearchAuctionsApiBody,
     SearchAuctionsApiQuery,
-} from "../../resourcesTypes/exchange";
+} from "../../resources-types/exchange";
 
 export class Auctions extends Resource {
     public async getAllAuctions(query?: AllAuctionsQuery): Promise<ApiResponseWithPagination<AuctionsResource[]>> {

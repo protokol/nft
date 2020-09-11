@@ -8,7 +8,7 @@ import {
     BidsWallet,
     SearchBidsApiBody,
     SearchBidsApiQuery,
-} from "../../resourcesTypes/exchange";
+} from "../../resources-types/exchange";
 
 export class Bids extends Resource {
     public async getAllBids(query?: AllBidsQuery): Promise<ApiResponseWithPagination<BidsResource>> {

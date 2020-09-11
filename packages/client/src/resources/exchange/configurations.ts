@@ -1,6 +1,6 @@
 import { ApiResponse, Resource } from "@arkecosystem/client";
 
-import { ExchangeConfigurations as ConfigurationsResource } from "../../resourcesTypes/exchange";
+import { ExchangeConfigurations as ConfigurationsResource } from "../../resources-types/exchange";
 
 export class Configurations extends Resource {
     public async index(): Promise<ApiResponse<ConfigurationsResource>> {
