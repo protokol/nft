@@ -55,7 +55,7 @@ afterEach(() => {
 describe("Test transfer controller", () => {
     it("index - return all transfer transactions", async () => {
         transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
-            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+            results: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
         });
 
         const request: Hapi.Request = {

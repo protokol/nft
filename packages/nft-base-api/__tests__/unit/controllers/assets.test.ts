@@ -79,7 +79,7 @@ afterEach(() => {
 describe("Test asset controller", () => {
     it("index - return all nftCreate transactions", async () => {
         transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
-            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+            results: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
         });
 
         const request: Hapi.Request = {
@@ -162,7 +162,7 @@ describe("Test asset controller", () => {
 
     it("showByAsset - return transaction by payloads criteria", async () => {
         transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
-            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+            results: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
         });
         const request: Hapi.Request = {
             payload: {

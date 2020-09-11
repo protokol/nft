@@ -1,6 +1,5 @@
 import { Application, Container, Contracts, Providers, Services } from "@arkecosystem/core-kernel";
 import { Stores, Wallets } from "@arkecosystem/core-state";
-import { addressesIndexer, publicKeysIndexer } from "@arkecosystem/core-state/src/wallets/indexers/indexers";
 import { Generators, Mocks } from "@arkecosystem/core-test-framework";
 import {
     ApplyTransactionAction,
@@ -52,13 +51,13 @@ export const initApp = (): Application => {
 
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Contracts.State.WalletIndexes.Addresses,
-        indexer: addressesIndexer,
+        indexer: Wallets.addressesIndexer,
         autoIndex: true,
     });
 
     app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
         name: Contracts.State.WalletIndexes.PublicKeys,
-        indexer: publicKeysIndexer,
+        indexer: Wallets.publicKeysIndexer,
         autoIndex: true,
     });
 
