@@ -1,16 +1,12 @@
 import "jest-extended";
 
-import { Application, Contracts, Utils } from "@arkecosystem/core-kernel";
-import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
+import { Application, Container, Contracts, Utils } from "@arkecosystem/core-kernel";
 import { Wallets } from "@arkecosystem/core-state";
-import { Generators } from "@arkecosystem/core-test-framework/src";
-import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
-import { Managers, Transactions } from "@arkecosystem/crypto";
-import { ITransaction } from "@arkecosystem/crypto/src/interfaces";
-import { configManager } from "@arkecosystem/crypto/src/managers";
+import { Generators, passphrases } from "@arkecosystem/core-test-framework";
+import { Interfaces, Managers, Transactions } from "@arkecosystem/crypto";
 import Hapi from "@hapi/hapi";
 import { Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
-import { INFTCollections, INFTTokens } from "@protokol/nft-base-transactions/src/interfaces";
+import { Indexers, Interfaces as NFTInterfaces } from "@protokol/nft-base-transactions";
 
 import {
     blockHistoryService,
@@ -21,7 +17,6 @@ import {
     transactionHistoryService,
 } from "../__support__";
 import { CollectionsController } from "../../../src/controllers/collections";
-import { NFTIndexers } from "../../../../nft-base-transactions/src/wallet-indexes";
 
 let app: Application;
 
@@ -30,7 +25,7 @@ let collectionController: CollectionsController;
 let senderWallet: Contracts.State.Wallet;
 let walletRepository: Wallets.WalletRepository;
 
-let actual: ITransaction;
+let actual: Interfaces.ITransaction;
 
 const timestamp = Utils.formatTimestamp(104930456);
 
@@ -61,12 +56,11 @@ const nftCollectionAsset = {
 
 beforeEach(() => {
     const config = Generators.generateCryptoConfigRaw();
-    configManager.setConfig(config);
     Managers.configManager.setConfig(config);
 
     app = initApp();
 
-    walletRepository = app.get<Wallets.WalletRepository>(Identifiers.WalletRepository);
+    walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
     senderWallet = buildSenderWallet(app);
 
@@ -138,13 +132,13 @@ describe("Test collection controller", () => {
     });
 
     it("showByWalletId - return wallet by collectionId", async () => {
-        const collectionsWallet = senderWallet.getAttribute<INFTCollections>("nft.base.collections", {});
+        const collectionsWallet = senderWallet.getAttribute<NFTInterfaces.INFTCollections>("nft.base.collections", {});
         collectionsWallet["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {
             currentSupply: 0,
             nftCollectionAsset: nftCollectionAsset,
         };
         senderWallet.setAttribute("nft.base.collections", collectionsWallet);
-        walletRepository.getIndex(NFTIndexers.CollectionIndexer).index(senderWallet);
+        walletRepository.getIndex(Indexers.NFTIndexers.CollectionIndexer).index(senderWallet);
 
         const request: Hapi.Request = {
             params: {
@@ -275,11 +269,11 @@ describe("Test collection controller", () => {
             .sign(passphrases[0])
             .build();
 
-        const tokensWallet = senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
+        const tokensWallet = senderWallet.getAttribute<NFTInterfaces.INFTTokens>("nft.base.tokenIds", {});
         // @ts-ignore
         tokensWallet[actual.id] = {};
-        senderWallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
-        walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).index(senderWallet);
+        senderWallet.setAttribute<NFTInterfaces.INFTTokens>("nft.base.tokenIds", tokensWallet);
+        walletRepository.getIndex(Indexers.NFTIndexers.NFTTokenIndexer).index(senderWallet);
 
         transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
             rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],

@@ -1,22 +1,23 @@
 import "jest-extended";
 
-import { Application, Contracts, Utils as AppUtils } from "@arkecosystem/core-kernel";
-import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
+import { Application, Container, Contracts, Utils as AppUtils } from "@arkecosystem/core-kernel";
 import { Wallets } from "@arkecosystem/core-state";
-import { Generators } from "@arkecosystem/core-test-framework/src";
-import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
-import { Managers, Transactions, Utils } from "@arkecosystem/crypto";
-import { ITransaction } from "@arkecosystem/crypto/src/interfaces";
-import { configManager } from "@arkecosystem/crypto/src/managers";
+import { Generators, passphrases } from "@arkecosystem/core-test-framework";
+import { Interfaces, Managers, Transactions, Utils } from "@arkecosystem/crypto";
 import Hapi from "@hapi/hapi";
-import { buildSenderWallet, ItemResponse, PaginatedResponse } from "@protokol/nft-base-api/__tests__/unit/__support__";
 import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import { Builders, Transactions as ExchangeTransactions } from "@protokol/nft-exchange-crypto";
+import { Indexers, Interfaces as NFTInterfaces } from "@protokol/nft-exchange-transactions";
 
-import { blockHistoryService, initApp, transactionHistoryService } from "../__support__";
-import { INFTAuctions } from "../../../../nft-exchange-transactions/src/interfaces";
+import {
+    blockHistoryService,
+    buildSenderWallet,
+    initApp,
+    ItemResponse,
+    PaginatedResponse,
+    transactionHistoryService,
+} from "../__support__";
 import { BidsController } from "../../../src/controllers/bids";
-import { NFTExchangeIndexers } from "../../../../nft-exchange-transactions/src/wallet-indexes";
 
 let bidsController: BidsController;
 
@@ -26,18 +27,17 @@ let senderWallet: Contracts.State.Wallet;
 
 let walletRepository: Wallets.WalletRepository;
 
-let actual: ITransaction;
+let actual: Interfaces.ITransaction;
 
 const timestamp = AppUtils.formatTimestamp(104930456);
 
 beforeEach(() => {
     const config = Generators.generateCryptoConfigRaw();
-    configManager.setConfig(config);
     Managers.configManager.setConfig(config);
 
     app = initApp();
 
-    walletRepository = app.get<Wallets.WalletRepository>(Identifiers.WalletRepository);
+    walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
     senderWallet = buildSenderWallet(app);
 
@@ -117,14 +117,14 @@ describe("Test bids controller", () => {
     });
 
     it("showAuctionWallet - return wallet by bids id ", async () => {
-        const auctionsAsset = senderWallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
+        const auctionsAsset = senderWallet.getAttribute<NFTInterfaces.INFTAuctions>("nft.exchange.auctions", {});
         auctionsAsset[actual.id!] = {
             nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
             bids: ["7a8460fdcad40ae3dda9e50382d7676ce5a8643b01c198484a4a99591bcb0871"],
         };
-        senderWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
-        walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(senderWallet);
-        walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).index(senderWallet);
+        senderWallet.setAttribute<NFTInterfaces.INFTAuctions>("nft.exchange.auctions", auctionsAsset);
+        walletRepository.getIndex(Indexers.NFTExchangeIndexers.AuctionIndexer).index(senderWallet);
+        walletRepository.getIndex(Indexers.NFTExchangeIndexers.BidIndexer).index(senderWallet);
 
         senderWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.make("100"));
 
