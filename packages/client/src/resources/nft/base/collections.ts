@@ -7,7 +7,7 @@ import {
     CollectionsWallet,
     Schema,
     SearchCollectionsApiBody,
-} from "../../resources-types/base/collections";
+} from "../../../resources-types/nft/base/collections";
 
 export class Collections extends Resource {
     public async all(query?: AllCollectionsQuery): Promise<ApiResponseWithPagination<CollectionsResource[]>> {

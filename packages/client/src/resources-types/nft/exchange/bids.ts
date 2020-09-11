@@ -1,21 +1,23 @@
 import { ApiQuery } from "@arkecosystem/client";
 
-import { Timestamp } from "../timestamp";
+import { Timestamp } from "../../timestamp";
 
-export interface Auctions {
+export interface Bids {
     id: string;
     senderPublicKey: string;
-    nftAuction: {
-        nftIds: string[];
-        startAmount: string;
-        expiration: {
-            blockHeight: number;
-        };
+    nftBid: {
+        auctionId: string;
+        bidAmount: string;
     };
     timestamp: Timestamp;
 }
 
-export interface AuctionsWallet {
+export interface AllBidsQuery extends ApiQuery {
+    orderBy?: string;
+    transform?: boolean;
+}
+
+export interface BidsWallet {
     address: string;
     publicKey: string;
     nft: {
@@ -39,33 +41,26 @@ export interface AuctionsWallet {
     };
 }
 
-export interface AllAuctionsQuery extends ApiQuery {
-    orderBy?: string;
-    transform?: boolean;
-}
-
-export interface SearchAuctionsApiBody {
+export interface SearchBidsApiBody {
     senderPublicKey?: string;
-    nftIds?: string[];
-    startAmount?: string;
-    expiration?: {
-        blockHeight: number;
-    };
+    auctionId?: string;
+    bidAmount?: string;
 }
 
-export interface SearchAuctionsApiQuery extends ApiQuery {
+export interface SearchBidsApiQuery extends ApiQuery {
     orderBy: string;
 }
 
-export interface AuctionCanceled {
+export interface BidCanceled {
     id: string;
     senderPublicKey: string;
-    nftAuctionCancel: {
-        auctionId: string;
+    nftBidCancel: {
+        bidId: string;
     };
     timestamp: Timestamp;
 }
 
-export interface AllAuctionCanceledQuery extends ApiQuery {
+export interface AllBidsCanceledQuery extends ApiQuery {
     orderBy?: string;
+    transform?: boolean;
 }

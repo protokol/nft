@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Burns } from "../../../src/resources/base/burns";
+import { Burns } from "../../../src/resources/nft/base/burns";
 import { configureBaseMocks } from "../../mocks/base";
 
 const resource: Burns = configureBaseMocks<Burns>(Burns);

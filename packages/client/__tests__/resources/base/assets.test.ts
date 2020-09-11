@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Assets } from "../../../src/resources/base/assets";
+import { Assets } from "../../../src/resources/nft/base/assets";
 import { configureBaseMocks } from "../../mocks/base";
 
 const resource: Assets = configureBaseMocks<Assets>(Assets);

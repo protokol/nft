@@ -1,6 +1,6 @@
 import { ApiQuery } from "@arkecosystem/client";
 
-import { Timestamp } from "../timestamp";
+import { Timestamp } from "../../timestamp";
 
 export interface Trades {
     id: string;

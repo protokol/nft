@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Trades } from "../../../src/resources/exchange/trades";
+import { Trades } from "../../../src/resources/nft/exchange/trades";
 import { configureExchangeMocks } from "../../mocks/exchange";
 
 const resource: Trades = configureExchangeMocks<Trades>(Trades);

@@ -6,7 +6,7 @@ import {
     SearchTradesApiQuery,
     TradeById,
     Trades as TradesResource,
-} from "../../resources-types/exchange";
+} from "../../../resources-types/nft/exchange";
 
 export class Trades extends Resource {
     public async all(query?: AllTradesQuery): Promise<ApiResponseWithPagination<TradesResource[]>> {

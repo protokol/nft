@@ -1,11 +1,11 @@
 import { Connection } from "@arkecosystem/client";
 
-import { NFTBaseAvailableResource, NFTBaseAvailableResourcesName, NFTBaseResources } from "./resources/base";
+import { NFTBaseAvailableResource, NFTBaseAvailableResourcesName, NFTBaseResources } from "./resources/nft/base";
 import {
     NFTExchangeAvailableResource,
     NFTExchangeAvailableResourcesName,
     NFTExchangeResources,
-} from "./resources/exchange";
+} from "./resources/nft/exchange";
 
 export class NFTConnection extends Connection {
     public NFTBaseApi<T extends NFTBaseAvailableResourcesName>(name: T) {
@@ -17,5 +17,4 @@ export class NFTConnection extends Connection {
         const selectedResourceClass = NFTExchangeResources[name.toLowerCase() as NFTExchangeAvailableResourcesName];
         return new selectedResourceClass(this) as NFTExchangeAvailableResource<T>;
     }
-
 }

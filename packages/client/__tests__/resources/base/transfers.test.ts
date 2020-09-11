@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Transfers } from "../../../src/resources/base/transfers";
+import { Transfers } from "../../../src/resources/nft/base/transfers";
 import { configureBaseMocks } from "../../mocks/base";
 
 const resource: Transfers = configureBaseMocks<Transfers>(Transfers);
