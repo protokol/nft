@@ -68,7 +68,7 @@ afterEach(() => {
 describe("Test bids controller", () => {
     it("index - should return all bids ", async () => {
         transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
-            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+            results: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
         });
 
         const request: Hapi.Request = {
@@ -168,7 +168,7 @@ describe("Test bids controller", () => {
         };
 
         transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
-            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+            results: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
         });
         const response = (await bidsController.search(request, undefined)) as PaginatedResponse;
         expect(response.results[0]).toStrictEqual({
@@ -191,7 +191,7 @@ describe("Test bids controller", () => {
             .build();
 
         transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
-            rows: [{ data: actualCanceledBid.data, block: { timestamp: timestamp.epoch } }],
+            results: [{ data: actualCanceledBid.data, block: { timestamp: timestamp.epoch } }],
         });
 
         const request: Hapi.Request = {

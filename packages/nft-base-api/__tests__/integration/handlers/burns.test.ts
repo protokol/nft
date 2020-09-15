@@ -34,9 +34,9 @@ describe("API - Burns", () => {
             );
 
             jest.spyOn(transactionRepository, "listByExpression").mockResolvedValueOnce({
-                rows: [{ ...nftBurn.data, serialized: nftBurn.serialized }],
-                count: 1,
-                countIsEstimate: false,
+                results: [{ ...nftBurn.data, serialized: nftBurn.serialized }],
+                totalCount: 1,
+                meta: { totalCountIsEstimate: false },
             });
             const response = await api.request("GET", "nft/burns", { transform: false });
 

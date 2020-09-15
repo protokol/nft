@@ -59,7 +59,7 @@ afterEach(() => {
 describe("Test trades controller", () => {
     it("index - returns all trade transactions ", async () => {
         transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
-            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+            results: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
         });
 
         const request: Hapi.Request = {
@@ -166,7 +166,7 @@ describe("Test trades controller", () => {
         requestWithBidId.payload.bidId = actual.data.asset!.nftAcceptTrade.bidId;
 
         transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValue({
-            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+            results: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
         });
 
         const expectedResponse = {

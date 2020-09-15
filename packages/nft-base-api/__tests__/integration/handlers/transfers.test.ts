@@ -36,9 +36,9 @@ describe("API - Transfers", () => {
             );
 
             jest.spyOn(transactionRepository, "listByExpression").mockResolvedValueOnce({
-                rows: [{ ...nftTransfer.data, serialized: nftTransfer.serialized }],
-                count: 1,
-                countIsEstimate: false,
+                results: [{ ...nftTransfer.data, serialized: nftTransfer.serialized }],
+                totalCount: 1,
+                meta: { totalCountIsEstimate: false },
             });
             const response = await api.request("GET", "nft/transfers", { transform: false });
 

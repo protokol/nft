@@ -101,7 +101,7 @@ afterEach(() => {
 describe("Test collection controller", () => {
     it("index - return all collections", async () => {
         transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
-            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+            results: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
         });
 
         const request: Hapi.Request = {
@@ -225,7 +225,7 @@ describe("Test collection controller", () => {
 
     it("searchCollection - search collection by payload", async () => {
         transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
-            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+            results: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
         });
         const request: Hapi.Request = {
             payload: {
@@ -276,7 +276,7 @@ describe("Test collection controller", () => {
         walletRepository.getIndex(Indexers.NFTIndexers.NFTTokenIndexer).index(senderWallet);
 
         transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
-            rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+            results: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
         });
 
         const request: Hapi.Request = {

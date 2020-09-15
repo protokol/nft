@@ -54,9 +54,9 @@ describe("API - Collections", () => {
             );
 
             jest.spyOn(transactionRepository, "listByExpression").mockResolvedValueOnce({
-                rows: [{ ...nftRegisteredCollection.data, serialized: nftRegisteredCollection.serialized }],
-                count: 1,
-                countIsEstimate: false,
+                results: [{ ...nftRegisteredCollection.data, serialized: nftRegisteredCollection.serialized }],
+                totalCount: 1,
+                meta: { totalCountIsEstimate: false },
             });
 
             const response = await api.request("GET", "nft/collections", { transform: false });
@@ -179,9 +179,9 @@ describe("API - Collections", () => {
             );
 
             jest.spyOn(transactionRepository, "listByExpression").mockResolvedValueOnce({
-                rows: [{ ...nftRegisteredCollection.data, serialized: nftRegisteredCollection.serialized }],
-                count: 1,
-                countIsEstimate: false,
+                results: [{ ...nftRegisteredCollection.data, serialized: nftRegisteredCollection.serialized }],
+                totalCount: 1,
+                meta: { totalCountIsEstimate: false },
             });
 
             const response = await api.request("POST", "nft/collections/search?transform=false", {
@@ -232,9 +232,9 @@ describe("API - Collections", () => {
             );
 
             jest.spyOn(transactionRepository, "listByExpression").mockResolvedValueOnce({
-                rows: [{ ...nftToken.data, serialized: nftToken.serialized }],
-                count: 1,
-                countIsEstimate: false,
+                results: [{ ...nftToken.data, serialized: nftToken.serialized }],
+                totalCount: 1,
+                meta: { totalCountIsEstimate: false },
             });
 
             const response = await api.request("GET", `nft/collections/${nftToken.id}/assets`, { transform: false });

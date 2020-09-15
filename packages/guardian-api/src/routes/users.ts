@@ -1,3 +1,4 @@
+import { Schemas } from "@arkecosystem/core-api";
 import Hapi from "@hapi/hapi";
 import Joi from "@hapi/joi";
 
@@ -14,9 +15,8 @@ export const register = (server: Hapi.Server): void => {
         options: {
             validate: {
                 query: Joi.object({
-                    ...server.app.schemas.pagination,
                     orderBy: server.app.schemas.orderBy,
-                }),
+                }).concat(Schemas.pagination),
             },
         },
     });

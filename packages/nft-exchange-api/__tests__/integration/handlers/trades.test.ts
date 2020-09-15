@@ -36,9 +36,9 @@ describe("API - Trades", () => {
             );
 
             jest.spyOn(transactionRepository, "listByExpression").mockResolvedValueOnce({
-                rows: [{ ...nftAcceptTrade.data, serialized: nftAcceptTrade.serialized }],
-                count: 1,
-                countIsEstimate: false,
+                results: [{ ...nftAcceptTrade.data, serialized: nftAcceptTrade.serialized }],
+                totalCount: 1,
+                meta: { totalCountIsEstimate: false },
             });
 
             const response = await api.request("GET", "nft/exchange/trades", { transform: false });
@@ -108,9 +108,9 @@ describe("API - Trades", () => {
             );
 
             jest.spyOn(transactionRepository, "listByExpression").mockResolvedValueOnce({
-                rows: [{ ...nftAcceptTrade.data, serialized: nftAcceptTrade.serialized }],
-                count: 1,
-                countIsEstimate: false,
+                results: [{ ...nftAcceptTrade.data, serialized: nftAcceptTrade.serialized }],
+                totalCount: 1,
+                meta: { totalCountIsEstimate: false },
             });
 
             const response = await api.request("POST", "nft/exchange/trades/search?transform=false", {

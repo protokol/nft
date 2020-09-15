@@ -244,7 +244,7 @@ describe("Guardian set group permissions tests", () => {
     describe("revert tests", () => {
         it("should test revert method if group permissions were set only once", async () => {
             await handler.apply(actual);
-            transactionHistoryService.listByCriteria.mockImplementationOnce(() => ({ rows: [] }));
+            transactionHistoryService.listByCriteria.mockImplementationOnce(() => ({ results: [] }));
 
             expect(await groupsPermissionsCache.has(groupPermissionsAsset.name)).toBeTrue();
             await expect(handler.revert(actual)).toResolve();
@@ -256,7 +256,7 @@ describe("Guardian set group permissions tests", () => {
             await handler.apply(actual);
             const oldPermissions = { ...groupPermissionsAsset, active: false };
             transactionHistoryService.listByCriteria.mockImplementationOnce(() => ({
-                rows: [
+                results: [
                     {
                         asset: {
                             setGroupPermissions: oldPermissions,
