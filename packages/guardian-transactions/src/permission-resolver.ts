@@ -24,9 +24,24 @@ export class PermissionResolver {
         GuardianInterfaces.GuardianGroupPermissionsAsset
     >;
 
+    @Container.inject(Container.Identifiers.StateStore)
+    private readonly stateStore!: Contracts.State.StateStore;
+
+    private genesisWalletPublicKey: Interfaces.ITransactionData["senderPublicKey"] = undefined;
+
     public async resolve(transaction: Interfaces.ITransaction): Promise<boolean> {
         const publicKey = transaction.data.senderPublicKey;
         AppUtils.assert.defined<string>(publicKey);
+
+        // allow transactions from first block and masterPublicKey or genesis wallet publicKey
+        const masterPublicKey = this.configuration.get<string>("masterPublicKey");
+        if (
+            publicKey === masterPublicKey ||
+            publicKey === this.getGenesisWalletPublicKey() ||
+            this.stateStore.getLastBlock().data.height === 1
+        ) {
+            return true;
+        }
 
         if (this.walletRepository.hasByIndex(GuardianIndexers.UserPermissionsIndexer, publicKey)) {
             const userWallet = this.walletRepository.findByIndex(GuardianIndexers.UserPermissionsIndexer, publicKey);
@@ -91,5 +106,14 @@ export class PermissionResolver {
 
     private isAllowed(kind: Enums.PermissionKind): boolean {
         return kind === Enums.PermissionKind.Allow;
+    }
+
+    private getGenesisWalletPublicKey() {
+        if (!this.genesisWalletPublicKey) {
+            const [genesisTx] = this.stateStore.getGenesisBlock().transactions;
+            this.genesisWalletPublicKey = genesisTx.data.senderPublicKey;
+        }
+
+        return this.genesisWalletPublicKey;
     }
 }

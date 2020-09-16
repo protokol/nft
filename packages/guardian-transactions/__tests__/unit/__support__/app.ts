@@ -1,5 +1,5 @@
 import { Application, Container, Contracts, Providers, Services } from "@arkecosystem/core-kernel";
-import { Stores, Wallets } from "@arkecosystem/core-state";
+import { Wallets } from "@arkecosystem/core-state";
 import { Generators, Mocks } from "@arkecosystem/core-test-framework";
 import {
     ApplyTransactionAction,
@@ -83,7 +83,7 @@ export const initApp = (): Application => {
         300,
     );
 
-    app.bind(Container.Identifiers.StateStore).to(Stores.StateStore).inTransientScope();
+    app.bind(Container.Identifiers.StateStore).toConstantValue(Mocks.StateStore.instance);
 
     app.bind(Container.Identifiers.TransactionPoolMempool).to(Mempool).inSingletonScope();
 
