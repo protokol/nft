@@ -36,7 +36,11 @@ export class GuardianGroupPermissionsTransaction extends Transactions.Transactio
                             required: ["name", "priority", "permissions", "active", "default"],
                             properties: {
                                 name: groupNameSchema,
-                                priority: { type: "integer" },
+                                priority: {
+                                    type: "integer",
+                                    minimum: defaults.guardianGroupPriority.min,
+                                    maximum: defaults.guardianGroupPriority.max,
+                                },
                                 active: { type: "boolean" },
                                 default: { type: "boolean" },
                                 permissions: permissionsSchema,
