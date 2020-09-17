@@ -30,3 +30,11 @@
 
 // import { NFTAcceptTrade } from "./exchange/nft-accept-trade";
 // NFTAcceptTrade();
+
+// Guardian transactions types
+
+// import { guardianGroupPermission } from "./guardian/guardian-group-permissions";
+// guardianGroupPermission();
+
+// import { guardianUserPermission } from "./guardian/guardian-user-permissions";
+// guardianUserPermission();

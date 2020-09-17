@@ -39,7 +39,8 @@
     "dependencies": {
         "@protokol/client": "^1.0.0-beta.23",
         "@protokol/nft-base-crypto": "^1.0.0-beta.23",
-        "@protokol/nft-exchange-crypto": "^1.0.0-beta.23"
+        "@protokol/nft-exchange-crypto": "^1.0.0-beta.23",
+        "@protokol/guardian-crypto": "^1.0.0-beta.23"
     },
     "devDependencies": {
         "@types/prettier": "^2.0.0",
