@@ -1,6 +1,6 @@
 {
     "name": "@protokol/guardian-transactions",
-    "version": "1.0.0-beta.23",
+    "version": "1.0.0-beta.24",
     "description": "Transaction Types For Guardian Support",
     "license": "CC-BY-NC-SA-4.0",
     "homepage": "https://docs.protokol.com/nft/",
@@ -42,12 +42,12 @@
         "test:functional:coverage": "cross-env CORE_ENV=test jest __tests__/functional --coverage --forceExit"
     },
     "dependencies": {
-        "@arkecosystem/core-database": "^3.0.0-alpha.9",
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.9",
-        "@arkecosystem/core-state": "^3.0.0-alpha.9",
-        "@arkecosystem/core-transactions": "^3.0.0-alpha.9",
-        "@arkecosystem/crypto": "^3.0.0-alpha.9",
-        "@protokol/guardian-crypto": "^1.0.0-beta.23"
+        "@arkecosystem/core-database": "^3.0.0-alpha.10",
+        "@arkecosystem/core-kernel": "^3.0.0-alpha.10",
+        "@arkecosystem/core-state": "^3.0.0-alpha.10",
+        "@arkecosystem/core-transactions": "^3.0.0-alpha.10",
+        "@arkecosystem/crypto": "^3.0.0-alpha.10",
+        "@protokol/guardian-crypto": "^1.0.0-beta.24"
     },
     "devDependencies": {
         "@types/prettier": "^2.0.0",
