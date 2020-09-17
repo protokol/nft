@@ -10,5 +10,5 @@ cd packages/guardian-crypto && npm publish --tag beta && cd ../..
 cd packages/guardian-transactions && npm publish --tag beta && cd ../..
 cd packages/guardian-api && npm publish --tag beta && cd ../..
 cd packages/nft-generator-api && npm publish --tag beta && cd ../..
-cd packages/nft-client && npm publish --tag beta && cd ../..
+cd packages/client && npm publish --tag beta && cd ../..
 
