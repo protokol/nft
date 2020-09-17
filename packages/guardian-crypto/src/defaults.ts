@@ -5,4 +5,8 @@ export const defaults = {
         minLength: 1,
         maxLength: 40,
     },
+    guardianGroupPriority: {
+        min: 0,
+        max: 1000,
+    },
 };
