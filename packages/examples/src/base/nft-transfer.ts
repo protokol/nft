@@ -1,11 +1,11 @@
-import { NFTConnection } from "@protokol/nft-client";
-import { ARKCrypto, Builders, Transactions as NFTTransactions } from "@protokol/nft-exchange-crypto";
+import { NFTConnection } from "@protokol/client";
+import { ARKCrypto, Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 
-export const NFTAuction = async () => {
+export const NFTTransfer = async () => {
     // Configure manager and register transaction type
     ARKCrypto.Managers.configManager.setFromPreset("testnet");
     ARKCrypto.Managers.configManager.setHeight(2);
-    ARKCrypto.Transactions.TransactionRegistry.registerTransactionType(NFTTransactions.NFTAuctionTransaction);
+    ARKCrypto.Transactions.TransactionRegistry.registerTransactionType(NFTTransactions.NFTTransferTransaction);
 
     // Configure our API client
     const client = new NFTConnection("http://nft.protokol.com:4003/api");
@@ -16,13 +16,10 @@ export const NFTAuction = async () => {
     const senderNonce = ARKCrypto.Utils.BigNumber.make(senderWallet.body.data.nonce).plus(1);
 
     // Step 2: Create the transaction
-    const transaction = new Builders.NFTAuctionBuilder()
-        .NFTAuctionAsset({
-            startAmount: ARKCrypto.Utils.BigNumber.make("1000"),
-            expiration: {
-                blockHeight: 1000000,
-            },
-            nftIds: ["77c0cc9bbb26c69c95e7bd12ca7e2590ea70417eaf8f593905fd30b440ec8458"],
+    const transaction = new Builders.NFTTransferBuilder()
+        .NFTTransferAsset({
+            recipientId: ARKCrypto.Identities.Address.fromPassphrase(passphrase),
+            nftIds: ["7373bbe5524898faec40bfcd12c6161981771f3be6426404208784831f4b0d02"],
         })
         .nonce(senderNonce.toFixed())
         .sign(passphrase);

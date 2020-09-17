@@ -47,8 +47,8 @@
         "@hapi/hapi": "^19.0.0",
         "@hapi/joi": "^17.1.0",
         "latest-version": "^5.1.0",
-        "@protokol/guardian-crypto": "^1.0.0-beta.0",
-        "@protokol/guardian-transactions": "^1.0.0-beta.0"
+        "@protokol/guardian-crypto": "^1.0.0-beta.23",
+        "@protokol/guardian-transactions": "^1.0.0-beta.23"
     },
     "devDependencies": {
         "@types/hapi__boom": "^7.4.1",

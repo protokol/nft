@@ -1,11 +1,11 @@
-import { ARKCrypto, Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
-import { NFTConnection } from "@protokol/nft-client";
+import { NFTConnection } from "@protokol/client";
+import { ARKCrypto, Builders, Transactions as NFTTransactions } from "@protokol/nft-exchange-crypto";
 
-export const NFTCreate = async () => {
+export const NFTAuctionCancel = async () => {
     // Configure manager and register transaction type
     ARKCrypto.Managers.configManager.setFromPreset("testnet");
     ARKCrypto.Managers.configManager.setHeight(2);
-    ARKCrypto.Transactions.TransactionRegistry.registerTransactionType(NFTTransactions.NFTCreateTransaction);
+    ARKCrypto.Transactions.TransactionRegistry.registerTransactionType(NFTTransactions.NFTAuctionCancelTransaction);
 
     // Configure our API client
     const client = new NFTConnection("http://nft.protokol.com:4003/api");
@@ -16,18 +16,9 @@ export const NFTCreate = async () => {
     const senderNonce = ARKCrypto.Utils.BigNumber.make(senderWallet.body.data.nonce).plus(1);
 
     // Step 2: Create the transaction
-    const transaction = new Builders.NFTCreateBuilder()
-        .NFTCreateToken({
-            collectionId: "c23b4a9e07329861422df43631d7aa72153cabcca3067941b94a69016ae8723b",
-            attributes: {
-                name: "Antonio Caracciolo",
-                pac: 90,
-                sho: 90,
-                pas: 90,
-                dri: 90,
-                def: 90,
-                phy: 90,
-            },
+    const transaction = new Builders.NFTAuctionCancelBuilder()
+        .NFTAuctionCancelAsset({
+            auctionId: "58dc9625ff7190dc3ff2dbf541a2bb2c8a85366f2cbe95d21ec9b8970f41d086",
         })
         .nonce(senderNonce.toFixed())
         .sign(passphrase);

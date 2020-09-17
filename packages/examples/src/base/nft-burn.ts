@@ -1,11 +1,11 @@
+import { NFTConnection } from "@protokol/client";
 import { ARKCrypto, Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
-import { NFTConnection } from "@protokol/nft-client";
 
-export const NFTTransfer = async () => {
+export const NFTBurn = async () => {
     // Configure manager and register transaction type
     ARKCrypto.Managers.configManager.setFromPreset("testnet");
     ARKCrypto.Managers.configManager.setHeight(2);
-    ARKCrypto.Transactions.TransactionRegistry.registerTransactionType(NFTTransactions.NFTTransferTransaction);
+    ARKCrypto.Transactions.TransactionRegistry.registerTransactionType(NFTTransactions.NFTBurnTransaction);
 
     // Configure our API client
     const client = new NFTConnection("http://nft.protokol.com:4003/api");
@@ -16,10 +16,9 @@ export const NFTTransfer = async () => {
     const senderNonce = ARKCrypto.Utils.BigNumber.make(senderWallet.body.data.nonce).plus(1);
 
     // Step 2: Create the transaction
-    const transaction = new Builders.NFTTransferBuilder()
-        .NFTTransferAsset({
-            recipientId: ARKCrypto.Identities.Address.fromPassphrase(passphrase),
-            nftIds: ["7373bbe5524898faec40bfcd12c6161981771f3be6426404208784831f4b0d02"],
+    const transaction = new Builders.NFTBurnBuilder()
+        .NFTBurnAsset({
+            nftId: "6f252f11b119e00a5364d37670623d1b6be562f577984c819237ca4668e2897e",
         })
         .nonce(senderNonce.toFixed())
         .sign(passphrase);

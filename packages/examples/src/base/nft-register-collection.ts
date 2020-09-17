@@ -1,5 +1,5 @@
+import { NFTConnection } from "@protokol/client";
 import { ARKCrypto, Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
-import { NFTConnection } from "@protokol/nft-client";
 
 export const NFTRegisterCollection = async () => {
     // Configure manager and register transaction type

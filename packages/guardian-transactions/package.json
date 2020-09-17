@@ -47,7 +47,7 @@
         "@arkecosystem/core-state": "^3.0.0-alpha.9",
         "@arkecosystem/core-transactions": "^3.0.0-alpha.9",
         "@arkecosystem/crypto": "^3.0.0-alpha.9",
-        "@protokol/guardian-crypto": "^1.0.0-beta.0"
+        "@protokol/guardian-crypto": "^1.0.0-beta.23"
     },
     "devDependencies": {
         "@types/prettier": "^2.0.0",

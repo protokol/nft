@@ -1,14 +1,16 @@
-import { NFTConnection } from "@protokol/nft-client";
-import { ARKCrypto, Builders, Transactions as NFTTransactions } from "@protokol/nft-exchange-crypto";
+import { GuardianConnection } from "@protokol/client";
+import { ARKCrypto, Builders, Enums, Transactions as GuardianTransactions } from "@protokol/guardian-crypto";
 
-export const NFTAuctionCancel = async () => {
+export const guardianGroupPermission = async () => {
     // Configure manager and register transaction type
     ARKCrypto.Managers.configManager.setFromPreset("testnet");
     ARKCrypto.Managers.configManager.setHeight(2);
-    ARKCrypto.Transactions.TransactionRegistry.registerTransactionType(NFTTransactions.NFTAuctionCancelTransaction);
+    ARKCrypto.Transactions.TransactionRegistry.registerTransactionType(
+        GuardianTransactions.GuardianGroupPermissionsTransaction,
+    );
 
     // Configure our API client
-    const client = new NFTConnection("http://nft.protokol.com:4003/api");
+    const client = new GuardianConnection("http://nft.protokol.com:4003/api");
     const passphrase = "clay harbor enemy utility margin pretty hub comic piece aerobic umbrella acquire";
 
     // Step 1: Retrieve the nonce of the sender wallet
@@ -16,9 +18,18 @@ export const NFTAuctionCancel = async () => {
     const senderNonce = ARKCrypto.Utils.BigNumber.make(senderWallet.body.data.nonce).plus(1);
 
     // Step 2: Create the transaction
-    const transaction = new Builders.NFTAuctionCancelBuilder()
-        .NFTAuctionCancelAsset({
-            auctionId: "58dc9625ff7190dc3ff2dbf541a2bb2c8a85366f2cbe95d21ec9b8970f41d086",
+    const transaction = new Builders.GuardianGroupPermissionsBuilder()
+        .GuardianGroupPermissions({
+            name: "Test Guardian Permission Group",
+            permissions: [
+                {
+                    kind: Enums.PermissionKind.Allow,
+                    types: [{ transactionType: 1, transactionTypeGroup: 1 }],
+                },
+            ],
+            priority: 1,
+            active: true,
+            default: false,
         })
         .nonce(senderNonce.toFixed())
         .sign(passphrase);
