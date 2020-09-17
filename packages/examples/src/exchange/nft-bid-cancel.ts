@@ -1,4 +1,4 @@
-import { NFTConnection } from "@protokol/nft-client";
+import { NFTConnection } from "@protokol/client";
 import { ARKCrypto, Builders, Transactions as NFTTransactions } from "@protokol/nft-exchange-crypto";
 
 export const NFTBidCancel = async () => {
