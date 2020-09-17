@@ -41,8 +41,8 @@
         "test:integration:coverage": "cross-env CORE_ENV=test jest __tests__/integration --coverage --runInBand --forceExit"
     },
     "dependencies": {
-        "@arkecosystem/core-api": "^3.0.0-alpha.9",
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.9",
+        "@arkecosystem/core-api": "^3.0.0-alpha.10",
+        "@arkecosystem/core-kernel": "^3.0.0-alpha.10",
         "@hapi/boom": "^9.0.0",
         "@hapi/hapi": "^19.0.0",
         "@hapi/joi": "^17.1.0",
