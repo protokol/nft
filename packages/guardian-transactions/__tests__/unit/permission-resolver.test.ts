@@ -2,7 +2,7 @@ import "jest-extended";
 
 import { Application, Container, Contracts, Providers } from "@arkecosystem/core-kernel";
 import { Wallets } from "@arkecosystem/core-state";
-import { passphrases } from "@arkecosystem/core-test-framework";
+import { Mocks, passphrases } from "@arkecosystem/core-test-framework";
 import { Interfaces } from "@arkecosystem/crypto";
 import { cloneDeep } from "@arkecosystem/utils";
 import { Builders, Enums, Interfaces as GuardianInterfaces } from "@protokol/guardian-crypto";
@@ -43,6 +43,11 @@ const groupPermissionsAsset = {
     ],
 };
 
+const defaultMockBlock: Partial<Interfaces.IBlock> = {
+    data: { height: 10 } as Interfaces.IBlockData,
+    transactions: [{ data: {} as Interfaces.ITransactionData } as Interfaces.ITransaction],
+};
+
 const buildGroupPermissionsTx = (asset?, nonce?) =>
     new Builders.GuardianGroupPermissionsBuilder()
         .GuardianGroupPermissions(asset || groupPermissionsAsset)
@@ -72,6 +77,8 @@ beforeEach(() => {
         "defaultRuleBehaviour",
         Enums.PermissionKind.Allow,
     );
+
+    Mocks.StateStore.setBlock(defaultMockBlock);
 });
 
 afterEach(() => {
@@ -187,7 +194,7 @@ describe("Guardian permission resolver tests", () => {
         });
 
         it("should deny transaction if user is in group with Deny permission for tx type", async () => {
-            const userGroup = { ...cloneDeep(groupPermissionsAsset) };
+            const userGroup = cloneDeep(groupPermissionsAsset);
             userGroup.permissions[0].kind = Enums.PermissionKind.Deny;
             await groupsPermissionsCache.put(userGroup.name, userGroup, -1);
             const userPermissions = {
@@ -203,7 +210,7 @@ describe("Guardian permission resolver tests", () => {
         });
 
         it("should allow transaction if user is in group with Allow permission for tx type", async () => {
-            const userGroup = { ...cloneDeep(groupPermissionsAsset) };
+            const userGroup = cloneDeep(groupPermissionsAsset);
             await groupsPermissionsCache.put(userGroup.name, userGroup, -1);
             const userPermissions = {
                 groups: [userGroup.name],
@@ -224,6 +231,48 @@ describe("Guardian permission resolver tests", () => {
             };
             senderWallet.setAttribute("guardian.userPermissions", userPermissions);
             walletRepository.getIndex(GuardianIndexers.UserPermissionsIndexer).index(senderWallet);
+
+            const isTxAllowed = await permissionResolver.resolve(actual);
+
+            expect(isTxAllowed).toBeTrue();
+        });
+
+        it("should allow transaction if it is first block", async () => {
+            const mockBlock = cloneDeep(defaultMockBlock);
+            mockBlock.data!.height = 1;
+            Mocks.StateStore.setBlock(mockBlock);
+
+            const isTxAllowed = await permissionResolver.resolve(actual);
+
+            expect(isTxAllowed).toBeTrue();
+        });
+
+        it("should allow transaction if genesis", async () => {
+            const mockBlock = cloneDeep(defaultMockBlock);
+            mockBlock.transactions![0].data.senderPublicKey = senderWallet.publicKey;
+            Mocks.StateStore.setBlock(mockBlock);
+
+            const isTxAllowed = await permissionResolver.resolve(actual);
+
+            expect(isTxAllowed).toBeTrue();
+        });
+
+        it("should use cached genesis publicKey to check permissions", async () => {
+            const mockBlock = cloneDeep(defaultMockBlock);
+            mockBlock.transactions![0].data.senderPublicKey = senderWallet.publicKey;
+            Mocks.StateStore.setBlock(mockBlock);
+
+            await permissionResolver.resolve(actual);
+            const isTxAllowed = await permissionResolver.resolve(actual);
+
+            expect(isTxAllowed).toBeTrue();
+        });
+
+        it("should allow transaction if user is masterPublicKey", async () => {
+            app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set(
+                "masterPublicKey",
+                senderWallet.publicKey,
+            );
 
             const isTxAllowed = await permissionResolver.resolve(actual);
 
