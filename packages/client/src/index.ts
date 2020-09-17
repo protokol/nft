@@ -6,5 +6,5 @@ export * as ExchangeResourcesTypes from "./resources-types/nft/exchange";
 export * as GuardianResources from "./resources/guardian";
 export * as GuardianResourcesTypes from "./resources-types/guardian";
 export { Timestamp } from "./resources-types/timestamp";
-export { PeerDiscovery } from "./peer-discovery";
+export { PeerDiscovery, IPeer, IPeerResponse } from "./peer-discovery";
 export { ConnectionManager } from "./connection-manager";
