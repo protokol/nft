@@ -1,6 +1,6 @@
 {
     "name": "@protokol/guardian-api",
-    "version": "1.0.0-beta.23",
+    "version": "1.0.0-beta.24",
     "description": "REST API For Guardian Functionality",
     "license": "CC-BY-NC-SA-4.0",
     "homepage": "https://docs.protokol.com/nft/",
@@ -47,8 +47,8 @@
         "@hapi/hapi": "^19.0.0",
         "@hapi/joi": "^17.1.0",
         "latest-version": "^5.1.0",
-        "@protokol/guardian-crypto": "^1.0.0-beta.23",
-        "@protokol/guardian-transactions": "^1.0.0-beta.23"
+        "@protokol/guardian-crypto": "^1.0.0-beta.24",
+        "@protokol/guardian-transactions": "^1.0.0-beta.24"
     },
     "devDependencies": {
         "@types/hapi__boom": "^7.4.1",
