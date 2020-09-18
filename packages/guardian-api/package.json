@@ -52,7 +52,7 @@
     },
     "devDependencies": {
         "@types/hapi__boom": "^7.4.1",
-        "@types/hapi__joi": "^16.0.4",
+        "@types/hapi__joi": "^17.0.0",
         "@types/prettier": "^2.0.0",
         "@types/rimraf": "^3.0.0",
         "@types/uuid": "^7.0.2",

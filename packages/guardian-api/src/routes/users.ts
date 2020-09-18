@@ -14,9 +14,10 @@ export const register = (server: Hapi.Server): void => {
         handler: controller.index,
         options: {
             validate: {
-                query: Joi.object({
-                    orderBy: server.app.schemas.orderBy,
-                }).concat(Schemas.pagination),
+                query: Schemas.pagination,
+            },
+            plugins: {
+                pagination: { enabled: true },
             },
         },
     });
