@@ -2,7 +2,7 @@
 
 # NFT Tx Tester
 
-A Protokol module providing command line utility for creating and broadcasting NFT transactions.
+A Protokol module providing command line utility for creating and broadcasting Protokol transactions.
 
 ## Source Install
 
@@ -14,9 +14,9 @@ A Protokol module providing command line utility for creating and broadcasting N
 yarn
 ```
 
-#### Run NFT Tx Tester
+#### Run protokol-cli
 
-Tester-CLI has 4 commands:
+protokol-cli has 4 commands:
 
 -   send
 -   list-wallets
