@@ -4,6 +4,9 @@ import { Handlers } from "@arkecosystem/core-transactions";
 import { Identities, Utils } from "@arkecosystem/crypto";
 import { Handlers as GuardianHandlers, Indexers } from "@protokol/guardian-transactions";
 
+import { Identifiers } from "../../../src/identifiers";
+import { GroupSearchService, UserSearchService } from "../../../src/services";
+
 export type PaginatedResponse = {
     totalCount: number;
     results: [object];
@@ -122,6 +125,10 @@ export const initApp = (): Application => {
 
     // Triggers registration of indexes
     app.get<Handlers.Registry>(Container.Identifiers.TransactionHandlerRegistry);
+
+    app.bind(Container.Identifiers.PaginationService).to(Services.Search.PaginationService);
+    app.bind(Identifiers.GroupSearchService).to(GroupSearchService);
+    app.bind(Identifiers.UserSearchService).to(UserSearchService);
 
     return app;
 };
