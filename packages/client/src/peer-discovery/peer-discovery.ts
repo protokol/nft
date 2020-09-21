@@ -144,16 +144,6 @@ export class PeerDiscovery {
                         ...peer,
                     };
 
-                    if (opts.additional && Array.isArray(opts.additional)) {
-                        for (const additional of opts.additional) {
-                            if (typeof peer[additional] === "undefined") {
-                                continue;
-                            }
-
-                            peerData[additional] = peer[additional];
-                        }
-                    }
-
                     peers.push(peerData);
                 }
             }
