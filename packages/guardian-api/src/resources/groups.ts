@@ -1,27 +1,11 @@
-import { Contracts } from "@arkecosystem/core-api";
-import { Container } from "@arkecosystem/core-kernel";
+import { Schemas } from "@arkecosystem/core-api";
+import Joi from "@hapi/joi";
 
-@Container.injectable()
-export class GroupResource implements Contracts.Resource {
-    /**
-     * Return the raw representation of the resource.
-     *
-     * @param {*} resource
-     * @returns {object}
-     * @memberof Resource
-     */
-    public raw(resource): object {
-        return JSON.parse(JSON.stringify(resource));
-    }
+export const groupCriteriaSchemaObject = {
+    name: Joi.string(),
+    priority: Joi.number(),
+    active: Joi.boolean(),
+    default: Joi.boolean(),
+};
 
-    /**
-     * Return the transformed representation of the resource.
-     *
-     * @param {*} resource
-     * @returns {object}
-     * @memberof Resource
-     */
-    public transform(resource): object {
-        return resource;
-    }
-}
+export const groupSortingSchema = Schemas.createSortingSchema(groupCriteriaSchemaObject);

@@ -95,6 +95,7 @@ describe("API - Users", () => {
             const response = await api.request("GET", "guardian/users");
 
             expect(response).toBeSuccessfulResponse();
+            api.expectPaginator(response);
             expect(response.data.data).toBeArray();
             expect(response.data.data.length).toBe(2);
             expect(response.data.data[0]).toStrictEqual(users[0]);

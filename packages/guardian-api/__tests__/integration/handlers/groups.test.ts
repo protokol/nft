@@ -67,6 +67,7 @@ describe("API - Groups", () => {
             const response = await api.request("GET", "guardian/groups");
 
             expect(response).toBeSuccessfulResponse();
+            api.expectPaginator(response);
             expect(response.data.data).toBeArray();
             expect(response.data.data.length).toBe(2);
             expect(response.data.data[0]).toStrictEqual(groups[0]);

@@ -5,7 +5,7 @@ import { Defaults as CryptoDefaults } from "@protokol/guardian-crypto";
 import { Defaults as TransactionDefaults } from "@protokol/guardian-transactions";
 import latestVersion from "latest-version";
 
-import { ConfigurationResource } from "../resources/configurations";
+import { ConfigurationResource } from "../resources";
 
 const packageName = require("../../package.json").name;
 const currentVersion = require("../../package.json").version;

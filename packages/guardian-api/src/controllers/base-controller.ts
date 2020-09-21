@@ -1,17 +1,14 @@
 import { Controller } from "@arkecosystem/core-api";
-import { Container, Contracts } from "@arkecosystem/core-kernel";
-import { Interfaces } from "@protokol/guardian-crypto";
+import { Container } from "@arkecosystem/core-kernel";
+
+import { Identifiers } from "../identifiers";
+import { GroupSearchService, UserSearchService } from "../services";
 
 @Container.injectable()
 export class BaseController extends Controller {
-    @Container.inject(Container.Identifiers.WalletRepository)
-    @Container.tagged("state", "blockchain")
-    protected readonly walletRepository!: Contracts.State.WalletRepository;
+    @Container.inject(Identifiers.UserSearchService)
+    protected readonly userSearchService!: UserSearchService;
 
-    @Container.inject(Container.Identifiers.CacheService)
-    @Container.tagged("cache", "@protokol/guardian-transactions")
-    protected readonly groupsPermissionsCache!: Contracts.Kernel.CacheStore<
-        Interfaces.GuardianGroupPermissionsAsset["name"],
-        Interfaces.GuardianGroupPermissionsAsset
-    >;
+    @Container.inject(Identifiers.GroupSearchService)
+    protected readonly groupSearchService!: GroupSearchService;
 }
