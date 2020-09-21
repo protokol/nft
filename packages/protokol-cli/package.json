@@ -1,7 +1,7 @@
 {
-    "name": "@protokol/nft-tx-tester",
+    "name": "@protokol/protokol-cli",
     "version": "1.0.0-beta.24",
-    "description": "A simple command line utility to create and broadcast NFT transactions.",
+    "description": "A simple command line utility to create and broadcast Protokol transactions.",
     "license": "MIT",
     "homepage": "https://docs.protokol.com/nft/",
     "bugs": {

@@ -15,9 +15,9 @@ export class ConnectionManager {
         for (const peer of peers) {
             const coreApi = peer.ports["@arkecosystem/core-api"];
             if (coreApi) {
-                if (typeof this.defaultConnection === typeof NFTConnection) {
+                if (this.defaultConnection instanceof NFTConnection) {
                     this.nftConnections.push(new NFTConnection(`http://${peer.ip}:${coreApi}/api`));
-                } else if (typeof this.defaultConnection === typeof GuardianConnection) {
+                } else if (this.defaultConnection instanceof GuardianConnection) {
                     this.guardianConnections.push(new GuardianConnection(`http://${peer.ip}:${coreApi}/api`));
                 }
             }
@@ -26,30 +26,30 @@ export class ConnectionManager {
     }
 
     public getRandomNFTConnection(): NFTConnection {
-        if (typeof this.defaultConnection !== typeof NFTConnection) {
+        if (!(this.defaultConnection instanceof NFTConnection)) {
             throw new Error("Can't return random NFTConnection");
         }
         return this.nftConnections[Math.floor(Math.random() * this.nftConnections.length)];
     }
 
     public getDefaultNFTConnection(): NFTConnection {
-        if (typeof this.defaultConnection !== typeof NFTConnection) {
+        if (!(this.defaultConnection instanceof NFTConnection)) {
             throw new Error("Can't return NFTConnection");
         }
-        return this.defaultConnection as NFTConnection;
+        return this.defaultConnection;
     }
 
     public getRandomGuardianConnection(): GuardianConnection {
-        if (typeof this.defaultConnection !== typeof GuardianConnection) {
+        if (!(this.defaultConnection instanceof GuardianConnection)) {
             throw new Error("Can't return random GuardianConnection");
         }
         return this.guardianConnections[Math.floor(Math.random() * this.guardianConnections.length)];
     }
 
     public getDefaultGuardianConnection(): GuardianConnection {
-        if (typeof this.defaultConnection !== typeof GuardianConnection) {
+        if (!(this.defaultConnection instanceof GuardianConnection)) {
             throw new Error("Can't return GuardianConnection");
         }
-        return this.defaultConnection as GuardianConnection;
+        return this.defaultConnection;
     }
 }
