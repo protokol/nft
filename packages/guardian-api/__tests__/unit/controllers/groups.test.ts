@@ -12,7 +12,14 @@ import {
 } from "@protokol/guardian-crypto";
 import { Indexers } from "@protokol/guardian-transactions";
 
-import { buildWallet, CollectionResponse, ErrorResponse, initApp, ItemResponse } from "../__support__";
+import {
+    buildWallet,
+    CollectionResponse,
+    ErrorResponse,
+    initApp,
+    ItemResponse,
+    PaginatedResponse,
+} from "../__support__";
 import { GroupsController } from "../../../src/controllers/groups";
 
 let app: Application;
@@ -85,10 +92,19 @@ afterEach(() => {
 
 describe("Test group controller", () => {
     it("index - return all users", async () => {
-        const response = (await groupController.index(undefined, undefined)) as CollectionResponse;
+        const request: Hapi.Request = {
+            query: {
+                page: 1,
+                limit: 100,
+                orderBy: [],
+            },
+        };
 
-        expect(response.data.length).toBe(groups.length);
-        expect(response.data[0]).toStrictEqual(groups[0]);
+        const response = (await groupController.index(request, undefined)) as PaginatedResponse;
+
+        expect(response.totalCount).toBe(groups.length);
+        expect(response.results.length).toBe(groups.length);
+        expect(response.results[0]).toStrictEqual(groups[0]);
     });
 
     it("show - return group by id", async () => {
