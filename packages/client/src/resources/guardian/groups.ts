@@ -1,8 +1,9 @@
-import { ApiResponse, Resource } from "@arkecosystem/client";
+import { ApiResponse, ApiResponseWithPagination, Resource } from "@arkecosystem/client";
+
 import { Group, User } from "../../resources-types/guardian";
 
 export class Groups extends Resource {
-    public async index(): Promise<ApiResponse<Group>> {
+    public async index(): Promise<ApiResponseWithPagination<Group>> {
         return this.sendGet("guardian/groups");
     }
 
