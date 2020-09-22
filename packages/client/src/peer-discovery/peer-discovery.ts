@@ -14,20 +14,24 @@ export class PeerDiscovery {
     private constructor(private readonly seeds: IPeer[]) {}
 
     public static async new(
-        connection: Connection,
+        connection?: Connection,
         networkOrUrl?: "mainnet" | "devnet" | string,
     ): Promise<PeerDiscovery> {
         let seeds: IPeer[] = [];
 
         if (typeof networkOrUrl === "string") {
             if (networkOrUrl === "mainnet" || networkOrUrl === "devnet") {
-                seeds = await ky
-                    .get(`https://raw.githubusercontent.com/ArkEcosystem/peers/master/${networkOrUrl}.json`)
-                    .json<IPeer[]>();
+                try {
+                    seeds = await ky
+                        .get(`https://raw.githubusercontent.com/ArkEcosystem/peers/master/${networkOrUrl}.json`)
+                        .json<IPeer[]>();
+                } catch {
+                    throw new Error("Failed to discovery any peers.");
+                }
             } else {
                 try {
                     if (isUrl(networkOrUrl)) {
-                        seeds = await ky.get(networkOrUrl).json<IPeer[]>();
+                        seeds = (await ky.get(networkOrUrl).json<{ data: IPeer[] }>()).data;
                     } else {
                         throw new Error("Failed to discovery any peers, because the url is wrong");
                     }
@@ -36,10 +40,14 @@ export class PeerDiscovery {
                 }
             }
         } else {
-            try {
-                seeds = (await connection.get<{ data: IPeer[] }>("peers")).body.data;
-            } catch {
-                throw new Error("Failed to discovery any peers.");
+            if (connection) {
+                try {
+                    seeds = (await connection.get<{ data: IPeer[] }>("peers")).body.data;
+                } catch {
+                    throw new Error("Failed to discovery any peers.");
+                }
+            } else {
+                throw new Error("No connection, network or url specified");
             }
         }
 
@@ -132,22 +140,7 @@ export class PeerDiscovery {
                 const port: number = peer.ports[pluginName];
 
                 if (port >= 1 && port <= 65535) {
-                    const peerData: IPeer = {
-                        ip: peer.ip,
-                        port,
-                    };
-
-                    if (opts.additional && Array.isArray(opts.additional)) {
-                        for (const additional of opts.additional) {
-                            if (typeof peer[additional] === "undefined") {
-                                continue;
-                            }
-
-                            peerData[additional] = peer[additional];
-                        }
-                    }
-
-                    peers.push(peerData);
+                    peers.push(peer);
                 }
             }
         }
