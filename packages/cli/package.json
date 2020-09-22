@@ -32,7 +32,7 @@
         "/oclif.manifest.json"
     ],
     "bin": {
-        "nft-tx-tester": "./bin/run"
+        "cli": "./bin/run"
     },
     "main": "dist/index",
     "types": "dist/index",
@@ -73,5 +73,8 @@
         "plugins": [
             "@oclif/plugin-help"
         ]
+    },
+    "publishConfig": {
+        "access": "public"
     }
 }
