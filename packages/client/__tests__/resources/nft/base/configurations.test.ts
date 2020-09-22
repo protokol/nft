@@ -1,7 +1,7 @@
 import "jest-extended";
 
-import { Configurations } from "../../../src/resources/nft/base/configurations";
-import { configureBaseMocks } from "../../mocks/base";
+import { Configurations } from "../../../../src/resources/nft/base/configurations";
+import { configureBaseMocks } from "../../../mocks/nft/base";
 
 const resource: Configurations = configureBaseMocks<Configurations>(Configurations);
 

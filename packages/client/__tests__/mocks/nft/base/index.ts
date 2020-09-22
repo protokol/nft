@@ -1,4 +1,4 @@
-import { NFTConnection } from "../../../src";
+import { NFTConnection } from "../../../../src";
 import { mockAssets } from "./assets";
 import { mockBurns } from "./burns";
 import { mockCollections } from "./collections";

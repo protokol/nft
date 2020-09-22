@@ -1,5 +1,5 @@
 {
-    "name": "@protokol/protokol-cli",
+    "name": "@protokol/cli",
     "version": "1.0.0-beta.24",
     "description": "A simple command line utility to create and broadcast Protokol transactions.",
     "license": "MIT",
@@ -64,7 +64,7 @@
     },
     "oclif": {
         "commands": "./src/commands",
-        "bin": "nft-tx-tester",
+        "bin": "cli",
         "topics": {
             "send": {
                 "description": "Send transactions of various types"
