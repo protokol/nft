@@ -1,6 +1,6 @@
 ![Img](nft-tx-tester.png)
 
-# NFT Tx Tester
+# Protokol cli
 
 A Protokol module providing command line utility for creating and broadcasting Protokol transactions.
 
@@ -14,9 +14,9 @@ A Protokol module providing command line utility for creating and broadcasting P
 yarn
 ```
 
-#### Run protokol-cli
+#### Run protokol cli
 
-protokol-cli has 4 commands:
+protokol cli has 4 commands:
 
 -   send
 -   list-wallets
