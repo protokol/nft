@@ -140,11 +140,7 @@ export class PeerDiscovery {
                 const port: number = peer.ports[pluginName];
 
                 if (port >= 1 && port <= 65535) {
-                    const peerData: IPeer = {
-                        ...peer,
-                    };
-
-                    peers.push(peerData);
+                    peers.push(peer);
                 }
             }
         }
