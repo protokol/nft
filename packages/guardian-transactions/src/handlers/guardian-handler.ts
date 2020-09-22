@@ -1,9 +1,10 @@
-import { Container, Contracts } from "@arkecosystem/core-kernel";
+import { Container, Contracts, Providers } from "@arkecosystem/core-kernel";
 import { Handlers } from "@arkecosystem/core-transactions";
-import { Interfaces, Managers } from "@arkecosystem/crypto";
+import { Interfaces, Managers, Utils } from "@arkecosystem/crypto";
 import { Interfaces as GuardianInterfaces } from "@protokol/guardian-crypto";
 
-import { DuplicatePermissionsError, TransactionTypeDoesntExistError } from "../errors";
+import { FeeType } from "../enums";
+import { DuplicatePermissionsError, StaticFeeMismatchError, TransactionTypeDoesntExistError } from "../errors";
 
 const pluginName = require("../../package.json").name;
 
@@ -21,8 +22,46 @@ export abstract class GuardianTransactionHandler extends Handlers.TransactionHan
         GuardianInterfaces.GuardianGroupPermissionsAsset
     >;
 
+    @Container.inject(Container.Identifiers.PluginConfiguration)
+    @Container.tagged("plugin", pluginName)
+    protected readonly configuration!: Providers.PluginConfiguration;
+
     public async isActivated(): Promise<boolean> {
         return Managers.configManager.getMilestone().aip11 === true;
+    }
+
+    public dynamicFee({
+        addonBytes,
+        satoshiPerByte,
+        transaction,
+        height,
+    }: Contracts.Shared.DynamicFeeContext): Utils.BigNumber {
+        const feeType = this.configuration.get<FeeType>("feeType");
+
+        if (feeType === FeeType.Static) {
+            return this.getConstructor().staticFee({ height });
+        }
+        if (feeType === FeeType.None) {
+            return Utils.BigNumber.ZERO;
+        }
+
+        return super.dynamicFee({ addonBytes, satoshiPerByte, transaction, height });
+    }
+
+    public async throwIfCannotBeApplied(
+        transaction: Interfaces.ITransaction,
+        wallet: Contracts.State.Wallet,
+    ): Promise<void> {
+        const feeType = this.configuration.get<FeeType>("feeType");
+
+        if (feeType === FeeType.Static) {
+            const staticFee = this.getConstructor().staticFee();
+
+            if (!transaction.data.fee.isEqualTo(staticFee)) {
+                throw new StaticFeeMismatchError(staticFee.toFixed());
+            }
+        }
+        return super.throwIfCannotBeApplied(transaction, wallet);
     }
 
     protected getDefaultCriteria() {

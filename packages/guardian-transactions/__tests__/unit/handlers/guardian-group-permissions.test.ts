@@ -1,15 +1,20 @@
 import "jest-extended";
 
-import { Application, Container, Contracts } from "@arkecosystem/core-kernel";
+import { Application, Container, Contracts, Providers } from "@arkecosystem/core-kernel";
 import { Wallets } from "@arkecosystem/core-state";
 import { passphrases } from "@arkecosystem/core-test-framework";
 import { Mempool } from "@arkecosystem/core-transaction-pool";
 import { Handlers } from "@arkecosystem/core-transactions";
-import { Interfaces, Transactions } from "@arkecosystem/crypto";
+import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Builders, Enums, Interfaces as GuardianInterfaces } from "@protokol/guardian-crypto";
 
 import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
-import { DuplicatePermissionsError, TransactionTypeDoesntExistError } from "../../../src/errors";
+import { FeeType } from "../../../src/enums";
+import {
+    DuplicatePermissionsError,
+    StaticFeeMismatchError,
+    TransactionTypeDoesntExistError,
+} from "../../../src/errors";
 import { GuardianApplicationEvents } from "../../../src/events";
 import { deregisterTransactions } from "../utils/utils";
 
@@ -45,11 +50,12 @@ const groupPermissionsAsset = {
     ],
 };
 
-const buildGroupPermissionsTx = (asset?, nonce?) =>
+const buildGroupPermissionsTx = (asset?, nonce?, fee?) =>
     new Builders.GuardianGroupPermissionsBuilder()
         .GuardianGroupPermissions(asset || groupPermissionsAsset)
         .nonce(nonce || "1")
         .sign(passphrases[0])
+        .fee(fee || Enums.GuardianStaticFees.GuardianSetGroupPermissions)
         .build();
 
 beforeEach(() => {
@@ -179,6 +185,28 @@ describe("Guardian set group permissions tests", () => {
                 TransactionTypeDoesntExistError,
             );
         });
+
+        it("should throw StaticFeeMismatchError", async () => {
+            app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set<FeeType>(
+                "feeType",
+                FeeType.Static,
+            );
+
+            actual = buildGroupPermissionsTx(undefined, undefined, "1");
+
+            await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
+                StaticFeeMismatchError,
+            );
+        });
+
+        it("should not throw if fee is the same as static fee", async () => {
+            app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set<FeeType>(
+                "feeType",
+                FeeType.Static,
+            );
+
+            await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).toResolve();
+        });
     });
 
     describe("throwIfCannotEnterPool", () => {
@@ -268,6 +296,50 @@ describe("Guardian set group permissions tests", () => {
             await expect(handler.revert(actual)).toResolve();
             expect(await groupsPermissionsCache.has(groupPermissionsAsset.name)).toBeTrue();
             expect(await groupsPermissionsCache.get(groupPermissionsAsset.name)).toStrictEqual(oldPermissions);
+        });
+    });
+
+    describe("fee tests", () => {
+        it("should test dynamic fee", async () => {
+            expect(
+                handler.dynamicFee({
+                    transaction: actual,
+                    addonBytes: 150,
+                    satoshiPerByte: 3,
+                    height: 1,
+                }),
+            ).toEqual(Utils.BigNumber.make((Math.round(actual.serialized.length / 2) + 150) * 3));
+        });
+
+        it("should test static fee", async () => {
+            app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set<FeeType>(
+                "feeType",
+                FeeType.Static,
+            );
+
+            expect(
+                handler.dynamicFee({
+                    transaction: actual,
+                    addonBytes: 150,
+                    satoshiPerByte: 3,
+                    height: 1,
+                }),
+            ).toEqual(Utils.BigNumber.make(handler.getConstructor().staticFee()));
+        });
+
+        it("should test none fee", async () => {
+            app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set<FeeType>(
+                "feeType",
+                FeeType.None,
+            );
+            expect(
+                handler.dynamicFee({
+                    transaction: actual,
+                    addonBytes: 150,
+                    satoshiPerByte: 3,
+                    height: 1,
+                }),
+            ).toEqual(Utils.BigNumber.ZERO);
         });
     });
 });

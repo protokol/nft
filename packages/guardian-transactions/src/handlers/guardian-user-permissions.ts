@@ -1,4 +1,4 @@
-import { Container, Contracts, Providers, Utils as AppUtils } from "@arkecosystem/core-kernel";
+import { Container, Contracts, Utils as AppUtils } from "@arkecosystem/core-kernel";
 import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Interfaces as GuardianInterfaces } from "@protokol/guardian-crypto";
@@ -10,14 +10,8 @@ import { IUserPermissions } from "../interfaces";
 import { GuardianIndexers } from "../wallet-indexes";
 import { GuardianTransactionHandler } from "./guardian-handler";
 
-const pluginName = require("../../package.json").name;
-
 @Container.injectable()
 export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
-    @Container.inject(Container.Identifiers.PluginConfiguration)
-    @Container.tagged("plugin", pluginName)
-    protected readonly configuration!: Providers.PluginConfiguration;
-
     public getConstructor(): Transactions.TransactionConstructor {
         return GuardianTransactions.GuardianUserPermissionsTransaction;
     }
