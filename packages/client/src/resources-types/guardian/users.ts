@@ -5,11 +5,3 @@ export interface User {
     groups: string[];
     permissions: Permissions[];
 }
-
-export interface UserGroups {
-    name: "group name";
-    priority: 1;
-    active: false;
-    default: false;
-    permissions: Permissions[];
-}
