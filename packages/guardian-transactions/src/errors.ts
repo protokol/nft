@@ -32,3 +32,10 @@ export class WalletDoesntHavePermissionsError extends Errors.TransactionError {
         super(`Failed to verify transaction, because wallet doesn't have enough permissions.`);
     }
 }
+
+// Fee errors
+export class StaticFeeMismatchError extends Errors.TransactionError {
+    public constructor(staticFee: string) {
+        super(`Failed to apply transaction, because fee doesn't match static fee ${staticFee}.`);
+    }
+}
