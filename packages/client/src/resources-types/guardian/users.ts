@@ -7,9 +7,9 @@ export interface User {
 }
 
 export interface UserGroups {
-    name: "group name";
-    priority: 1;
-    active: false;
-    default: false;
+    name: string;
+    priority: number;
+    active: boolean;
+    default: boolean;
     permissions: Permissions[];
 }

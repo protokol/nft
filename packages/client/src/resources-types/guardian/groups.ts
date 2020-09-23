@@ -1,3 +1,5 @@
+import { ApiQuery } from "@arkecosystem/client";
+
 export interface Group {
     name: string;
     priority: number;
@@ -16,8 +18,6 @@ export interface Types {
     transactionTypeGroup: number;
 }
 
-export interface User {
-    publicKey: string;
-    groups: string[];
-    permissions: Permissions[];
+export interface AllGroupsQuery extends ApiQuery {
+    orderBy?: string;
 }
