@@ -1,6 +1,6 @@
 {
     "name": "@protokol/nft-exchange-crypto",
-    "version": "1.0.0-beta.24",
+    "version": "1.0.0-beta.25",
     "description": "Transaction Builders For Exchange NFT Transaction Types",
     "license": "CC-BY-NC-SA-4.0",
     "homepage": "https://docs.protokol.com/nft/",
@@ -40,7 +40,7 @@
         "test:unit:coverage": "cross-env jest __tests__/unit --coverage"
     },
     "dependencies": {
-        "@protokol/utils": "^1.0.0-beta.24",
+        "@protokol/utils": "^1.0.0-beta.25",
         "@arkecosystem/crypto": "^3.0.0-alpha.10",
         "bytebuffer": "^5.0.1"
     },
