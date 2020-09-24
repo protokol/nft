@@ -1,6 +1,6 @@
 {
     "name": "@protokol/cli",
-    "version": "1.0.0-beta.25",
+    "version": "1.0.0-beta.26",
     "description": "A simple command line utility to create and broadcast Protokol transactions.",
     "license": "MIT",
     "homepage": "https://docs.protokol.com/nft/",
@@ -53,8 +53,8 @@
         "@arkecosystem/crypto": "^3.0.0-alpha.10",
         "@oclif/command": "^1",
         "@oclif/plugin-help": "^3",
-        "@protokol/nft-base-crypto": "^1.0.0-beta.25",
-        "@protokol/nft-exchange-crypto": "^1.0.0-beta.25",
+        "@protokol/nft-base-crypto": "^1.0.0-beta.26",
+        "@protokol/nft-exchange-crypto": "^1.0.0-beta.26",
         "@protokol/guardian-crypto": "^1.0.0-beta.0",
         "fs-extra": "^9.0.1"
     },
