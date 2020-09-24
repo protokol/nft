@@ -1,12 +1,9 @@
 import "jest-extended";
 
-import { Application, Contracts } from "@arkecosystem/core-kernel";
-import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
-import { Wallets } from "@arkecosystem/core-state";
-import { StateStore } from "@arkecosystem/core-state/src/stores/state";
-import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
-import { TransactionHandler } from "@arkecosystem/core-transactions/src/handlers";
-import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/src/handlers/handler-registry";
+import { Application, Container, Contracts } from "@arkecosystem/core-kernel";
+import { Stores, Wallets } from "@arkecosystem/core-state";
+import { passphrases } from "@arkecosystem/core-test-framework";
+import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Enums } from "@protokol/nft-exchange-crypto";
 
@@ -31,11 +28,11 @@ let bidWallet: Contracts.State.Wallet;
 
 let auctionWallet: Contracts.State.Wallet;
 
-let walletRepository: Contracts.State.WalletRepository;
+let walletRepository: Wallets.WalletRepository;
 
-let transactionHandlerRegistry: TransactionHandlerRegistry;
+let transactionHandlerRegistry: Handlers.Registry;
 
-let nftBidHandler: TransactionHandler;
+let nftBidHandler: Handlers.TransactionHandler;
 
 const id = "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61";
 
@@ -47,9 +44,9 @@ beforeEach(() => {
     bidWallet = buildWallet(app, passphrases[0]);
     auctionWallet = buildWallet(app, passphrases[1]);
 
-    walletRepository = app.get<Wallets.WalletRepository>(Identifiers.WalletRepository);
+    walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
-    transactionHandlerRegistry = app.get<TransactionHandlerRegistry>(Identifiers.TransactionHandlerRegistry);
+    transactionHandlerRegistry = app.get<Handlers.Registry>(Container.Identifiers.TransactionHandlerRegistry);
 
     nftBidHandler = transactionHandlerRegistry.getRegisteredHandlerByType(
         Transactions.InternalTransactionType.from(
@@ -73,13 +70,12 @@ describe("NFT Bid tests", () => {
             setMockTransactions([actualAuction]);
 
             const auctionsAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
-            // @ts-ignore
-            auctionsAsset[actualAuction.id] = {
+            auctionsAsset[actualAuction.id!] = {
                 nftIds,
                 bids: [],
             };
             auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
-            walletRepository.index(auctionWallet);
+            walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(auctionWallet);
 
             const actual = buildBidTransaction({ auctionId: actualAuction.id!, bidAmount: 100 });
             transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
@@ -87,8 +83,7 @@ describe("NFT Bid tests", () => {
             });
             await expect(nftBidHandler.bootstrap()).toResolve();
 
-            // @ts-ignore
-            expect(auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actualAuction.id]).toStrictEqual({
+            expect(auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actualAuction.id!]).toStrictEqual({
                 nftIds,
                 bids: [actual.id],
             });
@@ -99,8 +94,7 @@ describe("NFT Bid tests", () => {
                 Utils.BigNumber.make("100"),
             );
 
-            // @ts-ignore
-            expect(walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).get(actual.id)).toStrictEqual(
+            expect(walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).get(actual.id!)).toStrictEqual(
                 auctionWallet,
             );
         });
@@ -114,7 +108,7 @@ describe("NFT Bid tests", () => {
                 bids: [],
             };
             bidWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
-            walletRepository.index(bidWallet);
+            walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(bidWallet);
 
             const actual = buildBidTransaction({ auctionId: actualAuction.id!, bidAmount: 100 });
             transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
@@ -129,20 +123,19 @@ describe("NFT Bid tests", () => {
             const mockLastBlockData: Partial<Interfaces.IBlockData> = { height: 5 };
 
             const mockGetLastBlock = jest.fn();
-            StateStore.prototype.getLastBlock = mockGetLastBlock;
+            Stores.StateStore.prototype.getLastBlock = mockGetLastBlock;
             mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
             const actualAuction = buildAuctionTransaction({ blockHeight: 6, passphrase: passphrases[1] });
             setMockTransactions([actualAuction]);
 
             const auctionsAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
-            // @ts-ignore
-            auctionsAsset[actualAuction.id] = {
+            auctionsAsset[actualAuction.id!] = {
                 nftIds,
                 bids: [],
             };
             auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
-            walletRepository.index(auctionWallet);
+            walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(auctionWallet);
 
             const actual = buildBidTransaction({ auctionId: actualAuction.id!, passphrase: passphrases[0] });
 
@@ -174,14 +167,13 @@ describe("NFT Bid tests", () => {
 
             const actual = buildBidTransaction({ auctionId: actualAuction.id! });
 
-            const auctionsAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
-            // @ts-ignore
+            const auctionsAsset = bidWallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             auctionsAsset["19d38808477df73997259ff0f7729e688988f19ae4b6d07099e5e22738ea4b1b"] = {
                 nftIds,
                 bids: [],
             };
             bidWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
-            walletRepository.index(bidWallet);
+            walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(auctionWallet);
 
             await expect(nftBidHandler.throwIfCannotBeApplied(actual, bidWallet)).rejects.toThrowError(
                 NFTExchangeBidAuctionCanceledOrAccepted,
@@ -192,7 +184,7 @@ describe("NFT Bid tests", () => {
             const mockLastBlockData: Partial<Interfaces.IBlockData> = { height: 6 };
 
             const mockGetLastBlock = jest.fn();
-            StateStore.prototype.getLastBlock = mockGetLastBlock;
+            Stores.StateStore.prototype.getLastBlock = mockGetLastBlock;
             mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
             const actualAuction = buildAuctionTransaction({ blockHeight: 2, passphrase: passphrases[1] });
@@ -201,13 +193,12 @@ describe("NFT Bid tests", () => {
             const actual = buildBidTransaction({ auctionId: actualAuction.id! });
 
             const auctionsAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
-            // @ts-ignore
-            auctionsAsset[actualAuction.id] = {
+            auctionsAsset[actualAuction.id!] = {
                 nftIds,
                 bids: [],
             };
             auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
-            walletRepository.index(auctionWallet);
+            walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(auctionWallet);
 
             await expect(nftBidHandler.throwIfCannotBeApplied(actual, bidWallet)).rejects.toThrowError(
                 NFTExchangeBidAuctionExpired,
@@ -218,7 +209,7 @@ describe("NFT Bid tests", () => {
             const mockLastBlockData: Partial<Interfaces.IBlockData> = { height: 5 };
 
             const mockGetLastBlock = jest.fn();
-            StateStore.prototype.getLastBlock = mockGetLastBlock;
+            Stores.StateStore.prototype.getLastBlock = mockGetLastBlock;
             mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
             const actualAuction = buildAuctionTransaction({ blockHeight: 57, passphrase: passphrases[1] });
@@ -227,13 +218,12 @@ describe("NFT Bid tests", () => {
             const actual = buildBidTransaction({ auctionId: actualAuction.id!, bidAmount: 7527654311 });
 
             const auctionsAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
-            // @ts-ignore
-            auctionsAsset[actualAuction.id] = {
+            auctionsAsset[actualAuction.id!] = {
                 nftIds,
                 bids: [],
             };
             auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
-            walletRepository.index(auctionWallet);
+            walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(auctionWallet);
 
             await expect(nftBidHandler.throwIfCannotBeApplied(actual, bidWallet)).rejects.toThrowError(
                 NFTExchangeBidNotEnoughFounds,
@@ -244,7 +234,7 @@ describe("NFT Bid tests", () => {
             const mockLastBlockData: Partial<Interfaces.IBlockData> = { height: 5 };
 
             const mockGetLastBlock = jest.fn();
-            StateStore.prototype.getLastBlock = mockGetLastBlock;
+            Stores.StateStore.prototype.getLastBlock = mockGetLastBlock;
             mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
             const actualAuction = buildAuctionTransaction({
@@ -257,13 +247,12 @@ describe("NFT Bid tests", () => {
             const actual = buildBidTransaction({ auctionId: actualAuction.id! });
 
             const auctionsAsset = bidWallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
-            // @ts-ignore
-            auctionsAsset[actualAuction.id] = {
+            auctionsAsset[actualAuction.id!] = {
                 nftIds,
                 bids: [],
             };
             auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
-            walletRepository.index(auctionWallet);
+            walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(auctionWallet);
 
             await expect(nftBidHandler.throwIfCannotBeApplied(actual, bidWallet)).rejects.toThrowError(
                 NFTExchangeBidStartAmountToLow,
@@ -278,7 +267,7 @@ describe("NFT Bid tests", () => {
             });
 
             const emitter: Contracts.Kernel.EventDispatcher = app.get<Contracts.Kernel.EventDispatcher>(
-                Identifiers.EventDispatcherService,
+                Container.Identifiers.EventDispatcherService,
             );
 
             const spy = jest.spyOn(emitter, "dispatch");
@@ -296,7 +285,7 @@ describe("NFT Bid tests", () => {
                 const mockLastBlockData: Partial<Interfaces.IBlockData> = { height: 4 };
 
                 const mockGetLastBlock = jest.fn();
-                StateStore.prototype.getLastBlock = mockGetLastBlock;
+                Stores.StateStore.prototype.getLastBlock = mockGetLastBlock;
                 mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
                 actualAuction = buildAuctionTransaction({
@@ -305,13 +294,12 @@ describe("NFT Bid tests", () => {
                 });
 
                 const auctionsAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
-                // @ts-ignore
                 auctionsAsset[actualAuction.id] = {
                     nftIds,
                     bids: [],
                 };
                 auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
-                walletRepository.index(auctionWallet);
+                walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(auctionWallet);
 
                 setMockTransactions([actualAuction]);
             });
@@ -320,7 +308,6 @@ describe("NFT Bid tests", () => {
                 const actual = buildBidTransaction({ auctionId: actualAuction.id });
                 await expect(nftBidHandler.applyToSender(actual)).toResolve();
 
-                // @ts-ignore
                 expect(
                     auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actualAuction.id],
                 ).toStrictEqual({
@@ -332,8 +319,7 @@ describe("NFT Bid tests", () => {
                     Utils.BigNumber.make("1"),
                 );
 
-                // @ts-ignore
-                expect(walletRepository.findByIndex(NFTExchangeIndexers.BidIndexer, actual.id)).toStrictEqual(
+                expect(walletRepository.findByIndex(NFTExchangeIndexers.BidIndexer, actual.id!)).toStrictEqual(
                     auctionWallet,
                 );
             });
@@ -346,7 +332,7 @@ describe("NFT Bid tests", () => {
             const mockLastBlockData: Partial<Interfaces.IBlockData> = { height: 4 };
 
             const mockGetLastBlock = jest.fn();
-            StateStore.prototype.getLastBlock = mockGetLastBlock;
+            Stores.StateStore.prototype.getLastBlock = mockGetLastBlock;
             mockGetLastBlock.mockReturnValue({ data: mockLastBlockData });
 
             actualAuction = buildAuctionTransaction({
@@ -355,13 +341,12 @@ describe("NFT Bid tests", () => {
             });
 
             const auctionsAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
-            // @ts-ignore
             auctionsAsset[actualAuction.id] = {
                 nftIds,
                 bids: [],
             };
             auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
-            walletRepository.index(auctionWallet);
+            walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(auctionWallet);
 
             setMockTransactions([actualAuction]);
         });
@@ -373,7 +358,6 @@ describe("NFT Bid tests", () => {
 
             await expect(nftBidHandler.revert(actual)).toResolve();
 
-            // @ts-ignore
             expect(auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actualAuction.id]).toStrictEqual({
                 nftIds,
                 bids: [],
@@ -383,8 +367,7 @@ describe("NFT Bid tests", () => {
                 Utils.BigNumber.ZERO,
             );
 
-            // @ts-ignore
-            expect(walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).get(actual.id)).toBeUndefined();
+            expect(walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).get(actual.id!)).toBeUndefined();
         });
 
         it("should throw if nftBid is undefined", async () => {

@@ -6,3 +6,6 @@ cd packages/nft-base-transactions && yarn test:unit:coverage && cd ../..
 cd packages/nft-exchange-api && yarn test:unit:coverage && cd ../..
 cd packages/nft-exchange-transactions && yarn test:unit:coverage && cd ../..
 cd packages/nft-exchange-crypto && yarn test:unit:coverage && cd ../..
+cd packages/guardian-crypto && yarn test:unit:coverage && cd ../..
+cd packages/guardian-transactions && yarn test:unit:coverage && cd ../..
+cd packages/guardian-api && yarn test:unit:coverage && cd ../..

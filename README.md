@@ -5,10 +5,12 @@
 
 A monorepository containing a set of `@protokol` packages providing Digital Asset (NFT) Support for any ARK Core v3 based bridgechains. Plugins support the following main features:
 
--   asset creation (JSON Schema based asset structure)
--   token trading (auction, bid, trade)
--   token burning
--   full REST API Support for exchange and crypto.
+-   digital asset creation (JSON Schema based asset structure)
+-   digital asset trading (auction, bid, trade, transfer)
+-   digital asset burning
+-   permission based asset control
+-   supply management
+-   full REST API Support for exchange and asset creation.
 
 This work is licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 

@@ -1,6 +1,6 @@
 {
     "name": "@protokol/nft-exchange-transactions",
-    "version": "1.0.0-beta.24",
+    "version": "1.0.0-beta.30",
     "description": "Transaction Types For Exchange NFT Core Support",
     "license": "CC-BY-NC-SA-4.0",
     "homepage": "https://docs.protokol.com/nft/",

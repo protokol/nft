@@ -1,16 +1,12 @@
 import "jest-extended";
 
-//TODO check exports with ARK CORE
-import { Application, Contracts } from "@arkecosystem/core-kernel";
-import { Identifiers } from "@arkecosystem/core-kernel/dist/ioc";
+import { Application, Container, Contracts } from "@arkecosystem/core-kernel";
 import { Wallets } from "@arkecosystem/core-state";
-import passphrases from "@arkecosystem/core-test-framework/dist/internal/passphrases.json";
+import { passphrases } from "@arkecosystem/core-test-framework";
 import { Mempool } from "@arkecosystem/core-transaction-pool";
-import { TransactionHandler } from "@arkecosystem/core-transactions/dist/handlers";
-import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/dist/handlers/handler-registry";
+import { Handlers } from "@arkecosystem/core-transactions";
 import { Identities, Transactions } from "@arkecosystem/crypto";
-import { Builders } from "@protokol/nft-base-crypto";
-import { Enums } from "@protokol/nft-base-crypto";
+import { Builders, Enums } from "@protokol/nft-base-crypto";
 
 import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import {
@@ -28,11 +24,11 @@ let app: Application;
 let senderWallet: Contracts.State.Wallet;
 let recipientWallet: Contracts.State.Wallet;
 
-let walletRepository: Contracts.State.WalletRepository;
+let walletRepository: Wallets.WalletRepository;
 
-let transactionHandlerRegistry: TransactionHandlerRegistry;
+let transactionHandlerRegistry: Handlers.Registry;
 
-let nftTransferHandler: TransactionHandler;
+let nftTransferHandler: Handlers.TransactionHandler;
 
 beforeEach(() => {
     app = initApp();
@@ -40,9 +36,9 @@ beforeEach(() => {
     senderWallet = buildWallet(app, passphrases[0]);
     recipientWallet = buildWallet(app, passphrases[1]);
 
-    walletRepository = app.get<Wallets.WalletRepository>(Identifiers.WalletRepository);
+    walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
-    transactionHandlerRegistry = app.get<TransactionHandlerRegistry>(Identifiers.TransactionHandlerRegistry);
+    transactionHandlerRegistry = app.get<Handlers.Registry>(Container.Identifiers.TransactionHandlerRegistry);
 
     nftTransferHandler = transactionHandlerRegistry.getRegisteredHandlerByType(
         Transactions.InternalTransactionType.from(
@@ -82,13 +78,13 @@ describe("NFT Transfer tests", () => {
 
             expect(
                 senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
-                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
+                    "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
                 ],
             ).toBeUndefined();
 
             expect(
                 recipientWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
-                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
+                    "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
                 ],
             ).toBeObject();
 
@@ -122,7 +118,7 @@ describe("NFT Transfer tests", () => {
 
             expect(
                 senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
-                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
+                    "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
                 ],
             ).toBeObject();
 
@@ -277,7 +273,7 @@ describe("NFT Transfer tests", () => {
                 .nonce("1")
                 .sign(passphrases[0])
                 .build();
-            await app.get<Mempool>(Identifiers.TransactionPoolMempool).addTransaction(actual);
+            await app.get<Mempool>(Container.Identifiers.TransactionPoolMempool).addTransaction(actual);
 
             const actualTwo = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
@@ -303,7 +299,7 @@ describe("NFT Transfer tests", () => {
                 .nonce("1")
                 .sign(passphrases[0])
                 .build();
-            await app.get<Mempool>(Identifiers.TransactionPoolMempool).addTransaction(actual);
+            await app.get<Mempool>(Container.Identifiers.TransactionPoolMempool).addTransaction(actual);
 
             const actualTwo = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
@@ -329,7 +325,7 @@ describe("NFT Transfer tests", () => {
                 .build();
 
             const emitter: Contracts.Kernel.EventDispatcher = app.get<Contracts.Kernel.EventDispatcher>(
-                Identifiers.EventDispatcherService,
+                Container.Identifiers.EventDispatcherService,
             );
 
             const spy = jest.spyOn(emitter, "dispatch");
@@ -359,13 +355,13 @@ describe("NFT Transfer tests", () => {
 
             expect(
                 senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
-                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
+                    "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
                 ],
             ).toBeUndefined();
 
             expect(
                 recipientWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
-                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
+                    "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
                 ],
             ).toBeObject();
 
@@ -395,7 +391,7 @@ describe("NFT Transfer tests", () => {
 
             expect(
                 senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
-                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
+                    "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
                 ],
             ).toBeObject();
 
@@ -448,13 +444,13 @@ describe("NFT Transfer tests", () => {
 
             expect(
                 senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
-                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
+                    "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
                 ],
             ).toBeObject();
 
             expect(
                 recipientWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
-                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
+                    "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
                 ],
             ).toBeUndefined();
 
@@ -486,7 +482,7 @@ describe("NFT Transfer tests", () => {
 
             expect(
                 senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[
-                "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
+                    "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"
                 ],
             ).toBeObject();
             expect(

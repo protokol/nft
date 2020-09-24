@@ -1,11 +1,10 @@
-import "@arkecosystem/core-test-framework/src/matchers";
+import "@arkecosystem/core-test-framework/dist/matchers";
 
 import { Repositories } from "@arkecosystem/core-database";
 import { Container, Contracts } from "@arkecosystem/core-kernel";
-import { ApiHelpers } from "@arkecosystem/core-test-framework/src";
-import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
+import { ApiHelpers, passphrases } from "@arkecosystem/core-test-framework";
 import { Identities } from "@arkecosystem/crypto";
-import { NFTBaseTransactionFactory } from "@protokol/nft-base-transactions/__tests__/functional/transaction-forging/__support__/transaction-factory";
+import { Builders as NFTBuilders } from "@protokol/nft-base-crypto";
 
 import { setUp, tearDown } from "../__support__/setup";
 
@@ -22,13 +21,13 @@ afterAll(async () => await tearDown());
 describe("API - Transfers", () => {
 	let nftTransfer;
 	beforeEach(async () => {
-		nftTransfer = NFTBaseTransactionFactory.initialize(app)
-			.NFTTransfer({
+		nftTransfer = new NFTBuilders.NFTTransferBuilder()
+			.NFTTransferAsset({
 				nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
-				recipientId: Identities.Address.fromPassphrase(secrets[1]),
+				recipientId: Identities.Address.fromPassphrase(passphrases[1]),
 			})
-			.withPassphrase(secrets[0])
-			.build()[0];
+			.sign(passphrases[0])
+			.build();
 	});
 	describe("GET /transfers", () => {
 		it("should return all transfer transactions", async () => {
@@ -37,9 +36,9 @@ describe("API - Transfers", () => {
 			);
 
 			jest.spyOn(transactionRepository, "listByExpression").mockResolvedValueOnce({
-				rows: [{ ...nftTransfer.data, serialized: nftTransfer.serialized }],
-				count: 1,
-				countIsEstimate: false,
+				results: [{ ...nftTransfer.data, serialized: nftTransfer.serialized }],
+				totalCount: 1,
+				meta: { totalCountIsEstimate: false },
 			});
 			const response = await api.request("GET", "nft/transfers", { transform: false });
 
@@ -49,7 +48,7 @@ describe("API - Transfers", () => {
 				"dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
 			]);
 			expect(response.data.data[0].asset.nftTransfer.recipientId).toStrictEqual(
-				Identities.Address.fromPassphrase(secrets[1]),
+				Identities.Address.fromPassphrase(passphrases[1]),
 			);
 		});
 	});
@@ -75,7 +74,7 @@ describe("API - Transfers", () => {
 				"dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
 			]);
 			expect(response.data.data.nftTransfer.recipientId).toStrictEqual(
-				Identities.Address.fromPassphrase(secrets[1]),
+				Identities.Address.fromPassphrase(passphrases[1]),
 			);
 		});
 	});

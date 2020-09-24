@@ -1,4 +1,4 @@
-import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
+import { passphrases } from "@arkecosystem/core-test-framework";
 import { Transactions, Utils } from "@arkecosystem/crypto";
 import { Transactions as NFTBaseTransactions } from "@protokol/nft-base-crypto";
 import { Builders as NFTBuilders, Transactions as NFTTransactions } from "@protokol/nft-exchange-crypto";

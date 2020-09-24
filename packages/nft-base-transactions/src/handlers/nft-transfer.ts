@@ -44,13 +44,8 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
             AppUtils.assert.defined<NFTInterfaces.NFTTransferAsset>(transaction.asset?.nftTransfer);
             AppUtils.assert.defined<string>(transaction.senderPublicKey);
 
-            const recipientWallet: Contracts.State.Wallet = this.walletRepository.findByAddress(
-                transaction.asset.nftTransfer.recipientId,
-            );
-
-            const senderWallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
-                transaction.senderPublicKey,
-            );
+            const recipientWallet = this.walletRepository.findByAddress(transaction.asset.nftTransfer.recipientId);
+            const senderWallet = this.walletRepository.findByPublicKey(transaction.senderPublicKey);
 
             const nftTransferAsset: NFTInterfaces.NFTTransferAsset = transaction.asset.nftTransfer;
 
@@ -65,13 +60,9 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
             const recipientTokensWallet = recipientWallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
             for (const token of nftTransferAsset.nftIds) {
                 recipientTokensWallet[token] = {};
+                this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).set(token, recipientWallet);
             }
             recipientWallet.setAttribute<INFTTokens>("nft.base.tokenIds", recipientTokensWallet);
-
-            // TODO - this can be removed as we directly call forget above. Needs testing/performance analysis
-            // TODO - need to operate the indexes directly e.g. set/forget and DO NOT CALL general index methods
-            this.walletRepository.index(senderWallet);
-            this.walletRepository.index(recipientWallet);
         }
     }
 
@@ -142,9 +133,7 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
         //AppUtils.assert.defined<NFTInterfaces.NFTTransferAsset>(transaction.data.asset?.nftTransfer);
         AppUtils.assert.defined<string>(transaction.data.id);
 
-        const senderWallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
-            transaction.data.senderPublicKey,
-        );
+        const senderWallet = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
         const nftTransferAsset: NFTInterfaces.NFTTransferAsset = transaction.data.asset!.nftTransfer;
 
         const senderTokensWallet = senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
@@ -162,18 +151,15 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
         AppUtils.assert.defined<NFTInterfaces.NFTTransferAsset>(transaction.data.asset?.nftTransfer);
         AppUtils.assert.defined<string>(transaction.data.id);
 
-        const senderWallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(
-            transaction.data.senderPublicKey,
-        );
-
+        const senderWallet = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
         const nftTransferAsset: NFTInterfaces.NFTTransferAsset = transaction.data.asset.nftTransfer;
 
         const senderTokensWallet = senderWallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
         for (const token of nftTransferAsset.nftIds) {
             senderTokensWallet[token] = {};
+            this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).set(token, senderWallet);
         }
         senderWallet.setAttribute<INFTTokens>("nft.base.tokenIds", senderTokensWallet);
-        this.walletRepository.index(senderWallet);
     }
 
     public async applyToRecipient(transaction: Interfaces.ITransaction): Promise<void> {
@@ -181,16 +167,14 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
 
         const nftTransferAsset: NFTInterfaces.NFTTransferAsset = transaction.data.asset.nftTransfer;
 
-        const recipientWallet: Contracts.State.Wallet = this.walletRepository.findByAddress(
-            nftTransferAsset.recipientId,
-        );
+        const recipientWallet = this.walletRepository.findByAddress(nftTransferAsset.recipientId);
 
         const recipientTokensWallet = recipientWallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
         for (const token of nftTransferAsset.nftIds) {
             recipientTokensWallet[token] = {};
+            this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).set(token, recipientWallet);
         }
         recipientWallet.setAttribute<INFTTokens>("nft.base.tokenIds", recipientTokensWallet);
-        this.walletRepository.index(recipientWallet);
     }
 
     public async revertForRecipient(transaction: Interfaces.ITransaction): Promise<void> {
@@ -198,9 +182,7 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
 
         const nftTransferAsset: NFTInterfaces.NFTTransferAsset = transaction.data.asset.nftTransfer;
 
-        const recipientWallet: Contracts.State.Wallet = this.walletRepository.findByAddress(
-            nftTransferAsset.recipientId,
-        );
+        const recipientWallet = this.walletRepository.findByAddress(nftTransferAsset.recipientId);
 
         const recipientTokensWallet = recipientWallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
 

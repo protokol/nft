@@ -1,9 +1,8 @@
-import "jest-extended";
+import "@arkecosystem/core-test-framework/dist/matchers";
 
 import { Container, Contracts, Services } from "@arkecosystem/core-kernel";
-import { snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework";
-import secrets from "@arkecosystem/core-test-framework/dist/internal/passphrases.json";
-import { ARKCrypto } from "@protokol/nft-base-crypto";
+import { passphrases, snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework";
+import { Identities, Interfaces } from "@arkecosystem/crypto";
 import { generateMnemonic } from "bip39";
 
 import * as support from "./__support__";
@@ -48,7 +47,7 @@ describe("NFT Create functional tests", () => {
                         },
                     },
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .withNetworkConfig(networkConfig)
                 .createOne();
 
@@ -69,7 +68,7 @@ describe("NFT Create functional tests", () => {
                         mana: 2,
                     },
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftCreate).toBeAccepted();
@@ -101,7 +100,7 @@ describe("NFT Create functional tests", () => {
                         },
                     },
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftRegisteredSchema).toBeAccepted();
@@ -120,7 +119,7 @@ describe("NFT Create functional tests", () => {
                             mana: 2,
                         },
                     })
-                    .withPassphrase(secrets[0])
+                    .withPassphrase(passphrases[0])
                     .createOne();
 
                 await expect(nftCreate).toBeAccepted();
@@ -139,7 +138,7 @@ describe("NFT Create functional tests", () => {
                         mana: 2,
                     },
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftCreate2).not.toBeAccepted();
@@ -170,9 +169,9 @@ describe("NFT Create functional tests", () => {
                             },
                         },
                     },
-                    allowedIssuers: [ARKCrypto.Identities.PublicKey.fromPassphrase(secrets[0])],
+                    allowedIssuers: [Identities.PublicKey.fromPassphrase(passphrases[0])],
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
             registeredCollectionWithAllowedIssuers = nftRegisteredCollection.id;
 
@@ -190,7 +189,7 @@ describe("NFT Create functional tests", () => {
                         mana: 2,
                     },
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftCreate).toBeAccepted();
@@ -210,7 +209,7 @@ describe("NFT Create functional tests", () => {
                         mana: 2,
                     },
                 })
-                .withPassphrase(secrets[1])
+                .withPassphrase(passphrases[1])
                 .createOne();
 
             await expect(nftCreate).not.toBeAccepted();
@@ -227,8 +226,8 @@ describe("NFT Create functional tests", () => {
 
             // Initial Funds
             const initialFunds = TransactionFactory.initialize(app)
-                .transfer(ARKCrypto.Identities.Address.fromPassphrase(passphrase), 150 * 1e8)
-                .withPassphrase(secrets[0])
+                .transfer(Identities.Address.fromPassphrase(passphrase), 150 * 1e8)
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(initialFunds).toBeAccepted();
@@ -269,17 +268,17 @@ describe("NFT Create functional tests", () => {
     describe("Signed with multi signature [3 of 3]", () => {
         // Register a multi signature wallet with defaults
         const passphrase = generateMnemonic();
-        const passphrases = [passphrase, secrets[4], secrets[5]];
+        const secrets = [passphrase, passphrases[4], passphrases[5]];
         const participants = [
-            ARKCrypto.Identities.PublicKey.fromPassphrase(passphrases[0]),
-            ARKCrypto.Identities.PublicKey.fromPassphrase(passphrases[1]),
-            ARKCrypto.Identities.PublicKey.fromPassphrase(passphrases[2]),
+            Identities.PublicKey.fromPassphrase(secrets[0]),
+            Identities.PublicKey.fromPassphrase(secrets[1]),
+            Identities.PublicKey.fromPassphrase(secrets[2]),
         ];
         it("should broadcast, accept and forge it [3-of-3 multisig] ", async () => {
             // Funds to register a multi signature wallet
             const initialFunds = TransactionFactory.initialize(app)
-                .transfer(ARKCrypto.Identities.Address.fromPassphrase(passphrase), 50 * 1e8)
-                .withPassphrase(secrets[0])
+                .transfer(Identities.Address.fromPassphrase(passphrase), 50 * 1e8)
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(initialFunds).toBeAccepted();
@@ -290,7 +289,7 @@ describe("NFT Create functional tests", () => {
             const multiSignature = TransactionFactory.initialize(app)
                 .multiSignature(participants, 3)
                 .withPassphrase(passphrase)
-                .withPassphraseList(passphrases)
+                .withPassphraseList(secrets)
                 .createOne();
 
             await expect(multiSignature).toBeAccepted();
@@ -307,7 +306,7 @@ describe("NFT Create functional tests", () => {
 
             const multiSignatureFunds = TransactionFactory.initialize(app)
                 .transfer(multiSigAddress, 100 * 1e8)
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(multiSignatureFunds).toBeAccepted();
@@ -326,7 +325,7 @@ describe("NFT Create functional tests", () => {
                     },
                 })
                 .withSenderPublicKey(multiSigPublicKey)
-                .withPassphraseList(passphrases)
+                .withPassphraseList(secrets)
                 .createOne();
 
             await expect(nftCreate).toBeAccepted();

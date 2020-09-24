@@ -1,10 +1,8 @@
-import "@arkecosystem/core-test-framework/src/matchers";
+import "@arkecosystem/core-test-framework/dist/matchers";
 
 import { Contracts } from "@arkecosystem/core-kernel";
-import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
-import { snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework/src/utils";
+import { passphrases, snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework";
 import { Identities, Utils } from "@arkecosystem/crypto";
-import { NFTBaseTransactionFactory } from "@protokol/nft-base-transactions/__tests__/functional/transaction-forging/__support__/transaction-factory";
 import { generateMnemonic } from "bip39";
 
 import * as support from "./__support__";
@@ -19,7 +17,7 @@ describe("NFT Bid Cancel functional tests", () => {
     describe("Signed with one passphrase", () => {
         it("should broadcast, accept and forge it [Signed with 1 Passphrase]", async () => {
             // Register collection
-            const nftRegisteredCollection = NFTBaseTransactionFactory.initialize(app)
+            const nftRegisteredCollection = NFTExchangeTransactionFactory.initialize(app)
                 .NFTRegisterCollection({
                     name: "Nft card",
                     description: "Nft card description",
@@ -41,7 +39,7 @@ describe("NFT Bid Cancel functional tests", () => {
                         },
                     },
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             collectionId = nftRegisteredCollection.id;
@@ -51,7 +49,7 @@ describe("NFT Bid Cancel functional tests", () => {
             await expect(nftRegisteredCollection.id).toBeForged();
 
             // Create token
-            const nftCreate = NFTBaseTransactionFactory.initialize(app)
+            const nftCreate = NFTExchangeTransactionFactory.initialize(app)
                 .NFTCreate({
                     collectionId: nftRegisteredCollection.id!,
                     attributes: {
@@ -61,7 +59,7 @@ describe("NFT Bid Cancel functional tests", () => {
                         mana: 2,
                     },
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftCreate).toBeAccepted();
@@ -77,7 +75,7 @@ describe("NFT Bid Cancel functional tests", () => {
                     startAmount: Utils.BigNumber.make("1"),
                     nftIds: [nftCreate.id!],
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftAuction).toBeAccepted();
@@ -90,7 +88,7 @@ describe("NFT Bid Cancel functional tests", () => {
                     auctionId: nftAuction.id!,
                     bidAmount: Utils.BigNumber.make("2"),
                 })
-                .withPassphrase(secrets[1])
+                .withPassphrase(passphrases[1])
                 .createOne();
 
             await expect(nftBid).toBeAccepted();
@@ -102,7 +100,7 @@ describe("NFT Bid Cancel functional tests", () => {
                 .NFTBidCancel({
                     bidId: nftBid.id!,
                 })
-                .withPassphrase(secrets[1])
+                .withPassphrase(passphrases[1])
                 .createOne();
 
             await expect(nftCancelBid).toBeAccepted();
@@ -112,7 +110,7 @@ describe("NFT Bid Cancel functional tests", () => {
 
         it("should reject because wallet already canceled bid", async () => {
             // Create token
-            const nftCreate = NFTBaseTransactionFactory.initialize(app)
+            const nftCreate = NFTExchangeTransactionFactory.initialize(app)
                 .NFTCreate({
                     collectionId: collectionId,
                     attributes: {
@@ -122,7 +120,7 @@ describe("NFT Bid Cancel functional tests", () => {
                         mana: 2,
                     },
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftCreate).toBeAccepted();
@@ -138,7 +136,7 @@ describe("NFT Bid Cancel functional tests", () => {
                     startAmount: Utils.BigNumber.make("1"),
                     nftIds: [nftCreate.id!],
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftAuction).toBeAccepted();
@@ -151,7 +149,7 @@ describe("NFT Bid Cancel functional tests", () => {
                     auctionId: nftAuction.id!,
                     bidAmount: Utils.BigNumber.make("2"),
                 })
-                .withPassphrase(secrets[1])
+                .withPassphrase(passphrases[1])
                 .createOne();
 
             await expect(nftBid).toBeAccepted();
@@ -163,7 +161,7 @@ describe("NFT Bid Cancel functional tests", () => {
                 .NFTBidCancel({
                     bidId: nftBid.id!,
                 })
-                .withPassphrase(secrets[1])
+                .withPassphrase(passphrases[1])
                 .createOne();
 
             await expect(nftCancelBid).toBeAccepted();
@@ -175,7 +173,7 @@ describe("NFT Bid Cancel functional tests", () => {
                 .NFTBidCancel({
                     bidId: nftBid.id!,
                 })
-                .withPassphrase(secrets[1])
+                .withPassphrase(passphrases[1])
                 .createOne();
 
             await expect(nftCancelBidTwo).not.toBeAccepted();
@@ -185,7 +183,7 @@ describe("NFT Bid Cancel functional tests", () => {
 
         it("should reject because cancel bid is already in pool", async () => {
             // Create token
-            const nftCreate = NFTBaseTransactionFactory.initialize(app)
+            const nftCreate = NFTExchangeTransactionFactory.initialize(app)
                 .NFTCreate({
                     collectionId: collectionId,
                     attributes: {
@@ -195,7 +193,7 @@ describe("NFT Bid Cancel functional tests", () => {
                         mana: 2,
                     },
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftCreate).toBeAccepted();
@@ -211,7 +209,7 @@ describe("NFT Bid Cancel functional tests", () => {
                     startAmount: Utils.BigNumber.make("1"),
                     nftIds: [nftCreate.id!],
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftAuction).toBeAccepted();
@@ -224,7 +222,7 @@ describe("NFT Bid Cancel functional tests", () => {
                     auctionId: nftAuction.id!,
                     bidAmount: Utils.BigNumber.make("2"),
                 })
-                .withPassphrase(secrets[1])
+                .withPassphrase(passphrases[1])
                 .createOne();
 
             await expect(nftBid).toBeAccepted();
@@ -236,7 +234,7 @@ describe("NFT Bid Cancel functional tests", () => {
                 .NFTBidCancel({
                     bidId: nftBid.id!,
                 })
-                .withPassphrase(secrets[1])
+                .withPassphrase(passphrases[1])
                 .createOne();
 
             // Cancel bid
@@ -245,7 +243,7 @@ describe("NFT Bid Cancel functional tests", () => {
                     bidId: nftBid.id!,
                 })
                 .withNonce(nftCancelBid.nonce!.plus(1))
-                .withPassphrase(secrets[1])
+                .withPassphrase(passphrases[1])
                 .createOne();
 
             await expect([nftCancelBid, nftCancelBidTwo]).not.toBeAllAccepted();
@@ -256,7 +254,7 @@ describe("NFT Bid Cancel functional tests", () => {
 
         it("should reject bid because wallet canceled auction", async () => {
             // Create token
-            const nftCreate = NFTBaseTransactionFactory.initialize(app)
+            const nftCreate = NFTExchangeTransactionFactory.initialize(app)
                 .NFTCreate({
                     collectionId: collectionId,
                     attributes: {
@@ -266,7 +264,7 @@ describe("NFT Bid Cancel functional tests", () => {
                         mana: 2,
                     },
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftCreate).toBeAccepted();
@@ -282,7 +280,7 @@ describe("NFT Bid Cancel functional tests", () => {
                     startAmount: Utils.BigNumber.make("1"),
                     nftIds: [nftCreate.id!],
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftAuction).toBeAccepted();
@@ -295,7 +293,7 @@ describe("NFT Bid Cancel functional tests", () => {
                     auctionId: nftAuction.id!,
                     bidAmount: Utils.BigNumber.make("2"),
                 })
-                .withPassphrase(secrets[1])
+                .withPassphrase(passphrases[1])
                 .createOne();
 
             await expect(nftBid).toBeAccepted();
@@ -307,7 +305,7 @@ describe("NFT Bid Cancel functional tests", () => {
                 .NFTAuctionCancel({
                     auctionId: nftAuction.id!,
                 })
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(nftAuctionCancel).toBeAccepted();
@@ -319,7 +317,7 @@ describe("NFT Bid Cancel functional tests", () => {
                 .NFTBidCancel({
                     bidId: nftBid.id!,
                 })
-                .withPassphrase(secrets[1])
+                .withPassphrase(passphrases[1])
                 .createOne();
 
             await expect(nftCancelBid).not.toBeAccepted();
@@ -337,7 +335,7 @@ describe("NFT Bid Cancel functional tests", () => {
             // Initial Funds
             const initialFunds = TransactionFactory.initialize(app)
                 .transfer(Identities.Address.fromPassphrase(passphrase), 150 * 1e8)
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(initialFunds).toBeAccepted();
@@ -355,7 +353,7 @@ describe("NFT Bid Cancel functional tests", () => {
             await expect(secondSignature.id).toBeForged();
 
             // Create Token
-            const nftCreate = NFTBaseTransactionFactory.initialize(app)
+            const nftCreate = NFTExchangeTransactionFactory.initialize(app)
                 .NFTCreate({
                     collectionId: collectionId,
                     attributes: {
@@ -365,7 +363,7 @@ describe("NFT Bid Cancel functional tests", () => {
                         mana: 2,
                     },
                 })
-                .withPassphrase(secrets[1])
+                .withPassphrase(passphrases[1])
                 .createOne();
 
             await expect(nftCreate).toBeAccepted();
@@ -381,7 +379,7 @@ describe("NFT Bid Cancel functional tests", () => {
                     startAmount: Utils.BigNumber.make("1"),
                     nftIds: [nftCreate.id!],
                 })
-                .withPassphrase(secrets[1])
+                .withPassphrase(passphrases[1])
                 .createOne();
 
             await expect(nftAuction).toBeAccepted();
@@ -420,17 +418,17 @@ describe("NFT Bid Cancel functional tests", () => {
     describe("Signed with multi signature [3 of 3]", () => {
         // Register a multi signature wallet with defaults
         const passphrase = generateMnemonic();
-        const passphrases = [passphrase, secrets[4], secrets[5]];
+        const secrets = [passphrase, passphrases[4], passphrases[5]];
         const participants = [
-            Identities.PublicKey.fromPassphrase(passphrases[0]),
-            Identities.PublicKey.fromPassphrase(passphrases[1]),
-            Identities.PublicKey.fromPassphrase(passphrases[2]),
+            Identities.PublicKey.fromPassphrase(secrets[0]),
+            Identities.PublicKey.fromPassphrase(secrets[1]),
+            Identities.PublicKey.fromPassphrase(secrets[2]),
         ];
         it("should broadcast, accept and forge it [3-of-3 multisig] ", async () => {
             // Funds to register a multi signature wallet
             const initialFunds = TransactionFactory.initialize(app)
                 .transfer(Identities.Address.fromPassphrase(passphrase), 50 * 1e8)
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(initialFunds).toBeAccepted();
@@ -441,7 +439,7 @@ describe("NFT Bid Cancel functional tests", () => {
             const multiSignature = TransactionFactory.initialize(app)
                 .multiSignature(participants, 3)
                 .withPassphrase(passphrase)
-                .withPassphraseList(passphrases)
+                .withPassphraseList(secrets)
                 .createOne();
 
             await expect(multiSignature).toBeAccepted();
@@ -456,7 +454,7 @@ describe("NFT Bid Cancel functional tests", () => {
 
             const multiSignatureFunds = TransactionFactory.initialize(app)
                 .transfer(multiSigAddress, 100 * 1e8)
-                .withPassphrase(secrets[0])
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(multiSignatureFunds).toBeAccepted();
@@ -464,7 +462,7 @@ describe("NFT Bid Cancel functional tests", () => {
             await expect(multiSignatureFunds.id).toBeForged();
 
             // Create Token
-            const nftCreate = NFTBaseTransactionFactory.initialize(app)
+            const nftCreate = NFTExchangeTransactionFactory.initialize(app)
                 .NFTCreate({
                     collectionId: collectionId,
                     attributes: {
@@ -474,7 +472,7 @@ describe("NFT Bid Cancel functional tests", () => {
                         mana: 2,
                     },
                 })
-                .withPassphrase(secrets[1])
+                .withPassphrase(passphrases[1])
                 .createOne();
 
             await expect(nftCreate).toBeAccepted();
@@ -490,7 +488,7 @@ describe("NFT Bid Cancel functional tests", () => {
                     startAmount: Utils.BigNumber.make("1"),
                     nftIds: [nftCreate.id!],
                 })
-                .withPassphrase(secrets[1])
+                .withPassphrase(passphrases[1])
                 .createOne();
 
             await expect(nftAuction).toBeAccepted();
@@ -504,7 +502,7 @@ describe("NFT Bid Cancel functional tests", () => {
                     bidAmount: Utils.BigNumber.make("2"),
                 })
                 .withSenderPublicKey(multiSigPublicKey)
-                .withPassphraseList(passphrases)
+                .withPassphraseList(secrets)
                 .createOne();
 
             await expect(nftBid).toBeAccepted();
@@ -518,7 +516,7 @@ describe("NFT Bid Cancel functional tests", () => {
                     bidId: nftBid.id,
                 })
                 .withSenderPublicKey(multiSigPublicKey)
-                .withPassphraseList(passphrases)
+                .withPassphraseList(secrets)
                 .createOne();
 
             await expect(nftCancelBid).toBeAccepted();

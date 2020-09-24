@@ -1,50 +1,36 @@
 import "jest-extended";
 
-import { Application, Contracts, Utils as AppUtils } from "@arkecosystem/core-kernel";
-import { Identifiers } from "@arkecosystem/core-kernel/src/ioc";
-import { Wallets } from "@arkecosystem/core-state";
-import { Generators } from "@arkecosystem/core-test-framework/src";
-import passphrases from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
-import { Managers, Transactions, Utils } from "@arkecosystem/crypto";
-import { ITransaction } from "@arkecosystem/crypto/src/interfaces";
-import { configManager } from "@arkecosystem/crypto/src/managers";
+import { Application, Utils as AppUtils } from "@arkecosystem/core-kernel";
+import { Generators, passphrases } from "@arkecosystem/core-test-framework";
+import { Interfaces, Managers, Transactions, Utils } from "@arkecosystem/crypto";
 import { cloneDeep } from "@arkecosystem/utils";
 import Hapi from "@hapi/hapi";
-import {
-	buildSenderWallet,
-	ErrorResponse,
-	ItemResponse,
-	PaginatedResponse,
-} from "@protokol/nft-base-api/__tests__/unit/__support__";
 import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import { Builders, Transactions as ExchangeTransactions } from "@protokol/nft-exchange-crypto";
 
-import { blockHistoryService, initApp, transactionHistoryService } from "../__support__";
+import {
+	blockHistoryService,
+	ErrorResponse,
+	initApp,
+	ItemResponse,
+	PaginatedResponse,
+	transactionHistoryService,
+} from "../__support__";
 import { TradesController } from "../../../src/controllers/trades";
 
 let tradesController: TradesController;
 
 let app: Application;
 
-// @ts-ignore
-let senderWallet: Contracts.State.Wallet;
-// @ts-ignore
-let walletRepository: Wallets.WalletRepository;
-
-let actual: ITransaction;
+let actual: Interfaces.ITransaction;
 
 const timestamp = AppUtils.formatTimestamp(104930456);
 
 beforeEach(() => {
 	const config = Generators.generateCryptoConfigRaw();
-	configManager.setConfig(config);
 	Managers.configManager.setConfig(config);
 
 	app = initApp();
-
-	walletRepository = app.get<Wallets.WalletRepository>(Identifiers.WalletRepository);
-
-	senderWallet = buildSenderWallet(app);
 
 	tradesController = app.resolve<TradesController>(TradesController);
 
@@ -73,7 +59,7 @@ afterEach(() => {
 describe("Test trades controller", () => {
 	it("index - returns all trade transactions ", async () => {
 		transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
-			rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+			results: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
 		});
 
 		const request: Hapi.Request = {
@@ -180,7 +166,7 @@ describe("Test trades controller", () => {
 		requestWithBidId.payload.bidId = actual.data.asset!.nftAcceptTrade.bidId;
 
 		transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValue({
-			rows: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+			results: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
 		});
 
 		const expectedResponse = {

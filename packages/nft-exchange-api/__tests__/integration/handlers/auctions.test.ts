@@ -1,12 +1,11 @@
-import "@arkecosystem/core-test-framework/src/matchers";
+import "@arkecosystem/core-test-framework/dist/matchers";
 
 import { Repositories } from "@arkecosystem/core-database";
 import { Container, Contracts } from "@arkecosystem/core-kernel";
-import { ApiHelpers } from "@arkecosystem/core-test-framework/src";
-import secrets from "@arkecosystem/core-test-framework/src/internal/passphrases.json";
+import { ApiHelpers, passphrases } from "@arkecosystem/core-test-framework";
 import { Identities, Utils } from "@arkecosystem/crypto";
-import { NFTExchangeTransactionFactory } from "@protokol/nft-exchange-transactions/__tests__/functional/transaction-forging/__support__/transaction-factory";
-import { INFTAuctions } from "@protokol/nft-exchange-transactions/src/interfaces";
+import { Builders as NFTExchangeBuilders } from "@protokol/nft-exchange-crypto";
+import { Indexers, Interfaces } from "@protokol/nft-exchange-transactions";
 
 import { setUp, tearDown } from "../__support__/setup";
 
@@ -24,16 +23,16 @@ describe("API - Auctions", () => {
 	describe("Auction transactions", () => {
 		let nftAuction;
 		beforeEach(async () => {
-			nftAuction = NFTExchangeTransactionFactory.initialize(app)
-				.NFTAuction({
+			nftAuction = new NFTExchangeBuilders.NFTAuctionBuilder()
+				.NFTAuctionAsset({
 					nftIds: ["86b2f1e40bd913627cd3d27d1c090176370ca591e238bee7f65292b4483f9cb6"],
 					expiration: {
 						blockHeight: 100,
 					},
 					startAmount: Utils.BigNumber.make("1"),
 				})
-				.withPassphrase(secrets[10])
-				.build()[0];
+				.sign(passphrases[10])
+				.build();
 		});
 		describe("GET /auctions", () => {
 			it("should return all auction transactions", async () => {
@@ -42,9 +41,9 @@ describe("API - Auctions", () => {
 				);
 
 				jest.spyOn(transactionRepository, "listByExpression").mockResolvedValueOnce({
-					rows: [{ ...nftAuction.data, serialized: nftAuction.serialized }],
-					count: 1,
-					countIsEstimate: false,
+					results: [{ ...nftAuction.data, serialized: nftAuction.serialized }],
+					totalCount: 1,
+					meta: { totalCountIsEstimate: false },
 				});
 
 				const response = await api.request("GET", "nft/exchange/auctions", { transform: false });
@@ -85,16 +84,16 @@ describe("API - Auctions", () => {
 					"blockchain",
 				);
 				walletRepository.reset();
-				const wallet = walletRepository.findByAddress(Identities.Address.fromPassphrase(secrets[0]));
+				const wallet = walletRepository.findByAddress(Identities.Address.fromPassphrase(passphrases[0]));
 
-				const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
-				// @ts-ignore
+				const auctionsAsset = wallet.getAttribute<Interfaces.INFTAuctions>("nft.exchange.auctions", {});
+
 				auctionsAsset[nftAuction.id] = {
 					nftIds: ["86b2f1e40bd913627cd3d27d1c090176370ca591e238bee7f65292b4483f9cb6"],
 					bids: [],
 				};
-				wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
-				walletRepository.index(wallet);
+				wallet.setAttribute<Interfaces.INFTAuctions>("nft.exchange.auctions", auctionsAsset);
+				walletRepository.getIndex(Indexers.NFTExchangeIndexers.AuctionIndexer).index(wallet);
 
 				const response = await api.request("GET", `nft/exchange/auctions/${nftAuction.id}/wallets`);
 				expect(response.data.data).toBeObject();
@@ -108,9 +107,9 @@ describe("API - Auctions", () => {
 				);
 
 				jest.spyOn(transactionRepository, "listByExpression").mockResolvedValueOnce({
-					rows: [{ ...nftAuction.data, serialized: nftAuction.serialized }],
-					count: 1,
-					countIsEstimate: false,
+					results: [{ ...nftAuction.data, serialized: nftAuction.serialized }],
+					totalCount: 1,
+					meta: { totalCountIsEstimate: false },
 				});
 
 				const response = await api.request("POST", "nft/exchange/auctions/search?transform=false", {
@@ -128,12 +127,12 @@ describe("API - Auctions", () => {
 	describe("Auction canceled transactions", () => {
 		let nftAuctionCancel;
 		beforeEach(async () => {
-			nftAuctionCancel = NFTExchangeTransactionFactory.initialize(app)
-				.NFTAuctionCancel({
+			nftAuctionCancel = new NFTExchangeBuilders.NFTAuctionCancelBuilder()
+				.NFTAuctionCancelAsset({
 					auctionId: "86b2f1e40bd913627cd3d27d1c090176370ca591e238bee7f65292b4483f9cb6",
 				})
-				.withPassphrase(secrets[0])
-				.build()[0];
+				.sign(passphrases[0])
+				.build();
 		});
 		describe("GET /auctions/canceled", () => {
 			it("should return all auction canceled transactions", async () => {
@@ -142,9 +141,9 @@ describe("API - Auctions", () => {
 				);
 
 				jest.spyOn(transactionRepository, "listByExpression").mockResolvedValueOnce({
-					rows: [{ ...nftAuctionCancel.data, serialized: nftAuctionCancel.serialized }],
-					count: 1,
-					countIsEstimate: false,
+					results: [{ ...nftAuctionCancel.data, serialized: nftAuctionCancel.serialized }],
+					totalCount: 1,
+					meta: { totalCountIsEstimate: false },
 				});
 
 				const response = await api.request("GET", "nft/exchange/auctions/canceled", { transform: false });

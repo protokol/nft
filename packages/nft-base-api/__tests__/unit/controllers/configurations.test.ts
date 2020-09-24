@@ -1,11 +1,9 @@
 import "jest-extended";
 
 import { Application } from "@arkecosystem/core-kernel";
-import { Generators } from "@arkecosystem/core-test-framework/src";
+import { Generators } from "@arkecosystem/core-test-framework";
 import { Managers, Transactions } from "@arkecosystem/crypto";
-import { configManager } from "@arkecosystem/crypto/src/managers";
-import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
-import { Defaults as CryptoDefaults } from "@protokol/nft-base-crypto";
+import { Defaults as CryptoDefaults, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import { Defaults as TransactionsDefaults } from "@protokol/nft-base-transactions";
 import latestVersion from "latest-version";
 
@@ -18,7 +16,6 @@ let configurationsController: ConfigurationController;
 
 beforeEach(() => {
 	const config = Generators.generateCryptoConfigRaw();
-	configManager.setConfig(config);
 	Managers.configManager.setConfig(config);
 
 	app = initApp();

@@ -1,65 +1,65 @@
 {
-	"name": "@protokol/nft-generator-api",
-	"version": "1.0.0-beta.24",
-	"description": "NFT Transaction Generator – TEST ENV Only",
-	"license": "CC-BY-NC-SA-4.0",
-	"homepage": "https://docs.protokol.com/nft/",
-	"bugs": {
-		"url": "https://github.com/protokol/nft-plugins/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/protokol/nft-plugins.git"
-	},
-	"keywords": [
-		"protokol",
-		"ark",
-		"core",
-		"sdk",
-		"nft",
-		"blockchain"
-	],
-	"contributors": [
-		"Žan Kovač <zan@protokol.com",
-		"Kristjan Košič <kristjan@protokol.com>"
-	],
-	"files": [
-		"dist"
-	],
-	"main": "dist/index",
-	"types": "dist/index",
-	"scripts": {
-		"build": "yarn clean && yarn compile",
-		"build:watch": "yarn clean && yarn compile -w",
-		"build:docs": "../../../node_modules/typedoc/bin/typedoc --out docs src",
-		"clean": "del dist",
-		"compile": "../../../node_modules/typescript/bin/tsc",
-		"prepublishOnly": "yarn build",
-		"pretest": "bash ../../../scripts/pre-test.sh"
-	},
-	"dependencies": {
-		"@arkecosystem/core-api": "^3.0.0-alpha.9",
-		"@arkecosystem/core-kernel": "^3.0.0-alpha.9",
-		"@hapi/boom": "^9.0.0",
-		"@hapi/hapi": "^19.0.0",
-		"@hapi/joi": "^17.1.0",
-		"@protokol/nft-base-transactions": "^1.0.0-beta.24",
-		"@protokol/nft-exchange-transactions": "^1.0.0-beta.24",
-		"got": "^11.0.3"
-	},
-	"devDependencies": {
-		"@types/hapi__boom": "^7.4.1",
-		"@types/hapi__joi": "^16.0.4"
-	},
-	"engines": {
-		"node": ">=10.x"
-	},
-	"publishConfig": {
-		"access": "public"
-	},
-	"arkecosystem": {
-		"core": {
-			"alias": "nft-generator-api"
-		}
-	}
+    "name": "@protokol/nft-generator-api",
+    "version": "1.0.0-beta.30",
+    "description": "NFT Transaction Generator – TEST ENV Only",
+    "license": "CC-BY-NC-SA-4.0",
+    "homepage": "https://docs.protokol.com/nft/",
+    "bugs": {
+        "url": "https://github.com/protokol/nft-plugins/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/protokol/nft-plugins.git"
+    },
+    "keywords": [
+        "protokol",
+        "ark",
+        "core",
+        "sdk",
+        "nft",
+        "blockchain"
+    ],
+    "contributors": [
+        "Žan Kovač <zan@protokol.com",
+        "Kristjan Košič <kristjan@protokol.com>"
+    ],
+    "files": [
+        "dist"
+    ],
+    "main": "dist/index",
+    "types": "dist/index",
+    "scripts": {
+        "build": "yarn clean && yarn compile",
+        "build:watch": "yarn clean && yarn compile -w",
+        "build:docs": "../../../node_modules/typedoc/bin/typedoc --out docs src",
+        "clean": "del dist",
+        "compile": "../../../node_modules/typescript/bin/tsc",
+        "prepublishOnly": "yarn build",
+        "pretest": "bash ../../../scripts/pre-test.sh"
+    },
+    "dependencies": {
+        "@arkecosystem/core-api": "^3.0.0-alpha.10",
+        "@arkecosystem/core-kernel": "^3.0.0-alpha.10",
+        "@hapi/boom": "^9.0.0",
+        "@hapi/hapi": "^19.0.0",
+        "@hapi/joi": "^17.1.0",
+        "@protokol/nft-base-transactions": "^1.0.0-beta.25",
+        "@protokol/nft-exchange-transactions": "^1.0.0-beta.25",
+        "got": "^11.0.3"
+    },
+    "devDependencies": {
+        "@types/hapi__boom": "^7.4.1",
+        "@types/hapi__joi": "^16.0.4"
+    },
+    "engines": {
+        "node": ">=10.x"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "arkecosystem": {
+        "core": {
+            "alias": "nft-generator-api"
+        }
+    }
 }

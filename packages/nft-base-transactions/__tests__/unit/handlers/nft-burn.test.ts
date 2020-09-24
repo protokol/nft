@@ -1,16 +1,12 @@
 import "jest-extended";
 
-// TODO Check missing exports with ARK-CORE 
-import { Application, Contracts } from "@arkecosystem/core-kernel";
-import { Identifiers } from "@arkecosystem/core-kernel/dist/ioc";
+import { Application, Container, Contracts } from "@arkecosystem/core-kernel";
 import { Wallets } from "@arkecosystem/core-state";
-import passphrases from "@arkecosystem/core-test-framework/dist/internal/passphrases.json";
+import { passphrases } from "@arkecosystem/core-test-framework";
 import { Mempool } from "@arkecosystem/core-transaction-pool";
-import { TransactionHandler } from "@arkecosystem/core-transactions/dist/handlers";
-import { TransactionHandlerRegistry } from "@arkecosystem/core-transactions/dist/handlers/handler-registry";
+import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions } from "@arkecosystem/crypto";
-import { Enums, Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
-import { Builders as NFTBuilders } from "@protokol/nft-base-crypto";
+import { Builders as NFTBuilders, Enums, Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 
 import { setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
 import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
@@ -28,11 +24,11 @@ let app: Application;
 
 let wallet: Contracts.State.Wallet;
 
-let walletRepository: Contracts.State.WalletRepository;
+let walletRepository: Wallets.WalletRepository;
 
-let transactionHandlerRegistry: TransactionHandlerRegistry;
+let transactionHandlerRegistry: Handlers.Registry;
 
-let nftBurnHandler: TransactionHandler;
+let nftBurnHandler: Handlers.TransactionHandler;
 
 let actualCreate: Interfaces.ITransaction;
 
@@ -61,7 +57,7 @@ const nftCollectionAsset: NFTInterfaces.NFTCollectionAsset = {
     },
 };
 
-const buildActualBurn = (id: string | undefined, nonce: string = "1") =>
+const buildActualBurn = (id: string | undefined, nonce = "1") =>
     new NFTBuilders.NFTBurnBuilder()
         .NFTBurnAsset({
             // @ts-ignore
@@ -73,9 +69,9 @@ const buildActualBurn = (id: string | undefined, nonce: string = "1") =>
 
 beforeEach(() => {
     app = initApp();
-    walletRepository = app.get<Wallets.WalletRepository>(Identifiers.WalletRepository);
+    walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
-    transactionHandlerRegistry = app.get<TransactionHandlerRegistry>(Identifiers.TransactionHandlerRegistry);
+    transactionHandlerRegistry = app.get<Handlers.Registry>(Container.Identifiers.TransactionHandlerRegistry);
 
     nftBurnHandler = transactionHandlerRegistry.getRegisteredHandlerByType(
         Transactions.InternalTransactionType.from(Enums.NFTBaseTransactionTypes.NFTBurn, Enums.NFTBaseTransactionGroup),
@@ -117,7 +113,9 @@ const prepareWallet = () => {
     tokensWallet[actualCreate.id] = {};
     wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
 
-    walletRepository.index(wallet);
+    walletRepository
+        .getIndex(NFTIndexers.CollectionIndexer)
+        .set("8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61", wallet);
 };
 
 const checkApply = () => {
@@ -247,7 +245,7 @@ describe("NFT Burn tests", () => {
 
             const actual = buildActualBurn(actualCreate.id);
 
-            await app.get<Mempool>(Identifiers.TransactionPoolMempool).addTransaction(actual);
+            await app.get<Mempool>(Container.Identifiers.TransactionPoolMempool).addTransaction(actual);
 
             const actualTwo = buildActualBurn(actualCreate.id, "2");
             await expect(nftBurnHandler.throwIfCannotEnterPool(actualTwo)).rejects.toThrow();
@@ -260,7 +258,7 @@ describe("NFT Burn tests", () => {
 
             const actual = buildActualBurn(actualCreate.id);
 
-            await app.get<Mempool>(Identifiers.TransactionPoolMempool).addTransaction(actual);
+            await app.get<Mempool>(Container.Identifiers.TransactionPoolMempool).addTransaction(actual);
 
             const actualTwo = buildActualBurn("05187f38e583cd9ca285bd9ee48af41d04af0f432410ef110ceb87212f4a49aa", "2");
             await expect(nftBurnHandler.throwIfCannotEnterPool(actualTwo)).toResolve();
@@ -272,7 +270,7 @@ describe("NFT Burn tests", () => {
             const actual = buildActualBurn(actualCreate.id);
 
             const emitter: Contracts.Kernel.EventDispatcher = app.get<Contracts.Kernel.EventDispatcher>(
-                Identifiers.EventDispatcherService,
+                Container.Identifiers.EventDispatcherService,
             );
 
             const spy = jest.spyOn(emitter, "dispatch");

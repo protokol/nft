@@ -45,7 +45,7 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
             AppUtils.assert.defined<string>(transaction.senderPublicKey);
             AppUtils.assert.defined<NFTInterfaces.NFTBurnAsset>(transaction.asset?.nftBurn);
 
-            const wallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(transaction.senderPublicKey);
+            const wallet = this.walletRepository.findByPublicKey(transaction.senderPublicKey);
 
             const nftBurnAsset: NFTInterfaces.NFTBurnAsset = transaction.asset.nftBurn;
 
@@ -123,7 +123,7 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
 
         const nftBurnAsset: NFTInterfaces.NFTBurnAsset = transaction.data.asset!.nftBurn;
 
-        const sender: Contracts.State.Wallet = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
+        const sender = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
 
         const tokenIdsWallet = sender.getAttribute<INFTTokens>("nft.base.tokenIds");
         delete tokenIdsWallet[nftBurnAsset.nftId];
@@ -148,12 +148,12 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
 
         const nftBurnAsset: NFTInterfaces.NFTBurnAsset = transaction.data.asset.nftBurn;
 
-        const sender: Contracts.State.Wallet = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
+        const sender = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
 
         const tokenIdsWallet = sender.getAttribute<INFTTokens>("nft.base.tokenIds");
         tokenIdsWallet[nftBurnAsset.nftId] = {};
         sender.setAttribute<INFTTokens>("nft.base.tokenIds", tokenIdsWallet);
-        this.walletRepository.index(sender);
+        this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).set(nftBurnAsset.nftId, sender);
 
         const nftCreateTransaction = await this.transactionRepository.findById(nftBurnAsset.nftId);
         const collectionId = nftCreateTransaction.asset.nftToken.collectionId;

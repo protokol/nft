@@ -48,7 +48,7 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
             AppUtils.assert.defined<NFTInterfaces.NFTAuctionAsset>(transaction.asset?.nftAuction);
             AppUtils.assert.defined<string>(transaction.id);
 
-            const wallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(transaction.senderPublicKey);
+            const wallet = this.walletRepository.findByPublicKey(transaction.senderPublicKey);
             const nftAuctionAsset: NFTExchangeInterfaces.NFTAuctionAsset = transaction.asset.nftAuction;
             const auctionsWalletAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
 
@@ -58,7 +58,7 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
 
-            this.walletRepository.index(wallet);
+            this.walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).set(transaction.id, wallet);
         }
     }
 
@@ -137,7 +137,7 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
         // Line is already checked inside throwIfCannotBeApplied run by super.applyToSender method
         //AppUtils.assert.defined<NFTExchangeInterfaces.NFTAuctionAsset>(transaction.data.asset?.nftAuction);
 
-        const sender: Contracts.State.Wallet = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
+        const sender = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
 
         const nftAuctionAsset: NFTExchangeInterfaces.NFTAuctionAsset = transaction.data.asset!.nftAuction;
         const auctionsWalletAsset = sender.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
@@ -147,7 +147,7 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
             bids: [],
         };
         sender.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
-        this.walletRepository.index(sender);
+        this.walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).set(transaction.data.id, sender);
     }
 
     public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
