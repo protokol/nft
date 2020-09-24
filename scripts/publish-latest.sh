@@ -7,4 +7,4 @@ cd packages/nft-exchange-crypto && npm publish --tag latest && cd ../..
 cd packages/nft-exchange-transactions && npm publish --tag latest && cd ../..
 cd packages/nft-exchange-api && npm publish --tag latest && cd ../..
 cd packages/nft-generator-api && npm publish --tag latest && cd ../..
-cd packages/nft-client && npm publish --tag latest && cd ../..
+cd packages/client && npm publish --tag latest && cd ../..

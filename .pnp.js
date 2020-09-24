@@ -23,6 +23,30 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:."
       },
       {
+        "name": "@protokol/cli",
+        "reference": "workspace:packages/cli"
+      },
+      {
+        "name": "@protokol/client",
+        "reference": "workspace:packages/client"
+      },
+      {
+        "name": "@protokol/examples",
+        "reference": "workspace:packages/examples"
+      },
+      {
+        "name": "@protokol/guardian-api",
+        "reference": "workspace:packages/guardian-api"
+      },
+      {
+        "name": "@protokol/guardian-crypto",
+        "reference": "workspace:packages/guardian-crypto"
+      },
+      {
+        "name": "@protokol/guardian-transactions",
+        "reference": "workspace:packages/guardian-transactions"
+      },
+      {
         "name": "@protokol/nft-base-api",
         "reference": "workspace:packages/nft-base-api"
       },
@@ -33,14 +57,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@protokol/nft-base-transactions",
         "reference": "workspace:packages/nft-base-transactions"
-      },
-      {
-        "name": "@protokol/nft-client",
-        "reference": "workspace:packages/nft-client"
-      },
-      {
-        "name": "@protokol/nft-examples",
-        "reference": "workspace:packages/nft-examples"
       },
       {
         "name": "@protokol/nft-exchange-api",
@@ -59,10 +75,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/nft-generator-api"
       },
       {
-        "name": "@protokol/nft-tx-tester",
-        "reference": "workspace:packages/nft-tx-tester"
-      },
-      {
         "name": "@protokol/utils",
         "reference": "workspace:packages/utils"
       }
@@ -70,16 +82,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     "enableTopLevelFallback": true,
     "ignorePatternData": "(^(?:\\.yarn\\/sdks(?:\\/(?!\\.)(?:(?:(?!(?:^|\\/)\\.).)*?)|$))$)",
     "fallbackExclusionList": [
+      ["@protokol/cli", ["workspace:packages/cli"]],
+      ["@protokol/client", ["workspace:packages/client"]],
+      ["@protokol/examples", ["workspace:packages/examples"]],
+      ["@protokol/guardian-api", ["workspace:packages/guardian-api"]],
+      ["@protokol/guardian-crypto", ["workspace:packages/guardian-crypto"]],
+      ["@protokol/guardian-transactions", ["workspace:packages/guardian-transactions"]],
       ["@protokol/nft-base-api", ["workspace:packages/nft-base-api"]],
       ["@protokol/nft-base-crypto", ["workspace:packages/nft-base-crypto"]],
       ["@protokol/nft-base-transactions", ["workspace:packages/nft-base-transactions"]],
-      ["@protokol/nft-client", ["workspace:packages/nft-client"]],
-      ["@protokol/nft-examples", ["workspace:packages/nft-examples"]],
       ["@protokol/nft-exchange-api", ["workspace:packages/nft-exchange-api"]],
       ["@protokol/nft-exchange-crypto", ["workspace:packages/nft-exchange-crypto"]],
       ["@protokol/nft-exchange-transactions", ["workspace:packages/nft-exchange-transactions"]],
       ["@protokol/nft-generator-api", ["workspace:packages/nft-generator-api"]],
-      ["@protokol/nft-tx-tester", ["workspace:packages/nft-tx-tester"]],
       ["@protokol/utils", ["workspace:packages/utils"]],
       ["nft-core", ["workspace:."]]
     ],
@@ -307,6 +322,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@arkecosystem/core-api", [
+        ["npm:3.0.0-alpha.10", {
+          "packageLocation": "./.yarn/cache/@arkecosystem-core-api-npm-3.0.0-alpha.10-befeb8fc17-2382905f33.zip/node_modules/@arkecosystem/core-api/",
+          "packageDependencies": [
+            ["@arkecosystem/core-api", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-database", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-transaction-pool", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-transactions", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/crypto", "npm:3.0.0-alpha.10"],
+            ["@hapi/boom", "npm:9.1.0"],
+            ["@hapi/hapi", "npm:19.2.0"],
+            ["@hapi/hoek", "npm:9.1.0"],
+            ["@hapi/joi", "npm:17.1.1"],
+            ["ajv", "npm:6.12.4"],
+            ["ip", "npm:1.1.5"],
+            ["nanomatch", "npm:1.2.13"],
+            ["node-cache", "npm:5.1.2"],
+            ["rate-limiter-flexible", "npm:1.3.2"],
+            ["semver", "npm:6.3.0"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:3.0.0-alpha.9", {
           "packageLocation": "./.yarn/cache/@arkecosystem-core-api-npm-3.0.0-alpha.9-9621c11b4c-f02aa4e548.zip/node_modules/@arkecosystem/core-api/",
           "packageDependencies": [
@@ -386,6 +423,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@arkecosystem/core-database", [
+        ["npm:3.0.0-alpha.10", {
+          "packageLocation": "./.yarn/cache/@arkecosystem-core-database-npm-3.0.0-alpha.10-98b7d9a7f2-1099303aa8.zip/node_modules/@arkecosystem/core-database/",
+          "packageDependencies": [
+            ["@arkecosystem/core-database", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/crypto", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/utils", "npm:1.2.0"],
+            ["dayjs", "npm:1.8.35"],
+            ["pg", "npm:8.3.3"],
+            ["reflect-metadata", "npm:0.1.13"],
+            ["typeorm", "npm:0.2.25"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:3.0.0-alpha.9", {
           "packageLocation": "./.yarn/cache/@arkecosystem-core-database-npm-3.0.0-alpha.9-e597892264-9e80aeac94.zip/node_modules/@arkecosystem/core-database/",
           "packageDependencies": [
@@ -419,6 +470,45 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@arkecosystem/core-kernel", [
+        ["npm:3.0.0-alpha.10", {
+          "packageLocation": "./.yarn/cache/@arkecosystem-core-kernel-npm-3.0.0-alpha.10-9bd824db8f-fd0a47594b.zip/node_modules/@arkecosystem/core-kernel/",
+          "packageDependencies": [
+            ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-api", "npm:3.0.0-alpha.9"],
+            ["@arkecosystem/core-blockchain", "npm:3.0.0-alpha.9"],
+            ["@arkecosystem/core-database", "npm:3.0.0-alpha.9"],
+            ["@arkecosystem/core-forger", "npm:3.0.0-alpha.9"],
+            ["@arkecosystem/core-logger-pino", "npm:3.0.0-alpha.9"],
+            ["@arkecosystem/core-magistrate-api", "npm:3.0.0-alpha.9"],
+            ["@arkecosystem/core-magistrate-transactions", "npm:3.0.0-alpha.9"],
+            ["@arkecosystem/core-manager", "npm:3.0.0-alpha.9"],
+            ["@arkecosystem/core-p2p", "npm:3.0.0-alpha.9"],
+            ["@arkecosystem/core-snapshots", "npm:3.0.0-alpha.9"],
+            ["@arkecosystem/core-state", "npm:3.0.0-alpha.9"],
+            ["@arkecosystem/core-transaction-pool", "npm:3.0.0-alpha.9"],
+            ["@arkecosystem/core-transactions", "npm:3.0.0-alpha.9"],
+            ["@arkecosystem/core-webhooks", "npm:3.0.0-alpha.9"],
+            ["@arkecosystem/crypto", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/utils", "npm:1.2.0"],
+            ["@hapi/joi", "npm:17.1.1"],
+            ["@pm2/io", "npm:4.3.5"],
+            ["chalk", "npm:4.1.0"],
+            ["cron", "npm:1.8.2"],
+            ["dayjs", "npm:1.8.35"],
+            ["deepmerge", "npm:4.2.2"],
+            ["env-paths", "npm:2.2.0"],
+            ["fs-extra", "npm:8.1.0"],
+            ["import-fresh", "npm:3.2.1"],
+            ["inversify", "npm:5.0.1"],
+            ["log-process-errors", "npm:5.1.2"],
+            ["nanomatch", "npm:1.2.13"],
+            ["nsfw", "npm:2.0.0"],
+            ["reflect-metadata", "npm:0.1.13"],
+            ["semver", "npm:6.3.0"],
+            ["type-fest", "npm:0.16.0"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:3.0.0-alpha.9", {
           "packageLocation": "./.yarn/cache/@arkecosystem-core-kernel-npm-3.0.0-alpha.9-0db0389612-c4a6a1035e.zip/node_modules/@arkecosystem/core-kernel/",
           "packageDependencies": [
@@ -605,6 +695,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@arkecosystem/core-state", [
+        ["npm:3.0.0-alpha.10", {
+          "packageLocation": "./.yarn/cache/@arkecosystem-core-state-npm-3.0.0-alpha.10-62006e86d0-633cd67476.zip/node_modules/@arkecosystem/core-state/",
+          "packageDependencies": [
+            ["@arkecosystem/core-state", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-database", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-transactions", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/crypto", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/utils", "npm:1.2.0"],
+            ["immutable", "npm:4.0.0-rc.12"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:3.0.0-alpha.9", {
           "packageLocation": "./.yarn/cache/@arkecosystem-core-state-npm-3.0.0-alpha.9-1df9f8cad8-aee9f26afe.zip/node_modules/@arkecosystem/core-state/",
           "packageDependencies": [
@@ -652,6 +755,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@arkecosystem/core-transaction-pool", [
+        ["npm:3.0.0-alpha.10", {
+          "packageLocation": "./.yarn/cache/@arkecosystem-core-transaction-pool-npm-3.0.0-alpha.10-48c65154a7-361ba2df2d.zip/node_modules/@arkecosystem/core-transaction-pool/",
+          "packageDependencies": [
+            ["@arkecosystem/core-transaction-pool", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-database", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-state", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-transactions", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/crypto", "npm:3.0.0-alpha.10"],
+            ["@types/better-sqlite3", "npm:5.4.0"],
+            ["@types/fs-extra", "npm:8.1.1"],
+            ["better-sqlite3", "npm:7.1.0"],
+            ["fs-extra", "npm:8.1.0"],
+            ["lodash.differencewith", "npm:4.5.0"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:3.0.0-alpha.9", {
           "packageLocation": "./.yarn/cache/@arkecosystem-core-transaction-pool-npm-3.0.0-alpha.9-48150a05f2-6e85b0ab36.zip/node_modules/@arkecosystem/core-transaction-pool/",
           "packageDependencies": [
@@ -671,6 +791,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@arkecosystem/core-transactions", [
+        ["npm:3.0.0-alpha.10", {
+          "packageLocation": "./.yarn/cache/@arkecosystem-core-transactions-npm-3.0.0-alpha.10-f1a497e7dd-2d7f199b8b.zip/node_modules/@arkecosystem/core-transactions/",
+          "packageDependencies": [
+            ["@arkecosystem/core-transactions", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-database", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/crypto", "npm:3.0.0-alpha.10"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:3.0.0-alpha.9", {
           "packageLocation": "./.yarn/cache/@arkecosystem-core-transactions-npm-3.0.0-alpha.9-a794e34694-95d9ac3771.zip/node_modules/@arkecosystem/core-transactions/",
           "packageDependencies": [
@@ -700,6 +830,31 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@arkecosystem/crypto", [
+        ["npm:3.0.0-alpha.10", {
+          "packageLocation": "./.yarn/cache/@arkecosystem-crypto-npm-3.0.0-alpha.10-93cdaecbbe-b1b59c2b81.zip/node_modules/@arkecosystem/crypto/",
+          "packageDependencies": [
+            ["@arkecosystem/crypto", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/utils", "npm:1.2.0"],
+            ["ajv", "npm:6.12.4"],
+            ["ajv-keywords", "virtual:830f14b7e65e3edcd99f6f7de29a48f44c2ce129b4b3a6b17f59e2f38d7f96ce49d4a7dc94c948166b7f94d89d7e8265aa1be88048580830afe282755a16ec67#npm:3.5.2"],
+            ["bcrypto", "npm:5.3.0"],
+            ["bip32", "npm:2.0.5"],
+            ["bip39", "npm:3.0.2"],
+            ["browserify-aes", "npm:1.2.0"],
+            ["bstring", "npm:0.3.9"],
+            ["buffer-xor", "npm:2.0.2"],
+            ["builtin-modules", "npm:3.1.0"],
+            ["bytebuffer", "npm:5.0.1"],
+            ["dayjs", "npm:1.8.35"],
+            ["deepmerge", "npm:4.2.2"],
+            ["fast-memoize", "npm:2.5.2"],
+            ["ipaddr.js", "npm:2.0.0"],
+            ["lodash.get", "npm:4.4.2"],
+            ["lodash.set", "npm:4.3.2"],
+            ["wif", "npm:2.0.6"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:3.0.0-alpha.9", {
           "packageLocation": "./.yarn/cache/@arkecosystem-crypto-npm-3.0.0-alpha.9-830f14b7e6-8177d3c38d.zip/node_modules/@arkecosystem/crypto/",
           "packageDependencies": [
@@ -1185,6 +1340,43 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ipaddr.js", "npm:1.9.1"],
             ["lodash.flatten", "npm:4.4.0"],
             ["lodash.map", "npm:4.6.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@fimbul/bifrost", [
+        ["virtual:7dff9a4217303bc85f287e263e4942ff4a0cbe47c24945161d25c493999b4aa987e49cc1396d7c0b41623cc480c87a2a6080ddc19dfff3b573133308d63d5ca2#npm:0.21.0", {
+          "packageLocation": "./.yarn/$$virtual/@fimbul-bifrost-virtual-ff043db675/0/cache/@fimbul-bifrost-npm-0.21.0-c3e7cc2cca-b6355e771a.zip/node_modules/@fimbul/bifrost/",
+          "packageDependencies": [
+            ["@fimbul/bifrost", "virtual:7dff9a4217303bc85f287e263e4942ff4a0cbe47c24945161d25c493999b4aa987e49cc1396d7c0b41623cc480c87a2a6080ddc19dfff3b573133308d63d5ca2#npm:0.21.0"],
+            ["@fimbul/ymir", "virtual:ff043db675155b3821f0674f6e1c2d11b3c112661251b97f854d4d1b5e2275484fbdac16062f4d9c88a72cd1e496cdf97e3ae5f63be46d3ca0d7c1dff15e46e7#npm:0.21.0"],
+            ["get-caller-file", "npm:2.0.5"],
+            ["tslib", "npm:1.13.0"],
+            ["tslint", "virtual:463a7a28a2b4ac6e16249ad26f5131a1ce91a6a3d68a751880063aff0bd7e077f1d0abc26d24b4658737ced5ba1f621009902923104cbf7744e5cccaac6b28a6#npm:5.20.1"],
+            ["tsutils", "virtual:99b7a81eb77ad7a8fe95ad3818b28ffa3f37d008a9b615aaa99a4c562d940b045a1135d57d69696135d0ffb5b1f5d18ca4ad8711dc9a2f102a22aa52d5181228#npm:3.17.1"],
+            ["typescript", null]
+          ],
+          "packagePeers": [
+            "tslint",
+            "typescript"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@fimbul/ymir", [
+        ["virtual:ff043db675155b3821f0674f6e1c2d11b3c112661251b97f854d4d1b5e2275484fbdac16062f4d9c88a72cd1e496cdf97e3ae5f63be46d3ca0d7c1dff15e46e7#npm:0.21.0", {
+          "packageLocation": "./.yarn/$$virtual/@fimbul-ymir-virtual-03db59278d/0/cache/@fimbul-ymir-npm-0.21.0-71add34a4c-c2343d78ed.zip/node_modules/@fimbul/ymir/",
+          "packageDependencies": [
+            ["@fimbul/ymir", "virtual:ff043db675155b3821f0674f6e1c2d11b3c112661251b97f854d4d1b5e2275484fbdac16062f4d9c88a72cd1e496cdf97e3ae5f63be46d3ca0d7c1dff15e46e7#npm:0.21.0"],
+            ["inversify", "npm:5.0.1"],
+            ["reflect-metadata", "npm:0.1.13"],
+            ["tslib", "npm:1.13.0"],
+            ["tsutils", "virtual:99b7a81eb77ad7a8fe95ad3818b28ffa3f37d008a9b615aaa99a4c562d940b045a1135d57d69696135d0ffb5b1f5d18ca4ad8711dc9a2f102a22aa52d5181228#npm:3.17.1"],
+            ["typescript", null]
+          ],
+          "packagePeers": [
+            "tsutils",
+            "typescript"
           ],
           "linkType": "HARD",
         }]
@@ -2579,6 +2771,211 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@protokol/cli", [
+        ["workspace:packages/cli", {
+          "packageLocation": "./packages/cli/",
+          "packageDependencies": [
+            ["@protokol/cli", "workspace:packages/cli"],
+            ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.9"],
+            ["@arkecosystem/core-magistrate-crypto", "npm:3.0.0-alpha.9"],
+            ["@arkecosystem/crypto", "npm:3.0.0-alpha.9"],
+            ["@oclif/command", "virtual:94fac21a1a2025b70adfaefdf38827ffccf69dcfc9c3954fa9b39e3d15961f035ebaa812536ee9b164cb38c3f84cf0b130529ad59b30964af02dbc0d3619943e#npm:1.8.0"],
+            ["@oclif/plugin-help", "npm:3.2.0"],
+            ["@protokol/nft-base-crypto", "workspace:packages/nft-base-crypto"],
+            ["@protokol/nft-exchange-crypto", "workspace:packages/nft-exchange-crypto"],
+            ["@sindresorhus/tsconfig", "npm:0.7.0"],
+            ["@types/eslint", "npm:7.2.2"],
+            ["@types/eslint-plugin-prettier", "npm:3.1.0"],
+            ["@types/hapi__boom", "npm:7.4.1"],
+            ["@types/hapi__joi", "npm:16.0.12"],
+            ["@types/is-url-superb", "npm:3.0.0"],
+            ["@types/jest", "npm:26.0.13"],
+            ["@types/lodash.orderby", "npm:4.6.6"],
+            ["@types/node", "npm:14.6.4"],
+            ["@types/prettier", "npm:2.1.0"],
+            ["@types/rimraf", "npm:3.0.0"],
+            ["@types/semver", "npm:7.3.2"],
+            ["@types/uuid", "npm:7.0.4"],
+            ["@typescript-eslint/eslint-plugin", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.10.1"],
+            ["@typescript-eslint/parser", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.10.1"],
+            ["codecov", "npm:3.7.2"],
+            ["cross-env", "npm:7.0.2"],
+            ["eslint", "npm:7.8.1"],
+            ["eslint-config-prettier", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:6.11.0"],
+            ["eslint-plugin-jest", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:23.20.0"],
+            ["eslint-plugin-prettier", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.1.4"],
+            ["eslint-plugin-simple-import-sort", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:5.0.3"],
+            ["fs-extra", "npm:9.0.1"],
+            ["got", "npm:11.6.0"],
+            ["jest", "npm:26.4.2"],
+            ["jest-extended", "npm:0.11.5"],
+            ["jest-localstorage-mock", "npm:2.4.3"],
+            ["nock", "npm:13.0.4"],
+            ["npm-check-updates", "npm:7.1.1"],
+            ["prettier", "npm:2.1.1"],
+            ["rimraf", "npm:3.0.2"],
+            ["ts-jest", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:26.3.0"],
+            ["typedoc", "virtual:772dececd512235e99a9e38182a55a0f55052c3e33f380b55e8f0344d53d51faedcf1d7423f670a8c1697dccd7f24010972ab697cb115fccca09a353fca8a767#npm:0.19.1"],
+            ["typescript", "patch:typescript@npm%3A4.0.2#builtin<compat/typescript>::version=4.0.2&hash=5b02a2"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@protokol/client", [
+        ["workspace:packages/client", {
+          "packageLocation": "./packages/client/",
+          "packageDependencies": [
+            ["@protokol/client", "workspace:packages/client"],
+            ["@arkecosystem/client", "npm:1.1.4"],
+            ["@types/jest", "npm:25.2.3"],
+            ["@types/nock", "npm:11.1.0"],
+            ["@types/prettier", "npm:2.1.0"],
+            ["@types/rimraf", "npm:3.0.0"],
+            ["@typeskrift/tsconfig", "npm:0.1.2"],
+            ["@typeskrift/tslint", "npm:0.1.5"],
+            ["codecov", "npm:3.7.2"],
+            ["cross-env", "npm:7.0.2"],
+            ["jest", "npm:26.4.2"],
+            ["jest-extended", "npm:0.11.5"],
+            ["lodash.orderby", "npm:4.6.0"],
+            ["nock", "npm:12.0.3"],
+            ["prettier", "npm:2.1.2"],
+            ["rimraf", "npm:3.0.2"],
+            ["ts-jest", "virtual:68a8412a6ffd07e8f9b7750bdca99ff955bcd439b3cb18029181ac8ce564b910ede7c32be361c332d82f986ffd417717f431507916453b0e18938fd4a5346344#npm:26.4.0"],
+            ["tslint", "virtual:68a8412a6ffd07e8f9b7750bdca99ff955bcd439b3cb18029181ac8ce564b910ede7c32be361c332d82f986ffd417717f431507916453b0e18938fd4a5346344#npm:6.1.3"],
+            ["typescript", "patch:typescript@npm%3A3.9.7#builtin<compat/typescript>::version=3.9.7&hash=5b02a2"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@protokol/examples", [
+        ["workspace:packages/examples", {
+          "packageLocation": "./packages/examples/",
+          "packageDependencies": [
+            ["@protokol/examples", "workspace:packages/examples"],
+            ["@protokol/client", "workspace:packages/client"],
+            ["@protokol/nft-base-crypto", "workspace:packages/nft-base-crypto"],
+            ["@protokol/nft-exchange-crypto", "workspace:packages/nft-exchange-crypto"],
+            ["@sindresorhus/tsconfig", "npm:0.7.0"],
+            ["@types/eslint", "npm:7.2.2"],
+            ["@types/eslint-plugin-prettier", "npm:3.1.0"],
+            ["@types/hapi__boom", "npm:7.4.1"],
+            ["@types/hapi__joi", "npm:16.0.12"],
+            ["@types/is-url-superb", "npm:3.0.0"],
+            ["@types/jest", "npm:26.0.13"],
+            ["@types/lodash.orderby", "npm:4.6.6"],
+            ["@types/node", "npm:14.6.4"],
+            ["@types/prettier", "npm:2.1.0"],
+            ["@types/rimraf", "npm:3.0.0"],
+            ["@types/semver", "npm:7.3.2"],
+            ["@types/uuid", "npm:7.0.4"],
+            ["@typescript-eslint/eslint-plugin", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.10.1"],
+            ["@typescript-eslint/parser", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.10.1"],
+            ["codecov", "npm:3.7.2"],
+            ["cross-env", "npm:7.0.2"],
+            ["eslint", "npm:7.8.1"],
+            ["eslint-config-prettier", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:6.11.0"],
+            ["eslint-plugin-jest", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:23.20.0"],
+            ["eslint-plugin-prettier", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.1.4"],
+            ["eslint-plugin-simple-import-sort", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:5.0.3"],
+            ["got", "npm:11.6.0"],
+            ["jest", "npm:26.4.2"],
+            ["jest-extended", "npm:0.11.5"],
+            ["jest-localstorage-mock", "npm:2.4.3"],
+            ["nock", "npm:13.0.4"],
+            ["npm-check-updates", "npm:7.1.1"],
+            ["prettier", "npm:2.1.1"],
+            ["rimraf", "npm:3.0.2"],
+            ["ts-jest", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:26.3.0"],
+            ["typedoc", "virtual:772dececd512235e99a9e38182a55a0f55052c3e33f380b55e8f0344d53d51faedcf1d7423f670a8c1697dccd7f24010972ab697cb115fccca09a353fca8a767#npm:0.19.1"],
+            ["typescript", "patch:typescript@npm%3A4.0.2#builtin<compat/typescript>::version=4.0.2&hash=5b02a2"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@protokol/guardian-api", [
+        ["workspace:packages/guardian-api", {
+          "packageLocation": "./packages/guardian-api/",
+          "packageDependencies": [
+            ["@protokol/guardian-api", "workspace:packages/guardian-api"],
+            ["@arkecosystem/core-api", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.10"],
+            ["@hapi/boom", "npm:9.1.0"],
+            ["@hapi/hapi", "npm:19.2.0"],
+            ["@hapi/joi", "npm:17.1.1"],
+            ["@protokol/guardian-crypto", "workspace:packages/guardian-crypto"],
+            ["@protokol/guardian-transactions", "workspace:packages/guardian-transactions"],
+            ["@types/hapi__boom", "npm:7.4.1"],
+            ["@types/hapi__joi", "npm:17.1.5"],
+            ["@types/prettier", "npm:2.1.0"],
+            ["@types/rimraf", "npm:3.0.0"],
+            ["@types/uuid", "npm:7.0.4"],
+            ["@typescript-eslint/eslint-plugin", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:2.34.0"],
+            ["@typescript-eslint/parser", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:2.34.0"],
+            ["codecov", "npm:3.7.2"],
+            ["cross-env", "npm:7.0.2"],
+            ["eslint", "npm:7.9.0"],
+            ["eslint-config-prettier", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:6.11.0"],
+            ["eslint-plugin-jest", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:23.20.0"],
+            ["eslint-plugin-prettier", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:3.1.4"],
+            ["eslint-plugin-simple-import-sort", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:5.0.3"],
+            ["latest-version", "npm:5.1.0"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@protokol/guardian-crypto", [
+        ["workspace:packages/guardian-crypto", {
+          "packageLocation": "./packages/guardian-crypto/",
+          "packageDependencies": [
+            ["@protokol/guardian-crypto", "workspace:packages/guardian-crypto"],
+            ["@arkecosystem/crypto", "npm:3.0.0-alpha.10"],
+            ["@protokol/utils", "workspace:packages/utils"],
+            ["@types/prettier", "npm:2.1.0"],
+            ["@types/rimraf", "npm:3.0.0"],
+            ["@types/uuid", "npm:7.0.4"],
+            ["@typescript-eslint/eslint-plugin", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:2.34.0"],
+            ["@typescript-eslint/parser", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:2.34.0"],
+            ["bytebuffer", "npm:5.0.1"],
+            ["codecov", "npm:3.7.2"],
+            ["cross-env", "npm:7.0.2"],
+            ["eslint", "npm:7.9.0"],
+            ["eslint-config-prettier", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:6.11.0"],
+            ["eslint-plugin-jest", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:23.20.0"],
+            ["eslint-plugin-prettier", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:3.1.4"],
+            ["eslint-plugin-simple-import-sort", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:5.0.3"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@protokol/guardian-transactions", [
+        ["workspace:packages/guardian-transactions", {
+          "packageLocation": "./packages/guardian-transactions/",
+          "packageDependencies": [
+            ["@protokol/guardian-transactions", "workspace:packages/guardian-transactions"],
+            ["@arkecosystem/core-database", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-state", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-transactions", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/crypto", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/utils", "npm:1.2.0"],
+            ["@protokol/guardian-crypto", "workspace:packages/guardian-crypto"],
+            ["@types/prettier", "npm:2.1.0"],
+            ["@types/rimraf", "npm:3.0.0"],
+            ["@types/uuid", "npm:7.0.4"],
+            ["@typescript-eslint/eslint-plugin", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:2.34.0"],
+            ["@typescript-eslint/parser", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:2.34.0"],
+            ["codecov", "npm:3.7.2"],
+            ["cross-env", "npm:7.0.2"],
+            ["eslint", "npm:7.9.0"],
+            ["eslint-config-prettier", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:6.11.0"],
+            ["eslint-plugin-jest", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:23.20.0"],
+            ["eslint-plugin-prettier", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:3.1.4"],
+            ["eslint-plugin-simple-import-sort", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:5.0.3"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@protokol/nft-base-api", [
         ["workspace:packages/nft-base-api", {
           "packageLocation": "./packages/nft-base-api/",
@@ -2705,141 +3102,34 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
-      ["@protokol/nft-client", [
-        ["workspace:packages/nft-client", {
-          "packageLocation": "./packages/nft-client/",
-          "packageDependencies": [
-            ["@protokol/nft-client", "workspace:packages/nft-client"],
-            ["@arkecosystem/client", "npm:1.1.4"],
-            ["@sindresorhus/tsconfig", "npm:0.7.0"],
-            ["@types/eslint", "npm:7.2.2"],
-            ["@types/eslint-plugin-prettier", "npm:3.1.0"],
-            ["@types/hapi__boom", "npm:7.4.1"],
-            ["@types/hapi__joi", "npm:16.0.12"],
-            ["@types/is-url-superb", "npm:3.0.0"],
-            ["@types/jest", "npm:26.0.13"],
-            ["@types/lodash.orderby", "npm:4.6.6"],
-            ["@types/node", "npm:14.6.4"],
-            ["@types/prettier", "npm:2.1.0"],
-            ["@types/rimraf", "npm:3.0.0"],
-            ["@types/semver", "npm:7.3.2"],
-            ["@types/uuid", "npm:7.0.4"],
-            ["@typescript-eslint/eslint-plugin", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.10.1"],
-            ["@typescript-eslint/parser", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.10.1"],
-            ["codecov", "npm:3.7.2"],
-            ["cross-env", "npm:7.0.2"],
-            ["eslint", "npm:7.8.1"],
-            ["eslint-config-prettier", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:6.11.0"],
-            ["eslint-plugin-jest", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:23.20.0"],
-            ["eslint-plugin-prettier", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.1.4"],
-            ["eslint-plugin-simple-import-sort", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:5.0.3"],
-            ["got", "npm:11.6.0"],
-            ["jest", "npm:26.4.2"],
-            ["jest-extended", "npm:0.11.5"],
-            ["jest-localstorage-mock", "npm:2.4.3"],
-            ["nock", "npm:13.0.4"],
-            ["npm-check-updates", "npm:7.1.1"],
-            ["prettier", "npm:2.1.1"],
-            ["rimraf", "npm:3.0.2"],
-            ["ts-jest", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:26.3.0"],
-            ["typedoc", "virtual:772dececd512235e99a9e38182a55a0f55052c3e33f380b55e8f0344d53d51faedcf1d7423f670a8c1697dccd7f24010972ab697cb115fccca09a353fca8a767#npm:0.19.1"],
-            ["typescript", "patch:typescript@npm%3A4.0.2#builtin<compat/typescript>::version=4.0.2&hash=5b02a2"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
-      ["@protokol/nft-examples", [
-        ["workspace:packages/nft-examples", {
-          "packageLocation": "./packages/nft-examples/",
-          "packageDependencies": [
-            ["@protokol/nft-examples", "workspace:packages/nft-examples"],
-            ["@protokol/nft-base-crypto", "workspace:packages/nft-base-crypto"],
-            ["@protokol/nft-client", "workspace:packages/nft-client"],
-            ["@protokol/nft-exchange-crypto", "workspace:packages/nft-exchange-crypto"],
-            ["@sindresorhus/tsconfig", "npm:0.7.0"],
-            ["@types/eslint", "npm:7.2.2"],
-            ["@types/eslint-plugin-prettier", "npm:3.1.0"],
-            ["@types/hapi__boom", "npm:7.4.1"],
-            ["@types/hapi__joi", "npm:16.0.12"],
-            ["@types/is-url-superb", "npm:3.0.0"],
-            ["@types/jest", "npm:26.0.13"],
-            ["@types/lodash.orderby", "npm:4.6.6"],
-            ["@types/node", "npm:14.6.4"],
-            ["@types/prettier", "npm:2.1.0"],
-            ["@types/rimraf", "npm:3.0.0"],
-            ["@types/semver", "npm:7.3.2"],
-            ["@types/uuid", "npm:7.0.4"],
-            ["@typescript-eslint/eslint-plugin", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.10.1"],
-            ["@typescript-eslint/parser", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.10.1"],
-            ["codecov", "npm:3.7.2"],
-            ["cross-env", "npm:7.0.2"],
-            ["eslint", "npm:7.8.1"],
-            ["eslint-config-prettier", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:6.11.0"],
-            ["eslint-plugin-jest", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:23.20.0"],
-            ["eslint-plugin-prettier", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.1.4"],
-            ["eslint-plugin-simple-import-sort", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:5.0.3"],
-            ["got", "npm:11.6.0"],
-            ["jest", "npm:26.4.2"],
-            ["jest-extended", "npm:0.11.5"],
-            ["jest-localstorage-mock", "npm:2.4.3"],
-            ["nock", "npm:13.0.4"],
-            ["npm-check-updates", "npm:7.1.1"],
-            ["prettier", "npm:2.1.1"],
-            ["rimraf", "npm:3.0.2"],
-            ["ts-jest", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:26.3.0"],
-            ["typedoc", "virtual:772dececd512235e99a9e38182a55a0f55052c3e33f380b55e8f0344d53d51faedcf1d7423f670a8c1697dccd7f24010972ab697cb115fccca09a353fca8a767#npm:0.19.1"],
-            ["typescript", "patch:typescript@npm%3A4.0.2#builtin<compat/typescript>::version=4.0.2&hash=5b02a2"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
       ["@protokol/nft-exchange-api", [
         ["workspace:packages/nft-exchange-api", {
           "packageLocation": "./packages/nft-exchange-api/",
           "packageDependencies": [
             ["@protokol/nft-exchange-api", "workspace:packages/nft-exchange-api"],
-            ["@arkecosystem/core-api", "npm:3.0.0-alpha.9"],
-            ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.9"],
-            ["@arkecosystem/crypto", "npm:3.0.0-alpha.9"],
+            ["@arkecosystem/core-api", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/crypto", "npm:3.0.0-alpha.10"],
             ["@hapi/boom", "npm:9.1.0"],
             ["@hapi/hapi", "npm:19.2.0"],
             ["@hapi/joi", "npm:17.1.1"],
             ["@protokol/nft-base-transactions", "workspace:packages/nft-base-transactions"],
             ["@protokol/nft-exchange-transactions", "workspace:packages/nft-exchange-transactions"],
-            ["@sindresorhus/tsconfig", "npm:0.7.0"],
-            ["@types/eslint", "npm:7.2.2"],
-            ["@types/eslint-plugin-prettier", "npm:3.1.0"],
             ["@types/hapi__boom", "npm:7.4.1"],
             ["@types/hapi__joi", "npm:16.0.12"],
-            ["@types/is-url-superb", "npm:3.0.0"],
-            ["@types/jest", "npm:26.0.13"],
-            ["@types/lodash.orderby", "npm:4.6.6"],
-            ["@types/node", "npm:14.6.4"],
             ["@types/prettier", "npm:2.1.0"],
             ["@types/rimraf", "npm:3.0.0"],
-            ["@types/semver", "npm:7.3.2"],
             ["@types/uuid", "npm:7.0.4"],
-            ["@typescript-eslint/eslint-plugin", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.10.1"],
-            ["@typescript-eslint/parser", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.10.1"],
+            ["@typescript-eslint/eslint-plugin", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:2.34.0"],
+            ["@typescript-eslint/parser", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:2.34.0"],
             ["codecov", "npm:3.7.2"],
             ["cross-env", "npm:7.0.2"],
-            ["eslint", "npm:7.8.1"],
-            ["eslint-config-prettier", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:6.11.0"],
-            ["eslint-plugin-jest", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:23.20.0"],
-            ["eslint-plugin-prettier", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.1.4"],
-            ["eslint-plugin-simple-import-sort", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:5.0.3"],
-            ["got", "npm:11.6.0"],
-            ["jest", "npm:26.4.2"],
-            ["jest-extended", "npm:0.11.5"],
-            ["jest-localstorage-mock", "npm:2.4.3"],
-            ["latest-version", "npm:5.1.0"],
-            ["nock", "npm:13.0.4"],
-            ["npm-check-updates", "npm:7.1.1"],
-            ["prettier", "npm:2.1.1"],
-            ["rimraf", "npm:3.0.2"],
-            ["ts-jest", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:26.3.0"],
-            ["typedoc", "virtual:772dececd512235e99a9e38182a55a0f55052c3e33f380b55e8f0344d53d51faedcf1d7423f670a8c1697dccd7f24010972ab697cb115fccca09a353fca8a767#npm:0.19.1"],
-            ["typescript", "patch:typescript@npm%3A4.0.2#builtin<compat/typescript>::version=4.0.2&hash=5b02a2"]
+            ["eslint", "npm:7.9.0"],
+            ["eslint-config-prettier", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:6.11.0"],
+            ["eslint-plugin-jest", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:23.20.0"],
+            ["eslint-plugin-prettier", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:3.1.4"],
+            ["eslint-plugin-simple-import-sort", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:5.0.3"],
+            ["latest-version", "npm:5.1.0"]
           ],
           "linkType": "SOFT",
         }]
@@ -2879,8 +3169,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/nft-generator-api/",
           "packageDependencies": [
             ["@protokol/nft-generator-api", "workspace:packages/nft-generator-api"],
-            ["@arkecosystem/core-api", "npm:3.0.0-alpha.9"],
-            ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.9"],
+            ["@arkecosystem/core-api", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.10"],
             ["@hapi/boom", "npm:9.1.0"],
             ["@hapi/hapi", "npm:19.2.0"],
             ["@hapi/joi", "npm:17.1.1"],
@@ -2889,56 +3179,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/hapi__boom", "npm:7.4.1"],
             ["@types/hapi__joi", "npm:16.0.12"],
             ["got", "npm:11.6.0"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
-      ["@protokol/nft-tx-tester", [
-        ["workspace:packages/nft-tx-tester", {
-          "packageLocation": "./packages/nft-tx-tester/",
-          "packageDependencies": [
-            ["@protokol/nft-tx-tester", "workspace:packages/nft-tx-tester"],
-            ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.9"],
-            ["@arkecosystem/core-magistrate-crypto", "npm:3.0.0-alpha.9"],
-            ["@arkecosystem/crypto", "npm:3.0.0-alpha.9"],
-            ["@oclif/command", "virtual:94fac21a1a2025b70adfaefdf38827ffccf69dcfc9c3954fa9b39e3d15961f035ebaa812536ee9b164cb38c3f84cf0b130529ad59b30964af02dbc0d3619943e#npm:1.8.0"],
-            ["@oclif/plugin-help", "npm:3.2.0"],
-            ["@protokol/nft-base-crypto", "workspace:packages/nft-base-crypto"],
-            ["@protokol/nft-exchange-crypto", "workspace:packages/nft-exchange-crypto"],
-            ["@sindresorhus/tsconfig", "npm:0.7.0"],
-            ["@types/eslint", "npm:7.2.2"],
-            ["@types/eslint-plugin-prettier", "npm:3.1.0"],
-            ["@types/hapi__boom", "npm:7.4.1"],
-            ["@types/hapi__joi", "npm:16.0.12"],
-            ["@types/is-url-superb", "npm:3.0.0"],
-            ["@types/jest", "npm:26.0.13"],
-            ["@types/lodash.orderby", "npm:4.6.6"],
-            ["@types/node", "npm:14.6.4"],
-            ["@types/prettier", "npm:2.1.0"],
-            ["@types/rimraf", "npm:3.0.0"],
-            ["@types/semver", "npm:7.3.2"],
-            ["@types/uuid", "npm:7.0.4"],
-            ["@typescript-eslint/eslint-plugin", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.10.1"],
-            ["@typescript-eslint/parser", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.10.1"],
-            ["codecov", "npm:3.7.2"],
-            ["cross-env", "npm:7.0.2"],
-            ["eslint", "npm:7.8.1"],
-            ["eslint-config-prettier", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:6.11.0"],
-            ["eslint-plugin-jest", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:23.20.0"],
-            ["eslint-plugin-prettier", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.1.4"],
-            ["eslint-plugin-simple-import-sort", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:5.0.3"],
-            ["fs-extra", "npm:9.0.1"],
-            ["got", "npm:11.6.0"],
-            ["jest", "npm:26.4.2"],
-            ["jest-extended", "npm:0.11.5"],
-            ["jest-localstorage-mock", "npm:2.4.3"],
-            ["nock", "npm:13.0.4"],
-            ["npm-check-updates", "npm:7.1.1"],
-            ["prettier", "npm:2.1.1"],
-            ["rimraf", "npm:3.0.2"],
-            ["ts-jest", "virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:26.3.0"],
-            ["typedoc", "virtual:772dececd512235e99a9e38182a55a0f55052c3e33f380b55e8f0344d53d51faedcf1d7423f670a8c1697dccd7f24010972ab697cb115fccca09a353fca8a767#npm:0.19.1"],
-            ["typescript", "patch:typescript@npm%3A4.0.2#builtin<compat/typescript>::version=4.0.2&hash=5b02a2"]
           ],
           "linkType": "SOFT",
         }]
@@ -3020,6 +3260,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@sindresorhus/tsconfig", [
+        ["npm:0.4.0", {
+          "packageLocation": "./.yarn/cache/@sindresorhus-tsconfig-npm-0.4.0-8aa47d0877-f4c70ff8af.zip/node_modules/@sindresorhus/tsconfig/",
+          "packageDependencies": [
+            ["@sindresorhus/tsconfig", "npm:0.4.0"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:0.7.0", {
           "packageLocation": "./.yarn/cache/@sindresorhus-tsconfig-npm-0.7.0-42b9b75aea-e0092defcf.zip/node_modules/@sindresorhus/tsconfig/",
           "packageDependencies": [
@@ -3263,6 +3510,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/hapi__joi", "npm:17.1.4"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:17.1.5", {
+          "packageLocation": "./.yarn/cache/@types-hapi__joi-npm-17.1.5-7f6aa38584-7dfe5188f5.zip/node_modules/@types/hapi__joi/",
+          "packageDependencies": [
+            ["@types/hapi__joi", "npm:17.1.5"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@types/http-cache-semantics", [
@@ -3332,6 +3586,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/jest", [
+        ["npm:25.2.3", {
+          "packageLocation": "./.yarn/cache/@types-jest-npm-25.2.3-41912c4b23-fe92624fd7.zip/node_modules/@types/jest/",
+          "packageDependencies": [
+            ["@types/jest", "npm:25.2.3"],
+            ["jest-diff", "npm:25.5.0"],
+            ["pretty-format", "npm:25.5.0"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:26.0.13", {
           "packageLocation": "./.yarn/cache/@types-jest-npm-26.0.13-bc5d533019-5476d59a99.zip/node_modules/@types/jest/",
           "packageDependencies": [
@@ -3385,6 +3648,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-minimatch-npm-3.0.3-c8b0625f84-672ccdac19.zip/node_modules/@types/minimatch/",
           "packageDependencies": [
             ["@types/minimatch", "npm:3.0.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/nock", [
+        ["npm:11.1.0", {
+          "packageLocation": "./.yarn/cache/@types-nock-npm-11.1.0-01ed73d3fc-09eada0afd.zip/node_modules/@types/nock/",
+          "packageDependencies": [
+            ["@types/nock", "npm:11.1.0"],
+            ["nock", "npm:13.0.4"]
           ],
           "linkType": "HARD",
         }]
@@ -3549,6 +3822,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@typescript-eslint/eslint-plugin", [
+        ["virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:2.34.0", {
+          "packageLocation": "./.yarn/$$virtual/@typescript-eslint-eslint-plugin-virtual-8339886d7e/0/cache/@typescript-eslint-eslint-plugin-npm-2.34.0-f789694d5f-8d800f4726.zip/node_modules/@typescript-eslint/eslint-plugin/",
+          "packageDependencies": [
+            ["@typescript-eslint/eslint-plugin", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:2.34.0"],
+            ["@typescript-eslint/experimental-utils", "virtual:8339886d7edf4cb6d8027d81d9e5ad75025e416656844bd209d085d84a3ada41f1c92e19e26e83c46c3569d5fe5c69b1d72d113094124fe92bcf8b43656f469f#npm:2.34.0"],
+            ["@typescript-eslint/parser", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:2.34.0"],
+            ["eslint", "npm:7.9.0"],
+            ["functional-red-black-tree", "npm:1.0.1"],
+            ["regexpp", "npm:3.1.0"],
+            ["tsutils", "virtual:99b7a81eb77ad7a8fe95ad3818b28ffa3f37d008a9b615aaa99a4c562d940b045a1135d57d69696135d0ffb5b1f5d18ca4ad8711dc9a2f102a22aa52d5181228#npm:3.17.1"],
+            ["typescript", null]
+          ],
+          "packagePeers": [
+            "eslint",
+            "@typescript-eslint/parser",
+            "typescript"
+          ],
+          "linkType": "HARD",
+        }],
         ["virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.10.1", {
           "packageLocation": "./.yarn/$$virtual/@typescript-eslint-eslint-plugin-virtual-0dad31a6d2/0/cache/@typescript-eslint-eslint-plugin-npm-3.10.1-8c1dbd0dcd-c50fefc3df.zip/node_modules/@typescript-eslint/eslint-plugin/",
           "packageDependencies": [
@@ -3602,9 +3894,41 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "eslint"
           ],
           "linkType": "HARD",
+        }],
+        ["virtual:8339886d7edf4cb6d8027d81d9e5ad75025e416656844bd209d085d84a3ada41f1c92e19e26e83c46c3569d5fe5c69b1d72d113094124fe92bcf8b43656f469f#npm:2.34.0", {
+          "packageLocation": "./.yarn/$$virtual/@typescript-eslint-experimental-utils-virtual-a961586af2/0/cache/@typescript-eslint-experimental-utils-npm-2.34.0-c95189aa27-53cbbcfe67.zip/node_modules/@typescript-eslint/experimental-utils/",
+          "packageDependencies": [
+            ["@typescript-eslint/experimental-utils", "virtual:8339886d7edf4cb6d8027d81d9e5ad75025e416656844bd209d085d84a3ada41f1c92e19e26e83c46c3569d5fe5c69b1d72d113094124fe92bcf8b43656f469f#npm:2.34.0"],
+            ["@types/json-schema", "npm:7.0.6"],
+            ["@typescript-eslint/typescript-estree", "virtual:4617112f85a2c668071ad519b3b94658e251322ce602b57eae68f203cf6a53ee000320d50086380fc94a75b5b84fd4a86037b00174ded5456e9d857012208ffd#npm:2.34.0"],
+            ["eslint", "npm:7.9.0"],
+            ["eslint-scope", "npm:5.1.0"],
+            ["eslint-utils", "npm:2.1.0"]
+          ],
+          "packagePeers": [
+            "eslint"
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@typescript-eslint/parser", [
+        ["virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:2.34.0", {
+          "packageLocation": "./.yarn/$$virtual/@typescript-eslint-parser-virtual-28147849aa/0/cache/@typescript-eslint-parser-npm-2.34.0-3ac3ed608d-a3fe33d422.zip/node_modules/@typescript-eslint/parser/",
+          "packageDependencies": [
+            ["@typescript-eslint/parser", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:2.34.0"],
+            ["@types/eslint-visitor-keys", "npm:1.0.0"],
+            ["@typescript-eslint/experimental-utils", "virtual:8339886d7edf4cb6d8027d81d9e5ad75025e416656844bd209d085d84a3ada41f1c92e19e26e83c46c3569d5fe5c69b1d72d113094124fe92bcf8b43656f469f#npm:2.34.0"],
+            ["@typescript-eslint/typescript-estree", "virtual:4617112f85a2c668071ad519b3b94658e251322ce602b57eae68f203cf6a53ee000320d50086380fc94a75b5b84fd4a86037b00174ded5456e9d857012208ffd#npm:2.34.0"],
+            ["eslint", "npm:7.9.0"],
+            ["eslint-visitor-keys", "npm:1.3.0"],
+            ["typescript", null]
+          ],
+          "packagePeers": [
+            "eslint",
+            "typescript"
+          ],
+          "linkType": "HARD",
+        }],
         ["virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.10.1", {
           "packageLocation": "./.yarn/$$virtual/@typescript-eslint-parser-virtual-c87dfdd5a4/0/cache/@typescript-eslint-parser-npm-3.10.1-8d6732da0b-17289e48d2.zip/node_modules/@typescript-eslint/parser/",
           "packageDependencies": [
@@ -3697,6 +4021,29 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@typescript-eslint/visitor-keys", "npm:3.10.1"],
             ["eslint-visitor-keys", "npm:1.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@typeskrift/tsconfig", [
+        ["npm:0.1.2", {
+          "packageLocation": "./.yarn/cache/@typeskrift-tsconfig-npm-0.1.2-b0acbf162b-f202ae2967.zip/node_modules/@typeskrift/tsconfig/",
+          "packageDependencies": [
+            ["@typeskrift/tsconfig", "npm:0.1.2"],
+            ["@sindresorhus/tsconfig", "npm:0.4.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@typeskrift/tslint", [
+        ["npm:0.1.5", {
+          "packageLocation": "./.yarn/cache/@typeskrift-tslint-npm-0.1.5-463a7a28a2-f99aa635fa.zip/node_modules/@typeskrift/tslint/",
+          "packageDependencies": [
+            ["@typeskrift/tslint", "npm:0.1.5"],
+            ["@sindresorhus/tsconfig", "npm:0.4.0"],
+            ["tslint", "virtual:463a7a28a2b4ac6e16249ad26f5131a1ce91a6a3d68a751880063aff0bd7e077f1d0abc26d24b4658737ced5ba1f621009902923104cbf7744e5cccaac6b28a6#npm:5.20.1"],
+            ["tslint-config-prettier", "npm:1.18.0"],
+            ["tslint-consistent-codestyle", "virtual:463a7a28a2b4ac6e16249ad26f5131a1ce91a6a3d68a751880063aff0bd7e077f1d0abc26d24b4658737ced5ba1f621009902923104cbf7744e5cccaac6b28a6#npm:1.16.0"]
           ],
           "linkType": "HARD",
         }]
@@ -4906,6 +5253,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["builtin-modules", [
+        ["npm:1.1.1", {
+          "packageLocation": "./.yarn/cache/builtin-modules-npm-1.1.1-209bbd4692-777c3ea296.zip/node_modules/builtin-modules/",
+          "packageDependencies": [
+            ["builtin-modules", "npm:1.1.1"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:3.1.0", {
           "packageLocation": "./.yarn/cache/builtin-modules-npm-3.1.0-fb00ef3f7a-54f062393c.zip/node_modules/builtin-modules/",
           "packageDependencies": [
@@ -6550,9 +6904,65 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["v8-compile-cache", "npm:2.1.1"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:7.9.0", {
+          "packageLocation": "./.yarn/cache/eslint-npm-7.9.0-d45daba7d6-295fe8c442.zip/node_modules/eslint/",
+          "packageDependencies": [
+            ["eslint", "npm:7.9.0"],
+            ["@babel/code-frame", "npm:7.10.4"],
+            ["@eslint/eslintrc", "npm:0.1.3"],
+            ["ajv", "npm:6.12.4"],
+            ["chalk", "npm:4.1.0"],
+            ["cross-spawn", "npm:7.0.3"],
+            ["debug", "virtual:7d2f487ea1a1529ea7ab308c5982c504bb0ce99b87baf0adfc2232af4f43ca2550e23960484998d9b2819d4e14e9e0629ce457e12b7de624c05a1f4f624c9987#npm:4.2.0"],
+            ["doctrine", "npm:3.0.0"],
+            ["enquirer", "npm:2.3.6"],
+            ["eslint-scope", "npm:5.1.0"],
+            ["eslint-utils", "npm:2.1.0"],
+            ["eslint-visitor-keys", "npm:1.3.0"],
+            ["espree", "npm:7.3.0"],
+            ["esquery", "npm:1.3.1"],
+            ["esutils", "npm:2.0.3"],
+            ["file-entry-cache", "npm:5.0.1"],
+            ["functional-red-black-tree", "npm:1.0.1"],
+            ["glob-parent", "npm:5.1.1"],
+            ["globals", "npm:12.4.0"],
+            ["ignore", "npm:4.0.6"],
+            ["import-fresh", "npm:3.2.1"],
+            ["imurmurhash", "npm:0.1.4"],
+            ["is-glob", "npm:4.0.1"],
+            ["js-yaml", "npm:3.14.0"],
+            ["json-stable-stringify-without-jsonify", "npm:1.0.1"],
+            ["levn", "npm:0.4.1"],
+            ["lodash", "npm:4.17.20"],
+            ["minimatch", "npm:3.0.4"],
+            ["natural-compare", "npm:1.4.0"],
+            ["optionator", "npm:0.9.1"],
+            ["progress", "npm:2.0.3"],
+            ["regexpp", "npm:3.1.0"],
+            ["semver", "npm:7.3.2"],
+            ["strip-ansi", "npm:6.0.0"],
+            ["strip-json-comments", "npm:3.1.1"],
+            ["table", "npm:5.4.6"],
+            ["text-table", "npm:0.2.0"],
+            ["v8-compile-cache", "npm:2.1.1"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["eslint-config-prettier", [
+        ["virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:6.11.0", {
+          "packageLocation": "./.yarn/$$virtual/eslint-config-prettier-virtual-659087b8d5/0/cache/eslint-config-prettier-npm-6.11.0-cf0b83022d-59efd906c7.zip/node_modules/eslint-config-prettier/",
+          "packageDependencies": [
+            ["eslint-config-prettier", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:6.11.0"],
+            ["eslint", "npm:7.9.0"],
+            ["get-stdin", "npm:6.0.0"]
+          ],
+          "packagePeers": [
+            "eslint"
+          ],
+          "linkType": "HARD",
+        }],
         ["virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:6.11.0", {
           "packageLocation": "./.yarn/$$virtual/eslint-config-prettier-virtual-f67ae890b4/0/cache/eslint-config-prettier-npm-6.11.0-cf0b83022d-59efd906c7.zip/node_modules/eslint-config-prettier/",
           "packageDependencies": [
@@ -6567,6 +6977,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["eslint-plugin-jest", [
+        ["virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:23.20.0", {
+          "packageLocation": "./.yarn/$$virtual/eslint-plugin-jest-virtual-f0b3ca047b/0/cache/eslint-plugin-jest-npm-23.20.0-0fd386bae5-2f3b875346.zip/node_modules/eslint-plugin-jest/",
+          "packageDependencies": [
+            ["eslint-plugin-jest", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:23.20.0"],
+            ["@typescript-eslint/experimental-utils", "virtual:8339886d7edf4cb6d8027d81d9e5ad75025e416656844bd209d085d84a3ada41f1c92e19e26e83c46c3569d5fe5c69b1d72d113094124fe92bcf8b43656f469f#npm:2.34.0"],
+            ["eslint", "npm:7.9.0"]
+          ],
+          "packagePeers": [
+            "eslint"
+          ],
+          "linkType": "HARD",
+        }],
         ["virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:23.20.0", {
           "packageLocation": "./.yarn/$$virtual/eslint-plugin-jest-virtual-6a85a43c6b/0/cache/eslint-plugin-jest-npm-23.20.0-0fd386bae5-2f3b875346.zip/node_modules/eslint-plugin-jest/",
           "packageDependencies": [
@@ -6581,6 +7003,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["eslint-plugin-prettier", [
+        ["virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:3.1.4", {
+          "packageLocation": "./.yarn/$$virtual/eslint-plugin-prettier-virtual-5b43b0e15b/0/cache/eslint-plugin-prettier-npm-3.1.4-eba11cd45a-4e4df15579.zip/node_modules/eslint-plugin-prettier/",
+          "packageDependencies": [
+            ["eslint-plugin-prettier", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:3.1.4"],
+            ["eslint", "npm:7.9.0"],
+            ["prettier", null],
+            ["prettier-linter-helpers", "npm:1.0.0"]
+          ],
+          "packagePeers": [
+            "eslint",
+            "prettier"
+          ],
+          "linkType": "HARD",
+        }],
         ["virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:3.1.4", {
           "packageLocation": "./.yarn/$$virtual/eslint-plugin-prettier-virtual-53c2b2e32a/0/cache/eslint-plugin-prettier-npm-3.1.4-eba11cd45a-4e4df15579.zip/node_modules/eslint-plugin-prettier/",
           "packageDependencies": [
@@ -6597,6 +7033,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["eslint-plugin-simple-import-sort", [
+        ["virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:5.0.3", {
+          "packageLocation": "./.yarn/$$virtual/eslint-plugin-simple-import-sort-virtual-61a31176f4/0/cache/eslint-plugin-simple-import-sort-npm-5.0.3-aba8e8c20e-75bd43970b.zip/node_modules/eslint-plugin-simple-import-sort/",
+          "packageDependencies": [
+            ["eslint-plugin-simple-import-sort", "virtual:36cd666ac0f9a6dff3fcb6c27d260e34ec116dd4fd5a816eb4e692586d34803d6198f2049500c10097e1b4897faf95a6259cbad94aa5894169e813b06a26b6d7#npm:5.0.3"],
+            ["eslint", "npm:7.9.0"]
+          ],
+          "packagePeers": [
+            "eslint"
+          ],
+          "linkType": "HARD",
+        }],
         ["virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:5.0.3", {
           "packageLocation": "./.yarn/$$virtual/eslint-plugin-simple-import-sort-virtual-437401fa7e/0/cache/eslint-plugin-simple-import-sort-npm-5.0.3-aba8e8c20e-75bd43970b.zip/node_modules/eslint-plugin-simple-import-sort/",
           "packageDependencies": [
@@ -9986,6 +10433,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["lodash.orderby", [
+        ["npm:4.6.0", {
+          "packageLocation": "./.yarn/cache/lodash.orderby-npm-4.6.0-725bf1964d-a25b51d29c.zip/node_modules/lodash.orderby/",
+          "packageDependencies": [
+            ["lodash.orderby", "npm:4.6.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["lodash.set", [
         ["npm:4.3.2", {
           "packageLocation": "./.yarn/cache/lodash.set-npm-4.3.2-7586c942c2-4dfedacae1.zip/node_modules/lodash.set/",
@@ -10807,6 +11263,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["nock", [
+        ["npm:12.0.3", {
+          "packageLocation": "./.yarn/cache/nock-npm-12.0.3-6acd5fc71e-135b0be475.zip/node_modules/nock/",
+          "packageDependencies": [
+            ["nock", "npm:12.0.3"],
+            ["debug", "virtual:7d2f487ea1a1529ea7ab308c5982c504bb0ce99b87baf0adfc2232af4f43ca2550e23960484998d9b2819d4e14e9e0629ce457e12b7de624c05a1f4f624c9987#npm:4.2.0"],
+            ["json-stringify-safe", "npm:5.0.1"],
+            ["lodash", "npm:4.17.20"],
+            ["propagate", "npm:2.0.1"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:13.0.4", {
           "packageLocation": "./.yarn/cache/nock-npm-13.0.4-d232d43721-cc76d95178.zip/node_modules/nock/",
           "packageDependencies": [
@@ -12157,6 +12624,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/prettier-npm-2.1.1-4096027ae9-420a807cda.zip/node_modules/prettier/",
           "packageDependencies": [
             ["prettier", "npm:2.1.1"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:2.1.2", {
+          "packageLocation": "./.yarn/cache/prettier-npm-2.1.2-9d456ef3cd-bedc24c568.zip/node_modules/prettier/",
+          "packageDependencies": [
+            ["prettier", "npm:2.1.2"]
           ],
           "linkType": "HARD",
         }]
@@ -14301,6 +14775,30 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["ts-jest", [
+        ["virtual:68a8412a6ffd07e8f9b7750bdca99ff955bcd439b3cb18029181ac8ce564b910ede7c32be361c332d82f986ffd417717f431507916453b0e18938fd4a5346344#npm:26.4.0", {
+          "packageLocation": "./.yarn/$$virtual/ts-jest-virtual-b85ce80b2a/0/cache/ts-jest-npm-26.4.0-46cb04e6d8-1c3d1aad6d.zip/node_modules/ts-jest/",
+          "packageDependencies": [
+            ["ts-jest", "virtual:68a8412a6ffd07e8f9b7750bdca99ff955bcd439b3cb18029181ac8ce564b910ede7c32be361c332d82f986ffd417717f431507916453b0e18938fd4a5346344#npm:26.4.0"],
+            ["@types/jest", "npm:26.0.13"],
+            ["bs-logger", "npm:0.2.6"],
+            ["buffer-from", "npm:1.1.1"],
+            ["fast-json-stable-stringify", "npm:2.1.0"],
+            ["jest", "npm:26.4.2"],
+            ["jest-util", "npm:26.3.0"],
+            ["json5", "npm:2.1.3"],
+            ["lodash.memoize", "npm:4.1.2"],
+            ["make-error", "npm:1.3.6"],
+            ["mkdirp", "npm:1.0.4"],
+            ["semver", "npm:7.3.2"],
+            ["typescript", "patch:typescript@npm%3A3.9.7#builtin<compat/typescript>::version=3.9.7&hash=5b02a2"],
+            ["yargs-parser", "npm:20.2.0"]
+          ],
+          "packagePeers": [
+            "jest",
+            "typescript"
+          ],
+          "linkType": "HARD",
+        }],
         ["virtual:db25c3f3be3c905ff460061292c0537e57a10609d1694df5148611847e117c63cd30487ac50c05b8b312fea807b20c28e836e9763e5f164e0e884e7ca92add0f#npm:26.3.0", {
           "packageLocation": "./.yarn/$$virtual/ts-jest-virtual-8ee97673a3/0/cache/ts-jest-npm-26.3.0-40c0dd947a-aa20f07590.zip/node_modules/ts-jest/",
           "packageDependencies": [
@@ -14349,6 +14847,83 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["tslint", [
+        ["virtual:463a7a28a2b4ac6e16249ad26f5131a1ce91a6a3d68a751880063aff0bd7e077f1d0abc26d24b4658737ced5ba1f621009902923104cbf7744e5cccaac6b28a6#npm:5.20.1", {
+          "packageLocation": "./.yarn/$$virtual/tslint-virtual-0f3a87fcce/0/cache/tslint-npm-5.20.1-c3ddb1b8bc-dae4b2080c.zip/node_modules/tslint/",
+          "packageDependencies": [
+            ["tslint", "virtual:463a7a28a2b4ac6e16249ad26f5131a1ce91a6a3d68a751880063aff0bd7e077f1d0abc26d24b4658737ced5ba1f621009902923104cbf7744e5cccaac6b28a6#npm:5.20.1"],
+            ["@babel/code-frame", "npm:7.10.4"],
+            ["builtin-modules", "npm:1.1.1"],
+            ["chalk", "npm:2.4.2"],
+            ["commander", "npm:2.20.3"],
+            ["diff", "npm:4.0.2"],
+            ["glob", "npm:7.1.6"],
+            ["js-yaml", "npm:3.14.0"],
+            ["minimatch", "npm:3.0.4"],
+            ["mkdirp", "npm:0.5.5"],
+            ["resolve", "patch:resolve@npm%3A1.17.0#builtin<compat/resolve>::version=1.17.0&hash=3388aa"],
+            ["semver", "npm:5.7.1"],
+            ["tslib", "npm:1.13.0"],
+            ["tsutils", "virtual:0f3a87fcce2e09892ea417d0d05c8c83692c1fc1141e613c3f3deb7015bc510c9c17b2250f1b3e0cd573c98889739c8cac9852f450bf801eedc419e832fd1a25#npm:2.29.0"],
+            ["typescript", null]
+          ],
+          "packagePeers": [
+            "typescript"
+          ],
+          "linkType": "HARD",
+        }],
+        ["virtual:68a8412a6ffd07e8f9b7750bdca99ff955bcd439b3cb18029181ac8ce564b910ede7c32be361c332d82f986ffd417717f431507916453b0e18938fd4a5346344#npm:6.1.3", {
+          "packageLocation": "./.yarn/$$virtual/tslint-virtual-c37d372497/0/cache/tslint-npm-6.1.3-d90825fcd4-5c84462732.zip/node_modules/tslint/",
+          "packageDependencies": [
+            ["tslint", "virtual:68a8412a6ffd07e8f9b7750bdca99ff955bcd439b3cb18029181ac8ce564b910ede7c32be361c332d82f986ffd417717f431507916453b0e18938fd4a5346344#npm:6.1.3"],
+            ["@babel/code-frame", "npm:7.10.4"],
+            ["builtin-modules", "npm:1.1.1"],
+            ["chalk", "npm:2.4.2"],
+            ["commander", "npm:2.20.3"],
+            ["diff", "npm:4.0.2"],
+            ["glob", "npm:7.1.6"],
+            ["js-yaml", "npm:3.14.0"],
+            ["minimatch", "npm:3.0.4"],
+            ["mkdirp", "npm:0.5.5"],
+            ["resolve", "patch:resolve@npm%3A1.17.0#builtin<compat/resolve>::version=1.17.0&hash=3388aa"],
+            ["semver", "npm:5.7.1"],
+            ["tslib", "npm:1.13.0"],
+            ["tsutils", "virtual:c37d372497fcd901bf509b8dd4cfeb81503cf22236f8dfa419dac57a0f47a3763ebc64cb9cf432d5ff1f0dedb8e581db8ce9eb6ef27621dc7318fe4035fc46f6#npm:2.29.0"],
+            ["typescript", "patch:typescript@npm%3A3.9.7#builtin<compat/typescript>::version=3.9.7&hash=5b02a2"]
+          ],
+          "packagePeers": [
+            "typescript"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["tslint-config-prettier", [
+        ["npm:1.18.0", {
+          "packageLocation": "./.yarn/cache/tslint-config-prettier-npm-1.18.0-34f66a9995-12478d1d0c.zip/node_modules/tslint-config-prettier/",
+          "packageDependencies": [
+            ["tslint-config-prettier", "npm:1.18.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["tslint-consistent-codestyle", [
+        ["virtual:463a7a28a2b4ac6e16249ad26f5131a1ce91a6a3d68a751880063aff0bd7e077f1d0abc26d24b4658737ced5ba1f621009902923104cbf7744e5cccaac6b28a6#npm:1.16.0", {
+          "packageLocation": "./.yarn/$$virtual/tslint-consistent-codestyle-virtual-7dff9a4217/0/cache/tslint-consistent-codestyle-npm-1.16.0-90612eec67-096ae829ec.zip/node_modules/tslint-consistent-codestyle/",
+          "packageDependencies": [
+            ["tslint-consistent-codestyle", "virtual:463a7a28a2b4ac6e16249ad26f5131a1ce91a6a3d68a751880063aff0bd7e077f1d0abc26d24b4658737ced5ba1f621009902923104cbf7744e5cccaac6b28a6#npm:1.16.0"],
+            ["@fimbul/bifrost", "virtual:7dff9a4217303bc85f287e263e4942ff4a0cbe47c24945161d25c493999b4aa987e49cc1396d7c0b41623cc480c87a2a6080ddc19dfff3b573133308d63d5ca2#npm:0.21.0"],
+            ["tslib", "npm:1.13.0"],
+            ["tslint", "virtual:463a7a28a2b4ac6e16249ad26f5131a1ce91a6a3d68a751880063aff0bd7e077f1d0abc26d24b4658737ced5ba1f621009902923104cbf7744e5cccaac6b28a6#npm:5.20.1"],
+            ["tsutils", "virtual:0f3a87fcce2e09892ea417d0d05c8c83692c1fc1141e613c3f3deb7015bc510c9c17b2250f1b3e0cd573c98889739c8cac9852f450bf801eedc419e832fd1a25#npm:2.29.0"],
+            ["typescript", null]
+          ],
+          "packagePeers": [
+            "tslint",
+            "typescript"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["tsutils", [
         ["virtual:0dad31a6d2dc207a09e90af1a5738bcec597f29c7120b68a942c431f7fabac330662db182662414f2d7fb92a27a0fbd2dd024950b45958c96b207e9a51be2cb4#npm:3.17.1", {
           "packageLocation": "./.yarn/$$virtual/tsutils-virtual-729d180f05/0/cache/tsutils-npm-3.17.1-ed6df1e57e-bed8ff7998.zip/node_modules/tsutils/",
@@ -14362,12 +14937,36 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
+        ["virtual:0f3a87fcce2e09892ea417d0d05c8c83692c1fc1141e613c3f3deb7015bc510c9c17b2250f1b3e0cd573c98889739c8cac9852f450bf801eedc419e832fd1a25#npm:2.29.0", {
+          "packageLocation": "./.yarn/$$virtual/tsutils-virtual-4f73cc778b/0/cache/tsutils-npm-2.29.0-a46b62a46d-8d0cb4f468.zip/node_modules/tsutils/",
+          "packageDependencies": [
+            ["tsutils", "virtual:0f3a87fcce2e09892ea417d0d05c8c83692c1fc1141e613c3f3deb7015bc510c9c17b2250f1b3e0cd573c98889739c8cac9852f450bf801eedc419e832fd1a25#npm:2.29.0"],
+            ["tslib", "npm:1.13.0"],
+            ["typescript", null]
+          ],
+          "packagePeers": [
+            "typescript"
+          ],
+          "linkType": "HARD",
+        }],
         ["virtual:99b7a81eb77ad7a8fe95ad3818b28ffa3f37d008a9b615aaa99a4c562d940b045a1135d57d69696135d0ffb5b1f5d18ca4ad8711dc9a2f102a22aa52d5181228#npm:3.17.1", {
           "packageLocation": "./.yarn/$$virtual/tsutils-virtual-aec7850ae4/0/cache/tsutils-npm-3.17.1-ed6df1e57e-bed8ff7998.zip/node_modules/tsutils/",
           "packageDependencies": [
             ["tsutils", "virtual:99b7a81eb77ad7a8fe95ad3818b28ffa3f37d008a9b615aaa99a4c562d940b045a1135d57d69696135d0ffb5b1f5d18ca4ad8711dc9a2f102a22aa52d5181228#npm:3.17.1"],
             ["tslib", "npm:1.13.0"],
             ["typescript", null]
+          ],
+          "packagePeers": [
+            "typescript"
+          ],
+          "linkType": "HARD",
+        }],
+        ["virtual:c37d372497fcd901bf509b8dd4cfeb81503cf22236f8dfa419dac57a0f47a3763ebc64cb9cf432d5ff1f0dedb8e581db8ce9eb6ef27621dc7318fe4035fc46f6#npm:2.29.0", {
+          "packageLocation": "./.yarn/$$virtual/tsutils-virtual-5f23168b10/0/cache/tsutils-npm-2.29.0-a46b62a46d-8d0cb4f468.zip/node_modules/tsutils/",
+          "packageDependencies": [
+            ["tsutils", "virtual:c37d372497fcd901bf509b8dd4cfeb81503cf22236f8dfa419dac57a0f47a3763ebc64cb9cf432d5ff1f0dedb8e581db8ce9eb6ef27621dc7318fe4035fc46f6#npm:2.29.0"],
+            ["tslib", "npm:1.13.0"],
+            ["typescript", "patch:typescript@npm%3A3.9.7#builtin<compat/typescript>::version=3.9.7&hash=5b02a2"]
           ],
           "packagePeers": [
             "typescript"
@@ -14554,6 +15153,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["typescript", [
+        ["patch:typescript@npm%3A3.9.7#builtin<compat/typescript>::version=3.9.7&hash=5b02a2", {
+          "packageLocation": "./.yarn/cache/typescript-patch-ba0dbfd217-f0d3d9c987.zip/node_modules/typescript/",
+          "packageDependencies": [
+            ["typescript", "patch:typescript@npm%3A3.9.7#builtin<compat/typescript>::version=3.9.7&hash=5b02a2"]
+          ],
+          "linkType": "HARD",
+        }],
         ["patch:typescript@npm%3A4.0.2#builtin<compat/typescript>::version=4.0.2&hash=5b02a2", {
           "packageLocation": "./.yarn/cache/typescript-patch-edef266e49-b8b689ef99.zip/node_modules/typescript/",
           "packageDependencies": [
@@ -15391,6 +15997,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["yargs-parser", "npm:18.1.3"],
             ["camelcase", "npm:5.3.1"],
             ["decamelize", "npm:1.2.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:20.2.0", {
+          "packageLocation": "./.yarn/cache/yargs-parser-npm-20.2.0-72b92a2103-d707279bde.zip/node_modules/yargs-parser/",
+          "packageDependencies": [
+            ["yargs-parser", "npm:20.2.0"]
           ],
           "linkType": "HARD",
         }]

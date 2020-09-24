@@ -47,9 +47,9 @@
         "@arkecosystem/core-state": "^3.0.0-alpha.9",
         "@arkecosystem/core-transactions": "^3.0.0-alpha.9",
         "@arkecosystem/crypto": "^3.0.0-alpha.9",
-        "@protokol/nft-base-crypto": "^1.0.0-beta.24",
-        "@protokol/nft-base-transactions": "^1.0.0-beta.24",
-        "@protokol/nft-exchange-crypto": "^1.0.0-beta.24"
+        "@protokol/nft-base-crypto": "^1.0.0-beta.30",
+        "@protokol/nft-base-transactions": "^1.0.0-beta.30",
+        "@protokol/nft-exchange-crypto": "^1.0.0-beta.30"
     },
     "publishConfig": {
         "access": "public"

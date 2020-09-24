@@ -37,9 +37,9 @@
 		"prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\""
 	},
 	"dependencies": {
-		"@protokol/nft-base-crypto": "^1.0.0-beta.24",
-		"@protokol/nft-client": "^1.0.0-beta.24",
-		"@protokol/nft-exchange-crypto": "^1.0.0-beta.24"
+		"@protokol/client": "^1.0.0-beta.30",
+		"@protokol/nft-base-crypto": "^1.0.0-beta.30",
+		"@protokol/nft-exchange-crypto": "^1.0.0-beta.30"
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^0.7.0",

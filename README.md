@@ -35,7 +35,7 @@ This is a monorepo which contains many tools and packages:
 | [nft-exchange-crypto](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-crypto)             | Exchange crypto transaction support           | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-crypto/beta)       |
 | [nft-exchange-transactions](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-transactions) | Exchange NFT Core v3 transactions engine      | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-transactions/beta) |
 | [nft-generator-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-generator-api)                 | Helper plugin for quick asset generation      | ![](https://img.shields.io/npm/v/@protokol/nft-generator-api/beta)         |
-| [nft-client](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-client)                               | NFT and ARK API REST Client Implementation    | ![](https://img.shields.io/npm/v/@protokol/nft-client/beta)                |
+| [client](https://github.com/protokol/nft-plugins/tree/develop/packages/client)                                       | NFT and ARK API REST Client Implementation    | ![](https://img.shields.io/npm/v/@protokol/client/beta)                    |
 
 ## Production install
 
@@ -43,19 +43,19 @@ Prepare and configure your bridgechain network configuration to install and load
 
 ```json
 ({
-    "package": "@protokol/nft-base-transactions"
+	"package": "@protokol/nft-base-transactions"
 },
 {
-    "package": "@protokol/nft-exchange-transactions"
+	"package": "@protokol/nft-exchange-transactions"
 },
 {
-    "package": "@protokol/nft-base-api"
+	"package": "@protokol/nft-base-api"
 },
 {
-    "package": "@protokol/nft-exchange-api"
+	"package": "@protokol/nft-exchange-api"
 },
 {
-    "package": "@protokol/nft-generator-api"
+	"package": "@protokol/nft-generator-api"
 })
 ```
 
