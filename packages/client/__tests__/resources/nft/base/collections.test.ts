@@ -6,7 +6,7 @@ import { configureBaseMocks } from "../../../mocks/nft/base";
 const resource: Collections = configureBaseMocks<Collections>(Collections);
 
 describe("API - 1.0 - Base/Resources - Collections", () => {
-    it('should call \\"all\\" method" ', async () => {
+    it('should call \\"all\\" method"', async () => {
         const response = await resource.all();
 
         expect(response.status).toBe(200);
@@ -55,6 +55,12 @@ describe("API - 1.0 - Base/Resources - Collections", () => {
                 },
             },
         });
+        expect(response.body.data[0].allowedIssuers).toEqual(
+            expect.arrayContaining([
+                "03287bfebba4c7881a0509717e71b34b63f31e40021c321f89ae04f84be6d6ac37",
+                "030c8ee7a2026ac23dbcb650e08cda9fc6386805fa2d788e6a72ba01d72fdcc75e",
+            ]),
+        );
 
         //timestamp
         expect(response.body.data[0].timestamp.epoch).toBe(105910672);
@@ -62,7 +68,7 @@ describe("API - 1.0 - Base/Resources - Collections", () => {
         expect(response.body.data[0].timestamp.human).toBe("2020-07-29T08:37:52.000Z");
     });
 
-    it('should call \\"get\\" method" ', async () => {
+    it('should call \\"get\\" method"', async () => {
         const response = await resource.get("e38324971ab923b6d74693448cad180207b4aa99ca4f5c20625dc290cd8b7e55");
 
         expect(response.status).toBe(200);
@@ -100,9 +106,15 @@ describe("API - 1.0 - Base/Resources - Collections", () => {
                 },
             },
         });
+        expect(response.body.data.allowedIssuers).toEqual(
+            expect.arrayContaining([
+                "03287bfebba4c7881a0509717e71b34b63f31e40021c321f89ae04f84be6d6ac37",
+                "030c8ee7a2026ac23dbcb650e08cda9fc6386805fa2d788e6a72ba01d72fdcc75e",
+            ]),
+        );
     });
 
-    it('should call \\"getSchema\\" method" ', async () => {
+    it('should call \\"getSchema\\" method"', async () => {
         const response = await resource.getSchema("e38324971ab923b6d74693448cad180207b4aa99ca4f5c20625dc290cd8b7e55");
 
         expect(response.status).toBe(200);
@@ -187,7 +199,7 @@ describe("API - 1.0 - Base/Resources - Collections", () => {
         ]);
     });
 
-    it('should call \\"searchByCollection\\" method" ', async () => {
+    it('should call \\"searchByCollection\\" method"', async () => {
         const response = await resource.searchByCollections({
             jsonSchema: {
                 properties: {
@@ -244,6 +256,12 @@ describe("API - 1.0 - Base/Resources - Collections", () => {
                 },
             },
         });
+        expect(response.body.data[0].allowedIssuers).toEqual(
+            expect.arrayContaining([
+                "03287bfebba4c7881a0509717e71b34b63f31e40021c321f89ae04f84be6d6ac37",
+                "030c8ee7a2026ac23dbcb650e08cda9fc6386805fa2d788e6a72ba01d72fdcc75e",
+            ]),
+        );
 
         //timestamp
         expect(response.body.data[0].timestamp.epoch).toBe(105910672);
