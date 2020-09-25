@@ -10,6 +10,7 @@ export interface Collections {
     maximumSupply: number;
     // eslint-disable-next-line @typescript-eslint/member-ordering
     [jsonSchema: string]: any;
+    allowedIssuers?: string[];
     timestamp: Timestamp;
 }
 

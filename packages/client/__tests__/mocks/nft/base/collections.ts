@@ -47,6 +47,10 @@ export const mockCollections = (host: string) => {
                             },
                         },
                     },
+                    allowedIssuers: [
+                        "03287bfebba4c7881a0509717e71b34b63f31e40021c321f89ae04f84be6d6ac37",
+                        "030c8ee7a2026ac23dbcb650e08cda9fc6386805fa2d788e6a72ba01d72fdcc75e",
+                    ],
                     timestamp: {
                         epoch: 105910672,
                         unix: 1596011872,
@@ -90,6 +94,10 @@ export const mockCollections = (host: string) => {
                         },
                     },
                 },
+                allowedIssuers: [
+                    "03287bfebba4c7881a0509717e71b34b63f31e40021c321f89ae04f84be6d6ac37",
+                    "030c8ee7a2026ac23dbcb650e08cda9fc6386805fa2d788e6a72ba01d72fdcc75e",
+                ],
             },
         });
 
@@ -229,6 +237,10 @@ export const mockCollections = (host: string) => {
                             },
                         },
                     },
+                    allowedIssuers: [
+                        "03287bfebba4c7881a0509717e71b34b63f31e40021c321f89ae04f84be6d6ac37",
+                        "030c8ee7a2026ac23dbcb650e08cda9fc6386805fa2d788e6a72ba01d72fdcc75e",
+                    ],
                     timestamp: {
                         epoch: 105910672,
                         unix: 1596011872,
