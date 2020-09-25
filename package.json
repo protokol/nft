@@ -4,6 +4,18 @@
     "version": "1.0.0-beta.26",
     "description": "NFT Functionality For Any ARK Core-v3 Bridgechain",
     "engineStrict": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/protokol/nft-plugins.git"
+    },
+    "keywords": [
+        "protokol",
+        "ark",
+        "core",
+        "sdk",
+        "nft",
+        "blockchain"
+    ],
     "scripts": {
         "build": "cross-env bash ./scripts/build.sh",
         "publish:beta": "cross-env-shell bash ./scripts/publish-beta.sh",
