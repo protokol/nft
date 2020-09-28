@@ -23,6 +23,7 @@ describe("API - 1.0 - Guardian/Resources - Groups", () => {
         expect(response.body.meta.last).toBe("/guardian/users?page=1&limit=100");
 
         // Data
+        expect(response.body.data).toBeArray();
         expect(response.body.data[0].publicKey).toStrictEqual(
             "03287bfebba4c7881a0509717e71b34b63f31e40021c321f89ae04f84be6d6ac37",
         );
@@ -67,6 +68,7 @@ describe("API - 1.0 - Guardian/Resources - Groups", () => {
         );
 
         // Data
+        expect(response.body.data).toBeArray();
         expect(response.body.data[0].name).toStrictEqual("group name");
         expect(response.body.data[0].priority).toStrictEqual(1);
         expect(response.body.data[0].active).toStrictEqual(false);
