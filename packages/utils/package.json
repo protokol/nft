@@ -33,7 +33,7 @@
 		"build:watch": "yarn build -w",
 		"build:docs": "typedoc --out docs src",
 		"clean": "rimraf .coverage dist tmp",
-		"test": "yarn workspaces foreach -pt run test",
+		"test": "yarn test:unit",
 		"prepublishOnly": "yarn build",
 		"test:unit": "jest __tests__/unit/** --forceExit",
 		"test:unit:coverage": "jest __tests__/unit --coverage"

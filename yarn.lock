@@ -25,30 +25,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arkecosystem/core-api@npm:3.0.0-alpha.9, @arkecosystem/core-api@npm:^3.0.0-alpha.9":
-  version: 3.0.0-alpha.9
-  resolution: "@arkecosystem/core-api@npm:3.0.0-alpha.9"
-  dependencies:
-    "@arkecosystem/core-database": ^3.0.0-alpha.9
-    "@arkecosystem/core-kernel": ^3.0.0-alpha.9
-    "@arkecosystem/core-transaction-pool": ^3.0.0-alpha.9
-    "@arkecosystem/core-transactions": ^3.0.0-alpha.9
-    "@arkecosystem/crypto": ^3.0.0-alpha.9
-    "@hapi/boom": ^9.0.0
-    "@hapi/hapi": ^19.0.0
-    "@hapi/hoek": ^9.1.0
-    "@hapi/joi": ^17.1.0
-    ajv: ^6.10.2
-    ip: ^1.1.5
-    nanomatch: ^1.2.13
-    node-cache: ^5.0.2
-    rate-limiter-flexible: ^1.1.6
-    semver: ^6.3.0
-  checksum: f02aa4e54874c8b1b54d30be3aec34b3d8716997275480698791c47da28d1d71c7f0e253d8c6dcd7f97472c9a44caeccd9cd3a464d35bdd2a91ffcae3996eb70
-  languageName: node
-  linkType: hard
-
-"@arkecosystem/core-api@npm:^3.0.0-alpha.10":
+"@arkecosystem/core-api@npm:3.0.0-alpha.10, @arkecosystem/core-api@npm:^3.0.0-alpha.10":
   version: 3.0.0-alpha.10
   resolution: "@arkecosystem/core-api@npm:3.0.0-alpha.10"
   dependencies:
@@ -71,7 +48,50 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arkecosystem/core-blockchain@npm:3.0.0-alpha.9, @arkecosystem/core-blockchain@npm:^3.0.0-alpha.9":
+"@arkecosystem/core-api@npm:^3.0.0-alpha.9":
+  version: 3.0.0-alpha.9
+  resolution: "@arkecosystem/core-api@npm:3.0.0-alpha.9"
+  dependencies:
+    "@arkecosystem/core-database": ^3.0.0-alpha.9
+    "@arkecosystem/core-kernel": ^3.0.0-alpha.9
+    "@arkecosystem/core-transaction-pool": ^3.0.0-alpha.9
+    "@arkecosystem/core-transactions": ^3.0.0-alpha.9
+    "@arkecosystem/crypto": ^3.0.0-alpha.9
+    "@hapi/boom": ^9.0.0
+    "@hapi/hapi": ^19.0.0
+    "@hapi/hoek": ^9.1.0
+    "@hapi/joi": ^17.1.0
+    ajv: ^6.10.2
+    ip: ^1.1.5
+    nanomatch: ^1.2.13
+    node-cache: ^5.0.2
+    rate-limiter-flexible: ^1.1.6
+    semver: ^6.3.0
+  checksum: f02aa4e54874c8b1b54d30be3aec34b3d8716997275480698791c47da28d1d71c7f0e253d8c6dcd7f97472c9a44caeccd9cd3a464d35bdd2a91ffcae3996eb70
+  languageName: node
+  linkType: hard
+
+"@arkecosystem/core-blockchain@npm:3.0.0-alpha.10":
+  version: 3.0.0-alpha.10
+  resolution: "@arkecosystem/core-blockchain@npm:3.0.0-alpha.10"
+  dependencies:
+    "@arkecosystem/core-database": ^3.0.0-alpha.10
+    "@arkecosystem/core-kernel": ^3.0.0-alpha.10
+    "@arkecosystem/core-state": ^3.0.0-alpha.10
+    "@arkecosystem/core-transactions": ^3.0.0-alpha.10
+    "@arkecosystem/crypto": ^3.0.0-alpha.10
+    async: ^3.1.0
+    delay: ^4.3.0
+    immutable: ^4.0.0-rc.12
+    lodash.get: ^4.4.2
+    pluralize: ^8.0.0
+    pretty-ms: ^7.0.0
+    xstate: ^4.8.0
+  checksum: aa95ca9777f71e3e36299075eafc9e4cbbad708c2b318bd75d75a23aa7c88cc1c0c8da47569cfe48109ece4f21c8f98e3290d7e2dde4b99211075fd933a8b547
+  languageName: node
+  linkType: hard
+
+"@arkecosystem/core-blockchain@npm:^3.0.0-alpha.9":
   version: 3.0.0-alpha.9
   resolution: "@arkecosystem/core-blockchain@npm:3.0.0-alpha.9"
   dependencies:
@@ -88,6 +108,39 @@ __metadata:
     pretty-ms: ^7.0.0
     xstate: ^4.8.0
   checksum: 04f96697d422da648dafe1073d4e505cc5a34c4ba1804e968db0fdba343a8bdf7b89606f5a0aaea785fb06f8fb7f5ac307ea850df5e8d8a20fbd55331a8e136f
+  languageName: node
+  linkType: hard
+
+"@arkecosystem/core-cli@npm:^3.0.0-alpha.10":
+  version: 3.0.0-alpha.10
+  resolution: "@arkecosystem/core-cli@npm:3.0.0-alpha.10"
+  dependencies:
+    "@arkecosystem/core-kernel": ^3.0.0-alpha.10
+    "@arkecosystem/crypto": ^3.0.0-alpha.10
+    "@arkecosystem/utils": ^1.2.0
+    "@hapi/joi": ^17.1.0
+    boxen: ^4.2.0
+    cli-table3: ^0.6.0
+    dayjs: ^1.8.17
+    env-paths: ^2.2.0
+    envfile: ^5.0.0
+    execa: ^3.4.0
+    fast-levenshtein: ^2.0.6
+    fs-extra: ^8.1.0
+    inversify: ^5.0.1
+    is-ci: ^2.0.0
+    kleur: ^4.0.0
+    latest-version: ^5.1.0
+    listr: ^0.14.3
+    nodejs-tail: ^1.1.0
+    ora: ^4.0.3
+    prompts: ^2.1.0
+    read-last-lines: ^1.7.1
+    reflect-metadata: ^0.1.13
+    semver: ^6.3.0
+    type-fest: ^0.16.0
+    yargs-parser: ^20.0.0
+  checksum: 6f7bd457751a679fdeb19c1d182f6e5c123cdc552f63c3d172476084a090b32367e0c523723678282b1791588f984c8fe153cbefa32c6d8c36f93e07f2be8025
   languageName: node
   linkType: hard
 
@@ -124,22 +177,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arkecosystem/core-database@npm:3.0.0-alpha.9, @arkecosystem/core-database@npm:^3.0.0-alpha.9":
-  version: 3.0.0-alpha.9
-  resolution: "@arkecosystem/core-database@npm:3.0.0-alpha.9"
-  dependencies:
-    "@arkecosystem/core-kernel": ^3.0.0-alpha.9
-    "@arkecosystem/crypto": ^3.0.0-alpha.9
-    "@arkecosystem/utils": ^1.2.0
-    dayjs: ^1.8.17
-    pg: ^8.2.1
-    reflect-metadata: ^0.1.13
-    typeorm: ^0.2.25
-  checksum: 9e80aeac9457aebd0d5eef6a6a9972ee722bc93a3ae37627d1984b4878618e9d6db83d3c2847bb061944493abca4653a66c7634a6724ff765b77d224cd163ee1
-  languageName: node
-  linkType: hard
-
-"@arkecosystem/core-database@npm:^3.0.0-alpha.10":
+"@arkecosystem/core-database@npm:3.0.0-alpha.10, @arkecosystem/core-database@npm:^3.0.0-alpha.10":
   version: 3.0.0-alpha.10
   resolution: "@arkecosystem/core-database@npm:3.0.0-alpha.10"
   dependencies:
@@ -154,7 +192,38 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arkecosystem/core-forger@npm:3.0.0-alpha.9, @arkecosystem/core-forger@npm:^3.0.0-alpha.9":
+"@arkecosystem/core-database@npm:^3.0.0-alpha.9":
+  version: 3.0.0-alpha.9
+  resolution: "@arkecosystem/core-database@npm:3.0.0-alpha.9"
+  dependencies:
+    "@arkecosystem/core-kernel": ^3.0.0-alpha.9
+    "@arkecosystem/crypto": ^3.0.0-alpha.9
+    "@arkecosystem/utils": ^1.2.0
+    dayjs: ^1.8.17
+    pg: ^8.2.1
+    reflect-metadata: ^0.1.13
+    typeorm: ^0.2.25
+  checksum: 9e80aeac9457aebd0d5eef6a6a9972ee722bc93a3ae37627d1984b4878618e9d6db83d3c2847bb061944493abca4653a66c7634a6724ff765b77d224cd163ee1
+  languageName: node
+  linkType: hard
+
+"@arkecosystem/core-forger@npm:3.0.0-alpha.10":
+  version: 3.0.0-alpha.10
+  resolution: "@arkecosystem/core-forger@npm:3.0.0-alpha.10"
+  dependencies:
+    "@arkecosystem/core-database": ^3.0.0-alpha.10
+    "@arkecosystem/core-kernel": ^3.0.0-alpha.10
+    "@arkecosystem/core-p2p": ^3.0.0-alpha.10
+    "@arkecosystem/crypto": ^3.0.0-alpha.10
+    "@hapi/hapi": ^19.0.0
+    node-forge: ^0.9.1
+    otplib: ^12.0.0
+    wif: ^2.0.6
+  checksum: afaf2dc691395c4793d68633cd2146b98d78751142b2bb054df8dc553d4773b2369bb4b8e87163d0292c245849e52609ec80a331e3ca3b9f62fe1ac427b55584
+  languageName: node
+  linkType: hard
+
+"@arkecosystem/core-forger@npm:^3.0.0-alpha.9":
   version: 3.0.0-alpha.9
   resolution: "@arkecosystem/core-forger@npm:3.0.0-alpha.9"
   dependencies:
@@ -221,7 +290,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arkecosystem/core-logger-pino@npm:3.0.0-alpha.9, @arkecosystem/core-logger-pino@npm:^3.0.0-alpha.9":
+"@arkecosystem/core-logger-pino@npm:3.0.0-alpha.10":
+  version: 3.0.0-alpha.10
+  resolution: "@arkecosystem/core-logger-pino@npm:3.0.0-alpha.10"
+  dependencies:
+    "@arkecosystem/core-kernel": ^3.0.0-alpha.10
+    chalk: ^4.0.0
+    pino: ^6.0.0
+    pino-pretty: ^4.0.0
+    pump: ^3.0.0
+    readable-stream: ^3.4.0
+    rotating-file-stream: ^2.0.0
+    split2: ^3.1.1
+    stream: ^0.0.2
+  checksum: 3de0de6dd1a257f123bfe08d025206ca26582062845c6ba7ef10f3f5ef631c5fa062059159ef62dfc49b40955201fe48e40daae375ebad61f22411e4ac4c731d
+  languageName: node
+  linkType: hard
+
+"@arkecosystem/core-logger-pino@npm:^3.0.0-alpha.9":
   version: 3.0.0-alpha.9
   resolution: "@arkecosystem/core-logger-pino@npm:3.0.0-alpha.9"
   dependencies:
@@ -238,7 +324,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arkecosystem/core-magistrate-api@npm:3.0.0-alpha.9, @arkecosystem/core-magistrate-api@npm:^3.0.0-alpha.9":
+"@arkecosystem/core-magistrate-api@npm:3.0.0-alpha.10":
+  version: 3.0.0-alpha.10
+  resolution: "@arkecosystem/core-magistrate-api@npm:3.0.0-alpha.10"
+  dependencies:
+    "@arkecosystem/core-api": ^3.0.0-alpha.10
+    "@arkecosystem/core-kernel": ^3.0.0-alpha.10
+    "@arkecosystem/core-magistrate-crypto": ^3.0.0-alpha.10
+    "@arkecosystem/core-magistrate-transactions": ^3.0.0-alpha.10
+    "@hapi/boom": ^9.0.0
+    "@hapi/hapi": ^19.0.0
+    "@hapi/joi": ^17.1.0
+  checksum: 54bccb5d337e705562f91923fac23dd07c0229acb56448aff8884601533e51ee8acf7be73620e4d695a8c7f2c17dfd3bf37932d303483ac7dccc24aa1460321d
+  languageName: node
+  linkType: hard
+
+"@arkecosystem/core-magistrate-api@npm:^3.0.0-alpha.9":
   version: 3.0.0-alpha.9
   resolution: "@arkecosystem/core-magistrate-api@npm:3.0.0-alpha.9"
   dependencies:
@@ -248,6 +349,17 @@ __metadata:
     "@hapi/hapi": ^19.0.0
     "@hapi/joi": ^17.1.0
   checksum: 334e76937494ff7dea6410cea935512771b7394bb1d86e9a0427f4b21c85da0016bb8983ad99a087366f728ca185d6f4d3d032a7f3812789e6559c9b8c3a4314
+  languageName: node
+  linkType: hard
+
+"@arkecosystem/core-magistrate-crypto@npm:^3.0.0-alpha.10":
+  version: 3.0.0-alpha.10
+  resolution: "@arkecosystem/core-magistrate-crypto@npm:3.0.0-alpha.10"
+  dependencies:
+    "@arkecosystem/core-kernel": ^3.0.0-alpha.10
+    "@arkecosystem/crypto": ^3.0.0-alpha.10
+    bytebuffer: ^5.0.1
+  checksum: b3c1c45487cb85fef9f1ff17ac81a1de6a464a524a31db978849f8856393d975ec06931e6c50753a949f30a7daab002223d2279116bbf93f8a9e4834efca4bef
   languageName: node
   linkType: hard
 
@@ -262,7 +374,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arkecosystem/core-magistrate-transactions@npm:3.0.0-alpha.9, @arkecosystem/core-magistrate-transactions@npm:^3.0.0-alpha.9":
+"@arkecosystem/core-magistrate-transactions@npm:3.0.0-alpha.10, @arkecosystem/core-magistrate-transactions@npm:^3.0.0-alpha.10":
+  version: 3.0.0-alpha.10
+  resolution: "@arkecosystem/core-magistrate-transactions@npm:3.0.0-alpha.10"
+  dependencies:
+    "@arkecosystem/core-database": ^3.0.0-alpha.10
+    "@arkecosystem/core-kernel": ^3.0.0-alpha.10
+    "@arkecosystem/core-magistrate-crypto": ^3.0.0-alpha.10
+    "@arkecosystem/core-state": ^3.0.0-alpha.10
+    "@arkecosystem/core-transactions": ^3.0.0-alpha.10
+    "@arkecosystem/crypto": ^3.0.0-alpha.10
+  checksum: 7e2a87b1948593f4a5cd05961a376669dcf81c9c29fe8de6955669544d1293a5eea104129cf433d8f301eea7b49b78c1395543cc49c502106c9f64260122a25c
+  languageName: node
+  linkType: hard
+
+"@arkecosystem/core-magistrate-transactions@npm:^3.0.0-alpha.9":
   version: 3.0.0-alpha.9
   resolution: "@arkecosystem/core-magistrate-transactions@npm:3.0.0-alpha.9"
   dependencies:
@@ -276,15 +402,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arkecosystem/core-manager@npm:3.0.0-alpha.9":
-  version: 3.0.0-alpha.9
-  resolution: "@arkecosystem/core-manager@npm:3.0.0-alpha.9"
+"@arkecosystem/core-manager@npm:3.0.0-alpha.10":
+  version: 3.0.0-alpha.10
+  resolution: "@arkecosystem/core-manager@npm:3.0.0-alpha.10"
   dependencies:
-    "@arkecosystem/core-cli": ^3.0.0-alpha.9
-    "@arkecosystem/core-database": ^3.0.0-alpha.9
-    "@arkecosystem/core-kernel": ^3.0.0-alpha.9
-    "@arkecosystem/core-state": ^3.0.0-alpha.9
-    "@arkecosystem/crypto": ^3.0.0-alpha.9
+    "@arkecosystem/core-cli": ^3.0.0-alpha.10
+    "@arkecosystem/core-database": ^3.0.0-alpha.10
+    "@arkecosystem/core-kernel": ^3.0.0-alpha.10
+    "@arkecosystem/core-state": ^3.0.0-alpha.10
+    "@arkecosystem/crypto": ^3.0.0-alpha.10
     "@arkecosystem/utils": ^1.2.0
     "@hapi/basic": ^6.0.0
     "@hapi/boom": ^9.0.0
@@ -302,11 +428,45 @@ __metadata:
     latest-version: ^5.1.0
     require-from-string: ^2.0.2
     typeorm: ^0.2.25
-  checksum: 9e6526ba402ceb5d47148a255d6fc79f50cb628406499cfc2e8f2a4356f409a5fb9d8d218bc88a0aecc050a821b968d233a2c8db8b2f820e4554350517b7fc4c
+  checksum: e532b0ae70d9ad2ec6a3e24000ed885e35008a18dd9fe45acdbeec83e141573f5364319e221e38b2dfcad56f8c726a1a4760d49950851dc225a2fd8ed5273575
   languageName: node
   linkType: hard
 
-"@arkecosystem/core-p2p@npm:3.0.0-alpha.9, @arkecosystem/core-p2p@npm:^3.0.0-alpha.9":
+"@arkecosystem/core-p2p@npm:3.0.0-alpha.10, @arkecosystem/core-p2p@npm:^3.0.0-alpha.10":
+  version: 3.0.0-alpha.10
+  resolution: "@arkecosystem/core-p2p@npm:3.0.0-alpha.10"
+  dependencies:
+    "@arkecosystem/core-database": ^3.0.0-alpha.10
+    "@arkecosystem/core-kernel": ^3.0.0-alpha.10
+    "@arkecosystem/core-state": ^3.0.0-alpha.10
+    "@arkecosystem/core-transaction-pool": ^3.0.0-alpha.10
+    "@arkecosystem/crypto": ^3.0.0-alpha.10
+    "@hapi/boom": ^9.0.0
+    "@hapi/bounce": 2.x.x
+    "@hapi/cryptiles": 5.x.x
+    "@hapi/hapi": ^19.0.0
+    "@hapi/hoek": 9.x.x
+    "@hapi/joi": ^17.1.1
+    "@hapi/sntp": ^4.0.0
+    "@hapi/teamwork": 5.x.x
+    ajv: ^6.10.2
+    better-sqlite3: ^7.0.0
+    dayjs: ^1.8.17
+    delay: ^4.3.0
+    fs-extra: ^8.1.0
+    ip: ^1.1.5
+    ipaddr.js: ^2.0.0
+    nanomatch: ^1.2.13
+    pluralize: ^8.0.0
+    pretty-ms: ^7.0.0
+    rate-limiter-flexible: ^1.1.0
+    semver: ^6.3.0
+    ws: 7.x
+  checksum: ded69288200bae0ed826787ccb8df427b7980336ae9494a60f10a097d96697ea4f186586678692b0bf82bbb7f66c37947fb178a83f54033614fa471fc5c64f2a
+  languageName: node
+  linkType: hard
+
+"@arkecosystem/core-p2p@npm:^3.0.0-alpha.9":
   version: 3.0.0-alpha.9
   resolution: "@arkecosystem/core-p2p@npm:3.0.0-alpha.9"
   dependencies:
@@ -340,7 +500,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arkecosystem/core-snapshots@npm:3.0.0-alpha.9, @arkecosystem/core-snapshots@npm:^3.0.0-alpha.9":
+"@arkecosystem/core-snapshots@npm:3.0.0-alpha.10":
+  version: 3.0.0-alpha.10
+  resolution: "@arkecosystem/core-snapshots@npm:3.0.0-alpha.10"
+  dependencies:
+    "@arkecosystem/core-database": ^3.0.0-alpha.10
+    "@arkecosystem/core-kernel": ^3.0.0-alpha.10
+    "@arkecosystem/core-magistrate-crypto": ^3.0.0-alpha.10
+    "@arkecosystem/crypto": ^3.0.0-alpha.10
+    bytebuffer: ^5.0.1
+    fs-extra: ^8.1.0
+    msgpack-lite: ^0.1.26
+    pg-query-stream: ^3.0.4
+    pluralize: ^8.0.0
+    typeorm: ^0.2.25
+    xcase: ^2.0.1
+    zlib: ^1.0.5
+  checksum: cb6755770d7bd2a22dd83cdc5e425b50aa4a3fe9433a6066f5728abb39b9d1075c60126bef2241adf6cd2a71a2dbcd7be1ea3f332aab87fd72b5758e4aca4ea8
+  languageName: node
+  linkType: hard
+
+"@arkecosystem/core-snapshots@npm:^3.0.0-alpha.9":
   version: 3.0.0-alpha.9
   resolution: "@arkecosystem/core-snapshots@npm:3.0.0-alpha.9"
   dependencies:
@@ -360,21 +540,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arkecosystem/core-state@npm:3.0.0-alpha.9, @arkecosystem/core-state@npm:^3.0.0-alpha.9":
-  version: 3.0.0-alpha.9
-  resolution: "@arkecosystem/core-state@npm:3.0.0-alpha.9"
-  dependencies:
-    "@arkecosystem/core-database": ^3.0.0-alpha.9
-    "@arkecosystem/core-kernel": ^3.0.0-alpha.9
-    "@arkecosystem/core-transactions": ^3.0.0-alpha.9
-    "@arkecosystem/crypto": ^3.0.0-alpha.9
-    "@arkecosystem/utils": ^1.2.0
-    immutable: ^4.0.0-rc.12
-  checksum: aee9f26afe898531f427155145839b4a34c784e3002da7a9fb8fd73a59ef215df245f070657e65155e9dc70f7086b544a461906f00f7e0bbd6a866b1fd66f3ac
-  languageName: node
-  linkType: hard
-
-"@arkecosystem/core-state@npm:^3.0.0-alpha.10":
+"@arkecosystem/core-state@npm:3.0.0-alpha.10, @arkecosystem/core-state@npm:^3.0.0-alpha.10":
   version: 3.0.0-alpha.10
   resolution: "@arkecosystem/core-state@npm:3.0.0-alpha.10"
   dependencies:
@@ -385,6 +551,20 @@ __metadata:
     "@arkecosystem/utils": ^1.2.0
     immutable: ^4.0.0-rc.12
   checksum: 633cd67476c1988f00e36c22bc2a37935dcf24094df82cc2d77609df0dbbe6a8d88a93aa8679129133cfa7b2296cc0e40a3115868bc36acf03afad537a9ddcd5
+  languageName: node
+  linkType: hard
+
+"@arkecosystem/core-state@npm:^3.0.0-alpha.9":
+  version: 3.0.0-alpha.9
+  resolution: "@arkecosystem/core-state@npm:3.0.0-alpha.9"
+  dependencies:
+    "@arkecosystem/core-database": ^3.0.0-alpha.9
+    "@arkecosystem/core-kernel": ^3.0.0-alpha.9
+    "@arkecosystem/core-transactions": ^3.0.0-alpha.9
+    "@arkecosystem/crypto": ^3.0.0-alpha.9
+    "@arkecosystem/utils": ^1.2.0
+    immutable: ^4.0.0-rc.12
+  checksum: aee9f26afe898531f427155145839b4a34c784e3002da7a9fb8fd73a59ef215df245f070657e65155e9dc70f7086b544a461906f00f7e0bbd6a866b1fd66f3ac
   languageName: node
   linkType: hard
 
@@ -419,25 +599,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arkecosystem/core-transaction-pool@npm:3.0.0-alpha.9, @arkecosystem/core-transaction-pool@npm:^3.0.0-alpha.9":
-  version: 3.0.0-alpha.9
-  resolution: "@arkecosystem/core-transaction-pool@npm:3.0.0-alpha.9"
-  dependencies:
-    "@arkecosystem/core-database": ^3.0.0-alpha.9
-    "@arkecosystem/core-kernel": ^3.0.0-alpha.9
-    "@arkecosystem/core-state": ^3.0.0-alpha.9
-    "@arkecosystem/core-transactions": ^3.0.0-alpha.9
-    "@arkecosystem/crypto": ^3.0.0-alpha.9
-    "@types/better-sqlite3": ^5.4.0
-    "@types/fs-extra": ^8.0.1
-    better-sqlite3: ^7.0.0
-    fs-extra: ^8.1.0
-    lodash.differencewith: ^4.5.0
-  checksum: 6e85b0ab36f35a170d18ea4e037f380367aea666296dd41c0b210b911ce21afec3a5bb49fe17d74b453f1e3d9f551c93d464ca4264f3b87453b6de29e94efb7c
-  languageName: node
-  linkType: hard
-
-"@arkecosystem/core-transaction-pool@npm:^3.0.0-alpha.10":
+"@arkecosystem/core-transaction-pool@npm:3.0.0-alpha.10, @arkecosystem/core-transaction-pool@npm:^3.0.0-alpha.10":
   version: 3.0.0-alpha.10
   resolution: "@arkecosystem/core-transaction-pool@npm:3.0.0-alpha.10"
   dependencies:
@@ -455,18 +617,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arkecosystem/core-transactions@npm:3.0.0-alpha.9, @arkecosystem/core-transactions@npm:^3.0.0-alpha.9":
+"@arkecosystem/core-transaction-pool@npm:^3.0.0-alpha.9":
   version: 3.0.0-alpha.9
-  resolution: "@arkecosystem/core-transactions@npm:3.0.0-alpha.9"
+  resolution: "@arkecosystem/core-transaction-pool@npm:3.0.0-alpha.9"
   dependencies:
     "@arkecosystem/core-database": ^3.0.0-alpha.9
     "@arkecosystem/core-kernel": ^3.0.0-alpha.9
+    "@arkecosystem/core-state": ^3.0.0-alpha.9
+    "@arkecosystem/core-transactions": ^3.0.0-alpha.9
     "@arkecosystem/crypto": ^3.0.0-alpha.9
-  checksum: 95d9ac3771c916b73ec9263cdef300abaa15f72f7493b537dad8751ce7ea4d07eea5bcd08740be9a965092ad9562c661d3a275375a8755d3039c2bdb2522cff0
+    "@types/better-sqlite3": ^5.4.0
+    "@types/fs-extra": ^8.0.1
+    better-sqlite3: ^7.0.0
+    fs-extra: ^8.1.0
+    lodash.differencewith: ^4.5.0
+  checksum: 6e85b0ab36f35a170d18ea4e037f380367aea666296dd41c0b210b911ce21afec3a5bb49fe17d74b453f1e3d9f551c93d464ca4264f3b87453b6de29e94efb7c
   languageName: node
   linkType: hard
 
-"@arkecosystem/core-transactions@npm:^3.0.0-alpha.10":
+"@arkecosystem/core-transactions@npm:3.0.0-alpha.10, @arkecosystem/core-transactions@npm:^3.0.0-alpha.10":
   version: 3.0.0-alpha.10
   resolution: "@arkecosystem/core-transactions@npm:3.0.0-alpha.10"
   dependencies:
@@ -477,7 +646,34 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arkecosystem/core-webhooks@npm:3.0.0-alpha.9, @arkecosystem/core-webhooks@npm:^3.0.0-alpha.9":
+"@arkecosystem/core-transactions@npm:^3.0.0-alpha.9":
+  version: 3.0.0-alpha.9
+  resolution: "@arkecosystem/core-transactions@npm:3.0.0-alpha.9"
+  dependencies:
+    "@arkecosystem/core-database": ^3.0.0-alpha.9
+    "@arkecosystem/core-kernel": ^3.0.0-alpha.9
+    "@arkecosystem/crypto": ^3.0.0-alpha.9
+  checksum: 95d9ac3771c916b73ec9263cdef300abaa15f72f7493b537dad8751ce7ea4d07eea5bcd08740be9a965092ad9562c661d3a275375a8755d3039c2bdb2522cff0
+  languageName: node
+  linkType: hard
+
+"@arkecosystem/core-webhooks@npm:3.0.0-alpha.10":
+  version: 3.0.0-alpha.10
+  resolution: "@arkecosystem/core-webhooks@npm:3.0.0-alpha.10"
+  dependencies:
+    "@arkecosystem/core-kernel": ^3.0.0-alpha.10
+    "@arkecosystem/crypto": ^3.0.0-alpha.10
+    "@hapi/boom": ^9.0.0
+    "@hapi/hapi": ^19.0.0
+    "@hapi/joi": ^17.1.0
+    fs-extra: ^8.1.0
+    lowdb: ^1.0.0
+    uuid: ^8.0.0
+  checksum: 705fc3b8da6e949723f086a3ac1864fd7917c7063dd3df1d30261679cd1cfb66029ab3dfece637f8be90ddce81a3d8e5d111392c94a6b9838d62d4e89501c8c4
+  languageName: node
+  linkType: hard
+
+"@arkecosystem/core-webhooks@npm:^3.0.0-alpha.9":
   version: 3.0.0-alpha.9
   resolution: "@arkecosystem/core-webhooks@npm:3.0.0-alpha.9"
   dependencies:
@@ -2618,6 +2814,7 @@ __metadata:
     "@protokol/utils": ^1.0.0-beta.30
     "@sindresorhus/tsconfig": ~0.7.0
     "@types/jest": ~26.0.10
+    "@types/node": ^14.11.2
     "@types/rimraf": ^3.0.0
     "@types/uuid": ^7.0.2
     big-integer: ^1.6.48
@@ -3203,6 +3400,13 @@ __metadata:
   version: 13.13.17
   resolution: "@types/node@npm:13.13.17"
   checksum: 4d00434d1ca6c457ace6a65c672eee8ed16cb519102b92baca8190ada87664b4c90e89e06d0b51b19dc9c19916bc3326424983becc5f151facbf6fd41262393f
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^14.11.2":
+  version: 14.11.2
+  resolution: "@types/node@npm:14.11.2"
+  checksum: 3badcce3991cd8487b549b2541c9a9809f77ded06a2846dd9c73948d12a442290b31abef2d4b0304cc7e30539614ae82ff3b70d93a4b9a82e19128b3d17a9e0f
   languageName: node
   linkType: hard
 
@@ -14276,7 +14480,7 @@ typescript@~4.0.2:
   languageName: node
   linkType: hard
 
-"yargs-parser@npm:20.x":
+"yargs-parser@npm:20.x, yargs-parser@npm:^20.0.0":
   version: 20.2.0
   resolution: "yargs-parser@npm:20.2.0"
   checksum: d707279bded5a5e1dec5ce8c22d8b9adadd8da1c2a3e0f87c297d13284973fdeb10de8d93df950465036a23fa98bc2c3d26e2d2fc4c9c75f1f6b24db65da489f
