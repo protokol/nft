@@ -40,19 +40,19 @@
         "test:functional:coverage": "jest __tests__/functional --coverage --forceExit --detectOpenHandles"
     },
     "dependencies": {
-        "@arkecosystem/core-database": "^3.0.0-alpha.9",
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.9",
-        "@arkecosystem/core-state": "^3.0.0-alpha.9",
-        "@arkecosystem/core-transactions": "^3.0.0-alpha.9",
-        "@arkecosystem/crypto": "^3.0.0-alpha.9",
+        "@arkecosystem/core-database": "^3.0.0-alpha.10",
+        "@arkecosystem/core-kernel": "^3.0.0-alpha.10",
+        "@arkecosystem/core-state": "^3.0.0-alpha.10",
+        "@arkecosystem/core-transactions": "^3.0.0-alpha.10",
+        "@arkecosystem/crypto": "^3.0.0-alpha.10",
         "@protokol/nft-base-crypto": "^1.0.0-beta.30",
         "ajv": "6.12.4",
         "delay": "4.4.0"
     },
     "devDependencies": {
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.9",
-        "@arkecosystem/core-test-framework": "^3.0.0-alpha.9",
-        "@arkecosystem/core-transaction-pool": "^3.0.0-alpha.9",
+        "@arkecosystem/core-kernel": "^3.0.0-alpha.10",
+        "@arkecosystem/core-test-framework": "^3.0.0-alpha.10",
+        "@arkecosystem/core-transaction-pool": "^3.0.0-alpha.10",
         "@sindresorhus/tsconfig": "~0.7.0",
         "@types/eslint": "^7.2.2",
         "@types/eslint-plugin-prettier": "^3.1.0",

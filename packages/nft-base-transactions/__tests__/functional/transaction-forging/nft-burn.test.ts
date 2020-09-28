@@ -9,7 +9,7 @@ import * as support from "./__support__";
 import { NFTBaseTransactionFactory } from "./__support__/transaction-factory";
 
 let app: Contracts.Kernel.Application;
-let networkConfig: ARKCrypto.Interfaces.NetworkConfig;
+let networkConfig: Interfaces.NetworkConfig;
 
 beforeAll(async () => {
     app = await support.setUp();

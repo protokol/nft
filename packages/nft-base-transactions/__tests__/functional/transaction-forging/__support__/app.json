@@ -35,15 +35,6 @@
                 "package": "@arkecosystem/core-api"
             },
             {
-                "package": "@protokol/nft-base-api"
-            },
-            {
-                "package": "@arkecosystem/core-magistrate-api"
-            },
-            {
-                "package": "@arkecosystem/core-webhooks"
-            },
-            {
                 "package": "@arkecosystem/core-forger"
             },
             {

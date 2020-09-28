@@ -9,7 +9,7 @@ import * as support from "./__support__";
 import { NFTBaseTransactionFactory } from "./__support__/transaction-factory";
 
 let app: Contracts.Kernel.Application;
-let networkConfig: ARKCrypto.Interfaces.NetworkConfig;
+let networkConfig: Interfaces.NetworkConfig;
 
 beforeAll(async () => {
     app = await support.setUp();
@@ -297,10 +297,8 @@ describe("NFT Create functional tests", () => {
             await expect(multiSignature.id).toBeForged();
 
             // Send funds to multi signature wallet
-            const multiSigAddress = ARKCrypto.Identities.Address.fromMultiSignatureAsset(
-                multiSignature.asset!.multiSignature!,
-            );
-            const multiSigPublicKey = ARKCrypto.Identities.PublicKey.fromMultiSignatureAsset(
+            const multiSigAddress = Identities.Address.fromMultiSignatureAsset(multiSignature.asset!.multiSignature!);
+            const multiSigPublicKey = Identities.PublicKey.fromMultiSignatureAsset(
                 multiSignature.asset!.multiSignature!,
             );
 

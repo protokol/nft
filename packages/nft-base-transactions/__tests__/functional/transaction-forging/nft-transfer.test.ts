@@ -2,7 +2,7 @@ import "@arkecosystem/core-test-framework/dist/matchers";
 
 import { Container, Contracts, Services } from "@arkecosystem/core-kernel";
 import { passphrases, snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework";
-import { Identities, Interfaces } from "@arkecosystem/crypto";
+import { ARKCrypto } from "@protokol/nft-base-crypto";
 import { generateMnemonic } from "bip39";
 
 import * as support from "./__support__";
@@ -84,7 +84,7 @@ describe("NFT Transfer Functional Tests", () => {
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
                     nftIds: [nftCreate.id!],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[2]),
+                    recipientId: ARKCrypto.Identities.Address.fromPassphrase(passphrases[2]),
                 })
                 .withPassphrase(passphrases[1])
                 .createOne();
@@ -99,7 +99,7 @@ describe("NFT Transfer Functional Tests", () => {
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
                     nftIds: [nftCreateId],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[2]),
+                    recipientId: ARKCrypto.Identities.Address.fromPassphrase(passphrases[2]),
                 })
                 .withPassphrase(passphrases[2])
                 .createOne();
@@ -114,7 +114,7 @@ describe("NFT Transfer Functional Tests", () => {
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
                     nftIds: [nftCreateId],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[2]),
+                    recipientId: ARKCrypto.Identities.Address.fromPassphrase(passphrases[2]),
                 })
                 .withPassphrase(passphrases[1])
                 .createOne();
@@ -129,7 +129,7 @@ describe("NFT Transfer Functional Tests", () => {
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
                     nftIds: [nftCreateId],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[2]),
+                    recipientId: ARKCrypto.Identities.Address.fromPassphrase(passphrases[2]),
                 })
                 .withPassphrase(passphrases[2])
                 .createOne();
@@ -137,7 +137,7 @@ describe("NFT Transfer Functional Tests", () => {
             const nftTransfer2 = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
                     nftIds: [nftCreateId],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[2]),
+                    recipientId: ARKCrypto.Identities.Address.fromPassphrase(passphrases[2]),
                 })
                 // @ts-ignore
                 .withNonce(nftTransfer.nonce.plus(1))
@@ -181,7 +181,7 @@ describe("NFT Transfer Functional Tests", () => {
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
                     nftIds: [nftCreate.id!],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[2]),
+                    recipientId: ARKCrypto.Identities.Address.fromPassphrase(passphrases[2]),
                 })
                 .withNonce(nftBurn.nonce!.plus(1))
                 .withPassphrase(passphrases[0])
@@ -202,7 +202,7 @@ describe("NFT Transfer Functional Tests", () => {
 
             // Initial Funds
             const initialFunds = TransactionFactory.initialize(app)
-                .transfer(Identities.Address.fromPassphrase(passphrase), 150 * 1e8)
+                .transfer(ARKCrypto.Identities.Address.fromPassphrase(passphrase), 150 * 1e8)
                 .withPassphrase(passphrases[0])
                 .createOne();
 
@@ -243,7 +243,7 @@ describe("NFT Transfer Functional Tests", () => {
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
                     nftIds: [nftCreate.id!],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[2]),
+                    recipientId: ARKCrypto.Identities.Address.fromPassphrase(passphrases[2]),
                 })
                 .withPassphrase(passphrase)
                 .withSecondPassphrase(secondPassphrase)
@@ -260,14 +260,14 @@ describe("NFT Transfer Functional Tests", () => {
         const passphrase = generateMnemonic();
         const secrets = [passphrase, passphrases[4], passphrases[5]];
         const participants = [
-            Identities.PublicKey.fromPassphrase(secrets[0]),
-            Identities.PublicKey.fromPassphrase(secrets[1]),
-            Identities.PublicKey.fromPassphrase(secrets[2]),
+            ARKCrypto.Identities.PublicKey.fromPassphrase(secrets[0]),
+            ARKCrypto.Identities.PublicKey.fromPassphrase(secrets[1]),
+            ARKCrypto.Identities.PublicKey.fromPassphrase(secrets[2]),
         ];
         it("should broadcast, accept and forge it [3-of-3 multisig] ", async () => {
             // Funds to register a multi signature wallet
             const initialFunds = TransactionFactory.initialize(app)
-                .transfer(Identities.Address.fromPassphrase(passphrase), 50 * 1e8)
+                .transfer(ARKCrypto.Identities.Address.fromPassphrase(passphrase), 50 * 1e8)
                 .withPassphrase(passphrases[0])
                 .createOne();
 
@@ -326,7 +326,7 @@ describe("NFT Transfer Functional Tests", () => {
             const nftTransfer = NFTBaseTransactionFactory.initialize(app)
                 .NFTTransfer({
                     nftIds: [nftCreate.id!],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[2]),
+                    recipientId: ARKCrypto.Identities.Address.fromPassphrase(passphrases[2]),
                 })
                 .withSenderPublicKey(multiSigPublicKey)
                 .withPassphraseList(secrets)
