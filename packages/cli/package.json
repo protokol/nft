@@ -51,8 +51,8 @@
 		"@arkecosystem/crypto": "^3.0.0-alpha.10",
 		"@oclif/command": "^1",
 		"@oclif/plugin-help": "^3",
-		"@protokol/nft-base-crypto": "^1.0.0-beta.30",
-		"@protokol/nft-exchange-crypto": "^1.0.0-beta.30",
+		"@protokol/nft-base-crypto": "workspace:packages/nft-base-crypto",
+		"@protokol/nft-exchange-crypto": "workspace:packages/nft-exchange-crypto",
 		"fs-extra": "^9.0.1"
 	},
 	"devDependencies": {
