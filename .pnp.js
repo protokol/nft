@@ -15007,6 +15007,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["glob", "npm:7.1.6"],
             ["js-yaml", "npm:3.14.0"],
             ["mkdirp", "npm:1.0.4"],
+            ["pg", "npm:8.3.3"],
             ["pg-query-stream", "npm:3.2.3"],
             ["reflect-metadata", "npm:0.1.13"],
             ["sha.js", "npm:2.4.11"],
