@@ -29,14 +29,14 @@ export class PeerDiscovery {
                     throw new Error("Failed to discovery any peers.");
                 }
             } else {
-                try {
-                    if (isUrl(networkOrUrl)) {
+                if (isUrl(networkOrUrl)) {
+                    try {
                         seeds = (await ky.get(networkOrUrl).json<{ data: IPeer[] }>()).data;
-                    } else {
-                        throw new Error("Failed to discovery any peers, because the url is wrong");
+                    } catch {
+                        throw new Error("Failed to discovery any peers.");
                     }
-                } catch {
-                    throw new Error("Failed to discovery any peers.");
+                } else {
+                    throw new Error("Failed to discovery any peers, because the url is wrong");
                 }
             }
         } else {

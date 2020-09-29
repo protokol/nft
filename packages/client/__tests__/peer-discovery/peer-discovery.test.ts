@@ -13,9 +13,31 @@ beforeEach(() => {
 
 describe("PeerDiscovery", () => {
     describe("New instance test", () => {
+        beforeEach(() => {
+            nock("http://127.0.0.1").get("/api").reply(500);
+        });
+
         it("should fail if no connection, network or url specified", async () => {
             await expect(PeerDiscovery.new()).rejects.toThrowError(
                 new Error("No connection, network or url specified"),
+            );
+        });
+
+        it("should fail if url is wrong", async () => {
+            await expect(PeerDiscovery.new(undefined, "url")).rejects.toThrowError(
+                new Error("Failed to discovery any peers, because the url is wrong"),
+            );
+        });
+
+        it("should fail if there is a problem fetching seeds from url", async () => {
+            await expect(PeerDiscovery.new(undefined, "http://127.0.0.1/api")).rejects.toThrowError(
+                new Error("Failed to discovery any peers."),
+            );
+        });
+
+        it("should fail if there is a problem fetching seeds from connection", async () => {
+            await expect(PeerDiscovery.new(new Connection("http://127.0.0.1/api"))).rejects.toThrowError(
+                new Error("Failed to discovery any peers."),
             );
         });
     });
@@ -97,6 +119,73 @@ describe("PeerDiscovery", () => {
 
             expect(await peerDiscovery.findPeers()).toEqual(expect.arrayContaining(dummyPeers));
         });
+
+        describe("should find valid peer among the mix of valid and invalid ones", () => {
+            const mathCopy = Object.create(global.Math);
+            beforeAll(() => {
+                const mockMath = Object.create(global.Math);
+                const random = jest.fn();
+                random.mockReturnValueOnce(0).mockReturnValue(0.5);
+                mockMath.random = random;
+                global.Math = mockMath;
+            });
+
+            beforeEach(async () => {
+                nock("http://127.0.0.1")
+                    .get("/api/peers")
+                    .reply(200, {
+                        data: [{}, { ports: {} }, ...dummyPeers],
+                    });
+
+                peerDiscovery = await PeerDiscovery.new(new Connection("http://127.0.0.1/api"));
+            });
+
+            afterAll(() => {
+                global.Math = mathCopy;
+            });
+
+            it("should find peers if selected peer doesn't have ports defined", async () => {
+                nock(/.+/).get("/api/peers").reply(200, {
+                    data: dummyPeers,
+                });
+
+                expect(await peerDiscovery.findPeers()).toEqual(dummyPeers);
+            });
+        });
+
+        describe("should find valid peer among the mix of valid and invalid one", () => {
+            const mathCopy = Object.create(global.Math);
+            beforeAll(async () => {
+                const mockMath = Object.create(global.Math);
+                const random = jest.fn();
+                random.mockReturnValueOnce(0.3).mockReturnValue(0.5);
+                mockMath.random = random;
+                global.Math = mockMath;
+            });
+
+            beforeEach(async () => {
+                nock("http://127.0.0.1")
+                    .get("/api/peers")
+                    .reply(200, {
+                        data: [{}, { ports: {} }, ...dummyPeers],
+                    });
+
+                peerDiscovery = await PeerDiscovery.new(new Connection("http://127.0.0.1/api"));
+            });
+
+            afterAll(() => {
+                global.Math = mathCopy;
+            });
+
+            it("should find peers if selected peer doesn't have api port defined", async () => {
+                nock(/.+/).get("/api/peers").reply(200, {
+                    data: dummyPeers,
+                });
+
+                expect(await peerDiscovery.findPeers()).toEqual(dummyPeers);
+            });
+        });
+
         it("should retry three times", async () => {
             nock(/.+/).get("/api/peers").twice().reply(500).get("/api/peers").reply(200, {
                 data: dummyPeers,
@@ -161,10 +250,7 @@ describe("PeerDiscovery", () => {
                 data: dummyPeers,
             });
 
-            await expect(peerDiscovery.sortBy("version", "desc").findPeers()).resolves.toEqual([
-                dummyPeers[0],
-                dummyPeers[1],
-            ]);
+            await expect(peerDiscovery.sortBy("version").findPeers()).resolves.toEqual([dummyPeers[0], dummyPeers[1]]);
         });
     });
 
@@ -184,6 +270,14 @@ describe("PeerDiscovery", () => {
             });
 
             await expect(peerDiscovery.findPeersWithPlugin("core-wallet-api")).resolves.toEqual([]);
+        });
+
+        it("should skip peers with invalid port", async () => {
+            nock(/.+/).get("/api/peers").reply(200, {
+                data: dummyPeers,
+            });
+
+            await expect(peerDiscovery.findPeersWithPlugin("core-webhooks")).resolves.toEqual([]);
         });
 
         it("should find peers with core-api plugin", async () => {
@@ -206,6 +300,7 @@ describe("PeerDiscovery", () => {
 
             peerDiscovery = await PeerDiscovery.new(new Connection("http://127.0.0.1/api"));
         });
+
         it("should find peers without estimates", async () => {
             nock(/.+/)
                 .get("/api/peers")
@@ -221,6 +316,23 @@ describe("PeerDiscovery", () => {
                 });
 
             await expect(peerDiscovery.findPeersWithoutEstimates()).resolves.toEqual(dummyPeers);
+        });
+
+        it("should skip peers with estimates", async () => {
+            nock(/.+/)
+                .get("/api/peers")
+                .reply(200, {
+                    data: dummyPeers,
+                })
+                .persist()
+                .get("/api/blocks?limit=1")
+                .reply(200, {
+                    meta: {
+                        totalCountIsEstimate: true,
+                    },
+                });
+
+            await expect(peerDiscovery.findPeersWithoutEstimates()).resolves.toEqual([]);
         });
     });
 });
