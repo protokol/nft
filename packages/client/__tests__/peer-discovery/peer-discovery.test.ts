@@ -121,68 +121,58 @@ describe("PeerDiscovery", () => {
         });
 
         describe("should find valid peer among the mix of valid and invalid ones", () => {
-            const mathCopy = Object.create(global.Math);
+            let mathOriginal;
+
+            const initRandomAndNock = async (first: number, second: number) => {
+                const mockMath = Object.create(global.Math);
+                const random = jest.fn();
+                random.mockReturnValueOnce(first).mockReturnValue(second);
+                mockMath.random = random;
+                global.Math = mockMath;
+
+                nock("http://127.0.0.1")
+                    .get("/api/peers")
+                    .reply(200, {
+                        data: [{}, { ports: {} }, ...dummyPeers],
+                    });
+
+                peerDiscovery = await PeerDiscovery.new(new Connection("http://127.0.0.1/api"));
+            };
+
             beforeAll(() => {
-                const mockMath = Object.create(global.Math);
-                const random = jest.fn();
-                random.mockReturnValueOnce(0).mockReturnValue(0.5);
-                mockMath.random = random;
-                global.Math = mockMath;
-            });
-
-            beforeEach(async () => {
-                nock("http://127.0.0.1")
-                    .get("/api/peers")
-                    .reply(200, {
-                        data: [{}, { ports: {} }, ...dummyPeers],
-                    });
-
-                peerDiscovery = await PeerDiscovery.new(new Connection("http://127.0.0.1/api"));
+                mathOriginal = Object.create(global.Math);
             });
 
             afterAll(() => {
-                global.Math = mathCopy;
+                global.Math = mathOriginal;
             });
 
-            it("should find peers if selected peer doesn't have ports defined", async () => {
-                nock(/.+/).get("/api/peers").reply(200, {
-                    data: dummyPeers,
+            describe("selected peer doesn't have ports defined", () => {
+                beforeEach(async () => {
+                    await initRandomAndNock(0.3, 0.5);
                 });
 
-                expect(await peerDiscovery.findPeers()).toEqual(dummyPeers);
-            });
-        });
-
-        describe("should find valid peer among the mix of valid and invalid one", () => {
-            const mathCopy = Object.create(global.Math);
-            beforeAll(async () => {
-                const mockMath = Object.create(global.Math);
-                const random = jest.fn();
-                random.mockReturnValueOnce(0.3).mockReturnValue(0.5);
-                mockMath.random = random;
-                global.Math = mockMath;
-            });
-
-            beforeEach(async () => {
-                nock("http://127.0.0.1")
-                    .get("/api/peers")
-                    .reply(200, {
-                        data: [{}, { ports: {} }, ...dummyPeers],
+                it("should find peers", async () => {
+                    nock(/.+/).get("/api/peers").reply(200, {
+                        data: dummyPeers,
                     });
 
-                peerDiscovery = await PeerDiscovery.new(new Connection("http://127.0.0.1/api"));
+                    expect(await peerDiscovery.findPeers()).toEqual(dummyPeers);
+                });
             });
 
-            afterAll(() => {
-                global.Math = mathCopy;
-            });
-
-            it("should find peers if selected peer doesn't have api port defined", async () => {
-                nock(/.+/).get("/api/peers").reply(200, {
-                    data: dummyPeers,
+            describe("selected peer doesn't have api port defined", () => {
+                beforeEach(async () => {
+                    await initRandomAndNock(0, 0.5);
                 });
 
-                expect(await peerDiscovery.findPeers()).toEqual(dummyPeers);
+                it("should find peers", async () => {
+                    nock(/.+/).get("/api/peers").reply(200, {
+                        data: dummyPeers,
+                    });
+
+                    expect(await peerDiscovery.findPeers()).toEqual(dummyPeers);
+                });
             });
         });
 
