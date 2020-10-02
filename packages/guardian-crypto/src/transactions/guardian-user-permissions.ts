@@ -43,7 +43,8 @@ export class GuardianUserPermissionsTransaction extends Transactions.Transaction
                                     uniqueItems: true,
                                     items: groupNameSchema,
                                 },
-                                permissions: permissionsSchema,
+                                allow: permissionsSchema,
+                                deny: permissionsSchema,
                             },
                         },
                     },
@@ -71,7 +72,8 @@ export class GuardianUserPermissionsTransaction extends Transactions.Transaction
         const buffer: ByteBuffer = new ByteBuffer(
             66 + // privateKey
                 groupNamesLength +
-                calculatePermissionsLength(setUserPermissionAsset.permissions),
+                calculatePermissionsLength(setUserPermissionAsset.allow) +
+                calculatePermissionsLength(setUserPermissionAsset.deny),
             true,
         );
 
@@ -85,8 +87,11 @@ export class GuardianUserPermissionsTransaction extends Transactions.Transaction
             buffer.append(groupNameBuffer, "hex");
         }
 
-        // permissions
-        serializePermissions(buffer, setUserPermissionAsset.permissions);
+        // allow permissions
+        serializePermissions(buffer, setUserPermissionAsset.allow);
+
+        // deny permissions
+        serializePermissions(buffer, setUserPermissionAsset.deny);
 
         return buffer;
     }
@@ -110,10 +115,16 @@ export class GuardianUserPermissionsTransaction extends Transactions.Transaction
             }
         }
 
-        // permissions
-        const permissions = deserializePermissions(buf);
-        if (permissions) {
-            setUserPermissions.permissions = permissions;
+        // allow permissions
+        const allow = deserializePermissions(buf);
+        if (allow) {
+            setUserPermissions.allow = allow;
+        }
+
+        // deny permissions
+        const deny = deserializePermissions(buf);
+        if (deny) {
+            setUserPermissions.deny = deny;
         }
 
         data.asset = {

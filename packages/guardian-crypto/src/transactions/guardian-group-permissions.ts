@@ -33,7 +33,7 @@ export class GuardianGroupPermissionsTransaction extends Transactions.Transactio
                     properties: {
                         setGroupPermissions: {
                             type: "object",
-                            required: ["name", "priority", "permissions", "active", "default"],
+                            required: ["name", "priority", "active", "default"],
                             properties: {
                                 name: groupNameSchema,
                                 priority: {
@@ -43,7 +43,8 @@ export class GuardianGroupPermissionsTransaction extends Transactions.Transactio
                                 },
                                 active: { type: "boolean" },
                                 default: { type: "boolean" },
-                                permissions: permissionsSchema,
+                                allow: permissionsSchema,
+                                deny: permissionsSchema,
                             },
                         },
                     },
@@ -61,10 +62,11 @@ export class GuardianGroupPermissionsTransaction extends Transactions.Transactio
         const nameBuffer: Buffer = Buffer.from(setGroupPermissionAsset.name);
         const buffer: ByteBuffer = new ByteBuffer(
             nameBuffer.length +
-            32 + // priority
+            4 + // priority
             1 + // active
             1 + // default
-                calculatePermissionsLength(setGroupPermissionAsset.permissions),
+                calculatePermissionsLength(setGroupPermissionAsset.allow) +
+                calculatePermissionsLength(setGroupPermissionAsset.deny),
             true,
         );
 
@@ -81,8 +83,11 @@ export class GuardianGroupPermissionsTransaction extends Transactions.Transactio
         // default
         buffer.writeByte(+setGroupPermissionAsset.default);
 
-        // permissions
-        serializePermissions(buffer, setGroupPermissionAsset.permissions);
+        // allow permissions
+        serializePermissions(buffer, setGroupPermissionAsset.allow);
+
+        // deny permissions
+        serializePermissions(buffer, setGroupPermissionAsset.deny);
 
         return buffer;
     }
@@ -96,16 +101,24 @@ export class GuardianGroupPermissionsTransaction extends Transactions.Transactio
         const active = Boolean(buf.readUint8());
         const isDefault = Boolean(buf.readUint8());
 
-        // permissions
-        const permissions = deserializePermissions(buf);
-
         const setGroupPermissions: GuardianGroupPermissionsAsset = {
             name,
             priority,
             active,
             default: isDefault,
-            permissions: permissions!,
         };
+
+        // allow permissions
+        const allow = deserializePermissions(buf);
+        if (allow) {
+            setGroupPermissions.allow = allow;
+        }
+
+        // deny permissions
+        const deny = deserializePermissions(buf);
+        if (deny) {
+            setGroupPermissions.deny = deny;
+        }
 
         data.asset = {
             setGroupPermissions,

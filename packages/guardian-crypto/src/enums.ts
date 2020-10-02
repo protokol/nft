@@ -11,8 +11,3 @@ export enum GuardianStaticFees {
     GuardianSetUserPermissions = "500000000",
     GuardianSetGroupPermissions = "500000000",
 }
-
-export enum PermissionKind {
-    Deny,
-    Allow,
-}
