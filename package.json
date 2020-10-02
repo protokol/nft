@@ -19,8 +19,7 @@
 		"lint": "eslint packages/**/src/** --ext .ts --fix",
 		"lint:tests": "eslint packages/**/__tests__/** --ext .ts --fix",
 		"prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\"",
-		"test": "yarn workspaces foreach -pt run test",
-		"toc:coins": "yarn dlx doctoc docs/coins/index.md"
+		"test": "yarn workspaces foreach -pt run test"
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^0.7.0",

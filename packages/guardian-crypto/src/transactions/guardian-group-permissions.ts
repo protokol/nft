@@ -13,7 +13,7 @@ const { schemas } = Transactions;
 export class GuardianGroupPermissionsTransaction extends Transactions.Transaction {
     public static typeGroup: number = GuardianTransactionGroup;
     public static type = GuardianTransactionTypes.GuardianSetGroupPermissions;
-    public static key: string = "GuardianGroupPermissions";
+    public static key = "GuardianGroupPermissions";
     public static version: number = defaults.version;
 
     protected static defaultStaticFee = Utils.BigNumber.make(GuardianStaticFees.GuardianSetGroupPermissions);
@@ -61,9 +61,9 @@ export class GuardianGroupPermissionsTransaction extends Transactions.Transactio
         const nameBuffer: Buffer = Buffer.from(setGroupPermissionAsset.name);
         const buffer: ByteBuffer = new ByteBuffer(
             nameBuffer.length +
-            32 + // priority
-            1 + // active
-            1 + // default
+                32 + // priority
+                1 + // active
+                1 + // default
                 calculatePermissionsLength(setGroupPermissionAsset.permissions),
             true,
         );

@@ -6,9 +6,9 @@ import { GroupSearchService, UserSearchService } from "../services";
 
 @Container.injectable()
 export class BaseController extends Controller {
-    @Container.inject(Identifiers.UserSearchService)
-    protected readonly userSearchService!: UserSearchService;
+	@Container.inject(Identifiers.UserSearchService)
+	protected readonly userSearchService!: UserSearchService;
 
-    @Container.inject(Identifiers.GroupSearchService)
-    protected readonly groupSearchService!: GroupSearchService;
+	@Container.inject(Identifiers.GroupSearchService)
+	protected readonly groupSearchService!: GroupSearchService;
 }
