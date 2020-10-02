@@ -41,8 +41,8 @@
 		"test:integration:coverage": "cross-env CORE_ENV=test jest __tests__/integration --coverage --runInBand --forceExit"
 	},
 	"dependencies": {
-		"@arkecosystem/core-api": "^3.0.0-alpha.10",
-		"@arkecosystem/core-kernel": "^3.0.0-alpha.10",
+		"@arkecosystem/core-api": "^3.0.0-alpha.13",
+		"@arkecosystem/core-kernel": "^3.0.0-alpha.13",
 		"@hapi/boom": "^9.0.0",
 		"@hapi/hapi": "^19.0.0",
 		"@hapi/joi": "^17.1.0",
@@ -50,7 +50,7 @@
 		"latest-version": "^5.1.0"
 	},
 	"devDependencies": {
-		"@arkecosystem/crypto": "^3.0.0-alpha.10",
+		"@arkecosystem/crypto": "^3.0.0-alpha.13",
 		"@protokol/nft-base-transactions": "^1.0.0-beta.30",
 		"@types/hapi__boom": "^7.4.1",
 		"@types/hapi__joi": "^16.0.4",

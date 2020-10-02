@@ -42,11 +42,11 @@
         "test:functional:coverage": "cross-env CORE_ENV=test jest __tests__/functional --coverage --forceExit"
     },
     "dependencies": {
-        "@arkecosystem/core-database": "^3.0.0-alpha.10",
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.10",
-        "@arkecosystem/core-state": "^3.0.0-alpha.10",
-        "@arkecosystem/core-transactions": "^3.0.0-alpha.10",
-        "@arkecosystem/crypto": "^3.0.0-alpha.10",
+        "@arkecosystem/core-database": "^3.0.0-alpha.13",
+        "@arkecosystem/core-kernel": "^3.0.0-alpha.13",
+        "@arkecosystem/core-state": "^3.0.0-alpha.13",
+        "@arkecosystem/core-transactions": "^3.0.0-alpha.13",
+        "@arkecosystem/crypto": "^3.0.0-alpha.13",
         "@protokol/nft-base-crypto": "^1.0.0-beta.30",
         "@protokol/nft-base-transactions": "^1.0.0-beta.30",
         "@protokol/nft-exchange-crypto": "^1.0.0-beta.30"
