@@ -14,15 +14,10 @@ const groupPermissionsAsset = {
     priority: 1,
     default: false,
     active: true,
-    permissions: [
+    allow: [
         {
-            types: [
-                {
-                    transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
-                    transactionTypeGroup: Enums.GuardianTransactionGroup,
-                },
-            ],
-            kind: Enums.PermissionKind.Allow,
+            transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
+            transactionTypeGroup: Enums.GuardianTransactionGroup,
         },
     ],
 };
@@ -47,7 +42,7 @@ describe("Guardian set group permissions functional tests", () => {
     });
 
     describe("Signed with 2 Passphrases", () => {
-        it("should broadcast, accept and forge it [Signed with 2 Passphrases] ", async () => {
+        it("should broadcast, accept and forge it [Signed with 2 Passphrases]", async () => {
             // Prepare a fresh wallet for the tests
             const passphrase = generateMnemonic();
             const secondPassphrase = generateMnemonic();
@@ -94,7 +89,7 @@ describe("Guardian set group permissions functional tests", () => {
             Identities.PublicKey.fromPassphrase(secrets[1]),
             Identities.PublicKey.fromPassphrase(secrets[2]),
         ];
-        it("should broadcast, accept and forge it [3-of-3 multisig] ", async () => {
+        it("should broadcast, accept and forge it [3-of-3 multisig]", async () => {
             // Funds to register a multi signature wallet
             const initialFunds = TransactionFactory.initialize(app)
                 .transfer(Identities.Address.fromPassphrase(passphrase), 50 * 1e8)

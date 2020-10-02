@@ -68,10 +68,7 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
             }
         }
 
-        if (setUserPermissionsAsset.permissions) {
-            this.verifyPermissionsTypes(setUserPermissionsAsset.permissions);
-            this.checkUniquePermissions(setUserPermissionsAsset.permissions);
-        }
+        this.verifyPermissions(setUserPermissionsAsset);
 
         return super.throwIfCannotBeApplied(transaction, sender);
     }
@@ -134,6 +131,9 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
     private buildUserPermissions(
         userPermissionsAsset: GuardianInterfaces.GuardianUserPermissionsAsset,
     ): IUserPermissions {
-        return { groups: userPermissionsAsset.groupNames || [], permissions: userPermissionsAsset.permissions || [] };
+        return {
+            groups: userPermissionsAsset.groupNames || [],
+            ...this.sanitizePermissions(userPermissionsAsset.allow, userPermissionsAsset.deny),
+        };
     }
 }

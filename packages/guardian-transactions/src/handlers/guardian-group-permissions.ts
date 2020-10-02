@@ -5,6 +5,7 @@ import { Interfaces as GuardianInterfaces } from "@protokol/guardian-crypto";
 import { Transactions as GuardianTransactions } from "@protokol/guardian-crypto";
 
 import { GuardianApplicationEvents } from "../events";
+import { IGroupPermissions } from "../interfaces";
 import { GuardianTransactionHandler } from "./guardian-handler";
 
 @Container.injectable()
@@ -27,9 +28,12 @@ export class GuardianGroupPermissionsHandler extends GuardianTransactionHandler 
                 transaction.asset?.setGroupPermissions,
             );
 
-            const setGroupPermissionsAsset: GuardianInterfaces.GuardianGroupPermissionsAsset =
-                transaction.asset.setGroupPermissions;
-            this.groupsPermissionsCache.put(setGroupPermissionsAsset.name, setGroupPermissionsAsset, -1);
+            const setGroupPermissions = transaction.asset.setGroupPermissions;
+            this.groupsPermissionsCache.put(
+                setGroupPermissions.name,
+                this.buildGroupPermissions(setGroupPermissions),
+                -1,
+            );
         }
     }
 
@@ -47,9 +51,7 @@ export class GuardianGroupPermissionsHandler extends GuardianTransactionHandler 
 
         const setGroupPermissionsAsset: GuardianInterfaces.GuardianGroupPermissionsAsset =
             transaction.data.asset.setGroupPermissions;
-
-        this.verifyPermissionsTypes(setGroupPermissionsAsset.permissions);
-        this.checkUniquePermissions(setGroupPermissionsAsset.permissions);
+        this.verifyPermissions(setGroupPermissionsAsset);
 
         return super.throwIfCannotBeApplied(transaction, sender);
     }
@@ -77,9 +79,8 @@ export class GuardianGroupPermissionsHandler extends GuardianTransactionHandler 
         // AppUtils.assert.defined<GuardianInterfaces.GuardianGroupPermissionsAsset>(
         //     transaction.data.asset?.setGroupPermissions,
         // );
-        const setGroupPermissionsAsset: GuardianInterfaces.GuardianGroupPermissionsAsset = transaction.data.asset!
-            .setGroupPermissions;
-        this.groupsPermissionsCache.put(setGroupPermissionsAsset.name, setGroupPermissionsAsset, -1);
+        const setGroupPermissions = transaction.data.asset!.setGroupPermissions;
+        this.groupsPermissionsCache.put(setGroupPermissions.name, this.buildGroupPermissions(setGroupPermissions), -1);
     }
 
     public async revert(transaction: Interfaces.ITransaction): Promise<void> {
@@ -99,7 +100,7 @@ export class GuardianGroupPermissionsHandler extends GuardianTransactionHandler 
         } else {
             this.groupsPermissionsCache.put(
                 setGroupPermissionsAsset.name,
-                lastGroupPermissionsTx.asset!.setGroupPermissions,
+                this.buildGroupPermissions(lastGroupPermissionsTx.asset!.setGroupPermissions),
                 -1,
             );
         }
@@ -108,4 +109,13 @@ export class GuardianGroupPermissionsHandler extends GuardianTransactionHandler 
     public async applyToRecipient(transaction: Interfaces.ITransaction): Promise<void> {}
 
     public async revertForRecipient(transaction: Interfaces.ITransaction): Promise<void> {}
+
+    private buildGroupPermissions(
+        groupPermissionsAsset: GuardianInterfaces.GuardianGroupPermissionsAsset,
+    ): IGroupPermissions {
+        return {
+            ...groupPermissionsAsset,
+            ...this.sanitizePermissions(groupPermissionsAsset.allow, groupPermissionsAsset.deny),
+        };
+    }
 }

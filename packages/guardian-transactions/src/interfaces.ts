@@ -2,7 +2,13 @@ import { Interfaces } from "@protokol/guardian-crypto";
 
 export interface IUserPermissions {
     groups: string[];
-    permissions: Interfaces.IPermission[];
+    allow: Interfaces.IPermission[];
+    deny: Interfaces.IPermission[];
+}
+
+export interface IGroupPermissions extends Interfaces.GuardianGroupPermissionsAsset {
+    allow: Interfaces.IPermission[];
+    deny: Interfaces.IPermission[];
 }
 
 export const Identifiers = {

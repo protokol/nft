@@ -12,15 +12,10 @@ import { GuardianTransactionFactory } from "./__support__/transaction-factory";
 const userPermissionsAsset = {
     groupNames: ["group name"],
     publicKey: "02def27da9336e7fbf63131b8d7e5c9f45b296235db035f1f4242c507398f0f21d",
-    permissions: [
+    allow: [
         {
-            types: [
-                {
-                    transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
-                    transactionTypeGroup: Enums.GuardianTransactionGroup,
-                },
-            ],
-            kind: Enums.PermissionKind.Allow,
+            transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
+            transactionTypeGroup: Enums.GuardianTransactionGroup,
         },
     ],
 };
@@ -30,15 +25,10 @@ const groupPermissionsAsset = {
     priority: 1,
     default: false,
     active: true,
-    permissions: [
+    allow: [
         {
-            types: [
-                {
-                    transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
-                    transactionTypeGroup: Enums.GuardianTransactionGroup,
-                },
-            ],
-            kind: Enums.PermissionKind.Allow,
+            transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
+            transactionTypeGroup: Enums.GuardianTransactionGroup,
         },
     ],
 };
@@ -73,7 +63,7 @@ describe("Guardian set user permissions functional tests", () => {
     });
 
     describe("Signed with 2 Passphrases", () => {
-        it("should broadcast, accept and forge it [Signed with 2 Passphrases] ", async () => {
+        it("should broadcast, accept and forge it [Signed with 2 Passphrases]", async () => {
             // Prepare a fresh wallet for the tests
             const passphrase = generateMnemonic();
             const secondPassphrase = generateMnemonic();
@@ -130,7 +120,7 @@ describe("Guardian set user permissions functional tests", () => {
             Identities.PublicKey.fromPassphrase(secrets[1]),
             Identities.PublicKey.fromPassphrase(secrets[2]),
         ];
-        it("should broadcast, accept and forge it [3-of-3 multisig] ", async () => {
+        it("should broadcast, accept and forge it [3-of-3 multisig]", async () => {
             // Funds to register a multi signature wallet
             const initialFunds = TransactionFactory.initialize(app)
                 .transfer(Identities.Address.fromPassphrase(passphrase), 50 * 1e8)
