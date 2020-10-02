@@ -3084,6 +3084,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@protokol/nft-generator-api", "workspace:packages/nft-generator-api"],
             ["@arkecosystem/core-api", "npm:3.0.0-alpha.13"],
             ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.13"],
+            ["@arkecosystem/crypto", "npm:3.0.0-alpha.13"],
             ["@hapi/boom", "npm:9.1.0"],
             ["@hapi/hapi", "npm:19.2.0"],
             ["@hapi/joi", "npm:17.1.1"],
