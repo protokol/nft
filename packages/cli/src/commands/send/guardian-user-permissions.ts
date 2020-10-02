@@ -10,7 +10,8 @@ export default class GuardianUserPermissions extends SendBase {
         ...SendBase.defaultFlags,
         groupNames: flags.string({ description: "Stringified array of group names" }),
         publicKey: flags.string({ description: "User's public key" }),
-        permissions: flags.string({ description: "Stringified array of permission objects" }),
+        allow: flags.string({ description: "Stringified array of allow permission objects" }),
+        deny: flags.string({ description: "Stringified array of deny permission objects" }),
     };
 
     public type = TransactionType.GuardianUserPermissions;
@@ -23,8 +24,11 @@ export default class GuardianUserPermissions extends SendBase {
         if (flags.publicKey) {
             mergedConfig.guardian.userPermissions.publicKey = flags.publicKey;
         }
-        if (flags.permissions) {
-            mergedConfig.guardian.userPermissions.permissions = JSON.parse(flags.permissions);
+        if (flags.allow) {
+            mergedConfig.guardian.userPermissions.allow = JSON.parse(flags.allow);
+        }
+        if (flags.deny) {
+            mergedConfig.guardian.userPermissions.deny = JSON.parse(flags.deny);
         }
 
         return mergedConfig;
