@@ -640,36 +640,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@arkecosystem/core-test-framework", [
-        ["npm:3.0.0-alpha.10", {
-          "packageLocation": "./.yarn/cache/@arkecosystem-core-test-framework-npm-3.0.0-alpha.10-69d3d7ff2a-5f806485ee.zip/node_modules/@arkecosystem/core-test-framework/",
-          "packageDependencies": [
-            ["@arkecosystem/core-test-framework", "npm:3.0.0-alpha.10"],
-            ["@arkecosystem/core", "npm:3.0.0-alpha.13"],
-            ["@arkecosystem/core-api", "npm:3.0.0-alpha.13"],
-            ["@arkecosystem/core-blockchain", "npm:3.0.0-alpha.13"],
-            ["@arkecosystem/core-cli", "npm:3.0.0-alpha.13"],
-            ["@arkecosystem/core-database", "npm:3.0.0-alpha.13"],
-            ["@arkecosystem/core-forger", "npm:3.0.0-alpha.13"],
-            ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.13"],
-            ["@arkecosystem/core-magistrate-crypto", "npm:3.0.0-alpha.13"],
-            ["@arkecosystem/core-p2p", "npm:3.0.0-alpha.13"],
-            ["@arkecosystem/core-state", "npm:3.0.0-alpha.13"],
-            ["@arkecosystem/crypto", "npm:3.0.0-alpha.13"],
-            ["bip39", "npm:3.0.2"],
-            ["bs58", "npm:4.0.1"],
-            ["bytebuffer", "npm:5.0.1"],
-            ["chance", "npm:1.1.7"],
-            ["env-paths", "npm:2.2.0"],
-            ["fast-memoize", "npm:2.5.2"],
-            ["fs-extra", "npm:8.1.0"],
-            ["got", "npm:11.7.0"],
-            ["jest-extended", "npm:0.11.5"],
-            ["lodash.clonedeep", "npm:4.5.0"],
-            ["tmp", "npm:0.2.1"],
-            ["xstate", "npm:4.13.0"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:3.0.0-alpha.13", {
           "packageLocation": "./.yarn/cache/@arkecosystem-core-test-framework-npm-3.0.0-alpha.13-571188aeec-29d0e7d7b1.zip/node_modules/@arkecosystem/core-test-framework/",
           "packageDependencies": [
@@ -2904,7 +2874,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@protokol/nft-base-api", "workspace:packages/nft-base-api"],
             ["@arkecosystem/core-api", "npm:3.0.0-alpha.13"],
+            ["@arkecosystem/core-database", "npm:3.0.0-alpha.13"],
             ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.13"],
+            ["@arkecosystem/core-state", "npm:3.0.0-alpha.13"],
+            ["@arkecosystem/core-test-framework", "npm:3.0.0-alpha.13"],
+            ["@arkecosystem/core-transaction-pool", "npm:3.0.0-alpha.13"],
+            ["@arkecosystem/core-transactions", "npm:3.0.0-alpha.13"],
+            ["@arkecosystem/crypto", "npm:3.0.0-alpha.13"],
             ["@hapi/boom", "npm:9.1.0"],
             ["@hapi/hapi", "npm:19.2.0"],
             ["@hapi/joi", "npm:17.1.1"],
@@ -2954,7 +2930,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@protokol/nft-base-crypto", "workspace:packages/nft-base-crypto"],
             ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.13"],
-            ["@arkecosystem/core-test-framework", "npm:3.0.0-alpha.10"],
+            ["@arkecosystem/core-test-framework", "npm:3.0.0-alpha.13"],
             ["@arkecosystem/crypto", "npm:3.0.0-alpha.13"],
             ["@protokol/utils", "workspace:packages/utils"],
             ["@sindresorhus/tsconfig", "npm:0.7.0"],

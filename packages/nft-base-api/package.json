@@ -31,21 +31,19 @@
 	"types": "dist/index",
 	"scripts": {
 		"build": "yarn clean && tsc",
-		"build:watch": "yarn build -w",
-		"build:docs": "typedoc --out docs src",
+		"build:watch": "yarn clean && yarn compile -w",
 		"clean": "rimraf .coverage dist tmp",
 		"test": "jest",
-		"test:watch": "jest --watchAll",
-		"coverage:report": "codecov",
-		"publish": "yarn build && yarn npm publish --access public --tolerate-republish",
-		"test:unit": "jest __tests__/unit/** --forceExit",
-		"test:unit:coverage": "jest __tests__/unit --coverage",
-		"test:integration": "CORE_ENV=test jest __tests__/integration --runInBand --forceExit",
-		"test:integration:coverage": "CORE_ENV=test jest __tests__/integration --coverage --runInBand --forceExit"
+		"prepublishOnly": "yarn build",
+		"test:unit": "jest __tests__/unit/** --forceExit --detectOpenHandles",
+		"test:unit:coverage": "jest __tests__/unit --coverage --detectOpenHandles",
+		"test:integration": "jest __tests__/integration --runInBand --forceExit",
+		"test:integration:coverage": "jest __tests__/integration --coverage --runInBand --forceExit"
 	},
 	"dependencies": {
 		"@arkecosystem/core-api": "^3.0.0-alpha.13",
 		"@arkecosystem/core-kernel": "^3.0.0-alpha.13",
+		"@arkecosystem/crypto": "^3.0.0-alpha.13",
 		"@hapi/boom": "^9.0.0",
 		"@hapi/hapi": "^19.0.0",
 		"@hapi/joi": "^17.1.0",
@@ -54,6 +52,12 @@
 		"latest-version": "^5.1.0"
 	},
 	"devDependencies": {
+		"@arkecosystem/core-database": "^3.0.0-alpha.13",
+		"@arkecosystem/core-kernel": "^3.0.0-alpha.13",
+		"@arkecosystem/core-state": "^3.0.0-alpha.13",
+		"@arkecosystem/core-test-framework": "^3.0.0-alpha.13",
+		"@arkecosystem/core-transaction-pool": "^3.0.0-alpha.13",
+		"@arkecosystem/core-transactions": "^3.0.0-alpha.13",
 		"@sindresorhus/tsconfig": "^0.7.0",
 		"@types/eslint": "^7.2.0",
 		"@types/eslint-plugin-prettier": "^3.1.0",
