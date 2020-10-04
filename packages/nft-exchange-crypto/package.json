@@ -31,13 +31,15 @@
     "types": "dist/index",
     "scripts": {
         "build": "yarn clean && tsc",
-        "build:watch": "yarn clean && yarn compile -w",
-        "clean": "del dist",
-        "compile": "../../../node_modules/typescript/bin/tsc",
-        "prepublishOnly": "yarn build",
-        "test": "cross-env CORE_ENV=test jest --runInBand --forceExit",
-        "test:unit": "cross-env jest __tests__/unit/** --forceExit",
-        "test:unit:coverage": "cross-env jest __tests__/unit --coverage"
+        "build:watch": "yarn build -w",
+        "build:docs": "typedoc --out docs src",
+        "clean": "rimraf .coverage dist tmp",
+        "test": "jest",
+        "test:watch": "jest --watchAll",
+        "coverage:report": "codecov",
+        "publish": "yarn build && yarn npm publish --access public --tolerate-republish",
+        "test:unit": "jest __tests__/unit/** --forceExit",
+        "test:unit:coverage": "jest __tests__/unit --coverage"
     },
     "dependencies": {
         "@arkecosystem/crypto": "^3.0.0-alpha.13",
@@ -45,7 +47,25 @@
         "bytebuffer": "^5.0.1"
     },
     "devDependencies": {
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.13"
+        "@arkecosystem/core-kernel": "^3.0.0-alpha.13",
+        "@arkecosystem/core-test-framework": "3.0.0-alpha.13",
+        "@sindresorhus/tsconfig": "~0.7.0",
+        "@types/jest": "~26.0.10",
+        "@types/node": "^14.11.2",
+        "@types/rimraf": "^3.0.0",
+        "@types/uuid": "^7.0.2",
+        "big-integer": "^1.6.48",
+        "buffer-es6": "^4.9.3",
+        "codecov": "^3.6.5",
+        "cross-env": "^7.0.2",
+        "jest": "~26.4.2",
+        "jest-extended": "0.11.5",
+        "process-es6": "^0.11.6",
+        "rimraf": "^3.0.2",
+        "ts-jest": "~26.3.0",
+        "typedoc": "~0.19.0",
+        "typescript": "~4.0.2",
+        "util": "^0.12.3"
     },
     "publishConfig": {
         "access": "public"

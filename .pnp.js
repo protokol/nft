@@ -3053,9 +3053,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@protokol/nft-exchange-crypto", "workspace:packages/nft-exchange-crypto"],
             ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.13"],
+            ["@arkecosystem/core-test-framework", "npm:3.0.0-alpha.13"],
             ["@arkecosystem/crypto", "npm:3.0.0-alpha.13"],
             ["@protokol/utils", "workspace:packages/utils"],
-            ["bytebuffer", "npm:5.0.1"]
+            ["@sindresorhus/tsconfig", "npm:0.7.0"],
+            ["@types/jest", "npm:26.0.14"],
+            ["@types/node", "npm:14.11.2"],
+            ["@types/rimraf", "npm:3.0.0"],
+            ["@types/uuid", "npm:7.0.4"],
+            ["big-integer", "npm:1.6.48"],
+            ["buffer-es6", "npm:4.9.3"],
+            ["bytebuffer", "npm:5.0.1"],
+            ["codecov", "npm:3.7.2"],
+            ["cross-env", "npm:7.0.2"],
+            ["jest", "npm:26.4.2"],
+            ["jest-extended", "npm:0.11.5"],
+            ["process-es6", "npm:0.11.6"],
+            ["rimraf", "npm:3.0.2"],
+            ["ts-jest", "virtual:e9f2cbc2c4e8f955adbdb38f9f196ee16f5f707f60f7e2702904ec2c5afafcb86e7e4cadc740f10f494cefcc7811945485435cf13db30d02f6ce3b59cd60e057#npm:26.3.0"],
+            ["typedoc", "virtual:772dececd512235e99a9e38182a55a0f55052c3e33f380b55e8f0344d53d51faedcf1d7423f670a8c1697dccd7f24010972ab697cb115fccca09a353fca8a767#npm:0.19.2"],
+            ["typescript", "patch:typescript@npm%3A4.0.3#builtin<compat/typescript>::version=4.0.3&hash=5b02a2"],
+            ["util", "npm:0.12.3"]
           ],
           "linkType": "SOFT",
         }]
