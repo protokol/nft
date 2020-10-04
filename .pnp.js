@@ -456,8 +456,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@arkecosystem/utils", "npm:1.2.0"],
             ["@hapi/joi", "npm:17.1.1"],
             ["@pm2/io", "npm:4.3.5"],
-            ["@protokol/nft-base-api", "npm:1.0.0-beta.26"],
-            ["@protokol/nft-base-transactions", "npm:1.0.0-beta.26"],
+            ["@protokol/nft-base-api", "workspace:packages/nft-base-api"],
+            ["@protokol/nft-base-transactions", "workspace:packages/nft-base-transactions"],
+            ["@protokol/nft-exchange-transactions", "workspace:packages/nft-exchange-transactions"],
             ["chalk", "npm:4.1.0"],
             ["cron", "npm:1.8.2"],
             ["dayjs", "npm:1.9.1"],
@@ -2854,21 +2855,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@protokol/nft-base-api", [
-        ["npm:1.0.0-beta.26", {
-          "packageLocation": "./.yarn/cache/@protokol-nft-base-api-npm-1.0.0-beta.26-f0e8e0925b-81782e4025.zip/node_modules/@protokol/nft-base-api/",
-          "packageDependencies": [
-            ["@protokol/nft-base-api", "npm:1.0.0-beta.26"],
-            ["@arkecosystem/core-api", "npm:3.0.0-alpha.13"],
-            ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.13"],
-            ["@hapi/boom", "npm:9.1.0"],
-            ["@hapi/hapi", "npm:19.2.0"],
-            ["@hapi/joi", "npm:17.1.1"],
-            ["@protokol/nft-base-crypto", "workspace:packages/nft-base-crypto"],
-            ["@protokol/nft-base-transactions", "workspace:packages/nft-base-transactions"],
-            ["latest-version", "npm:5.1.0"]
-          ],
-          "linkType": "HARD",
-        }],
         ["workspace:packages/nft-base-api", {
           "packageLocation": "./packages/nft-base-api/",
           "packageDependencies": [
@@ -2956,20 +2942,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@protokol/nft-base-transactions", [
-        ["npm:1.0.0-beta.26", {
-          "packageLocation": "./.yarn/cache/@protokol-nft-base-transactions-npm-1.0.0-beta.26-4eaa8f358e-0e1e7c370a.zip/node_modules/@protokol/nft-base-transactions/",
-          "packageDependencies": [
-            ["@protokol/nft-base-transactions", "npm:1.0.0-beta.26"],
-            ["@arkecosystem/core-database", "npm:3.0.0-alpha.13"],
-            ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.13"],
-            ["@arkecosystem/core-state", "npm:3.0.0-alpha.13"],
-            ["@arkecosystem/core-transactions", "npm:3.0.0-alpha.13"],
-            ["@arkecosystem/crypto", "npm:3.0.0-alpha.13"],
-            ["@protokol/nft-base-crypto", "workspace:packages/nft-base-crypto"],
-            ["ajv", "npm:6.12.5"]
-          ],
-          "linkType": "HARD",
-        }],
         ["workspace:packages/nft-base-transactions", {
           "packageLocation": "./packages/nft-base-transactions/",
           "packageDependencies": [
@@ -3086,11 +3058,42 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@arkecosystem/core-database", "npm:3.0.0-alpha.13"],
             ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.13"],
             ["@arkecosystem/core-state", "npm:3.0.0-alpha.13"],
+            ["@arkecosystem/core-test-framework", "npm:3.0.0-alpha.13"],
+            ["@arkecosystem/core-transaction-pool", "npm:3.0.0-alpha.13"],
             ["@arkecosystem/core-transactions", "npm:3.0.0-alpha.13"],
             ["@arkecosystem/crypto", "npm:3.0.0-alpha.13"],
             ["@protokol/nft-base-crypto", "workspace:packages/nft-base-crypto"],
             ["@protokol/nft-base-transactions", "workspace:packages/nft-base-transactions"],
-            ["@protokol/nft-exchange-crypto", "workspace:packages/nft-exchange-crypto"]
+            ["@protokol/nft-exchange-crypto", "workspace:packages/nft-exchange-crypto"],
+            ["@sindresorhus/tsconfig", "npm:0.7.0"],
+            ["@types/eslint", "npm:7.2.3"],
+            ["@types/eslint-plugin-prettier", "npm:3.1.0"],
+            ["@types/hapi__joi", "npm:17.1.4"],
+            ["@types/is-url-superb", "npm:3.0.0"],
+            ["@types/jest", "npm:26.0.14"],
+            ["@types/lodash.orderby", "npm:4.6.6"],
+            ["@types/node", "npm:14.11.2"],
+            ["@types/prettier", "npm:2.1.1"],
+            ["@types/rimraf", "npm:3.0.0"],
+            ["@types/semver", "npm:7.3.3"],
+            ["ajv", "npm:6.12.4"],
+            ["big-integer", "npm:1.6.48"],
+            ["bip39", "npm:3.0.2"],
+            ["buffer-es6", "npm:4.9.3"],
+            ["codecov", "npm:3.7.2"],
+            ["delay", "npm:4.4.0"],
+            ["eslint", "npm:7.8.1"],
+            ["eslint-plugin-prettier", "virtual:a70d54d77e5c82a7a2ab2fd69a2f33c097318c8571135823be52f11551c916757603b513c3b2b135c036c4319a25450d31ec80c465f996da09d22a739cff3668#npm:3.1.4"],
+            ["jest", "npm:26.4.2"],
+            ["jest-extended", "npm:0.11.5"],
+            ["jest-localstorage-mock", "npm:2.4.3"],
+            ["pg", "npm:8.3.3"],
+            ["prettier", "npm:2.1.1"],
+            ["process-es6", "npm:0.11.6"],
+            ["rimraf", "npm:3.0.2"],
+            ["ts-jest", "virtual:e9f2cbc2c4e8f955adbdb38f9f196ee16f5f707f60f7e2702904ec2c5afafcb86e7e4cadc740f10f494cefcc7811945485435cf13db30d02f6ce3b59cd60e057#npm:26.3.0"],
+            ["typedoc", "virtual:772dececd512235e99a9e38182a55a0f55052c3e33f380b55e8f0344d53d51faedcf1d7423f670a8c1697dccd7f24010972ab697cb115fccca09a353fca8a767#npm:0.19.2"],
+            ["typescript", "patch:typescript@npm%3A4.0.3#builtin<compat/typescript>::version=4.0.3&hash=5b02a2"]
           ],
           "linkType": "SOFT",
         }]
@@ -4262,6 +4265,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["ajv", [
+        ["npm:6.12.4", {
+          "packageLocation": "./.yarn/cache/ajv-npm-6.12.4-c4dcb5109f-50d72b0a10.zip/node_modules/ajv/",
+          "packageDependencies": [
+            ["ajv", "npm:6.12.4"],
+            ["fast-deep-equal", "npm:3.1.3"],
+            ["fast-json-stable-stringify", "npm:2.1.0"],
+            ["json-schema-traverse", "npm:0.4.1"],
+            ["uri-js", "npm:4.4.0"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:6.12.5", {
           "packageLocation": "./.yarn/cache/ajv-npm-6.12.5-15b6d1a59d-d9ec559bd7.zip/node_modules/ajv/",
           "packageDependencies": [

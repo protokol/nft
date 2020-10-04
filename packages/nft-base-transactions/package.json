@@ -36,7 +36,7 @@
         "prepublishOnly": "yarn build",
         "test:unit": "jest __tests__/unit/** --forceExit --detectOpenHandles",
         "test:unit:coverage": "jest __tests__/unit --coverage --detectOpenHandles",
-        "test:functional": "CORE_ENV=test jest __tests__/functional/transaction-forging/nft-burn.test.ts --forceExit --detectOpenHandles",
+        "test:functional": "CORE_ENV=test jest __tests__/functional --forceExit --detectOpenHandles",
         "test:functional:coverage": "CORE_ENV=test jest __tests__/functional --coverage --forceExit --detectOpenHandles"
     },
     "dependencies": {
