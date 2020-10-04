@@ -2636,8 +2636,8 @@ __metadata:
     "@arkecosystem/core-transactions": ^3.0.0-alpha.13
     "@arkecosystem/crypto": ^3.0.0-alpha.13
     "@protokol/nft-base-crypto": "workspace:packages/nft-base-crypto"
-    "@protokol/nft-base-transactions": ^1.0.0-beta.30
-    "@protokol/nft-exchange-crypto": ^1.0.0-beta.30
+    "@protokol/nft-base-transactions": "workspace:packages/nft-base-transactions"
+    "@protokol/nft-exchange-crypto": "workspace:packages/nft-exchange-crypto"
     "@sindresorhus/tsconfig": ~0.7.0
     "@types/eslint": ^7.2.2
     "@types/eslint-plugin-prettier": ^3.1.0
