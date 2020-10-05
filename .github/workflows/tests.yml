@@ -25,11 +25,8 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
 
-            - name: Install
-              run: yarn install --immutable --immutable-cache
-
-            - name: Build
-              run: yarn run build
+            - name: Install And Build
+              run: yarn && yarn build
 
             - name: TEST UNIT BASE-CRYPTO
               run: cd packages/nft-base-crypto && yarn test:unit:coverage --coverageDirectory .coverage/unit-base-crypto --maxWorkers=2
