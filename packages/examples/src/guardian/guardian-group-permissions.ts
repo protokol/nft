@@ -1,7 +1,7 @@
 import { GuardianConnection } from "@protokol/client";
 import { ARKCrypto, Builders, Enums, Transactions as GuardianTransactions } from "@protokol/guardian-crypto";
 
-export const guardianGroupPermission = async () => {
+export const guardianGroupPermission = async (): Promise<any> => {
 	// Configure manager and register transaction type
 	ARKCrypto.Managers.configManager.setFromPreset("testnet");
 	ARKCrypto.Managers.configManager.setHeight(2);
