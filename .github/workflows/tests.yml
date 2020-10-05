@@ -10,7 +10,7 @@ on:
 
 jobs:
     unit:
-        name: Y2-UNIT (API, CRYPTO, TRANSACTIONS, CLIENT) TESTS
+        name: UNIT (API, CRYPTO, TRANSACTIONS, CLIENT)
         runs-on: ubuntu-latest
 
         strategy:
