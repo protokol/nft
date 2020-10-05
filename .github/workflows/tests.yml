@@ -19,18 +19,18 @@ jobs:
 
         steps:
             - name: Checkout NFT-PLUGINS
-			  uses: actions/checkout@v2
+							uses: actions/checkout@v2
 
-			- name: Use Node.js ${{ matrix.node-version }}
-			  uses: actions/setup-node@v1
-			  with:
-		      node-version: ${{ matrix.node-version }}
+						- name: Use Node.js ${{ matrix.node-version }}
+							uses: actions/setup-node@v1
+							with:
+								node-version: ${{ matrix.node-version }}
 
-			- name: Install
-			  run: yarn install --immutable --immutable-cache
+						- name: Install
+							run: yarn install --immutable --immutable-cache
 
-			- name: Build
-			  run: yarn run build
+						- name: Build
+							run: yarn run build
 
             - name: TEST UNIT BASE-CRYPTO
               run: |
@@ -108,18 +108,18 @@ jobs:
 
         steps:
             - name: Checkout NFT-PLUGINS
-			  uses: actions/checkout@v2
+							uses: actions/checkout@v2
 
-			- name: Use Node.js ${{ matrix.node-version }}
-			  uses: actions/setup-node@v1
-			  with:
-		      node-version: ${{ matrix.node-version }}
+						- name: Use Node.js ${{ matrix.node-version }}
+							uses: actions/setup-node@v1
+							with:
+								node-version: ${{ matrix.node-version }}
 
-			- name: Install
-			  run: yarn install --immutable --immutable-cache
+						- name: Install
+							run: yarn install --immutable --immutable-cache
 
-			- name: Build
-			  run: yarn run build
+						- name: Build
+							run: yarn run build
 
             - name: Create .core/database directory
               run: mkdir -p $HOME/.core/database
@@ -127,4 +127,4 @@ jobs:
             - name: TEST
               run: |
                   cd packages/nft-base-transactions
-				  yarn test __tests__/functional/transaction-forging/nft-register-collection.test.ts
+				  				yarn test __tests__/functional/transaction-forging/nft-register-collection.test.ts
