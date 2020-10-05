@@ -2265,7 +2265,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@protokol/client@^1.0.0-beta.30, @protokol/client@workspace:packages/client":
+"@protokol/client@workspace:packages/client":
   version: 0.0.0-use.local
   resolution: "@protokol/client@workspace:packages/client"
   dependencies:
@@ -2315,9 +2315,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@protokol/examples@workspace:packages/examples"
   dependencies:
-    "@protokol/client": ^1.0.0-beta.30
-    "@protokol/nft-base-crypto": ^1.0.0-beta.30
-    "@protokol/nft-exchange-crypto": ^1.0.0-beta.30
+    "@protokol/client": "workspace:packages/client"
+    "@protokol/guardian-crypto": "workspace:packages/guardian-crypto"
+    "@protokol/nft-base-crypto": "workspace:packages/nft-base-crypto"
+    "@protokol/nft-exchange-crypto": "workspace:packages/nft-exchange-crypto"
     "@sindresorhus/tsconfig": ^0.7.0
     "@types/eslint": ^7.2.0
     "@types/eslint-plugin-prettier": ^3.1.0
@@ -2536,7 +2537,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@protokol/nft-base-crypto@^1.0.0-beta.30, @protokol/nft-base-crypto@workspace:packages/nft-base-crypto":
+"@protokol/nft-base-crypto@workspace:packages/nft-base-crypto":
   version: 0.0.0-use.local
   resolution: "@protokol/nft-base-crypto@workspace:packages/nft-base-crypto"
   dependencies:
@@ -2666,7 +2667,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@protokol/nft-exchange-crypto@^1.0.0-beta.30, @protokol/nft-exchange-crypto@workspace:packages/nft-exchange-crypto":
+"@protokol/nft-exchange-crypto@workspace:packages/nft-exchange-crypto":
   version: 0.0.0-use.local
   resolution: "@protokol/nft-exchange-crypto@workspace:packages/nft-exchange-crypto"
   dependencies:

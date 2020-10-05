@@ -2720,6 +2720,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@protokol/examples", "workspace:packages/examples"],
             ["@protokol/client", "workspace:packages/client"],
+            ["@protokol/guardian-crypto", "workspace:packages/guardian-crypto"],
             ["@protokol/nft-base-crypto", "workspace:packages/nft-base-crypto"],
             ["@protokol/nft-exchange-crypto", "workspace:packages/nft-exchange-crypto"],
             ["@sindresorhus/tsconfig", "npm:0.7.0"],
