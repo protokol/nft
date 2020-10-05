@@ -1,5 +1,6 @@
 import { Container, Contracts, Services } from "@arkecosystem/core-kernel";
 import { Indexers } from "@protokol/guardian-transactions";
+import { IUserPermissions } from "@protokol/guardian-transactions/dist/interfaces";
 
 import { UserResource } from "../resources";
 
@@ -33,8 +34,8 @@ export class UserSearchService {
 
 	private getUserResourceFromWallet(wallet: Contracts.State.Wallet): UserResource {
 		return {
-			publicKey: wallet.publicKey,
-			...wallet.getAttribute("guardian.userPermissions"),
+			publicKey: wallet.publicKey!,
+			...wallet.getAttribute<IUserPermissions>("guardian.userPermissions"),
 		};
 	}
 

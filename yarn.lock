@@ -2366,31 +2366,56 @@ __metadata:
   resolution: "@protokol/guardian-api@workspace:packages/guardian-api"
   dependencies:
     "@arkecosystem/core-api": ^3.0.0-alpha.13
+    "@arkecosystem/core-database": ^3.0.0-alpha.13
     "@arkecosystem/core-kernel": ^3.0.0-alpha.13
+    "@arkecosystem/core-state": ^3.0.0-alpha.13
+    "@arkecosystem/core-test-framework": ^3.0.0-alpha.13
+    "@arkecosystem/core-transaction-pool": ^3.0.0-alpha.13
+    "@arkecosystem/core-transactions": ^3.0.0-alpha.13
+    "@arkecosystem/crypto": ^3.0.0-alpha.13
     "@hapi/boom": ^9.0.0
     "@hapi/hapi": ^19.0.0
     "@hapi/joi": ^17.1.0
-    "@protokol/guardian-crypto": ^1.0.0-beta.30
-    "@protokol/guardian-transactions": ^1.0.0-beta.30
+    "@protokol/guardian-crypto": "workspace:packages/guardian-crypto"
+    "@protokol/guardian-transactions": "workspace:packages/guardian-transactions"
+    "@sindresorhus/tsconfig": ^0.7.0
+    "@types/eslint": ^7.2.0
+    "@types/eslint-plugin-prettier": ^3.1.0
     "@types/hapi__boom": ^7.4.1
-    "@types/hapi__joi": ^17.0.0
+    "@types/hapi__joi": ^16.0.4
+    "@types/is-url-superb": 3.0.0
+    "@types/jest": ^26.0.10
+    "@types/lodash.orderby": 4.6.6
+    "@types/node": ^14.0.27
     "@types/prettier": ^2.0.0
     "@types/rimraf": ^3.0.0
+    "@types/semver": 7.3.2
     "@types/uuid": ^7.0.2
-    "@typescript-eslint/eslint-plugin": ^2.25.0
-    "@typescript-eslint/parser": ^2.25.0
-    codecov: ^3.6.5
+    "@typescript-eslint/eslint-plugin": ^3.9.1
+    "@typescript-eslint/parser": ^3.9.1
+    codecov: ^3.7.2
     cross-env: ^7.0.2
-    eslint: ^7.0.0
-    eslint-config-prettier: ^6.10.1
+    eslint: ^7.7.0
+    eslint-config-prettier: ^6.11.0
     eslint-plugin-jest: ^23.8.2
     eslint-plugin-prettier: ^3.1.2
     eslint-plugin-simple-import-sort: ^5.0.2
+    got: ^11.5.2
+    jest: ^26.4.0
+    jest-extended: ^0.11.5
+    jest-localstorage-mock: ^2.4.3
     latest-version: ^5.1.0
+    nock: ^13.0.4
+    npm-check-updates: ~8.0.1
+    prettier: ^2.0.5
+    rimraf: ^3.0.2
+    ts-jest: ~26.3.0
+    typedoc: ~0.19.0
+    typescript: ~4.0.2
   languageName: unknown
   linkType: soft
 
-"@protokol/guardian-crypto@^1.0.0-beta.30, @protokol/guardian-crypto@workspace:packages/guardian-crypto":
+"@protokol/guardian-crypto@workspace:packages/guardian-crypto":
   version: 0.0.0-use.local
   resolution: "@protokol/guardian-crypto@workspace:packages/guardian-crypto"
   dependencies:
@@ -2419,29 +2444,48 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@protokol/guardian-transactions@^1.0.0-beta.30, @protokol/guardian-transactions@workspace:packages/guardian-transactions":
+"@protokol/guardian-transactions@workspace:packages/guardian-transactions":
   version: 0.0.0-use.local
   resolution: "@protokol/guardian-transactions@workspace:packages/guardian-transactions"
   dependencies:
     "@arkecosystem/core-database": ^3.0.0-alpha.13
     "@arkecosystem/core-kernel": ^3.0.0-alpha.13
     "@arkecosystem/core-state": ^3.0.0-alpha.13
+    "@arkecosystem/core-test-framework": ^3.0.0-alpha.13
+    "@arkecosystem/core-transaction-pool": ^3.0.0-alpha.13
     "@arkecosystem/core-transactions": ^3.0.0-alpha.13
     "@arkecosystem/crypto": ^3.0.0-alpha.13
-    "@arkecosystem/utils": ^1.2.0
-    "@protokol/guardian-crypto": ^1.0.0-beta.30
-    "@types/prettier": ^2.0.0
+    "@arkecosystem/utils": "*"
+    "@protokol/guardian-crypto": "workspace:packages/guardian-crypto"
+    "@sindresorhus/tsconfig": ~0.7.0
+    "@types/eslint": ^7.2.2
+    "@types/eslint-plugin-prettier": ^3.1.0
+    "@types/hapi__joi": 17.1.4
+    "@types/is-url-superb": 3.0.0
+    "@types/jest": ^26.0.12
+    "@types/lodash.orderby": 4.6.6
+    "@types/node": ^14.6.2
+    "@types/prettier": ^2.1.0
     "@types/rimraf": ^3.0.0
-    "@types/uuid": ^7.0.2
-    "@typescript-eslint/eslint-plugin": ^2.25.0
-    "@typescript-eslint/parser": ^2.25.0
+    "@types/semver": 7.3.3
+    ajv: 6.12.4
+    big-integer: ^1.6.48
+    bip39: 3.0.2
+    buffer-es6: ^4.9.3
     codecov: ^3.6.5
-    cross-env: ^7.0.2
-    eslint: ^7.0.0
-    eslint-config-prettier: ^6.10.1
-    eslint-plugin-jest: ^23.8.2
-    eslint-plugin-prettier: ^3.1.2
-    eslint-plugin-simple-import-sort: ^5.0.2
+    delay: 4.4.0
+    eslint: 7.8.1
+    eslint-plugin-prettier: ^3.1.4
+    jest: ~26.4.2
+    jest-extended: ~0.11.5
+    jest-localstorage-mock: 2.4.3
+    pg: 8.3.3
+    prettier: 2.1.1
+    process-es6: ^0.11.6
+    rimraf: ^3.0.2
+    ts-jest: ~26.3.0
+    typedoc: ~0.19.0
+    typescript: ~4.0.2
   languageName: unknown
   linkType: soft
 
@@ -3049,13 +3093,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/hapi__joi@npm:^17.0.0":
-  version: 17.1.6
-  resolution: "@types/hapi__joi@npm:17.1.6"
-  checksum: 177258c8e24da331077d6e031060cbbfc625abf5978bf9a4f14254a43b34d5982d6459ad37bdc34ce25ecc3587c24a8eab258ecd90cb7eca0111aa3a89ee66b0
-  languageName: node
-  linkType: hard
-
 "@types/http-cache-semantics@npm:*":
   version: 4.0.0
   resolution: "@types/http-cache-semantics@npm:4.0.0"
@@ -3322,25 +3359,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^2.25.0":
-  version: 2.34.0
-  resolution: "@typescript-eslint/eslint-plugin@npm:2.34.0"
-  dependencies:
-    "@typescript-eslint/experimental-utils": 2.34.0
-    functional-red-black-tree: ^1.0.1
-    regexpp: ^3.0.0
-    tsutils: ^3.17.1
-  peerDependencies:
-    "@typescript-eslint/parser": ^2.0.0
-    eslint: ^5.0.0 || ^6.0.0
-    typescript: "*"
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 8d800f4726487df5ce4d573e62effa250f168658759e32a976eae355cc3130d82e3a918542df273fec428b608d9d50e65ad02d596ba0c24de7fbb4ddb7897dee
-  languageName: node
-  linkType: hard
-
 "@typescript-eslint/eslint-plugin@npm:^3.9.1":
   version: 3.10.1
   resolution: "@typescript-eslint/eslint-plugin@npm:3.10.1"
@@ -3362,20 +3380,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/experimental-utils@npm:2.34.0, @typescript-eslint/experimental-utils@npm:^2.5.0":
-  version: 2.34.0
-  resolution: "@typescript-eslint/experimental-utils@npm:2.34.0"
-  dependencies:
-    "@types/json-schema": ^7.0.3
-    "@typescript-eslint/typescript-estree": 2.34.0
-    eslint-scope: ^5.0.0
-    eslint-utils: ^2.0.0
-  peerDependencies:
-    eslint: "*"
-  checksum: 53cbbcfe67ddc53b4bc23f78b3726b0c2de5ea04ee849ca8b619f1fcad16f644d9d72bb3ea9a08aabfc605ea4a9769fe1b81931af09ce2223ec49de749cde2d4
-  languageName: node
-  linkType: hard
-
 "@typescript-eslint/experimental-utils@npm:3.10.1":
   version: 3.10.1
   resolution: "@typescript-eslint/experimental-utils@npm:3.10.1"
@@ -3391,21 +3395,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^2.25.0":
+"@typescript-eslint/experimental-utils@npm:^2.5.0":
   version: 2.34.0
-  resolution: "@typescript-eslint/parser@npm:2.34.0"
+  resolution: "@typescript-eslint/experimental-utils@npm:2.34.0"
   dependencies:
-    "@types/eslint-visitor-keys": ^1.0.0
-    "@typescript-eslint/experimental-utils": 2.34.0
+    "@types/json-schema": ^7.0.3
     "@typescript-eslint/typescript-estree": 2.34.0
-    eslint-visitor-keys: ^1.1.0
+    eslint-scope: ^5.0.0
+    eslint-utils: ^2.0.0
   peerDependencies:
-    eslint: ^5.0.0 || ^6.0.0
-    typescript: "*"
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: a3fe33d422d5cfe97e36c983253d33d2f5907657f9bb61a129c58656441acf9e90ec525a5273239cc876bc43e031056b2796924f3e64e8ca1295674fb30a2eec
+    eslint: "*"
+  checksum: 53cbbcfe67ddc53b4bc23f78b3726b0c2de5ea04ee849ca8b619f1fcad16f644d9d72bb3ea9a08aabfc605ea4a9769fe1b81931af09ce2223ec49de749cde2d4
   languageName: node
   linkType: hard
 
@@ -6043,7 +6043,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^6.10.1, eslint-config-prettier@npm:^6.11.0":
+"eslint-config-prettier@npm:^6.11.0":
   version: 6.12.0
   resolution: "eslint-config-prettier@npm:6.12.0"
   dependencies:
@@ -6161,7 +6161,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^7.0.0, eslint@npm:^7.7.0, eslint@npm:latest":
+"eslint@npm:^7.7.0, eslint@npm:latest":
   version: 7.10.0
   resolution: "eslint@npm:7.10.0"
   dependencies:
