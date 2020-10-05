@@ -101,7 +101,7 @@ jobs:
                   yarn test:functional:coverage
 
     functional-exchange-transactions:
-        name: AUCTION
+        name: EXCHANGE-TRANSACTIONS
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -140,7 +140,7 @@ jobs:
                   yarn test:functional:coverage
 
     functional-guardian-transactions:
-        name: GROUP-PERMISSIONS
+        name: GUARDIAN-TRANSACTIONS
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -179,7 +179,7 @@ jobs:
                   yarn test:functional:coverage
 
     api-integration:
-        name: INTEGRATION API
+        name: INTEGRATION-API
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -212,17 +212,17 @@ jobs:
             - name: Install and build packages
               run: yarn install --immutable --immutable-cache && yarn build
 
-            - name: INTEGRATION BASE-API
+            - name: BASE-API
               run: |
                   cd packages/nft-base-api
                   yarn test:integration:coverage --coverageDirectory .coverage/integration-base-api
 
-            - name: INTEGRATION EXCHANGE-API
+            - name: EXCHANGE-API
               run: |
                   cd packages/nft-exchange-api
                   yarn test:integration:coverage --coverageDirectory .coverage/integration-exchange-api
 
-            - name: INTEGRATION GUARDIAN-API
+            - name: GUARDIAN-API
               run: |
                   cd packages/guardian-api
                   yarn test:integration:coverage --coverageDirectory .coverage/integration-guardian-api
