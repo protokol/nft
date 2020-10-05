@@ -18,6 +18,7 @@ const sendTransaction = async (app: App, type: number, quantity: number) => {
 export const action: Action = {
 	description: "Send transaction",
 	handler: async (app, type, quantity) => {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		await sendTransaction(app, type!, quantity!);
 	},
 };
