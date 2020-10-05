@@ -1,8 +1,8 @@
 {
+	"private": true,
 	"name": "@protokol/examples",
 	"description": "A TypeScript Examples Supporting Protokol Transaction Type Functionalities",
-	"version": "1.0.0-beta.30",
-	"homepage": "https://docs.protokol.com/nft/",
+	"homepage": "https://docs.protokol.com/",
 	"bugs": {
 		"url": "https://github.com/protokol/nft-plugins/issues"
 	},
@@ -79,8 +79,5 @@
 	},
 	"engines": {
 		"node": ">=10.x"
-	},
-	"publishConfig": {
-		"access": "public"
 	}
 }
