@@ -2394,21 +2394,28 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@protokol/guardian-crypto@workspace:packages/guardian-crypto"
   dependencies:
+    "@arkecosystem/core-kernel": ^3.0.0-alpha.13
+    "@arkecosystem/core-test-framework": 3.0.0-alpha.13
     "@arkecosystem/crypto": ^3.0.0-alpha.13
-    "@protokol/utils": ^1.0.0-beta.21
-    "@types/prettier": ^2.0.0
+    "@protokol/utils": "workspace:packages/utils"
+    "@sindresorhus/tsconfig": ~0.7.0
+    "@types/jest": ~26.0.10
+    "@types/node": ^14.11.2
     "@types/rimraf": ^3.0.0
     "@types/uuid": ^7.0.2
-    "@typescript-eslint/eslint-plugin": ^2.25.0
-    "@typescript-eslint/parser": ^2.25.0
+    big-integer: ^1.6.48
+    buffer-es6: ^4.9.3
     bytebuffer: ^5.0.1
     codecov: ^3.6.5
     cross-env: ^7.0.2
-    eslint: ^7.0.0
-    eslint-config-prettier: ^6.10.1
-    eslint-plugin-jest: ^23.8.2
-    eslint-plugin-prettier: ^3.1.2
-    eslint-plugin-simple-import-sort: ^5.0.2
+    jest: ~26.4.2
+    jest-extended: 0.11.5
+    process-es6: ^0.11.6
+    rimraf: ^3.0.2
+    ts-jest: ~26.3.0
+    typedoc: ~0.19.0
+    typescript: ~4.0.2
+    util: ^0.12.3
   languageName: unknown
   linkType: soft
 
@@ -2750,7 +2757,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@protokol/utils@^1.0.0-beta.21, @protokol/utils@^1.0.0-beta.30, @protokol/utils@workspace:packages/utils":
+"@protokol/utils@^1.0.0-beta.30, @protokol/utils@workspace:packages/utils":
   version: 0.0.0-use.local
   resolution: "@protokol/utils@workspace:packages/utils"
   dependencies:
