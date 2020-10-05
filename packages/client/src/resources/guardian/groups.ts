@@ -3,7 +3,7 @@ import { ApiResponse, ApiResponseWithPagination, Resource } from "@arkecosystem/
 import { AllGroupsQuery, Group, User } from "../../resources-types/guardian";
 
 export class Groups extends Resource {
-	public async index(query?: AllGroupsQuery): Promise<ApiResponseWithPagination<Group>> {
+	public async index(query?: AllGroupsQuery): Promise<ApiResponseWithPagination<Group[]>> {
 		return this.sendGet("guardian/groups", query);
 	}
 
@@ -11,7 +11,7 @@ export class Groups extends Resource {
 		return this.sendGet(`guardian/groups/${groupName}`);
 	}
 
-	public async users(groupName: string): Promise<ApiResponse<User>> {
+	public async users(groupName: string): Promise<ApiResponse<User[]>> {
 		return this.sendGet(`guardian/groups/${groupName}/users`);
 	}
 }
