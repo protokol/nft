@@ -38,12 +38,8 @@
 		"build": "yarn clean && tsc",
 		"build:watch": "yarn build -w",
 		"clean": "rimraf .coverage dist tmp",
-		"format": "yarn lint && yarn prettier",
-		"lint": " -c .json -p .json 'src/**/*.ts' --fix",
-		"prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\"",
 		"postpack": "rm -f oclif.manifest.json",
-		"prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
-		"compile": "../../../node_modules/typescript/bin/tsc"
+		"prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme"
 	},
 	"dependencies": {
 		"@arkecosystem/core-kernel": "^3.0.0-alpha.13",
@@ -51,6 +47,7 @@
 		"@arkecosystem/crypto": "^3.0.0-alpha.13",
 		"@oclif/command": "^1",
 		"@oclif/plugin-help": "^3",
+		"@protokol/guardian-crypto": "workspace:packages/guardian-crypto",
 		"@protokol/nft-base-crypto": "workspace:packages/nft-base-crypto",
 		"@protokol/nft-exchange-crypto": "workspace:packages/nft-exchange-crypto",
 		"fs-extra": "^9.0.1"
