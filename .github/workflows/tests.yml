@@ -50,10 +50,49 @@ jobs:
               run: cd packages/client && yarn test:coverage --coverageDirectory .coverage/unit-client --maxWorkers=2
 
             - name: TEST UNIT GUARDIAN-CRYPTO
-              run: cd packages/guardian-cypto && yarn test:unit:coverage --coverageDirectory .coverage/unit-guardian-crypto --maxWorkers=2
+              run: cd packages/guardian-crypto && yarn test:unit:coverage --coverageDirectory .coverage/unit-guardian-crypto --maxWorkers=2
 
             - name: TEST UNIT GUARDIAN-TRANSACTIONS
               run: cd packages/guardian-transactions && yarn test:unit:coverage --coverageDirectory .coverage/unit-guardian-transactions --maxWorkers=2
 
             - name: TEST UNIT GUARDIAN-API
               run: cd packages/guardian-api && yarn test:unit:coverage --coverageDirectory .coverage/unit-guardian-api --maxWorkers=2
+
+    functional-register-collection-transactions:
+        name: REGISTER COLLECTION TEST
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-base-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-register-collection.test.ts
