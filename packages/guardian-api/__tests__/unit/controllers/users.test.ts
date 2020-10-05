@@ -5,12 +5,8 @@ import { Wallets } from "@arkecosystem/core-state";
 import { Generators, passphrases } from "@arkecosystem/core-test-framework";
 import { Managers, Transactions } from "@arkecosystem/crypto";
 import Hapi from "@hapi/hapi";
-import {
-    Enums,
-    Interfaces as GuardianInterfaces,
-    Transactions as GuardianTransactions,
-} from "@protokol/guardian-crypto";
-import { Indexers } from "@protokol/guardian-transactions";
+import { Enums, Transactions as GuardianTransactions } from "@protokol/guardian-crypto";
+import { Indexers, Interfaces } from "@protokol/guardian-transactions";
 
 import {
     buildWallet,
@@ -27,13 +23,13 @@ let userController: UsersController;
 const users: any = [
     {
         groups: ["group name1"],
-        permissions: [
-            { kind: Enums.PermissionKind.Allow, types: [{ transactionType: 9000, transactionTypeGroup: 0 }] },
-        ],
+        allow: [{ transactionType: 9000, transactionTypeGroup: 0 }],
+        deny: [],
     },
     {
         groups: ["group name2"],
-        permissions: [],
+        allow: [],
+        deny: [],
     },
 ];
 
@@ -43,29 +39,21 @@ const groups = {
         priority: 1,
         default: false,
         active: true,
-        permissions: [
+        allow: [
             {
-                types: [
-                    {
-                        transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
-                        transactionTypeGroup: Enums.GuardianTransactionGroup,
-                    },
-                ],
-                kind: Enums.PermissionKind.Allow,
+                transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
+                transactionTypeGroup: Enums.GuardianTransactionGroup,
             },
         ],
+        deny: [],
     },
     "group name2": {
         name: "group name2",
         priority: 2,
         default: false,
         active: true,
-        permissions: [
-            {
-                types: [{ transactionType: 9000, transactionTypeGroup: 0 }],
-                kind: Enums.PermissionKind.Deny,
-            },
-        ],
+        deny: [{ transactionType: 9000, transactionTypeGroup: 0 }],
+        allow: [],
     },
 };
 
@@ -80,10 +68,7 @@ beforeEach(async () => {
     userController = app.resolve<UsersController>(UsersController);
 
     const groupsPermissionsCache = app.get<
-        Contracts.Kernel.CacheStore<
-            GuardianInterfaces.GuardianGroupPermissionsAsset["name"],
-            GuardianInterfaces.GuardianGroupPermissionsAsset
-        >
+        Contracts.Kernel.CacheStore<Interfaces.IGroupPermissions["name"], Interfaces.IGroupPermissions>
     >(Container.Identifiers.CacheService);
 
     // set mock users and groups
@@ -92,11 +77,7 @@ beforeEach(async () => {
         wallet.setAttribute("guardian.userPermissions", users[i]);
         walletRepository.getIndex(Indexers.GuardianIndexers.UserPermissionsIndexer).index(wallet);
         users[i].publicKey = wallet.publicKey;
-        await groupsPermissionsCache.put(
-            users[i].groups[0],
-            groups[users[i].groups[0]] as GuardianInterfaces.GuardianGroupPermissionsAsset,
-            -1,
-        );
+        await groupsPermissionsCache.put(users[i].groups[0], groups[users[i].groups[0]], -1);
     }
 });
 

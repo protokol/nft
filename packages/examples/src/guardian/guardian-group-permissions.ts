@@ -1,5 +1,5 @@
 import { GuardianConnection } from "@protokol/client";
-import { ARKCrypto, Builders, Enums, Transactions as GuardianTransactions } from "@protokol/guardian-crypto";
+import { ARKCrypto, Builders, Transactions as GuardianTransactions } from "@protokol/guardian-crypto";
 
 export const guardianGroupPermission = async (): Promise<any> => {
 	// Configure manager and register transaction type
@@ -21,12 +21,7 @@ export const guardianGroupPermission = async (): Promise<any> => {
 	const transaction = new Builders.GuardianGroupPermissionsBuilder()
 		.GuardianGroupPermissions({
 			name: "Test Guardian Permission Group",
-			permissions: [
-				{
-					kind: Enums.PermissionKind.Allow,
-					types: [{ transactionType: 1, transactionTypeGroup: 1 }],
-				},
-			],
+			allow: [{ transactionType: 1, transactionTypeGroup: 1 }],
 			priority: 1,
 			active: true,
 			default: false,

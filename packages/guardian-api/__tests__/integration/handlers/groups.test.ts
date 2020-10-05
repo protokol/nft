@@ -2,8 +2,8 @@ import "@arkecosystem/core-test-framework/dist/matchers";
 
 import { Container, Contracts } from "@arkecosystem/core-kernel";
 import { ApiHelpers } from "@arkecosystem/core-test-framework";
-import { Enums, Interfaces } from "@protokol/guardian-crypto";
-import { Indexers } from "@protokol/guardian-transactions";
+import { Enums } from "@protokol/guardian-crypto";
+import { Indexers, Interfaces } from "@protokol/guardian-transactions";
 
 import { setUp, tearDown } from "../__support__/setup";
 
@@ -16,29 +16,21 @@ const groups = [
         priority: 1,
         default: false,
         active: true,
-        permissions: [
+        allow: [
             {
-                types: [
-                    {
-                        transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
-                        transactionTypeGroup: Enums.GuardianTransactionGroup,
-                    },
-                ],
-                kind: Enums.PermissionKind.Allow,
+                transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
+                transactionTypeGroup: Enums.GuardianTransactionGroup,
             },
         ],
+        deny: [],
     },
     {
         name: "group name2",
         priority: 2,
         default: false,
         active: true,
-        permissions: [
-            {
-                types: [{ transactionType: 9000, transactionTypeGroup: 0 }],
-                kind: Enums.PermissionKind.Deny,
-            },
-        ],
+        deny: [{ transactionType: 9000, transactionTypeGroup: 0 }],
+        allow: [],
     },
 ];
 
@@ -47,10 +39,7 @@ beforeAll(async () => {
     api = new ApiHelpers(app);
 
     const groupsPermissionsCache = app.getTagged<
-        Contracts.Kernel.CacheStore<
-            Interfaces.GuardianGroupPermissionsAsset["name"],
-            Interfaces.GuardianGroupPermissionsAsset
-        >
+        Contracts.Kernel.CacheStore<Interfaces.IGroupPermissions["name"], Interfaces.IGroupPermissions>
     >(Container.Identifiers.CacheService, "cache", "@protokol/guardian-transactions");
 
     // set mock groups
@@ -97,7 +86,8 @@ describe("API - Groups", () => {
             const publicKey = "02def27da9336e7fbf63131b8d7e5c9f45b296235db035f1f4242c507398f0f21d";
             const user = {
                 groups: ["group name1"],
-                permissions: [],
+                allow: [],
+                deny: [],
             };
             const wallet = walletRepository.findByPublicKey(publicKey);
             wallet.setAttribute("guardian.userPermissions", user);

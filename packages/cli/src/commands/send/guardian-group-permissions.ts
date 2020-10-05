@@ -10,7 +10,8 @@ export default class GuardianGroupPermissions extends SendBase {
 		...SendBase.defaultFlags,
 		name: flags.string({ description: "Group name" }),
 		priority: flags.integer({ description: "Group priority" }),
-		permissions: flags.string({ description: "Stringified array of permission objects" }),
+		allow: flags.string({ description: "Stringified array of allow permission objects" }),
+		deny: flags.string({ description: "Stringified array of deny permission objects" }),
 		active: flags.boolean({ description: "Flag for setting group active", default: false }),
 		default: flags.boolean({ description: "Flag for setting group as default", default: false }),
 	};
@@ -31,8 +32,11 @@ export default class GuardianGroupPermissions extends SendBase {
 		if (flags.default !== undefined) {
 			mergedConfig.guardian.groupPermissions.default = flags.default;
 		}
-		if (flags.permissions) {
-			mergedConfig.guardian.groupPermissions.permissions = JSON.parse(flags.permissions);
+		if (flags.allow) {
+			mergedConfig.guardian.groupPermissions.allow = JSON.parse(flags.allow);
+		}
+		if (flags.deny) {
+			mergedConfig.guardian.groupPermissions.deny = JSON.parse(flags.deny);
 		}
 
 		return mergedConfig;

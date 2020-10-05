@@ -1,7 +1,8 @@
-import { Permissions } from "./groups";
+import { Permission } from "./groups";
 
 export interface User {
 	publicKey: string;
 	groups: string[];
-	permissions: Permissions[];
+	allow: Permission[];
+	deny: Permission[];
 }

@@ -4,7 +4,6 @@ import { passphrases } from "@arkecosystem/core-test-framework";
 import { Managers, Transactions } from "@arkecosystem/crypto";
 
 import { GuardianGroupPermissionsBuilder } from "../../../src/builders";
-import { PermissionKind } from "../../../src/enums";
 import { GuardianGroupPermissionsTransaction } from "../../../src/transactions";
 
 const groupPermission = {
@@ -12,7 +11,8 @@ const groupPermission = {
     priority: 1,
     default: false,
     active: true,
-    permissions: [{ types: [{ transactionType: 9000, transactionTypeGroup: 0 }], kind: PermissionKind.Allow }],
+    allow: [{ transactionType: 9000, transactionTypeGroup: 0 }],
+    deny: [{ transactionType: 9000, transactionTypeGroup: 0 }],
 };
 
 describe("Guardian set group permissions tests", () => {
@@ -21,7 +21,7 @@ describe("Guardian set group permissions tests", () => {
     Transactions.TransactionRegistry.registerTransactionType(GuardianGroupPermissionsTransaction);
 
     describe("Ser/deser tests", () => {
-        it("should ser/deser correctly", () => {
+        it("should ser/deser correctly with allow/deny permissions", () => {
             const actual = new GuardianGroupPermissionsBuilder()
                 .GuardianGroupPermissions(groupPermission)
                 .nonce("4")
@@ -32,6 +32,39 @@ describe("Guardian set group permissions tests", () => {
             const deserialized = Transactions.Deserializer.deserialize(serialized);
 
             expect(deserialized.data.asset!.setGroupPermissions).toStrictEqual(groupPermission);
+        });
+
+        it("should ser/deser correctly without allow/deny permissions", () => {
+            const groupPermissions = { ...groupPermission };
+            delete groupPermissions.allow;
+            delete groupPermissions.deny;
+
+            const actual = new GuardianGroupPermissionsBuilder()
+                .GuardianGroupPermissions(groupPermissions)
+                .nonce("4")
+                .sign(passphrases[0])
+                .getStruct();
+
+            const serialized = Transactions.TransactionFactory.fromData(actual).serialized.toString("hex");
+            const deserialized = Transactions.Deserializer.deserialize(serialized);
+
+            expect(deserialized.data.asset!.setGroupPermissions).toStrictEqual(groupPermissions);
+        });
+
+        it("should ser/deser correctly with only allow permissions", () => {
+            const groupPermissions = { ...groupPermission };
+            delete groupPermissions.allow;
+
+            const actual = new GuardianGroupPermissionsBuilder()
+                .GuardianGroupPermissions(groupPermissions)
+                .nonce("4")
+                .sign(passphrases[0])
+                .getStruct();
+
+            const serialized = Transactions.TransactionFactory.fromData(actual).serialized.toString("hex");
+            const deserialized = Transactions.Deserializer.deserialize(serialized);
+
+            expect(deserialized.data.asset!.setGroupPermissions).toStrictEqual(groupPermissions);
         });
 
         it("should throw if asset is undefined", () => {

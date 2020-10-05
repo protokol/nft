@@ -4,7 +4,6 @@ import { passphrases } from "@arkecosystem/core-test-framework";
 import { Managers, Transactions } from "@arkecosystem/crypto";
 
 import { GuardianGroupPermissionsBuilder } from "../../../src/builders";
-import { PermissionKind } from "../../../src/enums";
 import { GuardianGroupPermissionsTransaction } from "../../../src/transactions";
 
 const groupPermission = {
@@ -12,10 +11,10 @@ const groupPermission = {
     priority: 1,
     default: false,
     active: true,
-    permissions: [{ types: [{ transactionType: 9000, transactionTypeGroup: 0 }], kind: PermissionKind.Allow }],
+    allow: [{ transactionType: 9000, transactionTypeGroup: 0 }],
 };
 
-describe("Guardian Group Permissions tests ", () => {
+describe("Guardian Group Permissions tests", () => {
     describe("Verify tests", () => {
         Managers.configManager.setFromPreset("testnet");
         Managers.configManager.setHeight(2);

@@ -1,11 +1,15 @@
 import { Container, Contracts, Providers, Utils as AppUtils } from "@arkecosystem/core-kernel";
 import { Interfaces } from "@arkecosystem/crypto";
-import { Enums, Interfaces as GuardianInterfaces } from "@protokol/guardian-crypto";
+import { Interfaces as GuardianInterfaces } from "@protokol/guardian-crypto";
 
-import { IUserPermissions } from "./interfaces";
+import { IGroupPermissions, IUserPermissions } from "./interfaces";
 import { GuardianIndexers } from "./wallet-indexes";
 
 const pluginName = require("../package.json").name;
+
+interface Permission extends GuardianInterfaces.IPermission {
+    isAllowed: boolean;
+}
 
 @Container.injectable()
 export class PermissionResolver {
@@ -19,10 +23,7 @@ export class PermissionResolver {
 
     @Container.inject(Container.Identifiers.CacheService)
     @Container.tagged("cache", pluginName)
-    private readonly groupsPermissionsCache!: Contracts.Kernel.CacheStore<
-        GuardianInterfaces.GuardianGroupPermissionsAsset["name"],
-        GuardianInterfaces.GuardianGroupPermissionsAsset
-    >;
+    private readonly groupsPermissionsCache!: Contracts.Kernel.CacheStore<IGroupPermissions["name"], IGroupPermissions>;
 
     @Container.inject(Container.Identifiers.StateStore)
     private readonly stateStore!: Contracts.State.StateStore;
@@ -45,24 +46,27 @@ export class PermissionResolver {
 
         if (this.walletRepository.hasByIndex(GuardianIndexers.UserPermissionsIndexer, publicKey)) {
             const userWallet = this.walletRepository.findByIndex(GuardianIndexers.UserPermissionsIndexer, publicKey);
-            const { groups, permissions } = userWallet.getAttribute<IUserPermissions>("guardian.userPermissions");
+            const { groups, allow, deny } = userWallet.getAttribute<IUserPermissions>("guardian.userPermissions");
 
             // check user permissions
-            const userPermission = this.findPermissionByTransaction(permissions, transaction);
+            const userPermission = this.findPermissionByTransaction(
+                this.transformPermissions(allow, deny),
+                transaction,
+            );
             if (userPermission) {
-                return this.isAllowed(userPermission.kind);
+                return userPermission.isAllowed;
             }
 
             // check user's groups permissions
             const userGroups = (await Promise.all(
                 groups.map((groupName) => this.groupsPermissionsCache.get(groupName)),
-            )) as GuardianInterfaces.GuardianGroupPermissionsAsset[];
+            )) as IGroupPermissions[];
             const groupPermission = this.findPermissionByTransaction(
                 this.getSortedAndActivePermissionsFromGroups(userGroups),
                 transaction,
             );
             if (groupPermission) {
-                return this.isAllowed(groupPermission.kind);
+                return groupPermission.isAllowed;
             }
         }
 
@@ -73,39 +77,30 @@ export class PermissionResolver {
             transaction,
         );
         if (defaultPermission) {
-            return this.isAllowed(defaultPermission.kind);
+            return defaultPermission.isAllowed;
         }
 
         // default plugin permission
-        return this.isAllowed(this.configuration.get<Enums.PermissionKind>("defaultRuleBehaviour")!);
+        return this.configuration.get<boolean>("transactionsAllowedByDefault")!;
     }
 
     private findPermissionByTransaction(
-        permissions: GuardianInterfaces.IPermission[],
+        permissions: Permission[],
         transaction: Interfaces.ITransaction,
-    ): GuardianInterfaces.IPermission | undefined {
-        return permissions.find((permission) => {
-            return (
-                permission.types.findIndex(
-                    (tx) =>
-                        tx.transactionTypeGroup === transaction.typeGroup && tx.transactionType === transaction.type,
-                ) !== -1
-            );
-        });
+    ): Permission | undefined {
+        return permissions.find(
+            (permission) =>
+                permission.transactionTypeGroup === transaction.typeGroup &&
+                permission.transactionType === transaction.type,
+        );
     }
 
-    private getSortedAndActivePermissionsFromGroups(
-        groups: GuardianInterfaces.GuardianGroupPermissionsAsset[],
-    ): GuardianInterfaces.IPermission[] {
+    private getSortedAndActivePermissionsFromGroups(groups: IGroupPermissions[]): Permission[] {
         return groups
             .filter((group) => group.active)
             .sort((a, b) => b.priority - a.priority)
-            .map((group) => group.permissions)
+            .map((group) => this.transformPermissions(group.allow, group.deny))
             .flat();
-    }
-
-    private isAllowed(kind: Enums.PermissionKind): boolean {
-        return kind === Enums.PermissionKind.Allow;
     }
 
     private getGenesisWalletPublicKey() {
@@ -115,5 +110,12 @@ export class PermissionResolver {
         }
 
         return this.genesisWalletPublicKey;
+    }
+
+    private transformPermissions(
+        allow: GuardianInterfaces.IPermission[],
+        deny: GuardianInterfaces.IPermission[],
+    ): Permission[] {
+        return [...allow.map((x) => ({ ...x, isAllowed: true })), ...deny.map((x) => ({ ...x, isAllowed: false }))];
     }
 }

@@ -1,25 +1,20 @@
-import { PermissionKind } from "./enums";
-
-export interface Transaction {
+export interface IPermission {
     transactionType: number;
     transactionTypeGroup: number;
-}
-
-export interface IPermission {
-    types: Transaction[];
-    kind: PermissionKind;
 }
 
 export interface GuardianUserPermissionsAsset {
     groupNames?: string[];
     publicKey: string;
-    permissions?: IPermission[];
+    allow?: IPermission[];
+    deny?: IPermission[];
 }
 
 export interface GuardianGroupPermissionsAsset {
     name: string;
-    permissions: IPermission[];
     priority: number;
     active: boolean;
     default: boolean;
+    allow?: IPermission[];
+    deny?: IPermission[];
 }

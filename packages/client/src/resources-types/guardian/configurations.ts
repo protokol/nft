@@ -21,7 +21,9 @@ export interface GuardianConfigurations {
 	transactions: {
 		defaults: {
 			maxDefinedGroupsPerUser: number;
-			defaultRuleBehaviour: number;
+			transactionsAllowedByDefault: boolean;
+			masterPublicKey: string | undefined;
+			feeType: number;
 		};
 	};
 }
