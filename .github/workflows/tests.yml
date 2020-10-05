@@ -1,0 +1,130 @@
+name: NFT
+
+on:
+    push:
+        branches:
+            - "master"
+            - "develop"
+    pull_request:
+        types: [ready_for_review, synchronize, opened]
+
+jobs:
+    unit:
+        name: Y2-UNIT (API, CRYPTO, TRANSACTIONS, CLIENT) TESTS
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+
+        steps:
+            - name: Checkout NFT-PLUGINS
+			  uses: actions/checkout@v2
+
+			- name: Use Node.js ${{ matrix.node-version }}
+			  uses: actions/setup-node@v1
+			  with:
+		      node-version: ${{ matrix.node-version }}
+
+			- name: Install
+			  run: yarn install --immutable --immutable-cache
+
+			- name: Build
+			  run: yarn run build
+
+            - name: TEST UNIT BASE-CRYPTO
+              run: |
+                  cd packages/nft-base-crypto
+                  yarn test:unit:coverage --coverageDirectory .coverage/unit-base-crypto --maxWorkers=2
+
+            - name: TEST UNIT BASE-TRANSACTIONS
+              run: |
+                  cd packages/nft-base-transactions
+                  yarn test:unit:coverage --coverageDirectory .coverage/unit-base-transactions --maxWorkers=2
+
+            - name: TEST UNIT EXCHANGE-CRYPTO
+              run: |
+                  cd packages/nft-exchange-crypto
+                  yarn test:unit:coverage --coverageDirectory .coverage/unit-exchange-crypto --maxWorkers=2
+
+            - name: TEST UNIT EXCHANGE-TRANSACTIONS
+              run: |
+                  cd packages/nft-exchange-transactions
+                  yarn test:unit:coverage --coverageDirectory .coverage/unit-exchange-transactions --maxWorkers=2
+
+            - name: TEST UNIT BASE-API
+              run: |
+                 cd packages/nft-base-api
+                 yarn test:unit:coverage --coverageDirectory .coverage/unit-base-api --maxWorkers=2
+
+            - name: TEST UNIT EXCHANGE-API
+              run: |
+                  cd packages/nft-exchange-api
+                  yarn test:unit:coverage --coverageDirectory .coverage/unit-exchange-api --maxWorkers=2
+
+            - name: TEST UNIT CLIENT
+              run: |
+                  cd packages/client
+                  yarn test:coverage --coverageDirectory .coverage/unit-client --maxWorkers=2
+
+            - name: TEST UNIT GUARDIAN-CRYPTO
+              run: |
+                  cd packages/guardian-crypto
+                  yarn test:unit:coverage --coverageDirectory .coverage/unit-guardian-crypto --maxWorkers=2
+
+            - name: TEST UNIT GUARDIAN-TRANSACTIONS
+              run: |
+                  cd packages/guardian-transactions
+                  yarn test:unit:coverage --coverageDirectory .coverage/unit-guardian-transactions --maxWorkers=2
+
+            - name: TEST UNIT GUARDIAN-API
+              run: |
+                  cd packages/guardian-api
+                  yarn test:unit:coverage --coverageDirectory .coverage/unit-guardian-api --maxWorkers=2
+
+    functional-register-collection-transactions:
+        name: REGISTER COLLECTION TEST
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - name: Checkout NFT-PLUGINS
+			  uses: actions/checkout@v2
+
+			- name: Use Node.js ${{ matrix.node-version }}
+			  uses: actions/setup-node@v1
+			  with:
+		      node-version: ${{ matrix.node-version }}
+
+			- name: Install
+			  run: yarn install --immutable --immutable-cache
+
+			- name: Build
+			  run: yarn run build
+
+            - name: Create .core/database directory
+              run: mkdir -p $HOME/.core/database
+
+            - name: TEST
+              run: |
+                  cd packages/nft-base-transactions
+				  yarn test __tests__/functional/transaction-forging/nft-register-collection.test.ts
