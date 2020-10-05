@@ -5,6 +5,7 @@ import { Interfaces as GuardianInterfaces } from "@protokol/guardian-crypto";
 
 import { FeeType } from "../enums";
 import { DuplicatePermissionsError, StaticFeeMismatchError, TransactionTypeDoesntExistError } from "../errors";
+import { IGroupPermissions } from "../interfaces";
 
 const pluginName = require("../../package.json").name;
 
@@ -18,8 +19,8 @@ export abstract class GuardianTransactionHandler extends Handlers.TransactionHan
     @Container.inject(Container.Identifiers.CacheService)
     @Container.tagged("cache", pluginName)
     protected readonly groupsPermissionsCache!: Contracts.Kernel.CacheStore<
-        GuardianInterfaces.GuardianGroupPermissionsAsset["name"],
-        GuardianInterfaces.GuardianGroupPermissionsAsset
+        IGroupPermissions["name"],
+        IGroupPermissions
     >;
 
     @Container.inject(Container.Identifiers.PluginConfiguration)
@@ -90,24 +91,38 @@ export abstract class GuardianTransactionHandler extends Handlers.TransactionHan
         return lastTx;
     }
 
-    protected checkUniquePermissions(permissions: GuardianInterfaces.IPermission[]): void {
+    protected verifyPermissions(
+        asset: GuardianInterfaces.GuardianUserPermissionsAsset | GuardianInterfaces.GuardianGroupPermissionsAsset,
+    ): void {
+        const { allow, deny } = this.sanitizePermissions(asset.allow, asset.deny);
+        const mergedPermissions = [...allow, ...deny];
+        this.verifyPermissionsTypes(mergedPermissions);
+        this.checkUniquePermissions(mergedPermissions);
+    }
+
+    protected sanitizePermissions(
+        allow: GuardianInterfaces.IPermission[] | undefined,
+        deny: GuardianInterfaces.IPermission[] | undefined,
+    ): { allow: GuardianInterfaces.IPermission[]; deny: GuardianInterfaces.IPermission[] } {
+        return { allow: allow || [], deny: deny || [] };
+    }
+
+    private checkUniquePermissions(permissions: GuardianInterfaces.IPermission[]): void {
         const duplicates = {};
         for (const permission of permissions) {
-            for (const type of permission.types) {
-                if (!duplicates[type.transactionTypeGroup]) {
-                    duplicates[type.transactionTypeGroup] = {};
-                }
-
-                if (duplicates[type.transactionTypeGroup][type.transactionType]) {
-                    throw new DuplicatePermissionsError();
-                }
-
-                duplicates[type.transactionTypeGroup][type.transactionType] = true;
+            if (!duplicates[permission.transactionTypeGroup]) {
+                duplicates[permission.transactionTypeGroup] = {};
             }
+
+            if (duplicates[permission.transactionTypeGroup][permission.transactionType]) {
+                throw new DuplicatePermissionsError();
+            }
+
+            duplicates[permission.transactionTypeGroup][permission.transactionType] = true;
         }
     }
 
-    protected verifyPermissionsTypes(permissions: GuardianInterfaces.IPermission[]): void {
+    private verifyPermissionsTypes(permissions: GuardianInterfaces.IPermission[]): void {
         const transactionHandlerRegistry = this.app.getTagged<Handlers.Registry>(
             Container.Identifiers.TransactionHandlerRegistry,
             "state",
@@ -116,15 +131,13 @@ export abstract class GuardianTransactionHandler extends Handlers.TransactionHan
         const registeredTransactionHandlers = transactionHandlerRegistry.getRegisteredHandlers();
 
         for (const permission of permissions) {
-            for (const type of permission.types) {
-                if (!this.isRegisteredHandler(registeredTransactionHandlers, type)) {
-                    throw new TransactionTypeDoesntExistError();
-                }
+            if (!this.isRegisteredHandler(registeredTransactionHandlers, permission)) {
+                throw new TransactionTypeDoesntExistError();
             }
         }
     }
 
-    private isRegisteredHandler(handlers: Handlers.TransactionHandler[], type: GuardianInterfaces.Transaction) {
+    private isRegisteredHandler(handlers: Handlers.TransactionHandler[], type: GuardianInterfaces.IPermission) {
         return handlers.find((handler) => {
             const constructor = handler.getConstructor();
             return constructor.type === type.transactionType && constructor.typeGroup === type.transactionTypeGroup;

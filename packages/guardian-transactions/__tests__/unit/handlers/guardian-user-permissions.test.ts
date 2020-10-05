@@ -16,7 +16,7 @@ import {
     UserInToManyGroupsError,
 } from "../../../src/errors";
 import { GuardianApplicationEvents } from "../../../src/events";
-import { IUserPermissions } from "../../../src/interfaces";
+import { IGroupPermissions, IUserPermissions } from "../../../src/interfaces";
 import { GuardianIndexers } from "../../../src/wallet-indexes";
 import { deregisterTransactions } from "../utils/utils";
 
@@ -35,28 +35,25 @@ let actual: Interfaces.ITransaction;
 const publicKey = "03287bfebba4c7881a0509717e71b34b63f31e40021c321f89ae04f84be6d6ac37";
 const userPermissions: IUserPermissions = {
     groups: ["group name"],
-    permissions: [
+    allow: [
         {
-            types: [
-                {
-                    transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
-                    transactionTypeGroup: Enums.GuardianTransactionGroup,
-                },
-            ],
-            kind: Enums.PermissionKind.Allow,
+            transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
+            transactionTypeGroup: Enums.GuardianTransactionGroup,
         },
     ],
+    deny: [],
 };
 
 const buildUserPermissionsAsset = (
     publicKey,
-    groups,
-    permissions,
-): GuardianInterfaces.GuardianUserPermissionsAsset => ({ groupNames: groups, publicKey, permissions });
+    groups?,
+    allow?,
+    deny?,
+): GuardianInterfaces.GuardianUserPermissionsAsset => ({ groupNames: groups, publicKey, allow, deny });
 
-const buildUserPermissionsTx = (publicKey, groups, permissions) =>
+const buildUserPermissionsTx = (publicKey, groups?, allow?, deny?) =>
     new Builders.GuardianUserPermissionsBuilder()
-        .GuardianUserPermissions(buildUserPermissionsAsset(publicKey, groups, permissions))
+        .GuardianUserPermissions(buildUserPermissionsAsset(publicKey, groups, allow, deny))
         .nonce("1")
         .sign(passphrases[0])
         .build();
@@ -79,19 +76,12 @@ beforeEach(async () => {
     );
     walletRepository.index(senderWallet);
 
-    actual = buildUserPermissionsTx(publicKey, userPermissions.groups, userPermissions.permissions);
+    actual = buildUserPermissionsTx(publicKey, userPermissions.groups, userPermissions.allow, userPermissions.deny);
 
-    const groupsPermissionsCache = app.get<
-        Contracts.Kernel.CacheStore<
-            GuardianInterfaces.GuardianGroupPermissionsAsset["name"],
-            GuardianInterfaces.GuardianGroupPermissionsAsset
-        >
-    >(Container.Identifiers.CacheService);
-    await groupsPermissionsCache.put(
-        userPermissions.groups[0],
-        {} as GuardianInterfaces.GuardianGroupPermissionsAsset,
-        -1,
+    const groupsPermissionsCache = app.get<Contracts.Kernel.CacheStore<IGroupPermissions["name"], IGroupPermissions>>(
+        Container.Identifiers.CacheService,
     );
+    await groupsPermissionsCache.put(userPermissions.groups[0], {} as IGroupPermissions, -1);
 });
 
 afterEach(() => {
@@ -160,42 +150,27 @@ describe("Guardian set user permissions tests", () => {
         });
 
         it("should not check maxDefinedGroupsPerUser if user doesn't belong in any groups", async () => {
-            actual = buildUserPermissionsTx(publicKey, undefined, userPermissions.permissions);
+            actual = buildUserPermissionsTx(publicKey);
 
             await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).toResolve();
         });
 
         it("should throw if groupName doesn't exists in cache", async () => {
-            actual = buildUserPermissionsTx(publicKey, ["non existing group"], undefined);
+            actual = buildUserPermissionsTx(publicKey, ["non existing group"]);
 
             await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
                 GroupDoesntExistError,
             );
         });
 
-        it("should throw if types array in permissions contains duplicates", async () => {
-            const type = {
-                transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
-                transactionTypeGroup: Enums.GuardianTransactionGroup,
-            };
-            const permissions = [{ types: [type, type], kind: Enums.PermissionKind.Allow }];
-            actual = buildUserPermissionsTx(publicKey, undefined, permissions);
-
-            await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
-                DuplicatePermissionsError,
-            );
-        });
-
         it("should throw if permissions array contains duplicates", async () => {
-            const type = {
-                transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
-                transactionTypeGroup: Enums.GuardianTransactionGroup,
-            };
             const permissions = [
-                { types: [type], kind: Enums.PermissionKind.Allow },
-                { types: [type], kind: Enums.PermissionKind.Deny },
+                {
+                    transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
+                    transactionTypeGroup: Enums.GuardianTransactionGroup,
+                },
             ];
-            actual = buildUserPermissionsTx(publicKey, undefined, permissions);
+            actual = buildUserPermissionsTx(publicKey, undefined, permissions, permissions);
 
             await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
                 DuplicatePermissionsError,
@@ -212,21 +187,20 @@ describe("Guardian set user permissions tests", () => {
                 transactionTypeGroup: Enums.GuardianTransactionGroup,
             };
             const typeThree = { transactionType: 0, transactionTypeGroup: 1 };
-            const permissions = [
-                { types: [typeOne, typeTwo], kind: Enums.PermissionKind.Allow },
-                { types: [typeThree], kind: Enums.PermissionKind.Deny },
-            ];
-            actual = buildUserPermissionsTx(publicKey, undefined, permissions);
+            const allow = [typeOne, typeTwo];
+            const deny = [typeThree];
+            actual = buildUserPermissionsTx(publicKey, undefined, allow, deny);
 
             await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).toResolve();
         });
 
         it("should throw if types array in permissions contains non existing type", async () => {
-            const type = {
-                transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions + 10,
-                transactionTypeGroup: Enums.GuardianTransactionGroup,
-            };
-            const permissions = [{ types: [type, type], kind: Enums.PermissionKind.Allow }];
+            const permissions = [
+                {
+                    transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions + 10,
+                    transactionTypeGroup: Enums.GuardianTransactionGroup,
+                },
+            ];
             actual = buildUserPermissionsTx(publicKey, undefined, permissions);
 
             await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
@@ -243,7 +217,7 @@ describe("Guardian set user permissions tests", () => {
         it("should throw because set user permissions for specified publicKey is already in pool", async () => {
             await app.get<Mempool>(Container.Identifiers.TransactionPoolMempool).addTransaction(actual);
 
-            const actualTwo = buildUserPermissionsTx(publicKey, undefined, undefined);
+            const actualTwo = buildUserPermissionsTx(publicKey);
             await expect(handler.throwIfCannotEnterPool(actualTwo)).rejects.toThrow();
         });
     });
@@ -279,14 +253,15 @@ describe("Guardian set user permissions tests", () => {
         });
 
         it("should set empty array if groupNames or permissions arrays are missing", async () => {
-            actual = buildUserPermissionsTx(publicKey, undefined, undefined);
+            actual = buildUserPermissionsTx(publicKey);
             await expect(handler.apply(actual)).toResolve();
 
             expect(
                 senderWallet.getAttribute<GuardianInterfaces.GuardianUserPermissionsAsset>("guardian.userPermissions"),
             ).toStrictEqual({
                 groups: [],
-                permissions: [],
+                allow: [],
+                deny: [],
             });
 
             expect(
@@ -318,17 +293,13 @@ describe("Guardian set user permissions tests", () => {
             await handler.apply(actual);
             const oldPermissions: IUserPermissions = {
                 groups: [],
-                permissions: [
+                allow: [
                     {
-                        types: [
-                            {
-                                transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
-                                transactionTypeGroup: Enums.GuardianTransactionGroup,
-                            },
-                        ],
-                        kind: Enums.PermissionKind.Deny,
+                        transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
+                        transactionTypeGroup: Enums.GuardianTransactionGroup,
                     },
                 ],
+                deny: [],
             };
             transactionHistoryService.listByCriteria.mockImplementationOnce(() => ({
                 results: [
@@ -337,7 +308,8 @@ describe("Guardian set user permissions tests", () => {
                             setUserPermissions: buildUserPermissionsAsset(
                                 publicKey,
                                 oldPermissions.groups,
-                                oldPermissions.permissions,
+                                oldPermissions.allow,
+                                oldPermissions.deny,
                             ),
                         },
                     },

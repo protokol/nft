@@ -28,17 +28,13 @@ describe("API - 1.0 - Guardian/Resources - Groups", () => {
             "03287bfebba4c7881a0509717e71b34b63f31e40021c321f89ae04f84be6d6ac37",
         );
         expect(response.body.data[0].groups).toStrictEqual(["group name"]);
-        expect(response.body.data[0].permissions).toStrictEqual([
+        expect(response.body.data[0].allow).toStrictEqual([
             {
-                kind: 1,
-                types: [
-                    {
-                        transactionType: 1,
-                        transactionTypeGroup: 9002,
-                    },
-                ],
+                transactionType: 1,
+                transactionTypeGroup: 9002,
             },
         ]);
+        expect(response.body.data[0].deny).toBeArrayOfSize(0);
     });
 
     it('should call \\"get\\" method', async () => {
@@ -49,17 +45,13 @@ describe("API - 1.0 - Guardian/Resources - Groups", () => {
             "03287bfebba4c7881a0509717e71b34b63f31e40021c321f89ae04f84be6d6ac37",
         );
         expect(response.body.data.groups).toStrictEqual(["group name"]);
-        expect(response.body.data.permissions).toStrictEqual([
+        expect(response.body.data.allow).toStrictEqual([
             {
-                kind: 1,
-                types: [
-                    {
-                        transactionType: 1,
-                        transactionTypeGroup: 9002,
-                    },
-                ],
+                transactionType: 1,
+                transactionTypeGroup: 9002,
             },
         ]);
+        expect(response.body.data.deny).toBeArrayOfSize(0);
     });
 
     it('should call \\"users\\" method', async () => {
@@ -73,16 +65,12 @@ describe("API - 1.0 - Guardian/Resources - Groups", () => {
         expect(response.body.data[0].priority).toStrictEqual(1);
         expect(response.body.data[0].active).toStrictEqual(false);
         expect(response.body.data[0].default).toStrictEqual(false);
-        expect(response.body.data[0].permissions).toStrictEqual([
+        expect(response.body.data[0].allow).toStrictEqual([
             {
-                kind: 1,
-                types: [
-                    {
-                        transactionType: 1,
-                        transactionTypeGroup: 9002,
-                    },
-                ],
+                transactionType: 1,
+                transactionTypeGroup: 9002,
             },
         ]);
+        expect(response.body.data[0].deny).toBeArrayOfSize(0);
     });
 });

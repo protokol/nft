@@ -5,15 +5,11 @@ export interface Group {
     priority: number;
     active: boolean;
     default: boolean;
-    permissions: Permissions[];
+    allow: Permission[];
+    deny: Permission[];
 }
 
-export interface Permissions {
-    kind: number;
-    types: Types[];
-}
-
-export interface Types {
+export interface Permission {
     transactionType: number;
     transactionTypeGroup: number;
 }

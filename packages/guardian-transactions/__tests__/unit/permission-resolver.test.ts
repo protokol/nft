@@ -5,9 +5,9 @@ import { Wallets } from "@arkecosystem/core-state";
 import { Mocks, passphrases } from "@arkecosystem/core-test-framework";
 import { Interfaces } from "@arkecosystem/crypto";
 import { cloneDeep } from "@arkecosystem/utils";
-import { Builders, Enums, Interfaces as GuardianInterfaces } from "@protokol/guardian-crypto";
+import { Builders, Enums } from "@protokol/guardian-crypto";
 
-import { Identifiers as GuardianIdentifiers } from "../../src/interfaces";
+import { Identifiers as GuardianIdentifiers, IGroupPermissions } from "../../src/interfaces";
 import { PermissionResolver } from "../../src/permission-resolver";
 import { GuardianIndexers } from "../../src/wallet-indexes";
 import { buildWallet, initApp } from "./__support__/app";
@@ -30,17 +30,13 @@ const groupPermissionsAsset = {
     priority: 1,
     default: false,
     active: true,
-    permissions: [
+    allow: [
         {
-            types: [
-                {
-                    transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
-                    transactionTypeGroup: Enums.GuardianTransactionGroup,
-                },
-            ],
-            kind: Enums.PermissionKind.Allow,
+            transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
+            transactionTypeGroup: Enums.GuardianTransactionGroup,
         },
     ],
+    deny: [],
 };
 
 const defaultMockBlock: Partial<Interfaces.IBlock> = {
@@ -66,16 +62,13 @@ beforeEach(() => {
 
     actual = buildGroupPermissionsTx();
 
-    groupsPermissionsCache = app.get<
-        Contracts.Kernel.CacheStore<
-            GuardianInterfaces.GuardianGroupPermissionsAsset["name"],
-            GuardianInterfaces.GuardianGroupPermissionsAsset
-        >
-    >(Container.Identifiers.CacheService);
+    groupsPermissionsCache = app.get<Contracts.Kernel.CacheStore<IGroupPermissions["name"], IGroupPermissions>>(
+        Container.Identifiers.CacheService,
+    );
     permissionResolver = app.get<PermissionResolver>(GuardianIdentifiers.PermissionsResolver);
     app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set(
-        "defaultRuleBehaviour",
-        Enums.PermissionKind.Allow,
+        "transactionsAllowedByDefault",
+        true,
     );
 
     Mocks.StateStore.setBlock(defaultMockBlock);
@@ -95,8 +88,8 @@ describe("Guardian permission resolver tests", () => {
 
         it("should deny transaction if no permissions set and default setting is set to Deny", async () => {
             app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set(
-                "defaultRuleBehaviour",
-                Enums.PermissionKind.Deny,
+                "transactionsAllowedByDefault",
+                false,
             );
             const isTxAllowed = await permissionResolver.resolve(actual);
 
@@ -110,8 +103,12 @@ describe("Guardian permission resolver tests", () => {
         });
 
         it("should deny transaction if no user permissions set and active default group set to Deny", async () => {
-            const defaultGroup = { ...cloneDeep(groupPermissionsAsset), default: true };
-            defaultGroup.permissions[0].kind = Enums.PermissionKind.Deny;
+            const defaultGroup = {
+                ...groupPermissionsAsset,
+                default: true,
+                deny: groupPermissionsAsset.allow,
+                allow: [],
+            };
             await groupsPermissionsCache.put(defaultGroup.name, defaultGroup, -1);
 
             const isTxAllowed = await permissionResolver.resolve(actual);
@@ -120,8 +117,10 @@ describe("Guardian permission resolver tests", () => {
         });
 
         it("should allow transaction if no user permissions set and active default group set to Allow", async () => {
-            const defaultGroup = { ...cloneDeep(groupPermissionsAsset), default: true };
-            defaultGroup.permissions[0].kind = Enums.PermissionKind.Allow;
+            const defaultGroup = {
+                ...groupPermissionsAsset,
+                default: true,
+            };
             await groupsPermissionsCache.put(defaultGroup.name, defaultGroup, -1);
 
             const isTxAllowed = await permissionResolver.resolve(actual);
@@ -131,11 +130,15 @@ describe("Guardian permission resolver tests", () => {
 
         it("should deny transaction if no user permissions set and no active default group set to Allow and default config set to Deny", async () => {
             app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set(
-                "defaultRuleBehaviour",
-                Enums.PermissionKind.Deny,
+                "transactionsAllowedByDefault",
+                false,
             );
-            const defaultGroup = { ...cloneDeep(groupPermissionsAsset), default: true, active: false };
-            defaultGroup.permissions[0].kind = Enums.PermissionKind.Allow;
+            const defaultGroup = {
+                ...groupPermissionsAsset,
+                default: true,
+                active: false,
+            };
+
             await groupsPermissionsCache.put(defaultGroup.name, defaultGroup, -1);
 
             const isTxAllowed = await permissionResolver.resolve(actual);
@@ -145,19 +148,21 @@ describe("Guardian permission resolver tests", () => {
 
         it("should deny transaction if default group with higher priority set to Deny", async () => {
             const defaultGroup1 = {
-                ...cloneDeep(groupPermissionsAsset),
+                ...groupPermissionsAsset,
                 name: "group name1",
                 default: true,
                 priority: 1,
             };
-            defaultGroup1.permissions[0].kind = Enums.PermissionKind.Allow;
+
             const defaultGroup2 = {
-                ...cloneDeep(groupPermissionsAsset),
+                ...groupPermissionsAsset,
                 name: "group name2",
                 default: true,
                 priority: 5,
+                deny: groupPermissionsAsset.allow,
+                allow: [],
             };
-            defaultGroup2.permissions[0].kind = Enums.PermissionKind.Deny;
+
             await groupsPermissionsCache.put(defaultGroup1.name, defaultGroup1, -1);
             await groupsPermissionsCache.put(defaultGroup2.name, defaultGroup2, -1);
 
@@ -169,7 +174,8 @@ describe("Guardian permission resolver tests", () => {
         it("should allow transaction if user permissions has Allow permission for tx type", async () => {
             const userPermissions = {
                 groups: [],
-                permissions: cloneDeep(groupPermissionsAsset.permissions),
+                allow: groupPermissionsAsset.allow,
+                deny: [],
             };
             senderWallet.setAttribute("guardian.userPermissions", userPermissions);
             walletRepository.getIndex(GuardianIndexers.UserPermissionsIndexer).index(senderWallet);
@@ -182,9 +188,9 @@ describe("Guardian permission resolver tests", () => {
         it("should deny transaction if user permissions has Deny permission for tx type", async () => {
             const userPermissions = {
                 groups: [],
-                permissions: cloneDeep(groupPermissionsAsset.permissions),
+                allow: [],
+                deny: groupPermissionsAsset.allow,
             };
-            userPermissions.permissions[0].kind = Enums.PermissionKind.Deny;
             senderWallet.setAttribute("guardian.userPermissions", userPermissions);
             walletRepository.getIndex(GuardianIndexers.UserPermissionsIndexer).index(senderWallet);
 
@@ -194,12 +200,16 @@ describe("Guardian permission resolver tests", () => {
         });
 
         it("should deny transaction if user is in group with Deny permission for tx type", async () => {
-            const userGroup = cloneDeep(groupPermissionsAsset);
-            userGroup.permissions[0].kind = Enums.PermissionKind.Deny;
+            const userGroup = {
+                ...groupPermissionsAsset,
+                deny: groupPermissionsAsset.allow,
+                allow: [],
+            };
             await groupsPermissionsCache.put(userGroup.name, userGroup, -1);
             const userPermissions = {
                 groups: [userGroup.name],
-                permissions: [],
+                allow: [],
+                deny: [],
             };
             senderWallet.setAttribute("guardian.userPermissions", userPermissions);
             walletRepository.getIndex(GuardianIndexers.UserPermissionsIndexer).index(senderWallet);
@@ -210,11 +220,11 @@ describe("Guardian permission resolver tests", () => {
         });
 
         it("should allow transaction if user is in group with Allow permission for tx type", async () => {
-            const userGroup = cloneDeep(groupPermissionsAsset);
-            await groupsPermissionsCache.put(userGroup.name, userGroup, -1);
+            await groupsPermissionsCache.put(groupPermissionsAsset.name, groupPermissionsAsset, -1);
             const userPermissions = {
-                groups: [userGroup.name],
-                permissions: [],
+                groups: [groupPermissionsAsset.name],
+                allow: [],
+                deny: [],
             };
             senderWallet.setAttribute("guardian.userPermissions", userPermissions);
             walletRepository.getIndex(GuardianIndexers.UserPermissionsIndexer).index(senderWallet);
@@ -227,7 +237,8 @@ describe("Guardian permission resolver tests", () => {
         it("should allow transaction if user has no permission and not in any group and default config set to Allow", async () => {
             const userPermissions = {
                 groups: [],
-                permissions: [],
+                allow: [],
+                deny: [],
             };
             senderWallet.setAttribute("guardian.userPermissions", userPermissions);
             walletRepository.getIndex(GuardianIndexers.UserPermissionsIndexer).index(senderWallet);

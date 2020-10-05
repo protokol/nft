@@ -1,5 +1,4 @@
 import { defaults } from "../../defaults";
-import { PermissionKind } from "../../enums";
 
 export const amountSchema = { bignumber: { minimum: 0, maximum: 0 } };
 
@@ -13,22 +12,13 @@ export const groupNameSchema = {
 
 export const permissionsSchema = {
     type: "array",
+    uniqueItems: true,
     items: {
         type: "object",
-        required: ["types", "kind"],
+        required: ["transactionType", "transactionTypeGroup"],
         properties: {
-            kind: { enum: [PermissionKind.Allow, PermissionKind.Deny] },
-            types: {
-                type: "array",
-                items: {
-                    type: "object",
-                    required: ["transactionType", "transactionTypeGroup"],
-                    properties: {
-                        transactionType: { type: "integer", minimum: 0 },
-                        transactionTypeGroup: { type: "integer", minimum: 0 },
-                    },
-                },
-            },
+            transactionType: { type: "integer", minimum: 0 },
+            transactionTypeGroup: { type: "integer", minimum: 0 },
         },
     },
 };

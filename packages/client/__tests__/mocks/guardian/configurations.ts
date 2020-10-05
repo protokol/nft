@@ -28,6 +28,8 @@ export const mockGuardianConfigurations = (host: string) => {
                     defaults: {
                         maxDefinedGroupsPerUser: 20,
                         defaultRuleBehaviour: 1,
+                        masterPublicKey: "",
+                        feeType: 0,
                     },
                 },
             },

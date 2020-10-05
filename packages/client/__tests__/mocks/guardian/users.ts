@@ -19,17 +19,13 @@ export const mockGuardianUsers = (host: string) => {
                 {
                     publicKey: "03287bfebba4c7881a0509717e71b34b63f31e40021c321f89ae04f84be6d6ac37",
                     groups: ["group name"],
-                    permissions: [
+                    allow: [
                         {
-                            kind: 1,
-                            types: [
-                                {
-                                    transactionType: 1,
-                                    transactionTypeGroup: 9002,
-                                },
-                            ],
+                            transactionType: 1,
+                            transactionTypeGroup: 9002,
                         },
                     ],
+                    deny: [],
                 },
             ],
         });
@@ -40,17 +36,13 @@ export const mockGuardianUsers = (host: string) => {
             data: {
                 publicKey: "03287bfebba4c7881a0509717e71b34b63f31e40021c321f89ae04f84be6d6ac37",
                 groups: ["group name"],
-                permissions: [
+                allow: [
                     {
-                        kind: 1,
-                        types: [
-                            {
-                                transactionType: 1,
-                                transactionTypeGroup: 9002,
-                            },
-                        ],
+                        transactionType: 1,
+                        transactionTypeGroup: 9002,
                     },
                 ],
+                deny: [],
             },
         });
 
@@ -63,17 +55,13 @@ export const mockGuardianUsers = (host: string) => {
                     priority: 1,
                     active: false,
                     default: false,
-                    permissions: [
+                    allow: [
                         {
-                            kind: 1,
-                            types: [
-                                {
-                                    transactionType: 1,
-                                    transactionTypeGroup: 9002,
-                                },
-                            ],
+                            transactionType: 1,
+                            transactionTypeGroup: 9002,
                         },
                     ],
+                    deny: [],
                 },
             ],
         });

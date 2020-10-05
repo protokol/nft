@@ -4,10 +4,14 @@ import { passphrases } from "@arkecosystem/core-test-framework";
 import { Managers, Transactions } from "@arkecosystem/crypto";
 
 import { GuardianUserPermissionsBuilder } from "../../../src/builders";
-import { PermissionKind } from "../../../src/enums";
 import { GuardianUserPermissionsTransaction } from "../../../src/transactions";
 
-const publicKey = "02def27da9336e7fbf63131b8d7e5c9f45b296235db035f1f4242c507398f0f21d";
+const userPermission = {
+    groupNames: ["group name"],
+    publicKey: "02def27da9336e7fbf63131b8d7e5c9f45b296235db035f1f4242c507398f0f21d",
+    allow: [{ transactionType: 9000, transactionTypeGroup: 0 }],
+    deny: [{ transactionType: 9000, transactionTypeGroup: 0 }],
+};
 
 describe("Guardian set user permissions tests", () => {
     Managers.configManager.setFromPreset("testnet");
@@ -15,15 +19,9 @@ describe("Guardian set user permissions tests", () => {
     Transactions.TransactionRegistry.registerTransactionType(GuardianUserPermissionsTransaction);
 
     describe("Ser/deser tests", () => {
-        it("should ser/deser correctly with group names and permissions", () => {
+        it("should ser/deser correctly with group names and allow/deny permissions", () => {
             const actual = new GuardianUserPermissionsBuilder()
-                .GuardianUserPermissions({
-                    groupNames: ["group name"],
-                    publicKey,
-                    permissions: [
-                        { types: [{ transactionType: 9000, transactionTypeGroup: 0 }], kind: PermissionKind.Allow },
-                    ],
-                })
+                .GuardianUserPermissions(userPermission)
                 .nonce("3")
                 .sign(passphrases[0])
                 .getStruct();
@@ -31,19 +29,13 @@ describe("Guardian set user permissions tests", () => {
             const serialized = Transactions.TransactionFactory.fromData(actual).serialized.toString("hex");
             const deserialized = Transactions.Deserializer.deserialize(serialized);
 
-            expect(deserialized.data.asset!.setUserPermissions).toStrictEqual({
-                groupNames: ["group name"],
-                publicKey,
-                permissions: [
-                    { types: [{ transactionType: 9000, transactionTypeGroup: 0 }], kind: PermissionKind.Allow },
-                ],
-            });
+            expect(deserialized.data.asset!.setUserPermissions).toStrictEqual(userPermission);
         });
 
         it("should ser/deser correctly without group names and permissions", () => {
             const actual = new GuardianUserPermissionsBuilder()
                 .GuardianUserPermissions({
-                    publicKey,
+                    publicKey: userPermission.publicKey,
                 })
                 .nonce("3")
                 .sign(passphrases[0])
@@ -53,12 +45,29 @@ describe("Guardian set user permissions tests", () => {
             const deserialized = Transactions.Deserializer.deserialize(serialized);
 
             expect(deserialized.data.asset!.setUserPermissions).toStrictEqual({
-                publicKey,
+                publicKey: userPermission.publicKey,
             });
         });
 
+        it("should ser/deser correctly with only allow permissions", () => {
+            const userPermissions = { ...userPermission };
+            delete userPermission.groupNames;
+            delete userPermission.deny;
+
+            const actual = new GuardianUserPermissionsBuilder()
+                .GuardianUserPermissions(userPermissions)
+                .nonce("3")
+                .sign(passphrases[0])
+                .getStruct();
+
+            const serialized = Transactions.TransactionFactory.fromData(actual).serialized.toString("hex");
+            const deserialized = Transactions.Deserializer.deserialize(serialized);
+
+            expect(deserialized.data.asset!.setUserPermissions).toStrictEqual(userPermissions);
+        });
+
         it("should throw if asset is undefined", () => {
-            const actual = new GuardianUserPermissionsBuilder().GuardianUserPermissions({ publicKey }).nonce("3");
+            const actual = new GuardianUserPermissionsBuilder().GuardianUserPermissions(userPermission).nonce("3");
 
             actual.data.asset = undefined;
             expect(() => actual.sign(passphrases[0])).toThrow();

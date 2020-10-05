@@ -6,7 +6,7 @@ import { passphrases } from "@arkecosystem/core-test-framework";
 import { Mempool } from "@arkecosystem/core-transaction-pool";
 import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
-import { Builders, Enums, Interfaces as GuardianInterfaces } from "@protokol/guardian-crypto";
+import { Builders, Enums } from "@protokol/guardian-crypto";
 
 import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { FeeType } from "../../../src/enums";
@@ -16,6 +16,7 @@ import {
     TransactionTypeDoesntExistError,
 } from "../../../src/errors";
 import { GuardianApplicationEvents } from "../../../src/events";
+import { IGroupPermissions } from "../../../src/interfaces";
 import { deregisterTransactions } from "../utils/utils";
 
 let app: Application;
@@ -37,17 +38,13 @@ const groupPermissionsAsset = {
     priority: 1,
     default: false,
     active: true,
-    permissions: [
+    allow: [
         {
-            types: [
-                {
-                    transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
-                    transactionTypeGroup: Enums.GuardianTransactionGroup,
-                },
-            ],
-            kind: Enums.PermissionKind.Allow,
+            transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
+            transactionTypeGroup: Enums.GuardianTransactionGroup,
         },
     ],
+    deny: [],
 };
 
 const buildGroupPermissionsTx = (asset?, nonce?, fee?) =>
@@ -78,12 +75,9 @@ beforeEach(() => {
 
     actual = buildGroupPermissionsTx();
 
-    groupsPermissionsCache = app.get<
-        Contracts.Kernel.CacheStore<
-            GuardianInterfaces.GuardianGroupPermissionsAsset["name"],
-            GuardianInterfaces.GuardianGroupPermissionsAsset
-        >
-    >(Container.Identifiers.CacheService);
+    groupsPermissionsCache = app.get<Contracts.Kernel.CacheStore<IGroupPermissions["name"], IGroupPermissions>>(
+        Container.Identifiers.CacheService,
+    );
 });
 
 afterEach(() => {
@@ -125,29 +119,14 @@ describe("Guardian set group permissions tests", () => {
             await expect(handler.throwIfCannotBeApplied(undefinedTokenInTransaction, senderWallet)).toReject();
         });
 
-        it("should throw if types array in permissions contains duplicates", async () => {
-            const type = {
-                transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
-                transactionTypeGroup: Enums.GuardianTransactionGroup,
-            };
-            const permissions = [{ types: [type, type], kind: Enums.PermissionKind.Allow }];
-            actual = buildGroupPermissionsTx({ ...groupPermissionsAsset, permissions });
-
-            await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
-                DuplicatePermissionsError,
-            );
-        });
-
         it("should throw if permissions array contains duplicates", async () => {
             const type = {
                 transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
                 transactionTypeGroup: Enums.GuardianTransactionGroup,
             };
-            const permissions = [
-                { types: [type], kind: Enums.PermissionKind.Allow },
-                { types: [type], kind: Enums.PermissionKind.Deny },
-            ];
-            actual = buildGroupPermissionsTx({ ...groupPermissionsAsset, permissions });
+            const allow = [type];
+            const deny = [type];
+            actual = buildGroupPermissionsTx({ ...groupPermissionsAsset, allow, deny });
 
             await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
                 DuplicatePermissionsError,
@@ -164,11 +143,9 @@ describe("Guardian set group permissions tests", () => {
                 transactionTypeGroup: Enums.GuardianTransactionGroup,
             };
             const typeThree = { transactionType: 0, transactionTypeGroup: 1 };
-            const permissions = [
-                { types: [typeOne, typeTwo], kind: Enums.PermissionKind.Allow },
-                { types: [typeThree], kind: Enums.PermissionKind.Deny },
-            ];
-            actual = buildGroupPermissionsTx({ ...groupPermissionsAsset, permissions });
+            const allow = [typeOne, typeTwo];
+            const deny = [typeThree];
+            actual = buildGroupPermissionsTx({ ...groupPermissionsAsset, allow, deny });
 
             await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).toResolve();
         });
@@ -178,8 +155,8 @@ describe("Guardian set group permissions tests", () => {
                 transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions + 10,
                 transactionTypeGroup: Enums.GuardianTransactionGroup,
             };
-            const permissions = [{ types: [type], kind: Enums.PermissionKind.Allow }];
-            actual = buildGroupPermissionsTx({ ...groupPermissionsAsset, permissions });
+            const allow = [type];
+            actual = buildGroupPermissionsTx({ ...groupPermissionsAsset, allow });
 
             await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
                 TransactionTypeDoesntExistError,
@@ -219,15 +196,10 @@ describe("Guardian set group permissions tests", () => {
 
             const actualTwo = buildGroupPermissionsTx({
                 ...groupPermissionsAsset,
-                permissions: [
+                allow: [
                     {
-                        types: [
-                            {
-                                transactionType: Enums.GuardianTransactionTypes.GuardianSetUserPermissions,
-                                transactionTypeGroup: Enums.GuardianTransactionGroup,
-                            },
-                        ],
-                        kind: Enums.PermissionKind.Deny,
+                        transactionType: Enums.GuardianTransactionTypes.GuardianSetUserPermissions,
+                        transactionTypeGroup: Enums.GuardianTransactionGroup,
                     },
                 ],
             });
@@ -258,14 +230,14 @@ describe("Guardian set group permissions tests", () => {
 
         it("should overwrite existing group in apply method", async () => {
             const actualTwo = buildGroupPermissionsTx({ ...groupPermissionsAsset, active: false }, "2");
+            // allow and deny arrays are sanitizet before saving
+            const actualTwoAsset = { ...actualTwo.data.asset!.setGroupPermissions, deny: [] };
             await handler.apply(actual);
 
             expect(await groupsPermissionsCache.has(groupPermissionsAsset.name)).toBeTrue();
             expect(await groupsPermissionsCache.get(groupPermissionsAsset.name)).toStrictEqual(groupPermissionsAsset);
             await handler.apply(actualTwo);
-            expect(await groupsPermissionsCache.get(groupPermissionsAsset.name)).toStrictEqual(
-                actualTwo.data.asset!.setGroupPermissions,
-            );
+            expect(await groupsPermissionsCache.get(groupPermissionsAsset.name)).toStrictEqual(actualTwoAsset);
         });
     });
 

@@ -37,6 +37,8 @@ describe("API - 1.0 - Guardian/Resources - Configurations", () => {
             defaults: {
                 maxDefinedGroupsPerUser: 20,
                 defaultRuleBehaviour: 1,
+                masterPublicKey: "",
+                feeType: 0,
             },
         });
     });

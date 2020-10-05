@@ -5,12 +5,8 @@ import { Wallets } from "@arkecosystem/core-state";
 import { Generators, passphrases } from "@arkecosystem/core-test-framework";
 import { Managers, Transactions } from "@arkecosystem/crypto";
 import Hapi from "@hapi/hapi";
-import {
-    Enums,
-    Interfaces as GuardianInterfaces,
-    Transactions as GuardianTransactions,
-} from "@protokol/guardian-crypto";
-import { Indexers } from "@protokol/guardian-transactions";
+import { Enums, Transactions as GuardianTransactions } from "@protokol/guardian-crypto";
+import { Indexers, Interfaces } from "@protokol/guardian-transactions";
 
 import {
     buildWallet,
@@ -34,29 +30,21 @@ const groups = [
         priority: 1,
         default: false,
         active: true,
-        permissions: [
+        allow: [
             {
-                types: [
-                    {
-                        transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
-                        transactionTypeGroup: Enums.GuardianTransactionGroup,
-                    },
-                ],
-                kind: Enums.PermissionKind.Allow,
+                transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
+                transactionTypeGroup: Enums.GuardianTransactionGroup,
             },
         ],
+        deny: [],
     },
     {
         name: "group name2",
         priority: 2,
         default: false,
         active: true,
-        permissions: [
-            {
-                types: [{ transactionType: 9000, transactionTypeGroup: 0 }],
-                kind: Enums.PermissionKind.Deny,
-            },
-        ],
+        allow: [],
+        deny: [{ transactionType: 9000, transactionTypeGroup: 0 }],
     },
 ];
 
@@ -71,10 +59,7 @@ beforeEach(async () => {
     groupController = app.resolve<GroupsController>(GroupsController);
 
     const groupsPermissionsCache = app.get<
-        Contracts.Kernel.CacheStore<
-            GuardianInterfaces.GuardianGroupPermissionsAsset["name"],
-            GuardianInterfaces.GuardianGroupPermissionsAsset
-        >
+        Contracts.Kernel.CacheStore<Interfaces.IGroupPermissions["name"], Interfaces.IGroupPermissions>
     >(Container.Identifiers.CacheService);
 
     //set mock groups
@@ -140,7 +125,8 @@ describe("Test group controller", () => {
 
         const user = {
             groups: ["group name1"],
-            permissions: [],
+            allow: [],
+            deny: [],
         };
         const wallet = buildWallet(app, passphrases[0]);
         wallet.setAttribute("guardian.userPermissions", user);
