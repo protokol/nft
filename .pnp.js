@@ -71,10 +71,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/nft-exchange-transactions"
       },
       {
-        "name": "@protokol/nft-generator-api",
-        "reference": "workspace:packages/nft-generator-api"
-      },
-      {
         "name": "@protokol/utils",
         "reference": "workspace:packages/utils"
       }
@@ -94,7 +90,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@protokol/nft-exchange-api", ["workspace:packages/nft-exchange-api"]],
       ["@protokol/nft-exchange-crypto", ["workspace:packages/nft-exchange-crypto"]],
       ["@protokol/nft-exchange-transactions", ["workspace:packages/nft-exchange-transactions"]],
-      ["@protokol/nft-generator-api", ["workspace:packages/nft-generator-api"]],
       ["@protokol/nft-plugins", ["workspace:."]],
       ["@protokol/utils", ["workspace:packages/utils"]]
     ],
@@ -3161,26 +3156,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-jest", "virtual:e9f2cbc2c4e8f955adbdb38f9f196ee16f5f707f60f7e2702904ec2c5afafcb86e7e4cadc740f10f494cefcc7811945485435cf13db30d02f6ce3b59cd60e057#npm:26.3.0"],
             ["typedoc", "virtual:772dececd512235e99a9e38182a55a0f55052c3e33f380b55e8f0344d53d51faedcf1d7423f670a8c1697dccd7f24010972ab697cb115fccca09a353fca8a767#npm:0.19.2"],
             ["typescript", "patch:typescript@npm%3A4.0.3#builtin<compat/typescript>::version=4.0.3&hash=5b02a2"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
-      ["@protokol/nft-generator-api", [
-        ["workspace:packages/nft-generator-api", {
-          "packageLocation": "./packages/nft-generator-api/",
-          "packageDependencies": [
-            ["@protokol/nft-generator-api", "workspace:packages/nft-generator-api"],
-            ["@arkecosystem/core-api", "npm:3.0.0-alpha.13"],
-            ["@arkecosystem/core-kernel", "npm:3.0.0-alpha.13"],
-            ["@arkecosystem/crypto", "npm:3.0.0-alpha.13"],
-            ["@hapi/boom", "npm:9.1.0"],
-            ["@hapi/hapi", "npm:19.2.0"],
-            ["@hapi/joi", "npm:17.1.1"],
-            ["@protokol/nft-base-transactions", "workspace:packages/nft-base-transactions"],
-            ["@protokol/nft-exchange-transactions", "workspace:packages/nft-exchange-transactions"],
-            ["@types/hapi__boom", "npm:7.4.1"],
-            ["@types/hapi__joi", "npm:16.0.12"],
-            ["got", "npm:11.7.0"]
           ],
           "linkType": "SOFT",
         }]
@@ -7462,7 +7437,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/$$virtual/fetch-blob-virtual-bdf91f0d16/0/cache/fetch-blob-npm-2.1.1-743eb775fb-29099bba20.zip/node_modules/fetch-blob/",
           "packageDependencies": [
             ["fetch-blob", "virtual:6d113662d53f111ebc45d76894379672c4bef1024d442c9142fc052527e3a96d54235ec89724f5865223f87cc87cf23a111fa3aa71b23aae42bc577034ca5762#npm:2.1.1"],
-            ["domexception", null]
+            ["domexception", "npm:2.0.1"]
           ],
           "packagePeers": [
             "domexception"
@@ -11250,7 +11225,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         ["npm:2.6.1", {
           "packageLocation": "./.yarn/cache/node-fetch-npm-2.6.1-46c670dbc1-cbb171635e.zip/node_modules/node-fetch/",
           "packageDependencies": [
-            ["node-fetch", "npm:2.6.1"]
+            ["node-fetch", "npm:2.6.1"],
+            ["domexception", "npm:2.0.1"]
           ],
           "linkType": "HARD",
         }],
@@ -11259,6 +11235,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["node-fetch", "npm:3.0.0-beta.6-exportfix"],
             ["data-uri-to-buffer", "npm:3.0.1"],
+            ["domexception", "npm:2.0.1"],
             ["fetch-blob", "npm:1.0.7"]
           ],
           "linkType": "HARD",
@@ -11268,6 +11245,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["node-fetch", "npm:3.0.0-beta.9"],
             ["data-uri-to-buffer", "npm:3.0.1"],
+            ["domexception", "npm:2.0.1"],
             ["fetch-blob", "virtual:6d113662d53f111ebc45d76894379672c4bef1024d442c9142fc052527e3a96d54235ec89724f5865223f87cc87cf23a111fa3aa71b23aae42bc577034ca5762#npm:2.1.1"]
           ],
           "linkType": "HARD",
