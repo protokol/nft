@@ -10,7 +10,8 @@
 	},
 	"scripts": {
 		"publish": "yarn workspaces foreach -pt run publish",
-		"build": "yarn workspaces foreach run build",
+		"build": "yarn workspaces foreach -pt run build",
+		"clean": "yarn workspaces foreach -pt run clean",
 		"version": "yarn workspaces foreach version",
 		"version:apply": "yarn workspaces foreach version apply",
 		"version:check": "yarn version check --interactive",
@@ -18,7 +19,7 @@
 		"lint": "eslint packages/**/src/** --ext .ts --fix",
 		"lint:tests": "eslint packages/**/__tests__/** --ext .ts --fix",
 		"prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\"",
-		"test": "yarn workspaces foreach -pt run test"
+		"test:unit": "yarn workspaces foreach -pt run test:unit"
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^0.7.0",
