@@ -18,18 +18,18 @@ jobs:
                 node-version: [12.x]
 
         steps:
-       	    - uses: actions/checkout@v2
-       	  
-	          - name: Use Node.js ${{ matrix.node-version }}
-	            uses: actions/setup-node@v1
-	            with:
-	              node-version: ${{ matrix.node-version }}
-		
-	          - name: Install
-	            run: yarn install --immutable --immutable-cache
+            - uses: actions/checkout@v2
+          
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                node-version: ${{ matrix.node-version }}
+    
+            - name: Install
+              run: yarn install --immutable --immutable-cache
 
             - name: Build
-	            run: yarn run build
+              run: yarn run build
 
             - name: TEST UNIT BASE-CRYPTO
               run: cd packages/nft-base-crypto && yarn test:unit:coverage --coverageDirectory .coverage/unit-base-crypto --maxWorkers=2
