@@ -160,6 +160,23 @@ describe("Test group controller", () => {
         expect(response.results[0]).toStrictEqual(groups[1]);
     });
 
+    it("index - return all groups that matches search query - case insensitive name", async () => {
+        const request: Hapi.Request = {
+            query: {
+                page: 1,
+                limit: 100,
+                orderBy: [],
+                name: "NAME%",
+            },
+        };
+
+        const response = (await groupController.index(request, undefined)) as PaginatedResponse;
+
+        expect(response.totalCount).toBe(groups.length);
+        expect(response.results.length).toBe(groups.length);
+        expect(response.results[0]).toStrictEqual(groups[0]);
+    });
+
     it("show - return group by id", async () => {
         const request: Hapi.Request = {
             params: {

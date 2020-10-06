@@ -32,17 +32,26 @@ export class GroupSearchService {
     public async getGroupsPage(
         pagination: Contracts.Search.Pagination,
         sorting: Contracts.Search.Sorting,
-        ...criteria
+        criteria,
     ): Promise<Contracts.Search.ResultsPage<Interfaces.IGroupPermissions>> {
         sorting = [...sorting, { property: "name", direction: "asc" }];
+        // add support for case insensitive criteria
+        if (criteria.name) {
+            criteria.name = criteria.name.toLocaleLowerCase();
+        }
 
         const groups = await this.groupsPermissionsCache.values();
-        return this.paginationService.getPage(pagination, sorting, this.getGroups(groups, ...criteria));
+        return this.paginationService.getPage(pagination, sorting, this.getGroups(groups, criteria));
     }
 
-    private *getGroups(groups: Interfaces.IGroupPermissions[], ...criteria): Iterable<Interfaces.IGroupPermissions> {
+    private *getGroups(groups: Interfaces.IGroupPermissions[], criteria): Iterable<Interfaces.IGroupPermissions> {
         for (const group of groups) {
-            if (this.standardCriteriaService.testStandardCriterias(group, ...criteria)) {
+            if (
+                this.standardCriteriaService.testStandardCriterias(
+                    { ...group, name: group.name.toLocaleLowerCase() },
+                    criteria,
+                )
+            ) {
                 yield group;
             }
         }
