@@ -2,6 +2,7 @@ import { Container, Contracts } from "@arkecosystem/core-kernel";
 import Boom from "@hapi/boom";
 import Hapi from "@hapi/hapi";
 
+import { groupCriteriaSchemaObject } from "../resources";
 import { BaseController } from "./base-controller";
 
 @Container.injectable()
@@ -9,8 +10,9 @@ export class GroupsController extends BaseController {
     public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
         const pagination = this.getQueryPagination(request.query);
         const sorting = request.query.orderBy as Contracts.Search.Sorting;
+        const criteria = this.getQueryCriteria(request.query, groupCriteriaSchemaObject);
 
-        return this.groupSearchService.getGroupsPage(pagination, sorting);
+        return this.groupSearchService.getGroupsPage(pagination, sorting, criteria);
     }
 
     public async show(request: Hapi.Request, h: Hapi.ResponseToolkit) {

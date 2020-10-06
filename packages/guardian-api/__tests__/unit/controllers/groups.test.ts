@@ -41,8 +41,8 @@ const groups = [
     {
         name: "group name2",
         priority: 2,
-        default: false,
-        active: true,
+        default: true,
+        active: false,
         allow: [],
         deny: [{ transactionType: 9000, transactionTypeGroup: 0 }],
     },
@@ -76,7 +76,7 @@ afterEach(() => {
 });
 
 describe("Test group controller", () => {
-    it("index - return all users", async () => {
+    it("index - return all groups", async () => {
         const request: Hapi.Request = {
             query: {
                 page: 1,
@@ -90,6 +90,74 @@ describe("Test group controller", () => {
         expect(response.totalCount).toBe(groups.length);
         expect(response.results.length).toBe(groups.length);
         expect(response.results[0]).toStrictEqual(groups[0]);
+    });
+
+    it("index - return all groups that matches search query - priority", async () => {
+        const request: Hapi.Request = {
+            query: {
+                page: 1,
+                limit: 100,
+                orderBy: [],
+                priority: groups[1].priority,
+            },
+        };
+
+        const response = (await groupController.index(request, undefined)) as PaginatedResponse;
+
+        expect(response.totalCount).toBe(1);
+        expect(response.results.length).toBe(1);
+        expect(response.results[0]).toStrictEqual(groups[1]);
+    });
+
+    it("index - return all groups that matches search query - default", async () => {
+        const request: Hapi.Request = {
+            query: {
+                page: 1,
+                limit: 100,
+                orderBy: [],
+                default: true,
+            },
+        };
+
+        const response = (await groupController.index(request, undefined)) as PaginatedResponse;
+
+        expect(response.totalCount).toBe(1);
+        expect(response.results.length).toBe(1);
+        expect(response.results[0]).toStrictEqual(groups[1]);
+    });
+
+    it("index - return all groups that matches search query - active", async () => {
+        const request: Hapi.Request = {
+            query: {
+                page: 1,
+                limit: 100,
+                orderBy: [],
+                active: false,
+            },
+        };
+
+        const response = (await groupController.index(request, undefined)) as PaginatedResponse;
+
+        expect(response.totalCount).toBe(1);
+        expect(response.results.length).toBe(1);
+        expect(response.results[0]).toStrictEqual(groups[1]);
+    });
+
+    it("index - return all groups that matches search query - name", async () => {
+        const request: Hapi.Request = {
+            query: {
+                page: 1,
+                limit: 100,
+                orderBy: [],
+                name: "name2%",
+            },
+        };
+
+        const response = (await groupController.index(request, undefined)) as PaginatedResponse;
+
+        expect(response.totalCount).toBe(1);
+        expect(response.results.length).toBe(1);
+        expect(response.results[0]).toStrictEqual(groups[1]);
     });
 
     it("show - return group by id", async () => {

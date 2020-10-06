@@ -9,3 +9,5 @@ export const groupCriteriaSchemaObject = {
 };
 
 export const groupSortingSchema = Schemas.createSortingSchema(groupCriteriaSchemaObject);
+
+export const groupCriteriaQuerySchema = Joi.object(groupCriteriaSchemaObject);
