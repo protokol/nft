@@ -250,7 +250,7 @@ jobs:
 
             - name: TEST
               run: |
-                  cd packages/nft-base-transactions
+                  cd packages/nft-exchange-transactions
                   yarn test __tests__/functional/transaction-forging/nft-accept-trade.test.ts --forceExit
 
     functional-exchange-transactions-auction:
@@ -289,7 +289,7 @@ jobs:
 
             - name: TEST
               run: |
-                  cd packages/nft-base-transactions
+                  cd packages/nft-exchange-transactions
                   yarn test __tests__/functional/transaction-forging/nft-auction.test.ts --forceExit
 
     functional-exchange-transactions-auction-cancel:
@@ -328,7 +328,7 @@ jobs:
 
             - name: TEST
               run: |
-                  cd packages/nft-base-transactions
+                  cd packages/nft-exchange-transactions
                   yarn test __tests__/functional/transaction-forging/nft-auction-cancel.test.ts --forceExit
 
     functional-exchange-transactions-bid:
@@ -367,7 +367,7 @@ jobs:
 
             - name: TEST
               run: |
-                  cd packages/nft-base-transactions
+                  cd packages/nft-exchange-transactions
                   yarn test __tests__/functional/transaction-forging/nft-bid.test.ts --forceExit
 
     functional-exchange-transactions-bid-cancel:
@@ -406,7 +406,7 @@ jobs:
 
             - name: TEST
               run: |
-                  cd packages/nft-base-transactions
+                  cd packages/nft-exchange-transactions
                   yarn test __tests__/functional/transaction-forging/nft-bid-cancel.test.ts --forceExit
 
     functional-guardian-transactions-group-permissions:
@@ -445,7 +445,7 @@ jobs:
 
             - name: TEST
               run: |
-                  cd packages/nft-base-transactions
+                  cd packages/guardian-transactions
                   yarn test __tests__/functional/transaction-forging/guardian-group-permissions.test.ts --forceExit
 
     functional-guardian-transactions-user-permissions:
@@ -484,7 +484,7 @@ jobs:
 
             - name: TEST
               run: |
-                  cd packages/nft-base-transactions
+                  cd packages/guardian-transactions
                   yarn test __tests__/functional/transaction-forging/guardian-user-permissions.test.ts --forceExit
 
     api-integration:
