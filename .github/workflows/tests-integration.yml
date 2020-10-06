@@ -1,4 +1,4 @@
-name: UNIT-TESTS
+name: INTEGRATION-TESTS
 
 on:
     push:
