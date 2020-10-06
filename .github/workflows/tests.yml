@@ -1,0 +1,537 @@
+name: TESTS
+
+on:
+    push:
+        branches:
+            - "master"
+            - "develop"
+    pull_request:
+        types: [ready_for_review, synchronize, opened]
+
+jobs:
+    unit:
+        name: UNIT (API, CRYPTO, TRANSACTIONS, CLIENT, UTILS)
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install And Build
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: BASE-CRYPTO
+              run: cd packages/nft-base-crypto && yarn test:unit:coverage --coverageDirectory .coverage/unit-base-crypto --maxWorkers=2
+
+            - name: EXCHANGE-CRYPTO
+              run: cd packages/nft-exchange-crypto && yarn test:unit:coverage --coverageDirectory .coverage/unit-exchange-crypto --maxWorkers=2
+
+            - name: GUARDIAN-CRYPTO
+              run: cd packages/guardian-crypto && yarn test:unit:coverage --coverageDirectory .coverage/unit-guardian-crypto --maxWorkers=2
+
+            - name: BASE-TRANSACTIONS
+              run: cd packages/nft-base-transactions && yarn test:unit:coverage --coverageDirectory .coverage/unit-base-transactions --maxWorkers=2
+
+            - name: EXCHANGE-TRANSACTIONS
+              run: cd packages/nft-exchange-transactions && yarn test:unit:coverage --coverageDirectory .coverage/unit-exchange-transactions --maxWorkers=2
+
+            - name: GUARDIAN-TRANSACTIONS
+              run: cd packages/guardian-transactions && yarn test:unit:coverage --coverageDirectory .coverage/unit-guardian-transactions --maxWorkers=2
+
+            - name: BASE-API
+              run: cd packages/nft-base-api && yarn test:unit:coverage --coverageDirectory .coverage/unit-base-api --maxWorkers=2
+
+            - name: EXCHANGE-API
+              run: cd packages/nft-exchange-api && yarn test:unit:coverage --coverageDirectory .coverage/unit-exchange-api --maxWorkers=2
+
+            - name: GUARDIAN-API
+              run: cd packages/guardian-api && yarn test:unit:coverage --coverageDirectory .coverage/unit-guardian-api --maxWorkers=2
+
+            - name: CLIENT
+              run: cd packages/client && yarn test:coverage --coverageDirectory .coverage/unit-client --maxWorkers=2
+
+            - name: UTILS
+              run: cd packages/utils && yarn test:unit:coverage --coverageDirectory .coverage/unit-client --maxWorkers=2
+    functional-base-transactions-burn:
+        name: NFT-BURN
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: cd packages/nft-base-transactions && yarn test __tests__/functional/transaction-forging/nft-burn.test.ts --forceExit
+
+    functional-base-transactions-create:
+        name: NFT_CREATE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-base-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-create.test.ts --forceExit
+
+    functional-base-transactions-register:
+        name: NFT-REGISTER-COLLECTION
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-base-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-register-collection.test.ts --forceExit
+
+    functional-base-transactions-transfer:
+        name: NFT-TRANSFER
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-base-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-transfer.test.ts --forceExit
+
+    functional-exchange-transactions-accept-trade:
+        name: NFT-ACCEPT-TRADE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-base-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-accept-trade.test.ts --forceExit
+
+    functional-exchange-transactions-auction:
+        name: NFT-AUCTION
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-base-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-auction.test.ts --forceExit
+
+    functional-exchange-transactions-auction-cancel:
+        name: NFT-AUCTION-CANCEL
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-base-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-auction-cancel.test.ts --forceExit
+
+    functional-exchange-transactions-bid:
+        name: NFT-BID
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-base-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-bid.test.ts --forceExit
+
+    functional-exchange-transactions-bid-cancel:
+        name: NFT-BID-CANCEL
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-base-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-bid-cancel.test.ts --forceExit
+
+    functional-guardian-transactions-group-permissions:
+        name: GUARDIAN-GROUP-PERMISSIONS
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-base-transactions
+                  yarn test __tests__/functional/transaction-forging/guardian-group-permissions.test.ts --forceExit
+
+    functional-guardian-transactions-user-permissions:
+        name: GUARDIAN-USER-PERMISSIONS
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-base-transactions
+                  yarn test __tests__/functional/transaction-forging/guardian-user-permissions.test.ts --forceExit
+
+    api-integration:
+        name: INTEGRATION-API
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: BASE-API
+              run: |
+                  cd packages/nft-base-api
+                  yarn test:integration:coverage --coverageDirectory .coverage/integration-base-api
+
+            - name: EXCHANGE-API
+              run: |
+                  cd packages/nft-exchange-api
+                  yarn test:integration:coverage --coverageDirectory .coverage/integration-exchange-api
+
+            - name: GUARDIAN-API
+              run: |
+                  cd packages/guardian-api
+                  yarn test:integration:coverage --coverageDirectory .coverage/integration-guardian-api
