@@ -1,9 +1,9 @@
-import { ApiQuery, ApiResponse, ApiResponseWithPagination, Resource } from "@arkecosystem/client";
+import { ApiResponse, ApiResponseWithPagination, Resource } from "@arkecosystem/client";
 
-import { Group, User } from "../../resources-types/guardian";
+import { AllUsersQuery, Group, User } from "../../resources-types/guardian";
 
 export class Users extends Resource {
-    public async index(query?: ApiQuery): Promise<ApiResponseWithPagination<User[]>> {
+    public async index(query?: AllUsersQuery): Promise<ApiResponseWithPagination<User[]>> {
         return this.sendGet("guardian/users", query);
     }
 
