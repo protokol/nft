@@ -129,6 +129,7 @@ export const initApp = (): Application => {
     app.bind(Container.Identifiers.PaginationService).to(Services.Search.PaginationService);
     app.bind(Identifiers.GroupSearchService).to(GroupSearchService);
     app.bind(Identifiers.UserSearchService).to(UserSearchService);
+    app.bind(Container.Identifiers.StandardCriteriaService).to(Services.Search.StandardCriteriaService);
 
     return app;
 };

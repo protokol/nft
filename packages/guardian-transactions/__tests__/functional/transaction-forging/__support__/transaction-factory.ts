@@ -12,7 +12,7 @@ export class GuardianTransactionFactory extends TransactionFactory {
     }
 
     public GuardianSetUserPermissions(
-        userPermissions: GuardianInterfaces.GuardianUserPermissionsAsset,
+        userPermissions: GuardianInterfaces.IGuardianUserPermissionsAsset,
     ): GuardianTransactionFactory {
         this.builder = new GuardianBuilders.GuardianUserPermissionsBuilder().GuardianUserPermissions(userPermissions);
 
@@ -20,7 +20,7 @@ export class GuardianTransactionFactory extends TransactionFactory {
     }
 
     public GuardianSetGroupPermissions(
-        groupPermissions: GuardianInterfaces.GuardianGroupPermissionsAsset,
+        groupPermissions: GuardianInterfaces.IGuardianGroupPermissionsAsset,
     ): GuardianTransactionFactory {
         this.builder = new GuardianBuilders.GuardianGroupPermissionsBuilder().GuardianGroupPermissions(
             groupPermissions,

@@ -16,4 +16,8 @@ export interface Permission {
 
 export interface AllGroupsQuery extends ApiQuery {
 	orderBy?: string;
+	name?: string;
+	priority?: number;
+	active?: boolean;
+	default?: boolean;
 }

@@ -4,7 +4,7 @@ import ByteBuffer from "bytebuffer";
 
 import { defaults } from "../defaults";
 import { GuardianStaticFees, GuardianTransactionGroup, GuardianTransactionTypes } from "../enums";
-import { GuardianUserPermissionsAsset } from "../interfaces";
+import { IGuardianUserPermissionsAsset } from "../interfaces";
 import { amountSchema, groupNameSchema, permissionsSchema, vendorFieldSchema } from "./utils/guardian-schemas";
 import { calculatePermissionsLength, deserializePermissions, serializePermissions } from "./utils/serde";
 
@@ -56,8 +56,8 @@ export class GuardianUserPermissionsTransaction extends Transactions.Transaction
     public serialize(): ByteBuffer {
         const { data } = this;
 
-        Asserts.assert.defined<GuardianUserPermissionsAsset>(data.asset?.setUserPermissions);
-        const setUserPermissionAsset: GuardianUserPermissionsAsset = data.asset.setUserPermissions;
+        Asserts.assert.defined<IGuardianUserPermissionsAsset>(data.asset?.setUserPermissions);
+        const setUserPermissionAsset: IGuardianUserPermissionsAsset = data.asset.setUserPermissions;
 
         const groupNamesBuffer: Buffer[] = [];
         let groupNamesLength = 1;
@@ -101,7 +101,7 @@ export class GuardianUserPermissionsTransaction extends Transactions.Transaction
 
         const publicKey = buf.readString(66);
 
-        const setUserPermissions: GuardianUserPermissionsAsset = {
+        const setUserPermissions: IGuardianUserPermissionsAsset = {
             publicKey,
         };
 
