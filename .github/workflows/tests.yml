@@ -60,8 +60,9 @@ jobs:
 
             - name: UTILS
               run: cd packages/utils && yarn test:unit:coverage --coverageDirectory .coverage/unit-client --maxWorkers=2
-    functional-base-transactions-burn:
-        name: NFT-BURN
+
+    functional-base-transactions-burn-single-passphrase:
+        name: NFT-BURN-SINGLE-PASSPHRASE
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -95,10 +96,85 @@ jobs:
               run: yarn install --immutable --immutable-cache && yarn build
 
             - name: TEST
-              run: cd packages/nft-base-transactions && yarn test __tests__/functional/transaction-forging/single-passphrase.test.ts --forceExit
+              run: cd packages/nft-base-transactions && yarn test __tests__/functional/transaction-forging/nft-burn/single-passphrase.test.ts --forceExit
 
-    functional-base-transactions-create:
-        name: NFT_CREATE
+    functional-base-transactions-burn-second-passphrase:
+        name: NFT-BURN-SECOND-PASSPHRASE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: cd packages/nft-base-transactions && yarn test __tests__/functional/transaction-forging/nft-burn/second-passphrase.test.ts --forceExit
+
+    functional-base-transactions-burn-multi-signature:
+        name: NFT-BURN-MULTI-SIGNATURE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: cd packages/nft-base-transactions && yarn test __tests__/functional/transaction-forging/nft-burn/multi-signature.test.ts --forceExit
+
+
+    functional-base-transactions-create-single-passphrase:
+        name: NFT-CREATE-SINGLE-PASSPHRASE
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -134,10 +210,10 @@ jobs:
             - name: TEST
               run: |
                   cd packages/nft-base-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-create.test.ts --forceExit
+                  yarn test __tests__/functional/transaction-forging/nft-create/single-passphrase.test.ts --forceExit
 
-    functional-base-transactions-register:
-        name: NFT-REGISTER-COLLECTION
+    functional-base-transactions-create-second-passphrase:
+        name: NFT-CREATE-SECOND-PASSPHRASE
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -173,10 +249,10 @@ jobs:
             - name: TEST
               run: |
                   cd packages/nft-base-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-register-collection.test.ts --forceExit
+                  yarn test __tests__/functional/transaction-forging/nft-create/second-passphrase.test.ts --forceExit
 
-    functional-base-transactions-transfer:
-        name: NFT-TRANSFER
+    functional-base-transactions-create-multi-signature:
+        name: NFT-CREATE-MULTI-SIGNATURE
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -212,10 +288,245 @@ jobs:
             - name: TEST
               run: |
                   cd packages/nft-base-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-transfer.test.ts --forceExit
+                  yarn test __tests__/functional/transaction-forging/nft-create/multi-signature.test.ts --forceExit
 
-    functional-exchange-transactions-accept-trade:
-        name: NFT-ACCEPT-TRADE
+    functional-base-transactions-register-single-passphrase:
+        name: NFT-REGISTER-COLLECTION-SINGLE-PASSPHRASE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-base-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-register-collection/single-passphrase.test.ts --forceExit
+
+    functional-base-transactions-register-second-passphrase:
+        name: NFT-REGISTER-COLLECTION-SECOND-PASSPHRASE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-base-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-register-collection/second-passphrase.test.ts --forceExit
+
+    functional-base-transactions-register-multi-signature:
+        name: NFT-REGISTER-COLLECTION-MULTI-SIGNATURE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-base-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-register-collection/multi-signature.test.ts --forceExit
+
+    functional-base-transactions-transfer-single-passphrase:
+        name: NFT-TRANSFER-SINGLE-PASSPHRASE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-base-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-transfer/single-passphrase.test.ts --forceExit
+
+    functional-base-transactions-transfer-second-passphrase:
+        name: NFT-TRANSFER-SECOND-PASSPHRASE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-base-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-transfer/second-passphrase.test.ts --forceExit
+
+    functional-base-transactions-transfer-multi-signature:
+        name: NFT-TRANSFER-MULTI-SIGNATURE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-base-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-transfer/multi-signature.test.ts --forceExit
+
+
+    functional-exchange-transactions-accept-trade-single-passphrase:
+        name: NFT-ACCEPT-TRADE-SINGLE-PASSPHRASE
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -251,10 +562,10 @@ jobs:
             - name: TEST
               run: |
                   cd packages/nft-exchange-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-accept-trade.test.ts --forceExit
+                  yarn test __tests__/functional/transaction-forging/nft-accept-trade/single-passphrase.test.ts --forceExit
 
-    functional-exchange-transactions-auction:
-        name: NFT-AUCTION
+    functional-exchange-transactions-accept-trade-second-passphrase:
+        name: NFT-ACCEPT-TRADE-SECOND-PASSPHRASE
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -290,10 +601,10 @@ jobs:
             - name: TEST
               run: |
                   cd packages/nft-exchange-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-auction.test.ts --forceExit
+                  yarn test __tests__/functional/transaction-forging/nft-accept-trade/second-passphrase.test.ts --forceExit
 
-    functional-exchange-transactions-auction-cancel:
-        name: NFT-AUCTION-CANCEL
+    functional-exchange-transactions-accept-trade-multi-signature:
+        name: NFT-ACCEPT-TRADE-SMULTI-SIGNATURE
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -329,10 +640,11 @@ jobs:
             - name: TEST
               run: |
                   cd packages/nft-exchange-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-auction-cancel.test.ts --forceExit
+                  yarn test __tests__/functional/transaction-forging/nft-accept-trade/multi-signature.test.ts --forceExit
 
-    functional-exchange-transactions-bid:
-        name: NFT-BID
+
+    functional-exchange-transactions-auction-single-passphrase:
+        name: NFT-AUCTION-SINGLE-PASSPHRASE
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -368,10 +680,11 @@ jobs:
             - name: TEST
               run: |
                   cd packages/nft-exchange-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-bid.test.ts --forceExit
+                  yarn test __tests__/functional/transaction-forging/nft-auction/single-passphrase.test.ts --forceExit
 
-    functional-exchange-transactions-bid-cancel:
-        name: NFT-BID-CANCEL
+
+    functional-exchange-transactions-auction-second-passphrase:
+        name: NFT-AUCTION-SECOND-PASSPHRASE
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -407,10 +720,409 @@ jobs:
             - name: TEST
               run: |
                   cd packages/nft-exchange-transactions
-                  yarn test __tests__/functional/transaction-forging/nft-bid-cancel.test.ts --forceExit
+                  yarn test __tests__/functional/transaction-forging/nft-auction/second-passphrase.test.ts --forceExit
 
-    functional-guardian-transactions-group-permissions:
-        name: GUARDIAN-GROUP-PERMISSIONS
+    functional-exchange-transactions-auction-multi-signature:
+        name: NFT-AUCTION-MULTI-SIGNATURE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-exchange-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-auction/multi-signature.test.ts --forceExit
+
+
+    functional-exchange-transactions-auction-cancel-single-passphrase:
+        name: NFT-AUCTION-CANCEL-SINGLE-PASSPHRASE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-exchange-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-auction-cancel/single-passphrase.test.ts --forceExit
+
+
+    functional-exchange-transactions-auction-cancel-second-passphrase:
+        name: NFT-AUCTION-CANCEL-SECOND-PASSPHRASE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-exchange-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-auction-cancel/second-passphrase.test.ts --forceExit
+
+
+    functional-exchange-transactions-auction-cancel-multi-signature:
+        name: NFT-AUCTION-CANCEL-MULTI-SIGNATURE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [ 12.x ]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-exchange-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-auction-cancel/multi-signature.test.ts --forceExit
+
+
+    functional-exchange-transactions-bid-single-passphrase:
+        name: NFT-BID-SINGLE-PASSPHRASE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-exchange-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-bid/single-passphrase.test.ts --forceExit
+
+
+    functional-exchange-transactions-bid-second-passphrase:
+        name: NFT-BID-SECOND-PASSPHRASE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-exchange-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-bid/second-passphrase.test.ts --forceExit
+
+
+    functional-exchange-transactions-bid-multi-signature:
+        name: NFT-BID-MULTI-SIGNATURE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [ 12.x ]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-exchange-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-bid/multi-signature.test.ts --forceExit
+
+
+    functional-exchange-transactions-bid-cancel-single-passphrase:
+        name: NFT-BID-CANCEL-SINGLE-PASSPHRASE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-exchange-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-bid-cancel/single-passphrase.test.ts --forceExit
+
+
+    functional-exchange-transactions-bid-cancel-second-passphrase:
+        name: NFT-BID-CANCEL-SECOND-PASSPHRASE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-exchange-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-bid-cancel/second-passphrase.test.ts --forceExit
+
+    functional-exchange-transactions-bid-cancel-multi-signature:
+        name: NFT-BID-CANCEL-MULTI-SIGNATURE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-exchange-transactions
+                  yarn test __tests__/functional/transaction-forging/nft-bid-cancel/multi-signature.test.ts --forceExit
+
+
+    functional-guardian-transactions-group-permissions-single-passphrase:
+        name: GUARDIAN-GROUP-PERMISSIONS-SINGLE-PASSPHRASE
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -446,10 +1158,11 @@ jobs:
             - name: TEST
               run: |
                   cd packages/guardian-transactions
-                  yarn test __tests__/functional/transaction-forging/guardian-group-permissions.test.ts --forceExit
+                  yarn test __tests__/functional/transaction-forging/guardian-group-permissions/single-passphrase.test.ts --forceExit
 
-    functional-guardian-transactions-user-permissions:
-        name: GUARDIAN-USER-PERMISSIONS
+
+    functional-guardian-transactions-group-permissions-second-passphrase:
+        name: GUARDIAN-GROUP-PERMISSIONS-SECOND-PASSPHRASE
         runs-on: ubuntu-latest
         services:
             postgres:
@@ -485,7 +1198,168 @@ jobs:
             - name: TEST
               run: |
                   cd packages/guardian-transactions
-                  yarn test __tests__/functional/transaction-forging/guardian-user-permissions.test.ts --forceExit
+                  yarn test __tests__/functional/transaction-forging/guardian-group-permissions/second-passphrase.test.ts --forceExit
+
+
+    functional-guardian-transactions-group-permissions-multi-signature:
+        name: GUARDIAN-GROUP-PERMISSIONS-MULTI-SIGNATURE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/guardian-transactions
+                  yarn test __tests__/functional/transaction-forging/guardian-group-permissions/multi-signature.test.ts --forceExit
+
+
+    functional-guardian-transactions-user-permissions-single-passphrase:
+        name: GUARDIAN-USER-PERMISSIONS-SINGLE-PASSPHRASE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/guardian-transactions
+                  yarn test __tests__/functional/transaction-forging/guardian-user-permissions/single-passphrase.test.ts --forceExit
+
+
+    functional-guardian-transactions-user-permissions-second-passphrase:
+        name: GUARDIAN-USER-PERMISSIONS-SECOND-PASSPHRASE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/guardian-transactions
+                  yarn test __tests__/functional/transaction-forging/guardian-user-permissions/second-passphrase.test.ts --forceExit
+
+
+    functional-guardian-transactions-user-permissions-multi-signature:
+        name: GUARDIAN-USER-PERMISSIONS-MULTI-SIGNATURE
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+        env:
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/guardian-transactions
+                  yarn test __tests__/functional/transaction-forging/guardian-user-permissions/multi-signature.test.ts --forceExit
+
 
     api-integration:
         name: INTEGRATION-API
