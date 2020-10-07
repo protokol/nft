@@ -26,11 +26,11 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
 
     public async bootstrap(): Promise<void> {
         for await (const transaction of this.transactionHistoryService.streamByCriteria(this.getDefaultCriteria())) {
-            AppUtils.assert.defined<GuardianInterfaces.GuardianUserPermissionsAsset>(
+            AppUtils.assert.defined<GuardianInterfaces.IGuardianUserPermissionsAsset>(
                 transaction.asset?.setUserPermissions,
             );
 
-            const setUserPermissionsAsset: GuardianInterfaces.GuardianUserPermissionsAsset =
+            const setUserPermissionsAsset: GuardianInterfaces.IGuardianUserPermissionsAsset =
                 transaction.asset.setUserPermissions;
             const userWallet = this.walletRepository.findByPublicKey(setUserPermissionsAsset.publicKey);
             const userPermissionsWallet = this.buildUserPermissions(setUserPermissionsAsset);
@@ -48,10 +48,10 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
         transaction: Interfaces.ITransaction,
         sender: Contracts.State.Wallet,
     ): Promise<void> {
-        AppUtils.assert.defined<GuardianInterfaces.GuardianUserPermissionsAsset>(
+        AppUtils.assert.defined<GuardianInterfaces.IGuardianUserPermissionsAsset>(
             transaction.data.asset?.setUserPermissions,
         );
-        const setUserPermissionsAsset: GuardianInterfaces.GuardianUserPermissionsAsset =
+        const setUserPermissionsAsset: GuardianInterfaces.IGuardianUserPermissionsAsset =
             transaction.data.asset.setUserPermissions;
 
         if (setUserPermissionsAsset.groupNames?.length) {
@@ -76,7 +76,7 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
     public async throwIfCannotEnterPool(transaction: Interfaces.ITransaction): Promise<void> {
         const {
             publicKey,
-        }: GuardianInterfaces.GuardianUserPermissionsAsset = transaction.data.asset!.setUserPermissions;
+        }: GuardianInterfaces.IGuardianUserPermissionsAsset = transaction.data.asset!.setUserPermissions;
         const hasUserPermissionsTx: boolean = this.poolQuery
             .getAll()
             .whereKind(transaction)
@@ -93,10 +93,10 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
 
     public async applyToRecipient(transaction: Interfaces.ITransaction): Promise<void> {
         // Line is already checked inside throwIfCannotBeApplied run by applyToSender method
-        // AppUtils.assert.defined<GuardianInterfaces.GuardianUserPermissionsAsset>(
+        // AppUtils.assert.defined<GuardianInterfaces.IGuardianUserPermissionsAsset>(
         //     transaction.data.asset?.setUserPermissions,
         // );
-        const setUserPermissionsAsset: GuardianInterfaces.GuardianUserPermissionsAsset = transaction.data.asset!
+        const setUserPermissionsAsset: GuardianInterfaces.IGuardianUserPermissionsAsset = transaction.data.asset!
             .setUserPermissions;
         const userWallet = this.walletRepository.findByPublicKey(setUserPermissionsAsset.publicKey);
         const userPermissionsWallet = this.buildUserPermissions(setUserPermissionsAsset);
@@ -106,7 +106,7 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
     }
 
     public async revertForRecipient(transaction: Interfaces.ITransaction): Promise<void> {
-        const setUserPermissionsAsset: GuardianInterfaces.GuardianUserPermissionsAsset = transaction.data.asset!
+        const setUserPermissionsAsset: GuardianInterfaces.IGuardianUserPermissionsAsset = transaction.data.asset!
             .setUserPermissions;
         const userWallet = this.walletRepository.findByPublicKey(setUserPermissionsAsset.publicKey);
 
@@ -129,7 +129,7 @@ export class GuardianUserPermissionsHandler extends GuardianTransactionHandler {
     }
 
     private buildUserPermissions(
-        userPermissionsAsset: GuardianInterfaces.GuardianUserPermissionsAsset,
+        userPermissionsAsset: GuardianInterfaces.IGuardianUserPermissionsAsset,
     ): IUserPermissions {
         return {
             groups: userPermissionsAsset.groupNames || [],

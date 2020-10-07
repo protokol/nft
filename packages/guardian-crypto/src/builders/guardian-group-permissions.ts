@@ -1,7 +1,7 @@
 import { Utils } from "@arkecosystem/crypto";
 
 import { GuardianTransactionTypes } from "../enums";
-import { GuardianGroupPermissionsAsset } from "../interfaces";
+import { IGuardianGroupPermissionsAsset } from "../interfaces";
 import { GuardianGroupPermissionsTransaction } from "../transactions";
 import { GuardianBaseTransactionBuilder } from "./guardian-base-builder";
 
@@ -15,7 +15,7 @@ export class GuardianGroupPermissionsBuilder extends GuardianBaseTransactionBuil
     }
 
     public GuardianGroupPermissions(
-        setGroupPermissions: GuardianGroupPermissionsAsset,
+        setGroupPermissions: IGuardianGroupPermissionsAsset,
     ): GuardianGroupPermissionsBuilder {
         if (this.data.asset) {
             this.data.asset.setGroupPermissions = setGroupPermissions;

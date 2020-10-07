@@ -1,7 +1,7 @@
 import { Utils } from "@arkecosystem/crypto";
 
 import { GuardianTransactionTypes } from "../enums";
-import { GuardianUserPermissionsAsset } from "../interfaces";
+import { IGuardianUserPermissionsAsset } from "../interfaces";
 import { GuardianUserPermissionsTransaction } from "../transactions/guardian-user-permissions";
 import { GuardianBaseTransactionBuilder } from "./guardian-base-builder";
 
@@ -14,7 +14,7 @@ export class GuardianUserPermissionsBuilder extends GuardianBaseTransactionBuild
         this.data.asset = { setUserPermissions: {} };
     }
 
-    public GuardianUserPermissions(setUserPermissions: GuardianUserPermissionsAsset): GuardianUserPermissionsBuilder {
+    public GuardianUserPermissions(setUserPermissions: IGuardianUserPermissionsAsset): GuardianUserPermissionsBuilder {
         if (this.data.asset) {
             this.data.asset.setUserPermissions = setUserPermissions;
         }

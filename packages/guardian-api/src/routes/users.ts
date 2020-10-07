@@ -3,6 +3,7 @@ import Hapi from "@hapi/hapi";
 import Joi from "@hapi/joi";
 
 import { UsersController } from "../controllers/users";
+import { userCriteriaQuerySchema } from "../resources";
 
 export const register = (server: Hapi.Server): void => {
     const controller = server.app.app.resolve(UsersController);
@@ -14,7 +15,7 @@ export const register = (server: Hapi.Server): void => {
         handler: controller.index,
         options: {
             validate: {
-                query: Schemas.pagination,
+                query: Joi.object().concat(userCriteriaQuerySchema).concat(Schemas.pagination),
             },
             plugins: {
                 pagination: { enabled: true },

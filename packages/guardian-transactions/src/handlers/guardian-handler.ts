@@ -92,7 +92,7 @@ export abstract class GuardianTransactionHandler extends Handlers.TransactionHan
     }
 
     protected verifyPermissions(
-        asset: GuardianInterfaces.GuardianUserPermissionsAsset | GuardianInterfaces.GuardianGroupPermissionsAsset,
+        asset: GuardianInterfaces.IGuardianUserPermissionsAsset | GuardianInterfaces.IGuardianGroupPermissionsAsset,
     ): void {
         const { allow, deny } = this.sanitizePermissions(asset.allow, asset.deny);
         const mergedPermissions = [...allow, ...deny];
