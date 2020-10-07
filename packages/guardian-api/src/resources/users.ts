@@ -9,7 +9,7 @@ export type UserResource = Interfaces.IUserPermissions & {
 export type UserCriteria = Contracts.Search.StandardCriteriaOf<UserResource>;
 
 export const userCriteriaSchemaObject = {
-    publicKey: Joi.string(),
+	publicKey: Joi.string(),
 };
 
 export const userCriteriaQuerySchema = Joi.object(userCriteriaSchemaObject);
