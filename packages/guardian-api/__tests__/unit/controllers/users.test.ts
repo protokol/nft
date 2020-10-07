@@ -103,6 +103,21 @@ describe("Test user controller", () => {
         expect(response.results[0]).toStrictEqual(users[0]);
     });
 
+    it("index - return all users that matches search query - publicKey", async () => {
+        const request: Hapi.Request = {
+            query: {
+                page: 1,
+                limit: 100,
+                publicKey: users[1].publicKey,
+            },
+        };
+        const response = (await userController.index(request, undefined)) as PaginatedResponse;
+
+        expect(response.totalCount).toBe(1);
+        expect(response.results.length).toBe(1);
+        expect(response.results[0]).toStrictEqual(users[1]);
+    });
+
     it("show - return user by id", async () => {
         const request: Hapi.Request = {
             params: {

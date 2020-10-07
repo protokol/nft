@@ -3,14 +3,14 @@ export interface IPermission {
     transactionTypeGroup: number;
 }
 
-export interface GuardianUserPermissionsAsset {
+export interface IGuardianUserPermissionsAsset {
     groupNames?: string[];
     publicKey: string;
     allow?: IPermission[];
     deny?: IPermission[];
 }
 
-export interface GuardianGroupPermissionsAsset {
+export interface IGuardianGroupPermissionsAsset {
     name: string;
     priority: number;
     active: boolean;

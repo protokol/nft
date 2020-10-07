@@ -6,7 +6,7 @@ export interface IUserPermissions {
     deny: Interfaces.IPermission[];
 }
 
-export interface IGroupPermissions extends Interfaces.GuardianGroupPermissionsAsset {
+export interface IGroupPermissions extends Interfaces.IGuardianGroupPermissionsAsset {
     allow: Interfaces.IPermission[];
     deny: Interfaces.IPermission[];
 }
