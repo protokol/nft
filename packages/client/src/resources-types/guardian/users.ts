@@ -10,5 +10,5 @@ export interface User {
 }
 
 export interface AllUsersQuery extends ApiQuery {
-    publicKey?: string;
+	publicKey?: string;
 }
