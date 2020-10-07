@@ -6,8 +6,19 @@ import { Identities } from "@arkecosystem/crypto";
 import { Enums } from "@protokol/guardian-crypto";
 import { generateMnemonic } from "bip39";
 
-import * as support from "./__support__";
-import { GuardianTransactionFactory } from "./__support__/transaction-factory";
+import * as support from "../__support__";
+import { GuardianTransactionFactory } from "../__support__/transaction-factory";
+
+const userPermissionsAsset = {
+    groupNames: ["group name"],
+    publicKey: "02def27da9336e7fbf63131b8d7e5c9f45b296235db035f1f4242c507398f0f21d",
+    allow: [
+        {
+            transactionType: Enums.GuardianTransactionTypes.GuardianSetGroupPermissions,
+            transactionTypeGroup: Enums.GuardianTransactionGroup,
+        },
+    ],
+};
 
 const groupPermissionsAsset = {
     name: "group name",
@@ -26,7 +37,7 @@ let app: Contracts.Kernel.Application;
 beforeAll(async () => (app = await support.setUp()));
 afterAll(async () => await support.tearDown());
 
-describe("Guardian set group permissions functional tests", () => {
+describe("Guardian set user permissions functional tests", () => {
     describe("Signed with one passphrase", () => {
         it("should broadcast, accept and forge it [Signed with 1 Passphrase]", async () => {
             // Set group permissions
@@ -38,6 +49,16 @@ describe("Guardian set group permissions functional tests", () => {
             await expect(setGroupPermissions).toBeAccepted();
             await snoozeForBlock(1);
             await expect(setGroupPermissions.id).toBeForged();
+
+            // Set user permissions
+            const setUserPermissions = GuardianTransactionFactory.initialize(app)
+                .GuardianSetUserPermissions(userPermissionsAsset)
+                .withPassphrase(passphrases[0])
+                .createOne();
+
+            await expect(setUserPermissions).toBeAccepted();
+            await snoozeForBlock(1);
+            await expect(setUserPermissions.id).toBeForged();
         });
     });
 
@@ -70,13 +91,23 @@ describe("Guardian set group permissions functional tests", () => {
             // Set group permissions
             const setGroupPermissions = GuardianTransactionFactory.initialize(app)
                 .GuardianSetGroupPermissions(groupPermissionsAsset)
-                .withPassphrase(passphrase)
-                .withSecondPassphrase(secondPassphrase)
+                .withPassphrase(passphrases[0])
                 .createOne();
 
             await expect(setGroupPermissions).toBeAccepted();
             await snoozeForBlock(1);
             await expect(setGroupPermissions.id).toBeForged();
+
+            // Set user permissions
+            const setUserPermissions = GuardianTransactionFactory.initialize(app)
+                .GuardianSetUserPermissions(userPermissionsAsset)
+                .withPassphrase(passphrase)
+                .withSecondPassphrase(secondPassphrase)
+                .createOne();
+
+            await expect(setUserPermissions).toBeAccepted();
+            await snoozeForBlock(1);
+            await expect(setUserPermissions.id).toBeForged();
         });
     });
 
@@ -130,13 +161,23 @@ describe("Guardian set group permissions functional tests", () => {
             const setGroupPermissions = GuardianTransactionFactory.initialize(app)
                 .GuardianSetGroupPermissions(groupPermissionsAsset)
                 .withPassphrase(passphrases[0])
-                .withSenderPublicKey(multiSigPublicKey)
-                .withPassphraseList(secrets)
                 .createOne();
 
             await expect(setGroupPermissions).toBeAccepted();
             await snoozeForBlock(1);
             await expect(setGroupPermissions.id).toBeForged();
+
+            // Set user permissions
+            const setUserPermissions = GuardianTransactionFactory.initialize(app)
+                .GuardianSetUserPermissions(userPermissionsAsset)
+                .withPassphrase(passphrases[0])
+                .withSenderPublicKey(multiSigPublicKey)
+                .withPassphraseList(secrets)
+                .createOne();
+
+            await expect(setUserPermissions).toBeAccepted();
+            await snoozeForBlock(1);
+            await expect(setUserPermissions.id).toBeForged();
         });
     });
 });
