@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [v1.0.0-beta.27](https://github.com/protokol/nft-plugins/compare/v1.0.0-beta.26...v1.0.0-beta.27)
+
+> 7 October 2020
+
+-   chore: plugin + dependencies bump [`#174`](https://github.com/protokol/nft-plugins/pull/174)
+-   feat(guardian): allow searching for groups/users [`#173`](https://github.com/protokol/nft-plugins/pull/173)
+-   feat(guardian): remove multiple allow and deny fields [`#172`](https://github.com/protokol/nft-plugins/pull/172)
+-   fix(client): user groups type update [`#169`](https://github.com/protokol/nft-plugins/pull/169)
+-   fix(client): add missing allowedIssuers field [`#168`](https://github.com/protokol/nft-plugins/pull/168)
+-   chore: change log and repo in the root package name [`#167`](https://github.com/protokol/nft-plugins/pull/167)
+
 #### [v1.0.0-beta.26](https://github.com/protokol/nft-plugins/compare/v1.0.0-beta.21...v1.0.0-beta.26)
 
 > 24 September 2020
