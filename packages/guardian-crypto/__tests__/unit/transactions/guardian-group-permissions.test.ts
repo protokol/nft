@@ -4,7 +4,7 @@ import { passphrases } from "@arkecosystem/core-test-framework";
 import { Managers, Transactions } from "@arkecosystem/crypto";
 
 import { GuardianGroupPermissionsBuilder } from "../../../src/builders";
-import { GuardianGroupPermissionsAsset } from "../../../src/interfaces";
+import { IGuardianGroupPermissionsAsset } from "../../../src/interfaces";
 import { GuardianGroupPermissionsTransaction } from "../../../src/transactions";
 
 const groupPermission = {
@@ -36,7 +36,7 @@ describe("Guardian set group permissions tests", () => {
         });
 
         it("should ser/deser correctly without allow/deny permissions", () => {
-            const groupPermissions: GuardianGroupPermissionsAsset = { ...groupPermission };
+            const groupPermissions: IGuardianGroupPermissionsAsset = { ...groupPermission };
             delete groupPermissions.allow;
             delete groupPermissions.deny;
 
@@ -53,7 +53,7 @@ describe("Guardian set group permissions tests", () => {
         });
 
         it("should ser/deser correctly with only allow permissions", () => {
-            const groupPermissions: GuardianGroupPermissionsAsset = { ...groupPermission };
+            const groupPermissions: IGuardianGroupPermissionsAsset = { ...groupPermission };
             delete groupPermissions.allow;
 
             const actual = new GuardianGroupPermissionsBuilder()

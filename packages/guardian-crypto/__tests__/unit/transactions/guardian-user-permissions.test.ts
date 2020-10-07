@@ -4,7 +4,7 @@ import { passphrases } from "@arkecosystem/core-test-framework";
 import { Managers, Transactions } from "@arkecosystem/crypto";
 
 import { GuardianUserPermissionsBuilder } from "../../../src/builders";
-import { GuardianGroupPermissionsAsset, GuardianUserPermissionsAsset } from "../../../src/interfaces";
+import { IGuardianGroupPermissionsAsset, IGuardianUserPermissionsAsset } from "../../../src/interfaces";
 import { GuardianUserPermissionsTransaction } from "../../../src/transactions";
 
 const userPermission = {
@@ -51,7 +51,7 @@ describe("Guardian set user permissions tests", () => {
         });
 
         it("should ser/deser correctly with only allow permissions", () => {
-            const userPermissions: GuardianUserPermissionsAsset = { ...userPermission };
+            const userPermissions: IGuardianUserPermissionsAsset = { ...userPermission };
             delete userPermissions.groupNames;
             delete userPermissions.deny;
 
