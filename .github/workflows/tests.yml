@@ -95,7 +95,7 @@ jobs:
               run: yarn install --immutable --immutable-cache && yarn build
 
             - name: TEST
-              run: cd packages/nft-base-transactions && yarn test __tests__/functional/transaction-forging/nft-burn.test.ts --forceExit
+              run: cd packages/nft-base-transactions && yarn test __tests__/functional/transaction-forging/single-passphrase.test.ts --forceExit
 
     functional-base-transactions-create:
         name: NFT_CREATE
