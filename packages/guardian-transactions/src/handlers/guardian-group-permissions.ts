@@ -24,7 +24,7 @@ export class GuardianGroupPermissionsHandler extends GuardianTransactionHandler 
 
     public async bootstrap(): Promise<void> {
         for await (const transaction of this.transactionHistoryService.streamByCriteria(this.getDefaultCriteria())) {
-            AppUtils.assert.defined<GuardianInterfaces.GuardianGroupPermissionsAsset>(
+            AppUtils.assert.defined<GuardianInterfaces.IGuardianGroupPermissionsAsset>(
                 transaction.asset?.setGroupPermissions,
             );
 
@@ -45,11 +45,11 @@ export class GuardianGroupPermissionsHandler extends GuardianTransactionHandler 
         transaction: Interfaces.ITransaction,
         sender: Contracts.State.Wallet,
     ): Promise<void> {
-        AppUtils.assert.defined<GuardianInterfaces.GuardianGroupPermissionsAsset>(
+        AppUtils.assert.defined<GuardianInterfaces.IGuardianGroupPermissionsAsset>(
             transaction.data.asset?.setGroupPermissions,
         );
 
-        const setGroupPermissionsAsset: GuardianInterfaces.GuardianGroupPermissionsAsset =
+        const setGroupPermissionsAsset: GuardianInterfaces.IGuardianGroupPermissionsAsset =
             transaction.data.asset.setGroupPermissions;
         this.verifyPermissions(setGroupPermissionsAsset);
 
@@ -57,7 +57,7 @@ export class GuardianGroupPermissionsHandler extends GuardianTransactionHandler 
     }
 
     public async throwIfCannotEnterPool(transaction: Interfaces.ITransaction): Promise<void> {
-        const { name }: GuardianInterfaces.GuardianGroupPermissionsAsset = transaction.data.asset!.setGroupPermissions;
+        const { name }: GuardianInterfaces.IGuardianGroupPermissionsAsset = transaction.data.asset!.setGroupPermissions;
         const hasGroupPermissionsTx: boolean = this.poolQuery
             .getAll()
             .whereKind(transaction)
@@ -76,7 +76,7 @@ export class GuardianGroupPermissionsHandler extends GuardianTransactionHandler 
         await super.apply(transaction);
 
         // Line is already checked inside throwIfCannotBeApplied run by super.apply method
-        // AppUtils.assert.defined<GuardianInterfaces.GuardianGroupPermissionsAsset>(
+        // AppUtils.assert.defined<GuardianInterfaces.IGuardianGroupPermissionsAsset>(
         //     transaction.data.asset?.setGroupPermissions,
         // );
         const setGroupPermissions = transaction.data.asset!.setGroupPermissions;
@@ -86,7 +86,7 @@ export class GuardianGroupPermissionsHandler extends GuardianTransactionHandler 
     public async revert(transaction: Interfaces.ITransaction): Promise<void> {
         await super.revert(transaction);
 
-        const setGroupPermissionsAsset: GuardianInterfaces.GuardianGroupPermissionsAsset = transaction.data.asset!
+        const setGroupPermissionsAsset: GuardianInterfaces.IGuardianGroupPermissionsAsset = transaction.data.asset!
             .setGroupPermissions;
 
         const lastGroupPermissionsTx = await this.getLastTxByAsset({
@@ -111,7 +111,7 @@ export class GuardianGroupPermissionsHandler extends GuardianTransactionHandler 
     public async revertForRecipient(transaction: Interfaces.ITransaction): Promise<void> {}
 
     private buildGroupPermissions(
-        groupPermissionsAsset: GuardianInterfaces.GuardianGroupPermissionsAsset,
+        groupPermissionsAsset: GuardianInterfaces.IGuardianGroupPermissionsAsset,
     ): IGroupPermissions {
         return {
             ...groupPermissionsAsset,
