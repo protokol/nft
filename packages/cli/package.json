@@ -1,6 +1,6 @@
 {
     "name": "@protokol/cli",
-    "version": "1.0.0-beta.26",
+    "version": "1.0.0-beta.27",
     "description": "A simple command line utility to create and broadcast Protokol transactions.",
     "license": "MIT",
     "homepage": "https://docs.protokol.com/nft/",
@@ -48,14 +48,14 @@
         "compile": "../../../node_modules/typescript/bin/tsc"
     },
     "dependencies": {
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.10",
-        "@arkecosystem/core-magistrate-crypto": "^3.0.0-alpha.10",
-        "@arkecosystem/crypto": "^3.0.0-alpha.10",
+        "@arkecosystem/core-kernel": "^3.0.0-alpha.13",
+        "@arkecosystem/core-magistrate-crypto": "^3.0.0-alpha.13",
+        "@arkecosystem/crypto": "^3.0.0-alpha.13",
         "@oclif/command": "^1",
         "@oclif/plugin-help": "^3",
-        "@protokol/nft-base-crypto": "^1.0.0-beta.26",
-        "@protokol/nft-exchange-crypto": "^1.0.0-beta.26",
-        "@protokol/guardian-crypto": "^1.0.0-beta.0",
+        "@protokol/nft-base-crypto": "^1.0.0-beta.27",
+        "@protokol/nft-exchange-crypto": "^1.0.0-beta.27",
+        "@protokol/guardian-crypto": "^1.0.0-beta.27",
         "fs-extra": "^9.0.1"
     },
     "devDependencies": {
