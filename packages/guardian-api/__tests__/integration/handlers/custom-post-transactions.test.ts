@@ -34,7 +34,7 @@ describe("API - Post transaction", () => {
             transactions: [actual.data],
         });
 
-        // response should be 403 instead of 500 if there is no custom error handler
+        // response should be 403 (without custom error handler is 500)
         expect(response.data.statusCode).toBe(403);
     });
 });
