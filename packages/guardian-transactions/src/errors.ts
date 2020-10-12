@@ -29,7 +29,7 @@ export class GroupDoesntExistError extends Errors.TransactionError {
 // PermissionResolver errors
 export class WalletDoesntHavePermissionsError extends Errors.TransactionError {
     public constructor(public readonly type: number, public readonly group: number | undefined) {
-        super(`Failed to verify transaction, because wallet doesn't have enough permissions.`);
+        super(`Failed to accept transaction, because wallet doesn't have enough permissions.`);
     }
 }
 
