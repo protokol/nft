@@ -36,7 +36,7 @@ describe("API - 1.0 - Guardian/Resources - Configurations", () => {
         expect(response.body.data.transactions).toStrictEqual({
             defaults: {
                 maxDefinedGroupsPerUser: 20,
-                defaultRuleBehaviour: 1,
+                transactionsAllowedByDefault: true,
                 masterPublicKey: "",
                 feeType: 0,
             },

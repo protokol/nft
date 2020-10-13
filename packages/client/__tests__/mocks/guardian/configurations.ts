@@ -27,7 +27,7 @@ export const mockGuardianConfigurations = (host: string) => {
                 transactions: {
                     defaults: {
                         maxDefinedGroupsPerUser: 20,
-                        defaultRuleBehaviour: 1,
+                        transactionsAllowedByDefault: true,
                         masterPublicKey: "",
                         feeType: 0,
                     },
