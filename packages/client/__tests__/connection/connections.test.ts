@@ -8,28 +8,28 @@ import { Auctions } from "../../src/resources/nft/exchange/auctions";
 const url = "http://127.0.0.1";
 
 describe("Connections tests", () => {
-    describe("NFTConnection test", () => {
-        it("should get Collections instance from NFTConnection", () => {
-            const conn = new NFTConnection(url);
-            const collections = conn.NFTBaseApi("collections");
+	describe("NFTConnection test", () => {
+		it("should get Collections instance from NFTConnection", () => {
+			const conn = new NFTConnection(url);
+			const collections = conn.NFTBaseApi("collections");
 
-            expect(collections).toBeInstanceOf(Collections);
-        });
+			expect(collections).toBeInstanceOf(Collections);
+		});
 
-        it("should get Auctions instance from NFTConnection", () => {
-            const conn = new NFTConnection(url);
-            const auctions = conn.NFTExchangeApi("auctions");
+		it("should get Auctions instance from NFTConnection", () => {
+			const conn = new NFTConnection(url);
+			const auctions = conn.NFTExchangeApi("auctions");
 
-            expect(auctions).toBeInstanceOf(Auctions);
-        });
-    });
+			expect(auctions).toBeInstanceOf(Auctions);
+		});
+	});
 
-    describe("GuardianConnection test", () => {
-        it("should get Groups instance from GuardianConnection", () => {
-            const conn = new GuardianConnection(url);
-            const groups = conn.guardianApi("groups");
+	describe("GuardianConnection test", () => {
+		it("should get Groups instance from GuardianConnection", () => {
+			const conn = new GuardianConnection(url);
+			const groups = conn.guardianApi("groups");
 
-            expect(groups).toBeInstanceOf(Groups);
-        });
-    });
+			expect(groups).toBeInstanceOf(Groups);
+		});
+	});
 });

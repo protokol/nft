@@ -15,26 +15,26 @@ let app: Application;
 let configurationsController: ConfigurationController;
 
 beforeEach(() => {
-    const config = Generators.generateCryptoConfigRaw();
-    Managers.configManager.setConfig(config);
+	const config = Generators.generateCryptoConfigRaw();
+	Managers.configManager.setConfig(config);
 
-    app = initApp();
+	app = initApp();
 
-    configurationsController = app.resolve<ConfigurationController>(ConfigurationController);
+	configurationsController = app.resolve<ConfigurationController>(ConfigurationController);
 });
 
 describe("Test configurations controller", () => {
-    it("index - return package name and version and crypto and transactions default settings", async () => {
-        const response = (await configurationsController.index(undefined, undefined)) as ItemResponse;
+	it("index - return package name and version and crypto and transactions default settings", async () => {
+		const response = (await configurationsController.index(undefined, undefined)) as ItemResponse;
 
-        expect(response.data).toStrictEqual({
-            package: {
-                name: require("../../../package.json").name,
-                currentVersion: require("../../../package.json").version,
-                latestVersion: await latestVersion(require("../../../package.json").name),
-            },
-            crypto: CryptoDefaults,
-            transactions: TransactionsDefaults,
-        });
-    });
+		expect(response.data).toStrictEqual({
+			package: {
+				name: require("../../../package.json").name,
+				currentVersion: require("../../../package.json").version,
+				latestVersion: await latestVersion(require("../../../package.json").name),
+			},
+			crypto: CryptoDefaults,
+			transactions: TransactionsDefaults,
+		});
+	});
 });
