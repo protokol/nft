@@ -28,8 +28,8 @@ export class GroupDoesntExistError extends Errors.TransactionError {
 
 // PermissionResolver errors
 export class WalletDoesntHavePermissionsError extends Errors.TransactionError {
-    public constructor() {
-        super(`Failed to verify transaction, because wallet doesn't have enough permissions.`);
+    public constructor(public readonly type: number, public readonly group: number | undefined) {
+        super(`Failed to accept transaction, because wallet doesn't have enough permissions.`);
     }
 }
 

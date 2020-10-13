@@ -45,7 +45,7 @@ export class ServiceProvider extends Providers.ServiceProvider {
                 if (
                     !(await this.app.get<PermissionResolver>(Identifiers.PermissionsResolver).resolve(data.transaction))
                 ) {
-                    throw new WalletDoesntHavePermissionsError();
+                    throw new WalletDoesntHavePermissionsError(data.transaction.type, data.transaction.typeGroup);
                 }
             });
     }
