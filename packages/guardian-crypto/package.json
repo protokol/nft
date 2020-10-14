@@ -37,9 +37,10 @@
         "test": "jest",
         "test:watch": "jest --watchAll",
         "coverage:report": "codecov",
-        "publish": "yarn build && yarn npm publish --access public --tolerate-republish",
         "test:unit": "jest __tests__/unit/** --forceExit",
-        "test:unit:coverage": "jest __tests__/unit --coverage"
+        "test:unit:coverage": "jest __tests__/unit --coverage",
+        "publish": "yarn build && yarn npm publish --access public",
+        "publish:beta": "yarn build && yarn npm publish --access public --tag beta --tolerate-republish"
     },
     "dependencies": {
         "@arkecosystem/crypto": "^3.0.0-alpha.13",

@@ -39,7 +39,9 @@
 		"build:watch": "yarn build -w",
 		"clean": "rimraf .coverage dist tmp",
 		"postpack": "rm -f oclif.manifest.json",
-		"prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme"
+		"prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
+		"publish": "yarn build && yarn npm publish --access public",
+		"publish:beta": "yarn build && yarn npm publish --access public --tag beta --tolerate-republish"
 	},
 	"dependencies": {
 		"@arkecosystem/core-kernel": "^3.0.0-alpha.13",

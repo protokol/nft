@@ -35,7 +35,9 @@
 		"prepublishOnly": "yarn build",
 		"test": "jest --detectOpenHandles --forceExit",
 		"test:coverage": "cross-env jest __tests__ --coverage --detectOpenHandles --forceExit",
-		"test:watch": "jest --watchAll"
+		"test:watch": "jest --watchAll",
+		"publish": "yarn build && yarn npm publish --access public",
+		"publish:beta": "yarn build && yarn npm publish --access public --tag beta --tolerate-republish"
 	},
 	"dependencies": {
 		"@arkecosystem/client": "^1.1.4",

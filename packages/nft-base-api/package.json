@@ -38,7 +38,9 @@
 		"test:unit": "jest __tests__/unit/** --forceExit --detectOpenHandles",
 		"test:unit:coverage": "jest __tests__/unit --coverage --detectOpenHandles",
 		"test:integration": "jest __tests__/integration --runInBand --forceExit",
-		"test:integration:coverage": "jest __tests__/integration --coverage --runInBand --forceExit"
+		"test:integration:coverage": "jest __tests__/integration --coverage --runInBand --forceExit",
+		"publish": "yarn build && yarn npm publish --access public",
+		"publish:beta": "yarn build && yarn npm publish --access public --tag beta --tolerate-republish"
 	},
 	"dependencies": {
 		"@arkecosystem/core-api": "^3.0.0-alpha.13",
