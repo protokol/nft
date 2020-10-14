@@ -133,7 +133,7 @@ describe("PeerDiscovery", () => {
                 nock("http://127.0.0.1")
                     .get("/api/peers")
                     .reply(200, {
-                        data: [{}, { ports: {} }, ...dummyPeers],
+                        data: [{}, { plugins: {} }, { plugins: { "@arkecosystem/core-api": {} } }, ...dummyPeers],
                     });
 
                 peerDiscovery = await PeerDiscovery.new(new Connection("http://127.0.0.1/api"));
@@ -147,9 +147,23 @@ describe("PeerDiscovery", () => {
                 global.Math = mathOriginal;
             });
 
-            describe("selected peer doesn't have ports defined", () => {
+            describe("selected peer doesn't have plugins defined", () => {
                 beforeEach(async () => {
-                    await initRandomAndNock(0.3, 0.5);
+                    await initRandomAndNock(0, 0.9);
+                });
+
+                it("should find peers", async () => {
+                    nock(/.+/).get("/api/peers").reply(200, {
+                        data: dummyPeers,
+                    });
+
+                    expect(await peerDiscovery.findPeers()).toEqual(dummyPeers);
+                });
+            });
+
+            describe("selected peer doesn't have core plugin defined", () => {
+                beforeEach(async () => {
+                    await initRandomAndNock(0.2, 0.9);
                 });
 
                 it("should find peers", async () => {
@@ -163,7 +177,7 @@ describe("PeerDiscovery", () => {
 
             describe("selected peer doesn't have api port defined", () => {
                 beforeEach(async () => {
-                    await initRandomAndNock(0, 0.5);
+                    await initRandomAndNock(0.4, 0.9);
                 });
 
                 it("should find peers", async () => {
@@ -254,10 +268,12 @@ describe("PeerDiscovery", () => {
             peerDiscovery = await PeerDiscovery.new(new Connection("http://127.0.0.1/api"));
         });
 
-        it("should find peers with the deprecated wallet api plugin", async () => {
-            nock(/.+/).get("/api/peers").reply(200, {
-                data: dummyPeers,
-            });
+        it("should not find peers with the deprecated wallet api plugin", async () => {
+            nock(/.+/)
+                .get("/api/peers")
+                .reply(200, {
+                    data: [{}, ...dummyPeers],
+                });
 
             await expect(peerDiscovery.findPeersWithPlugin("core-wallet-api")).resolves.toEqual([]);
         });
@@ -267,7 +283,7 @@ describe("PeerDiscovery", () => {
                 data: dummyPeers,
             });
 
-            await expect(peerDiscovery.findPeersWithPlugin("core-magistrate")).resolves.toEqual([]);
+            await expect(peerDiscovery.findPeersWithPlugin("core-webhooks")).resolves.toEqual([]);
         });
 
         it("should find peers with core-api plugin", async () => {

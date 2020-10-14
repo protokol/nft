@@ -17,7 +17,7 @@ describe("ConnectionManager tests", () => {
         nock(/.+/)
             .get("/api/peers")
             .reply(200, {
-                data: dummyPeers,
+                data: [{ plugins: {} }, ...dummyPeers],
             })
             .persist();
     });
@@ -40,5 +40,4 @@ describe("ConnectionManager tests", () => {
 
         expect(dummyPeers.map((x) => new ProtokolConnection(`http://${x.ip}:4003/api`))).toContainEqual(randomConn);
     });
-
 });
