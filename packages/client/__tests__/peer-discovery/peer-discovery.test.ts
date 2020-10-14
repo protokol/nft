@@ -1,9 +1,9 @@
 import "jest-extended";
 
 import { Connection } from "@arkecosystem/client";
-import nock from "nock";
+const nock = require("nock");
 
-import { GuardianConnection, NFTConnection } from "../../src";
+import { ProtokolConnection } from "../../src";
 import { PeerDiscovery } from "../../src/peer-discovery";
 import { dummyGithubSeeds, dummyPeers } from "../mocks/peer-discovery/peers";
 
@@ -52,12 +52,12 @@ describe("PeerDiscovery", () => {
             });
         });
         it("should return peers with nft connection", async () => {
-            const peerInstance = await PeerDiscovery.new(new NFTConnection("http://127.0.0.1/api"));
+            const peerInstance = await PeerDiscovery.new(new ProtokolConnection("http://127.0.0.1/api"));
             expect(await peerInstance.findPeers()).toEqual(expect.arrayContaining(dummyPeers));
         });
 
         it("should return peers with guardian connection", async () => {
-            const peerInstance = await PeerDiscovery.new(new GuardianConnection("http://127.0.0.1/api"));
+            const peerInstance = await PeerDiscovery.new(new ProtokolConnection("http://127.0.0.1/api"));
             expect(await peerInstance.findPeers()).toEqual(expect.arrayContaining(dummyPeers));
         });
 
@@ -267,7 +267,7 @@ describe("PeerDiscovery", () => {
                 data: dummyPeers,
             });
 
-            await expect(peerDiscovery.findPeersWithPlugin("core-webhooks")).resolves.toEqual([]);
+            await expect(peerDiscovery.findPeersWithPlugin("core-magistrate")).resolves.toEqual([]);
         });
 
         it("should find peers with core-api plugin", async () => {

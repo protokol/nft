@@ -1,4 +1,4 @@
-import { GuardianConnection } from "../../../src";
+import { ProtokolConnection } from "../../../src";
 import { mockGuardianConfigurations } from "./configurations";
 import { mockGuardianGroups } from "./groups";
 import { mockGuardianUsers } from "./users";
@@ -10,5 +10,5 @@ export const configureGuardianMocks = <T>(resource): T => {
     mockGuardianGroups(host);
     mockGuardianUsers(host);
 
-    return new resource(new GuardianConnection(host));
+    return new resource(new ProtokolConnection(host));
 };
