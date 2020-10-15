@@ -111,9 +111,6 @@
 				"package": "@protokol/guardian-api"
 			},
 			{
-				"package": "@protokol/nft-generator-api"
-			},
-			{
 				"package": "@arkecosystem/core-magistrate-api"
 			},
 			{
