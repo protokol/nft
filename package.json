@@ -19,7 +19,8 @@
 		"lint": "eslint packages/**/src/** --ext .ts --fix",
 		"lint:tests": "eslint packages/**/__tests__/** --ext .ts --fix",
 		"prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\"",
-		"test:unit": "yarn workspaces foreach -pt run test:unit"
+		"test:unit": "yarn workspaces foreach -pt run test:unit",
+		"full:testnet": "cross-env CORE_PATH_CONFIG=./config/networks/testnet ark core:run --networkStart --env=test --network=testnet"
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^0.7.0",
@@ -82,5 +83,8 @@
 		"@arkecosystem/utils@1.2.0": {
 			"unplugged": true
 		}
+	},
+	"dependencies": {
+		"@arkecosystem/core": "^3.0.0-next.2"
 	}
 }
