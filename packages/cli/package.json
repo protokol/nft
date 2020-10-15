@@ -44,9 +44,9 @@
 		"publish:beta": "yarn build && yarn npm publish --access public --tag beta --tolerate-republish"
 	},
 	"dependencies": {
-		"@arkecosystem/core-kernel": "^3.0.0-next.1",
-		"@arkecosystem/core-magistrate-crypto": "^3.0.0-next.1",
-		"@arkecosystem/crypto": "^3.0.0-next.1",
+		"@arkecosystem/core-kernel": "^3.0.0-next.2",
+		"@arkecosystem/core-magistrate-crypto": "^3.0.0-next.2",
+		"@arkecosystem/crypto": "^3.0.0-next.2",
 		"@oclif/command": "^1",
 		"@oclif/plugin-help": "^3",
 		"@protokol/guardian-crypto": "workspace:packages/guardian-crypto",
