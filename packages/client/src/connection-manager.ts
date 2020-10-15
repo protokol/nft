@@ -1,55 +1,30 @@
-import { GuardianConnection } from "./guardian-connection";
-import { NFTConnection } from "./nft-connection";
 import { PeerDiscovery } from "./peer-discovery";
+import { ProtokolConnection } from "./protokol-connection";
 
 export class ConnectionManager {
-    private readonly defaultConnection: NFTConnection | GuardianConnection;
-    private readonly nftConnections: NFTConnection[] = [];
-    private readonly guardianConnections: GuardianConnection[] = [];
-    public constructor(defaultNftConnection: NFTConnection | GuardianConnection) {
-        this.defaultConnection = defaultNftConnection;
+    private readonly defaultConnection: ProtokolConnection;
+    private readonly protokolConnections: ProtokolConnection[] = [];
+
+    public constructor(defaultConnection: ProtokolConnection) {
+        this.defaultConnection = defaultConnection;
     }
 
     public async findRandomPeers(): Promise<ConnectionManager> {
         const peers = await (await PeerDiscovery.new(this.defaultConnection)).findPeers();
         for (const peer of peers) {
-            const coreApi = peer.ports["@arkecosystem/core-api"];
+            const coreApi = peer.plugins["@arkecosystem/core-api"];
             if (coreApi) {
-                if (this.defaultConnection instanceof NFTConnection) {
-                    this.nftConnections.push(new NFTConnection(`http://${peer.ip}:${coreApi}/api`));
-                } else if (this.defaultConnection instanceof GuardianConnection) {
-                    this.guardianConnections.push(new GuardianConnection(`http://${peer.ip}:${coreApi}/api`));
-                }
+                this.protokolConnections.push(new ProtokolConnection(`http://${peer.ip}:${coreApi.port}/api`));
             }
         }
         return Promise.resolve(this);
     }
 
-    public getRandomNFTConnection(): NFTConnection {
-        if (!(this.defaultConnection instanceof NFTConnection)) {
-            throw new Error("Can't return random NFTConnection");
-        }
-        return this.nftConnections[Math.floor(Math.random() * this.nftConnections.length)];
+    public getRandomConnection(): ProtokolConnection {
+        return this.protokolConnections[Math.floor(Math.random() * this.protokolConnections.length)];
     }
 
-    public getDefaultNFTConnection(): NFTConnection {
-        if (!(this.defaultConnection instanceof NFTConnection)) {
-            throw new Error("Can't return NFTConnection");
-        }
-        return this.defaultConnection;
-    }
-
-    public getRandomGuardianConnection(): GuardianConnection {
-        if (!(this.defaultConnection instanceof GuardianConnection)) {
-            throw new Error("Can't return random GuardianConnection");
-        }
-        return this.guardianConnections[Math.floor(Math.random() * this.guardianConnections.length)];
-    }
-
-    public getDefaultGuardianConnection(): GuardianConnection {
-        if (!(this.defaultConnection instanceof GuardianConnection)) {
-            throw new Error("Can't return GuardianConnection");
-        }
+    public getDefaultConnection(): ProtokolConnection {
         return this.defaultConnection;
     }
 }
