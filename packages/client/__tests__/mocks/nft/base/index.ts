@@ -1,4 +1,4 @@
-import { NFTConnection } from "../../../../src";
+import { ProtokolConnection } from "../../../../src";
 import { mockAssets } from "./assets";
 import { mockBurns } from "./burns";
 import { mockCollections } from "./collections";
@@ -14,5 +14,5 @@ export const configureBaseMocks = <T>(resource): T => {
 	mockCollections(host);
 	mockTransfers(host);
 
-	return new resource(new NFTConnection(host));
+	return new resource(new ProtokolConnection(host));
 };

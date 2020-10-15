@@ -1,4 +1,4 @@
-import { NFTConnection } from "@protokol/client";
+import { ProtokolConnection } from "@protokol/client";
 import { ARKCrypto, Builders, Transactions as NFTTransactions } from "@protokol/nft-exchange-crypto";
 
 export const NFTAuctionCancel = async () => {
@@ -8,7 +8,7 @@ export const NFTAuctionCancel = async () => {
 	ARKCrypto.Transactions.TransactionRegistry.registerTransactionType(NFTTransactions.NFTAuctionCancelTransaction);
 
 	// Configure our API client
-	const client = new NFTConnection("http://nft.protokol.com:4003/api");
+	const client = new ProtokolConnection("http://nft.protokol.com:4003/api");
 	const passphrase = "clay harbor enemy utility margin pretty hub comic piece aerobic umbrella acquire";
 
 	// Step 1: Retrieve the nonce of the sender wallet

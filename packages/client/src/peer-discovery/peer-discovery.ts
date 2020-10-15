@@ -91,22 +91,22 @@ export class PeerDiscovery {
 
 		const selectProperPeer = (): IPeer => {
 			const peer = this.seeds[Math.floor(Math.random() * this.seeds.length)];
-			let peerApiPort: number;
-			if (peer.ports) {
-				peerApiPort = peer.ports["@arkecosystem/core-api"];
-				if (peerApiPort) {
-					return peer;
-				} else {
+			if (peer.plugins) {
+				const coreApiPlugin = peer.plugins["@arkecosystem/core-api"];
+				if (!coreApiPlugin) {
 					return selectProperPeer();
 				}
-			} else {
+				if (coreApiPlugin.port) {
+					return peer;
+				}
 				return selectProperPeer();
 			}
+			return selectProperPeer();
 		};
 
 		const seed: IPeer = selectProperPeer();
 
-		const body: any = await ky(`http://${seed.ip}:${seed.ports!["@arkecosystem/core-api"]}/api/peers`, {
+		const body: any = await ky(`http://${seed.ip}:${seed.plugins["@arkecosystem/core-api"].port}/api/peers`, {
 			...opts,
 			...{
 				headers: {
@@ -132,15 +132,17 @@ export class PeerDiscovery {
 		const peers: IPeer[] = [];
 
 		for (const peer of await this.findPeers(opts)) {
-			const pluginName: string | undefined = Object.keys(peer.ports).find(
-				(key: string) => key.split("/")[1] === name,
-			);
+			if (peer.plugins) {
+				const pluginName: string | undefined = Object.keys(peer.plugins).find(
+					(key: string) => key.split("/")[1] === name,
+				);
 
-			if (pluginName) {
-				const port: number = peer.ports[pluginName];
+				if (pluginName) {
+					const port: number = peer.plugins[pluginName].port;
 
-				if (port >= 1 && port <= 65535) {
-					peers.push(peer);
+					if (port >= 1 && port <= 65535) {
+						peers.push(peer);
+					}
 				}
 			}
 		}
@@ -152,11 +154,10 @@ export class PeerDiscovery {
 		const apiPeers: IPeer[] = await this.findPeersWithPlugin("core-api", opts);
 
 		const requests = apiPeers.map((peer) => {
-			return ky.get(`http://${peer.ip}:${peer.port}/api/blocks?limit=1`).json();
+			return ky.get(`http://${peer.ip}:${peer.plugins["@arkecosystem/core-api"].port}/api/blocks?limit=1`).json();
 		});
 
 		const responses = await Promise.all(requests);
-
 		const peers: IPeer[] = [];
 
 		for (const i in responses) {

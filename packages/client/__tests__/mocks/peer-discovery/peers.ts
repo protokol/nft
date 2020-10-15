@@ -30,7 +30,7 @@ export const dummyPeers = [
 			},
 			"@arkecosystem/core-webhooks": {
 				enabled: true,
-				port: 4004,
+				port: -1,
 			},
 		},
 	},
@@ -52,7 +52,7 @@ export const dummyPeers = [
 			},
 			"@arkecosystem/core-webhooks": {
 				enabled: true,
-				port: 4004,
+				port: -1,
 			},
 		},
 	},

@@ -1,4 +1,4 @@
-import { NFTConnection } from "../../../../src";
+import { ProtokolConnection } from "../../../../src";
 import { mockAuctions } from "./auctions";
 import { mockBids } from "./bids";
 import { mockExchangeConfigurations } from "./configurations";
@@ -12,5 +12,5 @@ export const configureExchangeMocks = <T>(resource): T => {
 	mockExchangeConfigurations(host);
 	mockTrades(host);
 
-	return new resource(new NFTConnection(host));
+	return new resource(new ProtokolConnection(host));
 };
