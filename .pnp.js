@@ -2530,7 +2530,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/cli/",
           "packageDependencies": [
             ["@protokol/cli", "workspace:packages/cli"],
-            ["@arkecosystem/core", "npm:3.0.0-next.2"],
             ["@arkecosystem/core-kernel", "npm:3.0.0-next.2"],
             ["@arkecosystem/core-magistrate-crypto", "npm:3.0.0-next.2"],
             ["@arkecosystem/crypto", "npm:3.0.0-next.2"],
@@ -3903,7 +3902,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@yarnpkg/parsers", "npm:2.3.0"],
             ["@yarnpkg/pnp", "npm:2.3.1"],
             ["@yarnpkg/shell", "npm:2.4.0"],
-            ["binjumper", "npm:0.1.2"],
+            ["binjumper", "npm:0.1.3"],
             ["camelcase", "npm:5.3.1"],
             ["chalk", "npm:3.0.0"],
             ["ci-info", "npm:2.0.0"],
@@ -4839,10 +4838,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["binjumper", [
-        ["npm:0.1.2", {
-          "packageLocation": "./.yarn/cache/binjumper-npm-0.1.2-f92273dfb2-01d013f077.zip/node_modules/binjumper/",
+        ["npm:0.1.3", {
+          "packageLocation": "./.yarn/cache/binjumper-npm-0.1.3-160b213eed-660000e5a5.zip/node_modules/binjumper/",
           "packageDependencies": [
-            ["binjumper", "npm:0.1.2"]
+            ["binjumper", "npm:0.1.3"]
           ],
           "linkType": "HARD",
         }]
