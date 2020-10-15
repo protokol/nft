@@ -91,7 +91,7 @@
 	},
 	"oclif": {
 		"commands": "./src/commands",
-		"bin": "nft-tx-tester",
+		"bin": "proto-cli",
 		"topics": {
 			"send": {
 				"description": "Send transactions of various types"
