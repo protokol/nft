@@ -2,8 +2,7 @@ import "jest-extended";
 
 const nock = require("nock");
 
-import { ConnectionManager } from "../../src";
-import { ProtokolConnection } from "../../src";
+import { ConnectionManager, ProtokolConnection } from "../../src";
 import { dummyPeers } from "../mocks/peer-discovery/peers";
 
 const url = "http://127.0.0.1/api";
