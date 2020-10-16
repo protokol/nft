@@ -3,7 +3,7 @@
 
 # Examples
 
-A Protokol module providing examples for NFT functionalities.
+A Protokol module providing examples for NFT and Guardian functionalities.
 
 # License
 
