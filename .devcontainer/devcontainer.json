@@ -10,12 +10,22 @@
 		"terminal.integrated.shell.linux": "/bin/bash",
 		"sqltools.connections": [
 			{
-				"name": "Container database",
+				"name": "TESTNET",
 				"driver": "PostgreSQL",
 				"previewLimit": 50,
 				"server": "localhost",
 				"port": 5432,
 				"database": "ark_testnet",
+				"username": "ark",
+				"password": "password"
+			},
+			{
+				"name": "DEVNET",
+				"driver": "PostgreSQL",
+				"previewLimit": 50,
+				"server": "localhost",
+				"port": 5432,
+				"database": "ark_devnet",
 				"username": "ark",
 				"password": "password"
 			}
