@@ -1,6 +1,6 @@
 {
     "name": "@protokol/nft-generator-api",
-    "version": "1.0.0-beta.27",
+    "version": "1.0.0-beta.28",
     "description": "NFT Transaction Generator – TEST ENV Only",
     "license": "CC-BY-NC-SA-4.0",
     "homepage": "https://docs.protokol.com/nft/",
@@ -38,13 +38,13 @@
         "pretest": "bash ../../../scripts/pre-test.sh"
     },
     "dependencies": {
-        "@arkecosystem/core-api": "^3.0.0-alpha.13",
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.13",
+        "@arkecosystem/core-api": "^3.0.0-next.3",
+        "@arkecosystem/core-kernel": "^3.0.0-next.3",
         "@hapi/boom": "^9.0.0",
         "@hapi/hapi": "^19.0.0",
         "@hapi/joi": "^17.1.0",
-        "@protokol/nft-base-transactions": "^1.0.0-beta.27",
-        "@protokol/nft-exchange-transactions": "^1.0.0-beta.27",
+        "@protokol/nft-base-transactions": "^1.0.0-beta.28",
+        "@protokol/nft-exchange-transactions": "^1.0.0-beta.28",
         "got": "^11.0.3"
     },
     "devDependencies": {

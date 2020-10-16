@@ -1,6 +1,6 @@
 {
     "name": "@protokol/guardian-api",
-    "version": "1.0.0-beta.27",
+    "version": "1.0.0-beta.28",
     "description": "REST API For Guardian Functionality",
     "license": "CC-BY-NC-SA-4.0",
     "homepage": "https://docs.protokol.com/nft/",
@@ -41,14 +41,14 @@
         "test:integration:coverage": "cross-env CORE_ENV=test jest __tests__/integration --coverage --runInBand --forceExit"
     },
     "dependencies": {
-        "@arkecosystem/core-api": "^3.0.0-alpha.13",
-        "@arkecosystem/core-kernel": "^3.0.0-alpha.13",
+        "@arkecosystem/core-api": "^3.0.0-next.3",
+        "@arkecosystem/core-kernel": "^3.0.0-next.3",
         "@hapi/boom": "^9.0.0",
         "@hapi/hapi": "^19.0.0",
         "@hapi/joi": "^17.1.0",
         "latest-version": "^5.1.0",
-        "@protokol/guardian-crypto": "^1.0.0-beta.27",
-        "@protokol/guardian-transactions": "^1.0.0-beta.27"
+        "@protokol/guardian-crypto": "^1.0.0-beta.28",
+        "@protokol/guardian-transactions": "^1.0.0-beta.28"
     },
     "devDependencies": {
         "@types/hapi__boom": "^7.4.1",
