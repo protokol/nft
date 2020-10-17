@@ -1,4 +1,4 @@
-![Img](nft-tx-tester.png)
+![Img](cli.png)
 
 # Protokol cli
 
