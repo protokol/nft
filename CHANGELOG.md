@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [v1.0.0-beta.28](https://github.com/protokol/nft-plugins/compare/v1.0.0-beta.27...v1.0.0-beta.28)
+
+> 16 October 2020
+
+-   chore: plugin + dependencies bump [`#179`](https://github.com/protokol/nft-plugins/pull/179)
+-   chore: peer-discovery, connection manager and protokol-connection [`#178`](https://github.com/protokol/nft-plugins/pull/178)
+-   test(client+guardian-api): forbidden error handling + client mock amend [`#177`](https://github.com/protokol/nft-plugins/pull/177)
+-   feat(guardian-api): improve forbidden error handling [`#176`](https://github.com/protokol/nft-plugins/pull/176)
+-   chore: update changelog [`#175`](https://github.com/protokol/nft-plugins/pull/175)
+
 #### [v1.0.0-beta.27](https://github.com/protokol/nft-plugins/compare/v1.0.0-beta.26...v1.0.0-beta.27)
 
 > 7 October 2020
