@@ -1,14 +1,13 @@
 ![Img](nft-core.png)
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
-# NFT Functionality For ARK Core-v3 Bridgechains
+# NFT Functionality Built On Top of ARK Core
 
 A monorepository containing a set of `@protokol` packages providing Digital Asset (NFT) Support for any ARK Core v3 based bridgechains. Plugins support the following main features:
 
 -   digital asset creation (JSON Schema based asset structure)
 -   digital asset trading (auction, bid, trade, transfer)
 -   digital asset burning
--   permission based asset control
 -   supply management
 -   full REST API Support for exchange and asset creation.
 
@@ -34,55 +33,33 @@ This is a monorepo which contains many tools and packages:
 | [nft-exchange-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-api)                   | Exchange API Functionality                      | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-api/beta)          |
 | [nft-exchange-crypto](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-crypto)             | Exchange crypto transaction support             | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-crypto/beta)       |
 | [nft-exchange-transactions](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-transactions) | Exchange NFT Core v3 transactions engine        | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-transactions/beta) |
-| [nft-generator-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-generator-api)                 | Helper plugin for quick asset generation        | ![](https://img.shields.io/npm/v/@protokol/nft-generator-api/beta)         |
 | [client](https://github.com/protokol/nft-plugins/tree/develop/packages/client)                                       | Protokol and ARK API REST Client Implementation | ![](https://img.shields.io/npm/v/@protokol/client/beta)                    |
 
 ## Production install
 
-Prepare and configure your bridgechain network configuration to install and load published packages from npm repository. A testnet configuration example can be found here: https://github.com/protokol/core-nft/blob/conf/nft-token-develop/packages/core/bin/config/testnet/app.json#L20-L44. We need to add the following entries to packages:
+Prepare and configure your bridgechain network configuration to install and load published packages from npm repository. A testnet configuration example can be found here: https://github.com/protokol/nft-plugins/blob/develop/config/networks/testnet/app.json.
 
-```json
-({
-	"package": "@protokol/nft-base-transactions"
-},
-{
-	"package": "@protokol/nft-exchange-transactions"
-},
-{
-	"package": "@protokol/nft-base-api"
-},
-{
-	"package": "@protokol/nft-exchange-api"
-},
-{
-	"package": "@protokol/nft-generator-api"
-})
-```
-
-You could also use our [core-nft](https://github.com/protokol/core-nft) branch of ARK Core-v3, where this is already setup for testnet environment (don't forget to update package.json in your core bridgechain branch).
-
-## Source Install
-
-### Development environment setup
-
-Development environment is setup in the same way as we setup ARK Core v3 development environment. To Learn more about how to achieve this check this link:
-https://learn.ark.dev/core-getting-started/setting-up-your-development-environment
+## Development environment setup
 
 ### Source Code Setup
 
 ```bash
-git clone https://github.com/protokol/core-nft
-cd core-nft
-git clone https://github.com/protokol/nft-plugins protokol/
-
-# run yarn setup from root folder
-yarn setup:clean
+git clone https://github.com/protokol/nft-plugins
+yarn && yarn build
 ```
 
 ### Run Local Testnet
 
-Check here how to run your local Testnet:
-https://learn.ark.dev/core-getting-started/spinning-up-your-first-testnet
+Make sure your database is up and running (our use our `config/networks/` docker files).
+
+```bash
+# run PG docker
+cd config/networks/testnet
+docker-compose up postgres
+
+#run full testnet
+yarn full:testnet
+```
 
 # Contact Us For Support And Custom Development
 

@@ -104,6 +104,6 @@
 	},
 	"dependencies": {
 		"@arkecosystem/core": "^3.0.0-next.4",
-		"@arkecosystem/core-cli": "^3.0.0-alpha.0"
+		"@arkecosystem/core-cli": "^3.0.0-next.4"
 	}
 }
