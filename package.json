@@ -34,6 +34,10 @@
 		"manager:testnet": "cross-env CORE_PATH_CONFIG=./config/networks/testnet yarn ark manager:run --env=test --network=testnet",
 		"full:testnet": "cross-env CORE_PATH_CONFIG=./config/networks/testnet ark core:run --networkStart --env=test --network=testnet"
 	},
+	"dependencies": {
+		"@arkecosystem/core": "^3.0.0-next.4",
+		"@arkecosystem/core-cli": "^3.0.0-next.4"
+	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^0.7.0",
 		"@types/eslint": "^7.2.0",
@@ -64,9 +68,6 @@
 		"typescript": "~4.0.2",
 		"typescript-language-server": "~0.4.0"
 	},
-	"workspaces": [
-		"packages/*"
-	],
 	"dependenciesMeta": {
 		"@arkecosystem/core@3.0.0-next.4": {
 			"unplugged": true
@@ -102,8 +103,7 @@
 			"unplugged": true
 		}
 	},
-	"dependencies": {
-		"@arkecosystem/core": "^3.0.0-next.4",
-		"@arkecosystem/core-cli": "^3.0.0-next.4"
-	}
+	"workspaces": [
+		"packages/*"
+	]
 }
