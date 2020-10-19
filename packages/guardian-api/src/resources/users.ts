@@ -3,13 +3,13 @@ import Joi from "@hapi/joi";
 import { Interfaces } from "@protokol/guardian-transactions";
 
 export type UserResource = Interfaces.IUserPermissions & {
-    publicKey: string;
+	publicKey: string;
 };
 
 export type UserCriteria = Contracts.Search.StandardCriteriaOf<UserResource>;
 
 export const userCriteriaSchemaObject = {
-    publicKey: Joi.string(),
+	publicKey: Joi.string(),
 };
 
 export const userCriteriaQuerySchema = Joi.object(userCriteriaSchemaObject);

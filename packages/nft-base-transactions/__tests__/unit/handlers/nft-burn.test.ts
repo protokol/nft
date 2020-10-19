@@ -57,7 +57,7 @@ const nftCollectionAsset: NFTInterfaces.NFTCollectionAsset = {
     },
 };
 
-const buildActualBurn = (id: string | undefined, nonce: string = "1") =>
+const buildActualBurn = (id: string | undefined, nonce = "1") =>
     new NFTBuilders.NFTBurnBuilder()
         .NFTBurnAsset({
             // @ts-ignore

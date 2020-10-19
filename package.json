@@ -1,31 +1,109 @@
 {
-    "private": true,
-    "name": "nft-core",
-    "version": "1.0.0-beta.28",
-    "description": "NFT Functionality For Any ARK Core-v3 Bridgechain",
-    "engineStrict": true,
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/protokol/nft-plugins.git"
-    },
-    "keywords": [
-        "protokol",
-        "ark",
-        "core",
-        "sdk",
-        "nft",
-        "blockchain"
-    ],
-    "scripts": {
-        "build": "cross-env bash ./scripts/build.sh",
-        "publish:beta": "cross-env-shell bash ./scripts/publish-beta.sh",
-        "publish:latest": "cross-env-shell bash ./scripts/publish-latest.sh",
-        "test:functional": "cross-env-shell bash ./scripts/test-functional.sh",
-        "test:integration": "cross-env-shell bash ./scripts/test-integration.sh",
-        "test:unit": "cross-env-shell bash ./scripts/test-unit.sh",
-        "test": "yarn test:unit && yarn test:functional && yarn test:integration"
-    },
-    "devDependencies": {
-        "cross-env": "^7.0.2"
-    }
+	"private": true,
+	"name": "@protokol/nft-plugins",
+	"description": "NFT Functionality For Any ARK Core-v3 Bridgechain",
+	"engineStrict": true,
+	"engines": {
+		"node": "^12 || ^14",
+		"yarn": "^2"
+	},
+	"scripts": {
+		"publish:beta": "yarn workspaces foreach -pt run publish:beta",
+		"build": "yarn workspaces foreach -pt run build",
+		"clean": "yarn workspaces foreach -pt run clean",
+		"version": "yarn workspaces foreach version",
+		"version:apply": "yarn workspaces foreach version apply",
+		"version:check": "yarn version check --interactive",
+		"format": "yarn lint && yarn prettier",
+		"lint": "eslint packages/**/src/** --ext .ts --fix",
+		"lint:tests": "eslint packages/**/__tests__/** --ext .ts --fix",
+		"prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\"",
+		"test:unit": "yarn workspaces foreach -pt run test:unit",
+		"debug:forger": "node --inspect-brk yarn ark forger:run",
+		"debug:relay": "node --inspect-brk yarn ark relay:run",
+		"debug:start": "node --inspect-brk yarn ark core:run",
+		"core:devnet": "cross-env CORE_PATH_CONFIG=./config/networks/devnet yarn ark core:run --network=devnet",
+		"core:mainnet": "cross-env CORE_PATH_CONFIG=./config/networks/mainnet yarn ark core:run --network=mainnet",
+		"core:testnet": "cross-env CORE_PATH_CONFIG=./config/networks/testnet yarn ark core:run --env=test --network=testnet",
+		"relay:devnet": "cross-env CORE_PATH_CONFIG=./config/networks/devnet yarn ark relay:run --network=devnet",
+		"relay:mainnet": "cross-env CORE_PATH_CONFIG=./config/networks/mainnet yarn ark relay:run --network=mainnet",
+		"relay:testnet": "cross-env CORE_PATH_CONFIG=./config/networks/testnet yarn ark relay:run --env=test --network=testnet",
+		"forger:devnet": "cross-env CORE_PATH_CONFIG=./config/networks/devnet yarn ark forger:run --network=devnet",
+		"forger:mainnet": "cross-env CORE_PATH_CONFIG=./config/networks/mainnet yarn ark forger:run --network=mainnet",
+		"forger:testnet": "cross-env CORE_PATH_CONFIG=./config/networks/testnet yarn ark forger:run --env=test --network=testnet",
+		"manager:testnet": "cross-env CORE_PATH_CONFIG=./config/networks/testnet yarn ark manager:run --env=test --network=testnet",
+		"full:testnet": "cross-env CORE_PATH_CONFIG=./config/networks/testnet ark core:run --networkStart --env=test --network=testnet"
+	},
+	"devDependencies": {
+		"@sindresorhus/tsconfig": "^0.7.0",
+		"@types/eslint": "^7.2.0",
+		"@types/eslint-plugin-prettier": "^3.1.0",
+		"@types/jest": "^26.0.10",
+		"@types/node": "^14.6.0",
+		"@types/prettier": "^2.0.2",
+		"@types/rimraf": "^3.0.0",
+		"@typescript-eslint/eslint-plugin": "^3.9.1",
+		"@typescript-eslint/parser": "^3.9.1",
+		"@yarnpkg/pnpify": "^2.1.0",
+		"codecov": "^3.7.2",
+		"cross-env": "^7.0.2",
+		"eslint": "^7.7.0",
+		"eslint-config-prettier": "^6.11.0",
+		"eslint-plugin-jest": "^23.20.0",
+		"eslint-plugin-prettier": "^3.1.4",
+		"eslint-plugin-simple-import-sort": "^5.0.3",
+		"jest": "^26.4.1",
+		"jest-extended": "^0.11.5",
+		"nock": "^13.0.4",
+		"npm-check-updates": "^7.1.1",
+		"pg": "^8.2.1",
+		"pg-query-stream": "^3.2.3",
+		"prettier": "^2.0.5",
+		"rimraf": "^3.0.2",
+		"ts-jest": "~26.3.0",
+		"typescript": "~4.0.2",
+		"typescript-language-server": "~0.4.0"
+	},
+	"workspaces": [
+		"packages/*"
+	],
+	"dependenciesMeta": {
+		"@arkecosystem/core@3.0.0-next.4": {
+			"unplugged": true
+		},
+		"@arkecosystem/core-api@3.0.0-next.4": {
+			"unplugged": true
+		},
+		"@arkecosystem/core-cli@3.0.0-next.4": {
+			"unplugged": true
+		},
+		"@arkecosystem/core-database@3.0.0-next.4": {
+			"unplugged": true
+		},
+		"@arkecosystem/core-kernel@3.0.0-next.4": {
+			"unplugged": true
+		},
+		"@arkecosystem/core-state@3.0.0-next.4": {
+			"unplugged": true
+		},
+		"@arkecosystem/core-test-framework@3.0.0-next.4": {
+			"unplugged": true
+		},
+		"@arkecosystem/core-transaction-pool@3.0.0-next.4": {
+			"unplugged": true
+		},
+		"@arkecosystem/core-transactions@3.0.0-next.4": {
+			"unplugged": true
+		},
+		"@arkecosystem/crypto@3.0.0-next.4": {
+			"unplugged": true
+		},
+		"@arkecosystem/utils@1.2.0": {
+			"unplugged": true
+		}
+	},
+	"dependencies": {
+		"@arkecosystem/core": "^3.0.0-next.4",
+		"@arkecosystem/core-cli": "^3.0.0-alpha.0"
+	}
 }

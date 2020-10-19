@@ -1,0 +1,53 @@
+// Update the VARIANT arg in docker-compose.yml to pick a Node.js version: 10, 12, 14
+{
+	"name": "Node.js & PostgreSQL",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspace",
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"sqltools.connections": [
+			{
+				"name": "TESTNET",
+				"driver": "PostgreSQL",
+				"previewLimit": 50,
+				"server": "localhost",
+				"port": 5432,
+				"database": "ark_testnet",
+				"username": "ark",
+				"password": "password"
+			},
+			{
+				"name": "DEVNET",
+				"driver": "PostgreSQL",
+				"previewLimit": 50,
+				"server": "localhost",
+				"port": 5432,
+				"database": "ark_devnet",
+				"username": "ark",
+				"password": "password"
+			}
+		]
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"dbaeumer.vscode-eslint",
+		"esbenp.prettier-vscode",
+		"mtxr.sqltools",
+		"mtxr.sqltools-driver-pg",
+		"eamodio.gitlens",
+		"mutantdino.resourcemonitor"
+	],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [5432, 4000, 4003, 4010, 4020, 4040],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "yarn install && yarn build",
+
+	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "node"
+}

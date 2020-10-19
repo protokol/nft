@@ -1,0 +1,157 @@
+{
+	"core": {
+		"plugins": [
+			{
+				"package": "@arkecosystem/core-logger-pino"
+			},
+			{
+				"package": "@arkecosystem/core-manager"
+			},
+			{
+				"package": "@arkecosystem/core-state"
+			},
+			{
+				"package": "@arkecosystem/core-database"
+			},
+			{
+				"package": "@arkecosystem/core-transactions"
+			},
+			{
+				"package": "@arkecosystem/core-magistrate-transactions"
+			},
+			{
+				"package": "@protokol/nft-base-transactions"
+			},
+			{
+				"package": "@protokol/nft-exchange-transactions"
+			},
+			{
+				"package": "@arkecosystem/core-transaction-pool"
+			},
+			{
+				"package": "@protokol/guardian-transactions"
+			},
+			{
+				"package": "@arkecosystem/core-p2p"
+			},
+			{
+				"package": "@arkecosystem/core-blockchain"
+			},
+			{
+				"package": "@arkecosystem/core-api"
+			},
+			{
+				"package": "@protokol/nft-base-api"
+			},
+			{
+				"package": "@protokol/nft-exchange-api"
+			},
+			{
+				"package": "@protokol/guardian-api"
+			},
+			{
+				"package": "@arkecosystem/core-magistrate-api"
+			},
+			{
+				"package": "@arkecosystem/core-webhooks"
+			},
+			{
+				"package": "@arkecosystem/core-forger"
+			},
+			{
+				"package": "@arkecosystem/core-snapshots"
+			}
+		]
+	},
+	"relay": {
+		"plugins": [
+			{
+				"package": "@arkecosystem/core-logger-pino"
+			},
+			{
+				"package": "@arkecosystem/core-state"
+			},
+			{
+				"package": "@arkecosystem/core-database"
+			},
+			{
+				"package": "@arkecosystem/core-transactions"
+			},
+			{
+				"package": "@arkecosystem/core-magistrate-transactions"
+			},
+			{
+				"package": "@protokol/nft-base-transactions"
+			},
+			{
+				"package": "@protokol/nft-exchange-transactions"
+			},
+			{
+				"package": "@arkecosystem/core-transaction-pool"
+			},
+			{
+				"package": "@protokol/guardian-transactions"
+			},
+			{
+				"package": "@arkecosystem/core-p2p"
+			},
+			{
+				"package": "@arkecosystem/core-blockchain"
+			},
+			{
+				"package": "@arkecosystem/core-api"
+			},
+			{
+				"package": "@protokol/nft-base-api"
+			},
+			{
+				"package": "@protokol/nft-exchange-api"
+			},
+			{
+				"package": "@protokol/guardian-api"
+			},
+			{
+				"package": "@arkecosystem/core-magistrate-api"
+			},
+			{
+				"package": "@arkecosystem/core-webhooks"
+			}
+		]
+	},
+	"forger": {
+		"plugins": [
+			{
+				"package": "@arkecosystem/core-logger-pino"
+			},
+			{
+				"package": "@arkecosystem/core-database"
+			},
+			{
+				"package": "@arkecosystem/core-forger"
+			}
+		]
+	},
+	"snapshot": {
+		"plugins": [
+			{
+				"package": "@arkecosystem/core-logger-pino"
+			},
+			{
+				"package": "@arkecosystem/core-snapshots"
+			}
+		]
+	},
+	"manager": {
+		"plugins": [
+			{
+				"package": "@arkecosystem/core-logger-pino"
+			},
+			{
+				"package": "@arkecosystem/core-snapshots"
+			},
+			{
+				"package": "@arkecosystem/core-manager"
+			}
+		]
+	}
+}

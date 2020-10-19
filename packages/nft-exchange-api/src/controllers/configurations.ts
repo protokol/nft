@@ -12,16 +12,16 @@ const currentVersion = require("../../package.json").version;
 
 @Container.injectable()
 export class ConfigurationsController extends Controller {
-    public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
-        return this.respondWithResource(
-            {
-                packageName,
-                currentVersion,
-                latestVersion: await latestVersion(packageName),
-                crypto: CryptoDefaults,
-                transactions: TransactionDefaults,
-            },
-            ConfigurationResource,
-        );
-    }
+	public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+		return this.respondWithResource(
+			{
+				packageName,
+				currentVersion,
+				latestVersion: await latestVersion(packageName),
+				crypto: CryptoDefaults,
+				transactions: TransactionDefaults,
+			},
+			ConfigurationResource,
+		);
+	}
 }

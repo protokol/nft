@@ -10,8 +10,8 @@ const { schemas } = Transactions;
 export class NFTAuctionCancelTransaction extends Transactions.Transaction {
     public static typeGroup: number = NFTExchangeTransactionsTypeGroup;
     public static type: number = NFTTransactionTypes.NFTAuctionCancel;
-    public static key: string = "NFTAuctionCancel";
-    public static version: number = 2;
+    public static key = "NFTAuctionCancel";
+    public static version = 2;
 
     protected static defaultStaticFee = Utils.BigNumber.make(NFTStaticFees.NFTAuctionCancel);
 

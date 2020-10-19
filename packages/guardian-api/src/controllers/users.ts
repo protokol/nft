@@ -7,29 +7,29 @@ import { BaseController } from "./base-controller";
 
 @Container.injectable()
 export class UsersController extends BaseController {
-    public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
-        const pagination = this.getQueryPagination(request.query);
-        const criteria = this.getQueryCriteria(request.query, userCriteriaSchemaObject) as UserCriteria;
+	public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+		const pagination = this.getQueryPagination(request.query);
+		const criteria = this.getQueryCriteria(request.query, userCriteriaSchemaObject) as UserCriteria;
 
-        return this.userSearchService.getUsersPage(pagination, criteria);
-    }
+		return this.userSearchService.getUsersPage(pagination, criteria);
+	}
 
-    public async show(request: Hapi.Request, h: Hapi.ResponseToolkit) {
-        const user = this.userSearchService.getUser(request.params.id);
-        if (!user) {
-            return Boom.notFound("User not found");
-        }
+	public async show(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+		const user = this.userSearchService.getUser(request.params.id);
+		if (!user) {
+			return Boom.notFound("User not found");
+		}
 
-        return { data: user };
-    }
+		return { data: user };
+	}
 
-    public async showGroups(request: Hapi.Request, h: Hapi.ResponseToolkit) {
-        const user = this.userSearchService.getUser(request.params.id);
-        if (!user) {
-            return Boom.notFound("User not found");
-        }
+	public async showGroups(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+		const user = this.userSearchService.getUser(request.params.id);
+		if (!user) {
+			return Boom.notFound("User not found");
+		}
 
-        const groups = await this.groupSearchService.getGroupsByUserGroups(user.groups);
-        return { data: groups };
-    }
+		const groups = await this.groupSearchService.getGroupsByUserGroups(user.groups);
+		return { data: groups };
+	}
 }

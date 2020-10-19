@@ -6,12 +6,12 @@ import * as Configurations from "./routes/configurations";
 import * as Trades from "./routes/trades";
 
 export = {
-    async register(server: Hapi.Server): Promise<void> {
-        Configurations.register(server);
-        Auctions.register(server);
-        Bids.register(server);
-        Trades.register(server);
-    },
-    name: "NFT Exchange Api",
-    version: "1.0.0",
+	async register(server: Hapi.Server): Promise<void> {
+		Configurations.register(server);
+		Auctions.register(server);
+		Bids.register(server);
+		Trades.register(server);
+	},
+	name: "NFT Exchange Api",
+	version: "1.0.0",
 };

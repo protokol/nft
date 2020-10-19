@@ -8,35 +8,35 @@ import { dummyPeers } from "../mocks/peer-discovery/peers";
 const url = "http://127.0.0.1/api";
 
 beforeEach(() => {
-    nock.cleanAll();
+	nock.cleanAll();
 });
 
 describe("ConnectionManager tests", () => {
-    beforeEach(async () => {
-        nock(/.+/)
-            .get("/api/peers")
-            .reply(200, {
-                data: [{ plugins: {} }, ...dummyPeers],
-            })
-            .persist();
-    });
+	beforeEach(async () => {
+		nock(/.+/)
+			.get("/api/peers")
+			.reply(200, {
+				data: [{ plugins: {} }, ...dummyPeers],
+			})
+			.persist();
+	});
 
-    it("should get defaultNFTConnection from ConnectionManager", () => {
-        const conn = new ProtokolConnection(url);
-        const connManager = new ConnectionManager(conn);
+	it("should get defaultNFTConnection from ConnectionManager", () => {
+		const conn = new ProtokolConnection(url);
+		const connManager = new ConnectionManager(conn);
 
-        const defaultConn = connManager.getDefaultConnection();
+		const defaultConn = connManager.getDefaultConnection();
 
-        expect(defaultConn).toBe(conn);
-    });
+		expect(defaultConn).toBe(conn);
+	});
 
-    it("should get randomNFTConnection from ConnectionManager", async () => {
-        const conn = new ProtokolConnection(url);
-        const connManager = new ConnectionManager(conn);
-        await connManager.findRandomPeers();
+	it("should get randomNFTConnection from ConnectionManager", async () => {
+		const conn = new ProtokolConnection(url);
+		const connManager = new ConnectionManager(conn);
+		await connManager.findRandomPeers();
 
-        const randomConn = connManager.getRandomConnection();
+		const randomConn = connManager.getRandomConnection();
 
-        expect(dummyPeers.map((x) => new ProtokolConnection(`http://${x.ip}:4003/api`))).toContainEqual(randomConn);
-    });
+		expect(dummyPeers.map((x) => new ProtokolConnection(`http://${x.ip}:4003/api`))).toContainEqual(randomConn);
+	});
 });

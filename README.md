@@ -20,22 +20,22 @@ For more information and detailed documentation follow this link: https://docs.p
 
 ### Examples
 
-For examples head over to [nft-examples](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-examples) package.
+For examples head over to [examples](https://github.com/protokol/nft-plugins/tree/develop/packages/examples) package.
 
 ## List of packages:
 
 This is a monorepo which contains many tools and packages:
 
-| Plugin                                                                                                               | Description                                    | Version                                                                    |
-| -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | -------------------------------------------------------------------------- |
-| [nft-base-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-api)                           | Base API Functionality                         | ![](https://img.shields.io/npm/v/@protokol/nft-base-api/beta)              |
-| [nft-base-crypto](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-crypto)                     | Asset creation and crypto transaction support  | ![](https://img.shields.io/npm/v/@protokol/nft-base-crypto/beta)           |
-| [nft-base-transactions](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-transactions)         | NFT Core v3 transactions engine (base)         | ![](https://img.shields.io/npm/v/@protokol/nft-base-transactions/beta)     |
-| [nft-exchange-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-api)                   | Exchange API Functionality                     | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-api/beta)          |
-| [nft-exchange-crypto](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-crypto)             | Exchange crypto transaction support            | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-crypto/beta)       |
-| [nft-exchange-transactions](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-transactions) | Exchange NFT Core v3 transactions engine       | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-transactions/beta) |
-| [nft-generator-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-generator-api)                 | Helper plugin for quick asset generation       | ![](https://img.shields.io/npm/v/@protokol/nft-generator-api/beta)         |
-| [client](https://github.com/protokol/nft-plugins/tree/develop/packages/client)                                       | Protokol and ARK API REST Client Implementation| ![](https://img.shields.io/npm/v/@protokol/client/beta)                    |
+| Plugin                                                                                                               | Description                                     | Version                                                                    |
+| -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- | -------------------------------------------------------------------------- |
+| [nft-base-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-api)                           | Base API Functionality                          | ![](https://img.shields.io/npm/v/@protokol/nft-base-api/beta)              |
+| [nft-base-crypto](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-crypto)                     | Asset creation and crypto transaction support   | ![](https://img.shields.io/npm/v/@protokol/nft-base-crypto/beta)           |
+| [nft-base-transactions](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-transactions)         | NFT Core v3 transactions engine (base)          | ![](https://img.shields.io/npm/v/@protokol/nft-base-transactions/beta)     |
+| [nft-exchange-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-api)                   | Exchange API Functionality                      | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-api/beta)          |
+| [nft-exchange-crypto](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-crypto)             | Exchange crypto transaction support             | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-crypto/beta)       |
+| [nft-exchange-transactions](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-transactions) | Exchange NFT Core v3 transactions engine        | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-transactions/beta) |
+| [nft-generator-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-generator-api)                 | Helper plugin for quick asset generation        | ![](https://img.shields.io/npm/v/@protokol/nft-generator-api/beta)         |
+| [client](https://github.com/protokol/nft-plugins/tree/develop/packages/client)                                       | Protokol and ARK API REST Client Implementation | ![](https://img.shields.io/npm/v/@protokol/client/beta)                    |
 
 ## Production install
 
@@ -43,19 +43,19 @@ Prepare and configure your bridgechain network configuration to install and load
 
 ```json
 ({
-    "package": "@protokol/nft-base-transactions"
+	"package": "@protokol/nft-base-transactions"
 },
 {
-    "package": "@protokol/nft-exchange-transactions"
+	"package": "@protokol/nft-exchange-transactions"
 },
 {
-    "package": "@protokol/nft-base-api"
+	"package": "@protokol/nft-base-api"
 },
 {
-    "package": "@protokol/nft-exchange-api"
+	"package": "@protokol/nft-exchange-api"
 },
 {
-    "package": "@protokol/nft-generator-api"
+	"package": "@protokol/nft-generator-api"
 })
 ```
 

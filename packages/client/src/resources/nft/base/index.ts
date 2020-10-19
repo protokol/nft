@@ -5,14 +5,14 @@ import { Configurations } from "./configurations";
 import { Transfers } from "./transfers";
 
 export const NFTBaseResources = {
-    assets: Assets,
-    burns: Burns,
-    configurations: Configurations,
-    transfers: Transfers,
-    collections: Collections,
+	assets: Assets,
+	burns: Burns,
+	configurations: Configurations,
+	transfers: Transfers,
+	collections: Collections,
 };
 
 export type NFTBaseAvailableResourcesName = keyof typeof NFTBaseResources;
 export type NFTBaseAvailableResource<T extends NFTBaseAvailableResourcesName> = InstanceType<
-    typeof NFTBaseResources[T]
+	typeof NFTBaseResources[T]
 >;

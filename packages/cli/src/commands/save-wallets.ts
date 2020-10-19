@@ -8,19 +8,19 @@ import { App } from "../types";
 import { WalletRepository } from "../wallets-repository";
 
 export default class SaveWallets extends Command {
-    public static description = saveWallets.description;
+	public static description = saveWallets.description;
 
-    public async run() {
-        const filesystem = new Filesystem();
+	public async run() {
+		const filesystem = new Filesystem();
 
-        const app: App = {
-            config,
-            client: new Client(config),
-            walletRepository: new WalletRepository(await filesystem.loadWallets(config.network)),
-            filesystem: filesystem,
-            nonces: {},
-        };
+		const app: App = {
+			config,
+			client: new Client(config),
+			walletRepository: new WalletRepository(await filesystem.loadWallets(config.network)),
+			filesystem: filesystem,
+			nonces: {},
+		};
 
-        await saveWallets.handler(app);
-    }
+		await saveWallets.handler(app);
+	}
 }

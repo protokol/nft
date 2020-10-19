@@ -13,7 +13,7 @@ const { schemas } = Transactions;
 export class GuardianUserPermissionsTransaction extends Transactions.Transaction {
     public static typeGroup: number = GuardianTransactionGroup;
     public static type = GuardianTransactionTypes.GuardianSetUserPermissions;
-    public static key: string = "GuardianUserPermissions";
+    public static key = "GuardianUserPermissions";
     public static version: number = defaults.version;
 
     protected static defaultStaticFee = Utils.BigNumber.make(GuardianStaticFees.GuardianSetUserPermissions);

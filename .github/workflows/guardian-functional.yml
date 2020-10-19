@@ -1,0 +1,249 @@
+name: GUARDIAN-FUNCTIONAL-TESTS
+
+on:
+  push:
+    branches:
+      - "master"
+      - "develop"
+  pull_request:
+    types: [ready_for_review, synchronize, opened]
+
+jobs:
+  functional-guardian-transactions-group-permissions-single-passphrase:
+    name: GUARDIAN-GROUP-PERMISSIONS-SINGLE-PASSPHRASE
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: ark
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: ark_unitnet
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    strategy:
+      matrix:
+        node-version: [ 12.x ]
+    env:
+      CORE_DB_DATABASE: ark_unitnet
+      CORE_DB_USERNAME: ark
+      POSTGRES_USER: ark
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ark_unitnet
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install and build packages
+        run: yarn install --immutable --immutable-cache && yarn build
+
+      - name: TEST
+        run: |
+          cd packages/guardian-transactions
+          yarn test __tests__/functional/transaction-forging/guardian-group-permissions/single-passphrase.test.ts --forceExit
+
+
+  functional-guardian-transactions-group-permissions-second-passphrase:
+    name: GUARDIAN-GROUP-PERMISSIONS-SECOND-PASSPHRASE
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: ark
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: ark_unitnet
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    strategy:
+      matrix:
+        node-version: [ 12.x ]
+    env:
+      CORE_DB_DATABASE: ark_unitnet
+      CORE_DB_USERNAME: ark
+      POSTGRES_USER: ark
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ark_unitnet
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install and build packages
+        run: yarn install --immutable --immutable-cache && yarn build
+
+      - name: TEST
+        run: |
+          cd packages/guardian-transactions
+          yarn test __tests__/functional/transaction-forging/guardian-group-permissions/second-passphrase.test.ts --forceExit
+
+
+  functional-guardian-transactions-group-permissions-multi-signature:
+    name: GUARDIAN-GROUP-PERMISSIONS-MULTI-SIGNATURE
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: ark
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: ark_unitnet
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    strategy:
+      matrix:
+        node-version: [ 12.x ]
+    env:
+      CORE_DB_DATABASE: ark_unitnet
+      CORE_DB_USERNAME: ark
+      POSTGRES_USER: ark
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ark_unitnet
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install and build packages
+        run: yarn install --immutable --immutable-cache && yarn build
+
+      - name: TEST
+        run: |
+          cd packages/guardian-transactions
+          yarn test __tests__/functional/transaction-forging/guardian-group-permissions/multi-signature.test.ts --forceExit
+
+
+  functional-guardian-transactions-user-permissions-single-passphrase:
+    name: GUARDIAN-USER-PERMISSIONS-SINGLE-PASSPHRASE
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: ark
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: ark_unitnet
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    strategy:
+      matrix:
+        node-version: [ 12.x ]
+    env:
+      CORE_DB_DATABASE: ark_unitnet
+      CORE_DB_USERNAME: ark
+      POSTGRES_USER: ark
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ark_unitnet
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install and build packages
+        run: yarn install --immutable --immutable-cache && yarn build
+
+      - name: TEST
+        run: |
+          cd packages/guardian-transactions
+          yarn test __tests__/functional/transaction-forging/guardian-user-permissions/single-passphrase.test.ts --forceExit
+
+
+  functional-guardian-transactions-user-permissions-second-passphrase:
+    name: GUARDIAN-USER-PERMISSIONS-SECOND-PASSPHRASE
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: ark
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: ark_unitnet
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    strategy:
+      matrix:
+        node-version: [ 12.x ]
+    env:
+      CORE_DB_DATABASE: ark_unitnet
+      CORE_DB_USERNAME: ark
+      POSTGRES_USER: ark
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ark_unitnet
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install and build packages
+        run: yarn install --immutable --immutable-cache && yarn build
+
+      - name: TEST
+        run: |
+          cd packages/guardian-transactions
+          yarn test __tests__/functional/transaction-forging/guardian-user-permissions/second-passphrase.test.ts --forceExit
+
+
+  functional-guardian-transactions-user-permissions-multi-signature:
+    name: GUARDIAN-USER-PERMISSIONS-MULTI-SIGNATURE
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: ark
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: ark_unitnet
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    strategy:
+      matrix:
+        node-version: [ 12.x ]
+    env:
+      CORE_DB_DATABASE: ark_unitnet
+      CORE_DB_USERNAME: ark
+      POSTGRES_USER: ark
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ark_unitnet
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install and build packages
+        run: yarn install --immutable --immutable-cache && yarn build
+
+      - name: TEST
+        run: |
+          cd packages/guardian-transactions
+          yarn test __tests__/functional/transaction-forging/guardian-user-permissions/multi-signature.test.ts --forceExit

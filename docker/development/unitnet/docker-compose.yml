@@ -1,0 +1,16 @@
+version: "2"
+services:
+    postgres:
+        image: "postgres:alpine"
+        container_name: ark-unitnet-postgres
+        ports:
+            - "127.0.0.1:5432:5432"
+        volumes:
+            - "postgres:/var/lib/postgresql/data"
+        environment:
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
+            POSTGRES_USER: ark
+
+volumes:
+    postgres:

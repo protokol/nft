@@ -3,11 +3,11 @@ import { ApiResponse, ApiResponseWithPagination, Resource } from "@arkecosystem/
 import { AllBurnsQuery, Burns as BurnsResource } from "../../../resources-types/nft/base";
 
 export class Burns extends Resource {
-    public async all(query?: AllBurnsQuery): Promise<ApiResponseWithPagination<BurnsResource[]>> {
-        return this.sendGet("nft/burns", query);
-    }
+	public async all(query?: AllBurnsQuery): Promise<ApiResponseWithPagination<BurnsResource[]>> {
+		return this.sendGet("nft/burns", query);
+	}
 
-    public async get(id: string): Promise<ApiResponse<BurnsResource>> {
-        return this.sendGet(`nft/burns/${id}`);
-    }
+	public async get(id: string): Promise<ApiResponse<BurnsResource>> {
+		return this.sendGet(`nft/burns/${id}`);
+	}
 }

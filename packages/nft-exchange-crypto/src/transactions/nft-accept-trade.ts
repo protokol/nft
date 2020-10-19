@@ -10,8 +10,8 @@ const { schemas } = Transactions;
 export class NFTAcceptTradeTransaction extends Transactions.Transaction {
     public static typeGroup: number = NFTExchangeTransactionsTypeGroup;
     public static type: number = NFTTransactionTypes.NFTAcceptTrade;
-    public static key: string = "NFTAcceptTrade";
-    public static version: number = 2;
+    public static key = "NFTAcceptTrade";
+    public static version = 2;
 
     protected static defaultStaticFee = Utils.BigNumber.make(NFTStaticFees.NFTAcceptTrade);
 

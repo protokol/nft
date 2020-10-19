@@ -1,0 +1,6 @@
+.coverage
+.pnp.js
+.yarn/**
+.yarnrc.yml
+packages/**/dist
+docs

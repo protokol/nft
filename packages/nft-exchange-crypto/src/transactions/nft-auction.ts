@@ -11,8 +11,8 @@ const { schemas } = Transactions;
 export class NFTAuctionTransaction extends Transactions.Transaction {
     public static typeGroup: number = NFTExchangeTransactionsTypeGroup;
     public static type: number = NFTTransactionTypes.NFTAuction;
-    public static key: string = "NFTAuction";
-    public static version: number = 2;
+    public static key = "NFTAuction";
+    public static version = 2;
 
     protected static defaultStaticFee = Utils.BigNumber.make(NFTStaticFees.NFTAuction);
 

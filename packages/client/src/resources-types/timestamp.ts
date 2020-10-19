@@ -1,5 +1,5 @@
 export type Timestamp = {
-    epoch: number;
-    unix: number;
-    human: string;
+	epoch: number;
+	unix: number;
+	human: string;
 };
