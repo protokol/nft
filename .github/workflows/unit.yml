@@ -10,7 +10,7 @@ on:
 
 jobs:
     unit:
-        name: UNIT (API, CRYPTO, TRANSACTIONS, CLIENT, UTILS)
+        name: UNIT (API, CRYPTO, TRANSACTIONS)
         runs-on: ubuntu-latest
 
         strategy:
