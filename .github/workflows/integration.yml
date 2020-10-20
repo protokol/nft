@@ -1,59 +1,54 @@
 name: INTEGRATION-TESTS
 
 on:
-  push:
-    branches:
-      - "master"
-      - "develop"
-  pull_request:
-    types: [ready_for_review, synchronize, opened]
+    push:
+        branches:
+            - "master"
+            - "develop"
+    pull_request:
+        types: [ready_for_review, synchronize, opened]
 
 jobs:
-  api-integration:
-    name: INTEGRATION-API
-    runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:12
+    api-integration:
+        name: INTEGRATION-API
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: ark
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: ark_unitnet
+                ports:
+                    - 5432:5432
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        strategy:
+            matrix:
+                node-version: [12.x]
         env:
-          POSTGRES_USER: ark
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: ark_unitnet
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+            CORE_DB_DATABASE: ark_unitnet
+            CORE_DB_USERNAME: ark
+            POSTGRES_USER: ark
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: ark_unitnet
 
-    strategy:
-      matrix:
-        node-version: [ 12.x ]
-    env:
-      CORE_DB_DATABASE: ark_unitnet
-      CORE_DB_USERNAME: ark
-      POSTGRES_USER: ark
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: ark_unitnet
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
 
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
+            - name: Install and build packages
+              run: yarn install --immutable --immutable-cache && yarn build
 
-      - name: Install and build packages
-        run: yarn install --immutable --immutable-cache && yarn build
+            - name: BASE-API
+              run: |
+                  cd packages/nft-base-api
+                  yarn test:integration:coverage --coverageDirectory .coverage/integration-base-api
 
-      - name: BASE-API
-        run: |
-          cd packages/nft-base-api
-          yarn test:integration:coverage --coverageDirectory .coverage/integration-base-api
-
-      - name: EXCHANGE-API
-        run: |
-          cd packages/nft-exchange-api
-          yarn test:integration:coverage --coverageDirectory .coverage/integration-exchange-api
-
-      - name: GUARDIAN-API
-        run: |
-          cd packages/guardian-api
-          yarn test:integration:coverage --coverageDirectory .coverage/integration-guardian-api
+            - name: EXCHANGE-API
+              run: |
+                  cd packages/nft-exchange-api
+                  yarn test:integration:coverage --coverageDirectory .coverage/integration-exchange-api

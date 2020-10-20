@@ -1,62 +1,47 @@
 name: UNIT-TESTS
 
 on:
-  push:
-    branches:
-      - "master"
-      - "develop"
-  pull_request:
-    types: [ready_for_review, synchronize, opened]
+    push:
+        branches:
+            - "master"
+            - "develop"
+    pull_request:
+        types: [ready_for_review, synchronize, opened]
 
 jobs:
-  unit:
-    name: UNIT (API, CRYPTO, TRANSACTIONS, CLIENT, UTILS)
-    runs-on: ubuntu-latest
+    unit:
+        name: UNIT (API, CRYPTO, TRANSACTIONS, CLIENT, UTILS)
+        runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x]
+        strategy:
+            matrix:
+                node-version: [12.x]
 
-    steps:
-      - uses: actions/checkout@v2
+        steps:
+            - uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
 
-      - name: Install And Build
-        run: yarn install --immutable --immutable-cache && yarn build
+            - name: Install And Build
+              run: yarn install --immutable --immutable-cache && yarn build
 
-      - name: BASE-CRYPTO
-        run: cd packages/nft-base-crypto && yarn test:unit:coverage --coverageDirectory .coverage/unit-base-crypto --maxWorkers=2
+            - name: BASE-CRYPTO
+              run: cd packages/nft-base-crypto && yarn test:unit:coverage --coverageDirectory .coverage/unit-base-crypto --maxWorkers=2
 
-      - name: EXCHANGE-CRYPTO
-        run: cd packages/nft-exchange-crypto && yarn test:unit:coverage --coverageDirectory .coverage/unit-exchange-crypto --maxWorkers=2
+            - name: EXCHANGE-CRYPTO
+              run: cd packages/nft-exchange-crypto && yarn test:unit:coverage --coverageDirectory .coverage/unit-exchange-crypto --maxWorkers=2
 
-      - name: GUARDIAN-CRYPTO
-        run: cd packages/guardian-crypto && yarn test:unit:coverage --coverageDirectory .coverage/unit-guardian-crypto --maxWorkers=2
+            - name: BASE-TRANSACTIONS
+              run: cd packages/nft-base-transactions && yarn test:unit:coverage --coverageDirectory .coverage/unit-base-transactions --maxWorkers=2
 
-      - name: BASE-TRANSACTIONS
-        run: cd packages/nft-base-transactions && yarn test:unit:coverage --coverageDirectory .coverage/unit-base-transactions --maxWorkers=2
+            - name: EXCHANGE-TRANSACTIONS
+              run: cd packages/nft-exchange-transactions && yarn test:unit:coverage --coverageDirectory .coverage/unit-exchange-transactions --maxWorkers=2
 
-      - name: EXCHANGE-TRANSACTIONS
-        run: cd packages/nft-exchange-transactions && yarn test:unit:coverage --coverageDirectory .coverage/unit-exchange-transactions --maxWorkers=2
+            - name: BASE-API
+              run: cd packages/nft-base-api && yarn test:unit:coverage --coverageDirectory .coverage/unit-base-api --maxWorkers=2
 
-      - name: GUARDIAN-TRANSACTIONS
-        run: cd packages/guardian-transactions && yarn test:unit:coverage --coverageDirectory .coverage/unit-guardian-transactions --maxWorkers=2
-
-      - name: BASE-API
-        run: cd packages/nft-base-api && yarn test:unit:coverage --coverageDirectory .coverage/unit-base-api --maxWorkers=2
-
-      - name: EXCHANGE-API
-        run: cd packages/nft-exchange-api && yarn test:unit:coverage --coverageDirectory .coverage/unit-exchange-api --maxWorkers=2
-
-      - name: GUARDIAN-API
-        run: cd packages/guardian-api && yarn test:unit:coverage --coverageDirectory .coverage/unit-guardian-api --maxWorkers=2
-
-      - name: CLIENT
-        run: cd packages/client && yarn test:coverage --coverageDirectory .coverage/unit-client --maxWorkers=2
-
-      - name: UTILS
-        run: cd packages/utils && yarn test:unit:coverage --coverageDirectory .coverage/unit-client --maxWorkers=2
+            - name: EXCHANGE-API
+              run: cd packages/nft-exchange-api && yarn test:unit:coverage --coverageDirectory .coverage/unit-exchange-api --maxWorkers=2
