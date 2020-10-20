@@ -29,9 +29,6 @@
 				"package": "@arkecosystem/core-transaction-pool"
 			},
 			{
-				"package": "@protokol/guardian-transactions"
-			},
-			{
 				"package": "@arkecosystem/core-p2p"
 			},
 			{
@@ -45,9 +42,6 @@
 			},
 			{
 				"package": "@protokol/nft-exchange-api"
-			},
-			{
-				"package": "@protokol/guardian-api"
 			},
 			{
 				"package": "@arkecosystem/core-magistrate-api"
@@ -90,9 +84,6 @@
 				"package": "@arkecosystem/core-transaction-pool"
 			},
 			{
-				"package": "@protokol/guardian-transactions"
-			},
-			{
 				"package": "@arkecosystem/core-p2p"
 			},
 			{
@@ -106,9 +97,6 @@
 			},
 			{
 				"package": "@protokol/nft-exchange-api"
-			},
-			{
-				"package": "@protokol/guardian-api"
 			},
 			{
 				"package": "@arkecosystem/core-magistrate-api"
