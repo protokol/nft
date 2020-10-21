@@ -295,6 +295,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@arkecosystem/utils", "npm:1.2.0"],
             ["@hapi/joi", "npm:17.1.1"],
             ["@pm2/io", "npm:4.3.5"],
+            ["@protokol/guardian-api", "npm:1.0.0-beta.28"],
+            ["@protokol/guardian-transactions", "npm:1.0.0-beta.28"],
             ["@protokol/nft-base-api", "workspace:packages/nft-base-api"],
             ["@protokol/nft-base-transactions", "workspace:packages/nft-base-transactions"],
             ["@protokol/nft-exchange-api", "workspace:packages/nft-exchange-api"],
@@ -2399,6 +2401,50 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["shimmer", "npm:1.2.1"],
             ["signal-exit", "npm:3.0.3"],
             ["tslib", "npm:1.9.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@protokol/guardian-api", [
+        ["npm:1.0.0-beta.28", {
+          "packageLocation": "./.yarn/cache/@protokol-guardian-api-npm-1.0.0-beta.28-a1b99bb77c-7169888847.zip/node_modules/@protokol/guardian-api/",
+          "packageDependencies": [
+            ["@protokol/guardian-api", "npm:1.0.0-beta.28"],
+            ["@arkecosystem/core-api", "npm:3.0.0-next.4"],
+            ["@arkecosystem/core-kernel", "npm:3.0.0-next.4"],
+            ["@hapi/boom", "npm:9.1.0"],
+            ["@hapi/hapi", "npm:19.2.0"],
+            ["@hapi/joi", "npm:17.1.1"],
+            ["@protokol/guardian-crypto", "npm:1.0.0-beta.28"],
+            ["@protokol/guardian-transactions", "npm:1.0.0-beta.28"],
+            ["latest-version", "npm:5.1.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@protokol/guardian-crypto", [
+        ["npm:1.0.0-beta.28", {
+          "packageLocation": "./.yarn/cache/@protokol-guardian-crypto-npm-1.0.0-beta.28-a88b61b65b-024a22494f.zip/node_modules/@protokol/guardian-crypto/",
+          "packageDependencies": [
+            ["@protokol/guardian-crypto", "npm:1.0.0-beta.28"],
+            ["@arkecosystem/crypto", "npm:3.0.0-next.4"],
+            ["@protokol/utils", "npm:1.0.0-beta.28"],
+            ["bytebuffer", "npm:5.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@protokol/guardian-transactions", [
+        ["npm:1.0.0-beta.28", {
+          "packageLocation": "./.yarn/cache/@protokol-guardian-transactions-npm-1.0.0-beta.28-b62d5bc949-03aa6dda02.zip/node_modules/@protokol/guardian-transactions/",
+          "packageDependencies": [
+            ["@protokol/guardian-transactions", "npm:1.0.0-beta.28"],
+            ["@arkecosystem/core-database", "npm:3.0.0-next.4"],
+            ["@arkecosystem/core-kernel", "npm:3.0.0-next.4"],
+            ["@arkecosystem/core-state", "npm:3.0.0-next.4"],
+            ["@arkecosystem/core-transactions", "npm:3.0.0-next.4"],
+            ["@arkecosystem/crypto", "npm:3.0.0-next.4"],
+            ["@protokol/guardian-crypto", "npm:1.0.0-beta.28"]
           ],
           "linkType": "HARD",
         }]

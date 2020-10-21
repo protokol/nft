@@ -14,7 +14,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arkecosystem/core-api@npm:^3.0.0-next.4, @arkecosystem/core-api@npm:next":
+"@arkecosystem/core-api@npm:^3.0.0-next.3, @arkecosystem/core-api@npm:^3.0.0-next.4, @arkecosystem/core-api@npm:next":
   version: 3.0.0-next.4
   resolution: "@arkecosystem/core-api@npm:3.0.0-next.4"
   dependencies:
@@ -90,7 +90,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arkecosystem/core-database@npm:^3.0.0-next.4, @arkecosystem/core-database@npm:next":
+"@arkecosystem/core-database@npm:^3.0.0-next.3, @arkecosystem/core-database@npm:^3.0.0-next.4, @arkecosystem/core-database@npm:next":
   version: 3.0.0-next.4
   resolution: "@arkecosystem/core-database@npm:3.0.0-next.4"
   dependencies:
@@ -121,7 +121,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arkecosystem/core-kernel@npm:^3.0.0-next.4":
+"@arkecosystem/core-kernel@npm:^3.0.0-next.3, @arkecosystem/core-kernel@npm:^3.0.0-next.4":
   version: 3.0.0-next.4
   resolution: "@arkecosystem/core-kernel@npm:3.0.0-next.4"
   dependencies:
@@ -288,7 +288,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arkecosystem/core-state@npm:^3.0.0-next.4, @arkecosystem/core-state@npm:next":
+"@arkecosystem/core-state@npm:^3.0.0-next.3, @arkecosystem/core-state@npm:^3.0.0-next.4, @arkecosystem/core-state@npm:next":
   version: 3.0.0-next.4
   resolution: "@arkecosystem/core-state@npm:3.0.0-next.4"
   dependencies:
@@ -351,7 +351,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arkecosystem/core-transactions@npm:^3.0.0-next.4, @arkecosystem/core-transactions@npm:next":
+"@arkecosystem/core-transactions@npm:^3.0.0-next.3, @arkecosystem/core-transactions@npm:^3.0.0-next.4, @arkecosystem/core-transactions@npm:next":
   version: 3.0.0-next.4
   resolution: "@arkecosystem/core-transactions@npm:3.0.0-next.4"
   dependencies:
@@ -427,7 +427,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arkecosystem/crypto@npm:^3.0.0-next.4":
+"@arkecosystem/crypto@npm:^3.0.0-next.3, @arkecosystem/crypto@npm:^3.0.0-next.4":
   version: 3.0.0-next.4
   resolution: "@arkecosystem/crypto@npm:3.0.0-next.4"
   dependencies:
@@ -2135,6 +2135,47 @@ __metadata:
     signal-exit: ^3.0.3
     tslib: 1.9.3
   checksum: ede70bbefa00fa1aaf17314c1c654b8184ea3dd6e4667542df7e263c77dec901d731c4f6b0f99f10b5b71c348fb81e8825e52ec47fa9d38e513e95512d311f6f
+  languageName: node
+  linkType: hard
+
+"@protokol/guardian-api@npm:beta":
+  version: 1.0.0-beta.28
+  resolution: "@protokol/guardian-api@npm:1.0.0-beta.28"
+  dependencies:
+    "@arkecosystem/core-api": ^3.0.0-next.3
+    "@arkecosystem/core-kernel": ^3.0.0-next.3
+    "@hapi/boom": ^9.0.0
+    "@hapi/hapi": ^19.0.0
+    "@hapi/joi": ^17.1.0
+    "@protokol/guardian-crypto": ^1.0.0-beta.28
+    "@protokol/guardian-transactions": ^1.0.0-beta.28
+    latest-version: ^5.1.0
+  checksum: 7169888847adb76cebac33d924fbaf58e1af30d287efa392ccd4642b34df2d4cfea25056c3b4ca13a867b6ed2614d5e393b45b05d2529707201828194a2372df
+  languageName: node
+  linkType: hard
+
+"@protokol/guardian-crypto@npm:^1.0.0-beta.28":
+  version: 1.0.0-beta.28
+  resolution: "@protokol/guardian-crypto@npm:1.0.0-beta.28"
+  dependencies:
+    "@arkecosystem/crypto": ^3.0.0-next.3
+    "@protokol/utils": ^1.0.0-beta.28
+    bytebuffer: ^5.0.1
+  checksum: 024a22494ffe6ea349ecac316c5c22843ffdcd0034959eacd3ef9b7c8f1a64e0055db6ddeee9d34f46296f2fcf912ac822799af01e8a9b7eb9f0f5e48fe443bc
+  languageName: node
+  linkType: hard
+
+"@protokol/guardian-transactions@npm:^1.0.0-beta.28, @protokol/guardian-transactions@npm:beta":
+  version: 1.0.0-beta.28
+  resolution: "@protokol/guardian-transactions@npm:1.0.0-beta.28"
+  dependencies:
+    "@arkecosystem/core-database": ^3.0.0-next.3
+    "@arkecosystem/core-kernel": ^3.0.0-next.3
+    "@arkecosystem/core-state": ^3.0.0-next.3
+    "@arkecosystem/core-transactions": ^3.0.0-next.3
+    "@arkecosystem/crypto": ^3.0.0-next.3
+    "@protokol/guardian-crypto": ^1.0.0-beta.28
+  checksum: 03aa6dda02ce325f130150ebcb6c7296d6f42129f53aafe28b18c6466bbbefb2ed8343abb62f97e652d076cc70bb6f98e1f5f851173a6300a973ad580001e13a
   languageName: node
   linkType: hard
 
