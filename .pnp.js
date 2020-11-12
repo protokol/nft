@@ -2478,7 +2478,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.11.8"],
             ["@types/prettier", "npm:2.1.2"],
             ["@types/rimraf", "npm:3.0.0"],
-            ["@types/semver", "npm:7.3.2"],
+            ["@types/semver", "npm:7.3.4"],
             ["@types/uuid", "npm:7.0.4"],
             ["@typescript-eslint/eslint-plugin", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:3.10.1"],
             ["@typescript-eslint/parser", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:3.10.1"],
@@ -2559,7 +2559,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.11.8"],
             ["@types/prettier", "npm:2.1.2"],
             ["@types/rimraf", "npm:3.0.0"],
-            ["@types/semver", "npm:7.3.3"],
+            ["@types/semver", "npm:7.3.4"],
             ["ajv", "npm:6.12.6"],
             ["big-integer", "npm:1.6.48"],
             ["bip39", "npm:3.0.2"],
@@ -2614,7 +2614,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.11.8"],
             ["@types/prettier", "npm:2.1.2"],
             ["@types/rimraf", "npm:3.0.0"],
-            ["@types/semver", "npm:7.3.2"],
+            ["@types/semver", "npm:7.3.4"],
             ["@types/uuid", "npm:7.0.4"],
             ["@typescript-eslint/eslint-plugin", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:3.10.1"],
             ["@typescript-eslint/parser", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:3.10.1"],
@@ -2697,7 +2697,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.11.8"],
             ["@types/prettier", "npm:2.1.2"],
             ["@types/rimraf", "npm:3.0.0"],
-            ["@types/semver", "npm:7.3.3"],
+            ["@types/semver", "npm:7.3.4"],
             ["ajv", "npm:6.12.4"],
             ["big-integer", "npm:1.6.48"],
             ["bip39", "npm:3.0.2"],
@@ -3264,17 +3264,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/semver", [
-        ["npm:7.3.2", {
-          "packageLocation": "./.yarn/cache/@types-semver-npm-7.3.2-0d20f98537-7abf2e27e2.zip/node_modules/@types/semver/",
-          "packageDependencies": [
-            ["@types/semver", "npm:7.3.2"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:7.3.3", {
           "packageLocation": "./.yarn/cache/@types-semver-npm-7.3.3-67a3d9ddc0-6dd845385b.zip/node_modules/@types/semver/",
           "packageDependencies": [
             ["@types/semver", "npm:7.3.3"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:7.3.4", {
+          "packageLocation": "./.yarn/cache/@types-semver-npm-7.3.4-96fde085ea-7e8588aa55.zip/node_modules/@types/semver/",
+          "packageDependencies": [
+            ["@types/semver", "npm:7.3.4"]
           ],
           "linkType": "HARD",
         }]
@@ -10596,7 +10596,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["ngrok", [
         ["npm:3.3.0", {
-          "packageLocation": "./.yarn/unplugged/ngrok-npm-3.3.0-ff8d3edfc1/node_modules/ngrok/",
+          "packageLocation": "./.yarn/cache/ngrok-npm-3.3.0-ff8d3edfc1-6e9bdd8e03.zip/node_modules/ngrok/",
           "packageDependencies": [
             ["ngrok", "npm:3.3.0"],
             ["@types/node", "npm:8.10.64"],
