@@ -43,9 +43,9 @@
 		"publish:beta": "yarn build && yarn npm publish --access public --tag beta --tolerate-republish"
 	},
 	"dependencies": {
-		"@arkecosystem/core-api": "^3.0.0-next.4",
-		"@arkecosystem/core-kernel": "^3.0.0-next.4",
-		"@arkecosystem/crypto": "^3.0.0-next.4",
+		"@arkecosystem/core-api": "^3.0.0-next.9",
+		"@arkecosystem/core-kernel": "^3.0.0-next.9",
+		"@arkecosystem/crypto": "^3.0.0-next.9",
 		"@hapi/boom": "^9.0.0",
 		"@hapi/hapi": "^19.0.0",
 		"@hapi/joi": "^17.1.0",
@@ -54,12 +54,12 @@
 		"latest-version": "^5.1.0"
 	},
 	"devDependencies": {
-		"@arkecosystem/core-database": "^3.0.0-next.4",
-		"@arkecosystem/core-kernel": "^3.0.0-next.4",
-		"@arkecosystem/core-state": "^3.0.0-next.4",
-		"@arkecosystem/core-test-framework": "^3.0.0-next.4",
-		"@arkecosystem/core-transaction-pool": "^3.0.0-next.4",
-		"@arkecosystem/core-transactions": "^3.0.0-next.4",
+		"@arkecosystem/core-database": "^3.0.0-next.9",
+		"@arkecosystem/core-kernel": "^3.0.0-next.9",
+		"@arkecosystem/core-state": "^3.0.0-next.9",
+		"@arkecosystem/core-test-framework": "^3.0.0-next.9",
+		"@arkecosystem/core-transaction-pool": "^3.0.0-next.9",
+		"@arkecosystem/core-transactions": "^3.0.0-next.9",
 		"@sindresorhus/tsconfig": "^0.7.0",
 		"@types/eslint": "^7.2.0",
 		"@types/eslint-plugin-prettier": "^3.1.0",
