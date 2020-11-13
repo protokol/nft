@@ -5,7 +5,7 @@
 	"engineStrict": true,
 	"engines": {
 		"node": "^12 || ^14",
-		"yarn": "^2"
+		"yarn": "^2.0.0-rc"
 	},
 	"scripts": {
 		"publish:beta": "yarn workspaces foreach -pt run publish:beta",
