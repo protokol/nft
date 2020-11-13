@@ -35,8 +35,8 @@
 		"full:testnet": "cross-env CORE_PATH_CONFIG=./config/networks/testnet ark core:run --networkStart --env=test --network=testnet"
 	},
 	"dependencies": {
-		"@arkecosystem/core": "^3.0.0-next.4",
-		"@arkecosystem/core-cli": "^3.0.0-next.4"
+		"@arkecosystem/core": "^3.0.0-next.9",
+		"@arkecosystem/core-cli": "^3.0.0-next.9"
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^0.7.0",
@@ -69,34 +69,34 @@
 		"typescript-language-server": "~0.4.0"
 	},
 	"dependenciesMeta": {
-		"@arkecosystem/core@3.0.0-next.4": {
+		"@arkecosystem/core@3.0.0-next.9": {
 			"unplugged": true
 		},
-		"@arkecosystem/core-api@3.0.0-next.4": {
+		"@arkecosystem/core-api@3.0.0-next.9": {
 			"unplugged": true
 		},
-		"@arkecosystem/core-cli@3.0.0-next.4": {
+		"@arkecosystem/core-cli@3.0.0-next.9": {
 			"unplugged": true
 		},
-		"@arkecosystem/core-database@3.0.0-next.4": {
+		"@arkecosystem/core-database@3.0.0-next.9": {
 			"unplugged": true
 		},
-		"@arkecosystem/core-kernel@3.0.0-next.4": {
+		"@arkecosystem/core-kernel@3.0.0-next.9": {
 			"unplugged": true
 		},
-		"@arkecosystem/core-state@3.0.0-next.4": {
+		"@arkecosystem/core-state@3.0.0-next.9": {
 			"unplugged": true
 		},
-		"@arkecosystem/core-test-framework@3.0.0-next.4": {
+		"@arkecosystem/core-test-framework@3.0.0-next.9": {
 			"unplugged": true
 		},
-		"@arkecosystem/core-transaction-pool@3.0.0-next.4": {
+		"@arkecosystem/core-transaction-pool@3.0.0-next.9": {
 			"unplugged": true
 		},
-		"@arkecosystem/core-transactions@3.0.0-next.4": {
+		"@arkecosystem/core-transactions@3.0.0-next.9": {
 			"unplugged": true
 		},
-		"@arkecosystem/crypto@3.0.0-next.4": {
+		"@arkecosystem/crypto@3.0.0-next.9": {
 			"unplugged": true
 		},
 		"@arkecosystem/utils@1.2.0": {
