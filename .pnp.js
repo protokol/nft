@@ -2635,7 +2635,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest-localstorage-mock", "npm:2.4.3"],
             ["latest-version", "npm:5.1.0"],
             ["nock", "npm:13.0.5"],
-            ["npm-check-updates", "npm:10.0.0"],
+            ["npm-check-updates", "npm:10.1.0"],
             ["prettier", "npm:2.1.2"],
             ["rimraf", "npm:3.0.2"],
             ["ts-jest", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:26.3.0"],
@@ -2771,7 +2771,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest-localstorage-mock", "npm:2.4.3"],
             ["latest-version", "npm:5.1.0"],
             ["nock", "npm:13.0.5"],
-            ["npm-check-updates", "npm:10.0.0"],
+            ["npm-check-updates", "npm:10.1.0"],
             ["prettier", "npm:2.1.2"],
             ["rimraf", "npm:3.0.2"],
             ["ts-jest", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:26.3.0"],
@@ -11062,6 +11062,36 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["update-notifier", "npm:5.0.1"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:10.1.0", {
+          "packageLocation": "./.yarn/cache/npm-check-updates-npm-10.1.0-8662b7ae66-0bf2ceb2a4.zip/node_modules/npm-check-updates/",
+          "packageDependencies": [
+            ["npm-check-updates", "npm:10.1.0"],
+            ["chalk", "npm:4.1.0"],
+            ["cint", "npm:8.2.1"],
+            ["cli-table", "npm:0.3.1"],
+            ["commander", "npm:6.2.0"],
+            ["find-up", "npm:5.0.0"],
+            ["get-stdin", "npm:8.0.0"],
+            ["hosted-git-info", "npm:3.0.7"],
+            ["json-parse-helpfulerror", "npm:1.0.3"],
+            ["jsonlines", "npm:0.1.1"],
+            ["libnpmconfig", "npm:1.2.1"],
+            ["lodash", "npm:4.17.20"],
+            ["p-map", "npm:4.0.0"],
+            ["pacote", "npm:11.1.13"],
+            ["parse-github-url", "npm:1.0.2"],
+            ["progress", "npm:2.0.3"],
+            ["prompts", "npm:2.4.0"],
+            ["rc-config-loader", "npm:3.0.0"],
+            ["remote-git-tags", "npm:3.0.0"],
+            ["rimraf", "npm:3.0.2"],
+            ["semver", "npm:7.3.2"],
+            ["semver-utils", "npm:1.1.4"],
+            ["spawn-please", "npm:1.0.0"],
+            ["update-notifier", "npm:5.0.1"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["npm-install-checks", [
@@ -13470,6 +13500,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/spawn-please-npm-0.4.1-3bd18e3301-496bb48858.zip/node_modules/spawn-please/",
           "packageDependencies": [
             ["spawn-please", "npm:0.4.1"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:1.0.0", {
+          "packageLocation": "./.yarn/cache/spawn-please-npm-1.0.0-5731ea7630-f564350214.zip/node_modules/spawn-please/",
+          "packageDependencies": [
+            ["spawn-please", "npm:1.0.0"]
           ],
           "linkType": "HARD",
         }]
