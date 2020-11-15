@@ -2312,7 +2312,7 @@ __metadata:
     "@types/eslint": ^7.2.0
     "@types/eslint-plugin-prettier": ^3.1.0
     "@types/hapi__boom": ^7.4.1
-    "@types/hapi__joi": ^16.0.4
+    "@types/hapi__joi": ^17.0.0
     "@types/is-url-superb": 3.0.0
     "@types/jest": ^26.0.10
     "@types/lodash.orderby": 4.6.6
@@ -2389,7 +2389,7 @@ __metadata:
     "@sindresorhus/tsconfig": ~0.7.0
     "@types/eslint": ^7.2.2
     "@types/eslint-plugin-prettier": ^3.1.0
-    "@types/hapi__joi": 17.1.4
+    "@types/hapi__joi": 17.1.6
     "@types/is-url-superb": 3.0.0
     "@types/jest": ^26.0.12
     "@types/lodash.orderby": 4.6.6
@@ -2442,7 +2442,7 @@ __metadata:
     "@types/eslint": ^7.2.0
     "@types/eslint-plugin-prettier": ^3.1.0
     "@types/hapi__boom": ^7.4.1
-    "@types/hapi__joi": ^16.0.4
+    "@types/hapi__joi": ^17.0.0
     "@types/is-url-superb": 3.0.0
     "@types/jest": ^26.0.10
     "@types/lodash.orderby": 4.6.6
@@ -2521,7 +2521,7 @@ __metadata:
     "@sindresorhus/tsconfig": ~0.7.0
     "@types/eslint": ^7.2.2
     "@types/eslint-plugin-prettier": ^3.1.0
-    "@types/hapi__joi": 17.1.4
+    "@types/hapi__joi": 17.1.6
     "@types/is-url-superb": 3.0.0
     "@types/jest": ^26.0.12
     "@types/lodash.orderby": 4.6.6
@@ -2848,17 +2848,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/hapi__joi@npm:17.1.4":
-  version: 17.1.4
-  resolution: "@types/hapi__joi@npm:17.1.4"
-  checksum: ffd3c81bdbdf6dfa0f3f4905f62340bd4dd23479d2eea1eafbdaf19440fb67641690047090a2f6472c654c0b7db9c16f0ef813764bf25808abbcad06530751e3
-  languageName: node
-  linkType: hard
-
-"@types/hapi__joi@npm:^16.0.4":
-  version: 16.0.12
-  resolution: "@types/hapi__joi@npm:16.0.12"
-  checksum: 87a5f6767ad830e55ecc2f59a35971d4363fab9886ea9b7f4b78ef3ac247666aae035bcf67badc189d9c9616ca56e9a8523f27e1ea6c2b2d6337502ae0e583ff
+"@types/hapi__joi@npm:17.1.6, @types/hapi__joi@npm:^17.0.0":
+  version: 17.1.6
+  resolution: "@types/hapi__joi@npm:17.1.6"
+  checksum: 177258c8e24da331077d6e031060cbbfc625abf5978bf9a4f14254a43b34d5982d6459ad37bdc34ce25ecc3587c24a8eab258ecd90cb7eca0111aa3a89ee66b0
   languageName: node
   linkType: hard
 

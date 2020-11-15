@@ -64,7 +64,7 @@
 		"@types/eslint": "^7.2.0",
 		"@types/eslint-plugin-prettier": "^3.1.0",
 		"@types/hapi__boom": "^7.4.1",
-		"@types/hapi__joi": "^16.0.4",
+		"@types/hapi__joi": "^17.0.0",
 		"@types/is-url-superb": "3.0.0",
 		"@types/jest": "^26.0.10",
 		"@types/lodash.orderby": "4.6.6",
