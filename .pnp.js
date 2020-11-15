@@ -2838,7 +2838,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/prettier", "npm:2.1.5"],
             ["@types/rimraf", "npm:3.0.0"],
             ["@types/semver", "npm:7.3.4"],
-            ["ajv", "npm:6.12.4"],
+            ["ajv", "npm:6.12.6"],
             ["big-integer", "npm:1.6.48"],
             ["bip39", "npm:3.0.2"],
             ["buffer-es6", "npm:4.9.3"],
@@ -3907,17 +3907,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["ajv", [
-        ["npm:6.12.4", {
-          "packageLocation": "./.yarn/cache/ajv-npm-6.12.4-c4dcb5109f-50d72b0a10.zip/node_modules/ajv/",
-          "packageDependencies": [
-            ["ajv", "npm:6.12.4"],
-            ["fast-deep-equal", "npm:3.1.3"],
-            ["fast-json-stable-stringify", "npm:2.1.0"],
-            ["json-schema-traverse", "npm:0.4.1"],
-            ["uri-js", "npm:4.4.0"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:6.12.6", {
           "packageLocation": "./.yarn/cache/ajv-npm-6.12.6-4b5105e2b2-19a8f3b0a0.zip/node_modules/ajv/",
           "packageDependencies": [
