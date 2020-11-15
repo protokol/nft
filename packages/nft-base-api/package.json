@@ -87,7 +87,7 @@
 		"jest-extended": "^0.11.5",
 		"jest-localstorage-mock": "^2.4.3",
 		"nock": "^13.0.4",
-		"npm-check-updates": "~10.0.0",
+		"npm-check-updates": "~10.1.0",
 		"prettier": "^2.0.5",
 		"rimraf": "^3.0.2",
 		"ts-jest": "~26.3.0",
