@@ -2619,7 +2619,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/prettier", "npm:2.1.5"],
             ["@types/rimraf", "npm:3.0.0"],
             ["@types/semver", "npm:7.3.4"],
-            ["@types/uuid", "npm:7.0.4"],
+            ["@types/uuid", "npm:8.3.0"],
             ["@typescript-eslint/eslint-plugin", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:3.10.1"],
             ["@typescript-eslint/parser", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:3.10.1"],
             ["codecov", "npm:3.8.1"],
@@ -2658,7 +2658,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.15"],
             ["@types/node", "npm:14.14.7"],
             ["@types/rimraf", "npm:3.0.0"],
-            ["@types/uuid", "npm:7.0.4"],
+            ["@types/uuid", "npm:8.3.0"],
             ["big-integer", "npm:1.6.48"],
             ["buffer-es6", "npm:4.9.3"],
             ["bytebuffer", "npm:5.0.1"],
@@ -2755,7 +2755,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/prettier", "npm:2.1.5"],
             ["@types/rimraf", "npm:3.0.0"],
             ["@types/semver", "npm:7.3.4"],
-            ["@types/uuid", "npm:7.0.4"],
+            ["@types/uuid", "npm:8.3.0"],
             ["@typescript-eslint/eslint-plugin", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:3.10.1"],
             ["@typescript-eslint/parser", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:3.10.1"],
             ["codecov", "npm:3.8.1"],
@@ -2794,7 +2794,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.15"],
             ["@types/node", "npm:14.14.7"],
             ["@types/rimraf", "npm:3.0.0"],
-            ["@types/uuid", "npm:7.0.4"],
+            ["@types/uuid", "npm:8.3.0"],
             ["big-integer", "npm:1.6.48"],
             ["buffer-es6", "npm:4.9.3"],
             ["bytebuffer", "npm:5.0.1"],
@@ -3456,10 +3456,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/uuid", [
-        ["npm:7.0.4", {
-          "packageLocation": "./.yarn/cache/@types-uuid-npm-7.0.4-49cdebfb64-ee85e7a7cc.zip/node_modules/@types/uuid/",
+        ["npm:8.3.0", {
+          "packageLocation": "./.yarn/cache/@types-uuid-npm-8.3.0-60b441a3d7-620985aed8.zip/node_modules/@types/uuid/",
           "packageDependencies": [
-            ["@types/uuid", "npm:7.0.4"]
+            ["@types/uuid", "npm:8.3.0"]
           ],
           "linkType": "HARD",
         }]

@@ -2320,7 +2320,7 @@ __metadata:
     "@types/prettier": ^2.0.0
     "@types/rimraf": ^3.0.0
     "@types/semver": 7.3.4
-    "@types/uuid": ^7.0.2
+    "@types/uuid": ^8.0.0
     "@typescript-eslint/eslint-plugin": ^3.9.1
     "@typescript-eslint/parser": ^3.9.1
     codecov: ^3.7.2
@@ -2357,7 +2357,7 @@ __metadata:
     "@types/jest": ~26.0.10
     "@types/node": ^14.11.2
     "@types/rimraf": ^3.0.0
-    "@types/uuid": ^7.0.2
+    "@types/uuid": ^8.0.0
     big-integer: ^1.6.48
     buffer-es6: ^4.9.3
     bytebuffer: ^5.0.1
@@ -2450,7 +2450,7 @@ __metadata:
     "@types/prettier": ^2.0.0
     "@types/rimraf": ^3.0.0
     "@types/semver": 7.3.4
-    "@types/uuid": ^7.0.2
+    "@types/uuid": ^8.0.0
     "@typescript-eslint/eslint-plugin": ^3.9.1
     "@typescript-eslint/parser": ^3.9.1
     codecov: ^3.7.2
@@ -2487,7 +2487,7 @@ __metadata:
     "@types/jest": ~26.0.10
     "@types/node": ^14.11.2
     "@types/rimraf": ^3.0.0
-    "@types/uuid": ^7.0.2
+    "@types/uuid": ^8.0.0
     big-integer: ^1.6.48
     buffer-es6: ^4.9.3
     bytebuffer: ^5.0.1
@@ -3091,10 +3091,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/uuid@npm:^7.0.2":
-  version: 7.0.4
-  resolution: "@types/uuid@npm:7.0.4"
-  checksum: ee85e7a7cc7635fc2d707049779346cae0f98655585bbdb24da7999e2477df4da880fb8b6f253be4edd29d90c419109522c7a62e8d4d85bb0ffbbd5ce17ab17c
+"@types/uuid@npm:^8.0.0":
+  version: 8.3.0
+  resolution: "@types/uuid@npm:8.3.0"
+  checksum: 620985aed8fdb4aed153daca5235f4303457a67a4d181efac0021712eabd9edd7e88895f79730c0e651effde7633b1b61e49a81519ac8d4e75019d2ac9b6412f
   languageName: node
   linkType: hard
 
