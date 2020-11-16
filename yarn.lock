@@ -2344,7 +2344,7 @@ __metadata:
     jest-localstorage-mock: ^2.4.3
     latest-version: ^5.1.0
     nock: ^13.0.4
-    npm-check-updates: ~10.1.0
+    npm-check-updates: ~10.2.0
     prettier: ^2.0.5
     rimraf: ^3.0.2
     ts-jest: ~26.4.0
@@ -2474,7 +2474,7 @@ __metadata:
     jest-localstorage-mock: ^2.4.3
     latest-version: ^5.1.0
     nock: ^13.0.4
-    npm-check-updates: ~10.1.0
+    npm-check-updates: ~10.2.0
     prettier: ^2.0.5
     rimraf: ^3.0.2
     ts-jest: ~26.4.0
@@ -9833,9 +9833,9 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"npm-check-updates@npm:~10.1.0":
-  version: 10.1.0
-  resolution: "npm-check-updates@npm:10.1.0"
+"npm-check-updates@npm:~10.2.0":
+  version: 10.2.0
+  resolution: "npm-check-updates@npm:10.2.0"
   dependencies:
     chalk: ^4.1.0
     cint: ^8.2.1
@@ -9863,7 +9863,7 @@ fsevents@~2.1.2:
   bin:
     ncu: bin/cli.js
     npm-check-updates: bin/cli.js
-  checksum: 0bf2ceb2a4d75ff931da1575512c80fa63f7bdbee6c1e0716981dd5d93849b915983a286736154bdc29159be349ac683378659fe60a51a14d620d96716cbaf7d
+  checksum: f1c432e034c0144b0b705311ff7e0c18014dfc3fa52ac2c529c874f518a75caea257d4ff2e7f74b4a6b079544c337720017daa3e4a7002ea250598936408eac4
   languageName: node
   linkType: hard
 
