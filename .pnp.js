@@ -2643,7 +2643,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest-localstorage-mock", "npm:2.4.3"],
             ["latest-version", "npm:5.1.0"],
             ["nock", "npm:13.0.5"],
-            ["npm-check-updates", "npm:10.1.0"],
+            ["npm-check-updates", "npm:10.2.0"],
             ["prettier", "npm:2.1.2"],
             ["rimraf", "npm:3.0.2"],
             ["ts-jest", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:26.4.4"],
@@ -2779,7 +2779,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest-localstorage-mock", "npm:2.4.3"],
             ["latest-version", "npm:5.1.0"],
             ["nock", "npm:13.0.5"],
-            ["npm-check-updates", "npm:10.1.0"],
+            ["npm-check-updates", "npm:10.2.0"],
             ["prettier", "npm:2.1.2"],
             ["rimraf", "npm:3.0.2"],
             ["ts-jest", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:26.4.4"],
@@ -10654,7 +10654,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["ngrok", [
         ["npm:3.3.0", {
-          "packageLocation": "./.yarn/unplugged/ngrok-npm-3.3.0-ff8d3edfc1/node_modules/ngrok/",
+          "packageLocation": "./.yarn/cache/ngrok-npm-3.3.0-ff8d3edfc1-6e9bdd8e03.zip/node_modules/ngrok/",
           "packageDependencies": [
             ["ngrok", "npm:3.3.0"],
             ["@types/node", "npm:8.10.66"],
@@ -10961,10 +10961,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:10.1.0", {
-          "packageLocation": "./.yarn/cache/npm-check-updates-npm-10.1.0-8662b7ae66-0bf2ceb2a4.zip/node_modules/npm-check-updates/",
+        ["npm:10.2.0", {
+          "packageLocation": "./.yarn/cache/npm-check-updates-npm-10.2.0-274b399d9c-f1c432e034.zip/node_modules/npm-check-updates/",
           "packageDependencies": [
-            ["npm-check-updates", "npm:10.1.0"],
+            ["npm-check-updates", "npm:10.2.0"],
             ["chalk", "npm:4.1.0"],
             ["cint", "npm:8.2.1"],
             ["cli-table", "npm:0.3.1"],
@@ -12216,7 +12216,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["protobufjs", [
         ["npm:6.10.1", {
-          "packageLocation": "./.yarn/unplugged/protobufjs-npm-6.10.1-e168613ba4/node_modules/protobufjs/",
+          "packageLocation": "./.yarn/cache/protobufjs-npm-6.10.1-e168613ba4-6917e25337.zip/node_modules/protobufjs/",
           "packageDependencies": [
             ["protobufjs", "npm:6.10.1"],
             ["@protobufjs/aspromise", "npm:1.1.2"],
