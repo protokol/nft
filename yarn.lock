@@ -2329,7 +2329,7 @@ __metadata:
     eslint-config-prettier: ^6.11.0
     eslint-plugin-jest: ^23.8.2
     eslint-plugin-prettier: ^3.1.2
-    eslint-plugin-simple-import-sort: ^5.0.2
+    eslint-plugin-simple-import-sort: ^6.0.0
     got: ^11.5.2
     jest: ^26.4.0
     jest-extended: ^0.11.5
@@ -2459,7 +2459,7 @@ __metadata:
     eslint-config-prettier: ^6.11.0
     eslint-plugin-jest: ^23.8.2
     eslint-plugin-prettier: ^3.1.2
-    eslint-plugin-simple-import-sort: ^5.0.2
+    eslint-plugin-simple-import-sort: ^6.0.0
     got: ^11.5.2
     jest: ^26.4.0
     jest-extended: ^0.11.5
@@ -2572,7 +2572,7 @@ __metadata:
     eslint-config-prettier: ^6.11.0
     eslint-plugin-jest: ^23.20.0
     eslint-plugin-prettier: ^3.1.4
-    eslint-plugin-simple-import-sort: ^5.0.3
+    eslint-plugin-simple-import-sort: ^6.0.0
     jest: ^26.4.1
     jest-extended: ^0.11.5
     nock: ^13.0.4
@@ -5783,12 +5783,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-simple-import-sort@npm:^5.0.2, eslint-plugin-simple-import-sort@npm:^5.0.3":
-  version: 5.0.3
-  resolution: "eslint-plugin-simple-import-sort@npm:5.0.3"
+"eslint-plugin-simple-import-sort@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "eslint-plugin-simple-import-sort@npm:6.0.0"
   peerDependencies:
     eslint: ">=5.0.0"
-  checksum: 75bd43970b6f2b92967eef34d6972ac136980cb8eab2ddcb16ec16efe8a3ecf5a0db207581c23bd141c0597258835958b66da1d8db961c721114ecd7204d167a
+  checksum: 7e427db9a20816cd9071e5ed8bf64cc9bb6e9a4f8e8dccca76b5cbdbe21312879725beba4d809fbf944fcbb06a44ffbbb1f5b096d17aac5917bc2a26776b7790
   languageName: node
   linkType: hard
 
