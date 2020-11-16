@@ -1,6 +1,6 @@
 {
 	"name": "@protokol/nft-base-api",
-	"version": "1.0.0-beta.30",
+	"version": "1.0.0-beta.31",
 	"description": "REST API For Base NFT Functionality",
 	"license": "CC-BY-NC-SA-4.0",
 	"homepage": "https://docs.protokol.com/nft/",
@@ -40,7 +40,7 @@
 		"test:integration": "jest __tests__/integration --runInBand --forceExit",
 		"test:integration:coverage": "jest __tests__/integration --coverage --runInBand --forceExit",
 		"publish": "yarn build && yarn npm publish --access public",
-		"publish:beta": "yarn build && yarn npm publish --access public --tag beta --tolerate-republish"
+		"publish:beta": "yarn npm publish --access public --tag beta --tolerate-republish"
 	},
 	"dependencies": {
 		"@arkecosystem/core-api": "^3.0.0-next.9",
