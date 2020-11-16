@@ -25,4 +25,4 @@ jobs:
                 cd nft-exchange-transactions && npm publish --tag beta --access public --tolerate-republish && cd ..
                 cd nft-exchange-api && yarn npm publish --tag beta --access public --tolerate-republish && cd ..
               env:
-                  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+                  NODE_AUTH_TOKEN: ${{secrets.NPM_AUTOMATION_TOKEN }}
