@@ -2407,7 +2407,7 @@ __metadata:
     "@types/semver": 7.3.4
     ajv: 6.12.6
     big-integer: ^1.6.48
-    bip39: 3.0.2
+    bip39: 3.0.3
     buffer-es6: ^4.9.3
     codecov: ^3.6.5
     delay: 4.4.0
@@ -2539,7 +2539,7 @@ __metadata:
     "@types/semver": 7.3.4
     ajv: 6.12.6
     big-integer: ^1.6.48
-    bip39: 3.0.2
+    bip39: 3.0.3
     buffer-es6: ^4.9.3
     codecov: ^3.6.5
     delay: 4.4.0
@@ -4045,7 +4045,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bip39@npm:3.0.2, bip39@npm:^3.0.2":
+"bip39@npm:3.0.3":
+  version: 3.0.3
+  resolution: "bip39@npm:3.0.3"
+  dependencies:
+    "@types/node": 11.11.6
+    create-hash: ^1.1.0
+    pbkdf2: ^3.0.9
+    randombytes: ^2.0.1
+  checksum: 948443cd3713921ea1a5a5d15b52cd62280d0c30fc4a5cee3df261567808cde5e11622c0d34bccee8fadefdffa7db4244682a5567be6b9f70e195948b9d23bf8
+  languageName: node
+  linkType: hard
+
+"bip39@npm:^3.0.2":
   version: 3.0.2
   resolution: "bip39@npm:3.0.2"
   dependencies:
