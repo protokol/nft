@@ -1,0 +1,28 @@
+name: Publish To Npm:Beta
+on:
+  release:
+    types: [created]
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: 12
+                  registry-url: https://registry.npmjs.org/
+
+            - name: Install & Build
+              run: yarn && yarn build
+
+            - name: Publish to NPM
+              run: |
+                cd packages
+                cd nft-base-crypto && npm publish --access public --tag beta && cd ..
+                cd nft-base-transactions && npm publish --access public --tag beta && cd ..
+                cd nft-base-api && npm publish --access public --tag beta && cd ..
+                cd nft-exchange-crypto && npm publish --access public --tag beta && cd ..
+                cd nft-exchange-transactions && npm publish --access public --tag beta && cd ..
+                cd nft-exchange-api && npm publish --access public --tag beta && cd ..
+              env:
+                  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
