@@ -94,7 +94,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pg-query-stream", "npm:3.4.1"],
             ["prettier", "npm:2.1.2"],
             ["rimraf", "npm:3.0.2"],
-            ["ts-jest", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:26.4.4"],
+            ["ts-jest", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:26.4.4"],
             ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=a72311"],
             ["typescript-language-server", "npm:0.4.0"]
           ],
@@ -2621,7 +2621,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["npm-check-updates", "npm:10.1.0"],
             ["prettier", "npm:2.1.2"],
             ["rimraf", "npm:3.0.2"],
-            ["ts-jest", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:26.4.4"],
+            ["ts-jest", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:26.4.4"],
             ["typedoc", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:0.19.2"],
             ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=a72311"]
           ],
@@ -2647,7 +2647,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bytebuffer", "npm:5.0.1"],
             ["codecov", "npm:3.8.1"],
             ["cross-env", "npm:7.0.2"],
-            ["jest", "npm:26.4.2"],
+            ["jest", "npm:26.6.3"],
             ["jest-extended", "npm:0.11.5"],
             ["process-es6", "npm:0.11.6"],
             ["rimraf", "npm:3.0.2"],
@@ -2691,7 +2691,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["delay", "npm:4.4.0"],
             ["eslint", "npm:7.13.0"],
             ["eslint-plugin-prettier", "virtual:a70d54d77e5c82a7a2ab2fd69a2f33c097318c8571135823be52f11551c916757603b513c3b2b135c036c4319a25450d31ec80c465f996da09d22a739cff3668#npm:3.1.4"],
-            ["jest", "npm:26.4.2"],
+            ["jest", "npm:26.6.3"],
             ["jest-extended", "npm:0.11.5"],
             ["jest-localstorage-mock", "npm:2.4.3"],
             ["pg", "npm:8.3.3"],
@@ -2757,7 +2757,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["npm-check-updates", "npm:10.1.0"],
             ["prettier", "npm:2.1.2"],
             ["rimraf", "npm:3.0.2"],
-            ["ts-jest", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:26.4.4"],
+            ["ts-jest", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:26.4.4"],
             ["typedoc", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:0.19.2"],
             ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=a72311"]
           ],
@@ -2783,7 +2783,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bytebuffer", "npm:5.0.1"],
             ["codecov", "npm:3.8.1"],
             ["cross-env", "npm:7.0.2"],
-            ["jest", "npm:26.4.2"],
+            ["jest", "npm:26.6.3"],
             ["jest-extended", "npm:0.11.5"],
             ["process-es6", "npm:0.11.6"],
             ["rimraf", "npm:3.0.2"],
@@ -2829,7 +2829,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["delay", "npm:4.4.0"],
             ["eslint", "npm:7.13.0"],
             ["eslint-plugin-prettier", "virtual:a70d54d77e5c82a7a2ab2fd69a2f33c097318c8571135823be52f11551c916757603b513c3b2b135c036c4319a25450d31ec80c465f996da09d22a739cff3668#npm:3.1.4"],
-            ["jest", "npm:26.4.2"],
+            ["jest", "npm:26.6.3"],
             ["jest-extended", "npm:0.11.5"],
             ["jest-localstorage-mock", "npm:2.4.3"],
             ["pg", "npm:8.3.3"],
@@ -2875,7 +2875,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pg-query-stream", "npm:3.4.1"],
             ["prettier", "npm:2.1.2"],
             ["rimraf", "npm:3.0.2"],
-            ["ts-jest", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:26.4.4"],
+            ["ts-jest", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:26.4.4"],
             ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=a72311"],
             ["typescript-language-server", "npm:0.4.0"]
           ],
@@ -8746,16 +8746,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["jest", [
-        ["npm:26.4.2", {
-          "packageLocation": "./.yarn/cache/jest-npm-26.4.2-65f7183830-e577e48631.zip/node_modules/jest/",
-          "packageDependencies": [
-            ["jest", "npm:26.4.2"],
-            ["@jest/core", "npm:26.6.3"],
-            ["import-local", "npm:3.0.2"],
-            ["jest-cli", "npm:26.6.3"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:26.6.3", {
           "packageLocation": "./.yarn/cache/jest-npm-26.6.3-dafe93d52f-4ffcfefa2b.zip/node_modules/jest/",
           "packageDependencies": [
@@ -14177,33 +14167,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/$$virtual/ts-jest-virtual-786ace88c4/0/cache/ts-jest-npm-26.4.4-6fd34d9b91-bee46b789c.zip/node_modules/ts-jest/",
           "packageDependencies": [
             ["ts-jest", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:26.4.4"],
-            ["@types/jest", "npm:26.0.15"],
-            ["@types/typescript", null],
-            ["bs-logger", "npm:0.2.6"],
-            ["buffer-from", "npm:1.1.1"],
-            ["fast-json-stable-stringify", "npm:2.1.0"],
-            ["jest", "npm:26.4.2"],
-            ["jest-util", "npm:26.6.2"],
-            ["json5", "npm:2.1.3"],
-            ["lodash.memoize", "npm:4.1.2"],
-            ["make-error", "npm:1.3.6"],
-            ["mkdirp", "npm:1.0.4"],
-            ["semver", "npm:7.3.2"],
-            ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=a72311"],
-            ["yargs-parser", "npm:20.2.4"]
-          ],
-          "packagePeers": [
-            "@types/jest",
-            "@types/typescript",
-            "jest",
-            "typescript"
-          ],
-          "linkType": "HARD",
-        }],
-        ["virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:26.4.4", {
-          "packageLocation": "./.yarn/$$virtual/ts-jest-virtual-b9ea4d4853/0/cache/ts-jest-npm-26.4.4-6fd34d9b91-bee46b789c.zip/node_modules/ts-jest/",
-          "packageDependencies": [
-            ["ts-jest", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:26.4.4"],
             ["@types/jest", "npm:26.0.15"],
             ["@types/typescript", null],
             ["bs-logger", "npm:0.2.6"],
