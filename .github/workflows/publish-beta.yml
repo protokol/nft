@@ -18,11 +18,11 @@ jobs:
             - name: Publish to NPM
               run: |
                 cd packages
-                cd nft-base-crypto && yarn publish:beta && cd ..
-                cd nft-base-transactions && yarn publish:beta && cd ..
-                cd nft-base-api && yarn publish:beta && cd ..
-                cd nft-exchange-crypto && yarn publish:beta && cd ..
-                cd nft-exchange-transactions && yarn publish:beta && cd ..
-                cd nft-exchange-api && yarn publish:beta && cd ..
+                cd nft-base-crypto && npm publish --tag beta --access public --tolerate-republish && cd ..
+                cd nft-base-transactions && npm publish --tag beta --access public --tolerate-republish && cd ..
+                cd nft-base-api && npm publish --tag beta --access public --tolerate-republish && cd ..
+                cd nft-exchange-crypto && npm publish --tag beta --access public --tolerate-republish && cd ..
+                cd nft-exchange-transactions && npm publish --tag beta --access public --tolerate-republish && cd ..
+                cd nft-exchange-api && yarn npm publish --tag beta --access public --tolerate-republish && cd ..
               env:
                   NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
