@@ -8,7 +8,6 @@
 		"yarn": "^2"
 	},
 	"scripts": {
-		"publish:beta": "yarn workspaces foreach -pt run publish:beta",
 		"build": "yarn workspaces foreach -pt run build",
 		"clean": "yarn workspaces foreach -pt run clean",
 		"version": "yarn workspaces foreach version",
