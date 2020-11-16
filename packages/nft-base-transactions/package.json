@@ -1,6 +1,6 @@
 {
     "name": "@protokol/nft-base-transactions",
-    "version": "1.0.0-beta.37",
+    "version": "1.0.0-beta.39",
     "description": "Transaction Types For Base NFT Core Support",
     "license": "CC-BY-NC-SA-4.0",
     "homepage": "https://docs.protokol.com/nft/",
@@ -37,7 +37,7 @@
         "test:unit": "jest __tests__/unit/** --forceExit --detectOpenHandles",
         "test:unit:coverage": "jest __tests__/unit --coverage --detectOpenHandles",
         "test:functional": "CORE_ENV=test jest __tests__/functional --forceExit --detectOpenHandles",
-		"test:functional:coverage": "CORE_ENV=test jest __tests__/functional --coverage --forceExit --detectOpenHandles"
+        "test:functional:coverage": "CORE_ENV=test jest __tests__/functional --coverage --forceExit --detectOpenHandles"
     },
     "dependencies": {
         "@arkecosystem/core-database": "^3.0.0-next.9",
