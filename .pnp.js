@@ -2710,7 +2710,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/semver", "npm:7.3.4"],
             ["ajv", "npm:6.12.6"],
             ["big-integer", "npm:1.6.48"],
-            ["bip39", "npm:3.0.2"],
+            ["bip39", "npm:3.0.3"],
             ["buffer-es6", "npm:4.9.3"],
             ["codecov", "npm:3.8.1"],
             ["delay", "npm:4.4.0"],
@@ -2848,7 +2848,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/semver", "npm:7.3.4"],
             ["ajv", "npm:6.12.6"],
             ["big-integer", "npm:1.6.48"],
-            ["bip39", "npm:3.0.2"],
+            ["bip39", "npm:3.0.3"],
             ["buffer-es6", "npm:4.9.3"],
             ["codecov", "npm:3.8.1"],
             ["delay", "npm:4.4.0"],
@@ -4581,6 +4581,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/bip39-npm-3.0.2-32369862f4-24c59dafc6.zip/node_modules/bip39/",
           "packageDependencies": [
             ["bip39", "npm:3.0.2"],
+            ["@types/node", "npm:11.11.6"],
+            ["create-hash", "npm:1.2.0"],
+            ["pbkdf2", "npm:3.1.1"],
+            ["randombytes", "npm:2.1.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:3.0.3", {
+          "packageLocation": "./.yarn/cache/bip39-npm-3.0.3-75d672a562-948443cd37.zip/node_modules/bip39/",
+          "packageDependencies": [
+            ["bip39", "npm:3.0.3"],
             ["@types/node", "npm:11.11.6"],
             ["create-hash", "npm:1.2.0"],
             ["pbkdf2", "npm:3.1.1"],
