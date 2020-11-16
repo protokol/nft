@@ -6,4 +6,4 @@ import * as Enums from "./enums";
 import * as Interfaces from "./interfaces";
 import * as Transactions from "./transactions";
 
-export { ARKCrypto, Builders, Transactions, Interfaces, Enums, Defaults };
+export { ARKCrypto, Builders, Defaults, Enums, Interfaces, Transactions };
