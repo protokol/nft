@@ -1,4 +1,4 @@
-name: Publish To Npm:Beta
+name: PUBLISH NPM:BETA
 on:
   release:
     types: [created]
