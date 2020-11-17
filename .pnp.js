@@ -2661,7 +2661,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@arkecosystem/core-kernel", "npm:3.0.0-next.9"],
             ["@arkecosystem/core-test-framework", "npm:3.0.0-next.9"],
             ["@arkecosystem/crypto", "npm:3.0.0-next.9"],
-            ["@protokol/utils", "npm:1.0.0-beta.28"],
+            ["@protokol/utils", "npm:1.0.0-beta.31"],
             ["@sindresorhus/tsconfig", "npm:0.7.0"],
             ["@types/jest", "npm:26.0.15"],
             ["@types/node", "npm:14.14.7"],
@@ -2797,7 +2797,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@arkecosystem/core-kernel", "npm:3.0.0-next.9"],
             ["@arkecosystem/core-test-framework", "npm:3.0.0-next.9"],
             ["@arkecosystem/crypto", "npm:3.0.0-next.9"],
-            ["@protokol/utils", "npm:1.0.0-beta.28"],
+            ["@protokol/utils", "npm:1.0.0-beta.31"],
             ["@sindresorhus/tsconfig", "npm:0.7.0"],
             ["@types/jest", "npm:26.0.15"],
             ["@types/node", "npm:14.14.7"],
@@ -2912,6 +2912,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@protokol-utils-npm-1.0.0-beta.28-153ec4e86a-87c63781ea.zip/node_modules/@protokol/utils/",
           "packageDependencies": [
             ["@protokol/utils", "npm:1.0.0-beta.28"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:1.0.0-beta.31", {
+          "packageLocation": "./.yarn/cache/@protokol-utils-npm-1.0.0-beta.31-cf0e17593f-8794b05586.zip/node_modules/@protokol/utils/",
+          "packageDependencies": [
+            ["@protokol/utils", "npm:1.0.0-beta.31"]
           ],
           "linkType": "HARD",
         }]
