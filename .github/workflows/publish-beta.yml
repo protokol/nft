@@ -16,7 +16,6 @@ jobs:
               run: yarn && yarn build
 
             - name: Publish to NPM
-              run: |
-                bash scripts/publish.sh
+              run: bash scripts/publish.sh
               env:
                   NODE_AUTH_TOKEN: ${{secrets.NPM_AUTOMATION_TOKEN }}
