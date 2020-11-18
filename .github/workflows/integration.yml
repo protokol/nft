@@ -41,7 +41,7 @@ jobs:
                   node-version: ${{ matrix.node-version }}
 
             - name: Install and build packages
-              run: yarn install --immutable --immutable-cache && yarn build
+              run: yarn && yarn build
 
             - name: BASE-API
               run: |
