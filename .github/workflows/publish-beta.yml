@@ -20,6 +20,5 @@ jobs:
               run: |
                 yarn config set npmAuthToken "$env:NODE_AUTH_TOKEN"
                 yarn publish:beta
-
               env:
                   NODE_AUTH_TOKEN: ${{secrets.NPM_AUTOMATION_TOKEN }}
