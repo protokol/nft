@@ -2349,7 +2349,7 @@ __metadata:
     rimraf: ^3.0.2
     ts-jest: ~26.4.4
     typedoc: ~0.19.2
-    typescript: ~4.0.5
+    typescript: ~4.1.0
   languageName: unknown
   linkType: soft
 
@@ -2377,7 +2377,7 @@ __metadata:
     rimraf: ^3.0.2
     ts-jest: ~26.4.4
     typedoc: ~0.19.2
-    typescript: ~4.0.5
+    typescript: ~4.1.0
     util: ^0.12.3
   languageName: unknown
   linkType: soft
@@ -2422,7 +2422,7 @@ __metadata:
     rimraf: ^3.0.2
     ts-jest: ~26.4.4
     typedoc: ~0.19.2
-    typescript: ~4.0.5
+    typescript: ~4.1.0
   languageName: unknown
   linkType: soft
 
@@ -2479,7 +2479,7 @@ __metadata:
     rimraf: ^3.0.2
     ts-jest: ~26.4.4
     typedoc: ~0.19.2
-    typescript: ~4.0.5
+    typescript: ~4.1.0
   languageName: unknown
   linkType: soft
 
@@ -2507,7 +2507,7 @@ __metadata:
     rimraf: ^3.0.2
     ts-jest: ~26.4.4
     typedoc: ~0.19.2
-    typescript: ~4.0.5
+    typescript: ~4.1.0
     util: ^0.12.3
   languageName: unknown
   linkType: soft
@@ -2554,7 +2554,7 @@ __metadata:
     rimraf: ^3.0.2
     ts-jest: ~26.4.4
     typedoc: ~0.19.2
-    typescript: ~4.0.5
+    typescript: ~4.1.0
   languageName: unknown
   linkType: soft
 
@@ -2590,7 +2590,7 @@ __metadata:
     prettier: ^2.0.5
     rimraf: ^3.0.2
     ts-jest: ~26.4.0
-    typescript: ~4.0.2
+    typescript: ~4.1.0
     typescript-language-server: ~0.4.0
   dependenciesMeta:
     "@arkecosystem/core-api@3.0.0-next.9":
@@ -13076,23 +13076,23 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@~4.0.2#builtin<compat/typescript>, typescript@patch:typescript@~4.0.5#builtin<compat/typescript>":
-  version: 4.0.5
-  resolution: "typescript@patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=a72311"
+"typescript@patch:typescript@~4.1.0#builtin<compat/typescript>":
+  version: 4.1.2
+  resolution: "typescript@patch:typescript@npm%3A4.1.2#builtin<compat/typescript>::version=4.1.2&hash=a72311"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: ada6fea7657a51d1b842682d31233e53a3cf509b0edbd6288fda3cfd01643d0190b7ea77837527c4d282c90e61690e19dbfd91be6913e7e7292aa0b588d3506c
+  checksum: 001ab09bb8f597aab1ec43476aedb91b5d547749219273c232bf34cf5a2209d18fa782e64475755115f0907598bb9b503f5e1c0fed06c3651cac584fc88a8172
   languageName: node
   linkType: hard
 
-"typescript@~4.0.2, typescript@~4.0.5":
-  version: 4.0.5
-  resolution: "typescript@npm:4.0.5"
+typescript@~4.1.0:
+  version: 4.1.2
+  resolution: "typescript@npm:4.1.2"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: ce94d4bbb914cc9d6fbd42e1476ab18c3292b262b8ba7ba76cd167a858545207a604e75bf1efbb75b8654c8f85deaa19795c3ef00098d7612855139b4ecc0240
+  checksum: d2ac373b469e973448c7287d0fbc732dbd34d00d07911b9506bbf81469a80db6613361fc9293d021da357cb7c7da2ee32f56d8ef76446361231374200cd6aee9
   languageName: node
   linkType: hard
 
