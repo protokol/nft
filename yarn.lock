@@ -2411,7 +2411,7 @@ __metadata:
     buffer-es6: ^4.9.3
     codecov: ^3.8.1
     delay: 4.4.0
-    eslint: 7.13.0
+    eslint: 7.14.0
     eslint-plugin-prettier: ^3.1.4
     jest: ~26.6.3
     jest-extended: ~0.11.5
@@ -2543,7 +2543,7 @@ __metadata:
     buffer-es6: ^4.9.3
     codecov: ^3.8.1
     delay: 4.4.0
-    eslint: 7.13.0
+    eslint: 7.14.0
     eslint-plugin-prettier: ^3.1.4
     jest: ~26.6.3
     jest-extended: ~0.11.5
@@ -5935,7 +5935,54 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:7.13.0, eslint@npm:^7.13.0, eslint@npm:^7.7.0, eslint@npm:latest":
+"eslint@npm:7.14.0":
+  version: 7.14.0
+  resolution: "eslint@npm:7.14.0"
+  dependencies:
+    "@babel/code-frame": ^7.0.0
+    "@eslint/eslintrc": ^0.2.1
+    ajv: ^6.10.0
+    chalk: ^4.0.0
+    cross-spawn: ^7.0.2
+    debug: ^4.0.1
+    doctrine: ^3.0.0
+    enquirer: ^2.3.5
+    eslint-scope: ^5.1.1
+    eslint-utils: ^2.1.0
+    eslint-visitor-keys: ^2.0.0
+    espree: ^7.3.0
+    esquery: ^1.2.0
+    esutils: ^2.0.2
+    file-entry-cache: ^5.0.1
+    functional-red-black-tree: ^1.0.1
+    glob-parent: ^5.0.0
+    globals: ^12.1.0
+    ignore: ^4.0.6
+    import-fresh: ^3.0.0
+    imurmurhash: ^0.1.4
+    is-glob: ^4.0.0
+    js-yaml: ^3.13.1
+    json-stable-stringify-without-jsonify: ^1.0.1
+    levn: ^0.4.1
+    lodash: ^4.17.19
+    minimatch: ^3.0.4
+    natural-compare: ^1.4.0
+    optionator: ^0.9.1
+    progress: ^2.0.0
+    regexpp: ^3.1.0
+    semver: ^7.2.1
+    strip-ansi: ^6.0.0
+    strip-json-comments: ^3.1.0
+    table: ^5.2.3
+    text-table: ^0.2.0
+    v8-compile-cache: ^2.0.3
+  bin:
+    eslint: bin/eslint.js
+  checksum: 6c1c9ae3cd1ec1c9238a92380049509e9c18fecfb4c9982d4f4d49ec681ec7a2cbc04bbd354ddf10588727f143a158c7a0a82b2fd662197f554bd435cfdb250f
+  languageName: node
+  linkType: hard
+
+"eslint@npm:^7.13.0, eslint@npm:^7.7.0, eslint@npm:latest":
   version: 7.13.0
   resolution: "eslint@npm:7.13.0"
   dependencies:
