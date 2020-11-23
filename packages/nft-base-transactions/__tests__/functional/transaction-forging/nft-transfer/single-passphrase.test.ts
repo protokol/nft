@@ -64,7 +64,7 @@ describe("NFT Transfer Functional Tests - Singed with single passphrase", () => 
                     mana: 2,
                 },
             })
-            .withPassphrase(passphrases[1])
+            .withPassphrase(passphrases[1]!)
             .createOne();
 
         await expect(nftCreate).toBeAccepted();

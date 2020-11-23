@@ -146,7 +146,7 @@ describe("NFT Burn functional tests - Signed with one Passphrase", () => {
         const nftTransfer = NFTBaseTransactionFactory.initialize(app)
             .NFTTransfer({
                 nftIds: [nftCreate.id!],
-                recipientId: ARKCrypto.Identities.Address.fromPassphrase(passphrases[2]),
+                recipientId: ARKCrypto.Identities.Address.fromPassphrase(passphrases[2]!),
             })
             .withPassphrase(passphrases[0]!)
             .createOne();
