@@ -1,5 +1,5 @@
 {
-	"extends": ["config:base", ":preserveSemverRanges","group:monorepos"],
+	"extends": ["config:base", ":preserveSemverRanges"],
 	"baseBranches": ["develop"],
 	"packageRules": [
 		{
