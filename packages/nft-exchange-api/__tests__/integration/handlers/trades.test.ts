@@ -26,7 +26,7 @@ describe("API - Trades", () => {
 				auctionId: "ec0f6ad8ff46c844e25ec31d49e9b166d8a0fef3d365621d39a86d73a244354c",
 				bidId: "c12f814ab08bb82be251622aeb35fd72d9c7632828b91cab38c458ead8c782a9",
 			})
-			.sign(passphrases[10])
+			.sign(passphrases[10]!)
 			.build();
 	});
 	describe("GET /trades", () => {
@@ -44,9 +44,9 @@ describe("API - Trades", () => {
 			const response = await api.request("GET", "nft/exchange/trades", { transform: false });
 			api.expectPaginator(response);
 			expect(response.data.data).toBeArray();
-			expect(response.data.data[0].id).toStrictEqual(nftAcceptTrade.id);
-			expect(response.data.data[0].senderPublicKey).toStrictEqual(nftAcceptTrade.data.senderPublicKey);
-			expect(response.data.data[0].asset.nftAcceptTrade).toBeObject();
+			expect(response.data.data[0]!.id).toStrictEqual(nftAcceptTrade.id);
+			expect(response.data.data[0]!.senderPublicKey).toStrictEqual(nftAcceptTrade.data.senderPublicKey);
+			expect(response.data.data[0]!.asset.nftAcceptTrade).toBeObject();
 		});
 	});
 
@@ -60,7 +60,7 @@ describe("API - Trades", () => {
 						blockHeight: 1,
 					},
 				})
-				.sign(passphrases[0])
+				.sign(passphrases[0]!)
 				.build();
 
 			const bid = new NFTExchangeBuilders.NFTBidBuilder()
@@ -68,7 +68,7 @@ describe("API - Trades", () => {
 					auctionId: nftAcceptTrade.data.asset!.nftAcceptTrade.auctionId,
 					bidAmount: Utils.BigNumber.make("1"),
 				})
-				.sign(passphrases[0])
+				.sign(passphrases[0]!)
 				.build();
 
 			const transactionRepository = app.get<Repositories.TransactionRepository>(
@@ -118,9 +118,9 @@ describe("API - Trades", () => {
 			});
 			api.expectPaginator(response);
 			expect(response.data.data).toBeArray();
-			expect(response.data.data[0].id).toStrictEqual(nftAcceptTrade.id);
-			expect(response.data.data[0].senderPublicKey).toStrictEqual(nftAcceptTrade.data.senderPublicKey);
-			expect(response.data.data[0].asset.nftAcceptTrade).toBeObject();
+			expect(response.data.data[0]!.id).toStrictEqual(nftAcceptTrade.id);
+			expect(response.data.data[0]!.senderPublicKey).toStrictEqual(nftAcceptTrade.data.senderPublicKey);
+			expect(response.data.data[0]!.asset.nftAcceptTrade).toBeObject();
 		});
 	});
 });

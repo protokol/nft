@@ -44,7 +44,7 @@ describe("NFT Transfer Functional Tests - Singed with single passphrase", () => 
                     },
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         collectionId = nftRegisteredCollection.id;
@@ -77,9 +77,9 @@ describe("NFT Transfer Functional Tests - Singed with single passphrase", () => 
         const nftTransfer = NFTBaseTransactionFactory.initialize(app)
             .NFTTransfer({
                 nftIds: [nftCreate.id!],
-                recipientId: Identities.Address.fromPassphrase(passphrases[2]),
+                recipientId: Identities.Address.fromPassphrase(passphrases[2]!),
             })
-            .withPassphrase(passphrases[1])
+            .withPassphrase(passphrases[1]!)
             .createOne();
 
         await expect(nftTransfer).toBeAccepted();
@@ -92,9 +92,9 @@ describe("NFT Transfer Functional Tests - Singed with single passphrase", () => 
         const nftTransfer = NFTBaseTransactionFactory.initialize(app)
             .NFTTransfer({
                 nftIds: [nftCreateId],
-                recipientId: Identities.Address.fromPassphrase(passphrases[2]),
+                recipientId: Identities.Address.fromPassphrase(passphrases[2]!),
             })
-            .withPassphrase(passphrases[2])
+            .withPassphrase(passphrases[2]!)
             .createOne();
 
         await expect(nftTransfer).toBeAccepted();
@@ -107,9 +107,9 @@ describe("NFT Transfer Functional Tests - Singed with single passphrase", () => 
         const nftTransfer = NFTBaseTransactionFactory.initialize(app)
             .NFTTransfer({
                 nftIds: [nftCreateId],
-                recipientId: Identities.Address.fromPassphrase(passphrases[2]),
+                recipientId: Identities.Address.fromPassphrase(passphrases[2]!),
             })
-            .withPassphrase(passphrases[1])
+            .withPassphrase(passphrases[1]!)
             .createOne();
 
         await expect(nftTransfer).not.toBeAccepted();
@@ -122,20 +122,20 @@ describe("NFT Transfer Functional Tests - Singed with single passphrase", () => 
         const nftTransfer = NFTBaseTransactionFactory.initialize(app)
             .NFTTransfer({
                 nftIds: [nftCreateId],
-                recipientId: Identities.Address.fromPassphrase(passphrases[2]),
+                recipientId: Identities.Address.fromPassphrase(passphrases[2]!),
             })
-            .withPassphrase(passphrases[2])
+            .withPassphrase(passphrases[2]!)
             .createOne();
 
         // Transfer token
         const nftTransfer2 = NFTBaseTransactionFactory.initialize(app)
             .NFTTransfer({
                 nftIds: [nftCreateId],
-                recipientId: Identities.Address.fromPassphrase(passphrases[2]),
+                recipientId: Identities.Address.fromPassphrase(passphrases[2]!),
             })
             // @ts-ignore
             .withNonce(nftTransfer.nonce.plus(1))
-            .withPassphrase(passphrases[2])
+            .withPassphrase(passphrases[2]!)
             .createOne();
 
         await expect([nftTransfer, nftTransfer2]).not.toBeAllAccepted();
@@ -156,7 +156,7 @@ describe("NFT Transfer Functional Tests - Singed with single passphrase", () => 
                     mana: 2,
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftCreate).toBeAccepted();
@@ -168,17 +168,17 @@ describe("NFT Transfer Functional Tests - Singed with single passphrase", () => 
             .NFTBurn({
                 nftId: nftCreate.id!,
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         // Transfer token
         const nftTransfer = NFTBaseTransactionFactory.initialize(app)
             .NFTTransfer({
                 nftIds: [nftCreate.id!],
-                recipientId: Identities.Address.fromPassphrase(passphrases[2]),
+                recipientId: Identities.Address.fromPassphrase(passphrases[2]!),
             })
             .withNonce(nftBurn.nonce!.plus(1))
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect([nftBurn, nftTransfer]).not.toBeAllAccepted();

@@ -36,7 +36,7 @@ export const buildAuctionTransaction = ({
             startAmount: Utils.BigNumber.make(startAmount || 1),
         })
         .nonce(nonce || "1")
-        .sign(passphrase || passphrases[0])
+        .sign(passphrase || passphrases[0]!)
         .build();
 
 export const buildBidTransaction = ({
@@ -56,5 +56,5 @@ export const buildBidTransaction = ({
             bidAmount: Utils.BigNumber.make(bidAmount || 1),
         })
         .nonce(nonce || "1")
-        .sign(passphrase || passphrases[0])
+        .sign(passphrase || passphrases[0]!)
         .build();

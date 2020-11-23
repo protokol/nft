@@ -7,7 +7,6 @@ import { Handlers } from "@arkecosystem/core-transactions";
 import { Identities, Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Builders as NFTBuilders, Enums, Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 
-import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import {
     NFTBaseCollectionDoesNotExists,
     NFTBaseMaximumSupplyError,
@@ -18,6 +17,7 @@ import { NFTApplicationEvents } from "../../../src/events";
 import { NFTRegisterCollectionHandler } from "../../../src/handlers";
 import { INFTCollections, INFTTokens } from "../../../src/interfaces";
 import { NFTIndexers } from "../../../src/wallet-indexes";
+import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { collectionWalletCheck, deregisterTransactions } from "../utils/utils";
 
 let app: Application;
@@ -73,7 +73,7 @@ beforeEach(async () => {
         ),
         2,
     );
-    wallet = buildWallet(app, passphrases[0]);
+    wallet = buildWallet(app, passphrases[0]!);
     walletRepository.index(wallet);
 
     const collectionsWallet = wallet.getAttribute<INFTCollections>("nft.base.collections", {});
@@ -107,7 +107,7 @@ beforeEach(async () => {
             },
         })
         .nonce("1")
-        .sign(passphrases[0])
+        .sign(passphrases[0]!)
         .build();
 });
 
@@ -134,7 +134,7 @@ describe("NFT Create tests", () => {
         });
 
         it("should test with different wallet", async () => {
-            const secondWallet = buildWallet(app, passphrases[1]);
+            const secondWallet = buildWallet(app, passphrases[1]!);
             walletRepository.index(secondWallet);
 
             const actualTwo = new NFTBuilders.NFTCreateBuilder()
@@ -148,7 +148,7 @@ describe("NFT Create tests", () => {
                     },
                 })
                 .nonce("1")
-                .sign(passphrases[1])
+                .sign(passphrases[1]!)
                 .build();
 
             transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
@@ -177,7 +177,7 @@ describe("NFT Create tests", () => {
                 currentSupply: 0,
                 nftCollectionAsset: {
                     ...nftCollectionAsset,
-                    allowedIssuers: [Identities.PublicKey.fromPassphrase(passphrases[0])],
+                    allowedIssuers: [Identities.PublicKey.fromPassphrase(passphrases[0]!)],
                 },
             };
             wallet.setAttribute("nft.base.collections", collectionsWallet);
@@ -217,7 +217,7 @@ describe("NFT Create tests", () => {
                     },
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(nftCreateHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
@@ -234,7 +234,7 @@ describe("NFT Create tests", () => {
                     },
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(nftCreateHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
@@ -267,7 +267,7 @@ describe("NFT Create tests", () => {
                             },
                         },
                     },
-                    allowedIssuers: [Identities.PublicKey.fromPassphrase(passphrases[1])],
+                    allowedIssuers: [Identities.PublicKey.fromPassphrase(passphrases[1]!)],
                 },
             };
             wallet.setAttribute("nft.base.collections", collectionsWallet);
@@ -283,7 +283,7 @@ describe("NFT Create tests", () => {
                     },
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(nftCreateHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(

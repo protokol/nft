@@ -59,8 +59,8 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
             const genesisWallet = this.walletRepository.findByIndex(NFTIndexers.CollectionIndexer, collectionId);
 
             const collectionsWallet = genesisWallet.getAttribute<INFTCollections>("nft.base.collections");
-            collectionsWallet[collectionId].currentSupply -= 1;
-            collectionsWallet[collectionId].nftCollectionAsset.maximumSupply -= 1;
+            collectionsWallet[collectionId]!.currentSupply -= 1;
+            collectionsWallet[collectionId]!.nftCollectionAsset.maximumSupply -= 1;
             genesisWallet.setAttribute<INFTCollections>("nft.base.collections", collectionsWallet);
         }
     }
@@ -135,8 +135,8 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
         const genesisWallet = this.walletRepository.findByIndex(NFTIndexers.CollectionIndexer, collectionId);
 
         const collectionsWallet = genesisWallet.getAttribute<INFTCollections>("nft.base.collections");
-        collectionsWallet[collectionId].currentSupply -= 1;
-        collectionsWallet[collectionId].nftCollectionAsset.maximumSupply -= 1;
+        collectionsWallet[collectionId]!.currentSupply -= 1;
+        collectionsWallet[collectionId]!.nftCollectionAsset.maximumSupply -= 1;
         genesisWallet.setAttribute<INFTCollections>("nft.base.collections", collectionsWallet);
     }
 
@@ -160,8 +160,8 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
         const genesisWallet = this.walletRepository.findByIndex(NFTIndexers.CollectionIndexer, collectionId);
 
         const collectionsWallet = genesisWallet.getAttribute<INFTCollections>("nft.base.collections");
-        collectionsWallet[collectionId].currentSupply += 1;
-        collectionsWallet[collectionId].nftCollectionAsset.maximumSupply += 1;
+        collectionsWallet[collectionId]!.currentSupply += 1;
+        collectionsWallet[collectionId]!.nftCollectionAsset.maximumSupply += 1;
         genesisWallet.setAttribute<INFTCollections>("nft.base.collections", collectionsWallet);
     }
 

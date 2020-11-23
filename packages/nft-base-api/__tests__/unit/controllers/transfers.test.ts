@@ -6,6 +6,7 @@ import { Identities, Interfaces, Managers, Transactions } from "@arkecosystem/cr
 import Hapi from "@hapi/hapi";
 import { Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 
+import { TransfersController } from "../../../src/controllers/transfers";
 import {
 	blockHistoryService,
 	initApp,
@@ -13,7 +14,6 @@ import {
 	PaginatedResponse,
 	transactionHistoryService,
 } from "../__support__";
-import { TransfersController } from "../../../src/controllers/transfers";
 let app: Application;
 
 let transfersController: TransfersController;
@@ -39,9 +39,9 @@ beforeEach(() => {
 	actual = new Builders.NFTTransferBuilder()
 		.NFTTransferAsset({
 			nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
-			recipientId: Identities.Address.fromPassphrase(passphrases[1]),
+			recipientId: Identities.Address.fromPassphrase(passphrases[1]!),
 		})
-		.sign(passphrases[0])
+		.sign(passphrases[0]!)
 		.build();
 });
 
@@ -66,12 +66,12 @@ describe("Test transfer controller", () => {
 			},
 		};
 		const response = (await transfersController.index(request, undefined)) as PaginatedResponse;
-		expect(response.results[0]).toStrictEqual({
+		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,
 			nftTransfer: {
 				nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
-				recipientId: Identities.Address.fromPassphrase(passphrases[1]),
+				recipientId: Identities.Address.fromPassphrase(passphrases[1]!),
 			},
 			timestamp,
 		});
@@ -96,7 +96,7 @@ describe("Test transfer controller", () => {
 			senderPublicKey: actual.data.senderPublicKey,
 			nftTransfer: {
 				nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
-				recipientId: Identities.Address.fromPassphrase(passphrases[1]),
+				recipientId: Identities.Address.fromPassphrase(passphrases[1]!),
 			},
 			timestamp,
 		});

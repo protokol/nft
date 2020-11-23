@@ -9,12 +9,12 @@ import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Indexers } from "@protokol/nft-base-transactions";
 import { Builders as NFTBuilders, Enums } from "@protokol/nft-exchange-crypto";
 
-import { setMockFindByIds, setMockTransactions } from "../__mocks__/transaction-repository";
-import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { NFTExchangeAuctionCancelCannotCancel } from "../../../src/errors";
 import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
 import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
+import { setMockFindByIds, setMockTransactions } from "../__mocks__/transaction-repository";
+import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { buildAuctionTransaction, buildBidTransaction, deregisterTransactions } from "../utils";
 
 let app: Application;
@@ -34,7 +34,7 @@ const auctionId = "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99
 beforeEach(() => {
     app = initApp();
 
-    wallet = buildWallet(app, passphrases[0]);
+    wallet = buildWallet(app, passphrases[0]!);
 
     walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
@@ -73,7 +73,7 @@ describe("NFT Auction Cancel tests", () => {
             const actual = new NFTBuilders.NFTAuctionCancelBuilder()
                 .NFTAuctionCancelAsset({ auctionId })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
@@ -90,7 +90,7 @@ describe("NFT Auction Cancel tests", () => {
             const actual = new NFTBuilders.NFTAuctionCancelBuilder()
                 .NFTAuctionCancelAsset({ auctionId })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
                 yield actual.data;
@@ -134,7 +134,7 @@ describe("NFT Auction Cancel tests", () => {
             const actual = new NFTBuilders.NFTAuctionCancelBuilder()
                 .NFTAuctionCancelAsset({ auctionId })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(nftCancelSellHandler.throwIfCannotBeApplied(actual, wallet)).toResolve();
@@ -144,7 +144,7 @@ describe("NFT Auction Cancel tests", () => {
             const actual = new NFTBuilders.NFTAuctionCancelBuilder()
                 .NFTAuctionCancelAsset({ auctionId })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             actual.data.asset = undefined;
 
@@ -155,7 +155,7 @@ describe("NFT Auction Cancel tests", () => {
             const actual = new NFTBuilders.NFTAuctionCancelBuilder()
                 .NFTAuctionCancelAsset({ auctionId })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(nftCancelSellHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
@@ -174,7 +174,7 @@ describe("NFT Auction Cancel tests", () => {
             const actual = new NFTBuilders.NFTAuctionCancelBuilder()
                 .NFTAuctionCancelAsset({ auctionId })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(nftCancelSellHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
@@ -188,7 +188,7 @@ describe("NFT Auction Cancel tests", () => {
             const actual = new NFTBuilders.NFTAuctionCancelBuilder()
                 .NFTAuctionCancelAsset({ auctionId })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(nftCancelSellHandler.throwIfCannotEnterPool(actual)).toResolve();
@@ -207,14 +207,14 @@ describe("NFT Auction Cancel tests", () => {
             const actual = new NFTBuilders.NFTAuctionCancelBuilder()
                 .NFTAuctionCancelAsset({ auctionId })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             await app.get<Mempool>(Container.Identifiers.TransactionPoolMempool).addTransaction(actual);
 
             const actualTwo = new NFTBuilders.NFTAuctionCancelBuilder()
                 .NFTAuctionCancelAsset({ auctionId })
                 .nonce("2")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(nftCancelSellHandler.throwIfCannotEnterPool(actualTwo)).rejects.toThrowError();
@@ -226,7 +226,7 @@ describe("NFT Auction Cancel tests", () => {
             const actual = new NFTBuilders.NFTAuctionCancelBuilder()
                 .NFTAuctionCancelAsset({ auctionId })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             const emitter: Contracts.Kernel.EventDispatcher = app.get<Contracts.Kernel.EventDispatcher>(
@@ -255,7 +255,7 @@ describe("NFT Auction Cancel tests", () => {
             const actual = new NFTBuilders.NFTAuctionCancelBuilder()
                 .NFTAuctionCancelAsset({ auctionId })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             await expect(nftCancelSellHandler.applyToSender(actual)).toResolve();
 
@@ -268,7 +268,7 @@ describe("NFT Auction Cancel tests", () => {
             const actual = new NFTBuilders.NFTAuctionCancelBuilder()
                 .NFTAuctionCancelAsset({ auctionId })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             setMockTransactions([actualBid]);
@@ -326,7 +326,7 @@ describe("NFT Auction Cancel tests", () => {
                     auctionId: actualAuction.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await nftCancelSellHandler.applyToSender(actual);
@@ -370,7 +370,7 @@ describe("NFT Auction Cancel tests", () => {
                     auctionId: actualAuction.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await nftCancelSellHandler.apply(actual);
@@ -407,7 +407,7 @@ describe("NFT Auction Cancel tests", () => {
                     bidId: actualBid.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             setMockTransactions([actualAuction, actualBid, actualCancelBid]);
             setMockFindByIds([actualBid]);
@@ -431,7 +431,7 @@ describe("NFT Auction Cancel tests", () => {
                     auctionId: actualAuction.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await nftCancelSellHandler.applyToSender(actual);
@@ -477,7 +477,7 @@ describe("NFT Auction Cancel tests", () => {
                     auctionId: actualAuction.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await nftCancelSellHandler.applyToSender(actual);

@@ -11,7 +11,7 @@ import {
     NFTBaseSenderPublicKeyDoesNotExists,
 } from "../errors";
 import { NFTApplicationEvents } from "../events";
-import { INFTCollections, INFTTokens } from "../interfaces";
+import { INFTCollection, INFTCollections, INFTTokens } from "../interfaces";
 import { NFTIndexers } from "../wallet-indexes";
 import { NFTBaseTransactionHandler } from "./nft-base-handler";
 import { NFTRegisterCollectionHandler } from "./nft-register-collection";
@@ -60,7 +60,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
             const collectionId = transaction.asset.nftToken.collectionId;
             const genesisWallet = this.walletRepository.findByIndex(NFTIndexers.CollectionIndexer, collectionId);
             const genesisWalletCollection = genesisWallet.getAttribute<INFTCollections>("nft.base.collections");
-            genesisWalletCollection[collectionId].currentSupply += 1;
+            genesisWalletCollection[collectionId]!.currentSupply += 1;
             genesisWallet.setAttribute<INFTCollections>("nft.base.collections", genesisWalletCollection);
         }
     }
@@ -77,19 +77,20 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
         const nftTokenAsset: NFTInterfaces.NFTTokenAsset = transaction.data.asset.nftToken;
         let genesisWallet: Contracts.State.Wallet;
+        let genesisWalletCollection: INFTCollection | undefined;
 
         try {
             genesisWallet = this.walletRepository.findByIndex(
                 NFTIndexers.CollectionIndexer,
                 nftTokenAsset.collectionId,
             );
+            genesisWalletCollection = genesisWallet.getAttribute<INFTCollections>("nft.base.collections")[
+                nftTokenAsset.collectionId
+            ];
+            AppUtils.assert.defined<INFTCollection>(genesisWalletCollection);
         } catch (e) {
             throw new NFTBaseCollectionDoesNotExists();
         }
-
-        const genesisWalletCollection = genesisWallet.getAttribute<INFTCollections>("nft.base.collections")[
-            nftTokenAsset.collectionId
-        ];
 
         if (genesisWalletCollection.nftCollectionAsset.allowedIssuers) {
             if (!genesisWalletCollection.nftCollectionAsset.allowedIssuers.includes(transaction.data.senderPublicKey)) {
@@ -127,7 +128,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         const collectionId = transaction.data.asset!.nftToken.collectionId;
         const genesisWallet = this.walletRepository.findByIndex(NFTIndexers.CollectionIndexer, collectionId);
         const genesisWalletCollection = genesisWallet.getAttribute<INFTCollections>("nft.base.collections");
-        genesisWalletCollection[collectionId].currentSupply += 1;
+        genesisWalletCollection[collectionId]!.currentSupply += 1;
         genesisWallet.setAttribute<INFTCollections>("nft.base.collections", genesisWalletCollection);
     }
 
@@ -148,7 +149,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         const collectionId = transaction.data.asset.nftToken.collectionId;
         const genesisWallet = this.walletRepository.findByIndex(NFTIndexers.CollectionIndexer, collectionId);
         const genesisWalletCollection = genesisWallet.getAttribute<INFTCollections>("nft.base.collections");
-        genesisWalletCollection[collectionId].currentSupply -= 1;
+        genesisWalletCollection[collectionId]!.currentSupply -= 1;
         genesisWallet.setAttribute<INFTCollections>("nft.base.collections", genesisWalletCollection);
     }
 

@@ -17,7 +17,7 @@ afterAll(async () => await support.tearDown());
 
 describe("NFT Burn functional tests - Signed with one Passphrase", () => {
     let registerCollectionId;
-    it("should broadcast, accept and forge it [Signed with 1 Passphrase] ", async () => {
+    it("should broadcast, accept and forge it [Signed with 1 Passphrase]", async () => {
         // Register collection
         const nftRegisteredCollection = NFTBaseTransactionFactory.initialize(app)
             .NFTRegisterCollection({
@@ -41,7 +41,7 @@ describe("NFT Burn functional tests - Signed with one Passphrase", () => {
                     },
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         registerCollectionId = nftRegisteredCollection.id;
@@ -61,7 +61,7 @@ describe("NFT Burn functional tests - Signed with one Passphrase", () => {
                     mana: 2,
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftCreate).toBeAccepted();
@@ -73,7 +73,7 @@ describe("NFT Burn functional tests - Signed with one Passphrase", () => {
             .NFTBurn({
                 nftId: nftCreate.id!,
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftBurn).toBeAccepted();
@@ -93,7 +93,7 @@ describe("NFT Burn functional tests - Signed with one Passphrase", () => {
                     mana: 2,
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftCreate).toBeAccepted();
@@ -105,7 +105,7 @@ describe("NFT Burn functional tests - Signed with one Passphrase", () => {
             .NFTBurn({
                 nftId: nftCreate.id!,
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         // Burn token
@@ -113,7 +113,7 @@ describe("NFT Burn functional tests - Signed with one Passphrase", () => {
             .NFTBurn({
                 nftId: nftCreate.id!,
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .withNonce(nftBurn.nonce!.plus(1))
             .createOne();
 
@@ -135,7 +135,7 @@ describe("NFT Burn functional tests - Signed with one Passphrase", () => {
                     mana: 2,
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftCreate).toBeAccepted();
@@ -148,7 +148,7 @@ describe("NFT Burn functional tests - Signed with one Passphrase", () => {
                 nftIds: [nftCreate.id!],
                 recipientId: ARKCrypto.Identities.Address.fromPassphrase(passphrases[2]),
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         // Burn token
@@ -157,7 +157,7 @@ describe("NFT Burn functional tests - Signed with one Passphrase", () => {
                 nftId: nftCreate.id!,
             })
             .withNonce(nftTransfer.nonce!.plus(1))
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect([nftTransfer, nftBurn]).not.toBeAllAccepted();

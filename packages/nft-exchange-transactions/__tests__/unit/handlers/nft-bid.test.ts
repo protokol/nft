@@ -7,8 +7,6 @@ import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Enums } from "@protokol/nft-exchange-crypto";
 
-import { setMockTransactions } from "../__mocks__/transaction-repository";
-import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import {
     NFTExchangeBidAuctionCanceledOrAccepted,
     NFTExchangeBidAuctionDoesNotExists,
@@ -20,6 +18,8 @@ import {
 import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
 import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
+import { setMockTransactions } from "../__mocks__/transaction-repository";
+import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { buildAuctionTransaction, buildBidTransaction, deregisterTransactions } from "../utils";
 
 let app: Application;
@@ -41,8 +41,8 @@ const nftIds = [id];
 beforeEach(() => {
     app = initApp();
 
-    bidWallet = buildWallet(app, passphrases[0]);
-    auctionWallet = buildWallet(app, passphrases[1]);
+    bidWallet = buildWallet(app, passphrases[0]!);
+    auctionWallet = buildWallet(app, passphrases[1]!);
 
     walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
@@ -137,7 +137,7 @@ describe("NFT Bid tests", () => {
             auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
             walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(auctionWallet);
 
-            const actual = buildBidTransaction({ auctionId: actualAuction.id!, passphrase: passphrases[0] });
+            const actual = buildBidTransaction({ auctionId: actualAuction.id!, passphrase: passphrases[0]! });
 
             await expect(nftBidHandler.throwIfCannotBeApplied(actual, bidWallet)).toResolve();
         });

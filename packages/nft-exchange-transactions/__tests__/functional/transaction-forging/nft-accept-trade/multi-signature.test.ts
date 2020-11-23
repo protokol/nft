@@ -15,13 +15,13 @@ afterAll(async () => await support.tearDown());
 describe("NFT Accept Trade functional tests - Signed with multi signature", () => {
     // Register a multi signature wallet with defaults
     const passphrase = generateMnemonic();
-    const tempPasses = [passphrase, passphrases[4], passphrases[5]];
+    const tempPasses = [passphrase, passphrases[4]!, passphrases[5]!];
     const participants = [
-        Identities.PublicKey.fromPassphrase(tempPasses[0]),
-        Identities.PublicKey.fromPassphrase(tempPasses[1]),
-        Identities.PublicKey.fromPassphrase(tempPasses[2]),
+        Identities.PublicKey.fromPassphrase(tempPasses[0]!),
+        Identities.PublicKey.fromPassphrase(tempPasses[1]!),
+        Identities.PublicKey.fromPassphrase(tempPasses[2]!),
     ];
-    it("should broadcast, accept and forge it [3-of-3 multisig] ", async () => {
+    it("should broadcast, accept and forge it [3-of-3 multisig]", async () => {
         // Register collection
         const nftRegisteredCollection = NFTExchangeTransactionFactory.initialize(app)
             .NFTRegisterCollection({
@@ -45,7 +45,7 @@ describe("NFT Accept Trade functional tests - Signed with multi signature", () =
                     },
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftRegisteredCollection).toBeAccepted();
@@ -55,7 +55,7 @@ describe("NFT Accept Trade functional tests - Signed with multi signature", () =
         // Funds to register a multi signature wallet
         const initialFunds = TransactionFactory.initialize(app)
             .transfer(Identities.Address.fromPassphrase(passphrase), 50 * 1e8)
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(initialFunds).toBeAccepted();
@@ -79,7 +79,7 @@ describe("NFT Accept Trade functional tests - Signed with multi signature", () =
 
         const multiSignatureFunds = TransactionFactory.initialize(app)
             .transfer(multiSigAddress, 100 * 1e8)
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(multiSignatureFunds).toBeAccepted();
@@ -128,7 +128,7 @@ describe("NFT Accept Trade functional tests - Signed with multi signature", () =
                 auctionId: nftAuction.id!,
                 bidAmount: Utils.BigNumber.make("2"),
             })
-            .withPassphrase(passphrases[2])
+            .withPassphrase(passphrases[2]!)
             .createOne();
 
         await expect(nftBid).toBeAccepted();

@@ -6,6 +6,7 @@ import { Interfaces, Managers, Transactions } from "@arkecosystem/crypto";
 import Hapi from "@hapi/hapi";
 import { Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 
+import { BurnsController } from "../../../src/controllers/burns";
 import {
 	blockHistoryService,
 	initApp,
@@ -13,7 +14,6 @@ import {
 	PaginatedResponse,
 	transactionHistoryService,
 } from "../__support__";
-import { BurnsController } from "../../../src/controllers/burns";
 let app: Application;
 
 let burnsController: BurnsController;
@@ -41,7 +41,7 @@ beforeEach(() => {
 		.NFTBurnAsset({
 			nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
 		})
-		.sign(passphrases[0])
+		.sign(passphrases[0]!)
 		.build();
 });
 
@@ -67,7 +67,7 @@ describe("Test burns controller", () => {
 		};
 
 		const response = (await burnsController.index(request, undefined)) as PaginatedResponse;
-		expect(response.results[0]).toStrictEqual({
+		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,
 			nftBurn: {

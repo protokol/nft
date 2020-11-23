@@ -95,7 +95,7 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
 
         for (const auction of Object.keys(auctionsWalletAsset)) {
             for (const nft of nftAuctionAsset.nftIds) {
-                if (auctionsWalletAsset.hasOwnProperty(auction) && auctionsWalletAsset[auction].nftIds.includes(nft)) {
+                if (auctionsWalletAsset.hasOwnProperty(auction) && auctionsWalletAsset[auction]!.nftIds.includes(nft)) {
                     throw new NFTExchangeAuctionAlreadyInProgress();
                 }
             }

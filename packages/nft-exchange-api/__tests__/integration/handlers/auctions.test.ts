@@ -31,7 +31,7 @@ describe("API - Auctions", () => {
 					},
 					startAmount: Utils.BigNumber.make("1"),
 				})
-				.sign(passphrases[10])
+				.sign(passphrases[10]!)
 				.build();
 		});
 		describe("GET /auctions", () => {
@@ -49,9 +49,9 @@ describe("API - Auctions", () => {
 				const response = await api.request("GET", "nft/exchange/auctions", { transform: false });
 				api.expectPaginator(response);
 				expect(response.data.data).toBeArray();
-				expect(response.data.data[0].id).toStrictEqual(nftAuction.id);
-				expect(response.data.data[0].senderPublicKey).toStrictEqual(nftAuction.data.senderPublicKey);
-				expect(response.data.data[0].asset.nftAuction).toBeObject();
+				expect(response.data.data[0]!.id).toStrictEqual(nftAuction.id);
+				expect(response.data.data[0]!.senderPublicKey).toStrictEqual(nftAuction.data.senderPublicKey);
+				expect(response.data.data[0]!.asset.nftAuction).toBeObject();
 			});
 		});
 
@@ -77,14 +77,14 @@ describe("API - Auctions", () => {
 		describe("GET /auctions/{id}/wallets", () => {
 			let walletRepository: Contracts.State.WalletRepository;
 
-			it("should return wallet by auctions id ", async () => {
+			it("should return wallet by auctions id", async () => {
 				walletRepository = app.getTagged<Contracts.State.WalletRepository>(
 					Container.Identifiers.WalletRepository,
 					"state",
 					"blockchain",
 				);
 				walletRepository.reset();
-				const wallet = walletRepository.findByAddress(Identities.Address.fromPassphrase(passphrases[0]));
+				const wallet = walletRepository.findByAddress(Identities.Address.fromPassphrase(passphrases[0]!));
 
 				const auctionsAsset = wallet.getAttribute<Interfaces.INFTAuctions>("nft.exchange.auctions", {});
 
@@ -117,9 +117,9 @@ describe("API - Auctions", () => {
 				});
 				api.expectPaginator(response);
 				expect(response.data.data).toBeArray();
-				expect(response.data.data[0].id).toStrictEqual(nftAuction.id);
-				expect(response.data.data[0].senderPublicKey).toStrictEqual(nftAuction.data.senderPublicKey);
-				expect(response.data.data[0].asset.nftAuction).toBeObject();
+				expect(response.data.data[0]!.id).toStrictEqual(nftAuction.id);
+				expect(response.data.data[0]!.senderPublicKey).toStrictEqual(nftAuction.data.senderPublicKey);
+				expect(response.data.data[0]!.asset.nftAuction).toBeObject();
 			});
 		});
 	});
@@ -131,7 +131,7 @@ describe("API - Auctions", () => {
 				.NFTAuctionCancelAsset({
 					auctionId: "86b2f1e40bd913627cd3d27d1c090176370ca591e238bee7f65292b4483f9cb6",
 				})
-				.sign(passphrases[0])
+				.sign(passphrases[0]!)
 				.build();
 		});
 		describe("GET /auctions/canceled", () => {
@@ -149,9 +149,9 @@ describe("API - Auctions", () => {
 				const response = await api.request("GET", "nft/exchange/auctions/canceled", { transform: false });
 				api.expectPaginator(response);
 				expect(response.data.data).toBeArray();
-				expect(response.data.data[0].id).toStrictEqual(nftAuctionCancel.id);
-				expect(response.data.data[0].senderPublicKey).toStrictEqual(nftAuctionCancel.data.senderPublicKey);
-				expect(response.data.data[0].asset.nftAuctionCancel).toBeObject();
+				expect(response.data.data[0]!.id).toStrictEqual(nftAuctionCancel.id);
+				expect(response.data.data[0]!.senderPublicKey).toStrictEqual(nftAuctionCancel.data.senderPublicKey);
+				expect(response.data.data[0]!.asset.nftAuctionCancel).toBeObject();
 			});
 		});
 
