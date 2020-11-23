@@ -34,7 +34,7 @@ describe("API - Assets", () => {
 					mana: 2,
 				},
 			})
-			.sign(passphrases[0])
+			.sign(passphrases[0]!)
 			.build();
 
 		walletRepository = app.getTagged<Contracts.State.WalletRepository>(
@@ -42,7 +42,7 @@ describe("API - Assets", () => {
 			"state",
 			"blockchain",
 		);
-		const wallet = walletRepository.findByAddress(Identities.Address.fromPassphrase(passphrases[0]));
+		const wallet = walletRepository.findByAddress(Identities.Address.fromPassphrase(passphrases[0]!));
 
 		const tokensWallet = wallet.getAttribute<Interfaces.INFTTokens>("nft.base.tokenIds", []);
 		// @ts-ignore
@@ -64,12 +64,12 @@ describe("API - Assets", () => {
 			});
 
 			const response = await api.request("GET", "nft/assets", { transform: false });
-			expect(response.data.data[0].id).toStrictEqual(nftCreate.id);
-			expect(response.data.data[0].senderPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
-			expect(response.data.data[0].asset.nftToken.collectionId).toStrictEqual(
+			expect(response.data.data[0]!.id).toStrictEqual(nftCreate.id);
+			expect(response.data.data[0]!.senderPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
+			expect(response.data.data[0]!.asset.nftToken.collectionId).toStrictEqual(
 				"8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
 			);
-			expect(response.data.data[0].asset.nftToken.attributes).toBeObject();
+			expect(response.data.data[0]!.asset.nftToken.attributes).toBeObject();
 		});
 	});
 
@@ -105,7 +105,7 @@ describe("API - Assets", () => {
 				"state",
 				"blockchain",
 			);
-			const wallet = walletRepository.findByAddress(Identities.Address.fromPassphrase(passphrases[0]));
+			const wallet = walletRepository.findByAddress(Identities.Address.fromPassphrase(passphrases[0]!));
 
 			const tokensWallet = wallet.getAttribute<Interfaces.INFTTokens>("nft.base.tokenIds", []);
 			tokensWallet["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {};
@@ -137,12 +137,12 @@ describe("API - Assets", () => {
 				damage: 3,
 			});
 			console.log(response.data.data);
-			expect(response.data.data[0].id).toStrictEqual(nftCreate.id);
-			expect(response.data.data[0].senderPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
-			expect(response.data.data[0].asset.nftToken.collectionId).toStrictEqual(
+			expect(response.data.data[0]!.id).toStrictEqual(nftCreate.id);
+			expect(response.data.data[0]!.senderPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
+			expect(response.data.data[0]!.asset.nftToken.collectionId).toStrictEqual(
 				"8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
 			);
-			expect(response.data.data[0].asset.nftToken.attributes).toBeObject();
+			expect(response.data.data[0]!.asset.nftToken.attributes).toBeObject();
 		});
 	});
 });

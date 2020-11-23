@@ -41,7 +41,7 @@ describe("NFT Register collection functional tests - Signed with one passphrase"
                     },
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftRegisteredCollection).toBeAccepted();

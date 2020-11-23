@@ -40,7 +40,7 @@ describe("NFT Create functional tests - Signed with one Passphrase", () => {
                     },
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftRegisteredCollection).toBeAccepted();
@@ -58,7 +58,7 @@ describe("NFT Create functional tests - Signed with one Passphrase", () => {
                     mana: 2,
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftCreate).toBeAccepted();
@@ -90,7 +90,7 @@ describe("NFT Create functional tests - Signed with one Passphrase", () => {
                     },
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftRegisteredSchema).toBeAccepted();
@@ -109,7 +109,7 @@ describe("NFT Create functional tests - Signed with one Passphrase", () => {
                         mana: 2,
                     },
                 })
-                .withPassphrase(passphrases[0])
+                .withPassphrase(passphrases[0]!)
                 .createOne();
 
             await expect(nftCreate).toBeAccepted();
@@ -128,7 +128,7 @@ describe("NFT Create functional tests - Signed with one Passphrase", () => {
                     mana: 2,
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftCreate2).not.toBeAccepted();
@@ -137,7 +137,7 @@ describe("NFT Create functional tests - Signed with one Passphrase", () => {
     });
 
     let registeredCollectionWithAllowedIssuers;
-    it("should broadcast, accept and forge it - allowedIssuers [Signed with 1 Passphrase] ", async () => {
+    it("should broadcast, accept and forge it - allowedIssuers [Signed with 1 Passphrase]", async () => {
         const nftRegisteredCollection = NFTBaseTransactionFactory.initialize(app)
             .NFTRegisterCollection({
                 name: "Nft card",
@@ -159,9 +159,9 @@ describe("NFT Create functional tests - Signed with one Passphrase", () => {
                         },
                     },
                 },
-                allowedIssuers: [Identities.PublicKey.fromPassphrase(passphrases[0])],
+                allowedIssuers: [Identities.PublicKey.fromPassphrase(passphrases[0]!)],
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
         registeredCollectionWithAllowedIssuers = nftRegisteredCollection.id;
 
@@ -179,7 +179,7 @@ describe("NFT Create functional tests - Signed with one Passphrase", () => {
                     mana: 2,
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftCreate).toBeAccepted();
@@ -199,7 +199,7 @@ describe("NFT Create functional tests - Signed with one Passphrase", () => {
                     mana: 2,
                 },
             })
-            .withPassphrase(passphrases[1])
+            .withPassphrase(passphrases[1]!)
             .createOne();
 
         await expect(nftCreate).not.toBeAccepted();

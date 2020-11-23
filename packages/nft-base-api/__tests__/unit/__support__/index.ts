@@ -36,10 +36,10 @@ export const buildSenderWallet = (app: Application): Contracts.State.Wallet => {
 	const walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
 	const wallet: Contracts.State.Wallet = walletRepository.createWallet(
-		Identities.Address.fromPassphrase(passphrases[0]),
+		Identities.Address.fromPassphrase(passphrases[0]!),
 	);
 
-	wallet.publicKey = Identities.PublicKey.fromPassphrase(passphrases[0]);
+	wallet.publicKey = Identities.PublicKey.fromPassphrase(passphrases[0]!);
 	wallet.balance = Utils.BigNumber.make(7527654310);
 
 	return wallet;

@@ -69,7 +69,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
             this.checkBiddingOnOwnAuction(auctionWallet, wallet);
 
             const auctionWalletAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions");
-            auctionWalletAsset[nftBidAsset.auctionId].bids.push(transaction.id);
+            auctionWalletAsset[nftBidAsset.auctionId]!.bids.push(transaction.id);
             auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
 
             this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).set(transaction.id, auctionWallet);
@@ -141,7 +141,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
         const auctionWallet = this.walletRepository.findByPublicKey(auctionTransaction.senderPublicKey);
 
         const auctionWalletAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions");
-        auctionWalletAsset[nftBidAsset.auctionId].bids.push(transaction.data.id);
+        auctionWalletAsset[nftBidAsset.auctionId]!.bids.push(transaction.data.id);
         auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
 
         this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).set(transaction.data.id, auctionWallet);
@@ -166,7 +166,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
         const auctionWallet = this.walletRepository.findByPublicKey(auctionTransaction.senderPublicKey);
 
         const auctionWalletAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions");
-        auctionWalletAsset[nftBidAsset.auctionId].bids = auctionWalletAsset[nftBidAsset.auctionId].bids.filter(
+        auctionWalletAsset[nftBidAsset.auctionId]!.bids = auctionWalletAsset[nftBidAsset.auctionId]!.bids.filter(
             (bid) => bid !== transaction.data.id,
         );
         auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);

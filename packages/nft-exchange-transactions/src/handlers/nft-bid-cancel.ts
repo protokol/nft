@@ -62,7 +62,7 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
             const auctionWallet = this.walletRepository.findByPublicKey(auctionTransaction.senderPublicKey);
 
             const auctionWalletAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions");
-            auctionWalletAsset[auctionTransaction.id].bids = auctionWalletAsset[auctionTransaction.id].bids.filter(
+            auctionWalletAsset[auctionTransaction.id]!.bids = auctionWalletAsset[auctionTransaction.id]!.bids.filter(
                 (bid) => bid !== cancelBidAsset.bidId,
             );
             auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
@@ -102,7 +102,7 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
         if (!auctionWalletAsset[auctionTransaction.id]) {
             throw new NFTExchangeBidCancelAuctionCanceledOrAccepted();
         }
-        if (!auctionWalletAsset[auctionTransaction.id].bids.some((bid) => bid === nftBidCancelAsset.bidId)) {
+        if (!auctionWalletAsset[auctionTransaction.id]!.bids.some((bid) => bid === nftBidCancelAsset.bidId)) {
             throw new NFTExchangeBidCancelBidCanceled();
         }
 
@@ -147,7 +147,7 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
         const auctionWallet = this.walletRepository.findByPublicKey(auctionTransaction.senderPublicKey);
 
         const auctionWalletAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions");
-        auctionWalletAsset[auctionTransaction.id].bids = auctionWalletAsset[auctionTransaction.id].bids.filter(
+        auctionWalletAsset[auctionTransaction.id]!.bids = auctionWalletAsset[auctionTransaction.id]!.bids.filter(
             (bid) => bid !== cancelBidAsset.bidId,
         );
         auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
@@ -174,7 +174,7 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
         const auctionWallet = this.walletRepository.findByPublicKey(auctionTransaction.senderPublicKey);
 
         const auctionWalletAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions");
-        auctionWalletAsset[auctionTransaction.id].bids.push(cancelBidAsset.bidId);
+        auctionWalletAsset[auctionTransaction.id]!.bids.push(cancelBidAsset.bidId);
         auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
 
         this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).set(cancelBidAsset.bidId, auctionWallet);

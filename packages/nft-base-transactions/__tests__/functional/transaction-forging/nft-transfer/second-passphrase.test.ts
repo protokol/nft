@@ -17,7 +17,7 @@ beforeAll(async () => {
 afterAll(async () => await support.tearDown());
 
 describe("NFT Transfer Functional Tests - Signed with 2 Passphrases", () => {
-    it("should broadcast, accept and forge it [Signed with 2 Passphrases] ", async () => {
+    it("should broadcast, accept and forge it [Signed with 2 Passphrases]", async () => {
         // Register collection
         const nftRegisteredCollection = NFTBaseTransactionFactory.initialize(app)
             .NFTRegisterCollection({
@@ -43,7 +43,7 @@ describe("NFT Transfer Functional Tests - Signed with 2 Passphrases", () => {
                     },
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftRegisteredCollection).toBeAccepted();
@@ -57,7 +57,7 @@ describe("NFT Transfer Functional Tests - Signed with 2 Passphrases", () => {
         // Initial Funds
         const initialFunds = TransactionFactory.initialize(app)
             .transfer(Identities.Address.fromPassphrase(passphrase), 150 * 1e8)
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(initialFunds).toBeAccepted();
@@ -97,7 +97,7 @@ describe("NFT Transfer Functional Tests - Signed with 2 Passphrases", () => {
         const nftTransfer = NFTBaseTransactionFactory.initialize(app)
             .NFTTransfer({
                 nftIds: [nftCreate.id!],
-                recipientId: Identities.Address.fromPassphrase(passphrases[2]),
+                recipientId: Identities.Address.fromPassphrase(passphrases[2]!),
             })
             .withPassphrase(passphrase)
             .withSecondPassphrase(secondPassphrase)

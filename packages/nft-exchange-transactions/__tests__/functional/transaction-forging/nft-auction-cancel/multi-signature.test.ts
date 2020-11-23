@@ -15,11 +15,11 @@ afterAll(async () => await support.tearDown());
 describe("NFT Auction Cancel functional tests - Signed with multi signature", () => {
     // Register a multi signature wallet with defaults
     const passphrase = generateMnemonic();
-    const secrets = [passphrase, passphrases[4], passphrases[5]];
+    const secrets = [passphrase, passphrases[4]!, passphrases[5]!];
     const participants = [
-        Identities.PublicKey.fromPassphrase(secrets[0]),
-        Identities.PublicKey.fromPassphrase(secrets[1]),
-        Identities.PublicKey.fromPassphrase(secrets[2]),
+        Identities.PublicKey.fromPassphrase(secrets[0]!),
+        Identities.PublicKey.fromPassphrase(secrets[1]!),
+        Identities.PublicKey.fromPassphrase(secrets[2]!),
     ];
     it("should broadcast, accept and forge it [3-of-3 multisig]", async () => {
         const nftRegisteredCollection = NFTExchangeTransactionFactory.initialize(app)
@@ -44,7 +44,7 @@ describe("NFT Auction Cancel functional tests - Signed with multi signature", ()
                     },
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftRegisteredCollection).toBeAccepted();
@@ -54,7 +54,7 @@ describe("NFT Auction Cancel functional tests - Signed with multi signature", ()
         // Funds to register a multi signature wallet
         const initialFunds = TransactionFactory.initialize(app)
             .transfer(Identities.Address.fromPassphrase(passphrase), 50 * 1e8)
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(initialFunds).toBeAccepted();
@@ -78,7 +78,7 @@ describe("NFT Auction Cancel functional tests - Signed with multi signature", ()
 
         const multiSignatureFunds = TransactionFactory.initialize(app)
             .transfer(multiSigAddress, 100 * 1e8)
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(multiSignatureFunds).toBeAccepted();

@@ -8,8 +8,6 @@ import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Builders as NFTBuilders, Enums, Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 
-import { setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
-import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import {
     NFTBaseBurnCannotBeApplied,
     NFTBaseBurnNFTIsOnAuction,
@@ -18,6 +16,8 @@ import {
 import { NFTApplicationEvents } from "../../../src/events";
 import { INFTCollections, INFTTokens } from "../../../src/interfaces";
 import { NFTIndexers } from "../../../src/wallet-indexes";
+import { setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
+import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { collectionWalletCheck, deregisterTransactions } from "../utils/utils";
 
 let app: Application;
@@ -64,7 +64,7 @@ const buildActualBurn = (id: string | undefined, nonce = "1") =>
             nftId: id,
         })
         .nonce(nonce)
-        .sign(passphrases[0])
+        .sign(passphrases[0]!)
         .build();
 
 beforeEach(() => {
@@ -77,7 +77,7 @@ beforeEach(() => {
         Transactions.InternalTransactionType.from(Enums.NFTBaseTransactionTypes.NFTBurn, Enums.NFTBaseTransactionGroup),
         2,
     );
-    wallet = buildWallet(app, passphrases[0]);
+    wallet = buildWallet(app, passphrases[0]!);
 
     walletRepository.index(wallet);
 
@@ -92,7 +92,7 @@ beforeEach(() => {
             },
         })
         .nonce("1")
-        .sign(passphrases[0])
+        .sign(passphrases[0]!)
         .build();
 });
 

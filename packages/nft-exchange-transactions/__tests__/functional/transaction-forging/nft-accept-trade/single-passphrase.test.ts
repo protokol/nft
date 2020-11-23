@@ -37,7 +37,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                     },
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         collectionId = nftRegisteredCollection.id;
@@ -57,7 +57,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                     mana: 2,
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftCreate).toBeAccepted();
@@ -73,7 +73,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                 startAmount: Utils.BigNumber.make("1"),
                 nftIds: [nftCreate.id!],
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftAuction).toBeAccepted();
@@ -86,7 +86,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                 auctionId: nftAuction.id!,
                 bidAmount: Utils.BigNumber.make("2"),
             })
-            .withPassphrase(passphrases[1])
+            .withPassphrase(passphrases[1]!)
             .createOne();
 
         await expect(nftBid).toBeAccepted();
@@ -99,7 +99,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                 auctionId: nftAuction.id!,
                 bidId: nftBid.id!,
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftAcceptTrade).toBeAccepted();
@@ -119,7 +119,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                     mana: 2,
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftCreate).toBeAccepted();
@@ -135,7 +135,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                 startAmount: Utils.BigNumber.make("1"),
                 nftIds: [nftCreate.id!],
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftAuction).toBeAccepted();
@@ -148,7 +148,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                 auctionId: nftAuction.id!,
                 bidAmount: Utils.BigNumber.make("2"),
             })
-            .withPassphrase(passphrases[1])
+            .withPassphrase(passphrases[1]!)
             .createOne();
 
         await expect(nftBid).toBeAccepted();
@@ -161,7 +161,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                 auctionId: nftAuction.id!,
                 bidId: nftBid.id!,
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftAcceptTrade).toBeAccepted();
@@ -174,7 +174,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                 auctionId: nftAuction.id!,
                 bidId: nftBid.id!,
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftAcceptTradeTwo).not.toBeAccepted();
@@ -194,7 +194,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                     mana: 2,
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftCreate).toBeAccepted();
@@ -210,7 +210,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                 startAmount: Utils.BigNumber.make("1"),
                 nftIds: [nftCreate.id!],
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftAuction).toBeAccepted();
@@ -223,7 +223,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                 auctionId: nftAuction.id!,
                 bidAmount: Utils.BigNumber.make("2"),
             })
-            .withPassphrase(passphrases[1])
+            .withPassphrase(passphrases[1]!)
             .createOne();
 
         await expect(nftBid).toBeAccepted();
@@ -236,7 +236,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                 auctionId: nftAuction.id!,
                 bidId: nftBid.id!,
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         // AcceptTrade
@@ -246,7 +246,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                 bidId: nftBid.id!,
             })
             .withNonce(nftAcceptTrade.nonce!.plus(1))
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect([nftAcceptTrade, nftAcceptTradeTwo]).not.toBeAllAccepted();
@@ -267,7 +267,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                     mana: 2,
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftCreate).toBeAccepted();
@@ -283,7 +283,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                 startAmount: Utils.BigNumber.make("1"),
                 nftIds: [nftCreate.id!],
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftAuction).toBeAccepted();
@@ -296,7 +296,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                 auctionId: nftAuction.id!,
                 bidAmount: Utils.BigNumber.make("2"),
             })
-            .withPassphrase(passphrases[1])
+            .withPassphrase(passphrases[1]!)
             .createOne();
 
         await expect(nftBid).toBeAccepted();
@@ -308,7 +308,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
             .NFTBidCancel({
                 bidId: nftBid.id!,
             })
-            .withPassphrase(passphrases[1])
+            .withPassphrase(passphrases[1]!)
             .createOne();
 
         await expect(nftCancelBid).toBeAccepted();
@@ -321,7 +321,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                 auctionId: nftAuction.id!,
                 bidId: nftBid.id!,
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftAcceptTrade).not.toBeAccepted();
@@ -341,7 +341,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                     mana: 2,
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftCreate).toBeAccepted();
@@ -357,7 +357,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                 startAmount: Utils.BigNumber.make("1"),
                 nftIds: [nftCreate.id!],
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftAuction).toBeAccepted();
@@ -370,7 +370,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                 auctionId: nftAuction.id!,
                 bidAmount: Utils.BigNumber.make("2"),
             })
-            .withPassphrase(passphrases[1])
+            .withPassphrase(passphrases[1]!)
             .createOne();
 
         await expect(nftBid).toBeAccepted();
@@ -382,7 +382,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
             .NFTAuctionCancel({
                 auctionId: nftAuction.id!,
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftAuctionCancel).toBeAccepted();
@@ -395,7 +395,7 @@ describe("NFT Accept Trade functional tests - Signed with one Passphrase", () =>
                 auctionId: nftAuction.id!,
                 bidId: nftBid.id!,
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftAcceptTrade).not.toBeAccepted();

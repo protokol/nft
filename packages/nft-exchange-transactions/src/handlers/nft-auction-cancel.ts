@@ -47,7 +47,7 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
             const auctionsWalletAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions");
 
             const bidTransactions = await this.transactionRepository.findByIds(
-                auctionsWalletAsset[nftAuctionCancelAsset.auctionId].bids,
+                auctionsWalletAsset[nftAuctionCancelAsset.auctionId]!.bids,
             );
 
             for (const bid of bidTransactions) {
@@ -126,7 +126,7 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
         const auctionsWalletAsset = sender.getAttribute<INFTAuctions>("nft.exchange.auctions");
 
         const bidTransactions = await this.transactionRepository.findByIds(
-            auctionsWalletAsset[nftAuctionCancelAsset.auctionId].bids,
+            auctionsWalletAsset[nftAuctionCancelAsset.auctionId]!.bids,
         );
 
         for (const bid of bidTransactions) {
@@ -200,7 +200,7 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
 
         this.walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).set(nftAuctionCancelAsset.auctionId, sender);
 
-        for (const bidId of auctionsWalletAsset[nftAuctionCancelAsset.auctionId].bids) {
+        for (const bidId of auctionsWalletAsset[nftAuctionCancelAsset.auctionId]!.bids) {
             this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).set(bidId, sender);
         }
     }

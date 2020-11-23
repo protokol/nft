@@ -17,7 +17,7 @@ beforeAll(async () => {
 afterAll(async () => await support.tearDown());
 
 describe("NFT Register collection functional tests - Signed with 2 Passphrase", () => {
-    it("should broadcast, accept and forge it [Signed with 2 Passphrases] ", async () => {
+    it("should broadcast, accept and forge it [Signed with 2 Passphrases]", async () => {
         // Prepare a fresh wallet for the tests
         const passphrase = generateMnemonic();
         const secondPassphrase = generateMnemonic();
@@ -25,7 +25,7 @@ describe("NFT Register collection functional tests - Signed with 2 Passphrase", 
         // Initial Funds
         const initialFunds = TransactionFactory.initialize(app)
             .transfer(Identities.Address.fromPassphrase(passphrase), 150 * 1e8)
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(initialFunds).toBeAccepted();

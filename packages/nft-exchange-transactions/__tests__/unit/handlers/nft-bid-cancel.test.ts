@@ -8,8 +8,6 @@ import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Builders as NFTBuilders, Enums } from "@protokol/nft-exchange-crypto";
 
-import { setMockTransactions } from "../__mocks__/transaction-repository";
-import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import {
     NFTExchangeBidCancelAuctionCanceledOrAccepted,
     NFTExchangeBidCancelBidCanceled,
@@ -19,6 +17,8 @@ import {
 import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
 import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
+import { setMockTransactions } from "../__mocks__/transaction-repository";
+import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { buildAuctionTransaction, buildBidTransaction, deregisterTransactions } from "../utils";
 
 let app: Application;
@@ -34,7 +34,7 @@ let nftBidCancelHandler: Handlers.TransactionHandler;
 beforeEach(() => {
     app = initApp();
 
-    wallet = buildWallet(app, passphrases[0]);
+    wallet = buildWallet(app, passphrases[0]!);
 
     walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
@@ -78,7 +78,7 @@ describe("NFT Bid Cancel tests", () => {
                     bidId: actualBid.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
@@ -109,7 +109,7 @@ describe("NFT Bid Cancel tests", () => {
                     bidId: "e5ff17de47e33551c7991b72921201b55e1362ef897542e0fd7a038cd262b971",
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             actual.data.asset = undefined;
 
@@ -119,7 +119,7 @@ describe("NFT Bid Cancel tests", () => {
         it("should throw NFTExchangeBidCancelCannotCancelOtherBids if trying to cancel other user's bid", async () => {
             const bid = buildBidTransaction({
                 auctionId: "e5ff17de47e33551c7991b72921201b55e1362ef897542e0fd7a038cd262b971",
-                passphrase: passphrases[1],
+                passphrase: passphrases[1]!,
             });
 
             setMockTransactions([bid]);
@@ -128,7 +128,7 @@ describe("NFT Bid Cancel tests", () => {
                     bidId: bid.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(nftBidCancelHandler.throwIfCannotBeApplied(cancelBid, wallet)).rejects.toThrowError(
@@ -142,7 +142,7 @@ describe("NFT Bid Cancel tests", () => {
                     bidId: "e5ff17de47e33551c7991b72921201b55e1362ef897542e0fd7a038cd262b971",
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(nftBidCancelHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
@@ -170,7 +170,7 @@ describe("NFT Bid Cancel tests", () => {
                     bidId: actualBid.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(nftBidCancelHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
@@ -198,7 +198,7 @@ describe("NFT Bid Cancel tests", () => {
                     bidId: actualBid.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(nftBidCancelHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
@@ -206,7 +206,7 @@ describe("NFT Bid Cancel tests", () => {
             );
         });
 
-        it("should not throw ", async () => {
+        it("should not throw", async () => {
             const actualAuction = buildAuctionTransaction({ blockHeight: 4 });
             const actualBid = buildBidTransaction({ auctionId: actualAuction.id! });
 
@@ -226,7 +226,7 @@ describe("NFT Bid Cancel tests", () => {
                     bidId: actualBid.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(nftBidCancelHandler.throwIfCannotBeApplied(actual, wallet)).toResolve();
@@ -240,7 +240,7 @@ describe("NFT Bid Cancel tests", () => {
                     bidId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(nftBidCancelHandler.throwIfCannotEnterPool(actual)).toResolve();
@@ -266,7 +266,7 @@ describe("NFT Bid Cancel tests", () => {
                     bidId: actualBid.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             await app.get<Mempool>(Container.Identifiers.TransactionPoolMempool).addTransaction(actual);
 
@@ -275,7 +275,7 @@ describe("NFT Bid Cancel tests", () => {
                     bidId: actualBid.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             await expect(nftBidCancelHandler.throwIfCannotEnterPool(actualTwo)).rejects.toThrowError();
         });
@@ -288,7 +288,7 @@ describe("NFT Bid Cancel tests", () => {
                     bidId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             const emitter: Contracts.Kernel.EventDispatcher = app.get<Contracts.Kernel.EventDispatcher>(
@@ -325,7 +325,7 @@ describe("NFT Bid Cancel tests", () => {
                     bidId: actualBid.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(nftBidCancelHandler.applyToSender(actual)).toResolve();
@@ -377,7 +377,7 @@ describe("NFT Bid Cancel tests", () => {
                     bidId: actualBid.id,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await nftBidCancelHandler.apply(actual);
@@ -406,7 +406,7 @@ describe("NFT Bid Cancel tests", () => {
                     bidId: actualBid.id,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await nftBidCancelHandler.apply(actual);

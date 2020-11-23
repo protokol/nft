@@ -8,7 +8,6 @@ import { Handlers } from "@arkecosystem/core-transactions";
 import { Identities, Transactions } from "@arkecosystem/crypto";
 import { Builders, Enums } from "@protokol/nft-base-crypto";
 
-import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import {
     NFTBaseTransferCannotBeApplied,
     NFTBaseTransferNFTIsOnAuction,
@@ -17,6 +16,7 @@ import {
 import { NFTApplicationEvents } from "../../../src/events";
 import { INFTTokens } from "../../../src/interfaces";
 import { NFTIndexers } from "../../../src/wallet-indexes";
+import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { deregisterTransactions } from "../utils/utils";
 
 let app: Application;
@@ -33,8 +33,8 @@ let nftTransferHandler: Handlers.TransactionHandler;
 beforeEach(() => {
     app = initApp();
 
-    senderWallet = buildWallet(app, passphrases[0]);
-    recipientWallet = buildWallet(app, passphrases[1]);
+    senderWallet = buildWallet(app, passphrases[0]!);
+    recipientWallet = buildWallet(app, passphrases[1]!);
 
     walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
@@ -65,10 +65,10 @@ describe("NFT Transfer tests", () => {
             const actual = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[1]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[1]!),
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
@@ -104,10 +104,10 @@ describe("NFT Transfer tests", () => {
             const actual = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[0]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[0]!),
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
@@ -140,10 +140,10 @@ describe("NFT Transfer tests", () => {
             const actual = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[0]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[0]!),
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(nftTransferHandler.throwIfCannotBeApplied(actual, senderWallet)).toResolve();
@@ -157,10 +157,10 @@ describe("NFT Transfer tests", () => {
             const actual = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[0]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[0]!),
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             actual.data.asset = undefined;
 
@@ -171,10 +171,10 @@ describe("NFT Transfer tests", () => {
             const actual = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["9701560ba877d5552303cb54d10d461a0836a324649608a0a56c885b631b0434"],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[0]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[0]!),
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(nftTransferHandler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
@@ -190,10 +190,10 @@ describe("NFT Transfer tests", () => {
             const actual = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[0]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[0]!),
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             await expect(nftTransferHandler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
                 NFTBaseTransferWalletDoesntOwnSpecifiedNftToken,
@@ -214,10 +214,10 @@ describe("NFT Transfer tests", () => {
             const actual = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[0]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[0]!),
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             await expect(nftTransferHandler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
                 NFTBaseTransferNFTIsOnAuction,
@@ -238,10 +238,10 @@ describe("NFT Transfer tests", () => {
             const actual = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[0]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[0]!),
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             await expect(nftTransferHandler.throwIfCannotBeApplied(actual, senderWallet)).toResolve();
         });
@@ -252,10 +252,10 @@ describe("NFT Transfer tests", () => {
             const actual = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[0]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[0]!),
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             await expect(nftTransferHandler.throwIfCannotEnterPool(actual)).toResolve();
         });
@@ -268,20 +268,20 @@ describe("NFT Transfer tests", () => {
             const actual = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[0]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[0]!),
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             await app.get<Mempool>(Container.Identifiers.TransactionPoolMempool).addTransaction(actual);
 
             const actualTwo = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e62"],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[0]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[0]!),
                 })
                 .nonce("2")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             await expect(nftTransferHandler.throwIfCannotEnterPool(actualTwo)).toResolve();
         });
@@ -294,20 +294,20 @@ describe("NFT Transfer tests", () => {
             const actual = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[0]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[0]!),
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             await app.get<Mempool>(Container.Identifiers.TransactionPoolMempool).addTransaction(actual);
 
             const actualTwo = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[0]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[0]!),
                 })
                 .nonce("2")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             await expect(nftTransferHandler.throwIfCannotEnterPool(actualTwo)).rejects.toThrow();
         });
@@ -321,7 +321,7 @@ describe("NFT Transfer tests", () => {
                     recipientId: recipientWallet.address,
                 })
                 .nonce("3")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             const emitter: Contracts.Kernel.EventDispatcher = app.get<Contracts.Kernel.EventDispatcher>(
@@ -348,7 +348,7 @@ describe("NFT Transfer tests", () => {
                     recipientId: recipientWallet.address,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(nftTransferHandler.apply(actual)).toResolve();
@@ -384,7 +384,7 @@ describe("NFT Transfer tests", () => {
                     recipientId: senderWallet.address,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(nftTransferHandler.apply(actual)).toResolve();
@@ -414,7 +414,7 @@ describe("NFT Transfer tests", () => {
                     recipientId: senderWallet.address,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             actual.data.asset = undefined;
 
@@ -436,7 +436,7 @@ describe("NFT Transfer tests", () => {
                     recipientId: recipientWallet.address,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await nftTransferHandler.apply(actual);
@@ -474,7 +474,7 @@ describe("NFT Transfer tests", () => {
                     recipientId: recipientWallet.address,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await nftTransferHandler.apply(actual);
@@ -505,7 +505,7 @@ describe("NFT Transfer tests", () => {
                     recipientId: recipientWallet.address,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await nftTransferHandler.apply(actual);

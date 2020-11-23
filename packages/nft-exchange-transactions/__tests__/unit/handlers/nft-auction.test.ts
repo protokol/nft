@@ -9,7 +9,6 @@ import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Interfaces as NFTBaseInterfaces } from "@protokol/nft-base-transactions";
 import { Builders as NFTBuilders, Enums } from "@protokol/nft-exchange-crypto";
 
-import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { FeeType } from "../../../src/enums";
 import {
     NFTExchangeAuctionAlreadyInProgress,
@@ -21,6 +20,7 @@ import {
 import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
 import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
+import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { buildAuctionTransaction, deregisterTransactions } from "../utils";
 
 let app: Application;
@@ -36,7 +36,7 @@ let nftAuctionHandler: Handlers.TransactionHandler;
 beforeEach(() => {
     app = initApp();
 
-    wallet = buildWallet(app, passphrases[0]);
+    wallet = buildWallet(app, passphrases[0]!);
 
     walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
@@ -178,7 +178,7 @@ describe("NFT Auction tests", () => {
                     startAmount: Utils.BigNumber.make(1),
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .fee("1")
                 .build();
 
