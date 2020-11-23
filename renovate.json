@@ -2,9 +2,9 @@
 	"extends": ["config:base", ":preserveSemverRanges"],
 	"baseBranches": ["develop"],
 	"packageRules": [
-    {
-      "packagePatterns": [ "arkecosystem" ],
-      "groupName": "ark"
-    }
-  ]
+		{
+			"packagePatterns": ["arkecosystem"],
+			"groupName": "ark"
+		}
+	]
 }
