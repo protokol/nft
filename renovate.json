@@ -1,10 +1,10 @@
 {
-	"extends": ["config:base", ":preserveSemverRanges"],
+	"extends": ["config:base", ":preserveSemverRanges","group:monorepos"],
 	"baseBranches": ["develop"],
 	"packageRules": [
 		{
 			"packagePatterns": ["arkecosystem"],
-			"groupName": "ark"
+			"^@arkecosystem/"
 		}
 	]
 }
