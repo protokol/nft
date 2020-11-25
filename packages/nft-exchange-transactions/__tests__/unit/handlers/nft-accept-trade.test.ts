@@ -9,8 +9,6 @@ import { Transactions, Utils } from "@arkecosystem/crypto";
 import { Indexers, Interfaces } from "@protokol/nft-base-transactions";
 import { Builders as NFTBuilders, Enums } from "@protokol/nft-exchange-crypto";
 
-import { setMockFindByIds, setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
-import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import {
     NFTExchangeAcceptTradeAuctionCanceled,
     NFTExchangeAcceptTradeAuctionDoesNotExists,
@@ -21,6 +19,8 @@ import {
 import { NFTExchangeApplicationEvents } from "../../../src/events";
 import { INFTAuctions } from "../../../src/interfaces";
 import { NFTExchangeIndexers } from "../../../src/wallet-indexes";
+import { setMockFindByIds, setMockTransaction, setMockTransactions } from "../__mocks__/transaction-repository";
+import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { buildAuctionTransaction, buildBidTransaction, deregisterTransactions } from "../utils";
 
 let app: Application;
@@ -36,7 +36,7 @@ let nftAcceptTradeHandler: Handlers.TransactionHandler;
 beforeEach(() => {
     app = initApp();
 
-    wallet = buildWallet(app, passphrases[0]);
+    wallet = buildWallet(app, passphrases[0]!);
 
     walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
@@ -71,7 +71,7 @@ describe("NFT Accept trade tests", () => {
             const actualBidTwo = buildBidTransaction({
                 auctionId: actualAuction.id!,
                 bidAmount: 100,
-                passphrase: passphrases[1],
+                passphrase: passphrases[1]!,
             });
 
             const actual = new NFTBuilders.NftAcceptTradeBuilder()
@@ -80,7 +80,7 @@ describe("NFT Accept trade tests", () => {
                     bidId: actualBid.data.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
@@ -116,14 +116,14 @@ describe("NFT Accept trade tests", () => {
             walletRepository.getIndex(Indexers.NFTIndexers.NFTTokenIndexer).index(wallet);
 
             const actualAuction = buildAuctionTransaction({ blockHeight: 1 });
-            const secondWallet = buildWallet(app, passphrases[1]);
+            const secondWallet = buildWallet(app, passphrases[1]!);
             walletRepository.index(secondWallet);
             secondWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.make("100"));
 
             const actualBid = buildBidTransaction({
                 auctionId: actualAuction.id!,
                 bidAmount: 100,
-                passphrase: passphrases[1],
+                passphrase: passphrases[1]!,
             });
 
             const actual = new NFTBuilders.NftAcceptTradeBuilder()
@@ -132,7 +132,7 @@ describe("NFT Accept trade tests", () => {
                     bidId: actualBid.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
             auctionsAsset[actualAuction.id!] = {
@@ -174,7 +174,7 @@ describe("NFT Accept trade tests", () => {
                     bidId: actualBid.data.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
@@ -198,7 +198,7 @@ describe("NFT Accept trade tests", () => {
                     bidId: "738fd7dc9f8d720eedb3dc89908e6310e5d15447bd367963a71dafcddf148283",
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             actual.data.asset = undefined;
 
@@ -212,7 +212,7 @@ describe("NFT Accept trade tests", () => {
                     bidId: "738fd7dc9f8d720eedb3dc89908e6310e5d15447bd367963a71dafcddf148283",
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             await expect(nftAcceptTradeHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
                 NFTExchangeAcceptTradeWalletCannotTrade,
@@ -227,7 +227,7 @@ describe("NFT Accept trade tests", () => {
                     bidId: "738fd7dc9f8d720eedb3dc89908e6310e5d15447bd367963a71dafcddf148283",
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             await expect(nftAcceptTradeHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
                 NFTExchangeAcceptTradeBidDoesNotExists,
@@ -248,7 +248,7 @@ describe("NFT Accept trade tests", () => {
                     bidId: actualBid.id,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             await expect(nftAcceptTradeHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
                 NFTExchangeAcceptTradeAuctionDoesNotExists,
@@ -267,7 +267,7 @@ describe("NFT Accept trade tests", () => {
                     bidId: actualBid.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             await expect(nftAcceptTradeHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
                 NFTExchangeAcceptTradeAuctionCanceled,
@@ -285,7 +285,7 @@ describe("NFT Accept trade tests", () => {
                     bidId: actualBid.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
@@ -311,7 +311,7 @@ describe("NFT Accept trade tests", () => {
                     bidId: "738fd7dc9f8d720eedb3dc89908e6310e5d15447bd367963a71dafcddf148283",
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
             await expect(nftAcceptTradeHandler.throwIfCannotEnterPool(actual)).toResolve();
         });
@@ -347,7 +347,7 @@ describe("NFT Accept trade tests", () => {
                     bidId: actualBid.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await app.get<Mempool>(Container.Identifiers.TransactionPoolMempool).addTransaction(actual);
@@ -364,7 +364,7 @@ describe("NFT Accept trade tests", () => {
                     bidId: "a9694da51aae3f7d9d944fbc4c81991d1b837bb9f8e77ae5f2fa171770749fd4",
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             const emitter: Contracts.Kernel.EventDispatcher = app.get<Contracts.Kernel.EventDispatcher>(
@@ -395,7 +395,7 @@ describe("NFT Accept trade tests", () => {
                     bidId: actualBid.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
@@ -421,21 +421,21 @@ describe("NFT Accept trade tests", () => {
             expect(wallet.balance).toStrictEqual(Utils.BigNumber.make("7027654410"));
         });
 
-        it("should test apply with different wallet ", async () => {
+        it("should test apply with different wallet", async () => {
             const tokensWallet = wallet.getAttribute<Interfaces.INFTTokens>("nft.base.tokenIds", {});
             tokensWallet["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"] = {};
             wallet.setAttribute<Interfaces.INFTTokens>("nft.base.tokenIds", tokensWallet);
             walletRepository.getIndex(Indexers.NFTIndexers.NFTTokenIndexer).index(wallet);
 
             const actualAuction = buildAuctionTransaction({ blockHeight: 1 });
-            const secondWallet = buildWallet(app, passphrases[1]);
+            const secondWallet = buildWallet(app, passphrases[1]!);
             walletRepository.index(secondWallet);
             secondWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.make("100"));
 
             const actualBid = buildBidTransaction({
                 auctionId: actualAuction.id!,
                 bidAmount: 100,
-                passphrase: passphrases[1],
+                passphrase: passphrases[1]!,
             });
 
             const actual = new NFTBuilders.NftAcceptTradeBuilder()
@@ -444,7 +444,7 @@ describe("NFT Accept trade tests", () => {
                     bidId: actualBid.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
@@ -491,7 +491,7 @@ describe("NFT Accept trade tests", () => {
                     bidId: actualBid.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
@@ -531,7 +531,7 @@ describe("NFT Accept trade tests", () => {
                     bidId: actualBid.id!,
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             const auctionsAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});

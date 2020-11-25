@@ -8,6 +8,7 @@ import Hapi from "@hapi/hapi";
 import { Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import { Indexers, Interfaces as NFTInterfaces } from "@protokol/nft-base-transactions";
 
+import { CollectionsController } from "../../../src/controllers/collections";
 import {
 	blockHistoryService,
 	buildSenderWallet,
@@ -16,7 +17,6 @@ import {
 	PaginatedResponse,
 	transactionHistoryService,
 } from "../__support__";
-import { CollectionsController } from "../../../src/controllers/collections";
 
 let app: Application;
 
@@ -87,7 +87,7 @@ beforeEach(() => {
 				},
 			},
 		})
-		.sign(passphrases[0])
+		.sign(passphrases[0]!)
 		.build();
 });
 
@@ -113,7 +113,7 @@ describe("Test collection controller", () => {
 		};
 		const response = (await collectionController.index(request, undefined)) as PaginatedResponse;
 
-		expect(response.results[0]).toStrictEqual({
+		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,
 			name: "Heartstone card",
@@ -239,7 +239,7 @@ describe("Test collection controller", () => {
 		};
 
 		const response = (await collectionController.searchCollection(request, undefined)) as PaginatedResponse;
-		expect(response.results[0]).toStrictEqual({
+		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,
 			name: "Heartstone card",
@@ -266,7 +266,7 @@ describe("Test collection controller", () => {
 					string: "something",
 				},
 			})
-			.sign(passphrases[0])
+			.sign(passphrases[0]!)
 			.build();
 
 		const tokensWallet = senderWallet.getAttribute<NFTInterfaces.INFTTokens>("nft.base.tokenIds", {});
@@ -290,7 +290,7 @@ describe("Test collection controller", () => {
 			},
 		};
 		const response = (await collectionController.showAssetsByCollectionId(request, undefined)) as PaginatedResponse;
-		expect(response.results[0]).toStrictEqual({
+		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
 			ownerPublicKey: actual.data.senderPublicKey,
 			senderPublicKey: actual.data.senderPublicKey,

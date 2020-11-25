@@ -7,7 +7,6 @@ import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { Builders, Enums, Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
 
-import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { FeeType } from "../../../src/enums";
 import {
     NFTBaseInvalidAjvSchemaError,
@@ -16,6 +15,7 @@ import {
 } from "../../../src/errors";
 import { NFTApplicationEvents } from "../../../src/events";
 import { NFTIndexers } from "../../../src/wallet-indexes";
+import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { collectionWalletCheck, deregisterTransactions } from "../utils/utils";
 
 let app: Application;
@@ -55,7 +55,7 @@ const nftCollectionAsset: NFTInterfaces.NFTCollectionAsset = {
 beforeEach(() => {
     app = initApp();
 
-    senderWallet = buildWallet(app, passphrases[0]);
+    senderWallet = buildWallet(app, passphrases[0]!);
 
     walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
@@ -73,7 +73,7 @@ beforeEach(() => {
     actual = new Builders.NFTRegisterCollectionBuilder()
         .NFTRegisterCollectionAsset(nftCollectionAsset)
         .nonce("1")
-        .sign(passphrases[0])
+        .sign(passphrases[0]!)
         .build();
 });
 
@@ -123,7 +123,7 @@ describe("NFT Register collection tests", () => {
                     },
                 })
                 .nonce("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
@@ -168,7 +168,7 @@ describe("NFT Register collection tests", () => {
                 .NFTRegisterCollectionAsset(nftCollectionAsset)
                 .nonce("1")
                 .fee("1")
-                .sign(passphrases[0])
+                .sign(passphrases[0]!)
                 .build();
 
             await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(

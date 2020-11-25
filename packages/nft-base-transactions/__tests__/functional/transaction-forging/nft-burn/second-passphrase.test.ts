@@ -41,7 +41,7 @@ describe("NFT Burn functional tests - Signed with 2 Passphrases", () => {
                     },
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftRegisteredCollection).toBeAccepted();
@@ -55,7 +55,7 @@ describe("NFT Burn functional tests - Signed with 2 Passphrases", () => {
         // Initial Funds
         const initialFunds = TransactionFactory.initialize(app)
             .transfer(ARKCrypto.Identities.Address.fromPassphrase(passphrase), 150 * 1e8)
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(initialFunds).toBeAccepted();

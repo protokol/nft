@@ -22,7 +22,7 @@ export const bidIndexer = (index: Contracts.State.WalletIndex, wallet: Contracts
         const auctions = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions");
 
         for (const auctionId of Object.keys(auctions)) {
-            for (const bid of auctions[auctionId].bids) {
+            for (const bid of auctions[auctionId]!.bids) {
                 index.set(bid, wallet);
             }
         }

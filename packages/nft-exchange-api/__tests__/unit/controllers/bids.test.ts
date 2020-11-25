@@ -9,6 +9,7 @@ import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import { Builders, Transactions as ExchangeTransactions } from "@protokol/nft-exchange-crypto";
 import { Indexers, Interfaces as NFTInterfaces } from "@protokol/nft-exchange-transactions";
 
+import { BidsController } from "../../../src/controllers/bids";
 import {
 	blockHistoryService,
 	buildSenderWallet,
@@ -17,7 +18,6 @@ import {
 	PaginatedResponse,
 	transactionHistoryService,
 } from "../__support__";
-import { BidsController } from "../../../src/controllers/bids";
 
 let bidsController: BidsController;
 
@@ -48,7 +48,7 @@ beforeEach(() => {
 			auctionId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
 			bidAmount: Utils.BigNumber.make("1"),
 		})
-		.sign(passphrases[0])
+		.sign(passphrases[0]!)
 		.build();
 });
 
@@ -66,7 +66,7 @@ afterEach(() => {
 });
 
 describe("Test bids controller", () => {
-	it("index - should return all bids ", async () => {
+	it("index - should return all bids", async () => {
 		transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
 			results: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
 		});
@@ -80,7 +80,7 @@ describe("Test bids controller", () => {
 		};
 
 		const response = (await bidsController.index(request, undefined)) as PaginatedResponse;
-		expect(response.results[0]).toStrictEqual({
+		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,
 			nftBid: {
@@ -91,7 +91,7 @@ describe("Test bids controller", () => {
 		});
 	});
 
-	it("show - should return bid by its id ", async () => {
+	it("show - should return bid by its id", async () => {
 		transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actual.data);
 		blockHistoryService.findOneByCriteria.mockResolvedValueOnce({ timestamp: timestamp.epoch });
 
@@ -116,7 +116,7 @@ describe("Test bids controller", () => {
 		});
 	});
 
-	it("showAuctionWallet - return wallet by bids id ", async () => {
+	it("showAuctionWallet - return wallet by bids id", async () => {
 		const auctionsAsset = senderWallet.getAttribute<NFTInterfaces.INFTAuctions>("nft.exchange.auctions", {});
 		auctionsAsset[actual.id!] = {
 			nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
@@ -171,7 +171,7 @@ describe("Test bids controller", () => {
 			results: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
 		});
 		const response = (await bidsController.search(request, undefined)) as PaginatedResponse;
-		expect(response.results[0]).toStrictEqual({
+		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,
 			nftBid: {
@@ -187,7 +187,7 @@ describe("Test bids controller", () => {
 			.NFTBidCancelAsset({
 				bidId: "dab749f35c9c43c16f2a9a85b21e69551ae52a630a7fa73ef1d799931b108c2f",
 			})
-			.sign(passphrases[0])
+			.sign(passphrases[0]!)
 			.build();
 
 		transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
@@ -203,7 +203,7 @@ describe("Test bids controller", () => {
 		};
 
 		const response = (await bidsController.indexCanceled(request, undefined)) as PaginatedResponse;
-		expect(response.results[0]).toStrictEqual({
+		expect(response.results[0]!).toStrictEqual({
 			id: actualCanceledBid.id,
 			senderPublicKey: actualCanceledBid.data.senderPublicKey,
 			nftBidCancel: {
@@ -218,7 +218,7 @@ describe("Test bids controller", () => {
 			.NFTBidCancelAsset({
 				bidId: "dab749f35c9c43c16f2a9a85b21e69551ae52a630a7fa73ef1d799931b108c2f",
 			})
-			.sign(passphrases[0])
+			.sign(passphrases[0]!)
 			.build();
 
 		transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actualCanceledBid.data);

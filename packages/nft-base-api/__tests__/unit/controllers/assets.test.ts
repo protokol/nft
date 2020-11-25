@@ -8,6 +8,7 @@ import Hapi from "@hapi/hapi";
 import { Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import { Indexers, Interfaces as NFTInterfaces } from "@protokol/nft-base-transactions";
 
+import { AssetsController } from "../../../src/controllers/assets";
 import {
 	blockHistoryService,
 	buildSenderWallet,
@@ -16,7 +17,6 @@ import {
 	PaginatedResponse,
 	transactionHistoryService,
 } from "../__support__";
-import { AssetsController } from "../../../src/controllers/assets";
 
 let app: Application;
 
@@ -58,7 +58,7 @@ beforeEach(() => {
 				mana: 2,
 			},
 		})
-		.sign(passphrases[0])
+		.sign(passphrases[0]!)
 		.build();
 
 	const tokensWallet = senderWallet.getAttribute<NFTInterfaces.INFTTokens>("nft.base.tokenIds", {});
@@ -91,10 +91,10 @@ describe("Test asset controller", () => {
 		};
 
 		const response = (await assetController.index(request, undefined)) as PaginatedResponse;
-		expect(response.results[0]).toStrictEqual({
+		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
-			ownerPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]),
-			senderPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]),
+			ownerPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]!),
+			senderPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]!),
 			collectionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
 			attributes: {
 				name: "card name",
@@ -176,10 +176,10 @@ describe("Test asset controller", () => {
 		};
 
 		const response = (await assetController.showByAsset(request, undefined)) as PaginatedResponse;
-		expect(response.results[0]).toStrictEqual({
+		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
-			ownerPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]),
-			senderPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]),
+			ownerPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]!),
+			senderPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]!),
 			collectionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
 			attributes: {
 				name: "card name",

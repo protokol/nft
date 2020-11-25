@@ -24,7 +24,7 @@ describe("API - Burns", () => {
 			.NFTBurnAsset({
 				nftId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
 			})
-			.sign(passphrases[0])
+			.sign(passphrases[0]!)
 			.build();
 	});
 	describe("GET /burns", () => {
@@ -40,9 +40,9 @@ describe("API - Burns", () => {
 			});
 			const response = await api.request("GET", "nft/burns", { transform: false });
 
-			expect(response.data.data[0].id).toStrictEqual(nftBurn.id);
-			expect(response.data.data[0].senderPublicKey).toStrictEqual(nftBurn.data.senderPublicKey);
-			expect(response.data.data[0].asset.nftBurn.nftId).toStrictEqual(
+			expect(response.data.data[0]!.id).toStrictEqual(nftBurn.id);
+			expect(response.data.data[0]!.senderPublicKey).toStrictEqual(nftBurn.data.senderPublicKey);
+			expect(response.data.data[0]!.asset.nftBurn.nftId).toStrictEqual(
 				"8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
 			);
 		});

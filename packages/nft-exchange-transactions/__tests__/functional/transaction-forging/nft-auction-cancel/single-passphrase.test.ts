@@ -36,7 +36,7 @@ describe("NFT Auction Cancel functional tests - Signed with one Passphrase", () 
                     },
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         collectionId = nftRegisteredCollection.id;
@@ -55,7 +55,7 @@ describe("NFT Auction Cancel functional tests - Signed with one Passphrase", () 
                     mana: 2,
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftCreate).toBeAccepted();
@@ -70,7 +70,7 @@ describe("NFT Auction Cancel functional tests - Signed with one Passphrase", () 
                 startAmount: Utils.BigNumber.make("1"),
                 nftIds: [nftCreate.id!],
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftAuction).toBeAccepted();
@@ -81,7 +81,7 @@ describe("NFT Auction Cancel functional tests - Signed with one Passphrase", () 
             .NFTAuctionCancel({
                 auctionId: nftAuction.id!,
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftAuctionCancel).toBeAccepted();
@@ -100,7 +100,7 @@ describe("NFT Auction Cancel functional tests - Signed with one Passphrase", () 
                     mana: 2,
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftCreate).toBeAccepted();
@@ -115,7 +115,7 @@ describe("NFT Auction Cancel functional tests - Signed with one Passphrase", () 
                 startAmount: Utils.BigNumber.make("1"),
                 nftIds: [nftCreate.id!],
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftAuction).toBeAccepted();
@@ -126,7 +126,7 @@ describe("NFT Auction Cancel functional tests - Signed with one Passphrase", () 
             .NFTAuctionCancel({
                 auctionId: nftAuction.id!,
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftAuctionCancel).toBeAccepted();
@@ -137,7 +137,7 @@ describe("NFT Auction Cancel functional tests - Signed with one Passphrase", () 
             .NFTAuctionCancel({
                 auctionId: nftAuction.id!,
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftAuctionCancelTwo).not.toBeAccepted();
@@ -156,7 +156,7 @@ describe("NFT Auction Cancel functional tests - Signed with one Passphrase", () 
                     mana: 2,
                 },
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftCreate).toBeAccepted();
@@ -171,7 +171,7 @@ describe("NFT Auction Cancel functional tests - Signed with one Passphrase", () 
                 startAmount: Utils.BigNumber.make("1"),
                 nftIds: [nftCreate.id!],
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect(nftAuction).toBeAccepted();
@@ -182,7 +182,7 @@ describe("NFT Auction Cancel functional tests - Signed with one Passphrase", () 
             .NFTAuctionCancel({
                 auctionId: nftAuction.id!,
             })
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         const nftAuctionCancelTwo = NFTExchangeTransactionFactory.initialize(app)
@@ -190,7 +190,7 @@ describe("NFT Auction Cancel functional tests - Signed with one Passphrase", () 
                 auctionId: nftAuction.id!,
             })
             .withNonce(nftAuction.nonce!.plus(1))
-            .withPassphrase(passphrases[0])
+            .withPassphrase(passphrases[0]!)
             .createOne();
 
         await expect([nftAuctionCancel, nftAuctionCancelTwo]).not.toBeAllAccepted();

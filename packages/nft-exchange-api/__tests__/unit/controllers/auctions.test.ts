@@ -9,6 +9,7 @@ import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import { Builders, Transactions as ExchangeTransactions } from "@protokol/nft-exchange-crypto";
 import { Indexers, Interfaces as NFTInterfaces } from "@protokol/nft-exchange-transactions";
 
+import { AuctionsController } from "../../../src/controllers/auctions";
 import {
 	blockHistoryService,
 	buildSenderWallet,
@@ -17,7 +18,6 @@ import {
 	PaginatedResponse,
 	transactionHistoryService,
 } from "../__support__";
-import { AuctionsController } from "../../../src/controllers/auctions";
 
 let auctionsController: AuctionsController;
 
@@ -50,7 +50,7 @@ beforeEach(() => {
 				blockHeight: 1,
 			},
 		})
-		.sign(passphrases[0])
+		.sign(passphrases[0]!)
 		.build();
 });
 
@@ -82,7 +82,7 @@ describe("Test auctions controller", () => {
 		};
 
 		const response = (await auctionsController.index(request, undefined)) as PaginatedResponse;
-		expect(response.results[0]).toStrictEqual({
+		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,
 			nftAuction: {
@@ -96,7 +96,7 @@ describe("Test auctions controller", () => {
 		});
 	});
 
-	it("show - specific auction by its id ", async () => {
+	it("show - specific auction by its id", async () => {
 		transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actual.data);
 		blockHistoryService.findOneByCriteria.mockResolvedValueOnce({ timestamp: timestamp.epoch });
 
@@ -125,7 +125,7 @@ describe("Test auctions controller", () => {
 		});
 	});
 
-	it("showAuctionWallet - show auctions wallet by its id ", async () => {
+	it("showAuctionWallet - show auctions wallet by its id", async () => {
 		const auctionsAsset = senderWallet.getAttribute<NFTInterfaces.INFTAuctions>("nft.exchange.auctions", {});
 		auctionsAsset[actual.id!] = {
 			nftIds: ["3e1a4b362282b4113d717632b92c939cf689a9919db77c723efba84c6ec0330c"],
@@ -177,7 +177,7 @@ describe("Test auctions controller", () => {
 		});
 
 		const response = (await auctionsController.search(request, undefined)) as PaginatedResponse;
-		expect(response.results[0]).toStrictEqual({
+		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,
 			nftAuction: {
@@ -196,7 +196,7 @@ describe("Test auctions controller", () => {
 			.NFTAuctionCancelAsset({
 				auctionId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
 			})
-			.sign(passphrases[0])
+			.sign(passphrases[0]!)
 			.build();
 
 		transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
@@ -212,7 +212,7 @@ describe("Test auctions controller", () => {
 		};
 
 		const response = (await auctionsController.indexCanceled(request, undefined)) as PaginatedResponse;
-		expect(response.results[0]).toStrictEqual({
+		expect(response.results[0]!).toStrictEqual({
 			id: actualAuctionCanceled.id,
 			senderPublicKey: actualAuctionCanceled.data.senderPublicKey,
 			nftAuctionCancel: {
@@ -227,7 +227,7 @@ describe("Test auctions controller", () => {
 			.NFTAuctionCancelAsset({
 				auctionId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
 			})
-			.sign(passphrases[0])
+			.sign(passphrases[0]!)
 			.build();
 		transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actualAuctionCanceled.data);
 		blockHistoryService.findOneByCriteria.mockResolvedValueOnce({ timestamp: timestamp.epoch });

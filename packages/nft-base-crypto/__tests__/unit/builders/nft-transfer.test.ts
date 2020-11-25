@@ -16,7 +16,7 @@ describe("NFT Transfer tests", () => {
             const actual = new NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
-                    recipientId: Identities.Address.fromPassphrase(passphrases[1]),
+                    recipientId: Identities.Address.fromPassphrase(passphrases[1]!),
                 })
                 .nonce("5")
                 .sign("clay harbor enemy utility margin pretty hub comic piece aerobic umbrella acquire");
@@ -32,7 +32,7 @@ describe("NFT Transfer tests", () => {
 
             const result = actual.NFTTransferAsset({
                 nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
-                recipientId: Identities.Address.fromPassphrase(passphrases[1]),
+                recipientId: Identities.Address.fromPassphrase(passphrases[1]!),
             });
 
             expect(actual.data.asset).toBeUndefined();

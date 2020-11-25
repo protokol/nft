@@ -8,6 +8,7 @@ import Hapi from "@hapi/hapi";
 import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import { Builders, Transactions as ExchangeTransactions } from "@protokol/nft-exchange-crypto";
 
+import { TradesController } from "../../../src/controllers/trades";
 import {
 	blockHistoryService,
 	ErrorResponse,
@@ -16,7 +17,6 @@ import {
 	PaginatedResponse,
 	transactionHistoryService,
 } from "../__support__";
-import { TradesController } from "../../../src/controllers/trades";
 
 let tradesController: TradesController;
 
@@ -39,7 +39,7 @@ beforeEach(() => {
 			auctionId: "ec0f6ad8ff46c844e25ec31d49e9b166d8a0fef3d365621d39a86d73a244354c",
 			bidId: "c12f814ab08bb82be251622aeb35fd72d9c7632828b91cab38c458ead8c782a9",
 		})
-		.sign(passphrases[0])
+		.sign(passphrases[0]!)
 		.build();
 });
 
@@ -57,7 +57,7 @@ afterEach(() => {
 });
 
 describe("Test trades controller", () => {
-	it("index - returns all trade transactions ", async () => {
+	it("index - returns all trade transactions", async () => {
 		transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
 			results: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
 		});
@@ -72,7 +72,7 @@ describe("Test trades controller", () => {
 
 		const response = (await tradesController.index(request, undefined)) as PaginatedResponse;
 
-		expect(response.results[0]).toStrictEqual({
+		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,
 			completedTrade: {
@@ -105,14 +105,14 @@ describe("Test trades controller", () => {
 						blockHeight: 1,
 					},
 				})
-				.sign(passphrases[0])
+				.sign(passphrases[0]!)
 				.build();
 			const bid = new Builders.NFTBidBuilder()
 				.NFTBidAsset({
 					auctionId: actual.data.asset!.nftAcceptTrade.auctionId,
 					bidAmount: Utils.BigNumber.make("1"),
 				})
-				.sign(passphrases[0])
+				.sign(passphrases[0]!)
 				.build();
 			transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actual.data);
 			transactionHistoryService.findManyByCriteria.mockResolvedValueOnce([auction.data, bid.data]);
@@ -184,17 +184,17 @@ describe("Test trades controller", () => {
 			requestWithPublicKey,
 			undefined,
 		)) as PaginatedResponse;
-		expect(responseByPublicKey.results[0]).toStrictEqual(expectedResponse);
+		expect(responseByPublicKey.results[0]!).toStrictEqual(expectedResponse);
 
 		// search by auction id
 		const responseByAuctionId = (await tradesController.search(
 			requestWithAuctionId,
 			undefined,
 		)) as PaginatedResponse;
-		expect(responseByAuctionId.results[0]).toStrictEqual(expectedResponse);
+		expect(responseByAuctionId.results[0]!).toStrictEqual(expectedResponse);
 
 		// search by bid id
 		const responseByBidId = (await tradesController.search(requestWithBidId, undefined)) as PaginatedResponse;
-		expect(responseByBidId.results[0]).toStrictEqual(expectedResponse);
+		expect(responseByBidId.results[0]!).toStrictEqual(expectedResponse);
 	});
 });
