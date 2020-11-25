@@ -1,6 +1,6 @@
 {
     "name": "@protokol/nft-base-crypto",
-    "version": "1.0.0-beta.50",
+    "version": "1.0.0-beta.51",
     "description": "Transaction Builders For Base NFT Transaction Types",
     "license": "CC-BY-NC-SA-4.0",
     "homepage": "https://docs.protokol.com/nft/",
