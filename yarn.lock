@@ -5087,7 +5087,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:^1.8.17, dayjs@npm:^1.8.35":
+"dayjs@npm:^1.8.17, dayjs@npm:^1.8.35, dayjs@npm:latest":
   version: 1.9.6
   resolution: "dayjs@npm:1.9.6"
   checksum: aaf343022da53b09044327150f1c8546f3a977daa152d027edf7e0f4af5af1697bd5215de9b74f38800c884bbcf02055d7af5c5583ba8e96f41d1c0ac9d169e1
