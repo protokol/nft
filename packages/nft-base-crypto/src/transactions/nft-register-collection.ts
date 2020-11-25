@@ -66,6 +66,7 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
                                 },
                                 maximumSupply: {
                                     type: "integer",
+                                    minimum: 1,
                                 },
                                 jsonSchema: {
                                     type: "object",
