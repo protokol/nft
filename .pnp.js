@@ -625,7 +625,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["@arkecosystem/utils", [
         ["npm:1.2.1", {
-          "packageLocation": "./.yarn/cache/@arkecosystem-utils-npm-1.2.1-cd80c58e4e-0946b8a7f9.zip/node_modules/@arkecosystem/utils/",
+          "packageLocation": "./.yarn/unplugged/@arkecosystem-utils-npm-1.2.1-cd80c58e4e/node_modules/@arkecosystem/utils/",
           "packageDependencies": [
             ["@arkecosystem/utils", "npm:1.2.1"],
             ["@hapi/bourne", "npm:2.0.0"],

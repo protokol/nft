@@ -58,7 +58,7 @@
 		"@arkecosystem/core-transaction-pool": "3.0.0-next.11",
 		"@arkecosystem/core-transactions": "3.0.0-next.11",
 		"@arkecosystem/crypto": "3.0.0-next.11",
-		"@arkecosystem/utils": "*",
+		"@arkecosystem/utils": "1.2.1",
 		"@protokol/nft-base-crypto": "workspace:packages/nft-base-crypto",
 		"@protokol/nft-base-transactions": "workspace:packages/nft-base-transactions",
 		"@protokol/nft-exchange-crypto": "workspace:packages/nft-exchange-crypto",

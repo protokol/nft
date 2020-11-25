@@ -99,7 +99,7 @@
 		"@arkecosystem/crypto": {
 			"unplugged": true
 		},
-		"@arkecosystem/utils@1.2.0": {
+		"@arkecosystem/utils": {
 			"unplugged": true
 		}
 	},
