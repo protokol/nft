@@ -2423,7 +2423,7 @@ __metadata:
     jest-extended: ~0.11.5
     jest-localstorage-mock: 2.4.3
     pg: 8.5.1
-    prettier: 2.2.0
+    prettier: 2.2.1
     process-es6: ^0.11.6
     rimraf: ^3.0.2
     ts-jest: ~26.4.4
@@ -2555,7 +2555,7 @@ __metadata:
     jest-extended: ~0.11.5
     jest-localstorage-mock: 2.4.3
     pg: 8.5.1
-    prettier: 2.2.0
+    prettier: 2.2.1
     process-es6: ^0.11.6
     rimraf: ^3.0.2
     ts-jest: ~26.4.4
@@ -10735,7 +10735,16 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"prettier@npm:2.2.0, prettier@npm:^2.0.5, prettier@npm:^2.1.2":
+"prettier@npm:2.2.1":
+  version: 2.2.1
+  resolution: "prettier@npm:2.2.1"
+  bin:
+    prettier: bin-prettier.js
+  checksum: 92c6c9f4b87eba1f28466edee57dd18c80d00b858edda77d46d1950d20e6e302b68ee255fc91133ba931e63c4577b5ae30da194d9626a8f3c0177778b91bf056
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^2.0.5, prettier@npm:^2.1.2":
   version: 2.2.0
   resolution: "prettier@npm:2.2.0"
   bin:
