@@ -91,7 +91,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["nock", "npm:13.0.5"],
             ["npm-check-updates", "npm:10.2.2"],
             ["pg", "virtual:f9376621cd59bdda7fb9564a11020f866b7cd377c643467ed7ed5fb832b2ebb8078cc36028d5d65985b29a7ca840c9f22b04146c29bf2a60289a51e7b4b100d7#npm:8.5.1"],
-            ["pg-query-stream", "npm:3.4.2"],
+            ["pg-query-stream", "npm:4.0.0"],
             ["prettier", "npm:2.2.0"],
             ["rimraf", "npm:3.0.2"],
             ["ts-jest", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:26.4.4"],
@@ -2909,7 +2909,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["nock", "npm:13.0.5"],
             ["npm-check-updates", "npm:10.2.2"],
             ["pg", "virtual:f9376621cd59bdda7fb9564a11020f866b7cd377c643467ed7ed5fb832b2ebb8078cc36028d5d65985b29a7ca840c9f22b04146c29bf2a60289a51e7b4b100d7#npm:8.5.1"],
-            ["pg-query-stream", "npm:3.4.2"],
+            ["pg-query-stream", "npm:4.0.0"],
             ["prettier", "npm:2.2.0"],
             ["rimraf", "npm:3.0.2"],
             ["ts-jest", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:26.4.4"],
@@ -11725,6 +11725,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pg", "virtual:f9376621cd59bdda7fb9564a11020f866b7cd377c643467ed7ed5fb832b2ebb8078cc36028d5d65985b29a7ca840c9f22b04146c29bf2a60289a51e7b4b100d7#npm:8.5.1"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:2.5.2", {
+          "packageLocation": "./.yarn/cache/pg-cursor-npm-2.5.2-b99730336d-1735cfa9a6.zip/node_modules/pg-cursor/",
+          "packageDependencies": [
+            ["pg-cursor", "npm:2.5.2"],
+            ["pg", "virtual:f9376621cd59bdda7fb9564a11020f866b7cd377c643467ed7ed5fb832b2ebb8078cc36028d5d65985b29a7ca840c9f22b04146c29bf2a60289a51e7b4b100d7#npm:8.5.1"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["pg-int8", [
@@ -11766,6 +11774,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["pg-query-stream", "npm:3.4.2"],
             ["pg-cursor", "npm:2.5.1"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:4.0.0", {
+          "packageLocation": "./.yarn/cache/pg-query-stream-npm-4.0.0-6b121c8a86-17447fd0c0.zip/node_modules/pg-query-stream/",
+          "packageDependencies": [
+            ["pg-query-stream", "npm:4.0.0"],
+            ["pg-cursor", "npm:2.5.2"]
           ],
           "linkType": "HARD",
         }]
