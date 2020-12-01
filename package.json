@@ -61,7 +61,7 @@
 		"nock": "^13.0.4",
 		"npm-check-updates": "^10.0.0",
 		"pg": "^8.2.1",
-		"pg-query-stream": "^3.2.3",
+		"pg-query-stream": "^4.0.0",
 		"prettier": "^2.0.5",
 		"rimraf": "^3.0.2",
 		"ts-jest": "~26.4.0",
