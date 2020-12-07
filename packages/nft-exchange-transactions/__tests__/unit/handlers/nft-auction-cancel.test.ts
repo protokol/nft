@@ -379,7 +379,7 @@ describe("NFT Auction Cancel tests", () => {
 
             expect(wallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actualAuction.id!]).toStrictEqual({
                 nftIds: ["3e1a4b362282b4113d717632b92c939cf689a9919db77c723efba84c6ec0330c"],
-                bids: [actualBid.id],
+                bids: [actualBid.id!],
             });
 
             expect(wallet.balance).toStrictEqual(Utils.BigNumber.make("7527654310"));

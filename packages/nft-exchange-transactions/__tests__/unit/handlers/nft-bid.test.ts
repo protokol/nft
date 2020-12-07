@@ -85,7 +85,7 @@ describe("NFT Bid tests", () => {
 
             expect(auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actualAuction.id!]).toStrictEqual({
                 nftIds,
-                bids: [actual.id],
+                bids: [actual.id!],
             });
 
             expect(bidWallet.balance).toStrictEqual(Utils.BigNumber.make("7527654210"));
@@ -312,7 +312,7 @@ describe("NFT Bid tests", () => {
                     auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions")[actualAuction.id],
                 ).toStrictEqual({
                     nftIds,
-                    bids: [actual.id],
+                    bids: [actual.id!],
                 });
 
                 expect(bidWallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
