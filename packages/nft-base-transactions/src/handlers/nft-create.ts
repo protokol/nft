@@ -147,14 +147,4 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         genesisWalletCollection[collectionId]!.currentSupply -= 1;
         genesisWallet.setAttribute<INFTCollections>("nft.base.collections", genesisWalletCollection);
     }
-
-    public async applyToRecipient(
-        transaction: Interfaces.ITransaction,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-    ): Promise<void> {}
-
-    public async revertForRecipient(
-        transaction: Interfaces.ITransaction,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-    ): Promise<void> {}
 }

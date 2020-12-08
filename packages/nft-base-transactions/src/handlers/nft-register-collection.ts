@@ -118,16 +118,6 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         this.walletRepository.getIndex(NFTIndexers.CollectionIndexer).forget(transaction.data.id);
     }
 
-    public async applyToRecipient(
-        transaction: Interfaces.ITransaction,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-    ): Promise<void> {}
-
-    public async revertForRecipient(
-        transaction: Interfaces.ITransaction,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-    ): Promise<void> {}
-
     private async compileAndPersistSchema(id, jsonSchema) {
         const ajv = new Ajv({ allErrors: true });
         const validate = ajv.compile({

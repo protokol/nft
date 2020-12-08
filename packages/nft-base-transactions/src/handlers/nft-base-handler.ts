@@ -56,4 +56,14 @@ export abstract class NFTBaseTransactionHandler extends Handlers.TransactionHand
         }
         return super.throwIfCannotBeApplied(transaction, wallet);
     }
+
+    public async applyToRecipient(
+        transaction: Interfaces.ITransaction,
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+    ): Promise<void> {}
+
+    public async revertForRecipient(
+        transaction: Interfaces.ITransaction,
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+    ): Promise<void> {}
 }

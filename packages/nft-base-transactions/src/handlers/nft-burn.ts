@@ -159,14 +159,4 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
         collectionsWallet[collectionId]!.nftCollectionAsset.maximumSupply += 1;
         genesisWallet.setAttribute<INFTCollections>("nft.base.collections", collectionsWallet);
     }
-
-    public async applyToRecipient(
-        transaction: Interfaces.ITransaction,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-    ): Promise<void> {}
-
-    public async revertForRecipient(
-        transaction: Interfaces.ITransaction,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-    ): Promise<void> {}
 }
