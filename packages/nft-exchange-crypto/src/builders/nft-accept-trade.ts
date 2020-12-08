@@ -1,5 +1,3 @@
-import { Utils } from "@arkecosystem/crypto";
-
 import { NFTTransactionTypes } from "../enums";
 import { NFTAcceptTradeAsset } from "../interfaces";
 import { NFTAcceptTradeTransaction } from "../transactions";
@@ -10,7 +8,6 @@ export class NftAcceptTradeBuilder extends NFTExchangeTransactionBuilder<NftAcce
         super();
         this.data.type = NFTTransactionTypes.NFTAcceptTrade;
         this.data.fee = NFTAcceptTradeTransaction.staticFee();
-        this.data.amount = Utils.BigNumber.ZERO;
         this.data.asset = { nftAcceptTrade: {} };
     }
 

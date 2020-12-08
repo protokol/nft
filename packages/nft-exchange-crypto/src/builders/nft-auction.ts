@@ -1,5 +1,3 @@
-import { Utils } from "@arkecosystem/crypto";
-
 import { NFTTransactionTypes } from "../enums";
 import { NFTAuctionAsset } from "../interfaces";
 import { NFTAuctionTransaction } from "../transactions";
@@ -10,7 +8,6 @@ export class NFTAuctionBuilder extends NFTExchangeTransactionBuilder<NFTAuctionB
         super();
         this.data.type = NFTTransactionTypes.NFTAuction;
         this.data.fee = NFTAuctionTransaction.staticFee();
-        this.data.amount = Utils.BigNumber.ZERO;
         this.data.asset = { nftAuction: {} };
     }
 

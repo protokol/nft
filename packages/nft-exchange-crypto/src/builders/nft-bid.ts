@@ -1,5 +1,3 @@
-import { Utils } from "@arkecosystem/crypto";
-
 import { NFTTransactionTypes } from "../enums";
 import { NFTBidAsset } from "../interfaces";
 import { NFTBidTransaction } from "../transactions";
@@ -10,7 +8,6 @@ export class NFTBidBuilder extends NFTExchangeTransactionBuilder<NFTBidBuilder> 
         super();
         this.data.type = NFTTransactionTypes.NFTBid;
         this.data.fee = NFTBidTransaction.staticFee();
-        this.data.amount = Utils.BigNumber.ZERO;
         this.data.asset = { nftBid: {} };
     }
 
