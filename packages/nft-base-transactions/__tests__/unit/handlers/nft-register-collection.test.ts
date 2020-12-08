@@ -90,11 +90,9 @@ describe("NFT Register collection tests", () => {
 
             await expect(handler.bootstrap()).toResolve();
 
-            // @ts-ignore
-            collectionWalletCheck(senderWallet, actual.id, 0, nftCollectionAsset);
+            collectionWalletCheck(senderWallet, actual.id!, 0, nftCollectionAsset);
 
-            // @ts-ignore
-            expect(walletRepository.findByIndex(NFTIndexers.CollectionIndexer, actual.id)).toStrictEqual(senderWallet);
+            expect(walletRepository.findByIndex(NFTIndexers.CollectionIndexer, actual.id!)).toStrictEqual(senderWallet);
         });
     });
 
@@ -195,11 +193,9 @@ describe("NFT Register collection tests", () => {
         it("should test apply method", async () => {
             await expect(handler.apply(actual)).toResolve();
 
-            // @ts-ignore
-            collectionWalletCheck(senderWallet, actual.id, 0, nftCollectionAsset);
+            collectionWalletCheck(senderWallet, actual.id!, 0, nftCollectionAsset);
 
-            // @ts-ignore
-            expect(walletRepository.findByIndex(NFTIndexers.CollectionIndexer, actual.id)).toStrictEqual(senderWallet);
+            expect(walletRepository.findByIndex(NFTIndexers.CollectionIndexer, actual.id!)).toStrictEqual(senderWallet);
         });
     });
 
@@ -209,10 +205,9 @@ describe("NFT Register collection tests", () => {
 
             await expect(handler.revert(actual)).toResolve();
 
-            // @ts-ignore
-            expect(senderWallet.getAttribute("nft.base.collections")[actual.id]).toBeUndefined();
-            // @ts-ignore
-            expect(walletRepository.getIndex(NFTIndexers.CollectionIndexer).get(actual.id)).toBeUndefined();
+            expect(senderWallet.getAttribute("nft.base.collections")[actual.id!]).toBeUndefined();
+
+            expect(walletRepository.getIndex(NFTIndexers.CollectionIndexer).get(actual.id!)).toBeUndefined();
         });
     });
 
