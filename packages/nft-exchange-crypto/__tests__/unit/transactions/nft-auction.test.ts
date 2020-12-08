@@ -25,8 +25,7 @@ describe("NFT Auction tests", () => {
             const serialized = Transactions.TransactionFactory.fromData(actual).serialized.toString("hex");
             const deserialized = Transactions.Deserializer.deserialize(serialized);
 
-            // @ts-ignore
-            expect(deserialized.data.asset.nftAuction).toStrictEqual({
+            expect(deserialized.data.asset?.nftAuction).toStrictEqual({
                 nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
                 startAmount: Utils.BigNumber.make("1"),
                 expiration: {

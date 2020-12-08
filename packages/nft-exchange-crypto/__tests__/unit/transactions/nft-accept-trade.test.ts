@@ -22,8 +22,7 @@ describe("NFT Accept trade tests", () => {
             const serialized = Transactions.TransactionFactory.fromData(actual).serialized.toString("hex");
             const deserialized = Transactions.Deserializer.deserialize(serialized);
 
-            // @ts-ignore
-            expect(deserialized.data.asset.nftAcceptTrade).toStrictEqual({
+            expect(deserialized.data.asset?.nftAcceptTrade).toStrictEqual({
                 auctionId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
                 bidId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
             });
