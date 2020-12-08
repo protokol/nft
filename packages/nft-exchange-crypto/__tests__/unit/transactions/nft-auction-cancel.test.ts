@@ -11,7 +11,7 @@ describe("NFT Auction Cancel tests", () => {
         Managers.configManager.setHeight(2);
         Transactions.TransactionRegistry.registerTransactionType(NFTAuctionCancelTransaction);
 
-        it("should ser/deser correctly ", () => {
+        it("should ser/deser correctly", () => {
             const actual = new NFTAuctionCancelBuilder()
                 .NFTAuctionCancelAsset({
                     auctionId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
