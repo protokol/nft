@@ -160,10 +160,10 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
         const jsonSchema = JSON.parse(buf.readString(schemaLength));
 
         const nftCollection: NFTCollectionAsset = {
-            name: name,
-            description: description,
-            maximumSupply: maximumSupply,
-            jsonSchema: jsonSchema,
+            name,
+            description,
+            maximumSupply,
+            jsonSchema,
         };
         const numberOfSchemaIssuers = buf.readUint8();
         if (numberOfSchemaIssuers !== 0) {

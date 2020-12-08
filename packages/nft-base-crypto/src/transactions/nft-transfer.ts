@@ -86,7 +86,7 @@ export class NFTTransferTransaction extends Transactions.Transaction {
             nftIds.push(buf.readBytes(32).toString("hex"));
         }
         const nftTransfer: NFTTransferAsset = {
-            nftIds: nftIds,
+            nftIds,
             recipientId: Identities.Address.fromBuffer(buf.readBytes(21).toBuffer()),
         };
 

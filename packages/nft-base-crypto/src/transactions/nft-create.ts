@@ -93,8 +93,8 @@ export class NFTCreateTransaction extends Transactions.Transaction {
         const attributes = JSON.parse(buf.readString(attributesLength));
 
         const nftToken: NFTTokenAsset = {
-            collectionId: collectionId,
-            attributes: attributes,
+            collectionId,
+            attributes,
         };
 
         data.asset = {

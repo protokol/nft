@@ -67,7 +67,7 @@ export class NFTBurnTransaction extends Transactions.Transaction {
         const nftId = buf.readBytes(32).toString("hex");
 
         const nftBurn: NFTBurnAsset = {
-            nftId: nftId,
+            nftId,
         };
 
         data.asset = {
