@@ -35,12 +35,7 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
     }
 
     public async bootstrap(): Promise<void> {
-        const criteria = {
-            typeGroup: this.getConstructor().typeGroup,
-            type: this.getConstructor().type,
-        };
-
-        for await (const transaction of this.transactionHistoryService.streamByCriteria(criteria)) {
+        for await (const transaction of this.transactionHistoryService.streamByCriteria(this.getDefaultCriteria())) {
             AppUtils.assert.defined<NFTInterfaces.NFTTransferAsset>(transaction.asset?.nftTransfer);
             AppUtils.assert.defined<string>(transaction.senderPublicKey);
 
