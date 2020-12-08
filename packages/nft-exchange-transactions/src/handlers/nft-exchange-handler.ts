@@ -16,6 +16,13 @@ export abstract class NFTExchangeTransactionHandler extends Handlers.Transaction
         return Managers.configManager.getMilestone().aip11 === true;
     }
 
+    protected getDefaultCriteria(): { typeGroup?: number; type?: number } {
+        return {
+            typeGroup: this.getConstructor().typeGroup,
+            type: this.getConstructor().type,
+        };
+    }
+
     public dynamicFee({
         addonBytes,
         satoshiPerByte,
