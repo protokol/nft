@@ -9,7 +9,6 @@ export class NFTCreateBuilder extends NFTBaseTransactionBuilder<NFTCreateBuilder
     public constructor() {
         super();
         this.data.type = NFTBaseTransactionTypes.NFTCreate;
-        this.data.amount = Utils.BigNumber.ZERO;
         this.data.fee = NFTCreateTransaction.staticFee();
         this.data.asset = { nftToken: {} };
     }

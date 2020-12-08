@@ -9,7 +9,6 @@ export class NFTBurnBuilder extends NFTBaseTransactionBuilder<NFTBurnBuilder> {
     public constructor() {
         super();
         this.data.type = NFTBaseTransactionTypes.NFTBurn;
-        this.data.amount = Utils.BigNumber.ZERO;
         this.data.fee = NFTBurnTransaction.staticFee();
         this.data.asset = { nftBurn: {} };
     }

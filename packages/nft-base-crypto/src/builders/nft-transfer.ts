@@ -9,7 +9,6 @@ export class NFTTransferBuilder extends NFTBaseTransactionBuilder<NFTTransferBui
     public constructor() {
         super();
         this.data.type = NFTBaseTransactionTypes.NFTTransfer;
-        this.data.amount = Utils.BigNumber.ZERO;
         this.data.fee = NFTTransferTransaction.staticFee();
         this.data.asset = { nftTransfer: {} };
     }

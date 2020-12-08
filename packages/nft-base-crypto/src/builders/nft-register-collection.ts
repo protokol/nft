@@ -9,7 +9,6 @@ export class NFTRegisterCollectionBuilder extends NFTBaseTransactionBuilder<NFTR
     public constructor() {
         super();
         this.data.type = NFTBaseTransactionTypes.NFTRegisterCollection;
-        this.data.amount = Utils.BigNumber.ZERO;
         this.data.fee = NFTRegisterCollectionTransaction.staticFee();
         this.data.asset = { nftCollection: {} };
     }
