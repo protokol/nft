@@ -128,7 +128,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         // eslint-disable-next-line @typescript-eslint/no-empty-function
     ): Promise<void> {}
 
-    public async compileAndPersistSchema(id, jsonSchema) {
+    private async compileAndPersistSchema(id, jsonSchema) {
         const ajv = new Ajv({ allErrors: true });
         const validate = ajv.compile({
             additionalProperties: false,
