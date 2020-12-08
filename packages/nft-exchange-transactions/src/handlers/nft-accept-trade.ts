@@ -105,7 +105,7 @@ export class NFTAcceptTradeHandler extends NFTExchangeTransactionHandler {
     }
 
     public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        emitter.dispatch(NFTExchangeApplicationEvents.NFTAcceptTrade, transaction.data);
+        void emitter.dispatch(NFTExchangeApplicationEvents.NFTAcceptTrade, transaction.data);
     }
 
     public async throwIfCannotBeApplied(

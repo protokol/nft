@@ -72,7 +72,7 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
     }
 
     public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        emitter.dispatch(NFTExchangeApplicationEvents.NFTCancelBid, transaction.data);
+        void emitter.dispatch(NFTExchangeApplicationEvents.NFTCancelBid, transaction.data);
     }
 
     public async throwIfCannotBeApplied(

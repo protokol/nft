@@ -63,7 +63,7 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
     }
 
     public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        emitter.dispatch(NFTExchangeApplicationEvents.NFTAuction, transaction.data);
+        void emitter.dispatch(NFTExchangeApplicationEvents.NFTAuction, transaction.data);
     }
 
     public async throwIfCannotBeApplied(

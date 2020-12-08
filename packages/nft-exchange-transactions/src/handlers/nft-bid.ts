@@ -77,7 +77,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
     }
 
     public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        emitter.dispatch(NFTExchangeApplicationEvents.NFTBid, transaction.data);
+        void emitter.dispatch(NFTExchangeApplicationEvents.NFTBid, transaction.data);
     }
 
     public async throwIfCannotBeApplied(
