@@ -3,7 +3,12 @@ import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 
 import { defaults } from "../defaults";
-import { NFTBaseStaticFees, NFTBaseTransactionGroup, NFTBaseTransactionTypes } from "../enums";
+import {
+    NFTBaseStaticFees,
+    NFTBaseTransactionGroup,
+    NFTBaseTransactionTypes,
+    NFTBaseTransactionVersion,
+} from "../enums";
 import { NFTCollectionAsset } from "../interfaces";
 
 const { schemas } = Transactions;
@@ -12,7 +17,7 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
     public static typeGroup: number = NFTBaseTransactionGroup;
     public static type = NFTBaseTransactionTypes.NFTRegisterCollection;
     public static key = "NFTRegisterCollection";
-    public static version = 2;
+    public static version = NFTBaseTransactionVersion;
 
     protected static defaultStaticFee = Utils.BigNumber.make(NFTBaseStaticFees.NFTRegisterCollection);
 

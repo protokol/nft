@@ -2,7 +2,12 @@ import { Transactions, Utils } from "@arkecosystem/crypto";
 import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 
-import { NFTBaseStaticFees, NFTBaseTransactionGroup, NFTBaseTransactionTypes } from "../enums";
+import {
+    NFTBaseStaticFees,
+    NFTBaseTransactionGroup,
+    NFTBaseTransactionTypes,
+    NFTBaseTransactionVersion,
+} from "../enums";
 import { NFTBurnAsset } from "../interfaces";
 
 const { schemas } = Transactions;
@@ -11,7 +16,7 @@ export class NFTBurnTransaction extends Transactions.Transaction {
     public static typeGroup: number = NFTBaseTransactionGroup;
     public static type = NFTBaseTransactionTypes.NFTBurn;
     public static key = "NFTBurn";
-    public static version = 2;
+    public static version = NFTBaseTransactionVersion;
 
     protected static defaultStaticFee = Utils.BigNumber.make(NFTBaseStaticFees.NFTBurn);
 
