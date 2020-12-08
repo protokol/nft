@@ -120,12 +120,12 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
 
     public async applyToRecipient(
         transaction: Interfaces.ITransaction,
-        // tslint:disable-next-line: no-empty
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
     ): Promise<void> {}
 
     public async revertForRecipient(
         transaction: Interfaces.ITransaction,
-        // tslint:disable-next-line:no-empty
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
     ): Promise<void> {}
 
     public async compileAndPersistSchema(id, jsonSchema) {
