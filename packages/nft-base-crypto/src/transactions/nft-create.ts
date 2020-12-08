@@ -84,7 +84,7 @@ export class NFTCreateTransaction extends Transactions.Transaction {
         return buffer;
     }
 
-    public deserialize(buf): void {
+    public deserialize(buf: ByteBuffer): void {
         const { data } = this;
 
         const collectionId = buf.readBytes(32).toString("hex");

@@ -145,7 +145,7 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
         return buffer;
     }
 
-    public deserialize(buf): void {
+    public deserialize(buf: ByteBuffer): void {
         const { data } = this;
 
         const nameLength: number = buf.readUint8();
