@@ -1,5 +1,3 @@
-import { Utils } from "@arkecosystem/crypto";
-
 import { NFTBaseTransactionTypes } from "../enums";
 import { NFTTransferAsset } from "../interfaces";
 import { NFTTransferTransaction } from "../transactions";
