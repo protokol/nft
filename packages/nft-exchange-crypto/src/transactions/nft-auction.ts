@@ -95,7 +95,7 @@ export class NFTAuctionTransaction extends Transactions.Transaction {
         }
 
         const nftAuction: NFTAuctionAsset = {
-            nftIds: nftIds,
+            nftIds,
             startAmount: Utils.BigNumber.make(buf.readUint64().toString()),
             expiration: {
                 blockHeight: buf.readUint32(),
