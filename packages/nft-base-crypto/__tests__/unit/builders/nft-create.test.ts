@@ -6,13 +6,13 @@ import { NFTCreateBuilder } from "../../../src/builders";
 import { defaults } from "../../../src/defaults";
 import { NFTCreateTransaction } from "../../../src/transactions";
 
-describe("NFT Create tests ", () => {
+describe("NFT Create tests", () => {
     describe("Verify tests", () => {
         Managers.configManager.setFromPreset("testnet");
         Managers.configManager.setHeight(2);
         Transactions.TransactionRegistry.registerTransactionType(NFTCreateTransaction);
 
-        it("should verify correctly with json schema ", () => {
+        it("should verify correctly with json schema", () => {
             const actual = new NFTCreateBuilder()
                 .NFTCreateToken({
                     collectionId: "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",

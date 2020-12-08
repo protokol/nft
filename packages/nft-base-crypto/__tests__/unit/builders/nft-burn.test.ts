@@ -5,7 +5,7 @@ import { Managers, Transactions } from "@arkecosystem/crypto";
 import { NFTBurnBuilder } from "../../../src/builders";
 import { NFTBurnTransaction } from "../../../src/transactions";
 
-describe("NFT Burn tests ", () => {
+describe("NFT Burn tests", () => {
     describe("Verify tests", () => {
         Managers.configManager.setFromPreset("testnet");
         Managers.configManager.setHeight(2);
