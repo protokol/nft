@@ -62,7 +62,7 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
     }
 
     public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        emitter.dispatch(NFTApplicationEvents.NFTTransfer, transaction.data);
+        void emitter.dispatch(NFTApplicationEvents.NFTTransfer, transaction.data);
     }
 
     public async throwIfCannotBeApplied(

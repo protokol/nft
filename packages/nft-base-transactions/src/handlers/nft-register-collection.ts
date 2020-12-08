@@ -56,7 +56,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
     }
 
     public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        emitter.dispatch(NFTApplicationEvents.NFTRegisterCollection, transaction.data);
+        void emitter.dispatch(NFTApplicationEvents.NFTRegisterCollection, transaction.data);
     }
 
     public async throwIfCannotBeApplied(

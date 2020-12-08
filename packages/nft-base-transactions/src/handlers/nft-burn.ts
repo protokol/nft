@@ -61,7 +61,7 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
     }
 
     public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        emitter.dispatch(NFTApplicationEvents.NFTBurn, transaction.data);
+        void emitter.dispatch(NFTApplicationEvents.NFTBurn, transaction.data);
     }
 
     public async throwIfCannotBeApplied(
