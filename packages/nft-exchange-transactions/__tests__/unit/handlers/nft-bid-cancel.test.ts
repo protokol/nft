@@ -402,7 +402,6 @@ describe("NFT Bid Cancel tests", () => {
         it("should throw if nftBidCancel is undefined", async () => {
             const actual = new NFTBuilders.NFTBidCancelBuilder()
                 .NFTBidCancelAsset({
-                    // @ts-ignore
                     bidId: actualBid.id,
                 })
                 .nonce("1")
