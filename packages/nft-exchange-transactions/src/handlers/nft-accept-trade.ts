@@ -294,14 +294,4 @@ export class NFTAcceptTradeHandler extends NFTExchangeTransactionHandler {
             this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).set(bidId, auctionWallet);
         }
     }
-
-    public async applyToRecipient(
-        transaction: Interfaces.ITransaction,
-        // tslint:disable-next-line: no-empty
-    ): Promise<void> {}
-
-    public async revertForRecipient(
-        transaction: Interfaces.ITransaction,
-        // tslint:disable-next-line:no-empty
-    ): Promise<void> {}
 }

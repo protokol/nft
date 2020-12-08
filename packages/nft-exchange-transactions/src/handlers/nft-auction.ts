@@ -159,14 +159,4 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
 
         this.walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).forget(transaction.data.id);
     }
-
-    public async applyToRecipient(
-        transaction: Interfaces.ITransaction,
-        // tslint:disable-next-line: no-empty
-    ): Promise<void> {}
-
-    public async revertForRecipient(
-        transaction: Interfaces.ITransaction,
-        // tslint:disable-next-line:no-empty
-    ): Promise<void> {}
 }

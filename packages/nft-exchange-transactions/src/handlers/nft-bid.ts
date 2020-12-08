@@ -169,16 +169,6 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
         this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).forget(transaction.data.id);
     }
 
-    public async applyToRecipient(
-        transaction: Interfaces.ITransaction,
-        // tslint:disable-next-line: no-empty
-    ): Promise<void> {}
-
-    public async revertForRecipient(
-        transaction: Interfaces.ITransaction,
-        // tslint:disable-next-line:no-empty
-    ): Promise<void> {}
-
     private checkBiddingOnOwnAuction(auctionWallet: Contracts.State.Wallet, bidWallet: Contracts.State.Wallet): void {
         if (auctionWallet.publicKey === bidWallet.publicKey) {
             throw new NFTExchangeBidCannotBidOwnItem();

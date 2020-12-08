@@ -56,4 +56,14 @@ export abstract class NFTExchangeTransactionHandler extends Handlers.Transaction
         }
         return super.throwIfCannotBeApplied(transaction, wallet);
     }
+
+    public async applyToRecipient(
+        transaction: Interfaces.ITransaction,
+        // tslint:disable-next-line: no-empty
+    ): Promise<void> {}
+
+    public async revertForRecipient(
+        transaction: Interfaces.ITransaction,
+        // tslint:disable-next-line:no-empty
+    ): Promise<void> {}
 }
