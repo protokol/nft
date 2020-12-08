@@ -90,7 +90,7 @@ beforeEach(async () => {
         ),
         2,
     ) as unknown) as NFTRegisterCollectionHandler;
-    await nftRegisterHandler.compileAndPersistSchema(collectionId, nftCollectionAsset.jsonSchema);
+    await nftRegisterHandler["compileAndPersistSchema"](collectionId, nftCollectionAsset.jsonSchema);
 
     wallet.setAttribute("nft.base.collections", collectionsWallet);
 
