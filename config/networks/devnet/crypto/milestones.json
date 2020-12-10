@@ -29,9 +29,5 @@
         "vendorFieldLength": 255,
         "multiPaymentLimit": 256,
         "aip11": true
-    },
-    {
-        "height": 0,
-        "reward": 0
     }
 ]
