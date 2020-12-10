@@ -32,7 +32,8 @@
 		"forger:mainnet": "cross-env CORE_PATH_CONFIG=./config/networks/mainnet yarn ark forger:run --network=mainnet",
 		"forger:testnet": "cross-env CORE_PATH_CONFIG=./config/networks/testnet yarn ark forger:run --env=test --network=testnet",
 		"manager:testnet": "cross-env CORE_PATH_CONFIG=./config/networks/testnet yarn ark manager:run --env=test --network=testnet",
-		"full:testnet": "cross-env CORE_PATH_CONFIG=./config/networks/testnet ark core:run --networkStart --env=test --network=testnet"
+		"full:testnet": "cross-env CORE_PATH_CONFIG=./config/networks/testnet ark core:run --networkStart --env=test --network=testnet",
+		"local:devnet": "cross-env CORE_PATH_CONFIG=./config/networks/devnet ark core:run --networkStart --env=test --network=devnet"
 	},
 	"dependencies": {
 		"@arkecosystem/core": "3.0.0-next.16",
