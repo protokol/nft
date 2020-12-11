@@ -2894,9 +2894,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/nft-base-crypto/",
           "packageDependencies": [
             ["@protokol/nft-base-crypto", "workspace:packages/nft-base-crypto"],
-            ["@arkecosystem/core-kernel", "npm:3.0.0-next.16"],
             ["@arkecosystem/core-test-framework", "npm:3.0.0-next.16"],
             ["@arkecosystem/crypto", "npm:3.0.0-next.16"],
+            ["@protokol/utils", "npm:1.0.0-beta.37"],
             ["@sindresorhus/tsconfig", "npm:0.8.0"],
             ["@types/jest", "npm:26.0.19"],
             ["@types/node", "npm:14.14.12"],

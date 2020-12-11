@@ -1,5 +1,5 @@
-import { Utils as AppUtils } from "@arkecosystem/core-kernel";
 import { Transactions, Utils } from "@arkecosystem/crypto";
+import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 
 import { NFTBaseStaticFees, NFTBaseTransactionGroup, NFTBaseTransactionTypes } from "../enums";
@@ -46,7 +46,7 @@ export class NFTBurnTransaction extends Transactions.Transaction {
     public serialize(): ByteBuffer {
         const { data } = this;
 
-        AppUtils.assert.defined<NFTBurnAsset>(data.asset?.nftBurn);
+        Asserts.assert.defined<NFTBurnAsset>(data.asset?.nftBurn);
         const nftBurnAsset: NFTBurnAsset = data.asset.nftBurn;
 
         const buffer: ByteBuffer = new ByteBuffer(32, true);
