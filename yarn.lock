@@ -2484,9 +2484,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@protokol/nft-base-crypto@workspace:packages/nft-base-crypto"
   dependencies:
-    "@arkecosystem/core-kernel": ^3.0.0-next
     "@arkecosystem/core-test-framework": ^3.0.0-next
     "@arkecosystem/crypto": ^3.0.0-next
+    "@protokol/utils": ^1.0.0-beta.37
     "@sindresorhus/tsconfig": ~0.8.0
     "@types/jest": ~26.0.15
     "@types/node": ^14.14.7
@@ -2612,9 +2612,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@protokol/nft-exchange-crypto@workspace:packages/nft-exchange-crypto"
   dependencies:
-    "@arkecosystem/core-kernel": ^3.0.0-next
     "@arkecosystem/core-test-framework": ^3.0.0-next
     "@arkecosystem/crypto": ^3.0.0-next
+    "@protokol/utils": ^1.0.0-beta.37
     "@sindresorhus/tsconfig": ~0.8.0
     "@types/jest": ~26.0.15
     "@types/node": ^14.14.7
@@ -2742,7 +2742,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@protokol/utils@npm:1.0.0-beta.37":
+"@protokol/utils@npm:1.0.0-beta.37, @protokol/utils@npm:^1.0.0-beta.37":
   version: 1.0.0-beta.37
   resolution: "@protokol/utils@npm:1.0.0-beta.37"
   checksum: d8f1bf81fd36448f54c9928041f965d2bd8f5b2dadab6b08a3cec5b2d8660cf720200fefeb55c6b7425177bb9905aaec694391b6882fd83fc572e03a3f8969e2

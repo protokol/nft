@@ -1,5 +1,5 @@
-import { Utils as AppUtils } from "@arkecosystem/core-kernel";
 import { Transactions, Utils, Validation } from "@arkecosystem/crypto";
+import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 
 import { defaults } from "../defaults";
@@ -92,7 +92,7 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
     public serialize(): ByteBuffer {
         const { data } = this;
 
-        AppUtils.assert.defined<NFTCollectionAsset>(data.asset?.nftCollection);
+        Asserts.assert.defined<NFTCollectionAsset>(data.asset?.nftCollection);
         const nftCollectionAsset: NFTCollectionAsset = data.asset.nftCollection;
 
         const nameBuffer: Buffer = Buffer.from(nftCollectionAsset.name, "utf8");
