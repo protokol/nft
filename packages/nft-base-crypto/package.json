@@ -43,11 +43,10 @@
     },
     "dependencies": {
         "@arkecosystem/crypto": "^3.0.0-next",
-        "@protokol/utils": "1.0.0-beta.37",
         "bytebuffer": "^5.0.1"
     },
     "devDependencies": {
-        "@arkecosystem/core-kernel": "^3.0.0-next",
+        "@arkecosystem/core-kernel": "^3.0.0-alpha.0",
         "@arkecosystem/core-test-framework": "^3.0.0-next",
         "@sindresorhus/tsconfig": "~0.8.0",
         "@types/jest": "~26.0.15",
