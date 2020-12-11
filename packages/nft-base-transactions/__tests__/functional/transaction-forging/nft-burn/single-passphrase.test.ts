@@ -2,7 +2,7 @@ import "@arkecosystem/core-test-framework/dist/matchers";
 
 import { Contracts } from "@arkecosystem/core-kernel";
 import { passphrases, snoozeForBlock } from "@arkecosystem/core-test-framework";
-import { ARKCrypto } from "@protokol/nft-base-crypto";
+import { Identities } from "@arkecosystem/crypto";
 
 import * as support from "../__support__";
 import { NFTBaseTransactionFactory } from "../__support__/transaction-factory";
@@ -146,7 +146,7 @@ describe("NFT Burn functional tests - Signed with one Passphrase", () => {
         const nftTransfer = NFTBaseTransactionFactory.initialize(app)
             .NFTTransfer({
                 nftIds: [nftCreate.id!],
-                recipientId: ARKCrypto.Identities.Address.fromPassphrase(passphrases[2]!),
+                recipientId: Identities.Address.fromPassphrase(passphrases[2]!),
             })
             .withPassphrase(passphrases[0]!)
             .createOne();

@@ -2,7 +2,7 @@ import "@arkecosystem/core-test-framework/dist/matchers";
 
 import { Contracts } from "@arkecosystem/core-kernel";
 import { passphrases, snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework";
-import { ARKCrypto } from "@protokol/nft-base-crypto";
+import { Identities } from "@arkecosystem/crypto";
 import { generateMnemonic } from "bip39";
 
 import * as support from "../__support__";
@@ -21,9 +21,9 @@ describe("NFT Burn functional tests - Signed with multi signature", () => {
     const passphrase = generateMnemonic();
     const secrets = [passphrase, passphrases[4]!, passphrases[5]!];
     const participants = [
-        ARKCrypto.Identities.PublicKey.fromPassphrase(secrets[0]!),
-        ARKCrypto.Identities.PublicKey.fromPassphrase(secrets[1]!),
-        ARKCrypto.Identities.PublicKey.fromPassphrase(secrets[2]!),
+        Identities.PublicKey.fromPassphrase(secrets[0]!),
+        Identities.PublicKey.fromPassphrase(secrets[1]!),
+        Identities.PublicKey.fromPassphrase(secrets[2]!),
     ];
     it("should broadcast, accept and forge it [3-of-3 multisig]", async () => {
         // Register collection
@@ -58,7 +58,7 @@ describe("NFT Burn functional tests - Signed with multi signature", () => {
 
         // Funds to register a multi signature wallet
         const initialFunds = TransactionFactory.initialize(app)
-            .transfer(ARKCrypto.Identities.Address.fromPassphrase(passphrase), 50 * 1e8)
+            .transfer(Identities.Address.fromPassphrase(passphrase), 50 * 1e8)
             .withPassphrase(passphrases[0]!)
             .createOne();
 
@@ -78,10 +78,10 @@ describe("NFT Burn functional tests - Signed with multi signature", () => {
         await expect(multiSignature.id).toBeForged();
 
         // Send funds to multi signature wallet
-        const multiSigAddress = ARKCrypto.Identities.Address.fromMultiSignatureAsset(
+        const multiSigAddress = Identities.Address.fromMultiSignatureAsset(
             multiSignature.asset!.multiSignature!,
         );
-        const multiSigPublicKey = ARKCrypto.Identities.PublicKey.fromMultiSignatureAsset(
+        const multiSigPublicKey = Identities.PublicKey.fromMultiSignatureAsset(
             multiSignature.asset!.multiSignature!,
         );
 
