@@ -161,7 +161,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pretty-ms", "npm:7.0.1"],
             ["prompts", "npm:2.4.0"],
             ["read-last-lines", "npm:1.7.2"],
-            ["simple-git", "npm:2.26.0"],
+            ["simple-git", "npm:2.27.0"],
             ["tar", "npm:6.0.5"],
             ["type-fest", "npm:0.16.0"],
             ["wif", "npm:2.0.6"]
@@ -2897,7 +2897,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@arkecosystem/core-kernel", "npm:3.0.0-next.16"],
             ["@arkecosystem/core-test-framework", "npm:3.0.0-next.16"],
             ["@arkecosystem/crypto", "npm:3.0.0-next.16"],
-            ["@protokol/utils", "npm:1.0.0-beta.37"],
             ["@sindresorhus/tsconfig", "npm:0.8.0"],
             ["@types/jest", "npm:26.0.19"],
             ["@types/node", "npm:14.14.12"],
@@ -2979,7 +2978,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@arkecosystem/core-transaction-pool", "npm:3.0.0-next.16"],
             ["@arkecosystem/core-transactions", "npm:3.0.0-next.16"],
             ["@arkecosystem/crypto", "npm:3.0.0-next.16"],
-            ["@arkecosystem/utils", "npm:1.2.1"],
             ["@hapi/boom", "npm:9.1.0"],
             ["@hapi/hapi", "npm:20.0.3"],
             ["@hapi/joi", "npm:17.1.1"],
@@ -3033,7 +3031,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@arkecosystem/core-kernel", "npm:3.0.0-next.16"],
             ["@arkecosystem/core-test-framework", "npm:3.0.0-next.16"],
             ["@arkecosystem/crypto", "npm:3.0.0-next.16"],
-            ["@protokol/utils", "npm:1.0.0-beta.37"],
             ["@sindresorhus/tsconfig", "npm:0.8.0"],
             ["@types/jest", "npm:26.0.19"],
             ["@types/node", "npm:14.14.12"],
@@ -13568,10 +13565,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["simple-git", [
-        ["npm:2.26.0", {
-          "packageLocation": "./.yarn/cache/simple-git-npm-2.26.0-d3594f2bfd-4a477b746e.zip/node_modules/simple-git/",
+        ["npm:2.27.0", {
+          "packageLocation": "./.yarn/cache/simple-git-npm-2.27.0-e6c1b540fd-8e00068d8e.zip/node_modules/simple-git/",
           "packageDependencies": [
-            ["simple-git", "npm:2.26.0"],
+            ["simple-git", "npm:2.27.0"],
             ["@kwsites/file-exists", "npm:1.1.1"],
             ["@kwsites/promise-deferred", "npm:1.1.1"],
             ["debug", "virtual:75c807624a1c16c0a8cc2bd5d8a2e9aa1df1c544dc2bbbddf1d1c9ed191f4248eedda1a3e0b0bcacbbc5934cf664baa5da14675e8a7a6ec6490dea178cda6d6f#npm:4.3.2"]

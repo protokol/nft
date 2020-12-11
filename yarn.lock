@@ -599,7 +599,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@arkecosystem/utils@npm:1.2.1, @arkecosystem/utils@npm:^1.2.1":
+"@arkecosystem/utils@npm:^1.2.1":
   version: 1.2.1
   resolution: "@arkecosystem/utils@npm:1.2.1"
   dependencies:
@@ -2487,7 +2487,6 @@ __metadata:
     "@arkecosystem/core-kernel": ^3.0.0-next
     "@arkecosystem/core-test-framework": ^3.0.0-next
     "@arkecosystem/crypto": ^3.0.0-next
-    "@protokol/utils": 1.0.0-beta.37
     "@sindresorhus/tsconfig": ~0.8.0
     "@types/jest": ~26.0.15
     "@types/node": ^14.14.7
@@ -2565,7 +2564,6 @@ __metadata:
     "@arkecosystem/core-transaction-pool": ^3.0.0-next
     "@arkecosystem/core-transactions": ^3.0.0-next
     "@arkecosystem/crypto": ^3.0.0-next
-    "@arkecosystem/utils": 1.2.1
     "@hapi/boom": ^9.1.0
     "@hapi/hapi": ^20.0.2
     "@hapi/joi": ^17.1.0
@@ -2617,7 +2615,6 @@ __metadata:
     "@arkecosystem/core-kernel": ^3.0.0-next
     "@arkecosystem/core-test-framework": ^3.0.0-next
     "@arkecosystem/crypto": ^3.0.0-next
-    "@protokol/utils": 1.0.0-beta.37
     "@sindresorhus/tsconfig": ~0.8.0
     "@types/jest": ~26.0.15
     "@types/node": ^14.14.7
@@ -11869,13 +11866,13 @@ fsevents@~2.1.2:
   linkType: hard
 
 "simple-git@npm:^2.0.0":
-  version: 2.26.0
-  resolution: "simple-git@npm:2.26.0"
+  version: 2.27.0
+  resolution: "simple-git@npm:2.27.0"
   dependencies:
     "@kwsites/file-exists": ^1.1.1
     "@kwsites/promise-deferred": ^1.1.1
     debug: ^4.3.1
-  checksum: 4a477b746e078254d3fa7e4f541c3b1e21ae8b73de7bb464cf03a828f7dc0a4312910c043174077691c86a4ccf8ffd65a4a093cb26d6fd3ef351cc0cbbb85ed4
+  checksum: 8e00068d8edd237b61a4c11873b388cf65fa1f325c9bfc26759256a59fb42d5989e6255b371715ebaa0cb3c6d9b5a5b55eae4b74dccd852b6519796c9d856e18
   languageName: node
   linkType: hard
 
