@@ -42,8 +42,8 @@
         "publish:beta": "yarn build && yarn npm publish --tag beta --access public --tolerate-republish"
     },
     "dependencies": {
-        "@arkecosystem/core-kernel": "^3.0.0-next",
         "@arkecosystem/crypto": "^3.0.0-next",
+        "@protokol/utils": "^1.0.0-beta.37",
         "bytebuffer": "^5.0.1"
     },
     "devDependencies": {
