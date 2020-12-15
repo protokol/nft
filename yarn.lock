@@ -2541,7 +2541,7 @@ __metadata:
     eslint-plugin-prettier: ^3.1.4
     jest: ~26.6.3
     jest-extended: ~0.11.5
-    jest-localstorage-mock: 2.4.4
+    jest-localstorage-mock: 2.4.5
     pg: 8.5.1
     prettier: 2.2.1
     process-es6: ^0.11.6
@@ -2671,7 +2671,7 @@ __metadata:
     eslint-plugin-prettier: ^3.1.4
     jest: ~26.6.3
     jest-extended: ~0.11.5
-    jest-localstorage-mock: 2.4.4
+    jest-localstorage-mock: 2.4.5
     pg: 8.5.1
     prettier: 2.2.1
     process-es6: ^0.11.6
@@ -8132,10 +8132,10 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"jest-localstorage-mock@npm:2.4.4":
-  version: 2.4.4
-  resolution: "jest-localstorage-mock@npm:2.4.4"
-  checksum: 003668b70fd4a1628a16eef19e7bf65170428cd4bb294b5ff1242df67fbe7acc829049a93b5960e11920de5b0cf286ffb6fd0f17cd4c772855308bd6e65dbe3a
+"jest-localstorage-mock@npm:2.4.5":
+  version: 2.4.5
+  resolution: "jest-localstorage-mock@npm:2.4.5"
+  checksum: 7787284674e0c55bfff4b6c457b39279eaedcf09a5989ac6380d8f1f655b8de0ba77e8c3556ee3d283703d00702d0f8bd74ac73c4a396b1eaa726e1364722f50
   languageName: node
   linkType: hard
 
