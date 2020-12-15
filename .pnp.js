@@ -2953,7 +2953,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-prettier", "virtual:a70d54d77e5c82a7a2ab2fd69a2f33c097318c8571135823be52f11551c916757603b513c3b2b135c036c4319a25450d31ec80c465f996da09d22a739cff3668#npm:3.2.0"],
             ["jest", "npm:26.6.3"],
             ["jest-extended", "npm:0.11.5"],
-            ["jest-localstorage-mock", "npm:2.4.3"],
+            ["jest-localstorage-mock", "npm:2.4.4"],
             ["pg", "virtual:b99730336d6765a5cc1c2693ed29a397bb5ef3a89e7cb787e02c1c75dd1195ef8703401f7e975b778ff0c595d6c6227c4bdbae8d59e98e1f97c0ad218f9aac42#npm:8.5.1"],
             ["prettier", "npm:2.2.1"],
             ["process-es6", "npm:0.11.6"],
@@ -3089,7 +3089,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-prettier", "virtual:a70d54d77e5c82a7a2ab2fd69a2f33c097318c8571135823be52f11551c916757603b513c3b2b135c036c4319a25450d31ec80c465f996da09d22a739cff3668#npm:3.2.0"],
             ["jest", "npm:26.6.3"],
             ["jest-extended", "npm:0.11.5"],
-            ["jest-localstorage-mock", "npm:2.4.3"],
+            ["jest-localstorage-mock", "npm:2.4.4"],
             ["pg", "virtual:b99730336d6765a5cc1c2693ed29a397bb5ef3a89e7cb787e02c1c75dd1195ef8703401f7e975b778ff0c595d6c6227c4bdbae8d59e98e1f97c0ad218f9aac42#npm:8.5.1"],
             ["prettier", "npm:2.2.1"],
             ["process-es6", "npm:0.11.6"],
@@ -9400,6 +9400,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest-localstorage-mock", "npm:2.4.3"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:2.4.4", {
+          "packageLocation": "./.yarn/cache/jest-localstorage-mock-npm-2.4.4-c247249296-003668b70f.zip/node_modules/jest-localstorage-mock/",
+          "packageDependencies": [
+            ["jest-localstorage-mock", "npm:2.4.4"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["jest-matcher-utils", [
@@ -11039,7 +11046,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["ngrok", [
         ["npm:3.3.0", {
-          "packageLocation": "./.yarn/unplugged/ngrok-npm-3.3.0-ff8d3edfc1/node_modules/ngrok/",
+          "packageLocation": "./.yarn/cache/ngrok-npm-3.3.0-ff8d3edfc1-6e9bdd8e03.zip/node_modules/ngrok/",
           "packageDependencies": [
             ["ngrok", "npm:3.3.0"],
             ["@types/node", "npm:8.10.66"],
@@ -12576,7 +12583,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["protobufjs", [
         ["npm:6.10.2", {
-          "packageLocation": "./.yarn/unplugged/protobufjs-npm-6.10.2-f0f2cab7fe/node_modules/protobufjs/",
+          "packageLocation": "./.yarn/cache/protobufjs-npm-6.10.2-f0f2cab7fe-09d6292362.zip/node_modules/protobufjs/",
           "packageDependencies": [
             ["protobufjs", "npm:6.10.2"],
             ["@protobufjs/aspromise", "npm:1.1.2"],
