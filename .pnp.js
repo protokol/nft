@@ -2953,7 +2953,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-prettier", "virtual:a70d54d77e5c82a7a2ab2fd69a2f33c097318c8571135823be52f11551c916757603b513c3b2b135c036c4319a25450d31ec80c465f996da09d22a739cff3668#npm:3.2.0"],
             ["jest", "npm:26.6.3"],
             ["jest-extended", "npm:0.11.5"],
-            ["jest-localstorage-mock", "npm:2.4.5"],
+            ["jest-localstorage-mock", "npm:2.4.6"],
             ["pg", "virtual:b99730336d6765a5cc1c2693ed29a397bb5ef3a89e7cb787e02c1c75dd1195ef8703401f7e975b778ff0c595d6c6227c4bdbae8d59e98e1f97c0ad218f9aac42#npm:8.5.1"],
             ["prettier", "npm:2.2.1"],
             ["process-es6", "npm:0.11.6"],
@@ -3089,7 +3089,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-prettier", "virtual:a70d54d77e5c82a7a2ab2fd69a2f33c097318c8571135823be52f11551c916757603b513c3b2b135c036c4319a25450d31ec80c465f996da09d22a739cff3668#npm:3.2.0"],
             ["jest", "npm:26.6.3"],
             ["jest-extended", "npm:0.11.5"],
-            ["jest-localstorage-mock", "npm:2.4.5"],
+            ["jest-localstorage-mock", "npm:2.4.6"],
             ["pg", "virtual:b99730336d6765a5cc1c2693ed29a397bb5ef3a89e7cb787e02c1c75dd1195ef8703401f7e975b778ff0c595d6c6227c4bdbae8d59e98e1f97c0ad218f9aac42#npm:8.5.1"],
             ["prettier", "npm:2.2.1"],
             ["process-es6", "npm:0.11.6"],
@@ -9401,10 +9401,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:2.4.5", {
-          "packageLocation": "./.yarn/cache/jest-localstorage-mock-npm-2.4.5-79ba57d075-7787284674.zip/node_modules/jest-localstorage-mock/",
+        ["npm:2.4.6", {
+          "packageLocation": "./.yarn/cache/jest-localstorage-mock-npm-2.4.6-f47f407df8-b073649ded.zip/node_modules/jest-localstorage-mock/",
           "packageDependencies": [
-            ["jest-localstorage-mock", "npm:2.4.5"]
+            ["jest-localstorage-mock", "npm:2.4.6"]
           ],
           "linkType": "HARD",
         }]
