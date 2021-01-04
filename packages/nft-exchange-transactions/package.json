@@ -81,7 +81,7 @@
         "process-es6": "^0.11.6",
         "rimraf": "^3.0.2",
         "ts-jest": "~26.4.4",
-        "typedoc": "~0.19.2",
+        "typedoc": "~0.20.0",
         "typescript": "~4.1.0"
     },
     "publishConfig": {
