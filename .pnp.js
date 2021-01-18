@@ -96,7 +96,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["rimraf", "npm:3.0.2"],
             ["ts-jest", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:26.4.4"],
             ["typescript", "patch:typescript@npm%3A4.1.2#builtin<compat/typescript>::version=4.1.2&hash=cc6730"],
-            ["typescript-language-server", "npm:0.4.0"]
+            ["typescript-language-server", "npm:0.5.1"]
           ],
           "linkType": "SOFT",
         }]
@@ -3152,7 +3152,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["rimraf", "npm:3.0.2"],
             ["ts-jest", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:26.4.4"],
             ["typescript", "patch:typescript@npm%3A4.1.2#builtin<compat/typescript>::version=4.1.2&hash=cc6730"],
-            ["typescript-language-server", "npm:0.4.0"]
+            ["typescript-language-server", "npm:0.5.1"]
           ],
           "linkType": "SOFT",
         }]
@@ -15083,10 +15083,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["typescript-language-server", [
-        ["npm:0.4.0", {
-          "packageLocation": "../../../../../tmp/renovate-cache/others/yarn/typescript-language-server-npm-0.4.0-c491a3c644-0685054b36.zip/node_modules/typescript-language-server/",
+        ["npm:0.5.1", {
+          "packageLocation": "../../../../../tmp/renovate-cache/others/yarn/typescript-language-server-npm-0.5.1-746b16ca94-1902efbf2e.zip/node_modules/typescript-language-server/",
           "packageDependencies": [
-            ["typescript-language-server", "npm:0.4.0"],
+            ["typescript-language-server", "npm:0.5.1"],
             ["command-exists", "npm:1.2.6"],
             ["commander", "npm:2.20.3"],
             ["fs-extra", "npm:7.0.1"],
