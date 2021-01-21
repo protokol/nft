@@ -58,7 +58,7 @@
 		"jest": "^26.4.1",
 		"jest-extended": "^0.11.5",
 		"nock": "^13.0.4",
-		"npm-check-updates": "^10.0.0",
+		"npm-check-updates": "^11.0.0",
 		"pg": "^8.2.1",
 		"pg-query-stream": "^4.0.0",
 		"prettier": "^2.0.5",
