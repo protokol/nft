@@ -2,7 +2,12 @@ import { Transactions, Utils } from "@arkecosystem/crypto";
 import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 
-import { NFTExchangeTransactionsTypeGroup, NFTStaticFees, NFTTransactionTypes } from "../enums";
+import {
+    NFTExchangeTransactionsTypeGroup,
+    NFTExchangeTransactionVersion,
+    NFTStaticFees,
+    NFTTransactionTypes,
+} from "../enums";
 import { NFTAuctionCancel } from "../interfaces";
 
 const { schemas } = Transactions;
@@ -11,7 +16,7 @@ export class NFTAuctionCancelTransaction extends Transactions.Transaction {
     public static typeGroup: number = NFTExchangeTransactionsTypeGroup;
     public static type: number = NFTTransactionTypes.NFTAuctionCancel;
     public static key = "NFTAuctionCancel";
-    public static version = 2;
+    public static version = NFTExchangeTransactionVersion;
 
     protected static defaultStaticFee = Utils.BigNumber.make(NFTStaticFees.NFTAuctionCancel);
 

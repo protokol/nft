@@ -11,7 +11,7 @@ describe("NFT Bid Cancel tests", () => {
         Managers.configManager.setHeight(2);
         Transactions.TransactionRegistry.registerTransactionType(NFTBidCancelTransaction);
 
-        it("should ser/deser correctly ", () => {
+        it("should ser/deser correctly", () => {
             const actual = new NFTBidCancelBuilder()
                 .NFTBidCancelAsset({
                     bidId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
@@ -23,8 +23,7 @@ describe("NFT Bid Cancel tests", () => {
             const serialized = Transactions.TransactionFactory.fromData(actual).serialized.toString("hex");
             const deserialized = Transactions.Deserializer.deserialize(serialized);
 
-            // @ts-ignore
-            expect(deserialized.data.asset.nftBidCancel).toStrictEqual({
+            expect(deserialized.data.asset?.nftBidCancel).toStrictEqual({
                 bidId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
             });
         });

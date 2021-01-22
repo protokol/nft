@@ -9,6 +9,8 @@ export enum NFTBaseTransactionTypes {
 
 export const NFTBaseTransactionGroup = defaults.nftBaseTypeGroup;
 
+export const NFTBaseTransactionVersion = 2;
+
 export enum NFTBaseStaticFees {
     NFTRegisterCollection = "500000000",
     NFTCreate = "500000000",

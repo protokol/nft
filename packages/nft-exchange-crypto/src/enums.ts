@@ -10,6 +10,8 @@ export enum NFTTransactionTypes {
 
 export const NFTExchangeTransactionsTypeGroup = defaults.nftExchangeTypeGroup;
 
+export const NFTExchangeTransactionVersion = 2;
+
 export enum NFTStaticFees {
     NFTAuction = "500000000",
     NFTAuctionCancel = "500000000",

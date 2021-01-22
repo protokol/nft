@@ -90,7 +90,7 @@ beforeEach(async () => {
         ),
         2,
     ) as unknown) as NFTRegisterCollectionHandler;
-    await nftRegisterHandler.compileAndPersistSchema(collectionId, nftCollectionAsset.jsonSchema);
+    await nftRegisterHandler["compileAndPersistSchema"](collectionId, nftCollectionAsset.jsonSchema);
 
     wallet.setAttribute("nft.base.collections", collectionsWallet);
 
@@ -124,13 +124,11 @@ describe("NFT Create tests", () => {
 
             await expect(nftCreateHandler.bootstrap()).toResolve();
 
-            // @ts-ignore
-            expect(wallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actual.id]).toBeObject();
+            expect(wallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actual.id!]).toBeObject();
 
             collectionWalletCheck(wallet, collectionId, 1, nftCollectionAsset);
 
-            // @ts-ignore
-            expect(walletRepository.findByIndex(NFTIndexers.NFTTokenIndexer, actual.id)).toStrictEqual(wallet);
+            expect(walletRepository.findByIndex(NFTIndexers.NFTTokenIndexer, actual.id!)).toStrictEqual(wallet);
         });
 
         it("should test with different wallet", async () => {
@@ -158,11 +156,9 @@ describe("NFT Create tests", () => {
 
             collectionWalletCheck(wallet, collectionId, 1, nftCollectionAsset);
 
-            // @ts-ignore
-            expect(secondWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actualTwo.id]).toBeObject();
+            expect(secondWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actualTwo.id!]).toBeObject();
 
-            // @ts-ignore
-            expect(walletRepository.findByIndex(NFTIndexers.NFTTokenIndexer, actualTwo.id)).toStrictEqual(secondWallet);
+            expect(walletRepository.findByIndex(NFTIndexers.NFTTokenIndexer, actualTwo.id!)).toStrictEqual(secondWallet);
         });
     });
 
@@ -309,13 +305,12 @@ describe("NFT Create tests", () => {
     describe("apply tests", () => {
         it("should apply correctly", async () => {
             await expect(nftCreateHandler.apply(actual)).toResolve();
-            // @ts-ignore
-            expect(wallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actual.id]).toBeObject();
+
+            expect(wallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actual.id!]).toBeObject();
 
             collectionWalletCheck(wallet, collectionId, 1, nftCollectionAsset);
 
-            // @ts-ignore
-            expect(walletRepository.findByIndex(NFTIndexers.NFTTokenIndexer, actual.id)).toStrictEqual(wallet);
+            expect(walletRepository.findByIndex(NFTIndexers.NFTTokenIndexer, actual.id!)).toStrictEqual(wallet);
         });
     });
 
@@ -323,13 +318,12 @@ describe("NFT Create tests", () => {
         it("should revert correctly", async () => {
             await nftCreateHandler.apply(actual);
             await expect(nftCreateHandler.revert(actual)).toResolve();
-            // @ts-ignore
-            expect(wallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actual.id]).toBeUndefined();
+
+            expect(wallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actual.id!]).toBeUndefined();
 
             collectionWalletCheck(wallet, collectionId, 0, nftCollectionAsset);
 
-            // @ts-ignore
-            expect(walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).get(actual.id)).toBeUndefined();
+            expect(walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).get(actual.id!)).toBeUndefined();
         });
 
         it("should throw if nftToken is undefined", async () => {

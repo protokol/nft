@@ -3,7 +3,12 @@ import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 
 import { defaults } from "../defaults";
-import { NFTBaseStaticFees, NFTBaseTransactionGroup, NFTBaseTransactionTypes } from "../enums";
+import {
+    NFTBaseStaticFees,
+    NFTBaseTransactionGroup,
+    NFTBaseTransactionTypes,
+    NFTBaseTransactionVersion,
+} from "../enums";
 import { NFTTokenAsset } from "../interfaces";
 
 const { schemas } = Transactions;
@@ -12,7 +17,7 @@ export class NFTCreateTransaction extends Transactions.Transaction {
     public static typeGroup: number = NFTBaseTransactionGroup;
     public static type = NFTBaseTransactionTypes.NFTCreate;
     public static key = "NFTCreate";
-    public static version = 2;
+    public static version = NFTBaseTransactionVersion;
 
     protected static defaultStaticFee = Utils.BigNumber.make(NFTBaseStaticFees.NFTCreate);
 
@@ -79,7 +84,7 @@ export class NFTCreateTransaction extends Transactions.Transaction {
         return buffer;
     }
 
-    public deserialize(buf): void {
+    public deserialize(buf: ByteBuffer): void {
         const { data } = this;
 
         const collectionId = buf.readBytes(32).toString("hex");
@@ -88,8 +93,8 @@ export class NFTCreateTransaction extends Transactions.Transaction {
         const attributes = JSON.parse(buf.readString(attributesLength));
 
         const nftToken: NFTTokenAsset = {
-            collectionId: collectionId,
-            attributes: attributes,
+            collectionId,
+            attributes,
         };
 
         data.asset = {

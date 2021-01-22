@@ -36,12 +36,7 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
     }
 
     public async bootstrap(): Promise<void> {
-        const criteria = {
-            typeGroup: this.getConstructor().typeGroup,
-            type: this.getConstructor().type,
-        };
-
-        for await (const transaction of this.transactionHistoryService.streamByCriteria(criteria)) {
+        for await (const transaction of this.transactionHistoryService.streamByCriteria(this.getDefaultCriteria())) {
             AppUtils.assert.defined<string>(transaction.senderPublicKey);
             AppUtils.assert.defined<NFTInterfaces.NFTBidCancelAsset>(transaction.asset?.nftBidCancel);
 
@@ -72,7 +67,7 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
     }
 
     public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        emitter.dispatch(NFTExchangeApplicationEvents.NFTCancelBid, transaction.data);
+        void emitter.dispatch(NFTExchangeApplicationEvents.NFTCancelBid, transaction.data);
     }
 
     public async throwIfCannotBeApplied(
@@ -179,14 +174,4 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
 
         this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).set(cancelBidAsset.bidId, auctionWallet);
     }
-
-    public async applyToRecipient(
-        transaction: Interfaces.ITransaction,
-        // tslint:disable-next-line: no-empty
-    ): Promise<void> {}
-
-    public async revertForRecipient(
-        transaction: Interfaces.ITransaction,
-        // tslint:disable-next-line:no-empty
-    ): Promise<void> {}
 }

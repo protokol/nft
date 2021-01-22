@@ -1,14 +1,15 @@
-import { Interfaces, Transactions } from "@arkecosystem/crypto";
+import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 
-import { NFTBaseTransactionGroup } from "../enums";
+import { NFTBaseTransactionGroup, NFTBaseTransactionVersion } from "../enums";
 
 export abstract class NFTBaseTransactionBuilder<TBuilder> extends Transactions.TransactionBuilder<
     NFTBaseTransactionBuilder<TBuilder>
 > {
     protected constructor() {
         super();
-        this.data.version = 2;
+        this.data.version = NFTBaseTransactionVersion;
         this.data.typeGroup = NFTBaseTransactionGroup;
+        this.data.amount = Utils.BigNumber.ZERO;
     }
 
     public getStruct(): Interfaces.ITransactionData {

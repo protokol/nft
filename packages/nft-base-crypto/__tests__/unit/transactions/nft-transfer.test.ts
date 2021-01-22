@@ -5,7 +5,7 @@ import { Managers, Transactions } from "@arkecosystem/crypto";
 import { NFTTransferBuilder } from "../../../src/builders";
 import { NFTTransferTransaction } from "../../../src/transactions";
 
-describe("Transfer NFTs test ", () => {
+describe("Transfer NFTs test", () => {
     Managers.configManager.setFromPreset("testnet");
     Managers.configManager.setHeight(2);
 

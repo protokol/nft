@@ -35,12 +35,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
     }
 
     public async bootstrap(): Promise<void> {
-        const criteria = {
-            typeGroup: this.getConstructor().typeGroup,
-            type: this.getConstructor().type,
-        };
-
-        for await (const transaction of this.transactionHistoryService.streamByCriteria(criteria)) {
+        for await (const transaction of this.transactionHistoryService.streamByCriteria(this.getDefaultCriteria())) {
             AppUtils.assert.defined<string>(transaction.id);
             AppUtils.assert.defined<string>(transaction.senderPublicKey);
             AppUtils.assert.defined<NFTInterfaces.NFTCollectionAsset>(transaction.asset?.nftCollection);
@@ -61,7 +56,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
     }
 
     public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        emitter.dispatch(NFTApplicationEvents.NFTRegisterCollection, transaction.data);
+        void emitter.dispatch(NFTApplicationEvents.NFTRegisterCollection, transaction.data);
     }
 
     public async throwIfCannotBeApplied(
@@ -123,17 +118,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         this.walletRepository.getIndex(NFTIndexers.CollectionIndexer).forget(transaction.data.id);
     }
 
-    public async applyToRecipient(
-        transaction: Interfaces.ITransaction,
-        // tslint:disable-next-line: no-empty
-    ): Promise<void> {}
-
-    public async revertForRecipient(
-        transaction: Interfaces.ITransaction,
-        // tslint:disable-next-line:no-empty
-    ): Promise<void> {}
-
-    public async compileAndPersistSchema(id, jsonSchema) {
+    private async compileAndPersistSchema(id, jsonSchema) {
         const ajv = new Ajv({ allErrors: true });
         const validate = ajv.compile({
             additionalProperties: false,

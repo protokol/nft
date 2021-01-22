@@ -40,12 +40,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
     }
 
     public async bootstrap(): Promise<void> {
-        const criteria = {
-            typeGroup: this.getConstructor().typeGroup,
-            type: this.getConstructor().type,
-        };
-
-        for await (const transaction of this.transactionHistoryService.streamByCriteria(criteria)) {
+        for await (const transaction of this.transactionHistoryService.streamByCriteria(this.getDefaultCriteria())) {
             AppUtils.assert.defined<string>(transaction.id);
             AppUtils.assert.defined<string>(transaction.senderPublicKey);
             AppUtils.assert.defined<NFTInterfaces.NFTTokenAsset>(transaction.asset?.nftToken);
@@ -66,7 +61,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
     }
 
     public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        emitter.dispatch(NFTApplicationEvents.NFTCreate, transaction.data);
+        void emitter.dispatch(NFTApplicationEvents.NFTCreate, transaction.data);
     }
 
     public async throwIfCannotBeApplied(
@@ -152,14 +147,4 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         genesisWalletCollection[collectionId]!.currentSupply -= 1;
         genesisWallet.setAttribute<INFTCollections>("nft.base.collections", genesisWalletCollection);
     }
-
-    public async applyToRecipient(
-        transaction: Interfaces.ITransaction,
-        // tslint:disable-next-line: no-empty
-    ): Promise<void> {}
-
-    public async revertForRecipient(
-        transaction: Interfaces.ITransaction,
-        // tslint:disable-next-line:no-empty
-    ): Promise<void> {}
 }

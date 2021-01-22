@@ -60,8 +60,7 @@ const nftCollectionAsset: NFTInterfaces.NFTCollectionAsset = {
 const buildActualBurn = (id: string | undefined, nonce = "1") =>
     new NFTBuilders.NFTBurnBuilder()
         .NFTBurnAsset({
-            // @ts-ignore
-            nftId: id,
+            nftId: id!,
         })
         .nonce(nonce)
         .sign(passphrases[0]!)
@@ -109,8 +108,7 @@ const prepareWallet = () => {
     wallet.setAttribute("nft.base.collections", collectionsWallet);
 
     const tokensWallet = wallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
-    // @ts-ignore
-    tokensWallet[actualCreate.id] = {};
+    tokensWallet[actualCreate.id!] = {};
     wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
 
     walletRepository
@@ -119,8 +117,7 @@ const prepareWallet = () => {
 };
 
 const checkApply = () => {
-    // @ts-ignore
-    expect(wallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actualCreate.id]).toBeUndefined();
+    expect(wallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actualCreate.id!]).toBeUndefined();
 
     collectionWalletCheck(
         wallet,
@@ -135,8 +132,7 @@ const checkApply = () => {
             "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
         ),
     ).toStrictEqual(wallet);
-    // @ts-ignore
-    expect(walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).get(actualCreate.id)).toBeUndefined();
+    expect(walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).get(actualCreate.id!)).toBeUndefined();
 };
 
 describe("NFT Burn tests", () => {
@@ -312,8 +308,7 @@ describe("NFT Burn tests", () => {
                     "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
                 ),
             ).toStrictEqual(wallet);
-            // @ts-ignore
-            expect(walletRepository.findByIndex(NFTIndexers.NFTTokenIndexer, actualCreate.id)).toStrictEqual(wallet);
+            expect(walletRepository.findByIndex(NFTIndexers.NFTTokenIndexer, actualCreate.id!)).toStrictEqual(wallet);
         });
 
         it("should throw if nftBurn is undefined", async () => {

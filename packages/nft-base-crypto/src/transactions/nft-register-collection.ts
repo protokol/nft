@@ -3,7 +3,12 @@ import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 
 import { defaults } from "../defaults";
-import { NFTBaseStaticFees, NFTBaseTransactionGroup, NFTBaseTransactionTypes } from "../enums";
+import {
+    NFTBaseStaticFees,
+    NFTBaseTransactionGroup,
+    NFTBaseTransactionTypes,
+    NFTBaseTransactionVersion,
+} from "../enums";
 import { NFTCollectionAsset } from "../interfaces";
 
 const { schemas } = Transactions;
@@ -12,7 +17,7 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
     public static typeGroup: number = NFTBaseTransactionGroup;
     public static type = NFTBaseTransactionTypes.NFTRegisterCollection;
     public static key = "NFTRegisterCollection";
-    public static version = 2;
+    public static version = NFTBaseTransactionVersion;
 
     protected static defaultStaticFee = Utils.BigNumber.make(NFTBaseStaticFees.NFTRegisterCollection);
 
@@ -140,7 +145,7 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
         return buffer;
     }
 
-    public deserialize(buf): void {
+    public deserialize(buf: ByteBuffer): void {
         const { data } = this;
 
         const nameLength: number = buf.readUint8();
@@ -155,10 +160,10 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
         const jsonSchema = JSON.parse(buf.readString(schemaLength));
 
         const nftCollection: NFTCollectionAsset = {
-            name: name,
-            description: description,
-            maximumSupply: maximumSupply,
-            jsonSchema: jsonSchema,
+            name,
+            description,
+            maximumSupply,
+            jsonSchema,
         };
         const numberOfSchemaIssuers = buf.readUint8();
         if (numberOfSchemaIssuers !== 0) {

@@ -6,7 +6,7 @@ import { NFTRegisterCollectionBuilder } from "../../../src/builders";
 import { defaults } from "../../../src/defaults";
 import { NFTRegisterCollectionTransaction } from "../../../src/transactions";
 
-describe("NFT Register Collection tests ", () => {
+describe("NFT Register Collection tests", () => {
     describe("Verify tests", () => {
         Managers.configManager.setFromPreset("testnet");
         Managers.configManager.setHeight(2);

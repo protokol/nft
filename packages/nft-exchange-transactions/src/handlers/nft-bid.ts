@@ -37,12 +37,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
     }
 
     public async bootstrap(): Promise<void> {
-        const criteria = {
-            typeGroup: this.getConstructor().typeGroup,
-            type: this.getConstructor().type,
-        };
-
-        for await (const transaction of this.transactionHistoryService.streamByCriteria(criteria)) {
+        for await (const transaction of this.transactionHistoryService.streamByCriteria(this.getDefaultCriteria())) {
             AppUtils.assert.defined<string>(transaction.senderPublicKey);
             AppUtils.assert.defined<NFTInterfaces.NFTBidAsset>(transaction.asset?.nftBid);
             AppUtils.assert.defined<string>(transaction.id);
@@ -77,7 +72,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
     }
 
     public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        emitter.dispatch(NFTExchangeApplicationEvents.NFTBid, transaction.data);
+        void emitter.dispatch(NFTExchangeApplicationEvents.NFTBid, transaction.data);
     }
 
     public async throwIfCannotBeApplied(
@@ -173,16 +168,6 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
 
         this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).forget(transaction.data.id);
     }
-
-    public async applyToRecipient(
-        transaction: Interfaces.ITransaction,
-        // tslint:disable-next-line: no-empty
-    ): Promise<void> {}
-
-    public async revertForRecipient(
-        transaction: Interfaces.ITransaction,
-        // tslint:disable-next-line:no-empty
-    ): Promise<void> {}
 
     private checkBiddingOnOwnAuction(auctionWallet: Contracts.State.Wallet, bidWallet: Contracts.State.Wallet): void {
         if (auctionWallet.publicKey === bidWallet.publicKey) {

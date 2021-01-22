@@ -1,5 +1,3 @@
-import { Utils } from "@arkecosystem/crypto";
-
 import { NFTTransactionTypes } from "../enums";
 import { NFTBidCancelAsset } from "../interfaces";
 import { NFTBidCancelTransaction } from "../transactions";
@@ -10,7 +8,6 @@ export class NFTBidCancelBuilder extends NFTExchangeTransactionBuilder<NFTBidCan
         super();
         this.data.type = NFTTransactionTypes.NFTBidCancel;
         this.data.fee = NFTBidCancelTransaction.staticFee();
-        this.data.amount = Utils.BigNumber.ZERO;
         this.data.asset = { nftBidCancel: {} };
     }
 

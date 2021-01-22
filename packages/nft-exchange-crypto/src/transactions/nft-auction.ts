@@ -3,7 +3,12 @@ import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 
 import { defaults } from "../defaults";
-import { NFTExchangeTransactionsTypeGroup, NFTStaticFees, NFTTransactionTypes } from "../enums";
+import {
+    NFTExchangeTransactionsTypeGroup,
+    NFTExchangeTransactionVersion,
+    NFTStaticFees,
+    NFTTransactionTypes,
+} from "../enums";
 import { NFTAuctionAsset } from "../interfaces";
 
 const { schemas } = Transactions;
@@ -12,7 +17,7 @@ export class NFTAuctionTransaction extends Transactions.Transaction {
     public static typeGroup: number = NFTExchangeTransactionsTypeGroup;
     public static type: number = NFTTransactionTypes.NFTAuction;
     public static key = "NFTAuction";
-    public static version = 2;
+    public static version = NFTExchangeTransactionVersion;
 
     protected static defaultStaticFee = Utils.BigNumber.make(NFTStaticFees.NFTAuction);
 
@@ -90,7 +95,7 @@ export class NFTAuctionTransaction extends Transactions.Transaction {
         }
 
         const nftAuction: NFTAuctionAsset = {
-            nftIds: nftIds,
+            nftIds,
             startAmount: Utils.BigNumber.make(buf.readUint64().toString()),
             expiration: {
                 blockHeight: buf.readUint32(),
