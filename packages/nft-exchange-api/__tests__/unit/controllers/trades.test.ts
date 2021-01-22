@@ -3,7 +3,6 @@ import "jest-extended";
 import { Application, Utils as AppUtils } from "@arkecosystem/core-kernel";
 import { Generators, passphrases } from "@arkecosystem/core-test-framework";
 import { Interfaces, Managers, Transactions, Utils } from "@arkecosystem/crypto";
-import { cloneDeep } from "@arkecosystem/utils";
 import Hapi from "@hapi/hapi";
 import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 import { Builders, Transactions as ExchangeTransactions } from "@protokol/nft-exchange-crypto";
@@ -156,13 +155,13 @@ describe("Test trades controller", () => {
 				transform: true,
 			},
 		};
-		const requestWithPublicKey: Hapi.Request = cloneDeep(request);
+		const requestWithPublicKey: Hapi.Request = AppUtils.cloneDeep(request);
 		requestWithPublicKey.payload.senderPublicKey = actual.data.senderPublicKey;
 
-		const requestWithAuctionId: Hapi.Request = cloneDeep(request);
+		const requestWithAuctionId: Hapi.Request = AppUtils.cloneDeep(request);
 		requestWithAuctionId.payload.auctionId = actual.data.asset!.nftAcceptTrade.auctionId;
 
-		const requestWithBidId: Hapi.Request = cloneDeep(request);
+		const requestWithBidId: Hapi.Request = AppUtils.cloneDeep(request);
 		requestWithBidId.payload.bidId = actual.data.asset!.nftAcceptTrade.bidId;
 
 		transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValue({

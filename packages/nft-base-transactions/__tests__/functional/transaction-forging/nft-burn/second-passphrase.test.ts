@@ -2,7 +2,7 @@ import "@arkecosystem/core-test-framework/dist/matchers";
 
 import { Contracts } from "@arkecosystem/core-kernel";
 import { passphrases, snoozeForBlock, TransactionFactory } from "@arkecosystem/core-test-framework";
-import { ARKCrypto } from "@protokol/nft-base-crypto";
+import { Identities } from "@arkecosystem/crypto";
 import { generateMnemonic } from "bip39";
 
 import * as support from "../__support__";
@@ -54,7 +54,7 @@ describe("NFT Burn functional tests - Signed with 2 Passphrases", () => {
 
         // Initial Funds
         const initialFunds = TransactionFactory.initialize(app)
-            .transfer(ARKCrypto.Identities.Address.fromPassphrase(passphrase), 150 * 1e8)
+            .transfer(Identities.Address.fromPassphrase(passphrase), 150 * 1e8)
             .withPassphrase(passphrases[0]!)
             .createOne();
 
