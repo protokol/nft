@@ -5,7 +5,7 @@ module.exports = {
 	coverageDirectory: "<rootDir>/.coverage",
 	coverageReporters: ["json", "lcov", "text", "clover", "html"],
 	moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-	setupFilesAfterEnv: ["jest-extended", "jest-localstorage-mock"],
+	setupFilesAfterEnv: ["jest-extended"],
 	testEnvironment: "node",
 	testMatch: ["**/*.test.ts"],
 	transform: {
