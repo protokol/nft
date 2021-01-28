@@ -45,9 +45,9 @@
 		"@arkecosystem/core-kernel": "^3.0.0-next",
 		"@hapi/boom": "^9.1.0",
 		"@hapi/hapi": "^20.0.2",
-		"@hapi/joi": "^17.1.0",
 		"@protokol/nft-exchange-crypto": "workspace:packages/nft-exchange-crypto",
 		"@protokol/nft-exchange-transactions": "workspace:packages/nft-exchange-transactions",
+		"joi": "^17.3.0",
 		"latest-version": "^5.1.0"
 	},
 	"devDependencies": {
