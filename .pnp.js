@@ -2796,7 +2796,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bip39", "npm:3.0.3"],
             ["buffer-es6", "npm:4.9.3"],
             ["codecov", "npm:3.8.1"],
-            ["delay", "npm:4.4.0"],
             ["eslint", "npm:7.19.0"],
             ["eslint-plugin-prettier", "virtual:a70d54d77e5c82a7a2ab2fd69a2f33c097318c8571135823be52f11551c916757603b513c3b2b135c036c4319a25450d31ec80c465f996da09d22a739cff3668#npm:3.3.1"],
             ["jest", "npm:26.6.3"],
@@ -2930,7 +2929,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bip39", "npm:3.0.3"],
             ["buffer-es6", "npm:4.9.3"],
             ["codecov", "npm:3.8.1"],
-            ["delay", "npm:4.4.0"],
             ["eslint", "npm:7.19.0"],
             ["eslint-plugin-prettier", "virtual:a70d54d77e5c82a7a2ab2fd69a2f33c097318c8571135823be52f11551c916757603b513c3b2b135c036c4319a25450d31ec80c465f996da09d22a739cff3668#npm:3.3.1"],
             ["jest", "npm:26.6.3"],
@@ -11060,7 +11058,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["ngrok", [
         ["npm:3.4.0", {
-          "packageLocation": "./.yarn/cache/ngrok-npm-3.4.0-b3c3175e0b-7edb48c174.zip/node_modules/ngrok/",
+          "packageLocation": "./.yarn/unplugged/ngrok-npm-3.4.0-b3c3175e0b/node_modules/ngrok/",
           "packageDependencies": [
             ["ngrok", "npm:3.4.0"],
             ["@types/node", "npm:8.10.66"],
@@ -12609,7 +12607,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["protobufjs", [
         ["npm:6.10.2", {
-          "packageLocation": "./.yarn/cache/protobufjs-npm-6.10.2-f0f2cab7fe-09d6292362.zip/node_modules/protobufjs/",
+          "packageLocation": "./.yarn/unplugged/protobufjs-npm-6.10.2-f0f2cab7fe/node_modules/protobufjs/",
           "packageDependencies": [
             ["protobufjs", "npm:6.10.2"],
             ["@protobufjs/aspromise", "npm:1.1.2"],
