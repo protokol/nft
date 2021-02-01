@@ -2796,7 +2796,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bip39", "npm:3.0.3"],
             ["buffer-es6", "npm:4.9.3"],
             ["codecov", "npm:3.8.1"],
-            ["delay", "npm:4.4.0"],
+            ["delay", "npm:4.4.1"],
             ["eslint", "npm:7.19.0"],
             ["eslint-plugin-prettier", "virtual:a70d54d77e5c82a7a2ab2fd69a2f33c097318c8571135823be52f11551c916757603b513c3b2b135c036c4319a25450d31ec80c465f996da09d22a739cff3668#npm:3.3.1"],
             ["jest", "npm:26.6.3"],
@@ -2930,7 +2930,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bip39", "npm:3.0.3"],
             ["buffer-es6", "npm:4.9.3"],
             ["codecov", "npm:3.8.1"],
-            ["delay", "npm:4.4.0"],
+            ["delay", "npm:4.4.1"],
             ["eslint", "npm:7.19.0"],
             ["eslint-plugin-prettier", "virtual:a70d54d77e5c82a7a2ab2fd69a2f33c097318c8571135823be52f11551c916757603b513c3b2b135c036c4319a25450d31ec80c465f996da09d22a739cff3668#npm:3.3.1"],
             ["jest", "npm:26.6.3"],
@@ -6212,6 +6212,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/delay-npm-4.4.0-a8ada74c33-cb54b19a68.zip/node_modules/delay/",
           "packageDependencies": [
             ["delay", "npm:4.4.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:4.4.1", {
+          "packageLocation": "./.yarn/cache/delay-npm-4.4.1-43afd2835c-d16b7ef588.zip/node_modules/delay/",
+          "packageDependencies": [
+            ["delay", "npm:4.4.1"]
           ],
           "linkType": "HARD",
         }]

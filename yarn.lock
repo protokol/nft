@@ -2398,7 +2398,7 @@ __metadata:
     bip39: 3.0.3
     buffer-es6: ^4.9.3
     codecov: ^3.8.1
-    delay: 4.4.0
+    delay: 4.4.1
     eslint: 7.19.0
     eslint-plugin-prettier: ^3.1.4
     jest: ~26.6.3
@@ -2526,7 +2526,7 @@ __metadata:
     bip39: 3.0.3
     buffer-es6: ^4.9.3
     codecov: ^3.8.1
-    delay: 4.4.0
+    delay: 4.4.1
     eslint: 7.19.0
     eslint-plugin-prettier: ^3.1.4
     jest: ~26.6.3
@@ -5322,6 +5322,13 @@ __metadata:
   version: 4.4.0
   resolution: "delay@npm:4.4.0"
   checksum: cb54b19a68b8f299c601e59819b54f6c9927421556d2eed75ddc1fcffccfe030259fb4b573da41d59d3beca4591c15f7018bfd89c5845cf38dd4897c70730a07
+  languageName: node
+  linkType: hard
+
+"delay@npm:4.4.1":
+  version: 4.4.1
+  resolution: "delay@npm:4.4.1"
+  checksum: d16b7ef58865a2a67435a3a10302e1cb7809dc6d620333f864744516e3352f16c5d3abdff85332d2d074e120d62b419c9dd530961cf7a874887add430a2a2655
   languageName: node
   linkType: hard
 
