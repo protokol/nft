@@ -91,7 +91,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
             throw new NFTExchangeBidAuctionDoesNotExists();
         }
 
-        const auctionWallet = await this.walletRepository.findByPublicKey(auctionTransaction.senderPublicKey);
+        const auctionWallet = this.walletRepository.findByPublicKey(auctionTransaction.senderPublicKey);
         const auctionWalletAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions");
         if (!auctionWalletAsset[auctionTransaction.id]) {
             throw new NFTExchangeBidAuctionCanceledOrAccepted();
