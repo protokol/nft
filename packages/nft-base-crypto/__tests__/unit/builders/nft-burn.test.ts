@@ -24,6 +24,19 @@ describe("NFT Burn tests", () => {
             expect(actual.verify()).toBeTrue();
         });
 
+        it("should verify correctly when Asset method is not on top", () => {
+            const actual = new NFTBurnBuilder()
+                .vendorField("nft-burn transaction")
+                .nonce("4")
+                .NFTBurnAsset({
+                    nftId: "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
+                })
+                .sign("clay harbor enemy utility margin pretty hub comic piece aerobic umbrella acquire");
+
+            expect(actual.build().verified).toBeTrue();
+            expect(actual.verify()).toBeTrue();
+        });
+
         it("object should remain the same if asset is undefined", () => {
             const actual = new NFTBurnBuilder();
             actual.data.asset = undefined;

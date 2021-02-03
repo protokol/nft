@@ -28,6 +28,22 @@ describe("NFT Create tests", () => {
             expect(actual.verify()).toBeTrue();
         });
 
+        it("should verify correctly when Asset method is not on top", () => {
+            const actual = new NFTCreateBuilder()
+                .nonce("4")
+                .NFTCreateToken({
+                    collectionId: "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
+                    attributes: {
+                        number: 5,
+                        string: "something",
+                    },
+                })
+                .sign("clay harbor enemy utility margin pretty hub comic piece aerobic umbrella acquire");
+
+            expect(actual.build().verified).toBeTrue();
+            expect(actual.verify()).toBeTrue();
+        });
+
         it("should not verify correctly, because byte size is to big", () => {
             defaults.nftTokenAttributesByteSize = 1;
             Transactions.TransactionRegistry.deregisterTransactionType(NFTCreateTransaction);
