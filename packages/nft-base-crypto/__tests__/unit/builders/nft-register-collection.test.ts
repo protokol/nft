@@ -37,6 +37,29 @@ describe("NFT Register Collection tests", () => {
             expect(actual.build().verified).toBeTrue();
             expect(actual.verify()).toBeTrue();
         });
+
+        it("should verify correctly when Asset method is not on top", () => {
+            const actual = new NFTRegisterCollectionBuilder()
+                .nonce("3")
+                .NFTRegisterCollectionAsset({
+                    name: "Heartstone card",
+                    description: "A card from heartstone game",
+                    maximumSupply: 100,
+                    jsonSchema: {
+                        properties: {
+                            number: {
+                                type: "number",
+                            },
+                            string: { type: "string" },
+                        },
+                    },
+                })
+                .sign("clay harbor enemy utility margin pretty hub comic piece aerobic umbrella acquire");
+
+            expect(actual.build().verified).toBeTrue();
+            expect(actual.verify()).toBeTrue();
+        });
+
         it("should not verify correctly, because byte size is to big", () => {
             Transactions.TransactionRegistry.deregisterTransactionType(NFTRegisterCollectionTransaction);
             defaults.nftCollectionJsonSchemaByteSize = 1;
