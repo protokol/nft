@@ -23,6 +23,18 @@ describe("NFT Auction Cancel tests", () => {
             expect(actual.verify()).toBeTrue();
         });
 
+        it("should verify correctly when Asset method is not on top", () => {
+            const actual = new NFTAuctionCancelBuilder()
+                .nonce("5")
+                .NFTAuctionCancelAsset({
+                    auctionId: "dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d",
+                })
+                .sign("clay harbor enemy utility margin pretty hub comic piece aerobic umbrella acquire");
+
+            expect(actual.build().verified).toBeTrue();
+            expect(actual.verify()).toBeTrue();
+        });
+
         it("object should remain the same if asset is undefined", () => {
             const actual = new NFTAuctionCancelBuilder();
             actual.data.asset = undefined;
