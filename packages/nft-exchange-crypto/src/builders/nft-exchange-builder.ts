@@ -1,11 +1,10 @@
 import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
-import { TransactionBuilder } from "@arkecosystem/crypto/dist/transactions";
 
 import { NFTExchangeTransactionsTypeGroup, NFTExchangeTransactionVersion } from "../enums";
 
 export abstract class NFTExchangeTransactionBuilder<
-    TBuilder extends TransactionBuilder<TBuilder>
-> extends TransactionBuilder<TBuilder> {
+    TBuilder extends Transactions.TransactionBuilder<TBuilder>
+> extends Transactions.TransactionBuilder<TBuilder> {
     protected constructor() {
         super();
         this.data.version = NFTExchangeTransactionVersion;
