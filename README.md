@@ -19,7 +19,7 @@ For more information and detailed documentation follow this link: https://docs.p
 
 ### Examples
 
-For examples head over to [examples](https://github.com/protokol/nft-plugins/tree/develop/packages/examples) package.
+For examples head over to [examples](https://github.com/protokol/examples/tree/develop/packages/examples) package.
 
 ## List of packages:
 
@@ -27,43 +27,45 @@ This is a monorepo which contains many tools and packages:
 
 | Plugin                                                                                                               | Description                                     | Version                                                                    |
 | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- | -------------------------------------------------------------------------- |
-| [nft-base-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-api)                           | Base API Functionality                          | ![](https://img.shields.io/npm/v/@protokol/nft-base-api/beta)              |
-| [nft-base-crypto](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-crypto)                     | Asset creation and crypto transaction support   | ![](https://img.shields.io/npm/v/@protokol/nft-base-crypto/beta)           |
-| [nft-base-transactions](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-base-transactions)         | NFT Core v3 transactions engine (base)          | ![](https://img.shields.io/npm/v/@protokol/nft-base-transactions/beta)     |
-| [nft-exchange-api](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-api)                   | Exchange API Functionality                      | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-api/beta)          |
-| [nft-exchange-crypto](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-crypto)             | Exchange crypto transaction support             | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-crypto/beta)       |
-| [nft-exchange-transactions](https://github.com/protokol/nft-plugins/tree/develop/packages/nft-exchange-transactions) | Exchange NFT Core v3 transactions engine        | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-transactions/beta) |
-| [client](https://github.com/protokol/nft-plugins/tree/develop/packages/client)                                       | Protokol and ARK API REST Client Implementation | ![](https://img.shields.io/npm/v/@protokol/client/beta)                    |
+| [nft-base-api](https://github.com/protokol/nft/tree/develop/packages/nft-base-api)                           | Base API Functionality                          | ![](https://img.shields.io/npm/v/@protokol/nft-base-api/beta)              |
+| [nft-base-crypto](https://github.com/protokol/nft/tree/develop/packages/nft-base-crypto)                     | Asset creation and crypto transaction support   | ![](https://img.shields.io/npm/v/@protokol/nft-base-crypto/beta)           |
+| [nft-base-transactions](https://github.com/protokol/nft/tree/develop/packages/nft-base-transactions)         | NFT Core v3 transactions engine (base)          | ![](https://img.shields.io/npm/v/@protokol/nft-base-transactions/beta)     |
+| [nft-exchange-api](https://github.com/protokol/nft/tree/develop/packages/nft-exchange-api)                   | Exchange API Functionality                      | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-api/beta)          |
+| [nft-exchange-crypto](https://github.com/protokol/nft/tree/develop/packages/nft-exchange-crypto)             | Exchange crypto transaction support             | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-crypto/beta)       |
+| [nft-exchange-transactions](https://github.com/protokol/nft/tree/develop/packages/nft-exchange-transactions) | Exchange NFT Core v3 transactions engine        | ![](https://img.shields.io/npm/v/@protokol/nft-exchange-transactions/beta) |
 
 ## Production install
 
-Prepare and configure your bridgechain network configuration to install and load published packages from npm repository. A testnet configuration example can be found here: https://github.com/protokol/nft-plugins/blob/develop/config/networks/testnet/app.json.
+Prepare and configure your bridgechain network configuration to install and load published packages from npm repository. A testnet configuration example can be found here: https://github.com/protokol/nft/blob/develop/config/networks/testnet/app.json.
 
 ## Development environment setup
 
 ### Source Code Setup
 
 ```bash
-git clone https://github.com/protokol/nft-plugins
+git clone https://github.com/protokol/nft
+# or
+git clone git@github.com:protokol/nft.git
+# Install and build
 yarn && yarn build
 ```
 
 ### Run Local Testnet
 
-Make sure your database is up and running (our use our `config/networks/` docker files).
+Make sure your database is up and running (our use our `docker/development/testnet` docker files).
 
 ```bash
 # run PG docker
-cd config/networks/testnet
+cd docker/development/testnet
 docker-compose up postgres
 
-#run full testnet
+# run full testnet
 yarn full:testnet
 ```
 
 # Contact Us For Support And Custom Development
 
-info@protokol.com
+[info@protokol.com](mailto:info@protokol.com)
 
 # License
 
