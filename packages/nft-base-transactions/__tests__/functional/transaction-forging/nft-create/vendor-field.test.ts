@@ -2,7 +2,6 @@ import "@arkecosystem/core-test-framework/dist/matchers";
 
 import { Contracts } from "@arkecosystem/core-kernel";
 import { passphrases, snoozeForBlock } from "@arkecosystem/core-test-framework";
-import { Identities } from "@arkecosystem/crypto";
 
 import * as support from "../__support__";
 import { NFTBaseTransactionFactory } from "../__support__/transaction-factory";
