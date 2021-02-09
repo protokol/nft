@@ -14,7 +14,7 @@ beforeAll(async () => {
 
 afterAll(async () => await support.tearDown());
 
-describe("NFT Create functional tests - Signed with one Passphrase", () => {
+describe("NFT Burn functional tests - with VendorField", () => {
     it("should broadcast, accept and forge it [Signed with 1 Passphrase]", async () => {
         // Register collection
         const nftRegisteredCollection = NFTBaseTransactionFactory.initialize(app)
