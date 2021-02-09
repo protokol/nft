@@ -11,6 +11,11 @@ export class NFTBaseTransactionFactory extends TransactionFactory {
         return new NFTBaseTransactionFactory(app);
     }
 
+    public withVendorField(vendorField: string): NFTBaseTransactionFactory {
+        this.builder.vendorField(vendorField);
+        return this;
+    }
+
     public NFTRegisterCollection(nftCollection: NFTInterfaces.NFTCollectionAsset): NFTBaseTransactionFactory {
         this.builder = new NFTBuilders.NFTRegisterCollectionBuilder().NFTRegisterCollectionAsset(nftCollection);
 
