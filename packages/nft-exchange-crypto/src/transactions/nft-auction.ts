@@ -106,4 +106,8 @@ export class NFTAuctionTransaction extends Transactions.Transaction {
             nftAuction,
         };
     }
+
+    public hasVendorField(): boolean {
+        return true;
+    }
 }
