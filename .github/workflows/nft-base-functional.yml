@@ -121,7 +121,7 @@ jobs:
         run: cd packages/nft-base-transactions && yarn test __tests__/functional/transaction-forging/nft-burn/multi-signature.test.ts --forceExit
 
   functional-base-transactions-burn-vendor-field:
-    name: NFT-BURN-SINGLE-PASSPHRASE
+    name: NFT-BURN-VENDOR-FIELD
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -275,7 +275,7 @@ jobs:
           yarn test __tests__/functional/transaction-forging/nft-create/multi-signature.test.ts --forceExit
 
   functional-base-transactions-create-vendor-field:
-    name: NFT-CREATE-SINGLE-PASSPHRASE
+    name: NFT-CREATE-VENDOR-FIELD
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -431,7 +431,7 @@ jobs:
           yarn test __tests__/functional/transaction-forging/nft-register-collection/multi-signature.test.ts --forceExit
 
   functional-base-transactions-register-vendor-field:
-    name: NFT-REGISTER-COLLECTION-SINGLE-PASSPHRASE
+    name: NFT-REGISTER-COLLECTION-VENDOR-FIELD
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -587,7 +587,7 @@ jobs:
           yarn test __tests__/functional/transaction-forging/nft-transfer/multi-signature.test.ts --forceExit
 
   functional-base-transactions-transfer-vendor-field:
-    name: NFT-TRANSFER-SINGLE-PASSPHRASE
+    name: NFT-TRANSFER-VENDOR-FIELD
     runs-on: ubuntu-latest
     services:
       postgres:
