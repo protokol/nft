@@ -28,6 +28,7 @@ export class NFTBidTransaction extends Transactions.Transaction {
                 type: { transactionType: NFTTransactionTypes.NFTBid },
                 typeGroup: { const: NFTExchangeTransactionsTypeGroup },
                 amount: { bignumber: { minimum: 0, maximum: 0 } },
+                vendorField: { anyOf: [{ type: "null" }, { type: "string", format: "vendorField" }] },
                 asset: {
                     type: "object",
                     required: ["nftBid"],
@@ -74,5 +75,9 @@ export class NFTBidTransaction extends Transactions.Transaction {
         data.asset = {
             nftBid,
         };
+    }
+
+    public hasVendorField(): boolean {
+        return true;
     }
 }
