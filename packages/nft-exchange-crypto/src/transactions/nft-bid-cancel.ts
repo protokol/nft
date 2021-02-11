@@ -28,6 +28,7 @@ export class NFTBidCancelTransaction extends Transactions.Transaction {
                 type: { transactionType: NFTTransactionTypes.NFTBidCancel },
                 typeGroup: { const: NFTExchangeTransactionsTypeGroup },
                 amount: { bignumber: { minimum: 0, maximum: 0 } },
+                vendorField: { anyOf: [{ type: "null" }, { type: "string", format: "vendorField" }] },
                 asset: {
                     type: "object",
                     required: ["nftBidCancel"],
@@ -68,5 +69,9 @@ export class NFTBidCancelTransaction extends Transactions.Transaction {
         data.asset = {
             nftBidCancel,
         };
+    }
+
+    public hasVendorField(): boolean {
+        return true;
     }
 }

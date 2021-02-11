@@ -120,6 +120,42 @@ jobs:
       - name: TEST
         run: cd packages/nft-base-transactions && yarn test __tests__/functional/transaction-forging/nft-burn/multi-signature.test.ts --forceExit
 
+  functional-base-transactions-burn-vendor-field:
+    name: NFT-BURN-VENDOR-FIELD
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: ark
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: ark_unitnet
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    strategy:
+      matrix:
+        node-version: [ 12.x ]
+    env:
+      CORE_DB_DATABASE: ark_unitnet
+      CORE_DB_USERNAME: ark
+      POSTGRES_USER: ark
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ark_unitnet
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install and build packages
+        run: yarn && yarn build
+
+      - name: TEST
+        run: cd packages/nft-base-transactions && yarn test __tests__/functional/transaction-forging/nft-burn/vendor-field.test.ts --forceExit
 
   functional-base-transactions-create-single-passphrase:
     name: NFT-CREATE-SINGLE-PASSPHRASE
@@ -238,6 +274,45 @@ jobs:
           cd packages/nft-base-transactions
           yarn test __tests__/functional/transaction-forging/nft-create/multi-signature.test.ts --forceExit
 
+  functional-base-transactions-create-vendor-field:
+    name: NFT-CREATE-VENDOR-FIELD
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: ark
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: ark_unitnet
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    strategy:
+      matrix:
+        node-version: [ 12.x ]
+    env:
+      CORE_DB_DATABASE: ark_unitnet
+      CORE_DB_USERNAME: ark
+      POSTGRES_USER: ark
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ark_unitnet
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install and build packages
+        run: yarn && yarn build
+
+      - name: TEST
+        run: |
+          cd packages/nft-base-transactions
+          yarn test __tests__/functional/transaction-forging/nft-create/vendor-field.test.ts --forceExit
+
   functional-base-transactions-register-single-passphrase:
     name: NFT-REGISTER-COLLECTION-SINGLE-PASSPHRASE
     runs-on: ubuntu-latest
@@ -355,6 +430,45 @@ jobs:
           cd packages/nft-base-transactions
           yarn test __tests__/functional/transaction-forging/nft-register-collection/multi-signature.test.ts --forceExit
 
+  functional-base-transactions-register-vendor-field:
+    name: NFT-REGISTER-COLLECTION-VENDOR-FIELD
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: ark
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: ark_unitnet
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    strategy:
+      matrix:
+        node-version: [ 12.x ]
+    env:
+      CORE_DB_DATABASE: ark_unitnet
+      CORE_DB_USERNAME: ark
+      POSTGRES_USER: ark
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ark_unitnet
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install and build packages
+        run: yarn && yarn build
+
+      - name: TEST
+        run: |
+          cd packages/nft-base-transactions
+          yarn test __tests__/functional/transaction-forging/nft-register-collection/vendor-field.test.ts --forceExit
+
   functional-base-transactions-transfer-single-passphrase:
     name: NFT-TRANSFER-SINGLE-PASSPHRASE
     runs-on: ubuntu-latest
@@ -471,3 +585,42 @@ jobs:
         run: |
           cd packages/nft-base-transactions
           yarn test __tests__/functional/transaction-forging/nft-transfer/multi-signature.test.ts --forceExit
+
+  functional-base-transactions-transfer-vendor-field:
+    name: NFT-TRANSFER-VENDOR-FIELD
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: ark
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: ark_unitnet
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    strategy:
+      matrix:
+        node-version: [ 12.x ]
+    env:
+      CORE_DB_DATABASE: ark_unitnet
+      CORE_DB_USERNAME: ark
+      POSTGRES_USER: ark
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ark_unitnet
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install and build packages
+        run: yarn && yarn build
+
+      - name: TEST
+        run: |
+          cd packages/nft-base-transactions
+          yarn test __tests__/functional/transaction-forging/nft-transfer/vendor-field.test.ts --forceExit

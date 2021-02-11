@@ -41,6 +41,7 @@ export const setUp = async (): Promise<Contracts.Kernel.Application> => {
 
         Managers.configManager.getMilestone().aip11 = true;
         Managers.configManager.getMilestone().htlcEnabled = true;
+        Managers.configManager.getMilestone().vendorFieldLength = 255;
 
         const databaseService = app.get<DatabaseService>(Container.Identifiers.DatabaseService);
         const walletRepository = app.getTagged<Contracts.State.WalletRepository>(
