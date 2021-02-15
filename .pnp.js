@@ -2796,7 +2796,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bip39", "npm:3.0.3"],
             ["buffer-es6", "npm:4.9.3"],
             ["codecov", "npm:3.8.1"],
-            ["eslint", "npm:7.19.0"],
+            ["eslint", "npm:7.20.0"],
             ["eslint-plugin-prettier", "virtual:a70d54d77e5c82a7a2ab2fd69a2f33c097318c8571135823be52f11551c916757603b513c3b2b135c036c4319a25450d31ec80c465f996da09d22a739cff3668#npm:3.3.1"],
             ["jest", "npm:26.6.3"],
             ["jest-extended", "npm:0.11.5"],
@@ -2929,7 +2929,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bip39", "npm:3.0.3"],
             ["buffer-es6", "npm:4.9.3"],
             ["codecov", "npm:3.8.1"],
-            ["eslint", "npm:7.19.0"],
+            ["eslint", "npm:7.20.0"],
             ["eslint-plugin-prettier", "virtual:a70d54d77e5c82a7a2ab2fd69a2f33c097318c8571135823be52f11551c916757603b513c3b2b135c036c4319a25450d31ec80c465f996da09d22a739cff3668#npm:3.3.1"],
             ["jest", "npm:26.6.3"],
             ["jest-extended", "npm:0.11.5"],
@@ -6734,10 +6734,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:7.19.0", {
-          "packageLocation": "./.yarn/cache/eslint-npm-7.19.0-796aed1841-0461e8b2b5.zip/node_modules/eslint/",
+        ["npm:7.20.0", {
+          "packageLocation": "./.yarn/cache/eslint-npm-7.20.0-42a38efe95-1d56cabc7e.zip/node_modules/eslint/",
           "packageDependencies": [
-            ["eslint", "npm:7.19.0"],
+            ["eslint", "npm:7.20.0"],
             ["@babel/code-frame", "npm:7.12.11"],
             ["@eslint/eslintrc", "npm:0.3.0"],
             ["ajv", "npm:6.12.6"],
@@ -6750,7 +6750,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-utils", "npm:2.1.0"],
             ["eslint-visitor-keys", "npm:2.0.0"],
             ["espree", "npm:7.3.1"],
-            ["esquery", "npm:1.3.1"],
+            ["esquery", "npm:1.4.0"],
             ["esutils", "npm:2.0.3"],
             ["file-entry-cache", "npm:6.0.0"],
             ["functional-red-black-tree", "npm:1.0.1"],
@@ -6858,7 +6858,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-prettier", "virtual:a70d54d77e5c82a7a2ab2fd69a2f33c097318c8571135823be52f11551c916757603b513c3b2b135c036c4319a25450d31ec80c465f996da09d22a739cff3668#npm:3.3.1"],
             ["@types/eslint", "npm:7.2.6"],
             ["@types/prettier", "npm:2.1.6"],
-            ["eslint", "npm:7.19.0"],
+            ["eslint", "npm:7.20.0"],
             ["eslint-config-prettier", null],
             ["prettier", "npm:2.2.1"],
             ["prettier-linter-helpers", "npm:1.0.0"]
@@ -6965,6 +6965,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/esquery-npm-1.3.1-2ba3c93f30-0aac7572bc.zip/node_modules/esquery/",
           "packageDependencies": [
             ["esquery", "npm:1.3.1"],
+            ["estraverse", "npm:5.2.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:1.4.0", {
+          "packageLocation": "./.yarn/cache/esquery-npm-1.4.0-f39408b1a7-3293ecc150.zip/node_modules/esquery/",
+          "packageDependencies": [
+            ["esquery", "npm:1.4.0"],
             ["estraverse", "npm:5.2.0"]
           ],
           "linkType": "HARD",
@@ -11058,7 +11066,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["ngrok", [
         ["npm:3.4.0", {
-          "packageLocation": "./.yarn/unplugged/ngrok-npm-3.4.0-b3c3175e0b/node_modules/ngrok/",
+          "packageLocation": "./.yarn/cache/ngrok-npm-3.4.0-b3c3175e0b-7edb48c174.zip/node_modules/ngrok/",
           "packageDependencies": [
             ["ngrok", "npm:3.4.0"],
             ["@types/node", "npm:8.10.66"],
@@ -12607,7 +12615,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["protobufjs", [
         ["npm:6.10.2", {
-          "packageLocation": "./.yarn/unplugged/protobufjs-npm-6.10.2-f0f2cab7fe/node_modules/protobufjs/",
+          "packageLocation": "./.yarn/cache/protobufjs-npm-6.10.2-f0f2cab7fe-09d6292362.zip/node_modules/protobufjs/",
           "packageDependencies": [
             ["protobufjs", "npm:6.10.2"],
             ["@protobufjs/aspromise", "npm:1.1.2"],
