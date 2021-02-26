@@ -77,6 +77,9 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
                                     type: "object",
                                     collectionJsonSchemaByteSize: defaults.nftCollectionJsonSchemaByteSize,
                                 },
+                                metadata: {
+                                    type: "object",
+                                },
                                 allowedIssuers: {
                                     type: "array",
                                     minItems: defaults.nftCollectionAllowedIssuers.minItems,
@@ -112,6 +115,10 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
             }
         }
 
+        const metadataBuffer = nftCollectionAsset.metadata
+            ? Buffer.from(JSON.stringify(nftCollectionAsset.metadata))
+            : Buffer.from("");
+
         const buffer: ByteBuffer = new ByteBuffer(
             nameBuffer.length +
                 descriptionBuffer.length +
@@ -119,6 +126,7 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
                 jsonSchemaBuffer.length +
                 3 +
                 buffersAllowedIssuersPublicKeys.length * 66,
+            4 + metadataBuffer.length,
             true,
         );
 
@@ -133,13 +141,16 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
         buffer.writeUint32(jsonSchemaBuffer.length);
         buffer.append(jsonSchemaBuffer, "hex");
 
+        buffer.writeByte(buffersAllowedIssuersPublicKeys.length);
         if (nftCollectionAsset.allowedIssuers) {
-            buffer.writeByte(buffersAllowedIssuersPublicKeys.length);
             for (const buf of buffersAllowedIssuersPublicKeys) {
                 buffer.append(buf, "hex");
             }
-        } else {
-            buffer.writeByte(0);
+        }
+
+        buffer.writeUint32(metadataBuffer.length);
+        if (nftCollectionAsset.metadata) {
+            buffer.append(metadataBuffer, "hex");
         }
 
         return buffer;
@@ -173,6 +184,12 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
             }
             nftCollection.allowedIssuers = allowedSchemaIssuers;
         }
+
+        const metadataLength = buf.readUint32();
+        if (metadataLength) {
+            nftCollection.metadata = JSON.parse(buf.readString(metadataLength));
+        }
+
         data.asset = {
             nftCollection,
         };
