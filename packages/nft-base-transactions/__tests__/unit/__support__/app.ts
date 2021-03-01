@@ -1,4 +1,3 @@
-// TODO addrest DIST imports - sync with CORE v3
 import { Application, Container, Contracts, Providers, Services } from "@arkecosystem/core-kernel";
 import { Stores, Wallets } from "@arkecosystem/core-state";
 import { Generators, Mocks } from "@arkecosystem/core-test-framework";
@@ -18,7 +17,6 @@ import {
 import { Handlers } from "@arkecosystem/core-transactions";
 import { Identities, Managers, Utils } from "@arkecosystem/crypto";
 
-import { transactionRepository } from "../__mocks__/transaction-repository";
 import {
     NFTBurnHandler,
     NFTCreateHandler,
@@ -26,6 +24,7 @@ import {
     NFTTransferHandler,
 } from "../../../src/handlers";
 import { nftCollectionIndexer, nftIndexer, NFTIndexers } from "../../../src/wallet-indexes";
+import { transactionRepository } from "../__mocks__/transaction-repository";
 
 const logger = {
     notice: jest.fn(),

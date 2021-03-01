@@ -1,14 +1,14 @@
 import { Container, Contracts, Utils as AppUtils } from "@arkecosystem/core-kernel";
 import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions } from "@arkecosystem/crypto";
-import { Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
-import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
+import { Interfaces as NFTInterfaces, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 
 import {
     NFTBaseCollectionDoesNotExists,
     NFTBaseMaximumSupplyError,
     NFTBaseSchemaDoesNotMatch,
     NFTBaseSenderPublicKeyDoesNotExists,
+    NFTMetadataDoesNotMatch,
 } from "../errors";
 import { NFTApplicationEvents } from "../events";
 import { INFTCollection, INFTCollections, INFTTokens } from "../interfaces";
@@ -71,11 +71,10 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         AppUtils.assert.defined<NFTInterfaces.NFTTokenAsset>(transaction.data.asset?.nftToken);
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
         const nftTokenAsset: NFTInterfaces.NFTTokenAsset = transaction.data.asset.nftToken;
-        let genesisWallet: Contracts.State.Wallet;
         let genesisWalletCollection: INFTCollection | undefined;
 
         try {
-            genesisWallet = this.walletRepository.findByIndex(
+            const genesisWallet = this.walletRepository.findByIndex(
                 NFTIndexers.CollectionIndexer,
                 nftTokenAsset.collectionId,
             );
@@ -87,10 +86,19 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
             throw new NFTBaseCollectionDoesNotExists();
         }
 
-        if (genesisWalletCollection.nftCollectionAsset.allowedIssuers) {
-            if (!genesisWalletCollection.nftCollectionAsset.allowedIssuers.includes(transaction.data.senderPublicKey)) {
-                throw new NFTBaseSenderPublicKeyDoesNotExists();
-            }
+        const { currentSupply, nftCollectionAsset } = genesisWalletCollection;
+        if (
+            nftCollectionAsset.allowedIssuers &&
+            !nftCollectionAsset.allowedIssuers.includes(transaction.data.senderPublicKey)
+        ) {
+            throw new NFTBaseSenderPublicKeyDoesNotExists();
+        }
+
+        if (
+            nftCollectionAsset.metadata &&
+            AppUtils.isNotEqual(nftCollectionAsset.metadata, transaction.data.asset.nftToken.attributes)
+        ) {
+            throw new NFTMetadataDoesNotMatch();
         }
 
         const validate = await this.tokenSchemaValidatorCache.get(nftTokenAsset.collectionId);
@@ -98,7 +106,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
             throw new NFTBaseSchemaDoesNotMatch();
         }
 
-        if (genesisWalletCollection.currentSupply >= genesisWalletCollection.nftCollectionAsset.maximumSupply) {
+        if (currentSupply >= nftCollectionAsset.maximumSupply) {
             throw new NFTBaseMaximumSupplyError();
         }
 

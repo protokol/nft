@@ -38,6 +38,12 @@ export class NFTBaseSchemaDoesNotMatch extends Errors.TransactionError {
     }
 }
 
+export class NFTMetadataDoesNotMatch extends Errors.TransactionError {
+    public constructor() {
+        super(`Failed to apply transaction, because asset's attributes does not match NFT schema metadata.`);
+    }
+}
+
 // NFTTransfer transaction errors
 export class NFTBaseTransferCannotBeApplied extends Errors.TransactionError {
     public constructor() {

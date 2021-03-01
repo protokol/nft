@@ -12,6 +12,7 @@ import {
     NFTBaseMaximumSupplyError,
     NFTBaseSchemaDoesNotMatch,
     NFTBaseSenderPublicKeyDoesNotExists,
+    NFTMetadataDoesNotMatch,
 } from "../../../src/errors";
 import { NFTApplicationEvents } from "../../../src/events";
 import { NFTRegisterCollectionHandler } from "../../../src/handlers";
@@ -158,7 +159,9 @@ describe("NFT Create tests", () => {
 
             expect(secondWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actualTwo.id!]).toBeObject();
 
-            expect(walletRepository.findByIndex(NFTIndexers.NFTTokenIndexer, actualTwo.id!)).toStrictEqual(secondWallet);
+            expect(walletRepository.findByIndex(NFTIndexers.NFTTokenIndexer, actualTwo.id!)).toStrictEqual(
+                secondWallet,
+            );
         });
     });
 
@@ -221,7 +224,7 @@ describe("NFT Create tests", () => {
             );
         });
 
-        it("should throw NFTSchemaDoesNotMatch", async () => {
+        it("should throw NFTSchemaDoesNotMatch if attributes does not match schema", async () => {
             const actual = new NFTBuilders.NFTCreateBuilder()
                 .NFTCreateToken({
                     collectionId,
@@ -235,6 +238,57 @@ describe("NFT Create tests", () => {
 
             await expect(nftCreateHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
                 NFTBaseSchemaDoesNotMatch,
+            );
+        });
+
+        it("should throw NFTSchemaDoesNotMatch if no validate function in cache", async () => {
+            const tokenSchemaValidatorCache = app.get<Contracts.Kernel.CacheStore<string, any>>(
+                Container.Identifiers.CacheService,
+            );
+            await tokenSchemaValidatorCache.forget(collectionId);
+
+            await expect(nftCreateHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
+                NFTBaseSchemaDoesNotMatch,
+            );
+        });
+
+        it("should not throw NFTMetadataDoesNotMatch if metadata and attributes match", async () => {
+            const metadata = { name: "Card", damage: 1, health: 1, mana: 1 };
+            const collectionsWallet = wallet.getAttribute<INFTCollections>("nft.base.collections", {});
+            collectionsWallet[collectionId]!.nftCollectionAsset = { ...nftCollectionAsset, metadata };
+            wallet.setAttribute("nft.base.collections", collectionsWallet);
+
+            const actual = new NFTBuilders.NFTCreateBuilder()
+                .NFTCreateToken({
+                    collectionId,
+                    attributes: metadata,
+                })
+                .nonce("1")
+                .sign(passphrases[0]!)
+                .build();
+
+            await expect(nftCreateHandler.throwIfCannotBeApplied(actual, wallet)).toResolve();
+        });
+
+        it("should throw NFTMetadataDoesNotMatch if metadata and attributes does not match", async () => {
+            const metadata = { name: "Card", damage: 1, health: 1, mana: 1 };
+            const collectionsWallet = wallet.getAttribute<INFTCollections>("nft.base.collections", {});
+            collectionsWallet[collectionId]!.nftCollectionAsset = { ...nftCollectionAsset, metadata };
+            wallet.setAttribute("nft.base.collections", collectionsWallet);
+
+            const actual = new NFTBuilders.NFTCreateBuilder()
+                .NFTCreateToken({
+                    collectionId,
+                    attributes: {
+                        name: "a",
+                    },
+                })
+                .nonce("1")
+                .sign(passphrases[0]!)
+                .build();
+
+            await expect(nftCreateHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
+                NFTMetadataDoesNotMatch,
             );
         });
 
