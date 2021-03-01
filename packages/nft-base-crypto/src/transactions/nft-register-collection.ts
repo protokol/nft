@@ -10,6 +10,7 @@ import {
     NFTBaseTransactionVersion,
 } from "../enums";
 import { NFTCollectionAsset } from "../interfaces";
+import { amount, stringPattern, vendorField } from "./utils/schemas";
 
 const { schemas } = Transactions;
 
@@ -22,27 +23,14 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
     protected static defaultStaticFee = Utils.BigNumber.make(NFTBaseStaticFees.NFTRegisterCollection);
 
     public static getSchema(): Transactions.schemas.TransactionSchema {
-        Validation.validator.removeKeyword("collectionJsonSchemaByteSize");
-        Validation.validator.addKeyword("collectionJsonSchemaByteSize", {
-            compile(schema, parentSchema) {
-                return (data) => {
-                    return Buffer.from(JSON.stringify(data), "utf8").byteLength <= schema;
-                };
-            },
-            errors: true,
-            metaSchema: {
-                type: "integer",
-                minimum: 0,
-            },
-        });
         return schemas.extend(schemas.transactionBaseSchema, {
             $id: "NFTRegisterCollection",
             required: ["asset", "typeGroup"],
             properties: {
                 type: { transactionType: NFTBaseTransactionTypes.NFTRegisterCollection },
                 typeGroup: { const: NFTBaseTransactionGroup },
-                amount: { bignumber: { minimum: 0, maximum: 0 } },
-                vendorField: { anyOf: [{ type: "null" }, { type: "string", format: "vendorField" }] },
+                amount,
+                vendorField,
                 asset: {
                     type: "object",
                     required: ["nftCollection"],
@@ -53,7 +41,7 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
                             properties: {
                                 name: {
                                     allOf: [
-                                        { type: "string", pattern: "^[a-zA-Z0-9]+(( - |[ ._-])[a-zA-Z0-9]+)*[.]?$" },
+                                        stringPattern,
                                         {
                                             minLength: defaults.nftCollectionName.minLength,
                                             maxLength: defaults.nftCollectionName.maxLength,
@@ -62,7 +50,7 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
                                 },
                                 description: {
                                     allOf: [
-                                        { type: "string", pattern: "^[a-zA-Z0-9]+(( - |[ ._-])[a-zA-Z0-9]+)*[.]?$" },
+                                        stringPattern,
                                         {
                                             minLength: defaults.nftCollectionDescription.minLength,
                                             maxLength: defaults.nftCollectionDescription.maxLength,
@@ -79,6 +67,7 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
                                 },
                                 metadata: {
                                     type: "object",
+                                    tokenAttributesByteSize: defaults.nftTokenAttributesByteSize,
                                 },
                                 allowedIssuers: {
                                     type: "array",

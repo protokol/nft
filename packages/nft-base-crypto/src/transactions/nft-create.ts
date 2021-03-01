@@ -10,6 +10,7 @@ import {
     NFTBaseTransactionVersion,
 } from "../enums";
 import { NFTTokenAsset } from "../interfaces";
+import { amount, vendorField } from "./utils/schemas";
 
 const { schemas } = Transactions;
 
@@ -22,27 +23,14 @@ export class NFTCreateTransaction extends Transactions.Transaction {
     protected static defaultStaticFee = Utils.BigNumber.make(NFTBaseStaticFees.NFTCreate);
 
     public static getSchema(): Transactions.schemas.TransactionSchema {
-        Validation.validator.removeKeyword("tokenAttributesByteSize");
-        Validation.validator.addKeyword("tokenAttributesByteSize", {
-            compile(schema, parentSchema) {
-                return (data) => {
-                    return Buffer.from(JSON.stringify(data), "utf8").byteLength <= schema;
-                };
-            },
-            errors: true,
-            metaSchema: {
-                type: "integer",
-                minimum: 0,
-            },
-        });
         return schemas.extend(schemas.transactionBaseSchema, {
             $id: "NFTCreate",
             required: ["asset", "typeGroup"],
             properties: {
                 type: { transactionType: NFTBaseTransactionTypes.NFTCreate },
                 typeGroup: { const: NFTBaseTransactionGroup },
-                amount: { bignumber: { minimum: 0, maximum: 0 } },
-                vendorField: { anyOf: [{ type: "null" }, { type: "string", format: "vendorField" }] },
+                amount,
+                vendorField,
                 asset: {
                     type: "object",
                     required: ["nftToken"],
