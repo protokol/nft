@@ -10,6 +10,7 @@ export interface NFTCollectionAsset {
 export interface NFTTokenAsset {
     collectionId: string;
     attributes: object;
+    recipientId?: string;
 }
 
 export interface NFTTransferAsset {

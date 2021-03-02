@@ -13,8 +13,8 @@ export const collectionWalletCheck = (
     nftCollectionAsset: NFTInterfaces.NFTCollectionAsset,
 ) => {
     expect(wallet.getAttribute<INFTCollections>("nft.base.collections")[collectionId]).toStrictEqual({
-        currentSupply: currentSupply,
-        nftCollectionAsset: nftCollectionAsset,
+        currentSupply,
+        nftCollectionAsset,
     });
 };
 

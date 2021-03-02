@@ -1,4 +1,4 @@
-import { Transactions, Utils, Validation } from "@arkecosystem/crypto";
+import { Transactions, Utils } from "@arkecosystem/crypto";
 import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 

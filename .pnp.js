@@ -2802,6 +2802,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@arkecosystem/core-transactions", "npm:3.0.0-next.22"],
             ["@arkecosystem/crypto", "npm:3.0.0-next.22"],
             ["@protokol/nft-base-crypto", "workspace:packages/nft-base-crypto"],
+            ["@protokol/sets", "npm:1.0.0-beta.0"],
             ["@sindresorhus/tsconfig", "npm:0.8.0"],
             ["@types/eslint", "npm:7.2.6"],
             ["@types/eslint-plugin-prettier", "npm:3.1.0"],

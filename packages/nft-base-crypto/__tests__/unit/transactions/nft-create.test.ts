@@ -1,9 +1,15 @@
 import "jest-extended";
 
 import { Managers, Transactions } from "@arkecosystem/crypto";
+import { Marvel } from "@protokol/sets";
 
 import { NFTCreateBuilder } from "../../../src/builders";
 import { NFTCreateTransaction } from "../../../src/transactions";
+
+const asset = {
+    collectionId: "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
+    attributes: Marvel.assets.ironMan,
+};
 
 describe("NFT Create tests", () => {
     Managers.configManager.setFromPreset("testnet");
@@ -13,14 +19,18 @@ describe("NFT Create tests", () => {
 
     describe("Ser/deser tests", () => {
         it("should ser/deser correctly", () => {
+            const actual = new NFTCreateBuilder().NFTCreateToken(asset).nonce("3").sign("passphrase").getStruct();
+
+            const serialized = Transactions.TransactionFactory.fromData(actual).serialized.toString("hex");
+            const deserialized = Transactions.Deserializer.deserialize(serialized);
+
+            expect(deserialized.data.asset!.nftToken).toStrictEqual(asset);
+        });
+
+        it("should ser/deser correctly with optional recipientId", () => {
+            const assetWithRecipient = { ...asset, recipientId: "AXoXnFi4z1Z6aFvjEYkDVCtBGW2PaRiM25" };
             const actual = new NFTCreateBuilder()
-                .NFTCreateToken({
-                    collectionId: "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
-                    attributes: {
-                        number: 5,
-                        string: "something",
-                    },
-                })
+                .NFTCreateToken(assetWithRecipient)
                 .nonce("3")
                 .sign("passphrase")
                 .getStruct();
@@ -28,26 +38,11 @@ describe("NFT Create tests", () => {
             const serialized = Transactions.TransactionFactory.fromData(actual).serialized.toString("hex");
             const deserialized = Transactions.Deserializer.deserialize(serialized);
 
-            // @ts-ignore
-            expect(deserialized.data.asset.nftToken).toStrictEqual({
-                collectionId: "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
-                attributes: {
-                    number: 5,
-                    string: "something",
-                },
-            });
+            expect(deserialized.data.asset!.nftToken).toStrictEqual(assetWithRecipient);
         });
 
         it("should throw if asset is undefined", () => {
-            const actual = new NFTCreateBuilder()
-                .NFTCreateToken({
-                    collectionId: "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
-                    attributes: {
-                        number: 5,
-                        string: "something",
-                    },
-                })
-                .nonce("3");
+            const actual = new NFTCreateBuilder().NFTCreateToken(asset).nonce("3");
 
             actual.data.asset = undefined;
 

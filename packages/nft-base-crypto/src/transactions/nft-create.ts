@@ -1,4 +1,4 @@
-import { Transactions, Utils, Validation } from "@arkecosystem/crypto";
+import { Transactions, Utils, Identities } from "@arkecosystem/crypto";
 import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 
@@ -46,6 +46,9 @@ export class NFTCreateTransaction extends Transactions.Transaction {
                                     type: "object",
                                     tokenAttributesByteSize: defaults.nftTokenAttributesByteSize,
                                 },
+                                recipientId: {
+                                    $ref: "address",
+                                },
                             },
                         },
                     },
@@ -62,12 +65,20 @@ export class NFTCreateTransaction extends Transactions.Transaction {
 
         const dataBuffer = Buffer.from(JSON.stringify(nftToken.attributes));
 
-        const buffer: ByteBuffer = new ByteBuffer(32 + 4 + dataBuffer.length, true);
+        const recipientLength = nftToken.recipientId?.length || 0;
+
+        const buffer: ByteBuffer = new ByteBuffer(32 + 4 + dataBuffer.length + 1 + recipientLength, true);
 
         buffer.append(nftToken.collectionId, "hex");
 
         buffer.writeUint32(dataBuffer.length);
         buffer.append(dataBuffer, "hex");
+
+        buffer.writeByte(recipientLength);
+        if (recipientLength) {
+            const { addressBuffer } = Identities.Address.toBuffer(nftToken.recipientId!);
+            buffer.append(addressBuffer);
+        }
 
         return buffer;
     }
@@ -84,6 +95,11 @@ export class NFTCreateTransaction extends Transactions.Transaction {
             collectionId,
             attributes,
         };
+
+        const recipientLength = buf.readUint8();
+        if (recipientLength) {
+            nftToken.recipientId = Identities.Address.fromBuffer(buf.readBytes(21).toBuffer());
+        }
 
         data.asset = {
             nftToken,
