@@ -8,8 +8,8 @@ import { Defaults as CryptoDefaults, Transactions as ExchangeTransactions } from
 import { Defaults as TransactionsDefaults } from "@protokol/nft-exchange-transactions";
 import latestVersion from "latest-version";
 
-import { initApp, ItemResponse } from "../__support__";
 import { ConfigurationsController } from "../../../src/controllers/configurations";
+import { initApp, ItemResponse } from "../__support__";
 
 let configurationsController: ConfigurationsController;
 

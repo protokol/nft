@@ -18,9 +18,9 @@ import { Handlers } from "@arkecosystem/core-transactions";
 import { Identities, Managers, Utils } from "@arkecosystem/crypto";
 import { Handlers as NFTBaseHandlers, Indexers } from "@protokol/nft-base-transactions";
 
-import { transactionRepository } from "../__mocks__/transaction-repository";
 import { Handlers as NFTExchangeHandlers } from "../../../src";
 import { auctionIndexer, bidIndexer, NFTExchangeIndexers } from "../../../src/wallet-indexes";
+import { transactionRepository } from "../__mocks__/transaction-repository";
 
 const logger = {
     notice: jest.fn(),

@@ -7,8 +7,8 @@ import { Defaults as CryptoDefaults, Transactions as NFTTransactions } from "@pr
 import { Defaults as TransactionsDefaults } from "@protokol/nft-base-transactions";
 import latestVersion from "latest-version";
 
-import { initApp, ItemResponse, transactionHistoryService } from "../__support__";
 import { ConfigurationController } from "../../../src/controllers/configurations";
+import { initApp, ItemResponse, transactionHistoryService } from "../__support__";
 
 let app: Application;
 

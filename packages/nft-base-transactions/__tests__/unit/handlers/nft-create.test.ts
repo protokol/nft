@@ -6,6 +6,7 @@ import { passphrases } from "@arkecosystem/core-test-framework";
 import { Handlers } from "@arkecosystem/core-transactions";
 import { Identities, Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Builders as NFTBuilders, Enums, Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
+import { Fifa } from "@protokol/sets";
 
 import {
     NFTBaseCollectionDoesNotExists,
@@ -20,7 +21,6 @@ import { INFTCollections, INFTTokens } from "../../../src/interfaces";
 import { NFTIndexers } from "../../../src/wallet-indexes";
 import { buildWallet, initApp, transactionHistoryService } from "../__support__/app";
 import { collectionWalletCheck, deregisterTransactions } from "../utils/utils";
-import { Fifa } from "@protokol/sets";
 
 let app: Application;
 
