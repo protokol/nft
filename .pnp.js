@@ -2765,6 +2765,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@protokol/nft-base-crypto", "workspace:packages/nft-base-crypto"],
             ["@arkecosystem/core-test-framework", "npm:3.0.0-next.22"],
             ["@arkecosystem/crypto", "npm:3.0.0-next.22"],
+            ["@protokol/sets", "npm:1.0.0-beta.0"],
             ["@protokol/utils", "npm:1.0.0-beta.38"],
             ["@sindresorhus/tsconfig", "npm:0.8.0"],
             ["@types/jest", "npm:26.0.20"],
@@ -3001,6 +3002,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["typescript", "patch:typescript@npm%3A4.1.5#builtin<compat/typescript>::version=4.1.5&hash=cc6730"]
           ],
           "linkType": "SOFT",
+        }]
+      ]],
+      ["@protokol/sets", [
+        ["npm:1.0.0-beta.0", {
+          "packageLocation": "./.yarn/cache/@protokol-sets-npm-1.0.0-beta.0-00e733cc0a-bb86fc2048.zip/node_modules/@protokol/sets/",
+          "packageDependencies": [
+            ["@protokol/sets", "npm:1.0.0-beta.0"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@protokol/utils", [

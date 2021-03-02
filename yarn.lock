@@ -2350,6 +2350,7 @@ __metadata:
   dependencies:
     "@arkecosystem/core-test-framework": ^3.0.0-next
     "@arkecosystem/crypto": ^3.0.0-next
+    "@protokol/sets": ^1.0.0-beta.0
     "@protokol/utils": ^1.0.0-beta.37
     "@sindresorhus/tsconfig": ~0.8.0
     "@types/jest": ~26.0.15
@@ -2599,6 +2600,13 @@ __metadata:
       unplugged: true
   languageName: unknown
   linkType: soft
+
+"@protokol/sets@npm:^1.0.0-beta.0":
+  version: 1.0.0-beta.0
+  resolution: "@protokol/sets@npm:1.0.0-beta.0"
+  checksum: bb86fc2048cde0fa0fc11a472ebe212702e13c1bf7aebb1f7f17a83421c07870fc569edd513b38c9aa01c1d6e6354756ee1bb145e0b76d59cd8eedd1f58ac25d
+  languageName: node
+  linkType: hard
 
 "@protokol/utils@npm:^1.0.0-beta.37":
   version: 1.0.0-beta.38

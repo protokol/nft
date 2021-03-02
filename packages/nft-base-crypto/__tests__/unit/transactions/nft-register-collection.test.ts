@@ -1,23 +1,10 @@
 import "jest-extended";
 
 import { Managers, Transactions } from "@arkecosystem/crypto";
+import { Marvel } from "@protokol/sets";
 
 import { NFTRegisterCollectionBuilder } from "../../../src/builders";
 import { NFTRegisterCollectionTransaction } from "../../../src/transactions";
-
-const collection = {
-    name: "Heartstone card",
-    description: "A card from heartstone game",
-    maximumSupply: 100,
-    jsonSchema: {
-        properties: {
-            number: {
-                type: "number",
-            },
-            string: { type: "string" },
-        },
-    },
-};
 
 describe("NFT register collection tests", () => {
     Managers.configManager.setFromPreset("testnet");
@@ -28,7 +15,7 @@ describe("NFT register collection tests", () => {
     describe("Ser/deser tests", () => {
         it("should ser/deser correctly with nftJsonSchema", () => {
             const actual = new NFTRegisterCollectionBuilder()
-                .NFTRegisterCollectionAsset(collection)
+                .NFTRegisterCollectionAsset(Marvel.collection)
                 .nonce("3")
                 .sign("clay harbor enemy utility margin pretty hub comic piece aerobic umbrella acquire")
                 .getStruct();
@@ -36,12 +23,12 @@ describe("NFT register collection tests", () => {
             const serialized = Transactions.TransactionFactory.fromData(actual).serialized.toString("hex");
             const deserialized = Transactions.Deserializer.deserialize(serialized);
 
-            expect(deserialized.data.asset!.nftCollection).toStrictEqual(collection);
+            expect(deserialized.data.asset!.nftCollection).toStrictEqual(Marvel.collection);
         });
 
         it("should ser/deser correctly with metadata", () => {
             const collectionWithMetadata = {
-                ...collection,
+                ...Marvel.collection,
                 metadata: {
                     number: 100,
                     string: "Card",
@@ -60,7 +47,7 @@ describe("NFT register collection tests", () => {
         });
 
         it("should throw if asset is undefined", () => {
-            const actual = new NFTRegisterCollectionBuilder().NFTRegisterCollectionAsset(collection).nonce("3");
+            const actual = new NFTRegisterCollectionBuilder().NFTRegisterCollectionAsset(Marvel.collection).nonce("3");
 
             actual.data.asset = undefined;
             expect(() => actual.sign("passphrase")).toThrow();
