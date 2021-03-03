@@ -74,4 +74,26 @@ export const register = (server: Hapi.Server): void => {
 			},
 		},
 	});
+
+	server.route({
+		method: "POST",
+		path: "/assets/claim",
+		handler: async (request: Hapi.Request) => {
+			const res = await controller.claimAsset(request);
+			if (res.isBoom) return res;
+
+			const route = server.table().find((route) => route.method === "post" && route.path === "/api/transactions");
+			if (!route) return;
+
+			return route.settings.handler({ payload: { transactions: [res] } });
+		},
+		options: {
+			validate: {
+				payload: Joi.object({
+					collectionId: Joi.string().hex().length(64).required(),
+					recipientId: Joi.string().alphanum().length(34).required(),
+				}),
+			},
+		},
+	});
 };
