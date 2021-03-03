@@ -15,6 +15,13 @@ export type ItemResponse = {
 	data: object;
 };
 
+export type ErrorResponse = {
+	output: {
+		statusCode: number;
+	};
+	isBoom: boolean;
+};
+
 const logger = {
 	notice: jest.fn(),
 	debug: jest.fn(),
@@ -107,6 +114,12 @@ export const initApp = (): Application => {
 		name: Indexers.NFTIndexers.NFTTokenIndexer,
 		indexer: Indexers.nftIndexer,
 		autoIndex: false,
+	});
+
+	app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
+		name: Contracts.State.WalletIndexes.Addresses,
+		indexer: Wallets.addressesIndexer,
+		autoIndex: true,
 	});
 
 	app.bind(Container.Identifiers.WalletFactory).toFactory<Contracts.State.Wallet>(
