@@ -2,10 +2,28 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [1.0.0-beta.58](https://github.com/protokol/nft/compare/1.0.0-beta.57...1.0.0-beta.58)
+
+> 4 March 2021
+
+-   feat(nft-base): introduce metadata on collection [`#281`](https://github.com/protokol/nft/pull/281)
+-   chore(deps): update dependency eslint to v7.21.0 [`#280`](https://github.com/protokol/nft/pull/280)
+-   chore(deps): update dependency eslint-config-prettier to v8 [`#277`](https://github.com/protokol/nft/pull/277)
+-   chore(deps): update dependency eslint to v7.20.0 [`#276`](https://github.com/protokol/nft/pull/276)
+-   release: 1.0.0-beta.58 [`972a1b8`](https://github.com/protokol/nft/commit/972a1b81ccebd7a74af44e007b3ab6efe3808f2f)
+
 #### [1.0.0-beta.57](https://github.com/protokol/nft/compare/1.0.0-beta.51...1.0.0-beta.57)
 
 > 11 February 2021
 
+-   release: 1.0.0-beta.57 [`#275`](https://github.com/protokol/nft/pull/275)
+-   fix: vendor field in transactions [`#274`](https://github.com/protokol/nft/pull/274)
+-   chore: update md links [`#273`](https://github.com/protokol/nft/pull/273)
+-   fix(nft-crypto): fix transaction builder pattern [`#272`](https://github.com/protokol/nft/pull/272)
+-   chore(deps): update dependency delay to v4.4.1 [`#270`](https://github.com/protokol/nft/pull/270)
+-   chore(deps): update dependency eslint to v7.19.0 [`#271`](https://github.com/protokol/nft/pull/271)
+-   chore(deps): update dependency ts-jest to ~26.5.0 [`#269`](https://github.com/protokol/nft/pull/269)
+-   release: 1.0.0-beta.56 [`#268`](https://github.com/protokol/nft/pull/268)
 -   chore: update deps [`#267`](https://github.com/protokol/nft/pull/267)
 -   chore(deps): update dependency npm-check-updates to ~11.1.0 [`#266`](https://github.com/protokol/nft/pull/266)
 -   refactor: coding style changes [`#247`](https://github.com/protokol/nft/pull/247)
@@ -35,8 +53,6 @@ All notable changes to this project will be documented in this file. Dates are d
 -   feat: switch to latest yarn [`#238`](https://github.com/protokol/nft/pull/238)
 -   chore(deps): update dependency pg-query-stream to v4 [`#237`](https://github.com/protokol/nft/pull/237)
 -   chore(deps): update dependency prettier to v2.2.1 [`#236`](https://github.com/protokol/nft/pull/236)
--   release: 1.0.0-beta.57 [`de61c74`](https://github.com/protokol/nft/commit/de61c74f66beb24051420a01182459506631374e)
--   release: 1.0.0-beta.56 [`001b94d`](https://github.com/protokol/nft/commit/001b94de8d4cfbeda1dbc466396e28309b84e128)
 
 #### [1.0.0-beta.51](https://github.com/protokol/nft/compare/1.0.0-beta.50...1.0.0-beta.51)
 
