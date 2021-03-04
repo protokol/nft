@@ -1,14 +1,14 @@
 import { Container, Contracts, Utils as AppUtils } from "@arkecosystem/core-kernel";
 import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions } from "@arkecosystem/crypto";
-import { Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
-import { Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
+import { Interfaces as NFTInterfaces, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
 
 import {
     NFTBaseCollectionDoesNotExists,
     NFTBaseMaximumSupplyError,
     NFTBaseSchemaDoesNotMatch,
     NFTBaseSenderPublicKeyDoesNotExists,
+    NFTMetadataDoesNotMatch,
 } from "../errors";
 import { NFTApplicationEvents } from "../events";
 import { INFTCollection, INFTCollections, INFTTokens } from "../interfaces";
@@ -45,7 +45,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
             AppUtils.assert.defined<string>(transaction.senderPublicKey);
             AppUtils.assert.defined<NFTInterfaces.NFTTokenAsset>(transaction.asset?.nftToken);
 
-            const wallet = this.walletRepository.findByPublicKey(transaction.senderPublicKey);
+            const wallet = this.getRecipientFromTx(transaction);
 
             const tokensWallet = wallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
             tokensWallet[transaction.id] = {};
@@ -71,11 +71,10 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         AppUtils.assert.defined<NFTInterfaces.NFTTokenAsset>(transaction.data.asset?.nftToken);
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
         const nftTokenAsset: NFTInterfaces.NFTTokenAsset = transaction.data.asset.nftToken;
-        let genesisWallet: Contracts.State.Wallet;
         let genesisWalletCollection: INFTCollection | undefined;
 
         try {
-            genesisWallet = this.walletRepository.findByIndex(
+            const genesisWallet = this.walletRepository.findByIndex(
                 NFTIndexers.CollectionIndexer,
                 nftTokenAsset.collectionId,
             );
@@ -87,10 +86,19 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
             throw new NFTBaseCollectionDoesNotExists();
         }
 
-        if (genesisWalletCollection.nftCollectionAsset.allowedIssuers) {
-            if (!genesisWalletCollection.nftCollectionAsset.allowedIssuers.includes(transaction.data.senderPublicKey)) {
-                throw new NFTBaseSenderPublicKeyDoesNotExists();
-            }
+        const { currentSupply, nftCollectionAsset } = genesisWalletCollection;
+        if (
+            nftCollectionAsset.allowedIssuers &&
+            !nftCollectionAsset.allowedIssuers.includes(transaction.data.senderPublicKey)
+        ) {
+            throw new NFTBaseSenderPublicKeyDoesNotExists();
+        }
+
+        if (
+            nftCollectionAsset.metadata &&
+            AppUtils.isNotEqual(nftCollectionAsset.metadata, transaction.data.asset.nftToken.attributes)
+        ) {
+            throw new NFTMetadataDoesNotMatch();
         }
 
         const validate = await this.tokenSchemaValidatorCache.get(nftTokenAsset.collectionId);
@@ -98,7 +106,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
             throw new NFTBaseSchemaDoesNotMatch();
         }
 
-        if (genesisWalletCollection.currentSupply >= genesisWalletCollection.nftCollectionAsset.maximumSupply) {
+        if (currentSupply >= nftCollectionAsset.maximumSupply) {
             throw new NFTBaseMaximumSupplyError();
         }
 
@@ -113,12 +121,12 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         // Line is already checked inside throwIfCannotBeApplied run by super.applyToSender method
         //AppUtils.assert.defined<NFTInterfaces.NFTTokenAsset>(transaction.data.asset?.nftToken);
 
-        const sender = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
+        const recipient = this.getRecipientFromTx(transaction.data);
 
-        const tokensWallet = sender.getAttribute<INFTTokens>("nft.base.tokenIds", {});
+        const tokensWallet = recipient.getAttribute<INFTTokens>("nft.base.tokenIds", {});
         tokensWallet[transaction.data.id] = {};
-        sender.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
-        this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).set(transaction.data.id, sender);
+        recipient.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
+        this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).set(transaction.data.id, recipient);
 
         const collectionId = transaction.data.asset!.nftToken.collectionId;
         const genesisWallet = this.walletRepository.findByIndex(NFTIndexers.CollectionIndexer, collectionId);
@@ -134,11 +142,11 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         AppUtils.assert.defined<string>(transaction.data.id);
         AppUtils.assert.defined<NFTInterfaces.NFTTokenAsset>(transaction.data.asset?.nftToken);
 
-        const sender = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
+        const recipient = this.getRecipientFromTx(transaction.data);
 
-        const tokensWallet = sender.getAttribute<INFTTokens>("nft.base.tokenIds");
+        const tokensWallet = recipient.getAttribute<INFTTokens>("nft.base.tokenIds");
         delete tokensWallet[transaction.data.id];
-        sender.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
+        recipient.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
         this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).forget(transaction.data.id);
 
         const collectionId = transaction.data.asset.nftToken.collectionId;
@@ -146,5 +154,14 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         const genesisWalletCollection = genesisWallet.getAttribute<INFTCollections>("nft.base.collections");
         genesisWalletCollection[collectionId]!.currentSupply -= 1;
         genesisWallet.setAttribute<INFTCollections>("nft.base.collections", genesisWalletCollection);
+    }
+
+    private getRecipientFromTx(transaction: Interfaces.ITransactionData): Contracts.State.Wallet {
+        const { recipientId } = transaction.asset!.nftToken;
+        const recipient = recipientId
+            ? this.walletRepository.findByAddress(recipientId)
+            : this.walletRepository.findByPublicKey(transaction.senderPublicKey!);
+
+        return recipient;
     }
 }

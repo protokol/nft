@@ -4,11 +4,13 @@ export interface NFTCollectionAsset {
     maximumSupply: number;
     jsonSchema: object;
     allowedIssuers?: string[];
+    metadata?: object;
 }
 
 export interface NFTTokenAsset {
     collectionId: string;
     attributes: object;
+    recipientId?: string;
 }
 
 export interface NFTTransferAsset {

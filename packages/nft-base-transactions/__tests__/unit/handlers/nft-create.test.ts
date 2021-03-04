@@ -6,12 +6,14 @@ import { passphrases } from "@arkecosystem/core-test-framework";
 import { Handlers } from "@arkecosystem/core-transactions";
 import { Identities, Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Builders as NFTBuilders, Enums, Interfaces as NFTInterfaces } from "@protokol/nft-base-crypto";
+import { Fifa } from "@protokol/sets";
 
 import {
     NFTBaseCollectionDoesNotExists,
     NFTBaseMaximumSupplyError,
     NFTBaseSchemaDoesNotMatch,
     NFTBaseSenderPublicKeyDoesNotExists,
+    NFTMetadataDoesNotMatch,
 } from "../../../src/errors";
 import { NFTApplicationEvents } from "../../../src/events";
 import { NFTRegisterCollectionHandler } from "../../../src/handlers";
@@ -31,31 +33,6 @@ let transactionHandlerRegistry: Handlers.Registry;
 let nftCreateHandler: Handlers.TransactionHandler;
 
 let actual: Interfaces.ITransaction;
-
-const nftCollectionAsset: NFTInterfaces.NFTCollectionAsset = {
-    name: "Nft card",
-    description: "Nft card description",
-    maximumSupply: 100,
-    jsonSchema: {
-        type: "object",
-        additionalProperties: false,
-        properties: {
-            name: {
-                type: "string",
-                minLength: 3,
-            },
-            damage: {
-                type: "integer",
-            },
-            health: {
-                type: "integer",
-            },
-            mana: {
-                type: "integer",
-            },
-        },
-    },
-};
 
 const collectionId = "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61";
 
@@ -80,7 +57,7 @@ beforeEach(async () => {
 
     collectionsWallet[collectionId] = {
         currentSupply: 0,
-        nftCollectionAsset: nftCollectionAsset,
+        nftCollectionAsset: Fifa.collection,
     };
 
     const nftRegisterHandler = (transactionHandlerRegistry.getRegisteredHandlerByType(
@@ -90,7 +67,7 @@ beforeEach(async () => {
         ),
         2,
     ) as unknown) as NFTRegisterCollectionHandler;
-    await nftRegisterHandler["compileAndPersistSchema"](collectionId, nftCollectionAsset.jsonSchema);
+    await nftRegisterHandler["compileAndPersistSchema"](collectionId, Fifa.collection.jsonSchema);
 
     wallet.setAttribute("nft.base.collections", collectionsWallet);
 
@@ -99,12 +76,7 @@ beforeEach(async () => {
     actual = new NFTBuilders.NFTCreateBuilder()
         .NFTCreateToken({
             collectionId,
-            attributes: {
-                name: "card name",
-                damage: 3,
-                health: 2,
-                mana: 2,
-            },
+            attributes: Fifa.assets.player1,
         })
         .nonce("1")
         .sign(passphrases[0]!)
@@ -126,7 +98,7 @@ describe("NFT Create tests", () => {
 
             expect(wallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actual.id!]).toBeObject();
 
-            collectionWalletCheck(wallet, collectionId, 1, nftCollectionAsset);
+            collectionWalletCheck(wallet, collectionId, 1, Fifa.collection);
 
             expect(walletRepository.findByIndex(NFTIndexers.NFTTokenIndexer, actual.id!)).toStrictEqual(wallet);
         });
@@ -138,12 +110,7 @@ describe("NFT Create tests", () => {
             const actualTwo = new NFTBuilders.NFTCreateBuilder()
                 .NFTCreateToken({
                     collectionId,
-                    attributes: {
-                        name: "card name",
-                        damage: 3,
-                        health: 2,
-                        mana: 2,
-                    },
+                    attributes: Fifa.assets.player1,
                 })
                 .nonce("1")
                 .sign(passphrases[1]!)
@@ -154,11 +121,13 @@ describe("NFT Create tests", () => {
             });
             await expect(nftCreateHandler.bootstrap()).toResolve();
 
-            collectionWalletCheck(wallet, collectionId, 1, nftCollectionAsset);
+            collectionWalletCheck(wallet, collectionId, 1, Fifa.collection);
 
             expect(secondWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actualTwo.id!]).toBeObject();
 
-            expect(walletRepository.findByIndex(NFTIndexers.NFTTokenIndexer, actualTwo.id!)).toStrictEqual(secondWallet);
+            expect(walletRepository.findByIndex(NFTIndexers.NFTTokenIndexer, actualTwo.id!)).toStrictEqual(
+                secondWallet,
+            );
         });
     });
 
@@ -172,7 +141,7 @@ describe("NFT Create tests", () => {
             collectionsWallet[collectionId] = {
                 currentSupply: 0,
                 nftCollectionAsset: {
-                    ...nftCollectionAsset,
+                    ...Fifa.collection,
                     allowedIssuers: [Identities.PublicKey.fromPassphrase(passphrases[0]!)],
                 },
             };
@@ -191,8 +160,8 @@ describe("NFT Create tests", () => {
         it("should throw NFTMaximumSupplyError", async () => {
             const collectionsWallet = wallet.getAttribute<INFTCollections>("nft.base.collections", {});
             collectionsWallet[collectionId] = {
-                currentSupply: 100,
-                nftCollectionAsset: nftCollectionAsset,
+                currentSupply: Fifa.collection.maximumSupply,
+                nftCollectionAsset: Fifa.collection,
             };
             wallet.setAttribute("nft.base.collections", collectionsWallet);
 
@@ -205,12 +174,7 @@ describe("NFT Create tests", () => {
             const actual = new NFTBuilders.NFTCreateBuilder()
                 .NFTCreateToken({
                     collectionId: "0f3bdaef56214296c191fc842adf50018f55dc6be04892dd92fb48874aabf8f5",
-                    attributes: {
-                        name: "card name",
-                        damage: 3,
-                        health: 2,
-                        mana: 2,
-                    },
+                    attributes: Fifa.assets.player1,
                 })
                 .nonce("1")
                 .sign(passphrases[0]!)
@@ -221,7 +185,7 @@ describe("NFT Create tests", () => {
             );
         });
 
-        it("should throw NFTSchemaDoesNotMatch", async () => {
+        it("should throw NFTSchemaDoesNotMatch if attributes does not match schema", async () => {
             const actual = new NFTBuilders.NFTCreateBuilder()
                 .NFTCreateToken({
                     collectionId,
@@ -238,31 +202,61 @@ describe("NFT Create tests", () => {
             );
         });
 
+        it("should throw NFTSchemaDoesNotMatch if no validate function in cache", async () => {
+            const tokenSchemaValidatorCache = app.get<Contracts.Kernel.CacheStore<string, any>>(
+                Container.Identifiers.CacheService,
+            );
+            await tokenSchemaValidatorCache.forget(collectionId);
+
+            await expect(nftCreateHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
+                NFTBaseSchemaDoesNotMatch,
+            );
+        });
+
+        it("should not throw NFTMetadataDoesNotMatch if metadata and attributes match", async () => {
+            const collectionsWallet = wallet.getAttribute<INFTCollections>("nft.base.collections", {});
+            collectionsWallet[collectionId]!.nftCollectionAsset = { ...Fifa.collection, metadata: Fifa.assets.player2 };
+            wallet.setAttribute("nft.base.collections", collectionsWallet);
+
+            const actual = new NFTBuilders.NFTCreateBuilder()
+                .NFTCreateToken({
+                    collectionId,
+                    attributes: Fifa.assets.player2,
+                })
+                .nonce("1")
+                .sign(passphrases[0]!)
+                .build();
+
+            await expect(nftCreateHandler.throwIfCannotBeApplied(actual, wallet)).toResolve();
+        });
+
+        it("should throw NFTMetadataDoesNotMatch if metadata and attributes does not match", async () => {
+            const collectionsWallet = wallet.getAttribute<INFTCollections>("nft.base.collections", {});
+            collectionsWallet[collectionId]!.nftCollectionAsset = { ...Fifa.collection, metadata: Fifa.assets.player1 };
+            wallet.setAttribute("nft.base.collections", collectionsWallet);
+
+            const actual = new NFTBuilders.NFTCreateBuilder()
+                .NFTCreateToken({
+                    collectionId,
+                    attributes: {
+                        name: "a",
+                    },
+                })
+                .nonce("1")
+                .sign(passphrases[0]!)
+                .build();
+
+            await expect(nftCreateHandler.throwIfCannotBeApplied(actual, wallet)).rejects.toThrowError(
+                NFTMetadataDoesNotMatch,
+            );
+        });
+
         it("should throw NFTSenderPublicKeyDoesNotExists", async () => {
             const collectionsWallet = wallet.getAttribute<INFTCollections>("nft.base.collections", {});
             collectionsWallet[collectionId] = {
                 currentSupply: 100,
                 nftCollectionAsset: {
-                    name: "Nft card",
-                    description: "Nft card description",
-                    maximumSupply: 100,
-                    jsonSchema: {
-                        properties: {
-                            name: {
-                                type: "string",
-                                minLength: 3,
-                            },
-                            damage: {
-                                type: "integer",
-                            },
-                            health: {
-                                type: "integer",
-                            },
-                            mana: {
-                                type: "integer",
-                            },
-                        },
-                    },
+                    ...Fifa.collection,
                     allowedIssuers: [Identities.PublicKey.fromPassphrase(passphrases[1]!)],
                 },
             };
@@ -271,12 +265,7 @@ describe("NFT Create tests", () => {
             const actual = new NFTBuilders.NFTCreateBuilder()
                 .NFTCreateToken({
                     collectionId,
-                    attributes: {
-                        name: "card name",
-                        damage: 3,
-                        health: 2,
-                        mana: 2,
-                    },
+                    attributes: Fifa.assets.player1,
                 })
                 .nonce("1")
                 .sign(passphrases[0]!)
@@ -308,9 +297,32 @@ describe("NFT Create tests", () => {
 
             expect(wallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actual.id!]).toBeObject();
 
-            collectionWalletCheck(wallet, collectionId, 1, nftCollectionAsset);
+            collectionWalletCheck(wallet, collectionId, 1, Fifa.collection);
 
             expect(walletRepository.findByIndex(NFTIndexers.NFTTokenIndexer, actual.id!)).toStrictEqual(wallet);
+        });
+
+        it("should apply correctly to recipient", async () => {
+            const secondWallet = buildWallet(app, passphrases[1]!);
+            walletRepository.index(secondWallet);
+
+            const actualTwo = new NFTBuilders.NFTCreateBuilder()
+                .NFTCreateToken({
+                    collectionId,
+                    attributes: Fifa.assets.player1,
+                    recipientId: secondWallet.address,
+                })
+                .nonce("1")
+                .sign(passphrases[0]!)
+                .build();
+
+            await expect(nftCreateHandler.apply(actualTwo)).toResolve();
+
+            expect(secondWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actualTwo.id!]).toBeObject();
+            collectionWalletCheck(wallet, collectionId, 1, Fifa.collection);
+            expect(walletRepository.findByIndex(NFTIndexers.NFTTokenIndexer, actualTwo.id!)).toStrictEqual(
+                secondWallet,
+            );
         });
     });
 
@@ -321,9 +333,31 @@ describe("NFT Create tests", () => {
 
             expect(wallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actual.id!]).toBeUndefined();
 
-            collectionWalletCheck(wallet, collectionId, 0, nftCollectionAsset);
+            collectionWalletCheck(wallet, collectionId, 0, Fifa.collection);
 
             expect(walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).get(actual.id!)).toBeUndefined();
+        });
+
+        it("should revert correctly for recipient", async () => {
+            const secondWallet = buildWallet(app, passphrases[1]!);
+            walletRepository.index(secondWallet);
+
+            const actualTwo = new NFTBuilders.NFTCreateBuilder()
+                .NFTCreateToken({
+                    collectionId,
+                    attributes: Fifa.assets.player1,
+                    recipientId: secondWallet.address,
+                })
+                .nonce("1")
+                .sign(passphrases[0]!)
+                .build();
+
+            await nftCreateHandler.apply(actualTwo);
+            await expect(nftCreateHandler.revert(actualTwo)).toResolve();
+
+            expect(secondWallet.getAttribute<INFTTokens>("nft.base.tokenIds")[actualTwo.id!]).toBeUndefined();
+            collectionWalletCheck(wallet, collectionId, 0, Fifa.collection);
+            expect(walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).get(actualTwo.id!)).toBeUndefined();
         });
 
         it("should throw if nftToken is undefined", async () => {

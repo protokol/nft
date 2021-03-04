@@ -1,17 +1,22 @@
 import "jest-extended";
 
-import { Application, Container, Contracts, Utils } from "@arkecosystem/core-kernel";
+import { Application, Container, Contracts, Providers, Utils } from "@arkecosystem/core-kernel";
 import { Wallets } from "@arkecosystem/core-state";
 import { Generators, passphrases } from "@arkecosystem/core-test-framework";
 import { Identities, Interfaces, Managers, Transactions } from "@arkecosystem/crypto";
 import Hapi from "@hapi/hapi";
-import { Builders, Transactions as NFTTransactions } from "@protokol/nft-base-crypto";
+import {
+	Builders,
+	Transactions as NFTTransactions,
+	Interfaces as NFTCryptoInterfaces,
+} from "@protokol/nft-base-crypto";
 import { Indexers, Interfaces as NFTInterfaces } from "@protokol/nft-base-transactions";
 
 import { AssetsController } from "../../../src/controllers/assets";
 import {
 	blockHistoryService,
 	buildSenderWallet,
+	ErrorResponse,
 	initApp,
 	ItemResponse,
 	PaginatedResponse,
@@ -28,6 +33,8 @@ let walletRepository: Wallets.WalletRepository;
 let actual: Interfaces.ITransaction;
 
 const timestamp = Utils.formatTimestamp(104930456);
+const collectionId = "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61";
+const recipientId = "ANBkoGqWeTSiaEVgVzSKZd3jS7UWzv9PSo";
 
 beforeEach(() => {
 	const config = Generators.generateCryptoConfigRaw();
@@ -50,7 +57,7 @@ beforeEach(() => {
 
 	actual = new Builders.NFTCreateBuilder()
 		.NFTCreateToken({
-			collectionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+			collectionId,
 			attributes: {
 				name: "card name",
 				damage: 3,
@@ -67,6 +74,11 @@ beforeEach(() => {
 	senderWallet.setAttribute<NFTInterfaces.INFTTokens>("nft.base.tokenIds", tokensWallet);
 	walletRepository.index(senderWallet);
 	walletRepository.getIndex(Indexers.NFTIndexers.NFTTokenIndexer).index(senderWallet);
+
+	app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set<string>(
+		"mintPassphrase",
+		passphrases[0]!,
+	);
 });
 
 afterEach(() => {
@@ -95,7 +107,7 @@ describe("Test asset controller", () => {
 			id: actual.id,
 			ownerPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]!),
 			senderPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]!),
-			collectionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+			collectionId,
 			attributes: {
 				name: "card name",
 				damage: 3,
@@ -121,13 +133,26 @@ describe("Test asset controller", () => {
 		const response = (await assetController.showAssetWallet(request, undefined)) as ItemResponse;
 
 		expect(response.data).toStrictEqual({
-			address: "ANBkoGqWeTSiaEVgVzSKZd3jS7UWzv9PSo",
+			address: recipientId,
 			publicKey: "03287bfebba4c7881a0509717e71b34b63f31e40021c321f89ae04f84be6d6ac37",
 			nft: {
 				assetsIds: [actual.id],
 				collections: [],
 			},
 		});
+	});
+
+	it("showAssetWallet - should return error if no wallet by nfts id", async () => {
+		walletRepository.getIndex(Indexers.NFTIndexers.NFTTokenIndexer).forget(actual.id!);
+		const request: Hapi.Request = {
+			params: {
+				id: actual.id,
+			},
+		};
+		const response = (await assetController.showAssetWallet(request, undefined)) as ErrorResponse;
+
+		expect(response.isBoom).toBeTrue();
+		expect(response.output.statusCode).toBe(404);
 	});
 
 	it("show - return nftCreate transaction by its id", async () => {
@@ -149,7 +174,7 @@ describe("Test asset controller", () => {
 			id: actual.id,
 			ownerPublicKey: senderWallet.publicKey,
 			senderPublicKey: senderWallet.publicKey,
-			collectionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+			collectionId,
 			attributes: {
 				name: "card name",
 				damage: 3,
@@ -158,6 +183,24 @@ describe("Test asset controller", () => {
 			},
 			timestamp,
 		});
+	});
+
+	it("show - return error if no asset by id", async () => {
+		transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(undefined);
+
+		const request: Hapi.Request = {
+			query: {
+				transform: true,
+			},
+			params: {
+				id: actual.id,
+			},
+		};
+
+		const response = (await assetController.show(request, undefined)) as ErrorResponse;
+
+		expect(response.isBoom).toBeTrue();
+		expect(response.output.statusCode).toBe(404);
 	});
 
 	it("showByAsset - return transaction by payloads criteria", async () => {
@@ -180,7 +223,7 @@ describe("Test asset controller", () => {
 			id: actual.id,
 			ownerPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]!),
 			senderPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]!),
-			collectionId: "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+			collectionId,
 			attributes: {
 				name: "card name",
 				damage: 3,
@@ -189,5 +232,83 @@ describe("Test asset controller", () => {
 			},
 			timestamp,
 		});
+	});
+
+	it("claim asset - throw error if no passphrase", async () => {
+		app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).unset<string>(
+			"mintPassphrase",
+		);
+		const response = (await assetController.claimAsset(undefined, undefined)) as ErrorResponse;
+
+		expect(response.isBoom).toBeTrue();
+		expect(response.output.statusCode).toBe(501);
+	});
+
+	it("claim asset - throw error if not a valid recipient address", async () => {
+		const request = {
+			payload: { recipientId: "address" },
+		};
+		const response = (await assetController.claimAsset(request, undefined)) as ErrorResponse;
+
+		expect(response.isBoom).toBeTrue();
+		expect(response.output.statusCode).toBe(422);
+	});
+
+	it("claim asset - throw error if not a valid collectionId", async () => {
+		const request = {
+			payload: { recipientId, collectionId: "collection" },
+		};
+		const response = (await assetController.claimAsset(request, undefined)) as ErrorResponse;
+
+		expect(response.isBoom).toBeTrue();
+		expect(response.output.statusCode).toBe(422);
+	});
+
+	it("claim asset - throw error if collection does not support claiming", async () => {
+		const collectionsWallet = senderWallet.getAttribute<NFTInterfaces.INFTCollections>("nft.base.collections", {});
+		collectionsWallet[collectionId] = {
+			currentSupply: 0,
+			nftCollectionAsset: {} as NFTCryptoInterfaces.NFTCollectionAsset,
+		};
+		senderWallet.setAttribute("nft.base.collections", collectionsWallet);
+		walletRepository.getIndex(Indexers.NFTIndexers.CollectionIndexer).index(senderWallet);
+
+		const request = {
+			payload: {
+				recipientId,
+				collectionId,
+			},
+		};
+		const response = (await assetController.claimAsset(request, undefined)) as ErrorResponse;
+
+		expect(response.isBoom).toBeTrue();
+		expect(response.output.statusCode).toBe(422);
+	});
+
+	it("claim asset successfully", async () => {
+		const metadata = { name: "name" };
+		const collectionsWallet = senderWallet.getAttribute<NFTInterfaces.INFTCollections>("nft.base.collections", {});
+		collectionsWallet[collectionId] = {
+			currentSupply: 0,
+			nftCollectionAsset: { metadata } as NFTCryptoInterfaces.NFTCollectionAsset,
+		};
+		senderWallet.setAttribute("nft.base.collections", collectionsWallet);
+		walletRepository.getIndex(Indexers.NFTIndexers.CollectionIndexer).index(senderWallet);
+
+		const request = { payload: { recipientId, collectionId } };
+		const response = (await assetController.claimAsset(request, undefined)) as ItemResponse;
+
+		expect(response).toStrictEqual(
+			new Builders.NFTCreateBuilder()
+				.NFTCreateToken({
+					collectionId,
+					attributes: metadata,
+					recipientId,
+				})
+				.nonce("1")
+				.sign(passphrases[0]!)
+				.build()
+				.toJson(),
+		);
 	});
 });

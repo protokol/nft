@@ -1,18 +1,25 @@
-import { Container, Contracts } from "@arkecosystem/core-kernel";
+import { Container, Contracts, Providers, Utils } from "@arkecosystem/core-kernel";
+import { Identities } from "@arkecosystem/crypto";
 import Boom from "@hapi/boom";
 import Hapi from "@hapi/hapi";
-import { Enums } from "@protokol/nft-base-crypto";
-import { Indexers } from "@protokol/nft-base-transactions";
+import { Builders, Enums } from "@protokol/nft-base-crypto";
+import { Indexers, Interfaces } from "@protokol/nft-base-transactions";
 
 import { AssetResource } from "../resources/assets";
 import { WalletsResource } from "../resources/wallets";
 import { BaseController } from "./base-controller";
+
+const pluginName = require("../../package.json").name;
 
 @Container.injectable()
 export class AssetsController extends BaseController {
 	@Container.inject(Container.Identifiers.WalletRepository)
 	@Container.tagged("state", "blockchain")
 	private readonly walletRepository!: Contracts.State.WalletRepository;
+
+	@Container.inject(Container.Identifiers.PluginConfiguration)
+	@Container.tagged("plugin", pluginName)
+	protected readonly configuration!: Providers.PluginConfiguration;
 
 	public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
 		const criteria: Contracts.Shared.TransactionCriteria = {
@@ -69,5 +76,44 @@ export class AssetsController extends BaseController {
 			request.query.transform,
 			AssetResource,
 		);
+	}
+
+	public async claimAsset(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+		const passphrase = this.configuration.get<string>("mintPassphrase");
+		if (!passphrase) {
+			return Boom.notImplemented();
+		}
+
+		const { collectionId, recipientId } = request.payload;
+		if (!Identities.Address.validate(recipientId)) {
+			return Boom.badData("Address not found");
+		}
+
+		let genesisWalletCollection: Interfaces.INFTCollections;
+		try {
+			const genesisWallet = this.walletRepository.findByIndex(
+				Indexers.NFTIndexers.CollectionIndexer,
+				collectionId,
+			);
+			genesisWalletCollection = genesisWallet.getAttribute<Interfaces.INFTCollections>("nft.base.collections");
+		} catch (e) {
+			return Boom.badData("Collection not found");
+		}
+
+		const attributes = genesisWalletCollection[collectionId]!.nftCollectionAsset.metadata!;
+		if (!attributes) {
+			return Boom.badData("This collection does not support claiming assets");
+		}
+
+		const wallet = this.walletRepository.findByAddress(Identities.Address.fromPassphrase(passphrase));
+		const nonce = Utils.BigNumber.make(wallet.nonce).plus(1).toFixed();
+		const createAssetTx = new Builders.NFTCreateBuilder()
+			.NFTCreateToken({ collectionId, attributes, recipientId })
+			.nonce(nonce)
+			.sign(passphrase)
+			.build()
+			.toJson();
+
+		return createAssetTx;
 	}
 }

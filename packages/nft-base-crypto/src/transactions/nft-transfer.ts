@@ -10,6 +10,7 @@ import {
     NFTBaseTransactionVersion,
 } from "../enums";
 import { NFTTransferAsset } from "../interfaces";
+import { amount, vendorField } from "./utils/schemas";
 
 const { schemas } = Transactions;
 
@@ -28,8 +29,8 @@ export class NFTTransferTransaction extends Transactions.Transaction {
             properties: {
                 type: { transactionType: NFTBaseTransactionTypes.NFTTransfer },
                 typeGroup: { const: NFTBaseTransactionGroup },
-                amount: { bignumber: { minimum: 0, maximum: 0 } },
-                vendorField: { anyOf: [{ type: "null" }, { type: "string", format: "vendorField" }] },
+                amount,
+                vendorField,
                 asset: {
                     type: "object",
                     required: ["nftTransfer"],

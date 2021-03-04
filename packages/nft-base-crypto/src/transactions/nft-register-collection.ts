@@ -1,4 +1,4 @@
-import { Transactions, Utils, Validation } from "@arkecosystem/crypto";
+import { Transactions, Utils } from "@arkecosystem/crypto";
 import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 
@@ -10,6 +10,7 @@ import {
     NFTBaseTransactionVersion,
 } from "../enums";
 import { NFTCollectionAsset } from "../interfaces";
+import { amount, stringPattern, vendorField } from "./utils/schemas";
 
 const { schemas } = Transactions;
 
@@ -22,27 +23,14 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
     protected static defaultStaticFee = Utils.BigNumber.make(NFTBaseStaticFees.NFTRegisterCollection);
 
     public static getSchema(): Transactions.schemas.TransactionSchema {
-        Validation.validator.removeKeyword("collectionJsonSchemaByteSize");
-        Validation.validator.addKeyword("collectionJsonSchemaByteSize", {
-            compile(schema, parentSchema) {
-                return (data) => {
-                    return Buffer.from(JSON.stringify(data), "utf8").byteLength <= schema;
-                };
-            },
-            errors: true,
-            metaSchema: {
-                type: "integer",
-                minimum: 0,
-            },
-        });
         return schemas.extend(schemas.transactionBaseSchema, {
             $id: "NFTRegisterCollection",
             required: ["asset", "typeGroup"],
             properties: {
                 type: { transactionType: NFTBaseTransactionTypes.NFTRegisterCollection },
                 typeGroup: { const: NFTBaseTransactionGroup },
-                amount: { bignumber: { minimum: 0, maximum: 0 } },
-                vendorField: { anyOf: [{ type: "null" }, { type: "string", format: "vendorField" }] },
+                amount,
+                vendorField,
                 asset: {
                     type: "object",
                     required: ["nftCollection"],
@@ -53,7 +41,7 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
                             properties: {
                                 name: {
                                     allOf: [
-                                        { type: "string", pattern: "^[a-zA-Z0-9]+(( - |[ ._-])[a-zA-Z0-9]+)*[.]?$" },
+                                        stringPattern,
                                         {
                                             minLength: defaults.nftCollectionName.minLength,
                                             maxLength: defaults.nftCollectionName.maxLength,
@@ -62,7 +50,7 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
                                 },
                                 description: {
                                     allOf: [
-                                        { type: "string", pattern: "^[a-zA-Z0-9]+(( - |[ ._-])[a-zA-Z0-9]+)*[.]?$" },
+                                        stringPattern,
                                         {
                                             minLength: defaults.nftCollectionDescription.minLength,
                                             maxLength: defaults.nftCollectionDescription.maxLength,
@@ -76,6 +64,10 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
                                 jsonSchema: {
                                     type: "object",
                                     collectionJsonSchemaByteSize: defaults.nftCollectionJsonSchemaByteSize,
+                                },
+                                metadata: {
+                                    type: "object",
+                                    tokenAttributesByteSize: defaults.nftTokenAttributesByteSize,
                                 },
                                 allowedIssuers: {
                                     type: "array",
@@ -112,6 +104,10 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
             }
         }
 
+        const metadataBuffer = nftCollectionAsset.metadata
+            ? Buffer.from(JSON.stringify(nftCollectionAsset.metadata))
+            : Buffer.from("");
+
         const buffer: ByteBuffer = new ByteBuffer(
             nameBuffer.length +
                 descriptionBuffer.length +
@@ -119,6 +115,7 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
                 jsonSchemaBuffer.length +
                 3 +
                 buffersAllowedIssuersPublicKeys.length * 66,
+            4 + metadataBuffer.length,
             true,
         );
 
@@ -133,13 +130,16 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
         buffer.writeUint32(jsonSchemaBuffer.length);
         buffer.append(jsonSchemaBuffer, "hex");
 
+        buffer.writeByte(buffersAllowedIssuersPublicKeys.length);
         if (nftCollectionAsset.allowedIssuers) {
-            buffer.writeByte(buffersAllowedIssuersPublicKeys.length);
             for (const buf of buffersAllowedIssuersPublicKeys) {
                 buffer.append(buf, "hex");
             }
-        } else {
-            buffer.writeByte(0);
+        }
+
+        buffer.writeUint32(metadataBuffer.length);
+        if (nftCollectionAsset.metadata) {
+            buffer.append(metadataBuffer, "hex");
         }
 
         return buffer;
@@ -173,6 +173,12 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
             }
             nftCollection.allowedIssuers = allowedSchemaIssuers;
         }
+
+        const metadataLength = buf.readUint32();
+        if (metadataLength) {
+            nftCollection.metadata = JSON.parse(buf.readString(metadataLength));
+        }
+
         data.asset = {
             nftCollection,
         };
