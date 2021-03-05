@@ -69,7 +69,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@arkecosystem/core", "virtual:83a7b5b28202c85c997458e1ad09bc07fb9d8ae6b5d3cd79e06be6d819366a286e07a084cc8a066d97af5a6fadb20481b9224d2436cf282c4baba875ce88f3b7#npm:3.0.0-next.22"],
             ["@arkecosystem/core-cli", "npm:3.0.0-next.22"],
-            ["@sindresorhus/tsconfig", "npm:0.8.0"],
+            ["@sindresorhus/tsconfig", "npm:0.9.0"],
             ["@types/eslint", "npm:7.2.6"],
             ["@types/eslint-plugin-prettier", "npm:3.1.0"],
             ["@types/jest", "npm:26.0.20"],
@@ -2720,7 +2720,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@hapi/hapi", "npm:20.1.0"],
             ["@protokol/nft-base-crypto", "workspace:packages/nft-base-crypto"],
             ["@protokol/nft-base-transactions", "workspace:packages/nft-base-transactions"],
-            ["@sindresorhus/tsconfig", "npm:0.8.0"],
+            ["@sindresorhus/tsconfig", "npm:0.9.0"],
             ["@types/eslint", "npm:7.2.6"],
             ["@types/eslint-plugin-prettier", "npm:3.1.0"],
             ["@types/hapi__boom", "npm:7.4.1"],
@@ -2767,7 +2767,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@arkecosystem/crypto", "npm:3.0.0-next.22"],
             ["@protokol/sets", "npm:1.0.0-beta.0"],
             ["@protokol/utils", "npm:1.0.0-beta.38"],
-            ["@sindresorhus/tsconfig", "npm:0.8.0"],
+            ["@sindresorhus/tsconfig", "npm:0.9.0"],
             ["@types/jest", "npm:26.0.20"],
             ["@types/node", "npm:14.14.31"],
             ["@types/rimraf", "npm:3.0.0"],
@@ -2803,7 +2803,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@arkecosystem/crypto", "npm:3.0.0-next.22"],
             ["@protokol/nft-base-crypto", "workspace:packages/nft-base-crypto"],
             ["@protokol/sets", "npm:1.0.0-beta.0"],
-            ["@sindresorhus/tsconfig", "npm:0.8.0"],
+            ["@sindresorhus/tsconfig", "npm:0.9.0"],
             ["@types/eslint", "npm:7.2.6"],
             ["@types/eslint-plugin-prettier", "npm:3.1.0"],
             ["@types/hapi__joi", "npm:17.1.6"],
@@ -2853,7 +2853,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@protokol/nft-base-transactions", "workspace:packages/nft-base-transactions"],
             ["@protokol/nft-exchange-crypto", "workspace:packages/nft-exchange-crypto"],
             ["@protokol/nft-exchange-transactions", "workspace:packages/nft-exchange-transactions"],
-            ["@sindresorhus/tsconfig", "npm:0.8.0"],
+            ["@sindresorhus/tsconfig", "npm:0.9.0"],
             ["@types/eslint", "npm:7.2.6"],
             ["@types/eslint-plugin-prettier", "npm:3.1.0"],
             ["@types/hapi__boom", "npm:7.4.1"],
@@ -2899,7 +2899,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@arkecosystem/core-test-framework", "npm:3.0.0-next.22"],
             ["@arkecosystem/crypto", "npm:3.0.0-next.22"],
             ["@protokol/utils", "npm:1.0.0-beta.38"],
-            ["@sindresorhus/tsconfig", "npm:0.8.0"],
+            ["@sindresorhus/tsconfig", "npm:0.9.0"],
             ["@types/jest", "npm:26.0.20"],
             ["@types/node", "npm:14.14.31"],
             ["@types/rimraf", "npm:3.0.0"],
@@ -2936,7 +2936,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@protokol/nft-base-crypto", "workspace:packages/nft-base-crypto"],
             ["@protokol/nft-base-transactions", "workspace:packages/nft-base-transactions"],
             ["@protokol/nft-exchange-crypto", "workspace:packages/nft-exchange-crypto"],
-            ["@sindresorhus/tsconfig", "npm:0.8.0"],
+            ["@sindresorhus/tsconfig", "npm:0.9.0"],
             ["@types/eslint", "npm:7.2.6"],
             ["@types/eslint-plugin-prettier", "npm:3.1.0"],
             ["@types/hapi__joi", "npm:17.1.6"],
@@ -2974,7 +2974,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@protokol/nft-plugins", "workspace:."],
             ["@arkecosystem/core", "virtual:83a7b5b28202c85c997458e1ad09bc07fb9d8ae6b5d3cd79e06be6d819366a286e07a084cc8a066d97af5a6fadb20481b9224d2436cf282c4baba875ce88f3b7#npm:3.0.0-next.22"],
             ["@arkecosystem/core-cli", "npm:3.0.0-next.22"],
-            ["@sindresorhus/tsconfig", "npm:0.8.0"],
+            ["@sindresorhus/tsconfig", "npm:0.9.0"],
             ["@types/eslint", "npm:7.2.6"],
             ["@types/eslint-plugin-prettier", "npm:3.1.0"],
             ["@types/jest", "npm:26.0.20"],
@@ -3101,10 +3101,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@sindresorhus/tsconfig", [
-        ["npm:0.8.0", {
-          "packageLocation": "./.yarn/cache/@sindresorhus-tsconfig-npm-0.8.0-8c813be5dd-5131f97d6b.zip/node_modules/@sindresorhus/tsconfig/",
+        ["npm:0.9.0", {
+          "packageLocation": "./.yarn/cache/@sindresorhus-tsconfig-npm-0.9.0-0ed4050753-07e516e712.zip/node_modules/@sindresorhus/tsconfig/",
           "packageDependencies": [
-            ["@sindresorhus/tsconfig", "npm:0.8.0"]
+            ["@sindresorhus/tsconfig", "npm:0.9.0"]
           ],
           "linkType": "HARD",
         }]
@@ -11269,7 +11269,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["ngrok", [
         ["npm:3.4.0", {
-          "packageLocation": "./.yarn/unplugged/ngrok-npm-3.4.0-b3c3175e0b/node_modules/ngrok/",
+          "packageLocation": "./.yarn/cache/ngrok-npm-3.4.0-b3c3175e0b-7edb48c174.zip/node_modules/ngrok/",
           "packageDependencies": [
             ["ngrok", "npm:3.4.0"],
             ["@types/node", "npm:8.10.66"],
@@ -12836,7 +12836,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["protobufjs", [
         ["npm:6.10.2", {
-          "packageLocation": "./.yarn/unplugged/protobufjs-npm-6.10.2-f0f2cab7fe/node_modules/protobufjs/",
+          "packageLocation": "./.yarn/cache/protobufjs-npm-6.10.2-f0f2cab7fe-09d6292362.zip/node_modules/protobufjs/",
           "packageDependencies": [
             ["protobufjs", "npm:6.10.2"],
             ["@protobufjs/aspromise", "npm:1.1.2"],

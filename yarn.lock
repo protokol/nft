@@ -2307,7 +2307,7 @@ __metadata:
     "@hapi/hapi": ^20.0.2
     "@protokol/nft-base-crypto": "workspace:packages/nft-base-crypto"
     "@protokol/nft-base-transactions": "workspace:packages/nft-base-transactions"
-    "@sindresorhus/tsconfig": ^0.8.0
+    "@sindresorhus/tsconfig": ^0.9.0
     "@types/eslint": ^7.2.5
     "@types/eslint-plugin-prettier": ^3.1.0
     "@types/hapi__boom": ^7.4.1
@@ -2352,7 +2352,7 @@ __metadata:
     "@arkecosystem/crypto": ^3.0.0-next
     "@protokol/sets": ^1.0.0-beta.0
     "@protokol/utils": ^1.0.0-beta.37
-    "@sindresorhus/tsconfig": ~0.8.0
+    "@sindresorhus/tsconfig": ~0.9.0
     "@types/jest": ~26.0.15
     "@types/node": ^14.14.7
     "@types/rimraf": ^3.0.0
@@ -2386,7 +2386,7 @@ __metadata:
     "@arkecosystem/crypto": ^3.0.0-next
     "@protokol/nft-base-crypto": "workspace:packages/nft-base-crypto"
     "@protokol/sets": ^1.0.0-beta.0
-    "@sindresorhus/tsconfig": ~0.8.0
+    "@sindresorhus/tsconfig": ~0.9.0
     "@types/eslint": ^7.2.5
     "@types/eslint-plugin-prettier": ^3.1.0
     "@types/hapi__joi": 17.1.6
@@ -2434,7 +2434,7 @@ __metadata:
     "@protokol/nft-base-transactions": "workspace:packages/nft-base-transactions"
     "@protokol/nft-exchange-crypto": "workspace:packages/nft-exchange-crypto"
     "@protokol/nft-exchange-transactions": "workspace:packages/nft-exchange-transactions"
-    "@sindresorhus/tsconfig": ^0.8.0
+    "@sindresorhus/tsconfig": ^0.9.0
     "@types/eslint": ^7.2.5
     "@types/eslint-plugin-prettier": ^3.1.0
     "@types/hapi__boom": ^7.4.1
@@ -2478,7 +2478,7 @@ __metadata:
     "@arkecosystem/core-test-framework": ^3.0.0-next
     "@arkecosystem/crypto": ^3.0.0-next
     "@protokol/utils": ^1.0.0-beta.37
-    "@sindresorhus/tsconfig": ~0.8.0
+    "@sindresorhus/tsconfig": ~0.9.0
     "@types/jest": ~26.0.15
     "@types/node": ^14.14.7
     "@types/rimraf": ^3.0.0
@@ -2513,7 +2513,7 @@ __metadata:
     "@protokol/nft-base-crypto": "workspace:packages/nft-base-crypto"
     "@protokol/nft-base-transactions": "workspace:packages/nft-base-transactions"
     "@protokol/nft-exchange-crypto": "workspace:packages/nft-exchange-crypto"
-    "@sindresorhus/tsconfig": ~0.8.0
+    "@sindresorhus/tsconfig": ~0.9.0
     "@types/eslint": ^7.2.5
     "@types/eslint-plugin-prettier": ^3.1.0
     "@types/hapi__joi": 17.1.6
@@ -2549,7 +2549,7 @@ __metadata:
   dependencies:
     "@arkecosystem/core": ^3.0.0-next
     "@arkecosystem/core-cli": ^3.0.0-next
-    "@sindresorhus/tsconfig": ^0.8.0
+    "@sindresorhus/tsconfig": ^0.9.0
     "@types/eslint": ^7.2.0
     "@types/eslint-plugin-prettier": ^3.1.0
     "@types/jest": ^26.0.10
@@ -2676,10 +2676,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sindresorhus/tsconfig@npm:^0.8.0, @sindresorhus/tsconfig@npm:~0.8.0":
-  version: 0.8.0
-  resolution: "@sindresorhus/tsconfig@npm:0.8.0"
-  checksum: 5131f97d6be9517cbafcc2ffc29450b7ba23c343637410c38a88d4bf2fabc5b9ce7a72b9371cc090c210ed81b61b5bf10610c86d4d39e444d6f306b6a896ec29
+"@sindresorhus/tsconfig@npm:^0.9.0, @sindresorhus/tsconfig@npm:~0.9.0":
+  version: 0.9.0
+  resolution: "@sindresorhus/tsconfig@npm:0.9.0"
+  checksum: 07e516e712aef328f01226118f3e4953f86d631e5f263b3398852b185dac1d3991943fccda00de7122ef2de52d1c18a1c2bf7327860b101999f20505e1c7a4fb
   languageName: node
   linkType: hard
 
