@@ -23,7 +23,8 @@
 		"sourceMap": true,
 		"strict": true,
 		"stripInternal": true,
-		"target": "es2019"
+		"target": "es2019",
+		"noPropertyAccessFromIndexSignature": false
 	},
 	"exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"]
 }
