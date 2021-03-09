@@ -78,6 +78,9 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
                                         $ref: "publicKey",
                                     },
                                 },
+                                claimable: {
+                                    type: "boolean",
+                                },
                             },
                         },
                     },
@@ -115,7 +118,7 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
                 jsonSchemaBuffer.length +
                 3 +
                 buffersAllowedIssuersPublicKeys.length * 66,
-            4 + metadataBuffer.length,
+            4 + metadataBuffer.length + 1, // 1 byte for claimable
             true,
         );
 
@@ -141,6 +144,8 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
         if (nftCollectionAsset.metadata) {
             buffer.append(metadataBuffer, "hex");
         }
+
+        buffer.writeByte(nftCollectionAsset.claimable ? 1 : 0);
 
         return buffer;
     }
@@ -177,6 +182,11 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
         const metadataLength = buf.readUint32();
         if (metadataLength) {
             nftCollection.metadata = JSON.parse(buf.readString(metadataLength));
+        }
+
+        const claimable = Boolean(buf.readUint8());
+        if (claimable) {
+            nftCollection.claimable = claimable;
         }
 
         data.asset = {

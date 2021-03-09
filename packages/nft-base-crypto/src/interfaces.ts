@@ -5,6 +5,7 @@ export interface NFTCollectionAsset {
     jsonSchema: object;
     allowedIssuers?: string[];
     metadata?: object;
+    claimable?: boolean;
 }
 
 export interface NFTTokenAsset {

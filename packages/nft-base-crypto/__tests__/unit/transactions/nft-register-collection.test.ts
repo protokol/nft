@@ -46,6 +46,23 @@ describe("NFT register collection tests", () => {
             expect(deserialized.data.asset!.nftCollection).toStrictEqual(collectionWithMetadata);
         });
 
+        it("should ser/deser correctly with claimable", () => {
+            const claimableCollection = {
+                ...Marvel.collection,
+                claimable: true,
+            };
+            const actual = new NFTRegisterCollectionBuilder()
+                .NFTRegisterCollectionAsset(claimableCollection)
+                .nonce("3")
+                .sign("clay harbor enemy utility margin pretty hub comic piece aerobic umbrella acquire")
+                .getStruct();
+
+            const serialized = Transactions.TransactionFactory.fromData(actual).serialized.toString("hex");
+            const deserialized = Transactions.Deserializer.deserialize(serialized);
+
+            expect(deserialized.data.asset!.nftCollection).toStrictEqual(claimableCollection);
+        });
+
         it("should throw if asset is undefined", () => {
             const actual = new NFTRegisterCollectionBuilder().NFTRegisterCollectionAsset(Marvel.collection).nonce("3");
 
