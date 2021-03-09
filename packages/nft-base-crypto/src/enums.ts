@@ -5,6 +5,7 @@ export enum NFTBaseTransactionTypes {
     NFTCreate = 1,
     NFTTransfer = 2,
     NFTBurn = 3,
+    NFTClaim = 4,
 }
 
 export const NFTBaseTransactionGroup = defaults.nftBaseTypeGroup;
@@ -16,4 +17,5 @@ export enum NFTBaseStaticFees {
     NFTCreate = "500000000",
     NFTTransfer = "500000000",
     NFTBurn = "500000000",
+    NFTClaim = "500000000",
 }

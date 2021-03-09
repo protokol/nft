@@ -2351,7 +2351,7 @@ __metadata:
     "@arkecosystem/core-test-framework": ^3.0.0-next
     "@arkecosystem/crypto": ^3.0.0-next
     "@protokol/sets": ^1.0.0-beta.0
-    "@protokol/utils": ^1.0.0-beta.37
+    "@protokol/utils": ^1.0.0-beta.38
     "@sindresorhus/tsconfig": ~0.9.0
     "@types/jest": ~26.0.15
     "@types/node": ^14.14.7
@@ -2477,7 +2477,7 @@ __metadata:
   dependencies:
     "@arkecosystem/core-test-framework": ^3.0.0-next
     "@arkecosystem/crypto": ^3.0.0-next
-    "@protokol/utils": ^1.0.0-beta.37
+    "@protokol/utils": ^1.0.0-beta.38
     "@sindresorhus/tsconfig": ~0.9.0
     "@types/jest": ~26.0.15
     "@types/node": ^14.14.7
@@ -2609,7 +2609,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@protokol/utils@npm:^1.0.0-beta.37":
+"@protokol/utils@npm:^1.0.0-beta.37, @protokol/utils@npm:^1.0.0-beta.38":
   version: 1.0.0-beta.38
   resolution: "@protokol/utils@npm:1.0.0-beta.38"
   checksum: 9bb524aac72ccaf6efb4d8c220ab7a39216f02ab2695a87a7ff3d033be3c1eda31822c88738f2d91db9fcbc71f998d3b669790e9cbc010f4cedddbb939a4bc9a

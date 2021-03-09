@@ -21,3 +21,7 @@ export interface NFTTransferAsset {
 export interface NFTBurnAsset {
     nftId: string;
 }
+
+export interface NFTClaimAsset {
+    collectionId: string;
+}
