@@ -2748,7 +2748,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["joi", "npm:17.4.0"],
             ["latest-version", "npm:5.1.0"],
             ["nock", "npm:13.0.10"],
-            ["npm-check-updates", "npm:11.2.0"],
+            ["npm-check-updates", "npm:11.3.0"],
             ["prettier", "npm:2.2.1"],
             ["rimraf", "npm:3.0.2"],
             ["ts-jest", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:26.5.3"],
@@ -2881,7 +2881,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["joi", "npm:17.4.0"],
             ["latest-version", "npm:5.1.0"],
             ["nock", "npm:13.0.10"],
-            ["npm-check-updates", "npm:11.2.0"],
+            ["npm-check-updates", "npm:11.3.0"],
             ["prettier", "npm:2.2.1"],
             ["rimraf", "npm:3.0.2"],
             ["ts-jest", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:26.5.3"],
@@ -8367,6 +8367,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lru-cache", "npm:6.0.0"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:4.0.0", {
+          "packageLocation": "./.yarn/cache/hosted-git-info-npm-4.0.0-98724ab476-540b4a8bd0.zip/node_modules/hosted-git-info/",
+          "packageDependencies": [
+            ["hosted-git-info", "npm:4.0.0"],
+            ["lru-cache", "npm:6.0.0"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["html-encoding-sniffer", [
@@ -11641,10 +11649,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:11.2.0", {
-          "packageLocation": "./.yarn/cache/npm-check-updates-npm-11.2.0-04ea4156ee-c9073e4ea2.zip/node_modules/npm-check-updates/",
+        ["npm:11.3.0", {
+          "packageLocation": "./.yarn/cache/npm-check-updates-npm-11.3.0-0ebdc28e5d-2499cc7183.zip/node_modules/npm-check-updates/",
           "packageDependencies": [
-            ["npm-check-updates", "npm:11.2.0"],
+            ["npm-check-updates", "npm:11.3.0"],
             ["chalk", "npm:4.1.0"],
             ["cint", "npm:8.2.1"],
             ["cli-table", "npm:0.3.5"],
@@ -11653,7 +11661,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fp-and-or", "npm:0.1.3"],
             ["get-stdin", "npm:8.0.0"],
             ["globby", "npm:11.0.2"],
-            ["hosted-git-info", "npm:3.0.8"],
+            ["hosted-git-info", "npm:4.0.0"],
             ["json-parse-helpfulerror", "npm:1.0.3"],
             ["jsonlines", "npm:0.1.1"],
             ["libnpmconfig", "npm:1.2.1"],
@@ -11661,7 +11669,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["mem", "npm:8.0.0"],
             ["minimatch", "npm:3.0.4"],
             ["p-map", "npm:4.0.0"],
-            ["pacote", "npm:11.2.7"],
+            ["pacote", "npm:11.3.0"],
             ["parse-github-url", "npm:1.0.2"],
             ["progress", "npm:2.0.3"],
             ["prompts", "npm:2.4.0"],
@@ -12218,6 +12226,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/pacote-npm-11.2.7-97313d2285-e4f0947b39.zip/node_modules/pacote/",
           "packageDependencies": [
             ["pacote", "npm:11.2.7"],
+            ["@npmcli/git", "npm:2.0.6"],
+            ["@npmcli/installed-package-contents", "npm:1.0.7"],
+            ["@npmcli/promise-spawn", "npm:1.3.2"],
+            ["@npmcli/run-script", "npm:1.8.3"],
+            ["cacache", "npm:15.0.5"],
+            ["chownr", "npm:2.0.0"],
+            ["fs-minipass", "npm:2.1.0"],
+            ["infer-owner", "npm:1.0.4"],
+            ["minipass", "npm:3.1.3"],
+            ["mkdirp", "npm:1.0.4"],
+            ["npm-package-arg", "npm:8.1.1"],
+            ["npm-packlist", "npm:2.1.4"],
+            ["npm-pick-manifest", "npm:6.1.0"],
+            ["npm-registry-fetch", "npm:9.0.0"],
+            ["promise-retry", "npm:2.0.1"],
+            ["read-package-json-fast", "npm:2.0.2"],
+            ["rimraf", "npm:3.0.2"],
+            ["ssri", "npm:8.0.1"],
+            ["tar", "npm:6.1.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:11.3.0", {
+          "packageLocation": "./.yarn/cache/pacote-npm-11.3.0-809eecc67f-98eaa3e1b3.zip/node_modules/pacote/",
+          "packageDependencies": [
+            ["pacote", "npm:11.3.0"],
             ["@npmcli/git", "npm:2.0.6"],
             ["@npmcli/installed-package-contents", "npm:1.0.7"],
             ["@npmcli/promise-spawn", "npm:1.3.2"],
