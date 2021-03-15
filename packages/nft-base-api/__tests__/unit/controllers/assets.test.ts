@@ -7,8 +7,8 @@ import { Identities, Interfaces, Managers, Transactions } from "@arkecosystem/cr
 import Hapi from "@hapi/hapi";
 import {
 	Builders,
-	Transactions as NFTTransactions,
 	Interfaces as NFTCryptoInterfaces,
+	Transactions as NFTTransactions,
 } from "@protokol/nft-base-crypto";
 import { Indexers, Interfaces as NFTInterfaces } from "@protokol/nft-base-transactions";
 
