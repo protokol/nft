@@ -105,8 +105,8 @@ describe("Test asset controller", () => {
 		const response = (await assetController.index(request, undefined)) as PaginatedResponse;
 		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
-			ownerPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]!),
-			senderPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]!),
+			ownerPublicKey: senderWallet.publicKey,
+			senderPublicKey: senderWallet.publicKey,
 			collectionId,
 			attributes: {
 				name: "card name",
@@ -134,7 +134,7 @@ describe("Test asset controller", () => {
 
 		expect(response.data).toStrictEqual({
 			address: recipientId,
-			publicKey: "03287bfebba4c7881a0509717e71b34b63f31e40021c321f89ae04f84be6d6ac37",
+			publicKey: senderWallet.publicKey,
 			nft: {
 				assetsIds: [actual.id],
 				collections: [],
@@ -153,6 +153,47 @@ describe("Test asset controller", () => {
 
 		expect(response.isBoom).toBeTrue();
 		expect(response.output.statusCode).toBe(404);
+	});
+
+	it("showWalletAssets - should return error if no wallet", async () => {
+		const request: Hapi.Request = {
+			params: {
+				id: actual.id,
+			},
+		};
+		const response = (await assetController.showWalletAssets(request, undefined)) as ErrorResponse;
+
+		expect(response.isBoom).toBeTrue();
+		expect(response.output.statusCode).toBe(404);
+	});
+
+	it("showWalletAssets - should return all assets that wallet contains", async () => {
+		transactionHistoryService.findManyByCriteriaJoinBlock.mockResolvedValueOnce([
+			{ data: actual.data, block: { timestamp: timestamp.epoch } },
+		]);
+
+		const request: Hapi.Request = {
+			params: {
+				id: senderWallet.publicKey,
+			},
+		};
+		const response = (await assetController.showWalletAssets(request, undefined)) as ItemResponse;
+
+		expect(response.data).toStrictEqual([
+			{
+				id: actual.id,
+				ownerPublicKey: senderWallet.publicKey,
+				senderPublicKey: senderWallet.publicKey,
+				collectionId,
+				attributes: {
+					name: "card name",
+					damage: 3,
+					health: 2,
+					mana: 2,
+				},
+				timestamp,
+			},
+		]);
 	});
 
 	it("show - return nftCreate transaction by its id", async () => {

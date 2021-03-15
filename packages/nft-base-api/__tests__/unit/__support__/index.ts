@@ -33,6 +33,7 @@ export const transactionHistoryService = {
 	findOneByCriteria: jest.fn(),
 	listByCriteria: jest.fn(),
 	listByCriteriaJoinBlock: jest.fn(),
+	findManyByCriteriaJoinBlock: jest.fn(),
 };
 
 export const blockHistoryService = {
@@ -119,6 +120,12 @@ export const initApp = (): Application => {
 	app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
 		name: Contracts.State.WalletIndexes.Addresses,
 		indexer: Wallets.addressesIndexer,
+		autoIndex: true,
+	});
+
+	app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
+		name: Contracts.State.WalletIndexes.PublicKeys,
+		indexer: Wallets.publicKeysIndexer,
 		autoIndex: true,
 	});
 
