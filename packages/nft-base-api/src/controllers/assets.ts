@@ -6,6 +6,7 @@ import { Builders, Enums } from "@protokol/nft-base-crypto";
 import { Indexers, Interfaces } from "@protokol/nft-base-transactions";
 
 import { AssetResource } from "../resources/assets";
+import { ResourceWithBlock } from "../resources/resource-with-block";
 import { WalletsResource } from "../resources/wallets";
 import { BaseController } from "./base-controller";
 
@@ -59,6 +60,26 @@ export class AssetsController extends BaseController {
 			return Boom.notFound("Asset not found");
 		}
 		return this.respondWithBlockResource(transaction, request.query.transform, AssetResource);
+	}
+
+	public async showWalletAssets(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+		let wallet: Contracts.State.Wallet;
+		try {
+			wallet = this.walletRepository.findByPublicKey(request.params.id);
+		} catch (e) {
+			return Boom.notFound("Wallet not found");
+		}
+
+		const tokenIds = Object.keys(wallet.getAttribute("nft.base.tokenIds", {}));
+		const txs = await this.transactionHistoryService.findManyByCriteriaJoinBlock(
+			tokenIds.map((tokenId) => ({
+				typeGroup: Enums.NFTBaseTransactionGroup,
+				type: Enums.NFTBaseTransactionTypes.NFTCreate,
+				id: tokenId,
+			})),
+		);
+
+		return this.respondWithCollection(txs, ResourceWithBlock(AssetResource));
 	}
 
 	public async showByAsset(request: Hapi.Request, h: Hapi.ResponseToolkit) {
