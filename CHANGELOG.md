@@ -2,15 +2,27 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [1.0.0-beta.59](https://github.com/protokol/nft/compare/1.0.0-beta.58...1.0.0-beta.59)
+
+> 16 March 2021
+
+-   feat(nft-base-api): get wallet's assets endpoint [`#287`](https://github.com/protokol/nft/pull/287)
+-   chore(deps): update dependency npm-check-updates to ~11.3.0 [`#286`](https://github.com/protokol/nft/pull/286)
+-   chore(deps): update dependency eslint to v7.22.0 [`#285`](https://github.com/protokol/nft/pull/285)
+-   chore(deps): update dependency npm-check-updates to ~11.2.0 [`#283`](https://github.com/protokol/nft/pull/283)
+-   chore(deps): update dependency @sindresorhus/tsconfig to v0.9.0 [`#279`](https://github.com/protokol/nft/pull/279)
+-   chore(deps): update dependency typescript to ~4.2.0 [`#278`](https://github.com/protokol/nft/pull/278)
+-   release: 1.0.0-beta.59 [`5b9def7`](https://github.com/protokol/nft/commit/5b9def71dc3f18e1bfbcb99ba2699afb1ef1f1b9)
+
 #### [1.0.0-beta.58](https://github.com/protokol/nft/compare/1.0.0-beta.57...1.0.0-beta.58)
 
 > 4 March 2021
 
+-   release: 1.0.0 beta.58 [`#282`](https://github.com/protokol/nft/pull/282)
 -   feat(nft-base): introduce metadata on collection [`#281`](https://github.com/protokol/nft/pull/281)
 -   chore(deps): update dependency eslint to v7.21.0 [`#280`](https://github.com/protokol/nft/pull/280)
 -   chore(deps): update dependency eslint-config-prettier to v8 [`#277`](https://github.com/protokol/nft/pull/277)
 -   chore(deps): update dependency eslint to v7.20.0 [`#276`](https://github.com/protokol/nft/pull/276)
--   release: 1.0.0-beta.58 [`972a1b8`](https://github.com/protokol/nft/commit/972a1b81ccebd7a74af44e007b3ab6efe3808f2f)
 
 #### [1.0.0-beta.57](https://github.com/protokol/nft/compare/1.0.0-beta.51...1.0.0-beta.57)
 
