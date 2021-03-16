@@ -57,6 +57,27 @@ export const register = (server: Hapi.Server): void => {
 	});
 
 	server.route({
+		method: "GET",
+		path: "/assets/wallet/{id}",
+		handler: controller.showWalletAssets,
+		options: {
+			validate: {
+				query: Joi.object({
+					transform: Joi.bool().default(true),
+				}).concat(Schemas.pagination),
+				params: Joi.object({
+					id: Joi.string().hex().length(66),
+				}),
+			},
+			plugins: {
+				pagination: {
+					enabled: true,
+				},
+			},
+		},
+	});
+
+	server.route({
 		method: "POST",
 		path: "/assets/search",
 		handler: controller.showByAsset,

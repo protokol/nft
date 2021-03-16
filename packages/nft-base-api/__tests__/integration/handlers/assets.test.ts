@@ -121,6 +121,30 @@ describe("API - Assets", () => {
 		});
 	});
 
+	describe("GET /assets/wallet/{id}", () => {
+		it("should return assets that wallet contains", async () => {
+			const transactionRepository = app.get<Repositories.TransactionRepository>(
+				Container.Identifiers.DatabaseTransactionRepository,
+			);
+			jest.spyOn(transactionRepository, "listByExpression").mockResolvedValueOnce({
+				results: [{ ...nftCreate.data, serialized: nftCreate.serialized }],
+				totalCount: 1,
+				meta: { totalCountIsEstimate: false },
+			});
+
+			const response = await api.request("GET", `nft/assets/wallet/${nftCreate.data.senderPublicKey}`, {
+				transform: false,
+			});
+
+			expect(response.data.data[0]!.id).toStrictEqual(nftCreate.id);
+			expect(response.data.data[0]!.senderPublicKey).toStrictEqual(nftCreate.data.senderPublicKey);
+			expect(response.data.data[0]!.asset.nftToken.collectionId).toStrictEqual(
+				"8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+			);
+			expect(response.data.data[0]!.asset.nftToken.attributes).toBeObject();
+		});
+	});
+
 	describe("POST /assets/search", () => {
 		it("should search assets", async () => {
 			const transactionRepository = app.get<Repositories.TransactionRepository>(
