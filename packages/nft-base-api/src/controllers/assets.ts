@@ -62,7 +62,14 @@ export class AssetsController extends BaseController {
 		return this.respondWithBlockResource(transaction, request.query.transform, AssetResource);
 	}
 
-	public async showWalletAssets(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async showWalletAssets(
+		request: Hapi.Request,
+		h: Hapi.ResponseToolkit,
+	): Promise<
+		| Boom.Boom
+		| Contracts.Search.ResultsPage<ReturnType<AssetResource["raw"]>>
+		| Contracts.Search.ResultsPage<ReturnType<AssetResource["transform"]>>
+	> {
 		let wallet: Contracts.State.Wallet;
 		try {
 			wallet = this.walletRepository.findByPublicKey(request.params.id);
@@ -71,15 +78,19 @@ export class AssetsController extends BaseController {
 		}
 
 		const tokenIds = Object.keys(wallet.getAttribute("nft.base.tokenIds", {}));
-		const txs = await this.transactionHistoryService.findManyByCriteriaJoinBlock(
-			tokenIds.map((tokenId) => ({
-				typeGroup: Enums.NFTBaseTransactionGroup,
-				type: Enums.NFTBaseTransactionTypes.NFTCreate,
-				id: tokenId,
-			})),
-		);
+		const criteria = tokenIds.map((tokenId) => ({
+			typeGroup: Enums.NFTBaseTransactionGroup,
+			type: Enums.NFTBaseTransactionTypes.NFTCreate,
+			id: tokenId,
+		}));
 
-		return this.respondWithCollection(txs, ResourceWithBlock(AssetResource));
+		return this.paginateWithBlock(
+			criteria,
+			this.getListingOrder(request),
+			this.getListingPage(request),
+			request.query.transform,
+			AssetResource,
+		);
 	}
 
 	public async showByAsset(request: Hapi.Request, h: Hapi.ResponseToolkit) {

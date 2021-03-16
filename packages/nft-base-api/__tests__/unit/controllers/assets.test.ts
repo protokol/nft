@@ -168,18 +168,23 @@ describe("Test asset controller", () => {
 	});
 
 	it("showWalletAssets - should return all assets that wallet contains", async () => {
-		transactionHistoryService.findManyByCriteriaJoinBlock.mockResolvedValueOnce([
-			{ data: actual.data, block: { timestamp: timestamp.epoch } },
-		]);
+		transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
+			results: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
+		});
 
 		const request: Hapi.Request = {
+			query: {
+				page: 1,
+				limit: 100,
+				transform: true,
+			},
 			params: {
 				id: senderWallet.publicKey,
 			},
 		};
-		const response = (await assetController.showWalletAssets(request, undefined)) as ItemResponse;
+		const response = (await assetController.showWalletAssets(request, undefined)) as PaginatedResponse;
 
-		expect(response.data).toStrictEqual([
+		expect(response.results).toStrictEqual([
 			{
 				id: actual.id,
 				ownerPublicKey: senderWallet.publicKey,
