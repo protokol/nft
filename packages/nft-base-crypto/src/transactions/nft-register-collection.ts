@@ -111,11 +111,12 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
         const buffer: ByteBuffer = new ByteBuffer(
             nameBuffer.length +
                 descriptionBuffer.length +
-                4 +
+                8 +
                 jsonSchemaBuffer.length +
                 3 +
-                buffersAllowedIssuersPublicKeys.length * 66,
-            4 + metadataBuffer.length,
+                buffersAllowedIssuersPublicKeys.length * 66 +
+                4 +
+                metadataBuffer.length,
             true,
         );
 
@@ -157,7 +158,7 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
         const maximumSupply = buf.readUint32();
 
         const schemaLength: number = buf.readUInt32();
-        const jsonSchema = JSON.parse(buf.readString(schemaLength));
+        const jsonSchema = JSON.parse(buf.readBytes(schemaLength).toBuffer().toString("utf8"));
 
         const nftCollection: NFTCollectionAsset = {
             name,
@@ -176,7 +177,7 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
 
         const metadataLength = buf.readUint32();
         if (metadataLength) {
-            nftCollection.metadata = JSON.parse(buf.readString(metadataLength));
+            nftCollection.metadata = JSON.parse(buf.readBytes(metadataLength).toBuffer().toString("utf8"));
         }
 
         data.asset = {
