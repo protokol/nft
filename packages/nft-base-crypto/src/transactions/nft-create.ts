@@ -89,7 +89,7 @@ export class NFTCreateTransaction extends Transactions.Transaction {
         const collectionId = buf.readBytes(32).toString("hex");
 
         const attributesLength: number = buf.readUInt32();
-        const attributes = JSON.parse(buf.readString(attributesLength));
+        const attributes = JSON.parse(buf.readBytes(attributesLength).toBuffer().toString("utf8"));
 
         const nftToken: NFTTokenAsset = {
             collectionId,
