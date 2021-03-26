@@ -2814,7 +2814,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/prettier", "npm:2.2.2"],
             ["@types/rimraf", "npm:3.0.0"],
             ["@types/semver", "npm:7.3.4"],
-            ["ajv", "npm:6.12.6"],
+            ["ajv", "npm:7.2.4"],
             ["big-integer", "npm:1.6.48"],
             ["bip39", "npm:3.0.3"],
             ["buffer-es6", "npm:4.9.3"],
@@ -2947,7 +2947,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/prettier", "npm:2.2.2"],
             ["@types/rimraf", "npm:3.0.0"],
             ["@types/semver", "npm:7.3.4"],
-            ["ajv", "npm:6.12.6"],
+            ["ajv", "npm:7.2.4"],
             ["big-integer", "npm:1.6.48"],
             ["bip39", "npm:3.0.3"],
             ["buffer-es6", "npm:4.9.3"],
@@ -4079,6 +4079,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/ajv-npm-7.1.1-2207905505-fe4e138529.zip/node_modules/ajv/",
           "packageDependencies": [
             ["ajv", "npm:7.1.1"],
+            ["fast-deep-equal", "npm:3.1.3"],
+            ["json-schema-traverse", "npm:1.0.0"],
+            ["require-from-string", "npm:2.0.2"],
+            ["uri-js", "npm:4.4.1"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:7.2.4", {
+          "packageLocation": "./.yarn/cache/ajv-npm-7.2.4-095b45009d-17be02b9a6.zip/node_modules/ajv/",
+          "packageDependencies": [
+            ["ajv", "npm:7.2.4"],
             ["fast-deep-equal", "npm:3.1.3"],
             ["json-schema-traverse", "npm:1.0.0"],
             ["require-from-string", "npm:2.0.2"],
@@ -11329,7 +11340,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["ngrok", [
         ["npm:3.4.0", {
-          "packageLocation": "./.yarn/unplugged/ngrok-npm-3.4.0-b3c3175e0b/node_modules/ngrok/",
+          "packageLocation": "./.yarn/cache/ngrok-npm-3.4.0-b3c3175e0b-7edb48c174.zip/node_modules/ngrok/",
           "packageDependencies": [
             ["ngrok", "npm:3.4.0"],
             ["@types/node", "npm:8.10.66"],
@@ -12956,7 +12967,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["protobufjs", [
         ["npm:6.10.2", {
-          "packageLocation": "./.yarn/unplugged/protobufjs-npm-6.10.2-f0f2cab7fe/node_modules/protobufjs/",
+          "packageLocation": "./.yarn/cache/protobufjs-npm-6.10.2-f0f2cab7fe-09d6292362.zip/node_modules/protobufjs/",
           "packageDependencies": [
             ["protobufjs", "npm:6.10.2"],
             ["@protobufjs/aspromise", "npm:1.1.2"],

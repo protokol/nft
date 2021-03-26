@@ -65,7 +65,7 @@
         "@types/prettier": "^2.1.5",
         "@types/rimraf": "^3.0.0",
         "@types/semver": "7.3.4",
-        "ajv": "6.12.6",
+        "ajv": "7.2.4",
         "big-integer": "^1.6.48",
         "bip39": "3.0.3",
         "buffer-es6": "^4.9.3",
