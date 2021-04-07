@@ -2,17 +2,26 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [1.0.0-beta.60](https://github.com/protokol/nft/compare/1.0.0-beta.59...1.0.0-beta.60)
+
+> 7 April 2021
+
+-   chore(deps): update dependency @sindresorhus/tsconfig to v1 [`#292`](https://github.com/protokol/nft/pull/292)
+-   chore(deps): update dependency eslint to v7.23.0 [`#290`](https://github.com/protokol/nft/pull/290)
+-   fix(nft-base-crypto): deserializing strings [`#289`](https://github.com/protokol/nft/pull/289)
+-   release: 1.0.0-beta.60 [`ab8d0bd`](https://github.com/protokol/nft/commit/ab8d0bd067bfc7bb84c1597bea5236036395858c)
+
 #### [1.0.0-beta.59](https://github.com/protokol/nft/compare/1.0.0-beta.58...1.0.0-beta.59)
 
 > 16 March 2021
 
+-   release: 1.0.0 beta.59 [`#288`](https://github.com/protokol/nft/pull/288)
 -   feat(nft-base-api): get wallet's assets endpoint [`#287`](https://github.com/protokol/nft/pull/287)
 -   chore(deps): update dependency npm-check-updates to ~11.3.0 [`#286`](https://github.com/protokol/nft/pull/286)
 -   chore(deps): update dependency eslint to v7.22.0 [`#285`](https://github.com/protokol/nft/pull/285)
 -   chore(deps): update dependency npm-check-updates to ~11.2.0 [`#283`](https://github.com/protokol/nft/pull/283)
 -   chore(deps): update dependency @sindresorhus/tsconfig to v0.9.0 [`#279`](https://github.com/protokol/nft/pull/279)
 -   chore(deps): update dependency typescript to ~4.2.0 [`#278`](https://github.com/protokol/nft/pull/278)
--   release: 1.0.0-beta.59 [`5b9def7`](https://github.com/protokol/nft/commit/5b9def71dc3f18e1bfbcb99ba2699afb1ef1f1b9)
 
 #### [1.0.0-beta.58](https://github.com/protokol/nft/compare/1.0.0-beta.57...1.0.0-beta.58)
 
