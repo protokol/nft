@@ -43,7 +43,7 @@
     },
     "dependencies": {
         "@arkecosystem/crypto": "^3.0.0-next",
-        "@protokol/utils": "^1.0.0-beta.37",
+        "@protokol/utils": "^1.0.0-beta.38",
         "bytebuffer": "^5.0.1"
     },
     "devDependencies": {
