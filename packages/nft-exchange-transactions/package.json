@@ -64,7 +64,7 @@
         "@types/rimraf": "^3.0.0",
         "@types/semver": "7.3.5",
         "ajv": "6.12.6",
-        "bip39": "3.0.3",
+        "bip39": "3.0.4",
         "codecov": "^3.8.1",
         "eslint": "7.25.0",
         "eslint-plugin-prettier": "^3.1.4",
