@@ -105,7 +105,7 @@ describe("NFT Accept trade tests", () => {
                     "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
                 ),
             ).toStrictEqual(wallet);
-            expect(wallet.balance).toStrictEqual(Utils.BigNumber.make("7527654410"));
+            expect(wallet.getBalance()).toStrictEqual(Utils.BigNumber.make("7527654410"));
         });
 
         it("should test bootstrap with different wallet", async () => {
@@ -156,7 +156,7 @@ describe("NFT Accept trade tests", () => {
                     "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
                 ),
             ).toStrictEqual(secondWallet);
-            expect(wallet.balance).toStrictEqual(Utils.BigNumber.make("7527654410"));
+            expect(wallet.getBalance()).toStrictEqual(Utils.BigNumber.make("7527654410"));
             expect(secondWallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
                 Utils.BigNumber.ZERO,
             );
@@ -418,7 +418,7 @@ describe("NFT Accept trade tests", () => {
                     "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
                 ),
             ).toStrictEqual(wallet);
-            expect(wallet.balance).toStrictEqual(Utils.BigNumber.make("7027654410"));
+            expect(wallet.getBalance()).toStrictEqual(Utils.BigNumber.make("7027654410"));
         });
 
         it("should test apply with different wallet", async () => {
@@ -467,7 +467,7 @@ describe("NFT Accept trade tests", () => {
                     "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
                 ),
             ).toStrictEqual(secondWallet);
-            expect(wallet.balance).toStrictEqual(Utils.BigNumber.make("7027654410"));
+            expect(wallet.getBalance()).toStrictEqual(Utils.BigNumber.make("7027654410"));
 
             expect(secondWallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
                 Utils.BigNumber.ZERO,

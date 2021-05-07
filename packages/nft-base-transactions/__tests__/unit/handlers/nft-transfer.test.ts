@@ -318,7 +318,7 @@ describe("NFT Transfer tests", () => {
             const actual = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    recipientId: recipientWallet.address,
+                    recipientId: recipientWallet.getAddress(),
                 })
                 .nonce("3")
                 .sign(passphrases[0]!)
@@ -345,7 +345,7 @@ describe("NFT Transfer tests", () => {
             const actual = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    recipientId: recipientWallet.address,
+                    recipientId: recipientWallet.getAddress(),
                 })
                 .nonce("1")
                 .sign(passphrases[0]!)
@@ -381,7 +381,7 @@ describe("NFT Transfer tests", () => {
             const actual = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    recipientId: senderWallet.address,
+                    recipientId: senderWallet.getAddress(),
                 })
                 .nonce("1")
                 .sign(passphrases[0]!)
@@ -411,7 +411,7 @@ describe("NFT Transfer tests", () => {
             const actual = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    recipientId: senderWallet.address,
+                    recipientId: senderWallet.getAddress(),
                 })
                 .nonce("1")
                 .sign(passphrases[0]!)
@@ -433,7 +433,7 @@ describe("NFT Transfer tests", () => {
             const actual = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    recipientId: recipientWallet.address,
+                    recipientId: recipientWallet.getAddress(),
                 })
                 .nonce("1")
                 .sign(passphrases[0]!)
@@ -471,7 +471,7 @@ describe("NFT Transfer tests", () => {
             const actual = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    recipientId: recipientWallet.address,
+                    recipientId: recipientWallet.getAddress(),
                 })
                 .nonce("1")
                 .sign(passphrases[0]!)
@@ -502,7 +502,7 @@ describe("NFT Transfer tests", () => {
             const actual = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
-                    recipientId: recipientWallet.address,
+                    recipientId: recipientWallet.getAddress(),
                 })
                 .nonce("1")
                 .sign(passphrases[0]!)

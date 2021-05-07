@@ -310,7 +310,7 @@ describe("NFT Create tests", () => {
                 .NFTCreateToken({
                     collectionId,
                     attributes: Fifa.assets.player1,
-                    recipientId: secondWallet.address,
+                    recipientId: secondWallet.getAddress(),
                 })
                 .nonce("1")
                 .sign(passphrases[0]!)
@@ -346,7 +346,7 @@ describe("NFT Create tests", () => {
                 .NFTCreateToken({
                     collectionId,
                     attributes: Fifa.assets.player1,
-                    recipientId: secondWallet.address,
+                    recipientId: secondWallet.getAddress(),
                 })
                 .nonce("1")
                 .sign(passphrases[0]!)

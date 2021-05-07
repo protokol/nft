@@ -51,7 +51,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
             await this.compileAndPersistSchema(transaction.id, collectionAsset.jsonSchema);
 
             senderWallet.setAttribute("nft.base.collections", collectionsWallet);
-            this.walletRepository.getIndex(NFTIndexers.CollectionIndexer).set(transaction.id, senderWallet);
+            this.walletRepository.setOnIndex(NFTIndexers.CollectionIndexer, transaction.id, senderWallet);
         }
     }
 
@@ -74,7 +74,11 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         }
 
         const authorizedRegistrators = this.configuration.get<string[]>("authorizedRegistrators");
-        if (sender.publicKey && authorizedRegistrators?.length && !authorizedRegistrators.includes(sender.publicKey)) {
+        if (
+            sender.getPublicKey() &&
+            authorizedRegistrators?.length &&
+            !authorizedRegistrators.includes(sender.getPublicKey()!)
+        ) {
             throw new NFTBaseUnauthorizedCollectionRegistrator();
         }
         return super.throwIfCannotBeApplied(transaction, sender);
@@ -99,7 +103,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         senderWallet.setAttribute("nft.base.collections", collectionsWallet);
         await this.compileAndPersistSchema(transaction.id, collectionAsset.jsonSchema);
 
-        this.walletRepository.getIndex(NFTIndexers.CollectionIndexer).set(transaction.data.id, senderWallet);
+        this.walletRepository.setOnIndex(NFTIndexers.CollectionIndexer, transaction.data.id, senderWallet);
     }
 
     public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
@@ -115,7 +119,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         senderWallet.setAttribute("nft.base.collections", collectionsWallet);
         await this.tokenSchemaValidatorCache.forget(transaction.id!);
 
-        this.walletRepository.getIndex(NFTIndexers.CollectionIndexer).forget(transaction.data.id);
+        this.walletRepository.forgetOnIndex(NFTIndexers.CollectionIndexer, transaction.data.id);
     }
 
     private async compileAndPersistSchema(id, jsonSchema) {

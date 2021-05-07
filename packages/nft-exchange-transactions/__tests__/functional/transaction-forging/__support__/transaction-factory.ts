@@ -12,11 +12,6 @@ export class NFTExchangeTransactionFactory extends TransactionFactory {
         return new NFTExchangeTransactionFactory(app);
     }
 
-    public withVendorField(vendorField: string): NFTExchangeTransactionFactory {
-        this.builder.vendorField(vendorField);
-        return this;
-    }
-
     public NFTAuction(nftAuctionAsset: NFTExchangeInterfaces.NFTAuctionAsset): NFTExchangeTransactionFactory {
         this.builder = new NFTExchangeBuilders.NFTAuctionBuilder().NFTAuctionAsset(nftAuctionAsset);
 

@@ -47,8 +47,8 @@ export const buildSenderWallet = (app: Application): Contracts.State.Wallet => {
 		Identities.Address.fromPassphrase(passphrases[0]!),
 	);
 
-	wallet.publicKey = Identities.PublicKey.fromPassphrase(passphrases[0]!);
-	wallet.balance = Utils.BigNumber.make(7527654310);
+	wallet.setPublicKey(Identities.PublicKey.fromPassphrase(passphrases[0]!));
+	wallet.setBalance(Utils.BigNumber.make(7527654310));
 
 	return wallet;
 };

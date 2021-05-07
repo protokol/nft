@@ -47,7 +47,7 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
             const tokenIdsWallet = wallet.getAttribute<INFTTokens>("nft.base.tokenIds");
             delete tokenIdsWallet[nftBurnAsset.nftId];
             wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokenIdsWallet);
-            this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).forget(nftBurnAsset.nftId);
+            this.walletRepository.forgetOnIndex(NFTIndexers.NFTTokenIndexer, nftBurnAsset.nftId);
 
             const nftCreateTransaction = await this.transactionRepository.findById(nftBurnAsset.nftId);
             const collectionId = nftCreateTransaction.asset.nftToken.collectionId;
@@ -123,7 +123,7 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
         const tokenIdsWallet = sender.getAttribute<INFTTokens>("nft.base.tokenIds");
         delete tokenIdsWallet[nftBurnAsset.nftId];
         sender.setAttribute<INFTTokens>("nft.base.tokenIds", tokenIdsWallet);
-        this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).forget(nftBurnAsset.nftId);
+        this.walletRepository.forgetOnIndex(NFTIndexers.NFTTokenIndexer, nftBurnAsset.nftId);
 
         const nftCreateTransaction = await this.transactionRepository.findById(nftBurnAsset.nftId);
         const collectionId = nftCreateTransaction.asset.nftToken.collectionId;
@@ -148,7 +148,7 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
         const tokenIdsWallet = sender.getAttribute<INFTTokens>("nft.base.tokenIds");
         tokenIdsWallet[nftBurnAsset.nftId] = {};
         sender.setAttribute<INFTTokens>("nft.base.tokenIds", tokenIdsWallet);
-        this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).set(nftBurnAsset.nftId, sender);
+        this.walletRepository.setOnIndex(NFTIndexers.NFTTokenIndexer, nftBurnAsset.nftId, sender);
 
         const nftCreateTransaction = await this.transactionRepository.findById(nftBurnAsset.nftId);
         const collectionId = nftCreateTransaction.asset.nftToken.collectionId;

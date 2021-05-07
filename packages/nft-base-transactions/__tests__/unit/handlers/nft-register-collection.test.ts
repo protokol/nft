@@ -141,7 +141,7 @@ describe("NFT Register collection tests", () => {
         it("should allow to register a collection for authorized registrators only", async () => {
             app.get<Providers.PluginConfiguration>(
                 Container.Identifiers.PluginConfiguration,
-            ).set("authorizedRegistrators", [senderWallet.publicKey]);
+            ).set("authorizedRegistrators", [senderWallet.getPublicKey()]);
 
             await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).toResolve();
         });
