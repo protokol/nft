@@ -45,7 +45,7 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
             const wallet = this.walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
             const bidAmount: Utils.BigNumber = bidTransaction.asset.nftBid.bidAmount;
 
-            wallet.balance = wallet.balance.plus(bidAmount);
+            wallet.setBalance(wallet.getBalance().plus(bidAmount));
 
             const lockedBalance = wallet.getAttribute<Utils.BigNumber>(
                 "nft.exchange.lockedBalance",
@@ -62,7 +62,7 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
             );
             auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
 
-            this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).forget(cancelBidAsset.bidId);
+            this.walletRepository.forgetOnIndex(NFTExchangeIndexers.BidIndexer, cancelBidAsset.bidId);
         }
     }
 
@@ -86,7 +86,7 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
             throw new NFTExchangeBidCancelBidDoesNotExists();
         }
 
-        if (sender.publicKey !== bidTransaction.senderPublicKey) {
+        if (sender.getPublicKey() !== bidTransaction.senderPublicKey) {
             throw new NFTExchangeBidCancelCannotCancelOtherBids();
         }
 
@@ -133,7 +133,7 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
         const wallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
         const bidAmount: Utils.BigNumber = bidTransaction.asset.nftBid.bidAmount;
 
-        wallet.balance = wallet.balance.plus(bidAmount);
+        wallet.setBalance(wallet.getBalance().plus(bidAmount));
 
         const lockedBalance = wallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.ZERO);
         wallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.minus(bidAmount));
@@ -147,7 +147,7 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
         );
         auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
 
-        this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).forget(cancelBidAsset.bidId);
+        this.walletRepository.forgetOnIndex(NFTExchangeIndexers.BidIndexer, cancelBidAsset.bidId);
     }
 
     public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
@@ -160,7 +160,7 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
         const wallet: Contracts.State.Wallet = this.walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
         const bidAmount: Utils.BigNumber = bidTransaction.asset.nftBid.bidAmount;
 
-        wallet.balance = wallet.balance.minus(bidAmount);
+        wallet.setBalance(wallet.getBalance().minus(bidAmount));
 
         const lockedBalance = wallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.ZERO);
         wallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.plus(bidAmount));
@@ -172,6 +172,6 @@ export class NFTBidCancelHandler extends NFTExchangeTransactionHandler {
         auctionWalletAsset[auctionTransaction.id]!.bids.push(cancelBidAsset.bidId);
         auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
 
-        this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).set(cancelBidAsset.bidId, auctionWallet);
+        this.walletRepository.setOnIndex(NFTExchangeIndexers.BidIndexer, cancelBidAsset.bidId, auctionWallet);
     }
 }

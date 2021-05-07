@@ -138,7 +138,7 @@ export class AssetsController extends BaseController {
 		}
 
 		const wallet = this.walletRepository.findByAddress(Identities.Address.fromPassphrase(passphrase));
-		const nonce = Utils.BigNumber.make(wallet.nonce).plus(1).toFixed();
+		const nonce = Utils.BigNumber.make(wallet.getNonce()).plus(1).toFixed();
 		const createAssetTx = new Builders.NFTCreateBuilder()
 			.NFTCreateToken({ collectionId, attributes, recipientId })
 			.nonce(nonce)

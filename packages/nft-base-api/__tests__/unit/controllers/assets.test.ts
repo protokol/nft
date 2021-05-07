@@ -105,8 +105,8 @@ describe("Test asset controller", () => {
 		const response = (await assetController.index(request, undefined)) as PaginatedResponse;
 		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
-			ownerPublicKey: senderWallet.publicKey,
-			senderPublicKey: senderWallet.publicKey,
+			ownerPublicKey: senderWallet.getPublicKey(),
+			senderPublicKey: senderWallet.getPublicKey(),
 			collectionId,
 			attributes: {
 				name: "card name",
@@ -134,7 +134,7 @@ describe("Test asset controller", () => {
 
 		expect(response.data).toStrictEqual({
 			address: recipientId,
-			publicKey: senderWallet.publicKey,
+			publicKey: senderWallet.getPublicKey(),
 			nft: {
 				assetsIds: [actual.id],
 				collections: [],
@@ -143,7 +143,7 @@ describe("Test asset controller", () => {
 	});
 
 	it("showAssetWallet - should return error if no wallet by nfts id", async () => {
-		walletRepository.getIndex(Indexers.NFTIndexers.NFTTokenIndexer).forget(actual.id!);
+		walletRepository.forgetOnIndex(Indexers.NFTIndexers.NFTTokenIndexer, actual.id!);
 		const request: Hapi.Request = {
 			params: {
 				id: actual.id,
@@ -179,7 +179,7 @@ describe("Test asset controller", () => {
 				transform: true,
 			},
 			params: {
-				id: senderWallet.publicKey,
+				id: senderWallet.getPublicKey(),
 			},
 		};
 		const response = (await assetController.showWalletAssets(request, undefined)) as PaginatedResponse;
@@ -187,8 +187,8 @@ describe("Test asset controller", () => {
 		expect(response.results).toStrictEqual([
 			{
 				id: actual.id,
-				ownerPublicKey: senderWallet.publicKey,
-				senderPublicKey: senderWallet.publicKey,
+				ownerPublicKey: senderWallet.getPublicKey(),
+				senderPublicKey: senderWallet.getPublicKey(),
 				collectionId,
 				attributes: {
 					name: "card name",
@@ -218,8 +218,8 @@ describe("Test asset controller", () => {
 
 		expect(response.data).toStrictEqual({
 			id: actual.id,
-			ownerPublicKey: senderWallet.publicKey,
-			senderPublicKey: senderWallet.publicKey,
+			ownerPublicKey: senderWallet.getPublicKey(),
+			senderPublicKey: senderWallet.getPublicKey(),
 			collectionId,
 			attributes: {
 				name: "card name",

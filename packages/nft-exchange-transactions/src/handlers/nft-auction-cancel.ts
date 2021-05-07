@@ -49,20 +49,20 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
                 const bidWallet = this.walletRepository.findByPublicKey(bid.senderPublicKey);
                 const bidAmount: Utils.BigNumber = bid.asset.nftBid.bidAmount;
 
-                bidWallet.balance = bidWallet.balance.plus(bidAmount);
+                bidWallet.setBalance(bidWallet.getBalance().plus(bidAmount));
                 const lockedBalance = bidWallet.getAttribute<Utils.BigNumber>(
                     "nft.exchange.lockedBalance",
                     Utils.BigNumber.ZERO,
                 );
                 bidWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.minus(bidAmount));
 
-                this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).forget(bid.id);
+                this.walletRepository.forgetOnIndex(NFTExchangeIndexers.BidIndexer, bid.id);
             }
 
             delete auctionsWalletAsset[nftAuctionCancelAsset.auctionId];
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
 
-            this.walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).forget(nftAuctionCancelAsset.auctionId);
+            this.walletRepository.forgetOnIndex(NFTExchangeIndexers.AuctionIndexer, nftAuctionCancelAsset.auctionId);
         }
     }
 
@@ -128,20 +128,20 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
             const bidWallet = this.walletRepository.findByPublicKey(bid.senderPublicKey);
             const bidAmount: Utils.BigNumber = bid.asset.nftBid.bidAmount;
 
-            bidWallet.balance = bidWallet.balance.plus(bidAmount);
+            bidWallet.setBalance(bidWallet.getBalance().plus(bidAmount));
             const lockedBalance = bidWallet.getAttribute<Utils.BigNumber>(
                 "nft.exchange.lockedBalance",
                 Utils.BigNumber.ZERO,
             );
             bidWallet.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.minus(bidAmount));
 
-            this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).forget(bid.id);
+            this.walletRepository.forgetOnIndex(NFTExchangeIndexers.BidIndexer, bid.id);
         }
 
         delete auctionsWalletAsset[nftAuctionCancelAsset.auctionId];
         sender.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
 
-        this.walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).forget(nftAuctionCancelAsset.auctionId);
+        this.walletRepository.forgetOnIndex(NFTExchangeIndexers.AuctionIndexer, nftAuctionCancelAsset.auctionId);
     }
 
     public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
@@ -178,7 +178,7 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
             const bidWallet = this.walletRepository.findByPublicKey(bidTransaction.senderPublicKey);
             const bidAmount: Utils.BigNumber = bidTransaction.asset.nftBid.bidAmount;
 
-            bidWallet.balance = bidWallet.balance.minus(bidAmount);
+            bidWallet.setBalance(bidWallet.getBalance().minus(bidAmount));
             const lockedBalance = bidWallet.getAttribute<Utils.BigNumber>(
                 "nft.exchange.lockedBalance",
                 Utils.BigNumber.ZERO,
@@ -193,10 +193,10 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
         };
         sender.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
 
-        this.walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).set(nftAuctionCancelAsset.auctionId, sender);
+        this.walletRepository.setOnIndex(NFTExchangeIndexers.AuctionIndexer, nftAuctionCancelAsset.auctionId, sender);
 
         for (const bidId of auctionsWalletAsset[nftAuctionCancelAsset.auctionId]!.bids) {
-            this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).set(bidId, sender);
+            this.walletRepository.setOnIndex(NFTExchangeIndexers.BidIndexer, bidId, sender);
         }
     }
 }

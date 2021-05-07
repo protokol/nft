@@ -45,7 +45,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
             const wallet = this.walletRepository.findByPublicKey(transaction.senderPublicKey);
             const nftBidAsset: NFTInterfaces.NFTBidAsset = transaction.asset.nftBid;
 
-            wallet.balance = wallet.balance.minus(nftBidAsset.bidAmount);
+            wallet.setBalance(wallet.getBalance().minus(nftBidAsset.bidAmount));
 
             const lockedBalance = wallet.getAttribute<Utils.BigNumber>(
                 "nft.exchange.lockedBalance",
@@ -67,7 +67,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
             auctionWalletAsset[nftBidAsset.auctionId]!.bids.push(transaction.id);
             auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
 
-            this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).set(transaction.id, auctionWallet);
+            this.walletRepository.setOnIndex(NFTExchangeIndexers.BidIndexer, transaction.id, auctionWallet);
         }
     }
 
@@ -104,7 +104,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
             throw new NFTExchangeBidAuctionExpired();
         }
 
-        if (sender.balance.isLessThan(nftBid.bidAmount)) {
+        if (sender.getBalance().isLessThan(nftBid.bidAmount)) {
             throw new NFTExchangeBidNotEnoughFounds();
         }
 
@@ -126,7 +126,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
         const nftBidAsset: NFTInterfaces.NFTBidAsset = transaction.data.asset!.nftBid;
 
         const sender: Contracts.State.Wallet = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
-        sender.balance = sender.balance.minus(nftBidAsset.bidAmount);
+        sender.setBalance(sender.getBalance().minus(nftBidAsset.bidAmount));
 
         const lockedBalance = sender.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.ZERO);
         sender.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.plus(nftBidAsset.bidAmount));
@@ -139,7 +139,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
         auctionWalletAsset[nftBidAsset.auctionId]!.bids.push(transaction.data.id);
         auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
 
-        this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).set(transaction.data.id, auctionWallet);
+        this.walletRepository.setOnIndex(NFTExchangeIndexers.BidIndexer, transaction.data.id, auctionWallet);
     }
 
     public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
@@ -151,7 +151,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
         const nftBidAsset: NFTInterfaces.NFTBidAsset = transaction.data.asset.nftBid;
 
         const sender: Contracts.State.Wallet = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
-        sender.balance = sender.balance.plus(nftBidAsset.bidAmount);
+        sender.setBalance(sender.getBalance().plus(nftBidAsset.bidAmount));
 
         const lockedBalance = sender.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", Utils.BigNumber.ZERO);
         sender.setAttribute<Utils.BigNumber>("nft.exchange.lockedBalance", lockedBalance.minus(nftBidAsset.bidAmount));
@@ -166,11 +166,11 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
         );
         auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
 
-        this.walletRepository.getIndex(NFTExchangeIndexers.BidIndexer).forget(transaction.data.id);
+        this.walletRepository.forgetOnIndex(NFTExchangeIndexers.BidIndexer, transaction.data.id);
     }
 
     private checkBiddingOnOwnAuction(auctionWallet: Contracts.State.Wallet, bidWallet: Contracts.State.Wallet): void {
-        if (auctionWallet.publicKey === bidWallet.publicKey) {
+        if (auctionWallet.getPublicKey() === bidWallet.getPublicKey()) {
             throw new NFTExchangeBidCannotBidOwnItem();
         }
     }

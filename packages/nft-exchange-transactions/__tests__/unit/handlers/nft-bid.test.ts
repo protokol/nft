@@ -88,7 +88,7 @@ describe("NFT Bid tests", () => {
                 bids: [actual.id!],
             });
 
-            expect(bidWallet.balance).toStrictEqual(Utils.BigNumber.make("7527654210"));
+            expect(bidWallet.getBalance()).toStrictEqual(Utils.BigNumber.make("7527654210"));
 
             expect(bidWallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
                 Utils.BigNumber.make("100"),

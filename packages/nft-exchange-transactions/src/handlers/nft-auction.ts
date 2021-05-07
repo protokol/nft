@@ -53,7 +53,7 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
             };
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
 
-            this.walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).set(transaction.id, wallet);
+            this.walletRepository.setOnIndex(NFTExchangeIndexers.AuctionIndexer, transaction.id, wallet);
         }
     }
 
@@ -142,7 +142,7 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
             bids: [],
         };
         sender.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
-        this.walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).set(transaction.data.id, sender);
+        this.walletRepository.setOnIndex(NFTExchangeIndexers.AuctionIndexer, transaction.data.id, sender);
     }
 
     public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
@@ -157,6 +157,6 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
         delete auctionsWalletAsset[transaction.data.id];
         sender.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
 
-        this.walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).forget(transaction.data.id);
+        this.walletRepository.forgetOnIndex(NFTExchangeIndexers.AuctionIndexer, transaction.data.id);
     }
 }

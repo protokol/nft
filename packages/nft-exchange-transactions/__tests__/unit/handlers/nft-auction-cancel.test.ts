@@ -108,7 +108,7 @@ describe("NFT Auction Cancel tests", () => {
 
             await expect(nftCancelSellHandler.bootstrap()).toResolve();
 
-            expect(wallet.balance).toStrictEqual(Utils.BigNumber.make("7527654410"));
+            expect(wallet.getBalance()).toStrictEqual(Utils.BigNumber.make("7527654410"));
 
             expect(wallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
                 Utils.BigNumber.ZERO,
@@ -287,7 +287,7 @@ describe("NFT Auction Cancel tests", () => {
 
             await expect(nftCancelSellHandler.applyToSender(actual)).toResolve();
 
-            expect(wallet.balance).toStrictEqual(Utils.BigNumber.make("7027654410"));
+            expect(wallet.getBalance()).toStrictEqual(Utils.BigNumber.make("7027654410"));
 
             expect(wallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
                 Utils.BigNumber.ZERO,
@@ -382,7 +382,7 @@ describe("NFT Auction Cancel tests", () => {
                 bids: [actualBid.id!],
             });
 
-            expect(wallet.balance).toStrictEqual(Utils.BigNumber.make("7527654310"));
+            expect(wallet.getBalance()).toStrictEqual(Utils.BigNumber.make("7527654310"));
 
             expect(wallet.getAttribute<Utils.BigNumber>("nft.exchange.lockedBalance")).toStrictEqual(
                 Utils.BigNumber.ZERO,

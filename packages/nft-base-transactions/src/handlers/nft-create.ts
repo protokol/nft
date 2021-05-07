@@ -50,7 +50,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
             const tokensWallet = wallet.getAttribute<INFTTokens>("nft.base.tokenIds", {});
             tokensWallet[transaction.id] = {};
             wallet.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
-            this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).set(transaction.id, wallet);
+            this.walletRepository.setOnIndex(NFTIndexers.NFTTokenIndexer, transaction.id, wallet);
 
             const collectionId = transaction.asset.nftToken.collectionId;
             const genesisWallet = this.walletRepository.findByIndex(NFTIndexers.CollectionIndexer, collectionId);
@@ -126,7 +126,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         const tokensWallet = recipient.getAttribute<INFTTokens>("nft.base.tokenIds", {});
         tokensWallet[transaction.data.id] = {};
         recipient.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
-        this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).set(transaction.data.id, recipient);
+        this.walletRepository.setOnIndex(NFTIndexers.NFTTokenIndexer, transaction.data.id, recipient);
 
         const collectionId = transaction.data.asset!.nftToken.collectionId;
         const genesisWallet = this.walletRepository.findByIndex(NFTIndexers.CollectionIndexer, collectionId);
@@ -147,7 +147,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         const tokensWallet = recipient.getAttribute<INFTTokens>("nft.base.tokenIds");
         delete tokensWallet[transaction.data.id];
         recipient.setAttribute<INFTTokens>("nft.base.tokenIds", tokensWallet);
-        this.walletRepository.getIndex(NFTIndexers.NFTTokenIndexer).forget(transaction.data.id);
+        this.walletRepository.forgetOnIndex(NFTIndexers.NFTTokenIndexer, transaction.data.id);
 
         const collectionId = transaction.data.asset.nftToken.collectionId;
         const genesisWallet = this.walletRepository.findByIndex(NFTIndexers.CollectionIndexer, collectionId);

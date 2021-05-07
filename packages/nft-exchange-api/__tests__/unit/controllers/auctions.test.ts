@@ -142,8 +142,8 @@ describe("Test auctions controller", () => {
 		const response = (await auctionsController.showAuctionWallet(request, undefined)) as ItemResponse;
 
 		expect(response.data).toStrictEqual({
-			address: senderWallet.address,
-			publicKey: senderWallet.publicKey,
+			address: senderWallet.getAddress(),
+			publicKey: senderWallet.getPublicKey(),
 			nft: {
 				collections: [],
 				auctions: [
