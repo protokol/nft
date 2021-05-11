@@ -2,14 +2,33 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [1.0.0-beta.61](https://github.com/protokol/nft/compare/1.0.0-beta.60...1.0.0-beta.61)
+
+> 11 May 2021
+
+-   chore(deps): update dependency prettier to v2.3.0 [`#306`](https://github.com/protokol/nft/pull/306)
+-   chore(deps): update dependency eslint to v7.26.0 [`#305`](https://github.com/protokol/nft/pull/305)
+-   chore: update ark deps + adjust code to core changes [`#304`](https://github.com/protokol/nft/pull/304)
+-   chore(deps): update dependency bip39 to v3.0.4 [`#303`](https://github.com/protokol/nft/pull/303)
+-   chore(deps): update dependency @types/semver to v7.3.5 [`#302`](https://github.com/protokol/nft/pull/302)
+-   chore(deps): update dependency eslint to v7.25.0 [`#301`](https://github.com/protokol/nft/pull/301)
+-   chore(deps): update dependency npm-check-updates to ~11.5.0 [`#300`](https://github.com/protokol/nft/pull/300)
+-   chore(deps): update dependency @types/node to ^14.14.39 [`#299`](https://github.com/protokol/nft/pull/299)
+-   chore: remove unused deps [`#298`](https://github.com/protokol/nft/pull/298)
+-   chore(deps): update dependency pg to v8.6.0 [`#297`](https://github.com/protokol/nft/pull/297)
+-   chore(deps): update dependency eslint to v7.24.0 [`#296`](https://github.com/protokol/nft/pull/296)
+-   feat: log plugin info on load [`#295`](https://github.com/protokol/nft/pull/295)
+-   chore(deps): update dependency npm-check-updates to ~11.4.0 [`#294`](https://github.com/protokol/nft/pull/294)
+-   release: 1.0.0-beta.61 [`3af7457`](https://github.com/protokol/nft/commit/3af7457251cd7d799dbc138b29b66ec388135dc1)
+
 #### [1.0.0-beta.60](https://github.com/protokol/nft/compare/1.0.0-beta.59...1.0.0-beta.60)
 
 > 7 April 2021
 
+-   release: 1.0.0 beta.60 [`#293`](https://github.com/protokol/nft/pull/293)
 -   chore(deps): update dependency @sindresorhus/tsconfig to v1 [`#292`](https://github.com/protokol/nft/pull/292)
 -   chore(deps): update dependency eslint to v7.23.0 [`#290`](https://github.com/protokol/nft/pull/290)
 -   fix(nft-base-crypto): deserializing strings [`#289`](https://github.com/protokol/nft/pull/289)
--   release: 1.0.0-beta.60 [`ab8d0bd`](https://github.com/protokol/nft/commit/ab8d0bd067bfc7bb84c1597bea5236036395858c)
 
 #### [1.0.0-beta.59](https://github.com/protokol/nft/compare/1.0.0-beta.58...1.0.0-beta.59)
 
