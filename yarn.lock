@@ -2278,7 +2278,7 @@ __metadata:
     "@types/node": ^14.14.39
     "@types/prettier": ^2.1.5
     "@types/rimraf": ^3.0.0
-    "@types/semver": 7.3.5
+    "@types/semver": 7.3.6
     "@typescript-eslint/eslint-plugin": ^4.8.0
     "@typescript-eslint/parser": ^4.8.0
     codecov: ^3.8.1
@@ -2347,7 +2347,7 @@ __metadata:
     "@types/node": ^14.14.39
     "@types/prettier": ^2.1.5
     "@types/rimraf": ^3.0.0
-    "@types/semver": 7.3.5
+    "@types/semver": 7.3.6
     ajv: 6.12.6
     bip39: 3.0.4
     codecov: ^3.8.1
@@ -2390,7 +2390,7 @@ __metadata:
     "@types/node": ^14.14.39
     "@types/prettier": ^2.1.5
     "@types/rimraf": ^3.0.0
-    "@types/semver": 7.3.5
+    "@types/semver": 7.3.6
     "@typescript-eslint/eslint-plugin": ^4.8.0
     "@typescript-eslint/parser": ^4.8.0
     codecov: ^3.8.1
@@ -2459,7 +2459,7 @@ __metadata:
     "@types/node": ^14.14.39
     "@types/prettier": ^2.1.5
     "@types/rimraf": ^3.0.0
-    "@types/semver": 7.3.5
+    "@types/semver": 7.3.6
     ajv: 6.12.6
     bip39: 3.0.4
     codecov: ^3.8.1
@@ -2975,7 +2975,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/semver@npm:7.3.5, @types/semver@npm:^7.1.0":
+"@types/semver@npm:7.3.6":
+  version: 7.3.6
+  resolution: "@types/semver@npm:7.3.6"
+  checksum: 36776caed9a5d80cc7e0dd32fc08ac762918273bef849c369a300895646f9126e9857c9235e130493cf1fb2ee77e44cd1b599eded4fcbd11803962936771506a
+  languageName: node
+  linkType: hard
+
+"@types/semver@npm:^7.1.0":
   version: 7.3.5
   resolution: "@types/semver@npm:7.3.5"
   checksum: fcb9faf9aced715efee64fbef485f2a58b3ea822b0a0c4a30cc52135dfba7668f21d5a2a3510ed7b158af6b9d0f927f66eff91e2f3866372aec41a6a7fae8665
