@@ -1933,6 +1933,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@jest/types@npm:^27.0.1":
+  version: 27.0.1
+  resolution: "@jest/types@npm:27.0.1"
+  dependencies:
+    "@types/istanbul-lib-coverage": ^2.0.0
+    "@types/istanbul-reports": ^3.0.0
+    "@types/node": "*"
+    "@types/yargs": ^16.0.0
+    chalk: ^4.0.0
+  checksum: cc70fdeaacdcb4d3195f82cbdfb44e22ff5b2b7921e4201aabac21342b2bc24b3c31fa9c4e569752f0eb696b6385d034a134f39976aa2e05d5705b865668dbc3
+  languageName: node
+  linkType: hard
+
 "@kwsites/file-exists@npm:^1.1.1":
   version: 1.1.1
   resolution: "@kwsites/file-exists@npm:1.1.1"
@@ -2295,7 +2308,7 @@ __metadata:
     npm-check-updates: ~11.5.0
     prettier: ^2.1.2
     rimraf: ^3.0.2
-    ts-jest: ~26.5.0
+    ts-jest: ~27.0.0
     typedoc: ~0.20.0
     typescript: ~4.2.3
   languageName: unknown
@@ -2319,7 +2332,7 @@ __metadata:
     jest: ~26.6.3
     jest-extended: 0.11.5
     rimraf: ^3.0.2
-    ts-jest: ~26.5.0
+    ts-jest: ~27.0.0
     typedoc: ~0.20.0
     typescript: ~4.2.3
     util: ^0.12.3
@@ -2357,7 +2370,7 @@ __metadata:
     jest-extended: ~0.11.5
     prettier: 2.3.0
     rimraf: ^3.0.2
-    ts-jest: ~26.5.0
+    ts-jest: ~27.0.0
     typedoc: ~0.20.0
     typescript: ~4.2.3
   languageName: unknown
@@ -2407,7 +2420,7 @@ __metadata:
     npm-check-updates: ~11.5.0
     prettier: ^2.1.2
     rimraf: ^3.0.2
-    ts-jest: ~26.5.0
+    ts-jest: ~27.0.0
     typedoc: ~0.20.0
     typescript: ~4.2.3
   languageName: unknown
@@ -2430,7 +2443,7 @@ __metadata:
     jest: ~26.6.3
     jest-extended: 0.11.5
     rimraf: ^3.0.2
-    ts-jest: ~26.5.0
+    ts-jest: ~27.0.0
     typedoc: ~0.20.0
     typescript: ~4.2.3
     util: ^0.12.3
@@ -2469,7 +2482,7 @@ __metadata:
     jest-extended: ~0.11.5
     prettier: 2.3.0
     rimraf: ^3.0.2
-    ts-jest: ~26.5.0
+    ts-jest: ~27.0.0
     typedoc: ~0.20.0
     typescript: ~4.2.3
   languageName: unknown
@@ -2503,7 +2516,7 @@ __metadata:
     npm-check-updates: ^11.0.0
     prettier: ^2.0.5
     rimraf: ^3.0.2
-    ts-jest: ~26.5.0
+    ts-jest: ~27.0.0
     typescript: ~4.2.3
   dependenciesMeta:
     "@arkecosystem/core":
@@ -3039,6 +3052,15 @@ __metadata:
   dependencies:
     "@types/yargs-parser": "*"
   checksum: fa1a5b0a07dbbff1657a27d1191d586632412d170321000f6f417f279547a8c191d7058dbf4d4187c188a5a1aeb2473ddb25fe316b206fccdfe1de6fad976619
+  languageName: node
+  linkType: hard
+
+"@types/yargs@npm:^16.0.0":
+  version: 16.0.3
+  resolution: "@types/yargs@npm:16.0.3"
+  dependencies:
+    "@types/yargs-parser": "*"
+  checksum: 84b8f617742b4a86f334838152cbc8d2fae4cc2568a81c4d54a9a9c7a6dc926f4fb21c3cb9d34cad895ab4f020041e28bcfe16348a34d370a2833450750ccd66
   languageName: node
   linkType: hard
 
@@ -4550,6 +4572,13 @@ __metadata:
   version: 2.0.0
   resolution: "ci-info@npm:2.0.0"
   checksum: 553fe83c085fce5e19e20f85b993f24a463e6f805803837a8868607bb68b1300567868694a5dff1beca6c54926a4c0be1cc9ef0c35f810653d590bf64183f6a0
+  languageName: node
+  linkType: hard
+
+"ci-info@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "ci-info@npm:3.1.1"
+  checksum: 417d2bf17c320d477bc32997d3831bcc1b174d6b48616c2f0463765f042f073bfbfb15e06abdeea55b05ca9c8e054057eb9e0672e4e6031457e87216b2faddda
   languageName: node
   linkType: hard
 
@@ -7539,6 +7568,17 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"is-ci@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "is-ci@npm:3.0.0"
+  dependencies:
+    ci-info: ^3.1.1
+  bin:
+    is-ci: bin.js
+  checksum: 1e26d3ba6634ebee83f9d22f260354c5d950eada4d609c30cc2642069f8ba52f3aeb4c9bbf8099aaf04a2f44a1ed7beef2a24485f988753c8c078a57e9b3a2fd
+  languageName: node
+  linkType: hard
+
 "is-core-module@npm:^2.2.0":
   version: 2.3.0
   resolution: "is-core-module@npm:2.3.0"
@@ -8437,7 +8477,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"jest-util@npm:^26.1.0, jest-util@npm:^26.6.2":
+"jest-util@npm:^26.6.2":
   version: 26.6.2
   resolution: "jest-util@npm:26.6.2"
   dependencies:
@@ -8448,6 +8488,20 @@ fsevents@~2.1.2:
     is-ci: ^2.0.0
     micromatch: ^4.0.2
   checksum: 1aef748c8224d00ead3389899177bd3b619479db7318f8d7de7fbedce283ac6a8dc8c9364a40a68e83e68e03fa18afbd6b49c8aafb81112807872f0f90fb5a37
+  languageName: node
+  linkType: hard
+
+"jest-util@npm:^27.0.0":
+  version: 27.0.1
+  resolution: "jest-util@npm:27.0.1"
+  dependencies:
+    "@jest/types": ^27.0.1
+    "@types/node": "*"
+    chalk: ^4.0.0
+    graceful-fs: ^4.2.4
+    is-ci: ^3.0.0
+    picomatch: ^2.2.3
+  checksum: a395978f7f0599508ff4d7738ddb62cdcb24350e8ddded59727300a3892318f984f035534ecfc5c7c4af85f26eea4754796aa41903a552b433d876ff08c9c9f3
   languageName: node
   linkType: hard
 
@@ -12994,14 +13048,14 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:~26.5.0":
-  version: 26.5.6
-  resolution: "ts-jest@npm:26.5.6"
+"ts-jest@npm:~27.0.0":
+  version: 27.0.0
+  resolution: "ts-jest@npm:27.0.0"
   dependencies:
     bs-logger: 0.x
     buffer-from: 1.x
     fast-json-stable-stringify: 2.x
-    jest-util: ^26.1.0
+    jest-util: ^27.0.0
     json5: 2.x
     lodash: 4.x
     make-error: 1.x
@@ -13009,11 +13063,11 @@ fsevents@~2.1.2:
     semver: 7.x
     yargs-parser: 20.x
   peerDependencies:
-    jest: ">=26 <27"
+    jest: ^27.0.0
     typescript: ">=3.8 <5.0"
   bin:
     ts-jest: cli.js
-  checksum: fd32a8b256091d45d850c491fd090f74a368d44bccc8fedfa0dd074757727e7f07621eb2a69ebf081428f44a357a879237a2cf0aef970896410d454d0bf87ac6
+  checksum: 880c7bff8894cd539d0ba7c2e8f581ee8d60c87c628ea8068a805e19d5aedccc3e00b04b5bcc9f0a5628e4b96afd5f1b31dc9354221a1390d58e54a7b1fc08cb
   languageName: node
   linkType: hard
 
