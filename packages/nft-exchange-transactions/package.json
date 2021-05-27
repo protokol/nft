@@ -34,10 +34,10 @@
         "build:watch": "yarn clean && yarn compile -w",
         "clean": "rimraf .coverage dist tmp",
         "test": "jest",
-        "test:unit": "jest __tests__/unit/** --forceExit --detectOpenHandles",
-        "test:unit:coverage": "jest __tests__/unit --coverage --detectOpenHandles",
-        "test:functional": "CORE_ENV=test jest __tests__/functional/ --forceExit --detectOpenHandles",
-        "test:functional:coverage": "CORE_ENV=test jest __tests__/functional --coverage --forceExit --detectOpenHandles",
+        "test:unit": "jest __tests__/unit/** --forceExit",
+        "test:unit:coverage": "jest __tests__/unit --coverage",
+        "test:functional": "CORE_ENV=test jest __tests__/functional/ --forceExit",
+        "test:functional:coverage": "CORE_ENV=test jest __tests__/functional --coverage --forceExit",
         "publish:beta": "yarn build && yarn npm publish --tag beta --access public --tolerate-republish"
     },
     "dependencies": {
@@ -68,11 +68,11 @@
         "codecov": "^3.8.1",
         "eslint": "7.27.0",
         "eslint-plugin-prettier": "^3.1.4",
-        "jest": "~27.0.0",
+        "jest": "~27.0.1",
         "jest-extended": "~0.11.5",
         "prettier": "2.3.0",
         "rimraf": "^3.0.2",
-        "ts-jest": "~26.5.0",
+        "ts-jest": "~27.0.1",
         "typedoc": "~0.20.0",
         "typescript": "~4.2.3"
     },
