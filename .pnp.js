@@ -45,6 +45,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@protokol/nft-exchange-transactions",
         "reference": "workspace:packages/nft-exchange-transactions"
+      },
+      {
+        "name": "@protokol/nft-indexer-api",
+        "reference": "workspace:packages/nft-indexer-api"
       }
     ],
     "enableTopLevelFallback": true,
@@ -56,6 +60,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@protokol/nft-exchange-api", ["workspace:packages/nft-exchange-api"]],
       ["@protokol/nft-exchange-crypto", ["workspace:packages/nft-exchange-crypto"]],
       ["@protokol/nft-exchange-transactions", ["workspace:packages/nft-exchange-transactions"]],
+      ["@protokol/nft-indexer-api", ["workspace:packages/nft-indexer-api"]],
       ["@protokol/nft-plugins", ["workspace:."]]
     ],
     "fallbackPool": [
@@ -309,6 +314,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@protokol/nft-base-transactions", "workspace:packages/nft-base-transactions"],
             ["@protokol/nft-exchange-api", "workspace:packages/nft-exchange-api"],
             ["@protokol/nft-exchange-transactions", "workspace:packages/nft-exchange-transactions"],
+            ["@protokol/nft-indexer-api", "workspace:packages/nft-indexer-api"],
             ["chalk", "npm:4.1.1"],
             ["cron", "npm:1.8.2"],
             ["dayjs", "npm:1.10.5"],
@@ -3081,6 +3087,56 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-prettier", "virtual:a70d54d77e5c82a7a2ab2fd69a2f33c097318c8571135823be52f11551c916757603b513c3b2b135c036c4319a25450d31ec80c465f996da09d22a739cff3668#npm:3.4.0"],
             ["jest", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:27.0.1"],
             ["jest-extended", "npm:0.11.5"],
+            ["prettier", "npm:2.3.0"],
+            ["rimraf", "npm:3.0.2"],
+            ["ts-jest", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:27.0.1"],
+            ["typedoc", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:0.20.36"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@protokol/nft-indexer-api", [
+        ["workspace:packages/nft-indexer-api", {
+          "packageLocation": "./packages/nft-indexer-api/",
+          "packageDependencies": [
+            ["@protokol/nft-indexer-api", "workspace:packages/nft-indexer-api"],
+            ["@arkecosystem/core-api", "npm:3.0.0-next.27"],
+            ["@arkecosystem/core-database", "npm:3.0.0-next.27"],
+            ["@arkecosystem/core-kernel", "npm:3.0.0-next.27"],
+            ["@arkecosystem/core-state", "npm:3.0.0-next.27"],
+            ["@arkecosystem/core-test-framework", "npm:3.0.0-next.27"],
+            ["@arkecosystem/core-transaction-pool", "npm:3.0.0-next.27"],
+            ["@arkecosystem/core-transactions", "npm:3.0.0-next.27"],
+            ["@arkecosystem/crypto", "npm:3.0.0-next.27"],
+            ["@hapi/boom", "npm:9.1.2"],
+            ["@hapi/hapi", "npm:20.1.3"],
+            ["@protokol/nft-base-crypto", "workspace:packages/nft-base-crypto"],
+            ["@protokol/nft-base-transactions", "workspace:packages/nft-base-transactions"],
+            ["@sindresorhus/tsconfig", "npm:1.0.2"],
+            ["@types/eslint", "npm:7.2.12"],
+            ["@types/eslint-plugin-prettier", "npm:3.1.0"],
+            ["@types/hapi__boom", "npm:7.4.1"],
+            ["@types/hapi__joi", "npm:17.1.6"],
+            ["@types/jest", "npm:26.0.23"],
+            ["@types/node", "npm:14.17.1"],
+            ["@types/prettier", "npm:2.2.3"],
+            ["@types/rimraf", "npm:3.0.0"],
+            ["@types/semver", "npm:7.3.6"],
+            ["@typescript-eslint/eslint-plugin", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:4.25.0"],
+            ["@typescript-eslint/parser", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:4.25.0"],
+            ["codecov", "npm:3.8.2"],
+            ["cross-env", "npm:7.0.3"],
+            ["eslint", "npm:7.27.0"],
+            ["eslint-config-prettier", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:8.3.0"],
+            ["eslint-plugin-jest", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:24.3.6"],
+            ["eslint-plugin-prettier", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:3.4.0"],
+            ["eslint-plugin-simple-import-sort", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:7.0.0"],
+            ["jest", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:27.0.1"],
+            ["jest-extended", "npm:0.11.5"],
+            ["joi", "npm:17.4.0"],
+            ["latest-version", "npm:5.1.0"],
+            ["npm-check-updates", "npm:11.6.0"],
             ["prettier", "npm:2.3.0"],
             ["rimraf", "npm:3.0.2"],
             ["ts-jest", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:27.0.1"],
@@ -11414,7 +11470,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["ngrok", [
         ["npm:3.4.1", {
-          "packageLocation": "./.yarn/cache/ngrok-npm-3.4.1-fed079aa1a-aecf3201a0.zip/node_modules/ngrok/",
+          "packageLocation": "./.yarn/unplugged/ngrok-npm-3.4.1-fed079aa1a/node_modules/ngrok/",
           "packageDependencies": [
             ["ngrok", "npm:3.4.1"],
             ["@types/node", "npm:8.10.66"],
@@ -12975,7 +13031,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["protobufjs", [
         ["npm:6.10.2", {
-          "packageLocation": "./.yarn/cache/protobufjs-npm-6.10.2-f0f2cab7fe-09d6292362.zip/node_modules/protobufjs/",
+          "packageLocation": "./.yarn/unplugged/protobufjs-npm-6.10.2-f0f2cab7fe/node_modules/protobufjs/",
           "packageDependencies": [
             ["protobufjs", "npm:6.10.2"],
             ["@protobufjs/aspromise", "npm:1.1.2"],
