@@ -2492,6 +2492,8 @@ __metadata:
     "@hapi/hapi": ^20.0.2
     "@protokol/nft-base-crypto": "workspace:packages/nft-base-crypto"
     "@protokol/nft-base-transactions": "workspace:packages/nft-base-transactions"
+    "@protokol/nft-exchange-crypto": "workspace:packages/nft-exchange-crypto"
+    "@protokol/nft-exchange-transactions": "workspace:packages/nft-exchange-transactions"
     "@sindresorhus/tsconfig": ^1.0.0
     "@types/eslint": ^7.2.5
     "@types/eslint-plugin-prettier": ^3.1.0

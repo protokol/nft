@@ -3112,6 +3112,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@hapi/hapi", "npm:20.1.3"],
             ["@protokol/nft-base-crypto", "workspace:packages/nft-base-crypto"],
             ["@protokol/nft-base-transactions", "workspace:packages/nft-base-transactions"],
+            ["@protokol/nft-exchange-crypto", "workspace:packages/nft-exchange-crypto"],
+            ["@protokol/nft-exchange-transactions", "workspace:packages/nft-exchange-transactions"],
             ["@sindresorhus/tsconfig", "npm:1.0.2"],
             ["@types/eslint", "npm:7.2.13"],
             ["@types/eslint-plugin-prettier", "npm:3.1.0"],
