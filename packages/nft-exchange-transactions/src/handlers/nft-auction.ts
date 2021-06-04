@@ -54,6 +54,7 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
 
             this.walletRepository.setOnIndex(NFTExchangeIndexers.AuctionIndexer, transaction.id, wallet);
+            await this.emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTAuctionBootstrap, transaction);
         }
     }
 

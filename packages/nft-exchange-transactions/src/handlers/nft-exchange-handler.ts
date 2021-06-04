@@ -12,6 +12,9 @@ export abstract class NFTExchangeTransactionHandler extends Handlers.Transaction
     @Container.tagged("plugin", pluginName)
     private readonly configuration!: Providers.PluginConfiguration;
 
+    @Container.inject(Container.Identifiers.EventDispatcherService)
+    protected readonly emitter!: Contracts.Kernel.EventDispatcher;
+
     public async isActivated(): Promise<boolean> {
         return Managers.configManager.getMilestone().aip11 === true;
     }
