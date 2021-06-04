@@ -1,17 +1,17 @@
-import { Container, Contracts } from "@arkecosystem/core-kernel";
+import { Contracts } from "@arkecosystem/core-kernel";
+import { Events } from "@protokol/nft-exchange-transactions";
 import { Connection, createConnection } from "typeorm";
 
 import { defaults } from "./defaults";
+import { AuctionBootstrapEvent } from "./events";
 
 export class DatabaseService {
-	private connection: Connection | undefined;
-
-	@Container.inject(Container.Identifiers.EventDispatcherService)
-	private readonly events!: Contracts.Kernel.EventDispatcher;
+	constructor(private events: Contracts.Kernel.EventDispatcher, private connection?: Connection) {}
 
 	public async initialize(): Promise<void> {
 		await this.connect();
-		// TODO setup events
+		await this.reset();
+		this.setupListeners();
 	}
 
 	private async connect(): Promise<void> {
@@ -24,10 +24,15 @@ export class DatabaseService {
 	}
 
 	public async disconnect(): Promise<void> {
-		await this.connection!.close();
+		await this.connection?.close();
 	}
 
 	private async reset(): Promise<void> {
-		await this.connection!.query("DROP TABLE auctions;");
+		await this.connection?.query("DELETE FROM auctions;");
+		await this.connection?.query("VACUUM;");
+	}
+
+	private setupListeners(): void {
+		this.events.listen(Events.NFTExchangeApplicationEvents.NFTAuctionBootstrap, new AuctionBootstrapEvent());
 	}
 }

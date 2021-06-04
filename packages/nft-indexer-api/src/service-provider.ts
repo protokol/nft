@@ -7,12 +7,15 @@ import Handlers from "./handlers";
 const plugin = require("../package.json");
 
 export class ServiceProvider extends Providers.ServiceProvider {
-	private databaseService = new DatabaseService();
+	private databaseService: DatabaseService | undefined;
 
 	public async register(): Promise<void> {
 		const logger: Contracts.Kernel.Logger = this.app.get(Container.Identifiers.LogService);
 		logger.info(`Loading plugin: ${plugin.name} with version ${plugin.version}.`);
 
+		this.databaseService = new DatabaseService(
+			this.app.get<Contracts.Kernel.EventDispatcher>(Container.Identifiers.EventDispatcherService),
+		);
 		await this.databaseService.initialize();
 
 		for (const identifier of [Identifiers.HTTP, Identifiers.HTTPS]) {
@@ -26,6 +29,6 @@ export class ServiceProvider extends Providers.ServiceProvider {
 	}
 
 	public async dispose(): Promise<void> {
-		await this.databaseService.disconnect();
+		await this.databaseService?.disconnect();
 	}
 }
