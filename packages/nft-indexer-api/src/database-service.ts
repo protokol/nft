@@ -3,7 +3,7 @@ import { Events } from "@protokol/nft-exchange-transactions";
 import { Connection, createConnection } from "typeorm";
 
 import { defaults } from "./defaults";
-import { AuctionBootstrapEvent } from "./events";
+import { AuctionEvent, AuctionRevertEvent } from "./events";
 
 export class DatabaseService {
 	constructor(private events: Contracts.Kernel.EventDispatcher, private connection?: Connection) {}
@@ -31,6 +31,7 @@ export class DatabaseService {
 	}
 
 	private setupListeners(): void {
-		this.events.listen(Events.NFTExchangeApplicationEvents.NFTAuctionBootstrap, new AuctionBootstrapEvent());
+		this.events.listen(Events.NFTExchangeApplicationEvents.NFTAuction, new AuctionEvent());
+		this.events.listen(Events.NFTExchangeApplicationEvents.NFTAuctionRevert, new AuctionRevertEvent());
 	}
 }

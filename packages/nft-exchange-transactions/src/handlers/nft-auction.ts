@@ -54,12 +54,15 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
 
             this.walletRepository.setOnIndex(NFTExchangeIndexers.AuctionIndexer, transaction.id, wallet);
-            await this.emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTAuctionBootstrap, transaction);
+            await this.emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTAuction, transaction);
         }
     }
 
-    public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        void emitter.dispatch(NFTExchangeApplicationEvents.NFTAuction, transaction.data);
+    public async emitEvents(
+        transaction: Interfaces.ITransaction,
+        emitter: Contracts.Kernel.EventDispatcher,
+    ): Promise<void> {
+        await emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTAuction, transaction.data);
     }
 
     public async throwIfCannotBeApplied(
@@ -159,5 +162,6 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
         sender.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
 
         this.walletRepository.forgetOnIndex(NFTExchangeIndexers.AuctionIndexer, transaction.data.id);
+        await this.emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTAuctionRevert, transaction);
     }
 }

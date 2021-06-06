@@ -3,8 +3,14 @@ import { getCustomRepository } from "typeorm";
 
 import { AuctionRepository } from "./repositories/auction-repository";
 
-export class AuctionBootstrapEvent implements Contracts.Kernel.EventListener {
+export class AuctionEvent implements Contracts.Kernel.EventListener {
 	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
 		await getCustomRepository(AuctionRepository).insertAuction(payload.data);
+	}
+}
+
+export class AuctionRevertEvent implements Contracts.Kernel.EventListener {
+	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
+		await getCustomRepository(AuctionRepository).deleteAuction(payload.data);
 	}
 }

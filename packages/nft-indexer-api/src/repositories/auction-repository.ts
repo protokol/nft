@@ -17,7 +17,13 @@ export class AuctionRepository extends Repository<Auction> {
 		auction.expiration = auctionAsset.expiration.blockHeight;
 		auction.blockId = blockId!;
 		auction.startAmount = auctionAsset.startAmount;
+		auction.createdAt = new Date();
 
 		await this.insert(auction);
+	}
+
+	public async deleteAuction(transaction: Interfaces.ITransactionData): Promise<void> {
+		const { id } = transaction;
+		await this.delete(id!);
 	}
 }

@@ -1,6 +1,6 @@
 export enum NFTExchangeApplicationEvents {
     NFTAuction = "nft.exchange.auction.start",
-    NFTAuctionBootstrap = "nft.exchange.auction.start.bootstrap",
+    NFTAuctionRevert = "nft.exchange.auction.start.revert",
     NFTCancelAuction = "nft.exchange.auction.cancel",
     NFTBid = "nft.exchange.bid.open",
     NFTCancelBid = "nft.exchange.bid.cancel",
