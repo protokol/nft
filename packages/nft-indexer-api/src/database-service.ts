@@ -19,7 +19,6 @@ export class DatabaseService {
 			type: "better-sqlite3",
 			database: defaults.dbFilename,
 			entities: [__dirname + "/entities/*.js"],
-			synchronize: true,
 		});
 	}
 
@@ -28,8 +27,7 @@ export class DatabaseService {
 	}
 
 	private async reset(): Promise<void> {
-		await this.connection?.query("DELETE FROM auctions;");
-		await this.connection?.query("VACUUM;");
+		await this.connection?.synchronize(true);
 	}
 
 	private setupListeners(): void {
