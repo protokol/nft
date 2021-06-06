@@ -47,4 +47,9 @@ export class Auction {
 		length: 64,
 	})
 	public blockId!: string;
+
+	@Column({
+		type: "datetime",
+	})
+	public createdAt!: Date;
 }
