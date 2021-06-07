@@ -162,6 +162,6 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
         sender.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
 
         this.walletRepository.forgetOnIndex(NFTExchangeIndexers.AuctionIndexer, transaction.data.id);
-        await this.emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTAuctionRevert, transaction);
+        await this.emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTAuctionRevert, transaction.data);
     }
 }

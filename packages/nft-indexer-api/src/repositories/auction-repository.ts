@@ -2,7 +2,7 @@ import { Interfaces } from "@arkecosystem/crypto";
 import { Interfaces as NFTExchangeInterfaces } from "@protokol/nft-exchange-crypto";
 import { EntityRepository, Repository } from "typeorm";
 
-import { Auction, StatusEnum } from "../entities";
+import { Auction, AuctionStatusEnum } from "../entities";
 
 @EntityRepository(Auction)
 export class AuctionRepository extends Repository<Auction> {
@@ -12,7 +12,7 @@ export class AuctionRepository extends Repository<Auction> {
 		const auction = new Auction();
 		auction.id = id!;
 		auction.senderPublicKey = senderPublicKey!;
-		auction.status = StatusEnum.IN_PROGRESS;
+		auction.status = AuctionStatusEnum.IN_PROGRESS;
 		auction.nftIds = auctionAsset.nftIds;
 		auction.expiration = auctionAsset.expiration.blockHeight;
 		auction.blockId = blockId!;

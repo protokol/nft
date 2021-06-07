@@ -1,30 +1,20 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
 import { Utils } from "@arkecosystem/crypto";
 
 import { transformBigInt } from "../utils";
+import { BaseEntity } from "./base";
+import { Bid } from "./bid";
 
-export enum StatusEnum {
-	IN_PROGRESS,
-	FINISHED,
-	CANCELED,
+export enum AuctionStatusEnum {
+	IN_PROGRESS = "IN_PROGRESS",
+	FINISHED = "FINISHED",
+	CANCELED = "CANCELED",
 }
 
 @Entity({
 	name: "auctions",
 })
-export class Auction {
-	@PrimaryColumn({
-		type: "varchar",
-		length: 64,
-	})
-	public id!: string;
-
-	@Column({
-		type: "varchar",
-		length: 66,
-	})
-	public senderPublicKey!: string;
-
+export class Auction extends BaseEntity {
 	@Column("simple-array")
 	public nftIds!: string[];
 
@@ -39,17 +29,9 @@ export class Auction {
 	})
 	public expiration!: number;
 
-	@Column({ type: "simple-enum", enum: StatusEnum })
-	public status!: StatusEnum;
+	@Column({ type: "simple-enum", enum: AuctionStatusEnum })
+	public status!: AuctionStatusEnum;
 
-	@Column({
-		type: "varchar",
-		length: 64,
-	})
-	public blockId!: string;
-
-	@Column({
-		type: "datetime",
-	})
-	public createdAt!: Date;
+	@OneToMany(() => Bid, (bid) => bid.auction)
+	public bids!: Bid[];
 }
