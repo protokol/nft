@@ -3,7 +3,14 @@ import { Events } from "@protokol/nft-exchange-transactions";
 import { Connection, createConnection } from "typeorm";
 
 import { defaults } from "./defaults";
-import { AuctionEvent, AuctionRevertEvent, BidEvent, BidRevertEvent } from "./events";
+import {
+	AuctionEvent,
+	AuctionRevertEvent,
+	BidCancelEvent,
+	BidCancelRevertEvent,
+	BidEvent,
+	BidRevertEvent,
+} from "./events";
 
 export class DatabaseService {
 	constructor(private events: Contracts.Kernel.EventDispatcher, private connection?: Connection) {}
@@ -36,6 +43,8 @@ export class DatabaseService {
 			[Events.NFTExchangeApplicationEvents.NFTAuctionRevert, new AuctionRevertEvent()],
 			[Events.NFTExchangeApplicationEvents.NFTBid, new BidEvent()],
 			[Events.NFTExchangeApplicationEvents.NFTBidRevert, new BidRevertEvent()],
+			[Events.NFTExchangeApplicationEvents.NFTCancelBid, new BidCancelEvent()],
+			[Events.NFTExchangeApplicationEvents.NFTCancelBidRevert, new BidCancelRevertEvent()],
 		]);
 	}
 }

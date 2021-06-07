@@ -26,3 +26,15 @@ export class BidRevertEvent implements Contracts.Kernel.EventListener {
 		await getCustomRepository(BidRepository).deleteBid(payload.data);
 	}
 }
+
+export class BidCancelEvent implements Contracts.Kernel.EventListener {
+	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
+		await getCustomRepository(BidRepository).processCancelBid(payload.data);
+	}
+}
+
+export class BidCancelRevertEvent implements Contracts.Kernel.EventListener {
+	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
+		await getCustomRepository(BidRepository).processCancelBidRevert(payload.data);
+	}
+}

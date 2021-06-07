@@ -25,4 +25,16 @@ export class BidRepository extends Repository<Bid> {
 		const { id } = transaction;
 		await this.delete(id!);
 	}
+
+	public async processCancelBid(transaction: Interfaces.ITransactionData): Promise<void> {
+		const { asset } = transaction;
+		const bidCancelAsset: NFTExchangeInterfaces.NFTBidCancelAsset = asset!.nftBidCancel;
+		await this.update(bidCancelAsset.bidId, { status: BidStatusEnum.CANCELED });
+	}
+
+	public async processCancelBidRevert(transaction: Interfaces.ITransactionData): Promise<void> {
+		const { asset } = transaction;
+		const bidCancelAsset: NFTExchangeInterfaces.NFTBidCancelAsset = asset!.nftBidCancel;
+		await this.update(bidCancelAsset.bidId, { status: BidStatusEnum.IN_PROGRESS });
+	}
 }
