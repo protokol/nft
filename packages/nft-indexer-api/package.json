@@ -31,7 +31,7 @@
 	"types": "dist/index",
 	"scripts": {
 		"build": "yarn clean && tsc",
-		"build:watch": "yarn clean && yarn compile -w",
+		"build:watch": "yarn clean && tsc -w",
 		"clean": "rimraf .coverage dist tmp",
 		"test": "jest",
 		"test:unit": "jest __tests__/unit/** --forceExit",
