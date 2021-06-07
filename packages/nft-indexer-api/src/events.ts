@@ -15,6 +15,18 @@ export class AuctionRevertEvent implements Contracts.Kernel.EventListener {
 	}
 }
 
+export class AuctionCancelEvent implements Contracts.Kernel.EventListener {
+	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
+		await getCustomRepository(AuctionRepository).cancelAuction(payload.data);
+	}
+}
+
+export class AuctionCancelRevertEvent implements Contracts.Kernel.EventListener {
+	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
+		await getCustomRepository(AuctionRepository).cancelAuctionRevert(payload.data);
+	}
+}
+
 export class BidEvent implements Contracts.Kernel.EventListener {
 	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
 		await getCustomRepository(BidRepository).insertBid(payload.data);
@@ -29,12 +41,12 @@ export class BidRevertEvent implements Contracts.Kernel.EventListener {
 
 export class BidCancelEvent implements Contracts.Kernel.EventListener {
 	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
-		await getCustomRepository(BidRepository).processCancelBid(payload.data);
+		await getCustomRepository(BidRepository).cancelBid(payload.data);
 	}
 }
 
 export class BidCancelRevertEvent implements Contracts.Kernel.EventListener {
 	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
-		await getCustomRepository(BidRepository).processCancelBidRevert(payload.data);
+		await getCustomRepository(BidRepository).cancelBidRevert(payload.data);
 	}
 }

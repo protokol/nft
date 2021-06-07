@@ -2,14 +2,17 @@ import { Models } from "@arkecosystem/core-database";
 import { Container, Contracts, Utils as AppUtils } from "@arkecosystem/core-kernel";
 import { Handlers } from "@arkecosystem/core-transactions";
 import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
-import { Interfaces as NFTInterfaces, Transactions as NFTTransactions } from "@protokol/nft-exchange-crypto";
-import { Enums as NFTExchangeEnums } from "@protokol/nft-exchange-crypto";
+import {
+    Enums as NFTExchangeEnums,
+    Interfaces as NFTInterfaces,
+    Transactions as NFTTransactions,
+} from "@protokol/nft-exchange-crypto";
 
 import { NFTExchangeAuctionCancelCannotCancel } from "../errors";
 import { NFTExchangeApplicationEvents } from "../events";
 import { INFTAuctions } from "../interfaces";
 import { NFTExchangeIndexers } from "../wallet-indexes";
-import { NFTAuctionHandler } from "./nft-auction";
+import { NFTBidCancelHandler } from "./nft-bid-cancel";
 import { NFTExchangeTransactionHandler } from "./nft-exchange-handler";
 
 @Container.injectable()
@@ -25,7 +28,7 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
     }
 
     public dependencies(): ReadonlyArray<Handlers.TransactionHandlerConstructor> {
-        return [NFTAuctionHandler];
+        return [NFTBidCancelHandler];
     }
 
     public walletAttributes(): ReadonlyArray<string> {
@@ -63,11 +66,15 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
 
             this.walletRepository.forgetOnIndex(NFTExchangeIndexers.AuctionIndexer, nftAuctionCancelAsset.auctionId);
+            await this.emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTCancelAuction, transaction);
         }
     }
 
-    public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        void emitter.dispatch(NFTExchangeApplicationEvents.NFTCancelAuction, transaction.data);
+    public async emitEvents(
+        transaction: Interfaces.ITransaction,
+        emitter: Contracts.Kernel.EventDispatcher,
+    ): Promise<void> {
+        await emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTCancelAuction, transaction.data);
     }
 
     public async throwIfCannotBeApplied(
@@ -198,5 +205,6 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
         for (const bidId of auctionsWalletAsset[nftAuctionCancelAsset.auctionId]!.bids) {
             this.walletRepository.setOnIndex(NFTExchangeIndexers.BidIndexer, bidId, sender);
         }
+        await this.emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTCancelAuctionRevert, transaction.data);
     }
 }

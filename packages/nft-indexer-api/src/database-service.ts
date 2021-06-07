@@ -4,6 +4,8 @@ import { Connection, createConnection } from "typeorm";
 
 import { defaults } from "./defaults";
 import {
+	AuctionCancelEvent,
+	AuctionCancelRevertEvent,
 	AuctionEvent,
 	AuctionRevertEvent,
 	BidCancelEvent,
@@ -45,6 +47,8 @@ export class DatabaseService {
 			[Events.NFTExchangeApplicationEvents.NFTBidRevert, new BidRevertEvent()],
 			[Events.NFTExchangeApplicationEvents.NFTCancelBid, new BidCancelEvent()],
 			[Events.NFTExchangeApplicationEvents.NFTCancelBidRevert, new BidCancelRevertEvent()],
+			[Events.NFTExchangeApplicationEvents.NFTCancelAuction, new AuctionCancelEvent()],
+			[Events.NFTExchangeApplicationEvents.NFTCancelAuctionRevert, new AuctionCancelRevertEvent()],
 		]);
 	}
 }

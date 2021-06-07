@@ -29,7 +29,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
     }
 
     public dependencies(): ReadonlyArray<Handlers.TransactionHandlerConstructor> {
-        return [NFTAuctionHandler, NFTAuctionCancelHandler];
+        return [NFTAuctionHandler];
     }
 
     public walletAttributes(): ReadonlyArray<string> {

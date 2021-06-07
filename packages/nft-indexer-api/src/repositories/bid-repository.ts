@@ -15,7 +15,6 @@ export class BidRepository extends Repository<Bid> {
 		bid.status = BidStatusEnum.IN_PROGRESS;
 		bid.blockId = blockId!;
 		bid.bidAmount = bidAsset.bidAmount;
-		bid.createdAt = new Date();
 		bid.auction = { id: bidAsset.auctionId } as Auction;
 
 		await this.insert(bid);
@@ -26,13 +25,29 @@ export class BidRepository extends Repository<Bid> {
 		await this.delete(id!);
 	}
 
-	public async processCancelBid(transaction: Interfaces.ITransactionData): Promise<void> {
+	public async cancelBids(auctionId: string): Promise<void> {
+		await this.createQueryBuilder()
+			.update()
+			.set({ status: BidStatusEnum.CANCELED })
+			.where("auctionId = :auctionId", { auctionId })
+			.execute();
+	}
+
+	public async cancelBidsRevert(auctionId: string): Promise<void> {
+		await this.createQueryBuilder()
+			.update()
+			.set({ status: BidStatusEnum.IN_PROGRESS })
+			.where("auctionId = :auctionId", { auctionId })
+			.execute();
+	}
+
+	public async cancelBid(transaction: Interfaces.ITransactionData): Promise<void> {
 		const { asset } = transaction;
 		const bidCancelAsset: NFTExchangeInterfaces.NFTBidCancelAsset = asset!.nftBidCancel;
 		await this.update(bidCancelAsset.bidId, { status: BidStatusEnum.CANCELED });
 	}
 
-	public async processCancelBidRevert(transaction: Interfaces.ITransactionData): Promise<void> {
+	public async cancelBidRevert(transaction: Interfaces.ITransactionData): Promise<void> {
 		const { asset } = transaction;
 		const bidCancelAsset: NFTExchangeInterfaces.NFTBidCancelAsset = asset!.nftBidCancel;
 		await this.update(bidCancelAsset.bidId, { status: BidStatusEnum.IN_PROGRESS });

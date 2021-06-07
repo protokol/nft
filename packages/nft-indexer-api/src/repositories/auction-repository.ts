@@ -1,8 +1,9 @@
 import { Interfaces } from "@arkecosystem/crypto";
 import { Interfaces as NFTExchangeInterfaces } from "@protokol/nft-exchange-crypto";
-import { EntityRepository, Repository } from "typeorm";
+import { EntityRepository, getCustomRepository, Repository } from "typeorm";
 
 import { Auction, AuctionStatusEnum } from "../entities";
+import { BidRepository } from "./bid-repository";
 
 @EntityRepository(Auction)
 export class AuctionRepository extends Repository<Auction> {
@@ -17,7 +18,6 @@ export class AuctionRepository extends Repository<Auction> {
 		auction.expiration = auctionAsset.expiration.blockHeight;
 		auction.blockId = blockId!;
 		auction.startAmount = auctionAsset.startAmount;
-		auction.createdAt = new Date();
 
 		await this.insert(auction);
 	}
@@ -25,5 +25,19 @@ export class AuctionRepository extends Repository<Auction> {
 	public async deleteAuction(transaction: Interfaces.ITransactionData): Promise<void> {
 		const { id } = transaction;
 		await this.delete(id!);
+	}
+
+	public async cancelAuction(transaction: Interfaces.ITransactionData): Promise<void> {
+		const { asset } = transaction;
+		const auctionCancelAsset: NFTExchangeInterfaces.NFTAuctionCancel = asset!.nftAuctionCancel;
+		await this.update(auctionCancelAsset.auctionId, { status: AuctionStatusEnum.CANCELED });
+		await getCustomRepository(BidRepository).cancelBids(auctionCancelAsset.auctionId);
+	}
+
+	public async cancelAuctionRevert(transaction: Interfaces.ITransactionData): Promise<void> {
+		const { asset } = transaction;
+		const auctionCancelAsset: NFTExchangeInterfaces.NFTAuctionCancel = asset!.nftAuctionCancel;
+		await this.update(auctionCancelAsset.auctionId, { status: AuctionStatusEnum.IN_PROGRESS });
+		await getCustomRepository(BidRepository).cancelBidsRevert(auctionCancelAsset.auctionId);
 	}
 }

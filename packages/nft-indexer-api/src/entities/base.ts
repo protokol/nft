@@ -1,4 +1,4 @@
-import { Column, PrimaryColumn } from "typeorm";
+import { BeforeInsert, Column, PrimaryColumn } from "typeorm";
 
 export class BaseEntity {
 	@PrimaryColumn({
@@ -23,4 +23,9 @@ export class BaseEntity {
 		type: "datetime",
 	})
 	public createdAt!: Date;
+
+	@BeforeInsert()
+	private async setCreatedAt(): Promise<void> {
+		this.createdAt = new Date();
+	}
 }
