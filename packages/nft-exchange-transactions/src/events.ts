@@ -8,4 +8,5 @@ export enum NFTExchangeApplicationEvents {
     NFTCancelBid = "nft.exchange.bid.cancel",
     NFTCancelBidRevert = "nft.exchange.bid.cancel.revert",
     NFTAcceptTrade = "nft.exchange.trade.completed",
+    NFTAcceptTradeRevert = "nft.exchange.trade.completed.revert",
 }

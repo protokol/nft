@@ -4,6 +4,8 @@ import { Connection, createConnection } from "typeorm";
 
 import { defaults } from "./defaults";
 import {
+	AcceptTradeEvent,
+	AcceptTradeRevertEvent,
 	AuctionCancelEvent,
 	AuctionCancelRevertEvent,
 	AuctionEvent,
@@ -49,6 +51,8 @@ export class DatabaseService {
 			[Events.NFTExchangeApplicationEvents.NFTCancelBidRevert, new BidCancelRevertEvent()],
 			[Events.NFTExchangeApplicationEvents.NFTCancelAuction, new AuctionCancelEvent()],
 			[Events.NFTExchangeApplicationEvents.NFTCancelAuctionRevert, new AuctionCancelRevertEvent()],
+			[Events.NFTExchangeApplicationEvents.NFTAcceptTrade, new AcceptTradeEvent()],
+			[Events.NFTExchangeApplicationEvents.NFTAcceptTradeRevert, new AcceptTradeRevertEvent()],
 		]);
 	}
 }
