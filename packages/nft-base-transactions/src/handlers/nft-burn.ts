@@ -57,11 +57,15 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
             collectionsWallet[collectionId]!.currentSupply -= 1;
             collectionsWallet[collectionId]!.nftCollectionAsset.maximumSupply -= 1;
             genesisWallet.setAttribute<INFTCollections>("nft.base.collections", collectionsWallet);
+            await this.emitter.dispatchSeq(NFTApplicationEvents.NFTBurn, transaction);
         }
     }
 
-    public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        void emitter.dispatch(NFTApplicationEvents.NFTBurn, transaction.data);
+    public async emitEvents(
+        transaction: Interfaces.ITransaction,
+        emitter: Contracts.Kernel.EventDispatcher,
+    ): Promise<void> {
+        await emitter.dispatchSeq(NFTApplicationEvents.NFTBurn, transaction.data);
     }
 
     public async throwIfCannotBeApplied(
@@ -158,5 +162,6 @@ export class NFTBurnHandler extends NFTBaseTransactionHandler {
         collectionsWallet[collectionId]!.currentSupply += 1;
         collectionsWallet[collectionId]!.nftCollectionAsset.maximumSupply += 1;
         genesisWallet.setAttribute<INFTCollections>("nft.base.collections", collectionsWallet);
+        await this.emitter.dispatchSeq(NFTApplicationEvents.NFTBurnRevert, transaction.data);
     }
 }

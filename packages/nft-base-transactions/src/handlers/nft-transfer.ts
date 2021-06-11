@@ -58,11 +58,21 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
                 this.walletRepository.setOnIndex(NFTIndexers.NFTTokenIndexer, token, recipientWallet);
             }
             recipientWallet.setAttribute<INFTTokens>("nft.base.tokenIds", recipientTokensWallet);
+            await this.emitter.dispatchSeq(NFTApplicationEvents.NFTTransfer, {
+                ...transaction,
+                owner: recipientWallet.getPublicKey(),
+            });
         }
     }
 
-    public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        void emitter.dispatch(NFTApplicationEvents.NFTTransfer, transaction.data);
+    public async emitEvents(
+        transaction: Interfaces.ITransaction,
+        emitter: Contracts.Kernel.EventDispatcher,
+    ): Promise<void> {
+        await emitter.dispatchSeq(NFTApplicationEvents.NFTTransfer, {
+            ...transaction.data,
+            owner: this.walletRepository.findByAddress(transaction.data.asset!.nftTransfer.recipientId).getPublicKey(),
+        });
     }
 
     public async throwIfCannotBeApplied(
@@ -187,5 +197,9 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
             // this.walletRepository.forgetOnIndex(NFTIndexers.NFTTokenIndexer, token);
         }
         recipientWallet.setAttribute<INFTTokens>("nft.base.tokenIds", recipientTokensWallet);
+        await this.emitter.dispatchSeq(NFTApplicationEvents.NFTTransferRevert, {
+            ...transaction.data,
+            owner: recipientWallet.getPublicKey(),
+        });
     }
 }

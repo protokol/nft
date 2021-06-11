@@ -4,6 +4,7 @@ import { Utils } from "@arkecosystem/crypto";
 import { transformBigInt } from "../utils";
 import { BaseEntity } from "./base";
 import { Bid } from "./bid";
+import { Asset } from "./asset";
 
 export enum AuctionStatusEnum {
 	IN_PROGRESS = "IN_PROGRESS",
@@ -15,6 +16,12 @@ export enum AuctionStatusEnum {
 	name: "auctions",
 })
 export class Auction extends BaseEntity {
+	@Column({
+		type: "varchar",
+		length: 66,
+	})
+	public senderPublicKey!: string;
+
 	@Column("simple-array")
 	public nftIds!: string[];
 
@@ -24,9 +31,7 @@ export class Auction extends BaseEntity {
 	})
 	public startAmount!: Utils.BigNumber;
 
-	@Column({
-		type: "integer",
-	})
+	@Column("integer")
 	public expiration!: number;
 
 	@Column({ type: "simple-enum", enum: AuctionStatusEnum })
@@ -34,4 +39,7 @@ export class Auction extends BaseEntity {
 
 	@OneToMany(() => Bid, (bid) => bid.auction)
 	public bids!: Bid[];
+
+	@OneToMany(() => Asset, (asset) => asset.auction)
+	public assets!: Asset[];
 }

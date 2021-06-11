@@ -9,12 +9,6 @@ export class BaseEntity {
 
 	@Column({
 		type: "varchar",
-		length: 66,
-	})
-	public senderPublicKey!: string;
-
-	@Column({
-		type: "varchar",
 		length: 64,
 	})
 	public blockId!: string;

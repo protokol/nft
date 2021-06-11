@@ -17,6 +17,12 @@ export enum BidStatusEnum {
 })
 export class Bid extends BaseEntity {
 	@Column({
+		type: "varchar",
+		length: 66,
+	})
+	public senderPublicKey!: string;
+
+	@Column({
 		type: "bigint",
 		transformer: transformBigInt,
 	})
