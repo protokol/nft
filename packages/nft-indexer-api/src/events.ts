@@ -2,6 +2,7 @@ import { Contracts } from "@arkecosystem/core-kernel";
 import { getCustomRepository } from "typeorm";
 
 import { AuctionRepository, BidRepository } from "./repositories";
+import { AssetRepository } from "./repositories/asset-repository";
 
 export class AuctionEvent implements Contracts.Kernel.EventListener {
 	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
@@ -60,5 +61,41 @@ export class AcceptTradeEvent implements Contracts.Kernel.EventListener {
 export class AcceptTradeRevertEvent implements Contracts.Kernel.EventListener {
 	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
 		await getCustomRepository(AuctionRepository).finishAuctionRevert(payload.data);
+	}
+}
+
+export class CreateAssetEvent implements Contracts.Kernel.EventListener {
+	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
+		await getCustomRepository(AssetRepository).createAsset(payload.data);
+	}
+}
+
+export class CreateAssetRevertEvent implements Contracts.Kernel.EventListener {
+	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
+		await getCustomRepository(AssetRepository).deleteAsset(payload.data);
+	}
+}
+
+export class BurnAssetEvent implements Contracts.Kernel.EventListener {
+	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
+		await getCustomRepository(AssetRepository).burnAsset(payload.data);
+	}
+}
+
+export class BurnAssetRevertEvent implements Contracts.Kernel.EventListener {
+	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
+		await getCustomRepository(AssetRepository).burnAssetRevert(payload.data);
+	}
+}
+
+export class TransferAssetEvent implements Contracts.Kernel.EventListener {
+	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
+		await getCustomRepository(AssetRepository).transferAsset(payload.data);
+	}
+}
+
+export class TransferAssetRevertEvent implements Contracts.Kernel.EventListener {
+	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
+		await getCustomRepository(AssetRepository).transferAssetRevert(payload.data);
 	}
 }

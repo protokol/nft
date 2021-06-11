@@ -17,7 +17,7 @@ export class BidRepository extends Repository<Bid> {
 		bid.bidAmount = bidAsset.bidAmount;
 		bid.auction = { id: bidAsset.auctionId } as Auction;
 
-		await this.insert(bid);
+		await this.createQueryBuilder().insert().values(bid).updateEntity(false).execute();
 	}
 
 	public async deleteBid(transaction: Interfaces.ITransactionData): Promise<void> {

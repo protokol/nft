@@ -19,7 +19,7 @@ export class AuctionRepository extends Repository<Auction> {
 		auction.blockId = blockId!;
 		auction.startAmount = auctionAsset.startAmount;
 
-		await this.insert(auction);
+		await this.createQueryBuilder().insert().values(auction).updateEntity(false).execute();
 	}
 
 	public async deleteAuction(transaction: Interfaces.ITransactionData): Promise<void> {

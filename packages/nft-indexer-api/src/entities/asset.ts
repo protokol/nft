@@ -24,4 +24,7 @@ export class Asset extends BaseEntity {
 
 	@ManyToOne(() => Auction, (auction) => auction.assets)
 	public auction!: Auction;
+
+	@Column({ default: false })
+	public isBurned!: boolean;
 }
