@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany } from "typeorm";
 import { Utils } from "@arkecosystem/crypto";
 
-import { transformBigInt } from "../utils";
+import { transformBigInt } from "./utils";
 import { BaseEntity } from "./base";
 import { Bid } from "./bid";
 import { Asset } from "./asset";

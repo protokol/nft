@@ -1,9 +1,9 @@
 import { Utils } from "@arkecosystem/crypto";
 import { Column, Entity, ManyToOne } from "typeorm";
 
-import { transformBigInt } from "../utils";
 import { Auction } from "./auction";
 import { BaseEntity } from "./base";
+import { transformBigInt } from "./utils";
 
 export enum BidStatusEnum {
 	IN_PROGRESS = "IN_PROGRESS",
