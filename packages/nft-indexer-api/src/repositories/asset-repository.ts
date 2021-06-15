@@ -56,4 +56,20 @@ export class AssetRepository extends Repository<Asset> {
 
 		await this.update(transferAsset.nftIds, { owner: senderPublicKey });
 	}
+
+	public async addAuctionToAssets(ids: string[], auctionId: string): Promise<void> {
+		await this.update(ids, { auction: { id: auctionId } });
+	}
+
+	public async removeAuctionFromAssets(auctionId: string): Promise<void> {
+		await this.update({ auction: { id: auctionId } }, { auction: { id: undefined } });
+	}
+
+	public async transferAndRemoveAuctionFromAssets(auctionId: string, owner: string): Promise<void> {
+		await this.update({ auction: { id: auctionId } }, { auction: { id: undefined }, owner });
+	}
+
+	public async transferAndAddAuctionToAssets(ids: string[], auctionId: string, owner: string): Promise<void> {
+		await this.update(ids, { auction: { id: auctionId }, owner });
+	}
 }
