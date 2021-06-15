@@ -22,7 +22,7 @@ export class ServiceProvider extends Providers.ServiceProvider {
 			if (this.app.isBound<Server>(identifier)) {
 				await this.app.get<Server>(identifier).register({
 					plugin: Handlers,
-					routes: { prefix: "/api/nft-indexer" },
+					routes: { prefix: "/api/nft/indexer" },
 				});
 			}
 		}

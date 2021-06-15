@@ -19,9 +19,9 @@ beforeAll(async () => {
 afterAll(async () => await tearDown());
 
 describe("API - Configurations", () => {
-	describe("GET /nft-indexer/configurations", () => {
+	describe("GET /nft/indexer/configurations", () => {
 		it("should GET nft-indexer-api configurations data", async () => {
-			const response = await api.request("GET", "nft-indexer/configurations");
+			const response = await api.request("GET", "nft/indexer/configurations");
 			expect(response).toBeSuccessfulResponse();
 
 			expect(response.data.data.package.name).toStrictEqual(require("../../../package.json").name);

@@ -6,7 +6,6 @@ import { Builders, Enums } from "@protokol/nft-base-crypto";
 import { Indexers, Interfaces } from "@protokol/nft-base-transactions";
 
 import { AssetResource } from "../resources/assets";
-import { ResourceWithBlock } from "../resources/resource-with-block";
 import { WalletsResource } from "../resources/wallets";
 import { BaseController } from "./base-controller";
 
