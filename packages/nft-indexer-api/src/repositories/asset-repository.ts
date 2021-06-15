@@ -1,6 +1,6 @@
 import { Interfaces } from "@arkecosystem/crypto";
 import { Interfaces as NFTBaseInterfaces } from "@protokol/nft-base-crypto";
-import { EntityRepository, Repository } from "typeorm";
+import { EntityRepository, Repository, SelectQueryBuilder } from "typeorm";
 
 import { Asset } from "../entities";
 
@@ -71,5 +71,30 @@ export class AssetRepository extends Repository<Asset> {
 
 	public async transferAndAddAuctionToAssets(ids: string[], auctionId: string, owner: string): Promise<void> {
 		await this.update(ids, { auction: { id: auctionId }, owner });
+	}
+
+	public getAssetsQuery(
+		owner: string,
+		inAuction: boolean,
+		inExpiredAuction: boolean,
+		lastBlock: Interfaces.IBlock,
+	): SelectQueryBuilder<Asset> {
+		const params: { owner: string; expiration?: number } = { owner };
+		const aliasAsset = "asset";
+		const query = this.createQueryBuilder(aliasAsset).select().where("isBurned = false").andWhere("owner = :owner");
+
+		if (inAuction) {
+			query.andWhere("auctionId IS NOT NULL");
+
+			if (!inExpiredAuction) {
+				const aliasAuction = "auction";
+				query.leftJoin(`${aliasAsset}.${aliasAuction}`, aliasAuction);
+				query.andWhere(`${aliasAuction}.expiration > :expiration`);
+				params.expiration = lastBlock.data.height;
+			}
+		}
+
+		query.setParameters(params);
+		return query;
 	}
 }

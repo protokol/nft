@@ -1,6 +1,5 @@
 import { Controller } from "@arkecosystem/core-api";
 import { Container } from "@arkecosystem/core-kernel";
-import Hapi from "@hapi/hapi";
 import latestVersion from "latest-version";
 
 import { ConfigurationResource } from "../resources/configurations";
@@ -10,7 +9,7 @@ const currentVersion = require("../../package.json").version;
 
 @Container.injectable()
 export class ConfigurationController extends Controller {
-	public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async index(): Promise<any> {
 		return this.respondWithResource(
 			{
 				packageName,
