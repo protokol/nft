@@ -1,6 +1,6 @@
 import { Interfaces } from "@arkecosystem/crypto";
 import { Interfaces as NFTExchangeInterfaces } from "@protokol/nft-exchange-crypto";
-import { EntityRepository, getCustomRepository, Repository } from "typeorm";
+import { EntityRepository, getCustomRepository, Repository, SelectQueryBuilder } from "typeorm";
 
 import { Auction, AuctionStatusEnum, BidStatusEnum } from "../entities";
 import { AssetRepository } from "./asset-repository";
@@ -87,5 +87,18 @@ export class AuctionRepository extends Repository<Auction> {
 				auction.senderPublicKey,
 			),
 		]);
+	}
+
+	public getAuctions(lastBlock: Interfaces.IBlock, expired: boolean): SelectQueryBuilder<Auction> {
+		const params: { status: AuctionStatusEnum; expiration?: number } = { status: AuctionStatusEnum.IN_PROGRESS };
+		const query = this.createQueryBuilder("auction").select().where("status = :status");
+
+		if (!expired) {
+			query.andWhere("expiration > :expiration");
+			params.expiration = lastBlock.data.height;
+		}
+
+		query.setParameters(params);
+		return query;
 	}
 }
