@@ -84,11 +84,11 @@ export class AssetRepository extends Repository<Asset> {
 		const query = this.createQueryBuilder(aliasAsset).select().where("isBurned = false").andWhere("owner = :owner");
 
 		if (inAuction) {
-			query.andWhere("auctionId IS NOT NULL");
-
-			if (!inExpiredAuction) {
+			if (inExpiredAuction) {
+				query.andWhere("auctionId IS NOT NULL");
+			} else {
 				const aliasAuction = "auction";
-				query.leftJoin(`${aliasAsset}.${aliasAuction}`, aliasAuction);
+				query.innerJoin(`${aliasAsset}.${aliasAuction}`, aliasAuction);
 				query.andWhere(`${aliasAuction}.expiration > :expiration`);
 				params.expiration = lastBlock.data.height;
 			}

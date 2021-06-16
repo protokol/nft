@@ -18,7 +18,6 @@ export class BaseController<T extends BaseEntity> extends Controller {
 		query.take(pagination.limit);
 		const [results, totalCount] = await query.getManyAndCount();
 		const resultsPage = { results, totalCount, meta: { totalCountIsEstimate: false } };
-		console.log(results[0]);
 
 		if (transform) {
 			const blocks = await this.blockHistoryService.findManyByCriteria(results.map((x) => ({ id: x.blockId })));
