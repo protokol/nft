@@ -10,9 +10,6 @@ import { BaseController } from "./base";
 
 @Container.injectable()
 export class AuctionController extends BaseController<Auction> {
-	@Container.inject(Container.Identifiers.StateStore)
-	private readonly stateStore!: Contracts.State.StateStore;
-
 	public async index(
 		request: Hapi.Request,
 	): Promise<
@@ -21,8 +18,25 @@ export class AuctionController extends BaseController<Auction> {
 		| Contracts.Search.ResultsPage<ReturnType<AuctionResource["transform"]>>
 	> {
 		const { expired } = request.query;
-		const query = getCustomRepository(AuctionRepository).getAuctions(this.stateStore.getLastBlock(), expired);
+		const query = getCustomRepository(AuctionRepository).getAuctionsQuery(this.stateStore.getLastBlock(), expired);
 
 		return this.paginateWithBlock(query, request, AuctionResource);
+	}
+
+	public async search(
+		request: Hapi.Request,
+	): Promise<
+		| Boom.Boom
+		| Contracts.Search.ResultsPage<ReturnType<AuctionResource["raw"]>>
+		| Contracts.Search.ResultsPage<ReturnType<AuctionResource["transform"]>>
+	> {
+		const { query, payload } = request;
+		const searchQuery = getCustomRepository(AuctionRepository).getSearchAuctionsQuery(
+			this.stateStore.getLastBlock(),
+			query,
+			payload,
+		);
+
+		return this.paginateWithBlock(searchQuery, request, AuctionResource);
 	}
 }

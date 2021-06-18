@@ -92,7 +92,7 @@ export class AuctionsController extends BaseController {
 				type: Enums.NFTTransactionTypes.NFTAuction,
 				asset: {
 					nftAuction: {
-						expiration: request.payload.expiration,
+						expiration: request.payload.expiration.blockHeight,
 					},
 				},
 			});

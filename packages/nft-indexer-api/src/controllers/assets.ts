@@ -14,9 +14,6 @@ export class AssetController extends BaseController<Asset> {
 	@Container.tagged("state", "blockchain")
 	private readonly walletRepository!: Contracts.State.WalletRepository;
 
-	@Container.inject(Container.Identifiers.StateStore)
-	private readonly stateStore!: Contracts.State.StateStore;
-
 	public async showWalletAssets(
 		request: Hapi.Request,
 	): Promise<

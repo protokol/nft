@@ -89,16 +89,72 @@ export class AuctionRepository extends Repository<Auction> {
 		]);
 	}
 
-	public getAuctions(lastBlock: Interfaces.IBlock, expired: boolean): SelectQueryBuilder<Auction> {
-		const params: { status: AuctionStatusEnum; expiration?: number } = { status: AuctionStatusEnum.IN_PROGRESS };
-		const query = this.createQueryBuilder("auction").select().where("status = :status");
+	public getAuctionsQuery(lastBlock: Interfaces.IBlock, expired: boolean): SelectQueryBuilder<Auction> {
+		const query = this.createQueryBuilder("auction")
+			.select()
+			.where("status = :status", { status: AuctionStatusEnum.IN_PROGRESS });
 
 		if (!expired) {
-			query.andWhere("expiration > :expiration");
-			params.expiration = lastBlock.data.height;
+			query.andWhere("expiration > :expiration", { expiration: lastBlock.data.height });
 		}
 
-		query.setParameters(params);
 		return query;
+	}
+
+	public getSearchAuctionsQuery(
+		lastBlock: Interfaces.IBlock,
+		query: { onlyActive: boolean; expired: boolean; includeBids: boolean; canceledBids: boolean },
+		payload: {
+			senderPublicKey?: string;
+			nftIds?: string[];
+			startAmount?: string;
+			expiration?: { blockHeight: number };
+		},
+	): SelectQueryBuilder<Auction> {
+		const { onlyActive, expired, includeBids, canceledBids } = query;
+		const { senderPublicKey, nftIds, startAmount, expiration } = payload;
+
+		const aliasAuction = "auction";
+		const searchQuery = this.createQueryBuilder(aliasAuction).select().where("1=1");
+
+		if (onlyActive) {
+			searchQuery.andWhere(`${aliasAuction}.status = :statusA`, { statusA: AuctionStatusEnum.IN_PROGRESS });
+		}
+
+		if (!expired) {
+			searchQuery.andWhere("expiration > :expirationBT", { expirationBT: lastBlock.data.height });
+		}
+
+		if (includeBids) {
+			const aliasBids = "bids";
+			if (canceledBids) {
+				searchQuery.leftJoinAndSelect(`${aliasAuction}.${aliasBids}`, aliasBids);
+			} else {
+				searchQuery.leftJoinAndSelect(
+					`${aliasAuction}.${aliasBids}`,
+					aliasBids,
+					`${aliasBids}.status != :statusB`,
+					{ statusB: BidStatusEnum.CANCELED },
+				);
+			}
+		}
+
+		if (senderPublicKey) {
+			searchQuery.andWhere(`${aliasAuction}.senderPublicKey = :senderPublicKey`, { senderPublicKey });
+		}
+
+		if (startAmount) {
+			searchQuery.andWhere("startAmount = :startAmount", { startAmount });
+		}
+
+		if (expiration) {
+			searchQuery.andWhere("expiration = :expiration", { expiration: expiration.blockHeight });
+		}
+
+		if (nftIds?.length) {
+			searchQuery.andWhere("nftIds = :nftIds", { nftIds: nftIds.toString() });
+		}
+
+		return searchQuery;
 	}
 }

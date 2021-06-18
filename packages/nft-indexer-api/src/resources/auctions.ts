@@ -24,8 +24,8 @@ export class AuctionResource implements Contracts.Resource {
 	 * @memberof Resource
 	 */
 	public transform(resource: Auction): object {
-		const { id, expiration: blockHeight, nftIds, senderPublicKey, startAmount } = resource;
+		const { id, expiration: blockHeight, nftIds, senderPublicKey, startAmount, bids } = resource;
 
-		return { id, senderPublicKey, nftAuction: { nftIds, startAmount, expiration: { blockHeight } } };
+		return { id, senderPublicKey, nftAuction: { nftIds, startAmount, expiration: { blockHeight }, bids } };
 	}
 }

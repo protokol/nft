@@ -11,6 +11,9 @@ export class BaseController<T extends BaseEntity> extends Controller {
 	@Container.inject(Container.Identifiers.BlockHistoryService)
 	private readonly blockHistoryService!: Contracts.Shared.BlockHistoryService;
 
+	@Container.inject(Container.Identifiers.StateStore)
+	protected readonly stateStore!: Contracts.State.StateStore;
+
 	public async paginateWithBlock(query: SelectQueryBuilder<T>, request: Hapi.Request, resource) {
 		const pagination = this.getListingPage(request);
 		const transform = request.query.transform;

@@ -79,22 +79,26 @@ export class AssetRepository extends Repository<Asset> {
 		inExpiredAuction: boolean,
 		lastBlock: Interfaces.IBlock,
 	): SelectQueryBuilder<Asset> {
-		const params: { owner: string; expiration?: number } = { owner };
 		const aliasAsset = "asset";
-		const query = this.createQueryBuilder(aliasAsset).select().where("isBurned = false").andWhere("owner = :owner");
+		const query = this.createQueryBuilder(aliasAsset)
+			.select()
+			.where("isBurned = false")
+			.andWhere("owner = :owner", { owner });
 
 		if (inAuction) {
 			if (inExpiredAuction) {
 				query.andWhere("auctionId IS NOT NULL");
 			} else {
 				const aliasAuction = "auction";
-				query.innerJoin(`${aliasAsset}.${aliasAuction}`, aliasAuction);
-				query.andWhere(`${aliasAuction}.expiration > :expiration`);
-				params.expiration = lastBlock.data.height;
+				query.innerJoin(
+					`${aliasAsset}.${aliasAuction}`,
+					aliasAuction,
+					`${aliasAuction}.expiration > :expiration`,
+					{ expiration: lastBlock.data.height },
+				);
 			}
 		}
 
-		query.setParameters(params);
 		return query;
 	}
 }
