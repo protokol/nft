@@ -37,6 +37,6 @@ export class AuctionController extends BaseController<Auction> {
 			payload,
 		);
 
-		return this.paginateWithBlock(searchQuery, request, AuctionResource);
+		return this.paginateWithBlock(searchQuery, request, AuctionResource, query.includeBids && "bids");
 	}
 }

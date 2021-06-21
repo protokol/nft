@@ -14,7 +14,12 @@ export class BaseController<T extends BaseEntity> extends Controller {
 	@Container.inject(Container.Identifiers.StateStore)
 	protected readonly stateStore!: Contracts.State.StateStore;
 
-	public async paginateWithBlock(query: SelectQueryBuilder<T>, request: Hapi.Request, resource) {
+	public async paginateWithBlock(
+		query: SelectQueryBuilder<T>,
+		request: Hapi.Request,
+		resource,
+		resolveBlockProperty?: string,
+	) {
 		const pagination = this.getListingPage(request);
 		const transform = request.query.transform;
 		query.skip(pagination.offset);
@@ -23,9 +28,21 @@ export class BaseController<T extends BaseEntity> extends Controller {
 		const resultsPage = { results, totalCount, meta: { totalCountIsEstimate: false } };
 
 		if (transform) {
-			const blocks = await this.blockHistoryService.findManyByCriteria(results.map((x) => ({ id: x.blockId })));
+			const blocks = await this.blockHistoryService.findManyByCriteria(
+				results.flatMap((x) => {
+					const subBlocks = resolveBlockProperty && x[resolveBlockProperty].map((y) => ({ id: y.blockId }));
+					return [{ id: x.blockId }, ...(subBlocks || [])];
+				}),
+			);
 			resultsPage.results = results.map((data) => {
 				const block = blocks.find((block) => block.id === data.blockId);
+				if (resolveBlockProperty) {
+					data[resolveBlockProperty] = data[resolveBlockProperty].map((x) => {
+						const subBlock = blocks.find((block) => block.id === x.blockId);
+						return { data: x, block: subBlock };
+					});
+				}
+
 				return { data, block };
 			}) as any;
 			return this.toPagination(resultsPage, ResourceWithBlock(resource), true);

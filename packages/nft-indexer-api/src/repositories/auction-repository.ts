@@ -115,7 +115,16 @@ export class AuctionRepository extends Repository<Auction> {
 		const { senderPublicKey, nftIds, startAmount, expiration } = payload;
 
 		const aliasAuction = "auction";
-		const searchQuery = this.createQueryBuilder(aliasAuction).select().where("1=1");
+		const searchQuery = this.createQueryBuilder(aliasAuction)
+			.select()
+			.addSelect(
+				`CASE
+                    WHEN expiration <= ${lastBlock.data.height} THEN '${AuctionStatusEnum.EXPIRED}'
+                    ELSE ${aliasAuction}.status 
+                END`,
+				"auction_status",
+			)
+			.where("1=1");
 
 		if (onlyActive) {
 			searchQuery.andWhere(`${aliasAuction}.status = :statusA`, { statusA: AuctionStatusEnum.IN_PROGRESS });
