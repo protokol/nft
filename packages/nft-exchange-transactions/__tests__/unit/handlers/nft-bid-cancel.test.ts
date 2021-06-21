@@ -295,9 +295,9 @@ describe("NFT Bid Cancel tests", () => {
                 Container.Identifiers.EventDispatcherService,
             );
 
-            const spy = jest.spyOn(emitter, "dispatch");
+            const spy = jest.spyOn(emitter, "dispatchSeq");
 
-            nftBidCancelHandler.emitEvents(actual, emitter);
+            await nftBidCancelHandler.emitEvents(actual, emitter);
 
             expect(spy).toHaveBeenCalledWith(NFTExchangeApplicationEvents.NFTCancelBid, expect.anything());
         });

@@ -60,13 +60,13 @@ beforeEach(async () => {
         nftCollectionAsset: Fifa.collection,
     };
 
-    const nftRegisterHandler = (transactionHandlerRegistry.getRegisteredHandlerByType(
+    const nftRegisterHandler = transactionHandlerRegistry.getRegisteredHandlerByType(
         Transactions.InternalTransactionType.from(
             Enums.NFTBaseTransactionTypes.NFTRegisterCollection,
             Enums.NFTBaseTransactionGroup,
         ),
         2,
-    ) as unknown) as NFTRegisterCollectionHandler;
+    ) as unknown as NFTRegisterCollectionHandler;
     await nftRegisterHandler["compileAndPersistSchema"](collectionId, Fifa.collection.jsonSchema);
 
     wallet.setAttribute("nft.base.collections", collectionsWallet);
@@ -283,9 +283,9 @@ describe("NFT Create tests", () => {
                 Container.Identifiers.EventDispatcherService,
             );
 
-            const spy = jest.spyOn(emitter, "dispatch");
+            const spy = jest.spyOn(emitter, "dispatchSeq");
 
-            nftCreateHandler.emitEvents(actual, emitter);
+            await nftCreateHandler.emitEvents(actual, emitter);
 
             expect(spy).toHaveBeenCalledWith(NFTApplicationEvents.NFTCreate, expect.anything());
         });

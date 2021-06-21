@@ -16,7 +16,7 @@ beforeEach(() => {
 
 describe("Test configurations controller", () => {
 	it("index - return package name and version", async () => {
-		const response = (await configurationsController.index(undefined, undefined)) as ItemResponse;
+		const response = (await configurationsController.index()) as ItemResponse;
 		expect(response.data).toStrictEqual({
 			package: {
 				name: require("../../../package.json").name,

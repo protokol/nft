@@ -328,9 +328,9 @@ describe("NFT Transfer tests", () => {
                 Container.Identifiers.EventDispatcherService,
             );
 
-            const spy = jest.spyOn(emitter, "dispatch");
+            const spy = jest.spyOn(emitter, "dispatchSeq");
 
-            nftTransferHandler.emitEvents(actual, emitter);
+            await nftTransferHandler.emitEvents(actual, emitter);
 
             expect(spy).toHaveBeenCalledWith(NFTApplicationEvents.NFTTransfer, expect.anything());
         });

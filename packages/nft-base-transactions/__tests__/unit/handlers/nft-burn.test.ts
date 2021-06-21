@@ -269,9 +269,9 @@ describe("NFT Burn tests", () => {
                 Container.Identifiers.EventDispatcherService,
             );
 
-            const spy = jest.spyOn(emitter, "dispatch");
+            const spy = jest.spyOn(emitter, "dispatchSeq");
 
-            nftBurnHandler.emitEvents(actual, emitter);
+            await nftBurnHandler.emitEvents(actual, emitter);
 
             expect(spy).toHaveBeenCalledWith(NFTApplicationEvents.NFTBurn, expect.anything());
         });
