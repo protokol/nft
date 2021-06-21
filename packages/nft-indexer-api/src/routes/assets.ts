@@ -3,6 +3,7 @@ import Hapi from "@hapi/hapi";
 import Joi from "joi";
 
 import { AssetController } from "../controllers/assets";
+import { changeRouteHandler } from "../utils";
 
 export const register = (server: Hapi.Server): void => {
 	const controller = server.app.app.resolve(AssetController);
@@ -31,4 +32,6 @@ export const register = (server: Hapi.Server): void => {
 			},
 		},
 	});
+
+	changeRouteHandler(server, "get", "/api/nft/assets/wallet/{id}", "/api/nft/indexer/assets/wallet/{id}");
 };

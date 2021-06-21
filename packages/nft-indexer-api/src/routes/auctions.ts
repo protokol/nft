@@ -3,6 +3,7 @@ import Hapi from "@hapi/hapi";
 import Joi from "joi";
 
 import { AuctionController } from "../controllers/auctions";
+import { changeRouteHandler } from "../utils";
 
 export const register = (server: Hapi.Server): void => {
 	const controller = server.app.app.resolve(AuctionController);
@@ -58,4 +59,7 @@ export const register = (server: Hapi.Server): void => {
 			},
 		},
 	});
+
+	changeRouteHandler(server, "get", "/api/nft/exchange/auctions", "/api/nft/indexer/auctions");
+	changeRouteHandler(server, "post", "/api/nft/exchange/auctions/search", "/api/nft/indexer/auctions/search");
 };

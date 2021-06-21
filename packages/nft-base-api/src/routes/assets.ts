@@ -65,6 +65,8 @@ export const register = (server: Hapi.Server): void => {
 				query: Joi.object({
 					orderBy: server.app.schemas.orderBy,
 					transform: Joi.bool().default(true),
+					inAuction: Joi.bool().default(false),
+					inExpiredAuction: Joi.bool().default(false),
 				}).concat(Schemas.pagination),
 				params: Joi.object({
 					id: Joi.string().hex().length(66),

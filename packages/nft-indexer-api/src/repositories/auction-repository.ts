@@ -92,6 +92,13 @@ export class AuctionRepository extends Repository<Auction> {
 	public getAuctionsQuery(lastBlock: Interfaces.IBlock, expired: boolean): SelectQueryBuilder<Auction> {
 		const query = this.createQueryBuilder("auction")
 			.select()
+			.addSelect(
+				`CASE
+                    WHEN expiration <= ${lastBlock.data.height} THEN '${AuctionStatusEnum.EXPIRED}'
+                    ELSE status 
+                END`,
+				"auction_status",
+			)
 			.where("status = :status", { status: AuctionStatusEnum.IN_PROGRESS });
 
 		if (!expired) {
