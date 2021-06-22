@@ -1,8 +1,7 @@
 import { Contracts } from "@arkecosystem/core-kernel";
 import { getCustomRepository } from "typeorm";
 
-import { AuctionRepository, BidRepository } from "./repositories";
-import { AssetRepository } from "./repositories/asset-repository";
+import { AssetRepository, AuctionRepository, BidRepository } from "./repositories";
 
 type handleType = (payload: { name: Contracts.Kernel.EventName; data: any }) => Promise<void>;
 

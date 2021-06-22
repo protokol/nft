@@ -4,7 +4,7 @@ import Hapi from "@hapi/hapi";
 import { getCustomRepository } from "typeorm";
 
 import { Asset } from "../entities";
-import { AssetRepository } from "../repositories/asset-repository";
+import { AssetRepository } from "../repositories";
 import { AssetResource } from "../resources/assets";
 import { BaseController } from "./base";
 
@@ -13,6 +13,8 @@ export class AssetController extends BaseController<Asset> {
 	@Container.inject(Container.Identifiers.WalletRepository)
 	@Container.tagged("state", "blockchain")
 	private readonly walletRepository!: Contracts.State.WalletRepository;
+
+	private assetRepository = getCustomRepository(AssetRepository);
 
 	public async showWalletAssets(
 		request: Hapi.Request,
@@ -28,7 +30,7 @@ export class AssetController extends BaseController<Asset> {
 			return Boom.notFound("Wallet not found");
 		}
 
-		const query = getCustomRepository(AssetRepository).getAssetsQuery(
+		const query = this.assetRepository.getAssetsQuery(
 			owner,
 			inAuction,
 			inExpiredAuction,
