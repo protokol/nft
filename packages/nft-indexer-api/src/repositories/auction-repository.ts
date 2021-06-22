@@ -8,6 +8,9 @@ import { BidRepository } from "./bid-repository";
 
 @EntityRepository(Auction)
 export class AuctionRepository extends Repository<Auction> {
+	private bidRepository = getCustomRepository(BidRepository);
+	private assetRepository = getCustomRepository(AssetRepository);
+
 	public async insertAuction(transaction: Interfaces.ITransactionData): Promise<void> {
 		const { id, senderPublicKey, asset, blockId } = transaction;
 		const auctionAsset: NFTExchangeInterfaces.NFTAuctionAsset = asset!.nftAuction;
@@ -21,13 +24,13 @@ export class AuctionRepository extends Repository<Auction> {
 		auction.startAmount = auctionAsset.startAmount;
 
 		await this.createQueryBuilder().insert().values(auction).updateEntity(false).execute();
-		await getCustomRepository(AssetRepository).addAuctionToAssets(auction.nftIds, id!);
+		await this.assetRepository.addAuctionToAssets(auction.nftIds, id!);
 	}
 
 	public async deleteAuction(transaction: Interfaces.ITransactionData): Promise<void> {
 		const { id } = transaction;
 
-		await getCustomRepository(AssetRepository).removeAuctionFromAssets(id!);
+		await this.assetRepository.removeAuctionFromAssets(id!);
 		await this.delete(id!);
 	}
 
@@ -37,8 +40,8 @@ export class AuctionRepository extends Repository<Auction> {
 
 		await Promise.all([
 			this.update(auctionCancelAsset.auctionId, { status: AuctionStatusEnum.CANCELED }),
-			getCustomRepository(BidRepository).finishBids(auctionCancelAsset.auctionId),
-			getCustomRepository(AssetRepository).removeAuctionFromAssets(auctionCancelAsset.auctionId),
+			this.bidRepository.finishBids(auctionCancelAsset.auctionId),
+			this.assetRepository.removeAuctionFromAssets(auctionCancelAsset.auctionId),
 		]);
 	}
 
@@ -50,8 +53,8 @@ export class AuctionRepository extends Repository<Auction> {
 
 		await Promise.all([
 			this.update(auction.id, { status: AuctionStatusEnum.IN_PROGRESS }),
-			getCustomRepository(BidRepository).finishBidsRevert(auction.id),
-			getCustomRepository(AssetRepository).addAuctionToAssets(auction.nftIds, auction.id),
+			this.bidRepository.finishBidsRevert(auction.id),
+			this.assetRepository.addAuctionToAssets(auction.nftIds, auction.id),
 		]);
 	}
 
@@ -59,17 +62,14 @@ export class AuctionRepository extends Repository<Auction> {
 		const { asset } = transaction;
 		const acceptTradeAsset: NFTExchangeInterfaces.NFTAcceptTradeAsset = asset!.nftAcceptTrade;
 
-		const bid = await getCustomRepository(BidRepository).findOneOrFail(acceptTradeAsset.bidId);
+		const bid = await this.bidRepository.findOneOrFail(acceptTradeAsset.bidId);
 
 		await Promise.all([
 			this.update(acceptTradeAsset.auctionId, { status: AuctionStatusEnum.FINISHED }),
-			await getCustomRepository(BidRepository).finishBids(acceptTradeAsset.auctionId),
-			getCustomRepository(AssetRepository).transferAndRemoveAuctionFromAssets(
-				acceptTradeAsset.auctionId,
-				bid.senderPublicKey,
-			),
+			await this.bidRepository.finishBids(acceptTradeAsset.auctionId),
+			this.assetRepository.transferAndRemoveAuctionFromAssets(acceptTradeAsset.auctionId, bid.senderPublicKey),
 		]);
-		await getCustomRepository(BidRepository).update(acceptTradeAsset.bidId, { status: BidStatusEnum.ACCEPTED });
+		await this.bidRepository.update(acceptTradeAsset.bidId, { status: BidStatusEnum.ACCEPTED });
 	}
 
 	public async finishAuctionRevert(transaction: Interfaces.ITransactionData): Promise<void> {
@@ -80,12 +80,8 @@ export class AuctionRepository extends Repository<Auction> {
 
 		await Promise.all([
 			this.update(acceptTradeAsset.auctionId, { status: AuctionStatusEnum.IN_PROGRESS }),
-			await getCustomRepository(BidRepository).finishBidsRevert(acceptTradeAsset.auctionId),
-			getCustomRepository(AssetRepository).transferAndAddAuctionToAssets(
-				auction.nftIds,
-				auction.id,
-				auction.senderPublicKey,
-			),
+			await this.bidRepository.finishBidsRevert(acceptTradeAsset.auctionId),
+			this.assetRepository.transferAndAddAuctionToAssets(auction.nftIds, auction.id, auction.senderPublicKey),
 		]);
 	}
 

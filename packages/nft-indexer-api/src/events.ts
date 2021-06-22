@@ -4,98 +4,78 @@ import { getCustomRepository } from "typeorm";
 import { AuctionRepository, BidRepository } from "./repositories";
 import { AssetRepository } from "./repositories/asset-repository";
 
-export class AuctionEvent implements Contracts.Kernel.EventListener {
-	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
-		await getCustomRepository(AuctionRepository).insertAuction(payload.data);
-	}
+type handleType = (payload: { name: Contracts.Kernel.EventName; data: any }) => Promise<void>;
+
+class Event implements Contracts.Kernel.EventListener {
+	constructor(public handle: handleType) {}
 }
 
-export class AuctionRevertEvent implements Contracts.Kernel.EventListener {
-	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
-		await getCustomRepository(AuctionRepository).deleteAuction(payload.data);
-	}
-}
+export class EventFactory {
+	private bidRepository = getCustomRepository(BidRepository);
+	private assetRepository = getCustomRepository(AssetRepository);
+	private auctionRepository = getCustomRepository(AuctionRepository);
 
-export class AuctionCancelEvent implements Contracts.Kernel.EventListener {
-	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
-		await getCustomRepository(AuctionRepository).cancelAuction(payload.data);
+	public auctionEvent(): Event {
+		return new Event(async (payload) => await this.auctionRepository.insertAuction(payload.data));
 	}
-}
 
-export class AuctionCancelRevertEvent implements Contracts.Kernel.EventListener {
-	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
-		await getCustomRepository(AuctionRepository).cancelAuctionRevert(payload.data);
+	public auctionRevertEvent(): Event {
+		return new Event(async (payload) => await this.auctionRepository.deleteAuction(payload.data));
 	}
-}
 
-export class BidEvent implements Contracts.Kernel.EventListener {
-	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
-		await getCustomRepository(BidRepository).insertBid(payload.data);
+	public auctionCancelEvent(): Event {
+		return new Event(async (payload) => await this.auctionRepository.cancelAuction(payload.data));
 	}
-}
 
-export class BidRevertEvent implements Contracts.Kernel.EventListener {
-	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
-		await getCustomRepository(BidRepository).deleteBid(payload.data);
+	public auctionCancelRevertEvent(): Event {
+		return new Event(async (payload) => await this.auctionRepository.cancelAuctionRevert(payload.data));
 	}
-}
 
-export class BidCancelEvent implements Contracts.Kernel.EventListener {
-	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
-		await getCustomRepository(BidRepository).cancelBid(payload.data);
+	public bidEvent(): Event {
+		return new Event(async (payload) => await this.bidRepository.insertBid(payload.data));
 	}
-}
 
-export class BidCancelRevertEvent implements Contracts.Kernel.EventListener {
-	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
-		await getCustomRepository(BidRepository).cancelBidRevert(payload.data);
+	public bidRevertEvent(): Event {
+		return new Event(async (payload) => await this.bidRepository.deleteBid(payload.data));
 	}
-}
 
-export class AcceptTradeEvent implements Contracts.Kernel.EventListener {
-	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
-		await getCustomRepository(AuctionRepository).finishAuction(payload.data);
+	public bidCancelEvent(): Event {
+		return new Event(async (payload) => await this.bidRepository.cancelBid(payload.data));
 	}
-}
 
-export class AcceptTradeRevertEvent implements Contracts.Kernel.EventListener {
-	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
-		await getCustomRepository(AuctionRepository).finishAuctionRevert(payload.data);
+	public bidCancelRevertEvent(): Event {
+		return new Event(async (payload) => await this.bidRepository.cancelBidRevert(payload.data));
 	}
-}
 
-export class CreateAssetEvent implements Contracts.Kernel.EventListener {
-	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
-		await getCustomRepository(AssetRepository).createAsset(payload.data);
+	public acceptTradeEvent(): Event {
+		return new Event(async (payload) => await this.auctionRepository.finishAuction(payload.data));
 	}
-}
 
-export class CreateAssetRevertEvent implements Contracts.Kernel.EventListener {
-	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
-		await getCustomRepository(AssetRepository).deleteAsset(payload.data);
+	public acceptTradeRevertEvent(): Event {
+		return new Event(async (payload) => await this.auctionRepository.finishAuctionRevert(payload.data));
 	}
-}
 
-export class BurnAssetEvent implements Contracts.Kernel.EventListener {
-	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
-		await getCustomRepository(AssetRepository).burnAsset(payload.data);
+	public createAssetEvent(): Event {
+		return new Event(async (payload) => await this.assetRepository.createAsset(payload.data));
 	}
-}
 
-export class BurnAssetRevertEvent implements Contracts.Kernel.EventListener {
-	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
-		await getCustomRepository(AssetRepository).burnAssetRevert(payload.data);
+	public createAssetRevertEvent(): Event {
+		return new Event(async (payload) => await this.assetRepository.deleteAsset(payload.data));
 	}
-}
 
-export class TransferAssetEvent implements Contracts.Kernel.EventListener {
-	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
-		await getCustomRepository(AssetRepository).transferAsset(payload.data);
+	public burnAssetEvent(): Event {
+		return new Event(async (payload) => await this.assetRepository.burnAsset(payload.data));
 	}
-}
 
-export class TransferAssetRevertEvent implements Contracts.Kernel.EventListener {
-	async handle(payload: { name: Contracts.Kernel.EventName; data: any }): Promise<void> {
-		await getCustomRepository(AssetRepository).transferAssetRevert(payload.data);
+	public burnAssetRevertEvent(): Event {
+		return new Event(async (payload) => await this.assetRepository.burnAssetRevert(payload.data));
+	}
+
+	public transferAssetEvent(): Event {
+		return new Event(async (payload) => await this.assetRepository.transferAsset(payload.data));
+	}
+
+	public transferAssetRevertEvent(): Event {
+		return new Event(async (payload) => await this.assetRepository.transferAssetRevert(payload.data));
 	}
 }
