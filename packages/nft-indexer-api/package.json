@@ -38,6 +38,8 @@
 		"test:unit:coverage": "jest __tests__/unit --coverage",
 		"test:integration": "jest __tests__/integration --runInBand --forceExit",
 		"test:integration:coverage": "jest __tests__/integration --coverage --runInBand --forceExit",
+		"test:functional": "jest __tests__/functional --runInBand --forceExit",
+		"test:functional:coverage": "jest __tests__/functional --coverage --runInBand --forceExit",
 		"publish:beta": "yarn build && yarn npm publish --tag beta --access public --tolerate-republish"
 	},
 	"dependencies": {

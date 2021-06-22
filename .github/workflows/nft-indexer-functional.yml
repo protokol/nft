@@ -1,0 +1,33 @@
+name: NFT-INDEXER-FUNCTIONAL-TESTS
+
+on:
+    push:
+        branches:
+            - "master"
+            - "develop"
+    pull_request:
+        types: [ready_for_review, synchronize, opened]
+
+jobs:
+    functional-indexer:
+        name: NFT-INDEXER
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v2
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install and build packages
+              run: yarn && yarn build
+
+            - name: TEST
+              run: |
+                  cd packages/nft-indexer-api
+                  yarn test:functional:coverage
