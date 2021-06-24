@@ -20,6 +20,8 @@ const blockId = "blockId";
 
 beforeAll(async () => {
 	connection = await setupAppAndGetConnection();
+	assetRepository = getCustomRepository(AssetRepository);
+	auctionRepository = getCustomRepository(AuctionRepository);
 
 	createAsset = new NFTBuilders.NFTCreateBuilder()
 		.NFTCreateToken({
@@ -48,8 +50,6 @@ beforeAll(async () => {
 
 beforeEach(async () => {
 	await resetDb(connection!);
-	assetRepository = getCustomRepository(AssetRepository);
-	auctionRepository = getCustomRepository(AuctionRepository);
 });
 
 afterAll(async () => {
@@ -74,7 +74,7 @@ describe("Test Asset repository", () => {
 		const deleted = await assetRepository!.findOne(createAsset!.id);
 
 		expect(inserted!.id).toBe(createAsset!.id);
-		expect(deleted).toBe(undefined);
+		expect(deleted).toBeUndefined();
 	});
 
 	it("burnAsset", async () => {
