@@ -111,7 +111,7 @@ describe("Test collection controller", () => {
 				transform: true,
 			},
 		};
-		const response = (await collectionController.index(request, undefined)) as PaginatedResponse;
+		const response = (await collectionController.index(request)) as PaginatedResponse;
 
 		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
@@ -146,7 +146,7 @@ describe("Test collection controller", () => {
 			},
 		};
 
-		const response = (await collectionController.showByWalletId(request, undefined)) as ItemResponse;
+		const response = (await collectionController.showByWalletId(request)) as ItemResponse;
 
 		expect(response.data).toStrictEqual({
 			address: senderWallet.getAddress(),
@@ -177,7 +177,7 @@ describe("Test collection controller", () => {
 			},
 		};
 
-		const response = (await collectionController.show(request, undefined)) as ItemResponse;
+		const response = (await collectionController.show(request)) as ItemResponse;
 		expect(response.data).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,
@@ -209,7 +209,7 @@ describe("Test collection controller", () => {
 			},
 		};
 
-		const response = (await collectionController.showSchema(request, undefined)) as ItemResponse;
+		const response = (await collectionController.showSchema(request)) as ItemResponse;
 		expect(response.data).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,
@@ -238,7 +238,7 @@ describe("Test collection controller", () => {
 			},
 		};
 
-		const response = (await collectionController.searchCollection(request, undefined)) as PaginatedResponse;
+		const response = (await collectionController.searchCollection(request)) as PaginatedResponse;
 		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,
@@ -289,7 +289,7 @@ describe("Test collection controller", () => {
 				transform: true,
 			},
 		};
-		const response = (await collectionController.showAssetsByCollectionId(request, undefined)) as PaginatedResponse;
+		const response = (await collectionController.showAssetsByCollectionId(request)) as PaginatedResponse;
 		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
 			ownerPublicKey: actual.data.senderPublicKey,

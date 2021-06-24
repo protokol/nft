@@ -2,7 +2,6 @@ import { passphrases } from "@arkecosystem/core-test-framework";
 import { Interfaces, Utils } from "@arkecosystem/crypto";
 import { Builders as NFTBuilders } from "@protokol/nft-base-crypto";
 import { Builders as NFTExchangeBuilders } from "@protokol/nft-exchange-crypto";
-import { assert } from "console";
 import { Connection, getCustomRepository } from "typeorm";
 
 import { AuctionStatusEnum, BidStatusEnum } from "../../../src/entities";

@@ -9,7 +9,7 @@ import { BaseController } from "./base-controller";
 
 @Container.injectable()
 export class TradesController extends BaseController {
-	public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async index(request: Hapi.Request) {
 		return this.paginateWithBlock(
 			this.buildTradeCriteria(),
 			this.getListingOrder(request),
@@ -19,7 +19,7 @@ export class TradesController extends BaseController {
 		);
 	}
 
-	public async show(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async show(request: Hapi.Request) {
 		const transaction = await this.transactionHistoryService.findOneByCriteria(
 			this.buildTradeCriteria({
 				...request.query,
@@ -53,7 +53,7 @@ export class TradesController extends BaseController {
 		return this.respondWithBlockResource(transaction, request.query.transform, TradeDetailsResource, result);
 	}
 
-	public async search(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async search(request: Hapi.Request) {
 		const { senderPublicKey, auctionId, bidId } = request.payload;
 		const criteria: Contracts.Search.OrCriteria<Contracts.Shared.TransactionCriteria> = [];
 		if (senderPublicKey) {

@@ -21,7 +21,7 @@ export class AssetsController extends BaseController {
 	@Container.tagged("plugin", pluginName)
 	protected readonly configuration!: Providers.PluginConfiguration;
 
-	public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async index(request: Hapi.Request) {
 		const criteria: Contracts.Shared.TransactionCriteria = {
 			...request.query,
 			typeGroup: Enums.NFTBaseTransactionGroup,
@@ -37,7 +37,7 @@ export class AssetsController extends BaseController {
 		);
 	}
 
-	public async showAssetWallet(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async showAssetWallet(request: Hapi.Request) {
 		let wallet: Contracts.State.Wallet;
 		try {
 			wallet = this.walletRepository.findByIndex(Indexers.NFTIndexers.NFTTokenIndexer, request.params.id);
@@ -48,7 +48,7 @@ export class AssetsController extends BaseController {
 		return this.respondWithResource(wallet, WalletsResource);
 	}
 
-	public async show(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async show(request: Hapi.Request) {
 		const transaction = await this.transactionHistoryService.findOneByCriteria({
 			...request.query,
 			typeGroup: Enums.NFTBaseTransactionGroup,
@@ -63,7 +63,6 @@ export class AssetsController extends BaseController {
 
 	public async showWalletAssets(
 		request: Hapi.Request,
-		h: Hapi.ResponseToolkit,
 	): Promise<
 		| Boom.Boom
 		| Contracts.Search.ResultsPage<ReturnType<AssetResource["raw"]>>
@@ -92,7 +91,7 @@ export class AssetsController extends BaseController {
 		);
 	}
 
-	public async showByAsset(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async showByAsset(request: Hapi.Request) {
 		const criteria: Contracts.Shared.TransactionCriteria = {
 			...request.query,
 			typeGroup: Enums.NFTBaseTransactionGroup,
@@ -109,7 +108,7 @@ export class AssetsController extends BaseController {
 		);
 	}
 
-	public async claimAsset(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async claimAsset(request: Hapi.Request) {
 		const passphrase = this.configuration.get<string>("mintPassphrase");
 		if (!passphrase) {
 			return Boom.notImplemented();

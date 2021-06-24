@@ -15,7 +15,7 @@ export class AuctionsController extends BaseController {
 	@Container.tagged("state", "blockchain")
 	private readonly walletRepository!: Contracts.State.WalletRepository;
 
-	public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async index(request: Hapi.Request) {
 		const criteria: Contracts.Shared.TransactionCriteria = {
 			...request.query,
 			typeGroup: Enums.NFTExchangeTransactionsTypeGroup,
@@ -31,7 +31,7 @@ export class AuctionsController extends BaseController {
 		);
 	}
 
-	public async show(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async show(request: Hapi.Request) {
 		const transaction = await this.transactionHistoryService.findOneByCriteria({
 			...request.query,
 			typeGroup: Enums.NFTExchangeTransactionsTypeGroup,
@@ -44,7 +44,7 @@ export class AuctionsController extends BaseController {
 		return this.respondWithBlockResource(transaction, request.query.transform, AuctionResource);
 	}
 
-	public async showAuctionWallet(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async showAuctionWallet(request: Hapi.Request) {
 		let wallet: Contracts.State.Wallet;
 		try {
 			wallet = this.walletRepository.findByIndex(Indexers.NFTExchangeIndexers.AuctionIndexer, request.params.id);
@@ -55,7 +55,7 @@ export class AuctionsController extends BaseController {
 		return this.respondWithResource(wallet, WalletResource);
 	}
 
-	public async search(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async search(request: Hapi.Request) {
 		const criteria: Contracts.Search.OrCriteria<Contracts.Shared.TransactionCriteria> = [];
 		if (request.payload.senderPublicKey) {
 			criteria.push({
@@ -107,7 +107,7 @@ export class AuctionsController extends BaseController {
 		);
 	}
 
-	public async indexCanceled(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async indexCanceled(request: Hapi.Request) {
 		const criteria: Contracts.Shared.TransactionCriteria = {
 			...request.query,
 			typeGroup: Enums.NFTExchangeTransactionsTypeGroup,
@@ -123,7 +123,7 @@ export class AuctionsController extends BaseController {
 		);
 	}
 
-	public async showAuctionCanceled(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async showAuctionCanceled(request: Hapi.Request) {
 		const transaction = await this.transactionHistoryService.findOneByCriteria({
 			...request.query,
 			typeGroup: Enums.NFTExchangeTransactionsTypeGroup,

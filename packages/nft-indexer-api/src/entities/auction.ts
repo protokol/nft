@@ -1,10 +1,10 @@
-import { Column, Entity, OneToMany } from "typeorm";
 import { Utils } from "@arkecosystem/crypto";
+import { Column, Entity, OneToMany } from "typeorm";
 
-import { transformBigInt } from "./utils";
+import { Asset } from "./asset";
 import { BaseEntity } from "./base";
 import { Bid } from "./bid";
-import { Asset } from "./asset";
+import { transformBigInt } from "./utils";
 
 export enum AuctionStatusEnum {
 	IN_PROGRESS = "IN_PROGRESS",

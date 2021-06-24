@@ -8,7 +8,7 @@ import { BaseController } from "./base-controller";
 
 @Container.injectable()
 export class BurnsController extends BaseController {
-	public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async index(request: Hapi.Request) {
 		const criteria: Contracts.Shared.TransactionCriteria = {
 			...request.query,
 			typeGroup: Enums.NFTBaseTransactionGroup,
@@ -24,7 +24,7 @@ export class BurnsController extends BaseController {
 		);
 	}
 
-	public async show(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async show(request: Hapi.Request) {
 		const transaction = await this.transactionHistoryService.findOneByCriteria({
 			...request.query,
 			typeGroup: Enums.NFTBaseTransactionGroup,

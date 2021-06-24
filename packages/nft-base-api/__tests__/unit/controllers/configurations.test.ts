@@ -36,7 +36,7 @@ afterEach(() => {
 
 describe("Test configurations controller", () => {
 	it("index - return package name and version and crypto and transactions default settings", async () => {
-		const response = (await configurationsController.index(undefined, undefined)) as ItemResponse;
+		const response = (await configurationsController.index()) as ItemResponse;
 		expect(response.data).toStrictEqual({
 			package: {
 				name: require("../../../package.json").name,
