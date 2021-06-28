@@ -3,7 +3,7 @@ import { Wallets } from "@arkecosystem/core-state";
 import { passphrases } from "@arkecosystem/core-test-framework";
 import { Handlers } from "@arkecosystem/core-transactions";
 import { Identities, Utils } from "@arkecosystem/crypto";
-import { Handlers as NFTHandlers, Indexers } from "@protokol/nft-base-transactions";
+import { Indexers } from "@protokol/nft-base-transactions";
 
 export type PaginatedResponse = {
 	totalCount: number;
@@ -40,6 +40,10 @@ export const blockHistoryService = {
 	findOneByCriteria: jest.fn(),
 };
 
+export const stateStore = {
+	getLastBlock: jest.fn(),
+};
+
 export const buildSenderWallet = (app: Application): Contracts.State.Wallet => {
 	const walletRepository = app.get<Wallets.WalletRepository>(Container.Identifiers.WalletRepository);
 
@@ -58,7 +62,7 @@ export const initApp = (): Application => {
 
 	app.bind(Container.Identifiers.LogService).toConstantValue(logger);
 	app.bind(Container.Identifiers.PluginConfiguration).to(Providers.PluginConfiguration).inSingletonScope();
-	app.bind(Container.Identifiers.StateStore).toConstantValue({});
+	app.bind(Container.Identifiers.StateStore).toConstantValue(stateStore);
 	app.bind(Container.Identifiers.BlockchainService).toConstantValue({});
 	app.bind(Container.Identifiers.DatabaseBlockRepository).toConstantValue({});
 	app.bind(Container.Identifiers.DatabaseTransactionRepository).toConstantValue({});
@@ -96,20 +100,9 @@ export const initApp = (): Application => {
 
 	app.bind(Container.Identifiers.CacheService).to(Services.Cache.MemoryCacheStore).inSingletonScope();
 
-	app.bind(Container.Identifiers.TransactionHandler).to(NFTHandlers.NFTRegisterCollectionHandler);
-	app.bind(Container.Identifiers.TransactionHandler).to(NFTHandlers.NFTCreateHandler);
-	app.bind(Container.Identifiers.TransactionHandler).to(NFTHandlers.NFTTransferHandler);
-	app.bind(Container.Identifiers.TransactionHandler).to(NFTHandlers.NFTBurnHandler);
-
 	app.bind<Services.Attributes.AttributeSet>(Container.Identifiers.WalletAttributes)
 		.to(Services.Attributes.AttributeSet)
 		.inSingletonScope();
-
-	app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
-		name: Indexers.NFTIndexers.CollectionIndexer,
-		indexer: Indexers.nftCollectionIndexer,
-		autoIndex: false,
-	});
 
 	app.bind<Contracts.State.WalletIndexerIndex>(Container.Identifiers.WalletRepositoryIndexerIndex).toConstantValue({
 		name: Indexers.NFTIndexers.NFTTokenIndexer,

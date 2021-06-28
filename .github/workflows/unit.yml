@@ -45,3 +45,6 @@ jobs:
 
             - name: EXCHANGE-API
               run: cd packages/nft-exchange-api && yarn test:unit:coverage --coverageDirectory .coverage/unit-exchange-api --maxWorkers=2
+
+            - name: INDEXER-API
+              run: cd packages/nft-indexer-api && yarn test:unit:coverage --coverageDirectory .coverage/unit-indexer-api --maxWorkers=2
