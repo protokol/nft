@@ -4,7 +4,7 @@ import { Contracts } from "@arkecosystem/core-kernel";
 import { ApiHelpers } from "@arkecosystem/core-test-framework";
 import latestVersion from "latest-version";
 
-import { setUp, tearDown } from "../__support__/setup";
+import { setUp, tearDown } from "../__support__/";
 
 jest.setTimeout(30000);
 

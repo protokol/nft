@@ -52,3 +52,8 @@ jobs:
               run: |
                   cd packages/nft-exchange-api
                   yarn test:integration:coverage --coverageDirectory .coverage/integration-exchange-api
+
+            - name: INDEXER-API
+              run: |
+                  cd packages/nft-indexer-api
+                  yarn test:integration:coverage --coverageDirectory .coverage/integration-indexer-api

@@ -7,7 +7,6 @@ const sandbox: Sandbox = new Sandbox();
 export const setUp = async () => {
 	jest.setTimeout(60000);
 
-	process.env.DISABLE_P2P_SERVER = "true"; // no need for p2p socket server to run
 	process.env.CORE_RESET_DATABASE = "1";
 
 	sandbox.withCoreOptions({
@@ -38,6 +37,7 @@ export const setUp = async () => {
 
 		Managers.configManager.getMilestone().aip11 = true;
 		Managers.configManager.getMilestone().htlcEnabled = true;
+		Managers.configManager.getMilestone().vendorFieldLength = 255;
 
 		await AppUtils.sleep(1000); // give some more time for api server to be up
 	});
