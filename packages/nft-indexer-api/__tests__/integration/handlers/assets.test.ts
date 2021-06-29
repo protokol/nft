@@ -68,7 +68,7 @@ describe("API - Assets", () => {
 	describe("GET /nft/indexer/assets/wallet/{id}", () => {
 		it("should GET nft-indexer-api wallet's assets", async () => {
 			const pubKey = Identities.PublicKey.fromPassphrase(passphrases[0]!);
-			const response = await api.request("GET", `nft/indexer/assets/wallet/${pubKey}`, { transform: true });
+			const response = await api.request("GET", `nft/indexer/assets/wallet/${pubKey}`);
 
 			api.expectPaginator(response);
 			expect(response).toBeSuccessfulResponse();
@@ -76,6 +76,14 @@ describe("API - Assets", () => {
 			expect(response.data.data.length).toBe(2);
 			expect(response.data.data.find((x) => x.id === asset1!.id)).toBeDefined();
 			expect(response.data.data.find((x) => x.id === asset2!.id)).toBeDefined();
+		});
+
+		it("should GET nft-indexer-api wallet's assets from overriden endpoint", async () => {
+			const pubKey = Identities.PublicKey.fromPassphrase(passphrases[0]!);
+			const responseIndexer = await api.request("GET", `nft/indexer/assets/wallet/${pubKey}`);
+			const response = await api.request("GET", `nft/assets/wallet/${pubKey}`);
+
+			expect(response.data.data).toStrictEqual(responseIndexer.data.data);
 		});
 	});
 });
