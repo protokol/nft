@@ -57,11 +57,21 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
             const genesisWalletCollection = genesisWallet.getAttribute<INFTCollections>("nft.base.collections");
             genesisWalletCollection[collectionId]!.currentSupply += 1;
             genesisWallet.setAttribute<INFTCollections>("nft.base.collections", genesisWalletCollection);
+            await this.emitter.dispatchSeq(NFTApplicationEvents.NFTCreate, {
+                ...transaction,
+                owner: wallet.getPublicKey(),
+            });
         }
     }
 
-    public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        void emitter.dispatch(NFTApplicationEvents.NFTCreate, transaction.data);
+    public async emitEvents(
+        transaction: Interfaces.ITransaction,
+        emitter: Contracts.Kernel.EventDispatcher,
+    ): Promise<void> {
+        await emitter.dispatchSeq(NFTApplicationEvents.NFTCreate, {
+            ...transaction.data,
+            owner: this.getRecipientFromTx(transaction.data).getPublicKey(),
+        });
     }
 
     public async throwIfCannotBeApplied(
@@ -78,9 +88,8 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
                 NFTIndexers.CollectionIndexer,
                 nftTokenAsset.collectionId,
             );
-            genesisWalletCollection = genesisWallet.getAttribute<INFTCollections>("nft.base.collections")[
-                nftTokenAsset.collectionId
-            ];
+            genesisWalletCollection =
+                genesisWallet.getAttribute<INFTCollections>("nft.base.collections")[nftTokenAsset.collectionId];
             AppUtils.assert.defined<INFTCollection>(genesisWalletCollection);
         } catch (e) {
             throw new NFTBaseCollectionDoesNotExists();
@@ -154,6 +163,11 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         const genesisWalletCollection = genesisWallet.getAttribute<INFTCollections>("nft.base.collections");
         genesisWalletCollection[collectionId]!.currentSupply -= 1;
         genesisWallet.setAttribute<INFTCollections>("nft.base.collections", genesisWalletCollection);
+
+        await this.emitter.dispatchSeq(NFTApplicationEvents.NFTCreateRevert, {
+            ...transaction.data,
+            owner: recipient.getPublicKey(),
+        });
     }
 
     private getRecipientFromTx(transaction: Interfaces.ITransactionData): Contracts.State.Wallet {

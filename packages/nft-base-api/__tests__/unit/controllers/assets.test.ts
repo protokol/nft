@@ -102,7 +102,7 @@ describe("Test asset controller", () => {
 			},
 		};
 
-		const response = (await assetController.index(request, undefined)) as PaginatedResponse;
+		const response = (await assetController.index(request)) as PaginatedResponse;
 		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
 			ownerPublicKey: senderWallet.getPublicKey(),
@@ -130,7 +130,7 @@ describe("Test asset controller", () => {
 				id: actual.id,
 			},
 		};
-		const response = (await assetController.showAssetWallet(request, undefined)) as ItemResponse;
+		const response = (await assetController.showAssetWallet(request)) as ItemResponse;
 
 		expect(response.data).toStrictEqual({
 			address: recipientId,
@@ -149,7 +149,7 @@ describe("Test asset controller", () => {
 				id: actual.id,
 			},
 		};
-		const response = (await assetController.showAssetWallet(request, undefined)) as ErrorResponse;
+		const response = (await assetController.showAssetWallet(request)) as ErrorResponse;
 
 		expect(response.isBoom).toBeTrue();
 		expect(response.output.statusCode).toBe(404);
@@ -161,7 +161,7 @@ describe("Test asset controller", () => {
 				id: actual.id,
 			},
 		};
-		const response = (await assetController.showWalletAssets(request, undefined)) as ErrorResponse;
+		const response = (await assetController.showWalletAssets(request)) as ErrorResponse;
 
 		expect(response.isBoom).toBeTrue();
 		expect(response.output.statusCode).toBe(404);
@@ -182,7 +182,7 @@ describe("Test asset controller", () => {
 				id: senderWallet.getPublicKey(),
 			},
 		};
-		const response = (await assetController.showWalletAssets(request, undefined)) as PaginatedResponse;
+		const response = (await assetController.showWalletAssets(request)) as PaginatedResponse;
 
 		expect(response.results).toStrictEqual([
 			{
@@ -214,7 +214,7 @@ describe("Test asset controller", () => {
 			},
 		};
 
-		const response = (await assetController.show(request, undefined)) as ItemResponse;
+		const response = (await assetController.show(request)) as ItemResponse;
 
 		expect(response.data).toStrictEqual({
 			id: actual.id,
@@ -243,7 +243,7 @@ describe("Test asset controller", () => {
 			},
 		};
 
-		const response = (await assetController.show(request, undefined)) as ErrorResponse;
+		const response = (await assetController.show(request)) as ErrorResponse;
 
 		expect(response.isBoom).toBeTrue();
 		expect(response.output.statusCode).toBe(404);
@@ -264,7 +264,7 @@ describe("Test asset controller", () => {
 			},
 		};
 
-		const response = (await assetController.showByAsset(request, undefined)) as PaginatedResponse;
+		const response = (await assetController.showByAsset(request)) as PaginatedResponse;
 		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
 			ownerPublicKey: Identities.PublicKey.fromPassphrase(passphrases[0]!),
@@ -284,7 +284,7 @@ describe("Test asset controller", () => {
 		app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).unset<string>(
 			"mintPassphrase",
 		);
-		const response = (await assetController.claimAsset(undefined, undefined)) as ErrorResponse;
+		const response = (await assetController.claimAsset(undefined)) as ErrorResponse;
 
 		expect(response.isBoom).toBeTrue();
 		expect(response.output.statusCode).toBe(501);
@@ -294,7 +294,7 @@ describe("Test asset controller", () => {
 		const request = {
 			payload: { recipientId: "address" },
 		};
-		const response = (await assetController.claimAsset(request, undefined)) as ErrorResponse;
+		const response = (await assetController.claimAsset(request)) as ErrorResponse;
 
 		expect(response.isBoom).toBeTrue();
 		expect(response.output.statusCode).toBe(422);
@@ -304,7 +304,7 @@ describe("Test asset controller", () => {
 		const request = {
 			payload: { recipientId, collectionId: "collection" },
 		};
-		const response = (await assetController.claimAsset(request, undefined)) as ErrorResponse;
+		const response = (await assetController.claimAsset(request)) as ErrorResponse;
 
 		expect(response.isBoom).toBeTrue();
 		expect(response.output.statusCode).toBe(422);
@@ -325,7 +325,7 @@ describe("Test asset controller", () => {
 				collectionId,
 			},
 		};
-		const response = (await assetController.claimAsset(request, undefined)) as ErrorResponse;
+		const response = (await assetController.claimAsset(request)) as ErrorResponse;
 
 		expect(response.isBoom).toBeTrue();
 		expect(response.output.statusCode).toBe(422);
@@ -342,7 +342,7 @@ describe("Test asset controller", () => {
 		walletRepository.getIndex(Indexers.NFTIndexers.CollectionIndexer).index(senderWallet);
 
 		const request = { payload: { recipientId, collectionId } };
-		const response = (await assetController.claimAsset(request, undefined)) as ItemResponse;
+		const response = (await assetController.claimAsset(request)) as ItemResponse;
 
 		expect(response).toStrictEqual(
 			new Builders.NFTCreateBuilder()

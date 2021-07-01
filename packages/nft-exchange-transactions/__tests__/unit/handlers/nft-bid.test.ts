@@ -98,24 +98,6 @@ describe("NFT Bid tests", () => {
                 auctionWallet,
             );
         });
-
-        it("should throw NFTExchangeBidCannotBidOwnItem if trying to bid on own auction", async () => {
-            const actualAuction = buildAuctionTransaction({ blockHeight: 5 });
-            setMockTransactions([actualAuction]);
-            const auctionsAsset = bidWallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
-            auctionsAsset[actualAuction.id!] = {
-                nftIds,
-                bids: [],
-            };
-            bidWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsAsset);
-            walletRepository.getIndex(NFTExchangeIndexers.AuctionIndexer).index(bidWallet);
-
-            const actual = buildBidTransaction({ auctionId: actualAuction.id!, bidAmount: 100 });
-            transactionHistoryService.streamByCriteria.mockImplementationOnce(async function* () {
-                yield actual.data;
-            });
-            await expect(nftBidHandler.bootstrap()).rejects.toThrowError(NFTExchangeBidCannotBidOwnItem);
-        });
     });
 
     describe("throwIfCannotBeApplied tests", () => {
@@ -270,9 +252,9 @@ describe("NFT Bid tests", () => {
                 Container.Identifiers.EventDispatcherService,
             );
 
-            const spy = jest.spyOn(emitter, "dispatch");
+            const spy = jest.spyOn(emitter, "dispatchSeq");
 
-            nftBidHandler.emitEvents(actualAuction, emitter);
+            await nftBidHandler.emitEvents(actualAuction, emitter);
 
             expect(spy).toHaveBeenCalledWith(NFTExchangeApplicationEvents.NFTBid, expect.anything());
         });

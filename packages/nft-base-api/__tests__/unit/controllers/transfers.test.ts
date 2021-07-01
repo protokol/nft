@@ -65,7 +65,7 @@ describe("Test transfer controller", () => {
 				transform: true,
 			},
 		};
-		const response = (await transfersController.index(request, undefined)) as PaginatedResponse;
+		const response = (await transfersController.index(request)) as PaginatedResponse;
 		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,
@@ -90,7 +90,7 @@ describe("Test transfer controller", () => {
 			},
 		};
 
-		const response = (await transfersController.show(request, undefined)) as ItemResponse;
+		const response = (await transfersController.show(request)) as ItemResponse;
 		expect(response.data).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,

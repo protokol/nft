@@ -4,7 +4,6 @@ import { Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Handlers as NFTBaseHandlers } from "@protokol/nft-base-transactions";
 import { Interfaces as NFTBaseInterfaces } from "@protokol/nft-base-transactions";
 import { Interfaces as NFTInterfaces, Transactions as NFTTransactions } from "@protokol/nft-exchange-crypto";
-import { Interfaces as NFTExchangeInterfaces } from "@protokol/nft-exchange-crypto";
 
 import {
     NFTExchangeAuctionAlreadyInProgress,
@@ -44,7 +43,7 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
             AppUtils.assert.defined<string>(transaction.id);
 
             const wallet = this.walletRepository.findByPublicKey(transaction.senderPublicKey);
-            const nftAuctionAsset: NFTExchangeInterfaces.NFTAuctionAsset = transaction.asset.nftAuction;
+            const nftAuctionAsset: NFTInterfaces.NFTAuctionAsset = transaction.asset.nftAuction;
             const auctionsWalletAsset = wallet.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
 
             auctionsWalletAsset[transaction.id] = {
@@ -54,19 +53,23 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
             wallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
 
             this.walletRepository.setOnIndex(NFTExchangeIndexers.AuctionIndexer, transaction.id, wallet);
+            await this.emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTAuction, transaction);
         }
     }
 
-    public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        void emitter.dispatch(NFTExchangeApplicationEvents.NFTAuction, transaction.data);
+    public async emitEvents(
+        transaction: Interfaces.ITransaction,
+        emitter: Contracts.Kernel.EventDispatcher,
+    ): Promise<void> {
+        await emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTAuction, transaction.data);
     }
 
     public async throwIfCannotBeApplied(
         transaction: Interfaces.ITransaction,
         sender: Contracts.State.Wallet,
     ): Promise<void> {
-        AppUtils.assert.defined<NFTExchangeInterfaces.NFTAuctionAsset>(transaction.data.asset?.nftAuction);
-        const nftAuctionAsset: NFTExchangeInterfaces.NFTAuctionAsset = transaction.data.asset.nftAuction;
+        AppUtils.assert.defined<NFTInterfaces.NFTAuctionAsset>(transaction.data.asset?.nftAuction);
+        const nftAuctionAsset: NFTInterfaces.NFTAuctionAsset = transaction.data.asset.nftAuction;
 
         const lastBlock: Interfaces.IBlock = this.app.get<any>(Container.Identifiers.StateStore).getLastBlock();
 
@@ -130,11 +133,11 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
         AppUtils.assert.defined<string>(transaction.data.id);
         // Line is already checked inside throwIfCannotBeApplied run by super.applyToSender method
-        //AppUtils.assert.defined<NFTExchangeInterfaces.NFTAuctionAsset>(transaction.data.asset?.nftAuction);
+        //AppUtils.assert.defined<NFTInterfaces.NFTAuctionAsset>(transaction.data.asset?.nftAuction);
 
         const sender = this.walletRepository.findByPublicKey(transaction.data.senderPublicKey);
 
-        const nftAuctionAsset: NFTExchangeInterfaces.NFTAuctionAsset = transaction.data.asset!.nftAuction;
+        const nftAuctionAsset: NFTInterfaces.NFTAuctionAsset = transaction.data.asset!.nftAuction;
         const auctionsWalletAsset = sender.getAttribute<INFTAuctions>("nft.exchange.auctions", {});
 
         auctionsWalletAsset[transaction.data.id] = {
@@ -158,5 +161,6 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
         sender.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionsWalletAsset);
 
         this.walletRepository.forgetOnIndex(NFTExchangeIndexers.AuctionIndexer, transaction.data.id);
+        await this.emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTAuctionRevert, transaction.data);
     }
 }

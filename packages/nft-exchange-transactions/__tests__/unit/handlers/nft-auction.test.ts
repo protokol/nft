@@ -234,9 +234,9 @@ describe("NFT Auction tests", () => {
                 Container.Identifiers.EventDispatcherService,
             );
 
-            const spy = jest.spyOn(emitter, "dispatch");
+            const spy = jest.spyOn(emitter, "dispatchSeq");
 
-            nftAuctionHandler.emitEvents(actual, emitter);
+            await nftAuctionHandler.emitEvents(actual, emitter);
 
             expect(spy).toHaveBeenCalledWith(NFTExchangeApplicationEvents.NFTAuction, expect.anything());
         });

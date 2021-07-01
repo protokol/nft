@@ -139,17 +139,19 @@ describe("NFT Register collection tests", () => {
         });
 
         it("should allow to register a collection for authorized registrators only", async () => {
-            app.get<Providers.PluginConfiguration>(
-                Container.Identifiers.PluginConfiguration,
-            ).set("authorizedRegistrators", [senderWallet.getPublicKey()]);
+            app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set(
+                "authorizedRegistrators",
+                [senderWallet.getPublicKey()],
+            );
 
             await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).toResolve();
         });
 
         it("should prevent to register a collection for unauthorized registrators", async () => {
-            app.get<Providers.PluginConfiguration>(
-                Container.Identifiers.PluginConfiguration,
-            ).set("authorizedRegistrators", ["authorizedPublicKey"]);
+            app.get<Providers.PluginConfiguration>(Container.Identifiers.PluginConfiguration).set(
+                "authorizedRegistrators",
+                ["authorizedPublicKey"],
+            );
 
             await expect(handler.throwIfCannotBeApplied(actual, senderWallet)).rejects.toThrowError(
                 NFTBaseUnauthorizedCollectionRegistrator,

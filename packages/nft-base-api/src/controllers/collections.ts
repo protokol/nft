@@ -16,7 +16,7 @@ export class CollectionsController extends BaseController {
 	@Container.tagged("state", "blockchain")
 	private readonly walletRepository!: Contracts.State.WalletRepository;
 
-	public async index(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async index(request: Hapi.Request) {
 		const criteria: Contracts.Shared.TransactionCriteria = {
 			...request.query,
 			typeGroup: Enums.NFTBaseTransactionGroup,
@@ -32,7 +32,7 @@ export class CollectionsController extends BaseController {
 		);
 	}
 
-	public async showByWalletId(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async showByWalletId(request: Hapi.Request) {
 		let wallet: Contracts.State.Wallet;
 		try {
 			wallet = this.walletRepository.findByIndex(Indexers.NFTIndexers.CollectionIndexer, request.params.id);
@@ -43,7 +43,7 @@ export class CollectionsController extends BaseController {
 		return this.respondWithResource(wallet, WalletsResource);
 	}
 
-	public async show(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async show(request: Hapi.Request) {
 		const transaction = await this.transactionHistoryService.findOneByCriteria({
 			...request.query,
 			typeGroup: Enums.NFTBaseTransactionGroup,
@@ -56,7 +56,7 @@ export class CollectionsController extends BaseController {
 		return this.respondWithBlockResource(transaction, request.query.transform, CollectionResource);
 	}
 
-	public async showSchema(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async showSchema(request: Hapi.Request) {
 		const transaction = await this.transactionHistoryService.findOneByCriteria({
 			...request.query,
 			typeGroup: Enums.NFTBaseTransactionGroup,
@@ -69,7 +69,7 @@ export class CollectionsController extends BaseController {
 		return this.respondWithBlockResource(transaction, request.query.transform, SchemaResource);
 	}
 
-	public async searchCollection(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async searchCollection(request: Hapi.Request) {
 		const criteria: Contracts.Shared.TransactionCriteria = {
 			...request.query,
 			typeGroup: Enums.NFTBaseTransactionGroup,
@@ -86,7 +86,7 @@ export class CollectionsController extends BaseController {
 		);
 	}
 
-	public async showAssetsByCollectionId(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+	public async showAssetsByCollectionId(request: Hapi.Request) {
 		const criteria: Contracts.Shared.TransactionCriteria = {
 			...request.query,
 			typeGroup: Enums.NFTBaseTransactionGroup,

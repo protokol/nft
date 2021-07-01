@@ -16,7 +16,6 @@ import { NFTExchangeApplicationEvents } from "../events";
 import { INFTAuctions } from "../interfaces";
 import { NFTExchangeIndexers } from "../wallet-indexes";
 import { NFTAuctionHandler } from "./nft-auction";
-import { NFTAuctionCancelHandler } from "./nft-auction-cancel";
 import { NFTExchangeTransactionHandler } from "./nft-exchange-handler";
 
 @Container.injectable()
@@ -29,7 +28,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
     }
 
     public dependencies(): ReadonlyArray<Handlers.TransactionHandlerConstructor> {
-        return [NFTAuctionHandler, NFTAuctionCancelHandler];
+        return [NFTAuctionHandler];
     }
 
     public walletAttributes(): ReadonlyArray<string> {
@@ -61,18 +60,20 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
             );
             const auctionWallet = this.walletRepository.findByPublicKey(auctionTransaction.senderPublicKey);
 
-            this.checkBiddingOnOwnAuction(auctionWallet, wallet);
-
             const auctionWalletAsset = auctionWallet.getAttribute<INFTAuctions>("nft.exchange.auctions");
             auctionWalletAsset[nftBidAsset.auctionId]!.bids.push(transaction.id);
             auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
 
             this.walletRepository.setOnIndex(NFTExchangeIndexers.BidIndexer, transaction.id, auctionWallet);
+            await this.emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTBid, transaction);
         }
     }
 
-    public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        void emitter.dispatch(NFTExchangeApplicationEvents.NFTBid, transaction.data);
+    public async emitEvents(
+        transaction: Interfaces.ITransaction,
+        emitter: Contracts.Kernel.EventDispatcher,
+    ): Promise<void> {
+        await emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTBid, transaction.data);
     }
 
     public async throwIfCannotBeApplied(
@@ -167,6 +168,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
         auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
 
         this.walletRepository.forgetOnIndex(NFTExchangeIndexers.BidIndexer, transaction.data.id);
+        await this.emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTBidRevert, transaction.data);
     }
 
     private checkBiddingOnOwnAuction(auctionWallet: Contracts.State.Wallet, bidWallet: Contracts.State.Wallet): void {

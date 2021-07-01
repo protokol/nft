@@ -81,7 +81,7 @@ describe("Test auctions controller", () => {
 			},
 		};
 
-		const response = (await auctionsController.index(request, undefined)) as PaginatedResponse;
+		const response = (await auctionsController.index(request)) as PaginatedResponse;
 		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,
@@ -109,7 +109,7 @@ describe("Test auctions controller", () => {
 			},
 		};
 
-		const response = (await auctionsController.show(request, undefined)) as ItemResponse;
+		const response = (await auctionsController.show(request)) as ItemResponse;
 
 		expect(response.data).toStrictEqual({
 			id: actual.id,
@@ -139,7 +139,7 @@ describe("Test auctions controller", () => {
 				id: actual.id,
 			},
 		};
-		const response = (await auctionsController.showAuctionWallet(request, undefined)) as ItemResponse;
+		const response = (await auctionsController.showAuctionWallet(request)) as ItemResponse;
 
 		expect(response.data).toStrictEqual({
 			address: senderWallet.getAddress(),
@@ -176,7 +176,7 @@ describe("Test auctions controller", () => {
 			results: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
 		});
 
-		const response = (await auctionsController.search(request, undefined)) as PaginatedResponse;
+		const response = (await auctionsController.search(request)) as PaginatedResponse;
 		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,
@@ -211,7 +211,7 @@ describe("Test auctions controller", () => {
 			},
 		};
 
-		const response = (await auctionsController.indexCanceled(request, undefined)) as PaginatedResponse;
+		const response = (await auctionsController.indexCanceled(request)) as PaginatedResponse;
 		expect(response.results[0]!).toStrictEqual({
 			id: actualAuctionCanceled.id,
 			senderPublicKey: actualAuctionCanceled.data.senderPublicKey,
@@ -241,7 +241,7 @@ describe("Test auctions controller", () => {
 			},
 		};
 
-		const response = (await auctionsController.showAuctionCanceled(request, undefined)) as ItemResponse;
+		const response = (await auctionsController.showAuctionCanceled(request)) as ItemResponse;
 		expect(response.data).toStrictEqual({
 			id: actualAuctionCanceled.id,
 			senderPublicKey: actualAuctionCanceled.data.senderPublicKey,

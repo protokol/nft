@@ -1,0 +1,107 @@
+{
+	"name": "@protokol/nft-indexer-api",
+	"version": "1.0.0-beta.61",
+	"description": "REST API For SUpporting NFT Functionality",
+	"license": "CC-BY-NC-SA-4.0",
+	"homepage": "https://docs.protokol.com/nft/",
+	"bugs": {
+		"url": "https://github.com/protokol/nft-plugins/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/protokol/nft-plugins.git"
+	},
+	"keywords": [
+		"protokol",
+		"ark",
+		"core",
+		"sdk",
+		"nft",
+		"blockchain"
+	],
+	"contributors": [
+		"Žan Kovač <zan@protokol.com",
+		"Amadej Pevec <amadej@protokol.com>",
+		"Kristjan Košič <kristjan@protokol.com>"
+	],
+	"files": [
+		"dist"
+	],
+	"main": "dist/index",
+	"types": "dist/index",
+	"scripts": {
+		"build": "yarn clean && tsc",
+		"build:watch": "yarn clean && tsc -w",
+		"clean": "rimraf .coverage dist tmp",
+		"test": "jest",
+		"test:unit": "jest __tests__/unit/** --forceExit",
+		"test:unit:coverage": "jest __tests__/unit --coverage",
+		"test:integration": "jest __tests__/integration --runInBand --forceExit",
+		"test:integration:coverage": "jest __tests__/integration --coverage --runInBand --forceExit",
+		"test:functional": "jest __tests__/functional --runInBand --forceExit",
+		"test:functional:coverage": "jest __tests__/functional --coverage --runInBand --forceExit",
+		"publish:beta": "yarn build && yarn npm publish --tag beta --access public --tolerate-republish"
+	},
+	"dependencies": {
+		"@arkecosystem/core-api": "^3.0.0-next",
+		"@arkecosystem/core-kernel": "^3.0.0-next",
+		"@arkecosystem/crypto": "^3.0.0-next",
+		"@hapi/boom": "^9.1.0",
+		"@hapi/hapi": "^20.0.2",
+		"@protokol/nft-base-crypto": "workspace:packages/nft-base-crypto",
+		"@protokol/nft-base-transactions": "workspace:packages/nft-base-transactions",
+		"@protokol/nft-exchange-crypto": "workspace:packages/nft-exchange-crypto",
+		"@protokol/nft-exchange-transactions": "workspace:packages/nft-exchange-transactions",
+		"better-sqlite3": "^7.4.0",
+		"joi": "^17.3.0",
+		"latest-version": "^5.1.0",
+		"reflect-metadata": "^0.1.13",
+		"typeorm": "^0.2.33"
+	},
+	"devDependencies": {
+		"@arkecosystem/core-database": "^3.0.0-next",
+		"@arkecosystem/core-kernel": "^3.0.0-next",
+		"@arkecosystem/core-state": "^3.0.0-next",
+		"@arkecosystem/core-test-framework": "^3.0.0-next",
+		"@arkecosystem/core-transaction-pool": "^3.0.0-next",
+		"@arkecosystem/core-transactions": "^3.0.0-next",
+		"@sindresorhus/tsconfig": "^1.0.0",
+		"@types/eslint": "^7.2.5",
+		"@types/eslint-plugin-prettier": "^3.1.0",
+		"@types/hapi__boom": "^7.4.1",
+		"@types/hapi__joi": "^17.1.6",
+		"@types/jest": "^26.0.15",
+		"@types/node": "^14.14.39",
+		"@types/prettier": "^2.1.5",
+		"@types/rimraf": "^3.0.0",
+		"@types/semver": "7.3.6",
+		"@typescript-eslint/eslint-plugin": "^4.8.0",
+		"@typescript-eslint/parser": "^4.8.0",
+		"codecov": "^3.8.1",
+		"cross-env": "^7.0.2",
+		"eslint": "^7.13.0",
+		"eslint-config-prettier": "^8.0.0",
+		"eslint-plugin-jest": "^24.1.3",
+		"eslint-plugin-prettier": "^3.1.4",
+		"eslint-plugin-simple-import-sort": "^7.0.0",
+		"jest": "^27.0.1",
+		"jest-extended": "^0.11.5",
+		"npm-check-updates": "~11.6.0",
+		"prettier": "^2.1.2",
+		"rimraf": "^3.0.2",
+		"ts-jest": "~27.0.1",
+		"typedoc": "~0.20.0",
+		"typescript": "~4.2.3"
+	},
+	"engines": {
+		"node": ">=10.x"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"arkecosystem": {
+		"core": {
+			"alias": "nft-indexer-api"
+		}
+	}
+}

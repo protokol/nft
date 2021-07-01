@@ -371,9 +371,9 @@ describe("NFT Accept trade tests", () => {
                 Container.Identifiers.EventDispatcherService,
             );
 
-            const spy = jest.spyOn(emitter, "dispatch");
+            const spy = jest.spyOn(emitter, "dispatchSeq");
 
-            nftAcceptTradeHandler.emitEvents(actual, emitter);
+            await nftAcceptTradeHandler.emitEvents(actual, emitter);
 
             expect(spy).toHaveBeenCalledWith(NFTExchangeApplicationEvents.NFTAcceptTrade, expect.anything());
         });

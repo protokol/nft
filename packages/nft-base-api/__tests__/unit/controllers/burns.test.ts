@@ -66,7 +66,7 @@ describe("Test burns controller", () => {
 			},
 		};
 
-		const response = (await burnsController.index(request, undefined)) as PaginatedResponse;
+		const response = (await burnsController.index(request)) as PaginatedResponse;
 		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,
@@ -90,7 +90,7 @@ describe("Test burns controller", () => {
 			},
 		};
 
-		const response = (await burnsController.show(request, undefined)) as ItemResponse;
+		const response = (await burnsController.show(request)) as ItemResponse;
 		expect(response.data).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,

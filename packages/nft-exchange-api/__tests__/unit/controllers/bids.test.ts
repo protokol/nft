@@ -79,7 +79,7 @@ describe("Test bids controller", () => {
 			},
 		};
 
-		const response = (await bidsController.index(request, undefined)) as PaginatedResponse;
+		const response = (await bidsController.index(request)) as PaginatedResponse;
 		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,
@@ -104,7 +104,7 @@ describe("Test bids controller", () => {
 			},
 		};
 
-		const response = (await bidsController.show(request, undefined)) as ItemResponse;
+		const response = (await bidsController.show(request)) as ItemResponse;
 		expect(response.data).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,
@@ -134,7 +134,7 @@ describe("Test bids controller", () => {
 			},
 		};
 
-		const response = (await bidsController.showAuctionWallet(request, undefined)) as ItemResponse;
+		const response = (await bidsController.showAuctionWallet(request)) as ItemResponse;
 
 		expect(response.data).toStrictEqual({
 			address: senderWallet.getAddress(),
@@ -170,7 +170,7 @@ describe("Test bids controller", () => {
 		transactionHistoryService.listByCriteriaJoinBlock.mockResolvedValueOnce({
 			results: [{ data: actual.data, block: { timestamp: timestamp.epoch } }],
 		});
-		const response = (await bidsController.search(request, undefined)) as PaginatedResponse;
+		const response = (await bidsController.search(request)) as PaginatedResponse;
 		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
 			senderPublicKey: actual.data.senderPublicKey,
@@ -202,7 +202,7 @@ describe("Test bids controller", () => {
 			},
 		};
 
-		const response = (await bidsController.indexCanceled(request, undefined)) as PaginatedResponse;
+		const response = (await bidsController.indexCanceled(request)) as PaginatedResponse;
 		expect(response.results[0]!).toStrictEqual({
 			id: actualCanceledBid.id,
 			senderPublicKey: actualCanceledBid.data.senderPublicKey,
@@ -232,7 +232,7 @@ describe("Test bids controller", () => {
 				id: actualCanceledBid.id,
 			},
 		};
-		const response = (await bidsController.showAuctionCanceled(request, undefined)) as ItemResponse;
+		const response = (await bidsController.showAuctionCanceled(request)) as ItemResponse;
 		expect(response.data).toStrictEqual({
 			id: actualCanceledBid.id,
 			senderPublicKey: actualCanceledBid.data.senderPublicKey,

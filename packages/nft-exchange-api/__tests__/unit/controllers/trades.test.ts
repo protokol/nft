@@ -69,7 +69,7 @@ describe("Test trades controller", () => {
 			},
 		};
 
-		const response = (await tradesController.index(request, undefined)) as PaginatedResponse;
+		const response = (await tradesController.index(request)) as PaginatedResponse;
 
 		expect(response.results[0]!).toStrictEqual({
 			id: actual.id,
@@ -90,7 +90,7 @@ describe("Test trades controller", () => {
 				},
 			};
 
-			const response = (await tradesController.show(request, undefined)) as ErrorResponse;
+			const response = (await tradesController.show(request)) as ErrorResponse;
 
 			expect(response.output.statusCode).toEqual(404);
 		});
@@ -126,7 +126,7 @@ describe("Test trades controller", () => {
 				},
 			};
 
-			const response = (await tradesController.show(request, undefined)) as ItemResponse;
+			const response = (await tradesController.show(request)) as ItemResponse;
 
 			expect(response.data).toStrictEqual({
 				id: actual.id,
@@ -179,21 +179,15 @@ describe("Test trades controller", () => {
 		};
 
 		// search by public key
-		const responseByPublicKey = (await tradesController.search(
-			requestWithPublicKey,
-			undefined,
-		)) as PaginatedResponse;
+		const responseByPublicKey = (await tradesController.search(requestWithPublicKey)) as PaginatedResponse;
 		expect(responseByPublicKey.results[0]!).toStrictEqual(expectedResponse);
 
 		// search by auction id
-		const responseByAuctionId = (await tradesController.search(
-			requestWithAuctionId,
-			undefined,
-		)) as PaginatedResponse;
+		const responseByAuctionId = (await tradesController.search(requestWithAuctionId)) as PaginatedResponse;
 		expect(responseByAuctionId.results[0]!).toStrictEqual(expectedResponse);
 
 		// search by bid id
-		const responseByBidId = (await tradesController.search(requestWithBidId, undefined)) as PaginatedResponse;
+		const responseByBidId = (await tradesController.search(requestWithBidId)) as PaginatedResponse;
 		expect(responseByBidId.results[0]!).toStrictEqual(expectedResponse);
 	});
 });

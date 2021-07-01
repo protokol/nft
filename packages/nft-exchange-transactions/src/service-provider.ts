@@ -20,8 +20,8 @@ export class ServiceProvider extends Providers.ServiceProvider {
 
         this.app.bind(Container.Identifiers.TransactionHandler).to(NFTAuctionHandler);
         this.app.bind(Container.Identifiers.TransactionHandler).to(NFTBidHandler);
-        this.app.bind(Container.Identifiers.TransactionHandler).to(NFTAuctionCancelHandler);
         this.app.bind(Container.Identifiers.TransactionHandler).to(NFTBidCancelHandler);
+        this.app.bind(Container.Identifiers.TransactionHandler).to(NFTAuctionCancelHandler);
         this.app.bind(Container.Identifiers.TransactionHandler).to(NFTAcceptTradeHandler);
     }
 

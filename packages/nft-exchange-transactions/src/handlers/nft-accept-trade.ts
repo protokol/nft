@@ -54,9 +54,8 @@ export class NFTAcceptTradeHandler extends NFTExchangeTransactionHandler {
 
             const nftIds = auctionTransaction.asset.nftAuction.nftIds;
 
-            const auctionWalletBaseAsset = auctionWallet.getAttribute<NFTBaseInterfaces.INFTTokens>(
-                "nft.base.tokenIds",
-            );
+            const auctionWalletBaseAsset =
+                auctionWallet.getAttribute<NFTBaseInterfaces.INFTTokens>("nft.base.tokenIds");
             for (const nft of nftIds) {
                 delete auctionWalletBaseAsset[nft];
                 this.walletRepository.forgetOnIndex(NFTBaseIndexers.NFTIndexers.NFTTokenIndexer, nft);
@@ -96,11 +95,15 @@ export class NFTAcceptTradeHandler extends NFTExchangeTransactionHandler {
             auctionWallet.setAttribute<INFTAuctions>("nft.exchange.auctions", auctionWalletAsset);
 
             this.walletRepository.forgetOnIndex(NFTExchangeIndexers.AuctionIndexer, auctionTransaction.id);
+            await this.emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTAcceptTrade, transaction);
         }
     }
 
-    public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
-        void emitter.dispatch(NFTExchangeApplicationEvents.NFTAcceptTrade, transaction.data);
+    public async emitEvents(
+        transaction: Interfaces.ITransaction,
+        emitter: Contracts.Kernel.EventDispatcher,
+    ): Promise<void> {
+        await emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTAcceptTrade, transaction.data);
     }
 
     public async throwIfCannotBeApplied(
@@ -293,5 +296,6 @@ export class NFTAcceptTradeHandler extends NFTExchangeTransactionHandler {
         for (const bidId of auctionWalletExchangeAsset[auctionId]!.bids) {
             this.walletRepository.setOnIndex(NFTExchangeIndexers.BidIndexer, bidId, auctionWallet);
         }
+        await this.emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTAcceptTradeRevert, transaction.data);
     }
 }

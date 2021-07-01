@@ -44,6 +44,9 @@
 				"package": "@protokol/nft-exchange-api"
 			},
 			{
+				"package": "@protokol/nft-indexer-api"
+			},
+			{
 				"package": "@arkecosystem/core-magistrate-api"
 			},
 			{

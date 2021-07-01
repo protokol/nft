@@ -17,6 +17,7 @@ export const register = (server: Hapi.Server): void => {
 				query: Joi.object({
 					orderBy: server.app.schemas.orderBy,
 					transform: Joi.bool().default(true),
+					expired: Joi.bool().default(false),
 				}).concat(Schemas.pagination),
 			},
 			plugins: {
@@ -65,6 +66,10 @@ export const register = (server: Hapi.Server): void => {
 				query: Joi.object({
 					orderBy: server.app.schemas.orderBy,
 					transform: Joi.bool().default(true),
+					onlyActive: Joi.bool().default(false),
+					expired: Joi.bool().default(false),
+					includeBids: Joi.bool().default(false),
+					canceledBids: Joi.bool().default(false),
 				}).concat(Schemas.pagination),
 				payload: Joi.object({
 					senderPublicKey: Joi.string().hex().length(66).optional(),

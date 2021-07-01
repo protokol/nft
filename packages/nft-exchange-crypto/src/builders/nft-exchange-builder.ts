@@ -3,7 +3,7 @@ import { Interfaces, Transactions, Utils } from "@arkecosystem/crypto";
 import { NFTExchangeTransactionsTypeGroup, NFTExchangeTransactionVersion } from "../enums";
 
 export abstract class NFTExchangeTransactionBuilder<
-    TBuilder extends Transactions.TransactionBuilder<TBuilder>
+    TBuilder extends Transactions.TransactionBuilder<TBuilder>,
 > extends Transactions.TransactionBuilder<TBuilder> {
     protected constructor() {
         super();
