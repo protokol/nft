@@ -13,8 +13,7 @@ let api: ApiHelpers;
 let asset1: Interfaces.ITransactionData | undefined,
 	asset2: Interfaces.ITransactionData | undefined,
 	auction1: Interfaces.ITransactionData | undefined,
-	auction2: Interfaces.ITransactionData | undefined,
-	bid1: Interfaces.ITransactionData | undefined;
+	auction2: Interfaces.ITransactionData | undefined;
 
 beforeAll(async () => {
 	app = await setUp();

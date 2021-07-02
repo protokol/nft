@@ -21,7 +21,7 @@ describe("Test configurations controller", () => {
 			package: {
 				name: require("../../../package.json").name,
 				currentVersion: require("../../../package.json").version,
-				//latestVersion: await latestVersion(require("../../../package.json").name),
+				latestVersion: await latestVersion(require("../../../package.json").name),
 			},
 		});
 	});

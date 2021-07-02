@@ -26,9 +26,9 @@ describe("API - Configurations", () => {
 
 			expect(response.data.data.package.name).toStrictEqual(require("../../../package.json").name);
 			expect(response.data.data.package.currentVersion).toStrictEqual(require("../../../package.json").version);
-			// expect(response.data.data.package.latestVersion).toStrictEqual(
-			// 	await latestVersion(require("../../../package.json").name),
-			// );
+			expect(response.data.data.package.latestVersion).toStrictEqual(
+				await latestVersion(require("../../../package.json").name),
+			);
 		});
 	});
 });
