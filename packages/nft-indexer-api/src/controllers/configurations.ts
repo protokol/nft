@@ -14,7 +14,7 @@ export class ConfigurationController extends Controller {
 			{
 				packageName,
 				currentVersion,
-				//latestVersion: await latestVersion(packageName),
+				latestVersion: await latestVersion(packageName),
 			},
 			ConfigurationResource,
 		);
