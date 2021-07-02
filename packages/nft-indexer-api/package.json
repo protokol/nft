@@ -1,6 +1,6 @@
 {
 	"name": "@protokol/nft-indexer-api",
-	"version": "1.0.0-beta.62",
+	"version": "1.0.0-beta.63",
 	"description": "REST API For Supporting NFT Functionality",
 	"license": "CC-BY-NC-SA-4.0",
 	"homepage": "https://docs.protokol.com/nft/",
