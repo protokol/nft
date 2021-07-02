@@ -2,10 +2,29 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [1.0.0-beta.62](https://github.com/protokol/nft/compare/1.0.0-beta.61...1.0.0-beta.62)
+
+> 2 July 2021
+
+-   feat(nft-indexer-api): nft-indexer implementation [`#319`](https://github.com/protokol/nft/pull/319)
+-   chore(deps): update dependency prettier to v2.3.2 [`#320`](https://github.com/protokol/nft/pull/320)
+-   chore(deps): update dependency typedoc to ~0.21.0 [`#317`](https://github.com/protokol/nft/pull/317)
+-   chore(deps): update dependency npm-check-updates to ~11.7.0 [`#316`](https://github.com/protokol/nft/pull/316)
+-   chore(deps): update dependency eslint to v7.29.0 [`#318`](https://github.com/protokol/nft/pull/318)
+-   chore(deps): update dependency typescript to ~4.3.0 [`#312`](https://github.com/protokol/nft/pull/312)
+-   chore(deps): update dependency prettier to v2.3.1 [`#315`](https://github.com/protokol/nft/pull/315)
+-   chore(deps): update dependency eslint to v7.28.0 [`#314`](https://github.com/protokol/nft/pull/314)
+-   chore(deps): update dependency npm-check-updates to ~11.6.0 [`#313`](https://github.com/protokol/nft/pull/313)
+-   chore(deps): update dependency jest to v27 [`#310`](https://github.com/protokol/nft/pull/310)
+-   chore(deps): update dependency eslint to v7.27.0 [`#309`](https://github.com/protokol/nft/pull/309)
+-   chore(deps): update dependency @types/semver to v7.3.6 [`#308`](https://github.com/protokol/nft/pull/308)
+-   chore: release 1.0.0-beta.62 [`3ea2b12`](https://github.com/protokol/nft/commit/3ea2b12982fdc4bc5d9d476f8aaab2ec88e142ba)
+
 #### [1.0.0-beta.61](https://github.com/protokol/nft/compare/1.0.0-beta.60...1.0.0-beta.61)
 
 > 11 May 2021
 
+-   release: 1.0.0 beta.61 [`#307`](https://github.com/protokol/nft/pull/307)
 -   chore(deps): update dependency prettier to v2.3.0 [`#306`](https://github.com/protokol/nft/pull/306)
 -   chore(deps): update dependency eslint to v7.26.0 [`#305`](https://github.com/protokol/nft/pull/305)
 -   chore: update ark deps + adjust code to core changes [`#304`](https://github.com/protokol/nft/pull/304)
@@ -19,7 +38,6 @@ All notable changes to this project will be documented in this file. Dates are d
 -   chore(deps): update dependency eslint to v7.24.0 [`#296`](https://github.com/protokol/nft/pull/296)
 -   feat: log plugin info on load [`#295`](https://github.com/protokol/nft/pull/295)
 -   chore(deps): update dependency npm-check-updates to ~11.4.0 [`#294`](https://github.com/protokol/nft/pull/294)
--   release: 1.0.0-beta.61 [`3af7457`](https://github.com/protokol/nft/commit/3af7457251cd7d799dbc138b29b66ec388135dc1)
 
 #### [1.0.0-beta.60](https://github.com/protokol/nft/compare/1.0.0-beta.59...1.0.0-beta.60)
 
