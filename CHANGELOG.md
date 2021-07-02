@@ -2,10 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [1.0.0-beta.63](https://github.com/protokol/nft/compare/1.0.0-beta.62...1.0.0-beta.63)
+
+> 2 July 2021
+
+-   feat(nft-indexer-api): enable configuration version [`#322`](https://github.com/protokol/nft/pull/322)
+-   chore: release 1.0.0-beta.63 [`de77956`](https://github.com/protokol/nft/commit/de7795688a6d14c47a7b45ab5e8ac22c66976449)
+
 #### [1.0.0-beta.62](https://github.com/protokol/nft/compare/1.0.0-beta.61...1.0.0-beta.62)
 
 > 2 July 2021
 
+-   release: 1.0.0 beta.62 [`#321`](https://github.com/protokol/nft/pull/321)
 -   feat(nft-indexer-api): nft-indexer implementation [`#319`](https://github.com/protokol/nft/pull/319)
 -   chore(deps): update dependency prettier to v2.3.2 [`#320`](https://github.com/protokol/nft/pull/320)
 -   chore(deps): update dependency typedoc to ~0.21.0 [`#317`](https://github.com/protokol/nft/pull/317)
@@ -18,7 +26,6 @@ All notable changes to this project will be documented in this file. Dates are d
 -   chore(deps): update dependency jest to v27 [`#310`](https://github.com/protokol/nft/pull/310)
 -   chore(deps): update dependency eslint to v7.27.0 [`#309`](https://github.com/protokol/nft/pull/309)
 -   chore(deps): update dependency @types/semver to v7.3.6 [`#308`](https://github.com/protokol/nft/pull/308)
--   chore: release 1.0.0-beta.62 [`3ea2b12`](https://github.com/protokol/nft/commit/3ea2b12982fdc4bc5d9d476f8aaab2ec88e142ba)
 
 #### [1.0.0-beta.61](https://github.com/protokol/nft/compare/1.0.0-beta.60...1.0.0-beta.61)
 
