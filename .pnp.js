@@ -2920,7 +2920,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.3"],
             ["@types/prettier", "npm:2.3.0"],
             ["@types/rimraf", "npm:3.0.0"],
-            ["@types/semver", "npm:7.3.6"],
+            ["@types/semver", "npm:7.3.7"],
             ["@typescript-eslint/eslint-plugin", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:4.27.0"],
             ["@typescript-eslint/parser", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:4.27.0"],
             ["codecov", "npm:3.8.2"],
@@ -2993,7 +2993,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.3"],
             ["@types/prettier", "npm:2.3.0"],
             ["@types/rimraf", "npm:3.0.0"],
-            ["@types/semver", "npm:7.3.6"],
+            ["@types/semver", "npm:7.3.7"],
             ["ajv", "npm:6.12.6"],
             ["bip39", "npm:3.0.4"],
             ["codecov", "npm:3.8.2"],
@@ -3038,7 +3038,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.3"],
             ["@types/prettier", "npm:2.3.0"],
             ["@types/rimraf", "npm:3.0.0"],
-            ["@types/semver", "npm:7.3.6"],
+            ["@types/semver", "npm:7.3.7"],
             ["@typescript-eslint/eslint-plugin", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:4.27.0"],
             ["@typescript-eslint/parser", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:4.27.0"],
             ["codecov", "npm:3.8.2"],
@@ -3111,7 +3111,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.3"],
             ["@types/prettier", "npm:2.3.0"],
             ["@types/rimraf", "npm:3.0.0"],
-            ["@types/semver", "npm:7.3.6"],
+            ["@types/semver", "npm:7.3.7"],
             ["ajv", "npm:6.12.6"],
             ["bip39", "npm:3.0.4"],
             ["codecov", "npm:3.8.2"],
@@ -3156,7 +3156,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.17.3"],
             ["@types/prettier", "npm:2.3.0"],
             ["@types/rimraf", "npm:3.0.0"],
-            ["@types/semver", "npm:7.3.6"],
+            ["@types/semver", "npm:7.3.7"],
             ["@typescript-eslint/eslint-plugin", "virtual:c2e9ad242ec705bde98f3ca8c56bf0f91b4584460493f85250b0bf16482bb27f20c43266c89b9b5ac3923a9a1e184ad8686adf3c8c5a0b5bfb3ccf4c054c566b#npm:4.27.0"],
             ["@typescript-eslint/parser", "virtual:c2e9ad242ec705bde98f3ca8c56bf0f91b4584460493f85250b0bf16482bb27f20c43266c89b9b5ac3923a9a1e184ad8686adf3c8c5a0b5bfb3ccf4c054c566b#npm:4.27.0"],
             ["better-sqlite3", "npm:7.4.1"],
@@ -3740,6 +3740,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-semver-npm-7.3.6-4add0df8f9-36776caed9.zip/node_modules/@types/semver/",
           "packageDependencies": [
             ["@types/semver", "npm:7.3.6"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:7.3.7", {
+          "packageLocation": "./.yarn/cache/@types-semver-npm-7.3.7-fcdcc23189-fff3d8f012.zip/node_modules/@types/semver/",
+          "packageDependencies": [
+            ["@types/semver", "npm:7.3.7"]
           ],
           "linkType": "HARD",
         }]

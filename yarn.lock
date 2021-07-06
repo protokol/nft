@@ -2308,7 +2308,7 @@ __metadata:
     "@types/node": ^14.14.39
     "@types/prettier": ^2.1.5
     "@types/rimraf": ^3.0.0
-    "@types/semver": 7.3.6
+    "@types/semver": 7.3.7
     "@typescript-eslint/eslint-plugin": ^4.8.0
     "@typescript-eslint/parser": ^4.8.0
     codecov: ^3.8.1
@@ -2377,7 +2377,7 @@ __metadata:
     "@types/node": ^14.14.39
     "@types/prettier": ^2.1.5
     "@types/rimraf": ^3.0.0
-    "@types/semver": 7.3.6
+    "@types/semver": 7.3.7
     ajv: 6.12.6
     bip39: 3.0.4
     codecov: ^3.8.1
@@ -2420,7 +2420,7 @@ __metadata:
     "@types/node": ^14.14.39
     "@types/prettier": ^2.1.5
     "@types/rimraf": ^3.0.0
-    "@types/semver": 7.3.6
+    "@types/semver": 7.3.7
     "@typescript-eslint/eslint-plugin": ^4.8.0
     "@typescript-eslint/parser": ^4.8.0
     codecov: ^3.8.1
@@ -2489,7 +2489,7 @@ __metadata:
     "@types/node": ^14.14.39
     "@types/prettier": ^2.1.5
     "@types/rimraf": ^3.0.0
-    "@types/semver": 7.3.6
+    "@types/semver": 7.3.7
     ajv: 6.12.6
     bip39: 3.0.4
     codecov: ^3.8.1
@@ -2532,7 +2532,7 @@ __metadata:
     "@types/node": ^14.14.39
     "@types/prettier": ^2.1.5
     "@types/rimraf": ^3.0.0
-    "@types/semver": 7.3.6
+    "@types/semver": 7.3.7
     "@typescript-eslint/eslint-plugin": ^4.8.0
     "@typescript-eslint/parser": ^4.8.0
     better-sqlite3: ^7.4.0
@@ -3058,7 +3058,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/semver@npm:7.3.6, @types/semver@npm:^7.1.0":
+"@types/semver@npm:7.3.7":
+  version: 7.3.7
+  resolution: "@types/semver@npm:7.3.7"
+  checksum: fff3d8f012454d1e0faf9dbbbbbb9cd9657d9f85ee0fef112984dffa85937c5001774838954a7b88fcc06b85500c10300956059aba0211687a520468ec09901c
+  languageName: node
+  linkType: hard
+
+"@types/semver@npm:^7.1.0":
   version: 7.3.6
   resolution: "@types/semver@npm:7.3.6"
   checksum: 36776caed9a5d80cc7e0dd32fc08ac762918273bef849c369a300895646f9126e9857c9235e130493cf1fb2ee77e44cd1b599eded4fcbd11803962936771506a
