@@ -2372,7 +2372,7 @@ __metadata:
     "@sindresorhus/tsconfig": ~1.0.0
     "@types/eslint": ^7.2.5
     "@types/eslint-plugin-prettier": ^3.1.0
-    "@types/hapi__joi": 17.1.6
+    "@types/hapi__joi": 17.1.7
     "@types/jest": ^26.0.15
     "@types/node": ^14.14.39
     "@types/prettier": ^2.1.5
@@ -2484,7 +2484,7 @@ __metadata:
     "@sindresorhus/tsconfig": ~1.0.0
     "@types/eslint": ^7.2.5
     "@types/eslint-plugin-prettier": ^3.1.0
-    "@types/hapi__joi": 17.1.6
+    "@types/hapi__joi": 17.1.7
     "@types/jest": ^26.0.15
     "@types/node": ^14.14.39
     "@types/prettier": ^2.1.5
@@ -2882,7 +2882,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/hapi__joi@npm:17.1.6, @types/hapi__joi@npm:^17.1.6":
+"@types/hapi__joi@npm:17.1.7":
+  version: 17.1.7
+  resolution: "@types/hapi__joi@npm:17.1.7"
+  checksum: 966c25c5254c7628c371856e779971411ee666f1d8368a7ab3e359cf45c848ff8bded0425dfc45e235f9c45b9c5fba4d73d7e600a2fc8fbf8ffe19c92b7fa8d9
+  languageName: node
+  linkType: hard
+
+"@types/hapi__joi@npm:^17.1.6":
   version: 17.1.6
   resolution: "@types/hapi__joi@npm:17.1.6"
   checksum: 177258c8e24da331077d6e031060cbbfc625abf5978bf9a4f14254a43b34d5982d6459ad37bdc34ce25ecc3587c24a8eab258ecd90cb7eca0111aa3a89ee66b0
