@@ -3010,7 +3010,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/prettier", "npm:2.3.0"],
             ["@types/rimraf", "npm:3.0.0"],
             ["@types/semver", "npm:7.3.7"],
-            ["ajv", "npm:6.12.6"],
+            ["ajv", "npm:8.6.2"],
             ["bip39", "npm:3.0.4"],
             ["codecov", "npm:3.8.2"],
             ["eslint", "npm:7.31.0"],
@@ -3128,7 +3128,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/prettier", "npm:2.3.0"],
             ["@types/rimraf", "npm:3.0.0"],
             ["@types/semver", "npm:7.3.7"],
-            ["ajv", "npm:6.12.6"],
+            ["ajv", "npm:8.6.2"],
             ["bip39", "npm:3.0.4"],
             ["codecov", "npm:3.8.2"],
             ["eslint", "npm:7.31.0"],
@@ -4372,6 +4372,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/ajv-npm-8.6.0-74c534c16b-4eed9ee72e.zip/node_modules/ajv/",
           "packageDependencies": [
             ["ajv", "npm:8.6.0"],
+            ["fast-deep-equal", "npm:3.1.3"],
+            ["json-schema-traverse", "npm:1.0.0"],
+            ["require-from-string", "npm:2.0.2"],
+            ["uri-js", "npm:4.4.1"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:8.6.2", {
+          "packageLocation": "./.yarn/cache/ajv-npm-8.6.2-712407c2bc-9969d6c0e6.zip/node_modules/ajv/",
+          "packageDependencies": [
+            ["ajv", "npm:8.6.2"],
             ["fast-deep-equal", "npm:3.1.3"],
             ["json-schema-traverse", "npm:1.0.0"],
             ["require-from-string", "npm:2.0.2"],
