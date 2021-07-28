@@ -1,10 +1,11 @@
 {
-	"recommendations": [
-		"dbaeumer.vscode-eslint",
-		"esbenp.prettier-vscode",
-		"mtxr.sqltools",
-		"mtxr.sqltools-driver-pg",
-		"eamodio.gitlens",
-		"mutantdino.resourcemonitor"
-	]
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "mtxr.sqltools",
+    "mtxr.sqltools-driver-pg",
+    "eamodio.gitlens",
+    "mutantdino.resourcemonitor",
+    "arcanis.vscode-zipfs"
+  ]
 }

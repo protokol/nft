@@ -5,7 +5,7 @@ import { Transactions as NFTExchangeTransactions } from "@protokol/nft-exchange-
 import { unlinkSync } from "fs";
 import { Connection, createConnection } from "typeorm";
 
-const dbName = "dbFilename";
+const dbName = `${process.env.CORE_PATH_DATA}/dbFilename.sqlite`;
 
 export const setupAppAndGetConnection = async (): Promise<Connection> => {
 	const config = Generators.generateCryptoConfigRaw();

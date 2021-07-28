@@ -44,10 +44,7 @@
 				"package": "@protokol/nft-exchange-api"
 			},
 			{
-				"package": "@protokol/nft-indexer-api",
-				"options": {
-					"dbFilename": "indexer-functional-test.sqlite"
-				}
+				"package": "@protokol/nft-indexer-api"
 			},
 			{
 				"package": "@arkecosystem/core-magistrate-api"
