@@ -47,7 +47,7 @@
 		"@types/rimraf": "^3.0.0",
 		"@typescript-eslint/eslint-plugin": "^4.0.0",
 		"@typescript-eslint/parser": "^4.0.0",
-		"@yarnpkg/pnpify": "^2.1.0",
+		"@yarnpkg/pnpify": "^3.0.0",
 		"codecov": "^3.7.2",
 		"cross-env": "^7.0.2",
 		"eslint": "^7.7.0",
