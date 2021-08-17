@@ -2803,6 +2803,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.0"],
             ["@types/node", "npm:14.17.6"],
             ["@types/rimraf", "npm:3.0.1"],
+            ["bytebuffer", "npm:5.0.1"],
             ["codecov", "npm:3.8.3"],
             ["cross-env", "npm:7.0.3"],
             ["jest", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:27.0.6"],
