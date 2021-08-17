@@ -1,11 +1,13 @@
-import { NFTBaseTransactionTypes } from "../enums";
+import { AbstractNFTTransactionBuilder } from "../../../core-nft-crypto/src";
+import { NFTBaseTransactionGroup, NFTBaseTransactionTypes, NFTBaseTransactionVersion } from "../enums";
 import { NFTBurnAsset } from "../interfaces";
 import { NFTBurnTransaction } from "../transactions";
-import { NFTBaseTransactionBuilder } from "./nft-base-builder";
 
-export class NFTBurnBuilder extends NFTBaseTransactionBuilder<NFTBurnBuilder> {
+export class NFTBurnBuilder extends AbstractNFTTransactionBuilder<NFTBurnBuilder> {
     public constructor() {
         super();
+        this.data.version = NFTBaseTransactionVersion;
+        this.data.typeGroup = NFTBaseTransactionGroup;
         this.data.type = NFTBaseTransactionTypes.NFTBurn;
         this.data.fee = NFTBurnTransaction.staticFee();
         this.data.asset = { nftBurn: {} };

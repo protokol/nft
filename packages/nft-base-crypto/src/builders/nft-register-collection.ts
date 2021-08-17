@@ -1,11 +1,13 @@
-import { NFTBaseTransactionTypes } from "../enums";
+import { AbstractNFTTransactionBuilder } from "../../../core-nft-crypto/src";
+import { NFTBaseTransactionGroup, NFTBaseTransactionTypes, NFTBaseTransactionVersion } from "../enums";
 import { NFTCollectionAsset } from "../interfaces";
 import { NFTRegisterCollectionTransaction } from "../transactions";
-import { NFTBaseTransactionBuilder } from "./nft-base-builder";
 
-export class NFTRegisterCollectionBuilder extends NFTBaseTransactionBuilder<NFTRegisterCollectionBuilder> {
+export class NFTRegisterCollectionBuilder extends AbstractNFTTransactionBuilder<NFTRegisterCollectionBuilder> {
     public constructor() {
         super();
+        this.data.version = NFTBaseTransactionVersion;
+        this.data.typeGroup = NFTBaseTransactionGroup;
         this.data.type = NFTBaseTransactionTypes.NFTRegisterCollection;
         this.data.fee = NFTRegisterCollectionTransaction.staticFee();
         this.data.asset = { nftCollection: {} };
