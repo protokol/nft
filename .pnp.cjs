@@ -23,6 +23,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:."
       },
       {
+        "name": "@protokol/core-nft-crypto",
+        "reference": "workspace:packages/core-nft-crypto"
+      },
+      {
         "name": "@protokol/nft-base-api",
         "reference": "workspace:packages/nft-base-api"
       },
@@ -54,6 +58,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     "enableTopLevelFallback": true,
     "ignorePatternData": "(^(?:\\.yarn\\/sdks(?:\\/(?!\\.{1,2}(?:\\/|$))(?:(?:(?!(?:^|\\/)\\.{1,2}(?:\\/|$)).)*?)|$))$)",
     "fallbackExclusionList": [
+      ["@protokol/core-nft-crypto", ["workspace:packages/core-nft-crypto"]],
       ["@protokol/nft-base-api", ["workspace:packages/nft-base-api"]],
       ["@protokol/nft-base-crypto", ["workspace:packages/nft-base-crypto"]],
       ["@protokol/nft-base-transactions", ["workspace:packages/nft-base-transactions"]],
@@ -2785,6 +2790,30 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@protobufjs/utf8", "npm:1.1.0"]
           ],
           "linkType": "HARD",
+        }]
+      ]],
+      ["@protokol/core-nft-crypto", [
+        ["workspace:packages/core-nft-crypto", {
+          "packageLocation": "./packages/core-nft-crypto/",
+          "packageDependencies": [
+            ["@protokol/core-nft-crypto", "workspace:packages/core-nft-crypto"],
+            ["@arkecosystem/core-test-framework", "npm:3.0.0-next.31"],
+            ["@arkecosystem/crypto", "npm:3.0.0-next.31"],
+            ["@sindresorhus/tsconfig", "npm:1.0.2"],
+            ["@types/jest", "npm:27.0.0"],
+            ["@types/node", "npm:14.17.6"],
+            ["@types/rimraf", "npm:3.0.1"],
+            ["codecov", "npm:3.8.3"],
+            ["cross-env", "npm:7.0.3"],
+            ["jest", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:27.0.6"],
+            ["jest-extended", "npm:0.11.5"],
+            ["rimraf", "npm:3.0.2"],
+            ["ts-jest", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:27.0.4"],
+            ["typedoc", "virtual:09c36f16545b653031f479df7f88dba4ee05ec58999e3c8e542a5a55eb1f814f99a2dc88bc42b48903429c02584894fce285eabed9dd3df912288a2bc585d601#npm:0.21.4"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"],
+            ["util", "npm:0.12.4"]
+          ],
+          "linkType": "SOFT",
         }]
       ]],
       ["@protokol/nft-base-api", [
@@ -11565,7 +11594,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["ngrok", [
         ["npm:3.4.1", {
-          "packageLocation": "./.yarn/cache/ngrok-npm-3.4.1-fed079aa1a-3d5bada2aa.zip/node_modules/ngrok/",
+          "packageLocation": "./.yarn/unplugged/ngrok-npm-3.4.1-fed079aa1a/node_modules/ngrok/",
           "packageDependencies": [
             ["ngrok", "npm:3.4.1"],
             ["@types/node", "npm:8.10.66"],
@@ -13088,7 +13117,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["protobufjs", [
         ["npm:6.10.2", {
-          "packageLocation": "./.yarn/cache/protobufjs-npm-6.10.2-f0f2cab7fe-b48257c905.zip/node_modules/protobufjs/",
+          "packageLocation": "./.yarn/unplugged/protobufjs-npm-6.10.2-f0f2cab7fe/node_modules/protobufjs/",
           "packageDependencies": [
             ["protobufjs", "npm:6.10.2"],
             ["@protobufjs/aspromise", "npm:1.1.2"],
