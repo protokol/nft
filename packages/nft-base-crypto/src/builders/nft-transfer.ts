@@ -1,11 +1,14 @@
-import { NFTBaseTransactionTypes } from "../enums";
+import { AbstractNFTTransactionBuilder } from "@protokol/core-nft-crypto";
+
+import { NFTBaseTransactionGroup, NFTBaseTransactionTypes, NFTBaseTransactionVersion } from "../enums";
 import { NFTTransferAsset } from "../interfaces";
 import { NFTTransferTransaction } from "../transactions";
-import { NFTBaseTransactionBuilder } from "./nft-base-builder";
 
-export class NFTTransferBuilder extends NFTBaseTransactionBuilder<NFTTransferBuilder> {
+export class NFTTransferBuilder extends AbstractNFTTransactionBuilder<NFTTransferBuilder> {
     public constructor() {
         super();
+        this.data.version = NFTBaseTransactionVersion;
+        this.data.typeGroup = NFTBaseTransactionGroup;
         this.data.type = NFTBaseTransactionTypes.NFTTransfer;
         this.data.fee = NFTTransferTransaction.staticFee();
         this.data.asset = { nftTransfer: {} };

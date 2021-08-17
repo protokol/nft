@@ -2,22 +2,18 @@ import "jest-extended";
 
 import { Managers, Transactions } from "@arkecosystem/crypto";
 
-import { NFTRegisterCollectionBuilder } from "../../../src/builders";
-import { defaults } from "../../../src/defaults";
-import { NFTRegisterCollectionTransaction } from "../../../src/transactions";
+import { Builders } from "../../../src";
+import { Defaults } from "../../../src";
+import { Transactions as NFTTransactions } from "../../../src";
 
 describe("NFT Register Collection tests", () => {
     describe("Verify tests", () => {
-        Managers.configManager.setFromPreset("testnet");
+        Managers.configManager.setFromPreset("testnet" as any);
         Managers.configManager.setHeight(2);
-        beforeEach(() => {
-            Transactions.TransactionRegistry.registerTransactionType(NFTRegisterCollectionTransaction);
-        });
-        afterEach(() => {
-            Transactions.TransactionRegistry.deregisterTransactionType(NFTRegisterCollectionTransaction);
-        });
+        Transactions.TransactionRegistry.registerTransactionType(NFTTransactions.NFTRegisterCollectionTransaction);
+
         it("should verify correctly", () => {
-            const actual = new NFTRegisterCollectionBuilder()
+            const actual = new Builders.NFTRegisterCollectionBuilder()
                 .NFTRegisterCollectionAsset({
                     name: "Heartstone card",
                     description: "A card from heartstone game",
@@ -39,7 +35,7 @@ describe("NFT Register Collection tests", () => {
         });
 
         it("should verify correctly when Asset method is not on top", () => {
-            const actual = new NFTRegisterCollectionBuilder()
+            const actual = new Builders.NFTRegisterCollectionBuilder()
                 .nonce("3")
                 .NFTRegisterCollectionAsset({
                     name: "Heartstone card",
@@ -61,11 +57,13 @@ describe("NFT Register Collection tests", () => {
         });
 
         it("should not verify correctly, because byte size is to big", () => {
-            Transactions.TransactionRegistry.deregisterTransactionType(NFTRegisterCollectionTransaction);
-            defaults.nftCollectionJsonSchemaByteSize = 1;
-            Transactions.TransactionRegistry.registerTransactionType(NFTRegisterCollectionTransaction);
+            Transactions.TransactionRegistry.deregisterTransactionType(
+                NFTTransactions.NFTRegisterCollectionTransaction,
+            );
+            Defaults.defaults.nftCollectionJsonSchemaByteSize = 1;
+            Transactions.TransactionRegistry.registerTransactionType(NFTTransactions.NFTRegisterCollectionTransaction);
 
-            const actual = new NFTRegisterCollectionBuilder()
+            const actual = new Builders.NFTRegisterCollectionBuilder()
                 .NFTRegisterCollectionAsset({
                     name: "Heartstone card",
                     description: "A card from heartstone game",
@@ -88,12 +86,13 @@ describe("NFT Register Collection tests", () => {
         });
 
         it("should verify correctly with allowedSchemaIssuers", () => {
-            defaults.nftCollectionJsonSchemaByteSize = 100000;
+            Transactions.TransactionRegistry.deregisterTransactionType(
+                NFTTransactions.NFTRegisterCollectionTransaction,
+            );
+            Defaults.defaults.nftCollectionJsonSchemaByteSize = 100000;
+            Transactions.TransactionRegistry.registerTransactionType(NFTTransactions.NFTRegisterCollectionTransaction);
 
-            Transactions.TransactionRegistry.deregisterTransactionType(NFTRegisterCollectionTransaction);
-            Transactions.TransactionRegistry.registerTransactionType(NFTRegisterCollectionTransaction);
-
-            const actual = new NFTRegisterCollectionBuilder()
+            const actual = new Builders.NFTRegisterCollectionBuilder()
                 .NFTRegisterCollectionAsset({
                     name: "Heartstone card",
                     description: "A card from heartstone game",
@@ -119,7 +118,7 @@ describe("NFT Register Collection tests", () => {
         });
 
         it("object should remain the same if asset is undefined", () => {
-            const actual = new NFTRegisterCollectionBuilder();
+            const actual = new Builders.NFTRegisterCollectionBuilder();
             actual.data.asset = undefined;
 
             const result = actual.NFTRegisterCollectionAsset({

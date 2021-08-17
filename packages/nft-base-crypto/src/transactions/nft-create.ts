@@ -1,4 +1,5 @@
-import { Identities, Transactions, Utils } from "@arkecosystem/crypto";
+import { Identities, Utils } from "@arkecosystem/crypto";
+import { AbstractNFTTransaction } from "@protokol/core-nft-crypto";
 import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 
@@ -10,11 +11,8 @@ import {
     NFTBaseTransactionVersion,
 } from "../enums";
 import { NFTTokenAsset } from "../interfaces";
-import { amount, vendorField } from "./utils/schemas";
 
-const { schemas } = Transactions;
-
-export class NFTCreateTransaction extends Transactions.Transaction {
+export class NFTCreateTransaction extends AbstractNFTTransaction {
     public static typeGroup: number = NFTBaseTransactionGroup;
     public static type = NFTBaseTransactionTypes.NFTCreate;
     public static key = "NFTCreate";
@@ -22,39 +20,29 @@ export class NFTCreateTransaction extends Transactions.Transaction {
 
     protected static defaultStaticFee = Utils.BigNumber.make(NFTBaseStaticFees.NFTCreate);
 
-    public static getSchema(): Transactions.schemas.TransactionSchema {
-        return schemas.extend(schemas.transactionBaseSchema, {
-            $id: "NFTCreate",
-            required: ["asset", "typeGroup"],
+    public static getAssetSchema(): Record<string, any> {
+        return {
+            type: "object",
+            required: ["nftToken"],
             properties: {
-                type: { transactionType: NFTBaseTransactionTypes.NFTCreate },
-                typeGroup: { const: NFTBaseTransactionGroup },
-                amount,
-                vendorField,
-                asset: {
+                nftToken: {
                     type: "object",
-                    required: ["nftToken"],
+                    required: ["collectionId", "attributes"],
                     properties: {
-                        nftToken: {
+                        collectionId: {
+                            $ref: "transactionId",
+                        },
+                        attributes: {
                             type: "object",
-                            required: ["collectionId", "attributes"],
-                            properties: {
-                                collectionId: {
-                                    $ref: "transactionId",
-                                },
-                                attributes: {
-                                    type: "object",
-                                    tokenAttributesByteSize: defaults.nftTokenAttributesByteSize,
-                                },
-                                recipientId: {
-                                    $ref: "address",
-                                },
-                            },
+                            tokenAttributesByteSize: defaults.nftTokenAttributesByteSize,
+                        },
+                        recipientId: {
+                            $ref: "address",
                         },
                     },
                 },
             },
-        });
+        };
     }
 
     public serialize(): ByteBuffer {

@@ -3,17 +3,17 @@ import "jest-extended";
 import { passphrases } from "@arkecosystem/core-test-framework";
 import { Identities, Managers, Transactions } from "@arkecosystem/crypto";
 
-import { NFTTransferBuilder } from "../../../src/builders";
-import { NFTTransferTransaction } from "../../../src/transactions";
+import { Builders } from "../../../src";
+import { Transactions as NFTTransactions } from "../../../src";
 
 describe("NFT Transfer tests", () => {
     describe("Verify tests", () => {
-        Managers.configManager.setFromPreset("testnet");
+        Managers.configManager.setFromPreset("testnet" as any);
         Managers.configManager.setHeight(2);
-        Transactions.TransactionRegistry.registerTransactionType(NFTTransferTransaction);
+        Transactions.TransactionRegistry.registerTransactionType(NFTTransactions.NFTTransferTransaction);
 
         it("should verify correctly", () => {
-            const actual = new NFTTransferBuilder()
+            const actual = new Builders.NFTTransferBuilder()
                 .NFTTransferAsset({
                     nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
                     recipientId: Identities.Address.fromPassphrase(passphrases[1]!),
@@ -26,7 +26,7 @@ describe("NFT Transfer tests", () => {
         });
 
         it("should verify correctly when Asset method is not on top", () => {
-            const actual = new NFTTransferBuilder()
+            const actual = new Builders.NFTTransferBuilder()
                 .nonce("5")
                 .NFTTransferAsset({
                     nftIds: ["dfa8cbc8bba806348ebf112a4a01583ab869cccf72b72f7f3d28af9ff902d06d"],
@@ -39,7 +39,7 @@ describe("NFT Transfer tests", () => {
         });
 
         it("object should remain the same if asset is undefined", () => {
-            const actual = new NFTTransferBuilder();
+            const actual = new Builders.NFTTransferBuilder();
             actual.data.asset = undefined;
 
             const result = actual.NFTTransferAsset({

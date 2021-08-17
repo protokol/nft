@@ -2,17 +2,17 @@ import "jest-extended";
 
 import { Managers, Transactions } from "@arkecosystem/crypto";
 
-import { NFTBurnBuilder } from "../../../src/builders";
-import { NFTBurnTransaction } from "../../../src/transactions";
+import { Builders } from "../../../src";
+import { Transactions as NFTTransactions } from "../../../src";
 
 describe("NFT Burn tests", () => {
     describe("Verify tests", () => {
-        Managers.configManager.setFromPreset("testnet");
+        Managers.configManager.setFromPreset("testnet" as any);
         Managers.configManager.setHeight(2);
-        Transactions.TransactionRegistry.registerTransactionType(NFTBurnTransaction);
+        Transactions.TransactionRegistry.registerTransactionType(NFTTransactions.NFTBurnTransaction);
 
         it("should verify correctly", () => {
-            const actual = new NFTBurnBuilder()
+            const actual = new Builders.NFTBurnBuilder()
                 .NFTBurnAsset({
                     nftId: "5fe521beb05636fbe16d2eb628d835e6eb635070de98c3980c9ea9ea4496061a",
                 })
@@ -25,7 +25,7 @@ describe("NFT Burn tests", () => {
         });
 
         it("should verify correctly when Asset method is not on top", () => {
-            const actual = new NFTBurnBuilder()
+            const actual = new Builders.NFTBurnBuilder()
                 .vendorField("nft-burn transaction")
                 .nonce("4")
                 .NFTBurnAsset({
@@ -38,7 +38,7 @@ describe("NFT Burn tests", () => {
         });
 
         it("object should remain the same if asset is undefined", () => {
-            const actual = new NFTBurnBuilder();
+            const actual = new Builders.NFTBurnBuilder();
             actual.data.asset = undefined;
 
             const result = actual.NFTBurnAsset({

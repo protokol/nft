@@ -1,4 +1,5 @@
-import { Identities, Transactions, Utils } from "@arkecosystem/crypto";
+import { Identities, Utils } from "@arkecosystem/crypto";
+import { AbstractNFTTransaction } from "@protokol/core-nft-crypto";
 import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 
@@ -10,11 +11,8 @@ import {
     NFTBaseTransactionVersion,
 } from "../enums";
 import { NFTTransferAsset } from "../interfaces";
-import { amount, vendorField } from "./utils/schemas";
 
-const { schemas } = Transactions;
-
-export class NFTTransferTransaction extends Transactions.Transaction {
+export class NFTTransferTransaction extends AbstractNFTTransaction {
     public static typeGroup: number = NFTBaseTransactionGroup;
     public static type: number = NFTBaseTransactionTypes.NFTTransfer;
     public static key = "NFTTransfer";
@@ -22,41 +20,31 @@ export class NFTTransferTransaction extends Transactions.Transaction {
 
     protected static defaultStaticFee = Utils.BigNumber.make(NFTBaseStaticFees.NFTTransfer);
 
-    public static getSchema(): Transactions.schemas.TransactionSchema {
-        return schemas.extend(schemas.transactionBaseSchema, {
-            $id: "NFTTransfer",
-            required: ["typeGroup", "asset"],
+    public static getAssetSchema(): Record<string, any> {
+        return {
+            type: "object",
+            required: ["nftTransfer"],
             properties: {
-                type: { transactionType: NFTBaseTransactionTypes.NFTTransfer },
-                typeGroup: { const: NFTBaseTransactionGroup },
-                amount,
-                vendorField,
-                asset: {
+                nftTransfer: {
                     type: "object",
-                    required: ["nftTransfer"],
+                    required: ["nftIds", "recipientId"],
                     properties: {
-                        nftTransfer: {
-                            type: "object",
-                            required: ["nftIds", "recipientId"],
-                            properties: {
-                                nftIds: {
-                                    type: "array",
-                                    minItems: defaults.nftTransfer.minItems,
-                                    maxItems: defaults.nftTransfer.maxItems,
-                                    uniqueItems: true,
-                                    items: {
-                                        $ref: "transactionId",
-                                    },
-                                },
-                                recipientId: {
-                                    $ref: "address",
-                                },
+                        nftIds: {
+                            type: "array",
+                            minItems: defaults.nftTransfer.minItems,
+                            maxItems: defaults.nftTransfer.maxItems,
+                            uniqueItems: true,
+                            items: {
+                                $ref: "transactionId",
                             },
+                        },
+                        recipientId: {
+                            $ref: "address",
                         },
                     },
                 },
             },
-        });
+        };
     }
     public serialize(): ByteBuffer {
         const { data } = this;
