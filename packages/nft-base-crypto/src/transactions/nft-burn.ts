@@ -1,4 +1,5 @@
-import { Transactions, Utils } from "@arkecosystem/crypto";
+import { Utils } from "@arkecosystem/crypto";
+import { AbstractNFTTransaction } from "@protokol/core-nft-crypto";
 import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 
@@ -9,11 +10,8 @@ import {
     NFTBaseTransactionVersion,
 } from "../enums";
 import { NFTBurnAsset } from "../interfaces";
-import { amount, vendorField } from "./utils/schemas";
 
-const { schemas } = Transactions;
-
-export class NFTBurnTransaction extends Transactions.Transaction {
+export class NFTBurnTransaction extends AbstractNFTTransaction {
     public static typeGroup: number = NFTBaseTransactionGroup;
     public static type = NFTBaseTransactionTypes.NFTBurn;
     public static key = "NFTBurn";
@@ -21,32 +19,22 @@ export class NFTBurnTransaction extends Transactions.Transaction {
 
     protected static defaultStaticFee = Utils.BigNumber.make(NFTBaseStaticFees.NFTBurn);
 
-    public static getSchema(): Transactions.schemas.TransactionSchema {
-        return schemas.extend(schemas.transactionBaseSchema, {
-            $id: "NFTBurn",
-            required: ["asset", "typeGroup"],
+    public static getAssetSchema(): Record<string, any> {
+        return {
+            type: "object",
+            required: ["nftBurn"],
             properties: {
-                type: { transactionType: NFTBaseTransactionTypes.NFTBurn },
-                typeGroup: { const: NFTBaseTransactionGroup },
-                amount,
-                vendorField,
-                asset: {
+                nftBurn: {
                     type: "object",
-                    required: ["nftBurn"],
+                    required: ["nftId"],
                     properties: {
-                        nftBurn: {
-                            type: "object",
-                            required: ["nftId"],
-                            properties: {
-                                nftId: {
-                                    $ref: "transactionId",
-                                },
-                            },
+                        nftId: {
+                            $ref: "transactionId",
                         },
                     },
                 },
             },
-        });
+        };
     }
 
     public serialize(): ByteBuffer {

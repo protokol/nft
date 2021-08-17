@@ -2,6 +2,7 @@ import { Transactions, Utils } from "@arkecosystem/crypto";
 import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 
+import { AbstractNFTTransaction } from "../../../core-nft-crypto";
 import { defaults } from "../defaults";
 import {
     NFTBaseStaticFees,
@@ -14,7 +15,7 @@ import { amount, stringPattern, vendorField } from "./utils/schemas";
 
 const { schemas } = Transactions;
 
-export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
+export class NFTRegisterCollectionTransaction extends AbstractNFTTransaction {
     public static typeGroup: number = NFTBaseTransactionGroup;
     public static type = NFTBaseTransactionTypes.NFTRegisterCollection;
     public static key = "NFTRegisterCollection";
@@ -22,68 +23,58 @@ export class NFTRegisterCollectionTransaction extends Transactions.Transaction {
 
     protected static defaultStaticFee = Utils.BigNumber.make(NFTBaseStaticFees.NFTRegisterCollection);
 
-    public static getSchema(): Transactions.schemas.TransactionSchema {
-        return schemas.extend(schemas.transactionBaseSchema, {
-            $id: "NFTRegisterCollection",
-            required: ["asset", "typeGroup"],
+    public static getAssetSchema(): Record<string, any> {
+        return {
+            type: "object",
+            required: ["nftCollection"],
             properties: {
-                type: { transactionType: NFTBaseTransactionTypes.NFTRegisterCollection },
-                typeGroup: { const: NFTBaseTransactionGroup },
-                amount,
-                vendorField,
-                asset: {
+                nftCollection: {
                     type: "object",
-                    required: ["nftCollection"],
+                    required: ["name", "description", "maximumSupply", "jsonSchema"],
                     properties: {
-                        nftCollection: {
+                        name: {
+                            allOf: [
+                                stringPattern,
+                                {
+                                    minLength: defaults.nftCollectionName.minLength,
+                                    maxLength: defaults.nftCollectionName.maxLength,
+                                },
+                            ],
+                        },
+                        description: {
+                            allOf: [
+                                stringPattern,
+                                {
+                                    minLength: defaults.nftCollectionDescription.minLength,
+                                    maxLength: defaults.nftCollectionDescription.maxLength,
+                                },
+                            ],
+                        },
+                        maximumSupply: {
+                            type: "integer",
+                            minimum: 1,
+                        },
+                        jsonSchema: {
                             type: "object",
-                            required: ["name", "description", "maximumSupply", "jsonSchema"],
-                            properties: {
-                                name: {
-                                    allOf: [
-                                        stringPattern,
-                                        {
-                                            minLength: defaults.nftCollectionName.minLength,
-                                            maxLength: defaults.nftCollectionName.maxLength,
-                                        },
-                                    ],
-                                },
-                                description: {
-                                    allOf: [
-                                        stringPattern,
-                                        {
-                                            minLength: defaults.nftCollectionDescription.minLength,
-                                            maxLength: defaults.nftCollectionDescription.maxLength,
-                                        },
-                                    ],
-                                },
-                                maximumSupply: {
-                                    type: "integer",
-                                    minimum: 1,
-                                },
-                                jsonSchema: {
-                                    type: "object",
-                                    collectionJsonSchemaByteSize: defaults.nftCollectionJsonSchemaByteSize,
-                                },
-                                metadata: {
-                                    type: "object",
-                                    tokenAttributesByteSize: defaults.nftTokenAttributesByteSize,
-                                },
-                                allowedIssuers: {
-                                    type: "array",
-                                    minItems: defaults.nftCollectionAllowedIssuers.minItems,
-                                    maxItems: defaults.nftCollectionAllowedIssuers.maxItems,
-                                    uniqueItems: true,
-                                    items: {
-                                        $ref: "publicKey",
-                                    },
-                                },
+                            collectionJsonSchemaByteSize: defaults.nftCollectionJsonSchemaByteSize,
+                        },
+                        metadata: {
+                            type: "object",
+                            tokenAttributesByteSize: defaults.nftTokenAttributesByteSize,
+                        },
+                        allowedIssuers: {
+                            type: "array",
+                            minItems: defaults.nftCollectionAllowedIssuers.minItems,
+                            maxItems: defaults.nftCollectionAllowedIssuers.maxItems,
+                            uniqueItems: true,
+                            items: {
+                                $ref: "publicKey",
                             },
                         },
                     },
                 },
             },
-        });
+        };
     }
 
     public serialize(): ByteBuffer {
