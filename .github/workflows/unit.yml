@@ -28,6 +28,15 @@ jobs:
             - name: Install And Build
               run: yarn && yarn build
 
+            - name: CORE-NFT-CRYPTO
+              run: cd packages/core-nft-crypto && yarn test:unit:coverage --maxWorkers=2
+
+            - uses: codecov/codecov-action@v2
+              with:
+                directory: packages/core-nft-crypto/.coverage
+                flags: core-nft-crypto
+                verbose: true
+
             - name: BASE-CRYPTO
               run: cd packages/nft-base-crypto && yarn test:unit:coverage --maxWorkers=2
 
