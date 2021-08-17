@@ -12,7 +12,7 @@ const asset = {
 };
 
 describe("NFT Create tests", () => {
-    Managers.configManager.setFromPreset("testnet");
+    Managers.configManager.setFromPreset("testnet" as any);
     Managers.configManager.setHeight(2);
 
     Transactions.TransactionRegistry.registerTransactionType(NFTCreateTransaction);
@@ -24,7 +24,7 @@ describe("NFT Create tests", () => {
             const serialized = Transactions.TransactionFactory.fromData(actual).serialized.toString("hex");
             const deserialized = Transactions.Deserializer.deserialize(serialized);
 
-            expect(deserialized.data.asset!.nftToken).toStrictEqual(asset);
+            expect(deserialized.data.asset?.nftToken).toStrictEqual(asset);
         });
 
         it("should ser/deser correctly with optional recipientId", () => {
@@ -38,7 +38,7 @@ describe("NFT Create tests", () => {
             const serialized = Transactions.TransactionFactory.fromData(actual).serialized.toString("hex");
             const deserialized = Transactions.Deserializer.deserialize(serialized);
 
-            expect(deserialized.data.asset!.nftToken).toStrictEqual(assetWithRecipient);
+            expect(deserialized.data.asset?.nftToken).toStrictEqual(assetWithRecipient);
         });
 
         it("should throw if asset is undefined", () => {

@@ -7,7 +7,7 @@ import { NFTRegisterCollectionBuilder } from "../../../src/builders";
 import { NFTRegisterCollectionTransaction } from "../../../src/transactions";
 
 describe("NFT register collection tests", () => {
-    Managers.configManager.setFromPreset("testnet");
+    Managers.configManager.setFromPreset("testnet" as any);
     Managers.configManager.setHeight(2);
 
     Transactions.TransactionRegistry.registerTransactionType(NFTRegisterCollectionTransaction);
@@ -20,10 +20,10 @@ describe("NFT register collection tests", () => {
                 .sign("clay harbor enemy utility margin pretty hub comic piece aerobic umbrella acquire")
                 .getStruct();
 
-            const serialized = Transactions.TransactionFactory.fromData(actual).serialized.toString("hex");
+            const serialized = Transactions.TransactionFactory.fromData(actual as any).serialized.toString("hex");
             const deserialized = Transactions.Deserializer.deserialize(serialized);
 
-            expect(deserialized.data.asset!.nftCollection).toStrictEqual(Marvel.collection);
+            expect(deserialized.data.asset?.nftCollection).toStrictEqual(Marvel.collection);
         });
 
         it("should ser/deser correctly with metadata", () => {
@@ -40,10 +40,10 @@ describe("NFT register collection tests", () => {
                 .sign("clay harbor enemy utility margin pretty hub comic piece aerobic umbrella acquire")
                 .getStruct();
 
-            const serialized = Transactions.TransactionFactory.fromData(actual).serialized.toString("hex");
+            const serialized = Transactions.TransactionFactory.fromData(actual as any).serialized.toString("hex");
             const deserialized = Transactions.Deserializer.deserialize(serialized);
 
-            expect(deserialized.data.asset!.nftCollection).toStrictEqual(collectionWithMetadata);
+            expect(deserialized.data.asset?.nftCollection).toStrictEqual(collectionWithMetadata);
         });
 
         it("should throw if asset is undefined", () => {

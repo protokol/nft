@@ -6,7 +6,7 @@ import { NFTTransferBuilder } from "../../../src/builders";
 import { NFTTransferTransaction } from "../../../src/transactions";
 
 describe("Transfer NFTs test", () => {
-    Managers.configManager.setFromPreset("testnet");
+    Managers.configManager.setFromPreset("testnet" as any);
     Managers.configManager.setHeight(2);
 
     Transactions.TransactionRegistry.registerTransactionType(NFTTransferTransaction);
@@ -23,11 +23,10 @@ describe("Transfer NFTs test", () => {
                 .sign("passphrase")
                 .getStruct();
 
-            const serialized = Transactions.TransactionFactory.fromData(actual).serialized.toString("hex");
+            const serialized = Transactions.TransactionFactory.fromData(actual as any).serialized.toString("hex");
             const deserialized = Transactions.Deserializer.deserialize(serialized);
 
-            // @ts-ignore
-            expect(deserialized.data.asset.nftTransfer).toStrictEqual({
+            expect(deserialized.data.asset?.nftTransfer).toStrictEqual({
                 nftIds: ["8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61"],
                 recipientId: "AXoXnFi4z1Z6aFvjEYkDVCtBGW2PaRiM25",
             });

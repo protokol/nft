@@ -1,4 +1,4 @@
-import { AbstractNFTTransactionBuilder } from "@protokol/core-nft-crypto/src";
+import { AbstractNFTTransactionBuilder } from "@protokol/core-nft-crypto";
 
 import { NFTBaseTransactionGroup, NFTBaseTransactionTypes, NFTBaseTransactionVersion } from "../enums";
 import { NFTTokenAsset } from "../interfaces";
