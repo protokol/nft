@@ -26,7 +26,7 @@ export abstract class NFTExchangeTransactionHandler extends Handlers.Transaction
         };
     }
 
-    public dynamicFee({
+    public override dynamicFee({
         addonBytes,
         satoshiPerByte,
         transaction,
@@ -44,7 +44,7 @@ export abstract class NFTExchangeTransactionHandler extends Handlers.Transaction
         return super.dynamicFee({ addonBytes, satoshiPerByte, transaction, height });
     }
 
-    public async throwIfCannotBeApplied(
+    public override async throwIfCannotBeApplied(
         transaction: Interfaces.ITransaction,
         wallet: Contracts.State.Wallet,
     ): Promise<void> {

@@ -25,7 +25,7 @@ export class ServiceProvider extends Providers.ServiceProvider {
 		}
 	}
 
-	public async dispose(): Promise<void> {
+	public override async dispose(): Promise<void> {
 		await this.app.get<DatabaseService>(ApiIdentifiers.DatabaseService).disconnect();
 	}
 }

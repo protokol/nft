@@ -8,7 +8,7 @@ export abstract class AbstractNFTTransactionBuilder<
 		this.data.amount = Utils.BigNumber.ZERO;
 	}
 
-	public getStruct(): Interfaces.ITransactionData {
+	public override getStruct(): Interfaces.ITransactionData {
 		const struct: Interfaces.ITransactionData = super.getStruct();
 		struct.amount = this.data.amount;
 		struct.asset = this.data.asset;

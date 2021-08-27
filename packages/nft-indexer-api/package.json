@@ -65,7 +65,7 @@
 		"@arkecosystem/core-test-framework": "^3.0.0-next",
 		"@arkecosystem/core-transaction-pool": "^3.0.0-next",
 		"@arkecosystem/core-transactions": "^3.0.0-next",
-		"@sindresorhus/tsconfig": "^1.0.0",
+		"@sindresorhus/tsconfig": "^2.0.0",
 		"@types/eslint": "^7.2.5",
 		"@types/eslint-plugin-prettier": "^3.1.0",
 		"@types/hapi__boom": "^7.4.1",
@@ -91,7 +91,7 @@
 		"rimraf": "^3.0.2",
 		"ts-jest": "~27.0.1",
 		"typedoc": "~0.20.0",
-		"typescript": "~4.2.3"
+		"typescript": "~4.3.2"
 	},
 	"engines": {
 		"node": ">=10.x"

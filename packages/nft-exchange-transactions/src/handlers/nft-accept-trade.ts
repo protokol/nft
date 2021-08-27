@@ -99,14 +99,14 @@ export class NFTAcceptTradeHandler extends NFTExchangeTransactionHandler {
         }
     }
 
-    public async emitEvents(
+    public override async emitEvents(
         transaction: Interfaces.ITransaction,
         emitter: Contracts.Kernel.EventDispatcher,
     ): Promise<void> {
         await emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTAcceptTrade, transaction.data);
     }
 
-    public async throwIfCannotBeApplied(
+    public override async throwIfCannotBeApplied(
         transaction: Interfaces.ITransaction,
         sender: Contracts.State.Wallet,
     ): Promise<void> {
@@ -147,7 +147,7 @@ export class NFTAcceptTradeHandler extends NFTExchangeTransactionHandler {
         return super.throwIfCannotBeApplied(transaction, sender);
     }
 
-    public async throwIfCannotEnterPool(transaction: Interfaces.ITransaction): Promise<void> {
+    public override async throwIfCannotEnterPool(transaction: Interfaces.ITransaction): Promise<void> {
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
 
         const auctionId: string = transaction.data.asset!.nftAcceptTrade.auctionId;
@@ -167,7 +167,7 @@ export class NFTAcceptTradeHandler extends NFTExchangeTransactionHandler {
         }
     }
 
-    public async apply(transaction: Interfaces.ITransaction): Promise<void> {
+    public override async apply(transaction: Interfaces.ITransaction): Promise<void> {
         await super.apply(transaction);
         // Line is already checked inside throwIfCannotBeApplied run by super.apply method
         //AppUtils.assert.defined<NFTInterfaces.NFTAcceptTradeAsset>(transaction.data.asset?.nftAcceptTrade);
@@ -226,7 +226,7 @@ export class NFTAcceptTradeHandler extends NFTExchangeTransactionHandler {
         this.walletRepository.forgetOnIndex(NFTExchangeIndexers.AuctionIndexer, auctionTransaction.id);
     }
 
-    public async revert(transaction: Interfaces.ITransaction): Promise<void> {
+    public override async revert(transaction: Interfaces.ITransaction): Promise<void> {
         await super.revert(transaction);
         AppUtils.assert.defined<NFTInterfaces.NFTAcceptTradeAsset>(transaction.data.asset?.nftAcceptTrade);
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);

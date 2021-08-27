@@ -65,7 +65,7 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
         }
     }
 
-    public async emitEvents(
+    public override async emitEvents(
         transaction: Interfaces.ITransaction,
         emitter: Contracts.Kernel.EventDispatcher,
     ): Promise<void> {
@@ -75,7 +75,7 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
         });
     }
 
-    public async throwIfCannotBeApplied(
+    public override async throwIfCannotBeApplied(
         transaction: Interfaces.ITransaction,
         sender: Contracts.State.Wallet,
     ): Promise<void> {
@@ -105,7 +105,7 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
         return super.throwIfCannotBeApplied(transaction, sender);
     }
 
-    public async throwIfCannotEnterPool(transaction: Interfaces.ITransaction): Promise<void> {
+    public override async throwIfCannotEnterPool(transaction: Interfaces.ITransaction): Promise<void> {
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
 
         const nftIds: string = transaction.data.asset!.nftTransfer.nftIds;
@@ -130,7 +130,7 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
         }
     }
 
-    public async applyToSender(transaction: Interfaces.ITransaction): Promise<void> {
+    public override async applyToSender(transaction: Interfaces.ITransaction): Promise<void> {
         await super.applyToSender(transaction);
 
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
@@ -149,7 +149,7 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
         senderWallet.setAttribute<INFTTokens>("nft.base.tokenIds", senderTokensWallet);
     }
 
-    public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
+    public override async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
         await super.revertForSender(transaction);
 
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
@@ -167,7 +167,7 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
         senderWallet.setAttribute<INFTTokens>("nft.base.tokenIds", senderTokensWallet);
     }
 
-    public async applyToRecipient(transaction: Interfaces.ITransaction): Promise<void> {
+    public override async applyToRecipient(transaction: Interfaces.ITransaction): Promise<void> {
         AppUtils.assert.defined<NFTInterfaces.NFTTransferAsset>(transaction.data.asset?.nftTransfer);
 
         const nftTransferAsset: NFTInterfaces.NFTTransferAsset = transaction.data.asset.nftTransfer;
@@ -182,7 +182,7 @@ export class NFTTransferHandler extends NFTBaseTransactionHandler {
         recipientWallet.setAttribute<INFTTokens>("nft.base.tokenIds", recipientTokensWallet);
     }
 
-    public async revertForRecipient(transaction: Interfaces.ITransaction): Promise<void> {
+    public override async revertForRecipient(transaction: Interfaces.ITransaction): Promise<void> {
         AppUtils.assert.defined<NFTInterfaces.NFTTransferAsset>(transaction.data.asset?.nftTransfer);
 
         const nftTransferAsset: NFTInterfaces.NFTTransferAsset = transaction.data.asset.nftTransfer;

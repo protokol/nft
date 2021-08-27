@@ -57,14 +57,14 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
         }
     }
 
-    public async emitEvents(
+    public override async emitEvents(
         transaction: Interfaces.ITransaction,
         emitter: Contracts.Kernel.EventDispatcher,
     ): Promise<void> {
         await emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTAuction, transaction.data);
     }
 
-    public async throwIfCannotBeApplied(
+    public override async throwIfCannotBeApplied(
         transaction: Interfaces.ITransaction,
         sender: Contracts.State.Wallet,
     ): Promise<void> {
@@ -102,7 +102,7 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
         return super.throwIfCannotBeApplied(transaction, sender);
     }
 
-    public async throwIfCannotEnterPool(transaction: Interfaces.ITransaction): Promise<void> {
+    public override async throwIfCannotEnterPool(transaction: Interfaces.ITransaction): Promise<void> {
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
 
         const nftIds: string = transaction.data.asset!.nftAuction.nftIds;
@@ -127,7 +127,7 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
         }
     }
 
-    public async applyToSender(transaction: Interfaces.ITransaction): Promise<void> {
+    public override async applyToSender(transaction: Interfaces.ITransaction): Promise<void> {
         await super.applyToSender(transaction);
 
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
@@ -148,7 +148,7 @@ export class NFTAuctionHandler extends NFTExchangeTransactionHandler {
         this.walletRepository.setOnIndex(NFTExchangeIndexers.AuctionIndexer, transaction.data.id, sender);
     }
 
-    public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
+    public override async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
         await super.revertForSender(transaction);
 
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);

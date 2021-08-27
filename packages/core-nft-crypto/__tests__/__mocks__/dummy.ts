@@ -4,14 +4,14 @@ import ByteBuffer from "bytebuffer";
 import { AbstractNFTTransaction, AbstractNFTTransactionBuilder } from "../../src";
 
 export class DummyNFTTrx extends AbstractNFTTransaction {
-	static type = 1;
-	static typeGroup = 10000;
-	static version = 2;
-	static key = "Dummy";
+	static override type = 1;
+	static override typeGroup = 10000;
+	static override version = 2;
+	static override key = "Dummy";
 
-	static defaultStaticFee = Utils.BigNumber.make(200000);
+	static override defaultStaticFee = Utils.BigNumber.make(200000);
 
-	public static getAssetSchema(): Record<string, any> {
+	public static override getAssetSchema(): Record<string, any> {
 		return {};
 	}
 
@@ -43,12 +43,12 @@ export class DummyNFTBuilder extends AbstractNFTTransactionBuilder<DummyNFTBuild
 }
 
 export class DummyNFTTrx2 extends AbstractNFTTransaction {
-	static type = 2;
-	static typeGroup = 10000;
-	static version = 2;
-	static key = "Dummy2";
+	static override type = 2;
+	static override typeGroup = 10000;
+	static override version = 2;
+	static override key = "Dummy2";
 
-	static defaultStaticFee = Utils.BigNumber.make(200000);
+	static override defaultStaticFee = Utils.BigNumber.make(200000);
 
 	public serialize(): ByteBuffer {
 		return new ByteBuffer(0);

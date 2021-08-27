@@ -69,14 +69,14 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
         }
     }
 
-    public async emitEvents(
+    public override async emitEvents(
         transaction: Interfaces.ITransaction,
         emitter: Contracts.Kernel.EventDispatcher,
     ): Promise<void> {
         await emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTBid, transaction.data);
     }
 
-    public async throwIfCannotBeApplied(
+    public override async throwIfCannotBeApplied(
         transaction: Interfaces.ITransaction,
         sender: Contracts.State.Wallet,
     ): Promise<void> {
@@ -117,7 +117,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
         return super.throwIfCannotBeApplied(transaction, sender);
     }
 
-    public async applyToSender(transaction: Interfaces.ITransaction): Promise<void> {
+    public override async applyToSender(transaction: Interfaces.ITransaction): Promise<void> {
         await super.applyToSender(transaction);
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
         // Line is already checked inside throwIfCannotBeApplied run by super.applyToSender method
@@ -143,7 +143,7 @@ export class NFTBidHandler extends NFTExchangeTransactionHandler {
         this.walletRepository.setOnIndex(NFTExchangeIndexers.BidIndexer, transaction.data.id, auctionWallet);
     }
 
-    public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
+    public override async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
         await super.revertForSender(transaction);
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
         AppUtils.assert.defined<NFTInterfaces.NFTBidAsset>(transaction.data.asset?.nftBid);

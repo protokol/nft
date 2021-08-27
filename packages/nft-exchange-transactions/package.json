@@ -54,7 +54,7 @@
         "@arkecosystem/core-kernel": "^3.0.0-next",
         "@arkecosystem/core-test-framework": "^3.0.0-next",
         "@arkecosystem/core-transaction-pool": "^3.0.0-next",
-        "@sindresorhus/tsconfig": "~1.0.0",
+        "@sindresorhus/tsconfig": "~2.0.0",
         "@types/eslint": "^7.2.5",
         "@types/eslint-plugin-prettier": "^3.1.0",
         "@types/hapi__joi": "17.1.7",

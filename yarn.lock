@@ -2193,7 +2193,7 @@ __metadata:
   dependencies:
     "@arkecosystem/core-test-framework": ^3.0.0-next
     "@arkecosystem/crypto": ^3.0.0-next
-    "@sindresorhus/tsconfig": ~1.0.0
+    "@sindresorhus/tsconfig": ~2.0.0
     "@types/jest": ~27.0.0
     "@types/node": ^14.14.39
     "@types/rimraf": ^3.0.0
@@ -2226,7 +2226,7 @@ __metadata:
     "@hapi/hapi": ^20.0.2
     "@protokol/nft-base-crypto": "workspace:packages/nft-base-crypto"
     "@protokol/nft-base-transactions": "workspace:packages/nft-base-transactions"
-    "@sindresorhus/tsconfig": ^1.0.0
+    "@sindresorhus/tsconfig": ^2.0.0
     "@types/eslint": ^7.2.5
     "@types/eslint-plugin-prettier": ^3.1.0
     "@types/hapi__boom": ^7.4.1
@@ -2267,7 +2267,7 @@ __metadata:
     "@protokol/core-nft-crypto": "workspace:packages/core-nft-crypto"
     "@protokol/sets": ^1.0.0-beta.0
     "@protokol/utils": ^1.0.0-beta.38
-    "@sindresorhus/tsconfig": ~1.0.0
+    "@sindresorhus/tsconfig": ~2.0.0
     "@types/jest": ~27.0.0
     "@types/node": ^14.14.39
     "@types/rimraf": ^3.0.0
@@ -2297,7 +2297,7 @@ __metadata:
     "@arkecosystem/crypto": ^3.0.0-next
     "@protokol/nft-base-crypto": "workspace:packages/nft-base-crypto"
     "@protokol/sets": ^1.0.0-beta.0
-    "@sindresorhus/tsconfig": ~1.0.0
+    "@sindresorhus/tsconfig": ~2.0.0
     "@types/eslint": ^7.2.5
     "@types/eslint-plugin-prettier": ^3.1.0
     "@types/hapi__joi": 17.1.7
@@ -2339,7 +2339,7 @@ __metadata:
     "@protokol/nft-base-transactions": "workspace:packages/nft-base-transactions"
     "@protokol/nft-exchange-crypto": "workspace:packages/nft-exchange-crypto"
     "@protokol/nft-exchange-transactions": "workspace:packages/nft-exchange-transactions"
-    "@sindresorhus/tsconfig": ^1.0.0
+    "@sindresorhus/tsconfig": ^2.0.0
     "@types/eslint": ^7.2.5
     "@types/eslint-plugin-prettier": ^3.1.0
     "@types/hapi__boom": ^7.4.1
@@ -2378,7 +2378,7 @@ __metadata:
     "@arkecosystem/core-test-framework": ^3.0.0-next
     "@arkecosystem/crypto": ^3.0.0-next
     "@protokol/utils": ^1.0.0-beta.38
-    "@sindresorhus/tsconfig": ~1.0.0
+    "@sindresorhus/tsconfig": ~2.0.0
     "@types/jest": ~27.0.0
     "@types/node": ^14.14.39
     "@types/rimraf": ^3.0.0
@@ -2409,7 +2409,7 @@ __metadata:
     "@protokol/nft-base-crypto": "workspace:packages/nft-base-crypto"
     "@protokol/nft-base-transactions": "workspace:packages/nft-base-transactions"
     "@protokol/nft-exchange-crypto": "workspace:packages/nft-exchange-crypto"
-    "@sindresorhus/tsconfig": ~1.0.0
+    "@sindresorhus/tsconfig": ~2.0.0
     "@types/eslint": ^7.2.5
     "@types/eslint-plugin-prettier": ^3.1.0
     "@types/hapi__joi": 17.1.7
@@ -2451,7 +2451,7 @@ __metadata:
     "@protokol/nft-base-transactions": "workspace:packages/nft-base-transactions"
     "@protokol/nft-exchange-crypto": "workspace:packages/nft-exchange-crypto"
     "@protokol/nft-exchange-transactions": "workspace:packages/nft-exchange-transactions"
-    "@sindresorhus/tsconfig": ^1.0.0
+    "@sindresorhus/tsconfig": ^2.0.0
     "@types/eslint": ^7.2.5
     "@types/eslint-plugin-prettier": ^3.1.0
     "@types/hapi__boom": ^7.4.1
@@ -2482,7 +2482,7 @@ __metadata:
     ts-jest: ~27.0.1
     typedoc: ~0.20.0
     typeorm: ^0.2.33
-    typescript: ~4.2.3
+    typescript: ~4.3.2
   languageName: unknown
   linkType: soft
 
@@ -2492,7 +2492,7 @@ __metadata:
   dependencies:
     "@arkecosystem/core": ^3.0.0-next
     "@arkecosystem/core-cli": ^3.0.0-next
-    "@sindresorhus/tsconfig": ^1.0.0
+    "@sindresorhus/tsconfig": ^2.0.0
     "@types/eslint": ^7.2.0
     "@types/eslint-plugin-prettier": ^3.1.0
     "@types/jest": ^27.0.0
@@ -2616,10 +2616,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sindresorhus/tsconfig@npm:^1.0.0, @sindresorhus/tsconfig@npm:~1.0.0":
-  version: 1.0.2
-  resolution: "@sindresorhus/tsconfig@npm:1.0.2"
-  checksum: 7091862d88968d252b46f7e36cea0fdd6da2439887f3c39822e49730387ca616f891ad4be375f306a43fc44ec949c33fd8827919a8acb2e0cd1f44d5a1d9b9e7
+"@sindresorhus/tsconfig@npm:^2.0.0, @sindresorhus/tsconfig@npm:~2.0.0":
+  version: 2.0.0
+  resolution: "@sindresorhus/tsconfig@npm:2.0.0"
+  checksum: fea48f9b1e139e532b400c9efd8db10ac1c9fd6d750edce04b3f7f17c1f9ae868afe496d9937ebcf8bc5ecbeb83263166b5b5fa1ad699249424f2e2704d5bfe0
   languageName: node
   linkType: hard
 
@@ -13212,16 +13212,6 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@~4.2.3#~builtin<compat/typescript>":
-  version: 4.2.4
-  resolution: "typescript@patch:typescript@npm%3A4.2.4#~builtin<compat/typescript>::version=4.2.4&hash=d8b4e7"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 3d8ac56cd91f6f60e69aff212cb3601c8affd8dd7b3fac115b836b7d59ab8c7b21778635f07971cbcb6035019df1abefe3047c1d46f3d42d087ceb0552af0206
-  languageName: node
-  linkType: hard
-
 "typescript@patch:typescript@~4.3.2#~builtin<compat/typescript>":
   version: 4.3.5
   resolution: "typescript@patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"
@@ -13229,16 +13219,6 @@ fsevents@~2.1.2:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: bc2c4fdf0f1557fdafe4ef74848c72ebd9c8c60829568248f869121aea2bb20e16649a252431d0acb185ec118143be22bed73d08f64379557810d82756afedde
-  languageName: node
-  linkType: hard
-
-typescript@~4.2.3:
-  version: 4.2.4
-  resolution: "typescript@npm:4.2.4"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 89c397df192f239359ad798b96d8e8d552e12c0c189ac5676cec4c20c410d6eec636b8e59a88f2aef0a56d961a9678d99c400099be9b7cae2f7b062eb4b7b171
   languageName: node
   linkType: hard
 

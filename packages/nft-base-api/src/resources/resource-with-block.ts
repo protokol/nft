@@ -5,7 +5,7 @@ type Constructor<T = {}> = new (...args: any[]) => T;
 
 export function ResourceWithBlock<T extends Constructor<Contracts.Resource>>(Base: T) {
 	return class ResourceWithBlock extends Base {
-		public transform(resource): object {
+		public override transform(resource): object {
 			const transactionData = resource.data;
 			const blockData = resource.block;
 

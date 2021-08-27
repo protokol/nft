@@ -7,7 +7,7 @@ export class NFTBaseTransactionFactory extends TransactionFactory {
         super(app);
     }
 
-    public static initialize(app?: Contracts.Kernel.Application): NFTBaseTransactionFactory {
+    public static override initialize(app?: Contracts.Kernel.Application): NFTBaseTransactionFactory {
         return new NFTBaseTransactionFactory(app);
     }
 
