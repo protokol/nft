@@ -70,14 +70,14 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
         }
     }
 
-    public async emitEvents(
+    public override async emitEvents(
         transaction: Interfaces.ITransaction,
         emitter: Contracts.Kernel.EventDispatcher,
     ): Promise<void> {
         await emitter.dispatchSeq(NFTExchangeApplicationEvents.NFTCancelAuction, transaction.data);
     }
 
-    public async throwIfCannotBeApplied(
+    public override async throwIfCannotBeApplied(
         transaction: Interfaces.ITransaction,
         sender: Contracts.State.Wallet,
     ): Promise<void> {
@@ -97,7 +97,7 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
         return super.throwIfCannotBeApplied(transaction, sender);
     }
 
-    public async throwIfCannotEnterPool(transaction: Interfaces.ITransaction): Promise<void> {
+    public override async throwIfCannotEnterPool(transaction: Interfaces.ITransaction): Promise<void> {
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
 
         const auctionId: string = transaction.data.asset!.nftAuctionCancel.auctionId;
@@ -115,7 +115,7 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
         }
     }
 
-    public async applyToSender(transaction: Interfaces.ITransaction): Promise<void> {
+    public override async applyToSender(transaction: Interfaces.ITransaction): Promise<void> {
         await super.applyToSender(transaction);
 
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
@@ -151,7 +151,7 @@ export class NFTAuctionCancelHandler extends NFTExchangeTransactionHandler {
         this.walletRepository.forgetOnIndex(NFTExchangeIndexers.AuctionIndexer, nftAuctionCancelAsset.auctionId);
     }
 
-    public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
+    public override async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
         await super.revertForSender(transaction);
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
         AppUtils.assert.defined<NFTInterfaces.NFTAuctionCancel>(transaction.data.asset?.nftAuctionCancel);

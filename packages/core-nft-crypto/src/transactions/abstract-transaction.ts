@@ -3,7 +3,7 @@ import { Errors, Transactions } from "@arkecosystem/crypto";
 const { schemas } = Transactions;
 
 export abstract class AbstractNFTTransaction extends Transactions.Transaction {
-	public static getSchema(): Transactions.schemas.TransactionSchema {
+	public static override getSchema(): Transactions.schemas.TransactionSchema {
 		return schemas.extend(schemas.transactionBaseSchema, {
 			$id: this.key,
 			required: ["asset", "typeGroup"],
@@ -23,7 +23,7 @@ export abstract class AbstractNFTTransaction extends Transactions.Transaction {
 		throw new Errors.NotImplemented();
 	}
 
-	public hasVendorField(): boolean {
+	public override hasVendorField(): boolean {
 		return true;
 	}
 }

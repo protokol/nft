@@ -4,67 +4,67 @@ import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 
 import {
-    NFTBaseStaticFees,
-    NFTBaseTransactionGroup,
-    NFTBaseTransactionTypes,
-    NFTBaseTransactionVersion,
+	NFTBaseStaticFees,
+	NFTBaseTransactionGroup,
+	NFTBaseTransactionTypes,
+	NFTBaseTransactionVersion,
 } from "../enums";
 import { NFTBurnAsset } from "../interfaces";
 
 export class NFTBurnTransaction extends AbstractNFTTransaction {
-    public static typeGroup: number = NFTBaseTransactionGroup;
-    public static type = NFTBaseTransactionTypes.NFTBurn;
-    public static key = "NFTBurn";
-    public static version = NFTBaseTransactionVersion;
+	public static override typeGroup: number = NFTBaseTransactionGroup;
+	public static override type = NFTBaseTransactionTypes.NFTBurn;
+	public static override key = "NFTBurn";
+	public static override version = NFTBaseTransactionVersion;
 
-    protected static defaultStaticFee = Utils.BigNumber.make(NFTBaseStaticFees.NFTBurn);
+	protected static override defaultStaticFee = Utils.BigNumber.make(NFTBaseStaticFees.NFTBurn);
 
-    public static getAssetSchema(): Record<string, any> {
-        return {
-            type: "object",
-            required: ["nftBurn"],
-            properties: {
-                nftBurn: {
-                    type: "object",
-                    required: ["nftId"],
-                    properties: {
-                        nftId: {
-                            $ref: "transactionId",
-                        },
-                    },
-                },
-            },
-        };
-    }
+	public static override getAssetSchema(): Record<string, any> {
+		return {
+			type: "object",
+			required: ["nftBurn"],
+			properties: {
+				nftBurn: {
+					type: "object",
+					required: ["nftId"],
+					properties: {
+						nftId: {
+							$ref: "transactionId",
+						},
+					},
+				},
+			},
+		};
+	}
 
-    public serialize(): ByteBuffer {
-        const { data } = this;
+	public serialize(): ByteBuffer {
+		const { data } = this;
 
-        Asserts.assert.defined<NFTBurnAsset>(data.asset?.nftBurn);
-        const nftBurnAsset: NFTBurnAsset = data.asset.nftBurn;
+		Asserts.assert.defined<NFTBurnAsset>(data.asset?.nftBurn);
+		const nftBurnAsset: NFTBurnAsset = data.asset.nftBurn;
 
-        const buffer: ByteBuffer = new ByteBuffer(32, true);
+		const buffer: ByteBuffer = new ByteBuffer(32, true);
 
-        buffer.append(nftBurnAsset.nftId, "hex");
+		buffer.append(nftBurnAsset.nftId, "hex");
 
-        return buffer;
-    }
+		return buffer;
+	}
 
-    public deserialize(buf: ByteBuffer): void {
-        const { data } = this;
+	public deserialize(buf: ByteBuffer): void {
+		const { data } = this;
 
-        const nftId = buf.readBytes(32).toString("hex");
+		const nftId = buf.readBytes(32).toString("hex");
 
-        const nftBurn: NFTBurnAsset = {
-            nftId,
-        };
+		const nftBurn: NFTBurnAsset = {
+			nftId,
+		};
 
-        data.asset = {
-            nftBurn,
-        };
-    }
+		data.asset = {
+			nftBurn,
+		};
+	}
 
-    public hasVendorField(): boolean {
-        return true;
-    }
+	public override hasVendorField(): boolean {
+		return true;
+	}
 }

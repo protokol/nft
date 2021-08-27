@@ -13,14 +13,14 @@ import { NFTBidCancelAsset } from "../interfaces";
 const { schemas } = Transactions;
 
 export class NFTBidCancelTransaction extends Transactions.Transaction {
-    public static typeGroup: number = NFTExchangeTransactionsTypeGroup;
-    public static type: number = NFTTransactionTypes.NFTBidCancel;
-    public static key = "NFTBidCancel";
-    public static version = NFTExchangeTransactionVersion;
+    public static override typeGroup: number = NFTExchangeTransactionsTypeGroup;
+    public static override type: number = NFTTransactionTypes.NFTBidCancel;
+    public static override key = "NFTBidCancel";
+    public static override version = NFTExchangeTransactionVersion;
 
-    protected static defaultStaticFee = Utils.BigNumber.make(NFTStaticFees.NFTBidCancel);
+    protected static override defaultStaticFee = Utils.BigNumber.make(NFTStaticFees.NFTBidCancel);
 
-    public static getSchema(): Transactions.schemas.TransactionSchema {
+    public static override getSchema(): Transactions.schemas.TransactionSchema {
         return schemas.extend(schemas.transactionBaseSchema, {
             $id: "NFTBidCancel",
             required: ["typeGroup", "asset"],
@@ -71,7 +71,7 @@ export class NFTBidCancelTransaction extends Transactions.Transaction {
         };
     }
 
-    public hasVendorField(): boolean {
+    public override hasVendorField(): boolean {
         return true;
     }
 }

@@ -14,14 +14,14 @@ import { NFTAuctionAsset } from "../interfaces";
 const { schemas } = Transactions;
 
 export class NFTAuctionTransaction extends Transactions.Transaction {
-    public static typeGroup: number = NFTExchangeTransactionsTypeGroup;
-    public static type: number = NFTTransactionTypes.NFTAuction;
-    public static key = "NFTAuction";
-    public static version = NFTExchangeTransactionVersion;
+    public static override typeGroup: number = NFTExchangeTransactionsTypeGroup;
+    public static override type: number = NFTTransactionTypes.NFTAuction;
+    public static override key = "NFTAuction";
+    public static override version = NFTExchangeTransactionVersion;
 
-    protected static defaultStaticFee = Utils.BigNumber.make(NFTStaticFees.NFTAuction);
+    protected static override defaultStaticFee = Utils.BigNumber.make(NFTStaticFees.NFTAuction);
 
-    public static getSchema(): Transactions.schemas.TransactionSchema {
+    public static override getSchema(): Transactions.schemas.TransactionSchema {
         return schemas.extend(schemas.transactionBaseSchema, {
             $id: "NFTAuction",
             required: ["typeGroup", "asset"],
@@ -108,7 +108,7 @@ export class NFTAuctionTransaction extends Transactions.Transaction {
         };
     }
 
-    public hasVendorField(): boolean {
+    public override hasVendorField(): boolean {
         return true;
     }
 }

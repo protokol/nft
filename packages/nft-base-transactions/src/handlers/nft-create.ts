@@ -64,7 +64,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         }
     }
 
-    public async emitEvents(
+    public override async emitEvents(
         transaction: Interfaces.ITransaction,
         emitter: Contracts.Kernel.EventDispatcher,
     ): Promise<void> {
@@ -74,7 +74,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         });
     }
 
-    public async throwIfCannotBeApplied(
+    public override async throwIfCannotBeApplied(
         transaction: Interfaces.ITransaction,
         wallet: Contracts.State.Wallet,
     ): Promise<void> {
@@ -122,7 +122,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         return super.throwIfCannotBeApplied(transaction, wallet);
     }
 
-    public async applyToSender(transaction: Interfaces.ITransaction): Promise<void> {
+    public override async applyToSender(transaction: Interfaces.ITransaction): Promise<void> {
         await super.applyToSender(transaction);
 
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);
@@ -144,7 +144,7 @@ export class NFTCreateHandler extends NFTBaseTransactionHandler {
         genesisWallet.setAttribute<INFTCollections>("nft.base.collections", genesisWalletCollection);
     }
 
-    public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
+    public override async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
         await super.revertForSender(transaction);
 
         AppUtils.assert.defined<string>(transaction.data.senderPublicKey);

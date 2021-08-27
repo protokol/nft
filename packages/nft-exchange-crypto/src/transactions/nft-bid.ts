@@ -13,14 +13,14 @@ import { NFTBidAsset } from "../interfaces";
 const { schemas } = Transactions;
 
 export class NFTBidTransaction extends Transactions.Transaction {
-    public static typeGroup: number = NFTExchangeTransactionsTypeGroup;
-    public static type: number = NFTTransactionTypes.NFTBid;
-    public static key = "NFTBid";
-    public static version = NFTExchangeTransactionVersion;
+    public static override typeGroup: number = NFTExchangeTransactionsTypeGroup;
+    public static override type: number = NFTTransactionTypes.NFTBid;
+    public static override key = "NFTBid";
+    public static override version = NFTExchangeTransactionVersion;
 
-    protected static defaultStaticFee = Utils.BigNumber.make(NFTStaticFees.NFTBid);
+    protected static override defaultStaticFee = Utils.BigNumber.make(NFTStaticFees.NFTBid);
 
-    public static getSchema(): Transactions.schemas.TransactionSchema {
+    public static override getSchema(): Transactions.schemas.TransactionSchema {
         return schemas.extend(schemas.transactionBaseSchema, {
             $id: "NFTBid",
             required: ["typeGroup", "asset"],
@@ -77,7 +77,7 @@ export class NFTBidTransaction extends Transactions.Transaction {
         };
     }
 
-    public hasVendorField(): boolean {
+    public override hasVendorField(): boolean {
         return true;
     }
 }

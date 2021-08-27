@@ -13,14 +13,14 @@ import { NFTAcceptTradeAsset } from "../interfaces";
 const { schemas } = Transactions;
 
 export class NFTAcceptTradeTransaction extends Transactions.Transaction {
-    public static typeGroup: number = NFTExchangeTransactionsTypeGroup;
-    public static type: number = NFTTransactionTypes.NFTAcceptTrade;
-    public static key = "NFTAcceptTrade";
-    public static version = NFTExchangeTransactionVersion;
+    public static override typeGroup: number = NFTExchangeTransactionsTypeGroup;
+    public static override type: number = NFTTransactionTypes.NFTAcceptTrade;
+    public static override key = "NFTAcceptTrade";
+    public static override version = NFTExchangeTransactionVersion;
 
-    protected static defaultStaticFee = Utils.BigNumber.make(NFTStaticFees.NFTAcceptTrade);
+    protected static override defaultStaticFee = Utils.BigNumber.make(NFTStaticFees.NFTAcceptTrade);
 
-    public static getSchema(): Transactions.schemas.TransactionSchema {
+    public static override getSchema(): Transactions.schemas.TransactionSchema {
         return schemas.extend(schemas.transactionBaseSchema, {
             $id: "NFTAcceptTrade",
             required: ["typeGroup", "asset"],
@@ -77,7 +77,7 @@ export class NFTAcceptTradeTransaction extends Transactions.Transaction {
         };
     }
 
-    public hasVendorField(): boolean {
+    public override hasVendorField(): boolean {
         return true;
     }
 }

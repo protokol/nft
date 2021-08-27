@@ -55,11 +55,11 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         }
     }
 
-    public emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
+    public override emitEvents(transaction: Interfaces.ITransaction, emitter: Contracts.Kernel.EventDispatcher): void {
         void emitter.dispatch(NFTApplicationEvents.NFTRegisterCollection, transaction.data);
     }
 
-    public async throwIfCannotBeApplied(
+    public override async throwIfCannotBeApplied(
         transaction: Interfaces.ITransaction,
         sender: Contracts.State.Wallet,
     ): Promise<void> {
@@ -84,7 +84,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         return super.throwIfCannotBeApplied(transaction, sender);
     }
 
-    public async applyToSender(transaction: Interfaces.ITransaction): Promise<void> {
+    public override async applyToSender(transaction: Interfaces.ITransaction): Promise<void> {
         await super.applyToSender(transaction);
 
         // Line is already checked inside throwIfCannotBeApplied run by super.applyToSender method
@@ -106,7 +106,7 @@ export class NFTRegisterCollectionHandler extends NFTBaseTransactionHandler {
         this.walletRepository.setOnIndex(NFTIndexers.CollectionIndexer, transaction.data.id, senderWallet);
     }
 
-    public async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
+    public override async revertForSender(transaction: Interfaces.ITransaction): Promise<void> {
         await super.revertForSender(transaction);
 
         AppUtils.assert.defined<string>(transaction.data.id);
