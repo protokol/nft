@@ -1,12 +1,14 @@
 import { AbstractNFTTransactionBuilder } from "@protokol/core-nft-crypto";
 
-import { NFTTransactionTypes } from "../enums";
+import { NFTExchangeTransactionsTypeGroup, NFTExchangeTransactionVersion, NFTTransactionTypes } from "../enums";
 import { NFTAcceptTradeAsset } from "../interfaces";
 import { NFTAcceptTradeTransaction } from "../transactions";
 
 export class NftAcceptTradeBuilder extends AbstractNFTTransactionBuilder<NftAcceptTradeBuilder> {
     public constructor() {
         super();
+        this.data.version = NFTExchangeTransactionVersion;
+        this.data.typeGroup = NFTExchangeTransactionsTypeGroup;
         this.data.type = NFTTransactionTypes.NFTAcceptTrade;
         this.data.fee = NFTAcceptTradeTransaction.staticFee();
         this.data.asset = { nftAcceptTrade: {} };
