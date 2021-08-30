@@ -2433,7 +2433,7 @@ __metadata:
     eslint: ^7.13.0
     eslint-config-prettier: ^8.0.0
     eslint-plugin-jest: ^24.1.3
-    eslint-plugin-prettier: ^3.1.4
+    eslint-plugin-prettier: ^4.0.0
     eslint-plugin-simple-import-sort: ^7.0.0
     jest: ^27.0.1
     jest-extended: ^0.11.5
@@ -2500,7 +2500,7 @@ __metadata:
     bip39: 3.0.4
     codecov: ^3.8.1
     eslint: 7.32.0
-    eslint-plugin-prettier: ^3.1.4
+    eslint-plugin-prettier: ^4.0.0
     jest: ~27.1.0
     jest-extended: ~0.11.5
     prettier: 2.3.2
@@ -2546,7 +2546,7 @@ __metadata:
     eslint: ^7.13.0
     eslint-config-prettier: ^8.0.0
     eslint-plugin-jest: ^24.1.3
-    eslint-plugin-prettier: ^3.1.4
+    eslint-plugin-prettier: ^4.0.0
     eslint-plugin-simple-import-sort: ^7.0.0
     jest: ^27.0.1
     jest-extended: ^0.11.5
@@ -2612,7 +2612,7 @@ __metadata:
     bip39: 3.0.4
     codecov: ^3.8.1
     eslint: 7.32.0
-    eslint-plugin-prettier: ^3.1.4
+    eslint-plugin-prettier: ^4.0.0
     jest: ~27.1.0
     jest-extended: ~0.11.5
     prettier: 2.3.2
@@ -2659,7 +2659,7 @@ __metadata:
     eslint: ^7.13.0
     eslint-config-prettier: ^8.0.0
     eslint-plugin-jest: ^24.1.3
-    eslint-plugin-prettier: ^3.1.4
+    eslint-plugin-prettier: ^4.0.0
     eslint-plugin-simple-import-sort: ^7.0.0
     jest: ^27.0.1
     jest-extended: ^0.11.5
@@ -2697,7 +2697,7 @@ __metadata:
     eslint: ^7.7.0
     eslint-config-prettier: ^8.0.0
     eslint-plugin-jest: ^24.0.0
-    eslint-plugin-prettier: ^3.2.0
+    eslint-plugin-prettier: ^4.0.0
     eslint-plugin-simple-import-sort: ^7.0.0
     jest: ^27.0.1
     jest-extended: ^0.11.5
@@ -6028,18 +6028,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-prettier@npm:^3.1.4, eslint-plugin-prettier@npm:^3.2.0":
-  version: 3.4.0
-  resolution: "eslint-plugin-prettier@npm:3.4.0"
+"eslint-plugin-prettier@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "eslint-plugin-prettier@npm:4.0.0"
   dependencies:
     prettier-linter-helpers: ^1.0.0
   peerDependencies:
-    eslint: ">=5.0.0"
-    prettier: ">=1.13.0"
+    eslint: ">=7.28.0"
+    prettier: ">=2.0.0"
   peerDependenciesMeta:
     eslint-config-prettier:
       optional: true
-  checksum: 30a07e8d12637d2988e371f6a20ff4c86fd7fdc3596d1d18d62c0367804f38e06a65052d0281234aeb2552e4d1908dcb2de20543413e038251a2717a46400a9d
+  checksum: 03d69177a3c21fa2229c7e427ce604429f0b20ab7f411e2e824912f572a207c7f5a41fd1f0a95b9b8afe121e291c1b1f1dc1d44c7aad4b0837487f9c19f5210d
   languageName: node
   linkType: hard
 
