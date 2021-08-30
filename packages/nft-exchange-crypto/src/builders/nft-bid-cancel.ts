@@ -1,9 +1,10 @@
+import { AbstractNFTTransactionBuilder } from "@protokol/core-nft-crypto";
+
 import { NFTTransactionTypes } from "../enums";
 import { NFTBidCancelAsset } from "../interfaces";
 import { NFTBidCancelTransaction } from "../transactions";
-import { NFTExchangeTransactionBuilder } from "./nft-exchange-builder";
 
-export class NFTBidCancelBuilder extends NFTExchangeTransactionBuilder<NFTBidCancelBuilder> {
+export class NFTBidCancelBuilder extends AbstractNFTTransactionBuilder<NFTBidCancelBuilder> {
     public constructor() {
         super();
         this.data.type = NFTTransactionTypes.NFTBidCancel;
