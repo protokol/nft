@@ -1,4 +1,5 @@
-import { Transactions, Utils } from "@arkecosystem/crypto";
+import { Utils } from "@arkecosystem/crypto";
+import { AbstractNFTTransaction } from "@protokol/core-nft-crypto";
 import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 
@@ -10,9 +11,7 @@ import {
 } from "../enums";
 import { NFTBidAsset } from "../interfaces";
 
-const { schemas } = Transactions;
-
-export class NFTBidTransaction extends Transactions.Transaction {
+export class NFTBidTransaction extends AbstractNFTTransaction {
     public static override typeGroup: number = NFTExchangeTransactionsTypeGroup;
     public static override type: number = NFTTransactionTypes.NFTBid;
     public static override key = "NFTBid";
@@ -20,35 +19,31 @@ export class NFTBidTransaction extends Transactions.Transaction {
 
     protected static override defaultStaticFee = Utils.BigNumber.make(NFTStaticFees.NFTBid);
 
-    public static override getSchema(): Transactions.schemas.TransactionSchema {
-        return schemas.extend(schemas.transactionBaseSchema, {
-            $id: "NFTBid",
-            required: ["typeGroup", "asset"],
-            properties: {
-                type: { transactionType: NFTTransactionTypes.NFTBid },
-                typeGroup: { const: NFTExchangeTransactionsTypeGroup },
-                amount: { bignumber: { minimum: 0, maximum: 0 } },
-                vendorField: { anyOf: [{ type: "null" }, { type: "string", format: "vendorField" }] },
-                asset: {
-                    type: "object",
-                    required: ["nftBid"],
-                    properties: {
-                        nftBid: {
-                            type: "object",
-                            required: ["auctionId", "bidAmount"],
-                            properties: {
-                                auctionId: {
-                                    $ref: "transactionId",
-                                },
-                                bidAmount: {
-                                    bignumber: { minimum: 1 },
-                                },
+    public static override getAssetSchema(): Record<string, any> {
+        return {
+            type: { transactionType: NFTTransactionTypes.NFTBid },
+            typeGroup: { const: NFTExchangeTransactionsTypeGroup },
+            amount: { bignumber: { minimum: 0, maximum: 0 } },
+            vendorField: { anyOf: [{ type: "null" }, { type: "string", format: "vendorField" }] },
+            asset: {
+                type: "object",
+                required: ["nftBid"],
+                properties: {
+                    nftBid: {
+                        type: "object",
+                        required: ["auctionId", "bidAmount"],
+                        properties: {
+                            auctionId: {
+                                $ref: "transactionId",
+                            },
+                            bidAmount: {
+                                bignumber: { minimum: 1 },
                             },
                         },
                     },
                 },
             },
-        });
+        };
     }
     public serialize(): ByteBuffer {
         const { data } = this;
@@ -75,9 +70,5 @@ export class NFTBidTransaction extends Transactions.Transaction {
         data.asset = {
             nftBid,
         };
-    }
-
-    public override hasVendorField(): boolean {
-        return true;
     }
 }
