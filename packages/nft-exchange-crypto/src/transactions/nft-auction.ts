@@ -1,4 +1,5 @@
-import { Transactions, Utils } from "@arkecosystem/crypto";
+import { Utils } from "@arkecosystem/crypto";
+import { AbstractNFTTransaction } from "@protokol/core-nft-crypto";
 import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 
@@ -11,9 +12,7 @@ import {
 } from "../enums";
 import { NFTAuctionAsset } from "../interfaces";
 
-const { schemas } = Transactions;
-
-export class NFTAuctionTransaction extends Transactions.Transaction {
+export class NFTAuctionTransaction extends AbstractNFTTransaction {
     public static override typeGroup: number = NFTExchangeTransactionsTypeGroup;
     public static override type: number = NFTTransactionTypes.NFTAuction;
     public static override key = "NFTAuction";
@@ -21,51 +20,41 @@ export class NFTAuctionTransaction extends Transactions.Transaction {
 
     protected static override defaultStaticFee = Utils.BigNumber.make(NFTStaticFees.NFTAuction);
 
-    public static override getSchema(): Transactions.schemas.TransactionSchema {
-        return schemas.extend(schemas.transactionBaseSchema, {
-            $id: "NFTAuction",
-            required: ["typeGroup", "asset"],
+    public static override getAssetSchema(): Record<string, any> {
+        return {
+            type: "object",
+            required: ["nftAuction"],
             properties: {
-                type: { transactionType: NFTTransactionTypes.NFTAuction },
-                typeGroup: { const: NFTExchangeTransactionsTypeGroup },
-                amount: { bignumber: { minimum: 0, maximum: 0 } },
-                vendorField: { anyOf: [{ type: "null" }, { type: "string", format: "vendorField" }] },
-                asset: {
+                nftAuction: {
                     type: "object",
-                    required: ["nftAuction"],
+                    required: ["nftIds", "startAmount", "expiration"],
                     properties: {
-                        nftAuction: {
+                        nftIds: {
+                            type: "array",
+                            minItems: defaults.nftAuction.minItems,
+                            maxItems: defaults.nftAuction.maxItems,
+                            uniqueItems: true,
+                            items: {
+                                $ref: "transactionId",
+                            },
+                        },
+                        startAmount: {
+                            bignumber: { minimum: 1 },
+                        },
+                        expiration: {
                             type: "object",
-                            required: ["nftIds", "startAmount", "expiration"],
+                            required: ["blockHeight"],
                             properties: {
-                                nftIds: {
-                                    type: "array",
-                                    minItems: defaults.nftAuction.minItems,
-                                    maxItems: defaults.nftAuction.maxItems,
-                                    uniqueItems: true,
-                                    items: {
-                                        $ref: "transactionId",
-                                    },
-                                },
-                                startAmount: {
-                                    bignumber: { minimum: 1 },
-                                },
-                                expiration: {
-                                    type: "object",
-                                    required: ["blockHeight"],
-                                    properties: {
-                                        blockHeight: {
-                                            type: "integer",
-                                            minimum: 1,
-                                        },
-                                    },
+                                blockHeight: {
+                                    type: "integer",
+                                    minimum: 1,
                                 },
                             },
                         },
                     },
                 },
             },
-        });
+        };
     }
     public serialize(): ByteBuffer {
         const { data } = this;
@@ -106,9 +95,5 @@ export class NFTAuctionTransaction extends Transactions.Transaction {
         data.asset = {
             nftAuction,
         };
-    }
-
-    public override hasVendorField(): boolean {
-        return true;
     }
 }

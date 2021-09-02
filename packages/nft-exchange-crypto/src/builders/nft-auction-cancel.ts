@@ -1,11 +1,14 @@
-import { NFTTransactionTypes } from "../enums";
+import { AbstractNFTTransactionBuilder } from "@protokol/core-nft-crypto";
+
+import { NFTExchangeTransactionsTypeGroup, NFTExchangeTransactionVersion, NFTTransactionTypes } from "../enums";
 import { NFTAuctionCancel } from "../interfaces";
 import { NFTAuctionCancelTransaction } from "../transactions";
-import { NFTExchangeTransactionBuilder } from "./nft-exchange-builder";
 
-export class NFTAuctionCancelBuilder extends NFTExchangeTransactionBuilder<NFTAuctionCancelBuilder> {
+export class NFTAuctionCancelBuilder extends AbstractNFTTransactionBuilder<NFTAuctionCancelBuilder> {
     public constructor() {
         super();
+        this.data.version = NFTExchangeTransactionVersion;
+        this.data.typeGroup = NFTExchangeTransactionsTypeGroup;
         this.data.type = NFTTransactionTypes.NFTAuctionCancel;
         this.data.fee = NFTAuctionCancelTransaction.staticFee();
         this.data.asset = { nftAuctionCancel: {} };

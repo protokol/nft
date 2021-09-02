@@ -1,4 +1,5 @@
-import { Transactions, Utils } from "@arkecosystem/crypto";
+import { Utils } from "@arkecosystem/crypto";
+import { AbstractNFTTransaction } from "@protokol/core-nft-crypto";
 import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 
@@ -10,9 +11,7 @@ import {
 } from "../enums";
 import { NFTAuctionCancel } from "../interfaces";
 
-const { schemas } = Transactions;
-
-export class NFTAuctionCancelTransaction extends Transactions.Transaction {
+export class NFTAuctionCancelTransaction extends AbstractNFTTransaction {
     public static override typeGroup: number = NFTExchangeTransactionsTypeGroup;
     public static override type: number = NFTTransactionTypes.NFTAuctionCancel;
     public static override key = "NFTAuctionCancel";
@@ -20,32 +19,22 @@ export class NFTAuctionCancelTransaction extends Transactions.Transaction {
 
     protected static override defaultStaticFee = Utils.BigNumber.make(NFTStaticFees.NFTAuctionCancel);
 
-    public static override getSchema(): Transactions.schemas.TransactionSchema {
-        return schemas.extend(schemas.transactionBaseSchema, {
-            $id: "NFTAuctionCancel",
-            required: ["typeGroup", "asset"],
+    public static override getAssetSchema(): Record<string, any> {
+        return {
+            type: "object",
+            required: ["nftAuctionCancel"],
             properties: {
-                type: { transactionType: NFTTransactionTypes.NFTAuctionCancel },
-                typeGroup: { const: NFTExchangeTransactionsTypeGroup },
-                amount: { bignumber: { minimum: 0, maximum: 0 } },
-                vendorField: { anyOf: [{ type: "null" }, { type: "string", format: "vendorField" }] },
-                asset: {
+                nftAuctionCancel: {
                     type: "object",
-                    required: ["nftAuctionCancel"],
+                    required: ["auctionId"],
                     properties: {
-                        nftAuctionCancel: {
-                            type: "object",
-                            required: ["auctionId"],
-                            properties: {
-                                auctionId: {
-                                    $ref: "transactionId",
-                                },
-                            },
+                        auctionId: {
+                            $ref: "transactionId",
                         },
                     },
                 },
             },
-        });
+        };
     }
     public serialize(): ByteBuffer {
         const { data } = this;
@@ -69,9 +58,5 @@ export class NFTAuctionCancelTransaction extends Transactions.Transaction {
         data.asset = {
             nftAuctionCancel,
         };
-    }
-
-    public override hasVendorField(): boolean {
-        return true;
     }
 }

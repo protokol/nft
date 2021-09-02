@@ -1,11 +1,14 @@
-import { NFTTransactionTypes } from "../enums";
+import { AbstractNFTTransactionBuilder } from "@protokol/core-nft-crypto";
+
+import { NFTExchangeTransactionsTypeGroup, NFTExchangeTransactionVersion, NFTTransactionTypes } from "../enums";
 import { NFTBidAsset } from "../interfaces";
 import { NFTBidTransaction } from "../transactions";
-import { NFTExchangeTransactionBuilder } from "./nft-exchange-builder";
 
-export class NFTBidBuilder extends NFTExchangeTransactionBuilder<NFTBidBuilder> {
+export class NFTBidBuilder extends AbstractNFTTransactionBuilder<NFTBidBuilder> {
     public constructor() {
         super();
+        this.data.version = NFTExchangeTransactionVersion;
+        this.data.typeGroup = NFTExchangeTransactionsTypeGroup;
         this.data.type = NFTTransactionTypes.NFTBid;
         this.data.fee = NFTBidTransaction.staticFee();
         this.data.asset = { nftBid: {} };
