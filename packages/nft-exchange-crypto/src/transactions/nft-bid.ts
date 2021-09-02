@@ -21,24 +21,18 @@ export class NFTBidTransaction extends AbstractNFTTransaction {
 
     public static override getAssetSchema(): Record<string, any> {
         return {
-            type: { transactionType: NFTTransactionTypes.NFTBid },
-            typeGroup: { const: NFTExchangeTransactionsTypeGroup },
-            amount: { bignumber: { minimum: 0, maximum: 0 } },
-            vendorField: { anyOf: [{ type: "null" }, { type: "string", format: "vendorField" }] },
-            asset: {
-                type: "object",
-                required: ["nftBid"],
-                properties: {
-                    nftBid: {
-                        type: "object",
-                        required: ["auctionId", "bidAmount"],
-                        properties: {
-                            auctionId: {
-                                $ref: "transactionId",
-                            },
-                            bidAmount: {
-                                bignumber: { minimum: 1 },
-                            },
+            type: "object",
+            required: ["nftBid"],
+            properties: {
+                nftBid: {
+                    type: "object",
+                    required: ["auctionId", "bidAmount"],
+                    properties: {
+                        auctionId: {
+                            $ref: "transactionId",
+                        },
+                        bidAmount: {
+                            bignumber: { minimum: 1 },
                         },
                     },
                 },
