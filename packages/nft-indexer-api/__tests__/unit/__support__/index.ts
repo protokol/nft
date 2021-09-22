@@ -1,7 +1,7 @@
 import { Application, Container, Contracts, Providers, Services } from "@arkecosystem/core-kernel";
 import { Wallets } from "@arkecosystem/core-state";
 import { passphrases } from "@arkecosystem/core-test-framework";
-import { Handlers } from "@arkecosystem/core-transactions";
+import { Handlers, ServiceProvider } from "@arkecosystem/core-transactions";
 import { Identities, Utils } from "@arkecosystem/crypto";
 import { Indexers } from "@protokol/nft-base-transactions";
 
@@ -95,6 +95,9 @@ export const initApp = (): Application => {
 		.to(Handlers.TransactionHandlerProvider)
 		.inSingletonScope();
 	app.bind(Container.Identifiers.TransactionHandlerRegistry).to(Handlers.Registry).inSingletonScope();
+	app.bind(Container.Identifiers.TransactionHandlerConstructors).toDynamicValue(
+		ServiceProvider.getTransactionHandlerConstructorsBinding(),
+	);
 
 	app.bind(Container.Identifiers.EventDispatcherService).to(Services.Events.NullEventDispatcher).inSingletonScope();
 
