@@ -34,8 +34,8 @@
 		"full:testnet": "cross-env CORE_PATH_CONFIG=./config/networks/testnet ark core:run --networkStart --env=test --network=testnet"
 	},
 	"dependencies": {
-		"@arkecosystem/core": "^3.0.0-next",
-		"@arkecosystem/core-cli": "^3.0.0-next"
+		"@arkecosystem/core": "^3.0.0",
+		"@arkecosystem/core-cli": "^3.0.0"
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^2.0.0",
