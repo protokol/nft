@@ -39,8 +39,8 @@
         "test:functional": "CORE_ENV=test jest __tests__/functional/ --forceExit",
         "test:functional:coverage": "CORE_ENV=test jest __tests__/functional --coverage --forceExit",
         "publish:beta": "yarn build && yarn npm publish --tag beta --access public --tolerate-republish",
-	  	"publish": "yarn build && yarn npm publish --access public --tolerate-republish"
-	},
+        "publish": "yarn build && yarn npm publish --access public --tolerate-republish"
+    },
     "dependencies": {
         "@arkecosystem/core-database": "^3.0.0",
         "@arkecosystem/core-kernel": "^3.0.0",

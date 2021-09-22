@@ -9,7 +9,7 @@
 	},
 	"scripts": {
 		"publish:beta": "yarn workspaces foreach -pt run publish:beta",
-	  	"publish": "yarn workspaces foreach -pt --no-private run publish",
+		"publish": "yarn workspaces foreach -pt --no-private run publish",
 		"build": "yarn workspaces foreach -pt run build",
 		"clean": "yarn workspaces foreach -pt run clean",
 		"version": "yarn workspaces foreach version",
