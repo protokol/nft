@@ -49,7 +49,7 @@
 		"@hapi/hapi": "^20.0.2",
 		"@protokol/nft-base-crypto": "workspace:packages/nft-base-crypto",
 		"@protokol/nft-base-transactions": "workspace:packages/nft-base-transactions",
-		"joi": "^17.3.0",
+		"joi": "^17.4.2",
 		"latest-version": "^5.1.0"
 	},
 	"devDependencies": {

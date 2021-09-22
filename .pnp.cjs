@@ -2745,7 +2745,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-simple-import-sort", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:7.0.0"],
             ["jest", "virtual:7f6a7f1a5bf4d8c980c3c56d6d28dda91b203fff2be26bfa48589834a1f6a8c750e9009fb744ef70c1ae7e40dcec81cbc31d495df3f67010259563afe7719cf7#npm:27.0.6"],
             ["jest-extended", "npm:0.11.5"],
-            ["joi", "npm:17.4.1"],
+            ["joi", "npm:17.4.2"],
             ["latest-version", "npm:5.1.0"],
             ["npm-check-updates", "npm:11.8.3"],
             ["prettier", "npm:2.3.2"],
