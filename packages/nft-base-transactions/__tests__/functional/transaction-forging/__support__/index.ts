@@ -1,10 +1,11 @@
 import "jest-extended";
 
-import { DatabaseService } from "@arkecosystem/core-database";
-import { Container, Contracts } from "@arkecosystem/core-kernel";
-import { DatabaseInteraction, StateBuilder } from "@arkecosystem/core-state";
-import { passphrases, Sandbox } from "@arkecosystem/core-test-framework";
-import { Identities, Managers, Utils } from "@arkecosystem/crypto";
+import { Contracts } from "@arkecosystem/core-kernel";
+import { Sandbox } from "@arkecosystem/core-test-framework";
+import { Managers } from "@arkecosystem/crypto";
+import { EventEmitter } from "events";
+
+EventEmitter.prototype.constructor = Object.prototype.constructor;
 
 jest.setTimeout(1200000);
 
