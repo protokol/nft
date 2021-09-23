@@ -38,7 +38,8 @@
 		"test:unit:coverage": "jest __tests__/unit --coverage",
 		"test:integration": "jest __tests__/integration --runInBand --forceExit",
 		"test:integration:coverage": "jest __tests__/integration --coverage --runInBand --forceExit",
-		"publish:beta": "yarn build && yarn npm publish --tag beta --access public --tolerate-republish"
+		"publish:beta": "yarn build && yarn npm publish --tag beta --access public --tolerate-republish",
+		"publish": "yarn build && yarn npm publish --access public --tolerate-republish"
 	},
 	"dependencies": {
 		"@arkecosystem/core-api": "^3.0.0",
