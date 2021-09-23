@@ -37,21 +37,22 @@
         "test:unit:coverage": "jest __tests__/unit --coverage",
         "test:functional": "CORE_ENV=test jest __tests__/functional --forceExit",
         "test:functional:coverage": "CORE_ENV=test jest __tests__/functional --coverage --forceExit",
-        "publish:beta": "yarn build && yarn npm publish --tag beta --access public --tolerate-republish"
+        "publish:beta": "yarn build && yarn npm publish --tag beta --access public --tolerate-republish",
+        "publish": "yarn build && yarn npm publish --access public --tolerate-republish"
     },
     "dependencies": {
-        "@arkecosystem/core-database": "^3.0.0-next",
-        "@arkecosystem/core-kernel": "^3.0.0-next",
-        "@arkecosystem/core-state": "^3.0.0-next",
-        "@arkecosystem/core-transactions": "^3.0.0-next",
-        "@arkecosystem/crypto": "^3.0.0-next",
+        "@arkecosystem/core-database": "^3.0.0",
+        "@arkecosystem/core-kernel": "^3.0.0",
+        "@arkecosystem/core-state": "^3.0.0",
+        "@arkecosystem/core-transactions": "^3.0.0",
+        "@arkecosystem/crypto": "^3.0.0",
         "@protokol/nft-base-crypto": "workspace:packages/nft-base-crypto",
         "ajv": "6.12.6"
     },
     "devDependencies": {
-        "@arkecosystem/core-kernel": "^3.0.0-next",
-        "@arkecosystem/core-test-framework": "^3.0.0-next",
-        "@arkecosystem/core-transaction-pool": "^3.0.0-next",
+        "@arkecosystem/core-kernel": "^3.0.0",
+        "@arkecosystem/core-test-framework": "^3.0.0",
+        "@arkecosystem/core-transaction-pool": "^3.0.0",
         "@protokol/sets": "^1.0.0-beta.0",
         "@sindresorhus/tsconfig": "~2.0.0",
         "@types/eslint": "^7.2.5",

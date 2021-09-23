@@ -3,6 +3,9 @@ import "jest-extended";
 import { Contracts } from "@arkecosystem/core-kernel";
 import { Sandbox } from "@arkecosystem/core-test-framework";
 import { Managers } from "@arkecosystem/crypto";
+import { EventEmitter } from "events";
+
+EventEmitter.prototype.constructor = Object.prototype.constructor;
 
 jest.setTimeout(1200000);
 

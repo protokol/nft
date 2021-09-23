@@ -14,7 +14,7 @@ import {
     ThrowIfCannotEnterPoolAction,
     VerifyTransactionAction,
 } from "@arkecosystem/core-transaction-pool";
-import { Handlers } from "@arkecosystem/core-transactions";
+import { Handlers, ServiceProvider } from "@arkecosystem/core-transactions";
 import { Identities, Managers, Utils } from "@arkecosystem/crypto";
 import { Handlers as NFTBaseHandlers, Indexers } from "@protokol/nft-base-transactions";
 
@@ -126,6 +126,9 @@ export const initApp = (): Application => {
         .to(Handlers.TransactionHandlerProvider)
         .inSingletonScope();
     app.bind(Container.Identifiers.TransactionHandlerRegistry).to(Handlers.Registry).inSingletonScope();
+    app.bind(Container.Identifiers.TransactionHandlerConstructors).toDynamicValue(
+        ServiceProvider.getTransactionHandlerConstructorsBinding(),
+    );
 
     app.bind(Container.Identifiers.TriggerService).to(Services.Triggers.Triggers).inSingletonScope();
 
