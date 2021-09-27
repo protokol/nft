@@ -2348,9 +2348,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@protokol/nft-plugins@workspace:.":
+"@protokol/nft@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@protokol/nft-plugins@workspace:."
+  resolution: "@protokol/nft@workspace:."
   dependencies:
     "@arkecosystem/core": ^3.0.0
     "@arkecosystem/core-cli": ^3.0.0
