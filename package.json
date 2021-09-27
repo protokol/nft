@@ -1,6 +1,6 @@
 {
 	"private": true,
-	"name": "@protokol/nft-plugins",
+	"name": "@protokol/nft",
 	"description": "NFT Functionality For Any ARK Core-v3 Bridgechain",
 	"engineStrict": true,
 	"engines": {
