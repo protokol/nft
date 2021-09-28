@@ -231,6 +231,38 @@ describe("Test asset controller", () => {
 		});
 	});
 
+	it("show - return nftCreate transaction by its id which is burned", async () => {
+		transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(actual.data);
+		blockHistoryService.findOneByCriteria.mockResolvedValueOnce({ timestamp: timestamp.epoch });
+
+		const request: Hapi.Request = {
+			query: {
+				transform: true,
+			},
+			params: {
+				id: actual.id,
+			},
+		};
+
+		walletRepository.forgetOnIndex(Indexers.NFTIndexers.NFTTokenIndexer, actual.id!);
+
+		const response = (await assetController.show(request)) as ItemResponse;
+
+		expect(response.data).toStrictEqual({
+			id: actual.id,
+			ownerPublicKey: "BURNED",
+			senderPublicKey: senderWallet.getPublicKey(),
+			collectionId,
+			attributes: {
+				name: "card name",
+				damage: 3,
+				health: 2,
+				mana: 2,
+			},
+			timestamp,
+		});
+	});
+
 	it("show - return error if no asset by id", async () => {
 		transactionHistoryService.findOneByCriteria.mockResolvedValueOnce(undefined);
 

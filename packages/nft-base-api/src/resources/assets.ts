@@ -27,10 +27,17 @@ export class AssetResource implements Contracts.Resource {
 	 * @memberof Resource
 	 */
 	public transform(resource): object {
-		const ownerWallet = this.walletRepository.findByIndex(Indexers.NFTIndexers.NFTTokenIndexer, resource.id);
+		let ownerPublicKey: string | undefined;
+		try {
+			ownerPublicKey = this.walletRepository
+				.findByIndex(Indexers.NFTIndexers.NFTTokenIndexer, resource.id)
+				.getPublicKey();
+		} catch {
+			ownerPublicKey = "BURNED";
+		}
 		return {
 			id: resource.id,
-			ownerPublicKey: ownerWallet ? ownerWallet.getPublicKey() : "BURNED",
+			ownerPublicKey,
 			senderPublicKey: resource.senderPublicKey,
 			...resource.asset.nftToken,
 		};
