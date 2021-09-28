@@ -1,8 +1,8 @@
 import { Utils } from "@arkecosystem/crypto";
+import { AbstractNFTTransaction } from "@protokol/core-nft-crypto";
 import { Asserts } from "@protokol/utils";
 import ByteBuffer from "bytebuffer";
 
-import { AbstractNFTTransaction } from "../../../core-nft-crypto";
 import { defaults } from "../defaults";
 import {
 	NFTBaseStaticFees,
