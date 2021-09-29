@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [1.0.1](https://github.com/protokol/nft/compare/1.0.0...1.0.1)
+
+> 28 September 2021
+
+- fix(nft-base-api): fix assets transformer [`#354`](https://github.com/protokol/nft/pull/354)
+- fix(nft-base-crypto): fix import [`#355`](https://github.com/protokol/nft/pull/355)
+- release: 1.0.0 [`#353`](https://github.com/protokol/nft/pull/353)
+
 #### [1.0.0](https://github.com/protokol/nft/compare/1.0.0-beta.63...1.0.0)
 
 > 27 September 2021

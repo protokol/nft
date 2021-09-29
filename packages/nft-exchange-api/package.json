@@ -1,6 +1,6 @@
 {
 	"name": "@protokol/nft-exchange-api",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "REST API For Exchange NFT Functionality",
 	"license": "CC-BY-NC-SA-4.0",
 	"homepage": "https://docs.protokol.com/nft/",
