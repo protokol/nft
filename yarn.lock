@@ -2406,6 +2406,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^4.0.0
     "@typescript-eslint/parser": ^4.0.0
     "@yarnpkg/pnpify": ^3.0.0
+    auto-changelog: ^2.3.0
     codecov: ^3.7.2
     cross-env: ^7.0.2
     eslint: ^7.7.0
@@ -3669,6 +3670,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"auto-changelog@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "auto-changelog@npm:2.3.0"
+  dependencies:
+    commander: ^5.0.0
+    handlebars: ^4.7.3
+    node-fetch: ^2.6.0
+    parse-github-url: ^1.0.2
+    semver: ^6.3.0
+  bin:
+    auto-changelog: src/index.js
+  checksum: ba7eccb78be6141f3117b4f35689e389f44adceeebfe9632556d6c2615b5d9f77222e01faa439f89ce7e1ecc76bec118eff26c1d78ff3579278c44356b54fceb
+  languageName: node
+  linkType: hard
+
 "available-typed-arrays@npm:^1.0.2":
   version: 1.0.4
   resolution: "available-typed-arrays@npm:1.0.4"
@@ -4769,6 +4785,13 @@ __metadata:
   dependencies:
     delayed-stream: ~1.0.0
   checksum: 49fa4aeb4916567e33ea81d088f6584749fc90c7abec76fd516bf1c5aa5c79f3584b5ba3de6b86d26ddd64bae5329c4c7479343250cfe71c75bb366eae53bb7c
+  languageName: node
+  linkType: hard
+
+"commander@npm:^5.0.0":
+  version: 5.1.0
+  resolution: "commander@npm:5.1.0"
+  checksum: 0b7fec1712fbcc6230fcb161d8d73b4730fa91a21dc089515489402ad78810547683f058e2a9835929c212fead1d6a6ade70db28bbb03edbc2829a9ab7d69447
   languageName: node
   linkType: hard
 
@@ -6764,6 +6787,24 @@ fsevents@~2.1.2:
   version: 1.0.4
   resolution: "grapheme-splitter@npm:1.0.4"
   checksum: 0c22ec54dee1b05cd480f78cf14f732cb5b108edc073572c4ec205df4cd63f30f8db8025afc5debc8835a8ddeacf648a1c7992fe3dcd6ad38f9a476d84906620
+  languageName: node
+  linkType: hard
+
+"handlebars@npm:^4.7.3":
+  version: 4.7.7
+  resolution: "handlebars@npm:4.7.7"
+  dependencies:
+    minimist: ^1.2.5
+    neo-async: ^2.6.0
+    source-map: ^0.6.1
+    uglify-js: ^3.1.4
+    wordwrap: ^1.0.0
+  dependenciesMeta:
+    uglify-js:
+      optional: true
+  bin:
+    handlebars: bin/handlebars
+  checksum: 1e79a43f5e18d15742977cb987923eab3e2a8f44f2d9d340982bcb69e1735ed049226e534d7c1074eaddaf37e4fb4f471a8adb71cddd5bc8cf3f894241df5cee
   languageName: node
   linkType: hard
 
@@ -9977,6 +10018,13 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"neo-async@npm:^2.6.0":
+  version: 2.6.2
+  resolution: "neo-async@npm:2.6.2"
+  checksum: deac9f8d00eda7b2e5cd1b2549e26e10a0faa70adaa6fdadca701cc55f49ee9018e427f424bac0c790b7c7e2d3068db97f3093f1093975f2acb8f8818b936ed9
+  languageName: node
+  linkType: hard
+
 "netmask@npm:^1.0.6":
   version: 1.0.6
   resolution: "netmask@npm:1.0.6"
@@ -10052,6 +10100,15 @@ fsevents@~2.1.2:
     data-uri-to-buffer: ^3.0.1
     fetch-blob: ^2.1.1
   checksum: 586af0910649cb62f1c044ddac41e71c0b0f48133fba406ad5e0fab51baff18f22cd187ea65ef690ceed7386a71910e904348105dc8eae55f907fa94df7e76ca
+  languageName: node
+  linkType: hard
+
+"node-fetch@npm:^2.6.0":
+  version: 2.6.5
+  resolution: "node-fetch@npm:2.6.5"
+  dependencies:
+    whatwg-url: ^5.0.0
+  checksum: 4e83db450718e70762882f00d96f647a7f2f3170035225934ddd5450cb1d91ef339ceb180d3687bcb0a6ed78c3fa5636ce8d3e44ec81ab59e0224ebf8965f65f
   languageName: node
   linkType: hard
 
@@ -12922,6 +12979,13 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"tr46@npm:~0.0.3":
+  version: 0.0.3
+  resolution: "tr46@npm:0.0.3"
+  checksum: 726321c5eaf41b5002e17ffbd1fb7245999a073e8979085dacd47c4b4e8068ff5777142fc6726d6ca1fd2ff16921b48788b87225cbc57c72636f6efa8efbffe3
+  languageName: node
+  linkType: hard
+
 "traverse@npm:>=0.3.0 <0.4":
   version: 0.3.9
   resolution: "traverse@npm:0.3.9"
@@ -13210,6 +13274,15 @@ typescript@~4.4.2:
   languageName: node
   linkType: hard
 
+"uglify-js@npm:^3.1.4":
+  version: 3.14.2
+  resolution: "uglify-js@npm:3.14.2"
+  bin:
+    uglifyjs: bin/uglifyjs
+  checksum: 4d8e5c63b2c0455b598cc09ade538cd4fe6d68cb46a9bc563464d749650047592d96aff5a283c1c29a0c27a6ce8f9eb0b3a33525b3e7555b841a53b2b32d6219
+  languageName: node
+  linkType: hard
+
 "unbox-primitive@npm:^1.0.1":
   version: 1.0.1
   resolution: "unbox-primitive@npm:1.0.1"
@@ -13468,6 +13541,13 @@ typescript@~4.4.2:
   languageName: node
   linkType: hard
 
+"webidl-conversions@npm:^3.0.0":
+  version: 3.0.1
+  resolution: "webidl-conversions@npm:3.0.1"
+  checksum: c92a0a6ab95314bde9c32e1d0a6dfac83b578f8fa5f21e675bc2706ed6981bc26b7eb7e6a1fab158e5ce4adf9caa4a0aee49a52505d4d13c7be545f15021b17c
+  languageName: node
+  linkType: hard
+
 "webidl-conversions@npm:^5.0.0":
   version: 5.0.0
   resolution: "webidl-conversions@npm:5.0.0"
@@ -13495,6 +13575,16 @@ typescript@~4.4.2:
   version: 2.3.0
   resolution: "whatwg-mimetype@npm:2.3.0"
   checksum: 23eb885940bcbcca4ff841c40a78e9cbb893ec42743993a42bf7aed16085b048b44b06f3402018931687153550f9a32d259dfa524e4f03577ab898b6965e5383
+  languageName: node
+  linkType: hard
+
+"whatwg-url@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "whatwg-url@npm:5.0.0"
+  dependencies:
+    tr46: ~0.0.3
+    webidl-conversions: ^3.0.0
+  checksum: b8daed4ad3356cc4899048a15b2c143a9aed0dfae1f611ebd55073310c7b910f522ad75d727346ad64203d7e6c79ef25eafd465f4d12775ca44b90fa82ed9e2c
   languageName: node
   linkType: hard
 
@@ -13586,6 +13676,13 @@ typescript@~4.4.2:
   version: 1.2.3
   resolution: "word-wrap@npm:1.2.3"
   checksum: 30b48f91fcf12106ed3186ae4fa86a6a1842416df425be7b60485de14bec665a54a68e4b5156647dec3a70f25e84d270ca8bc8cd23182ed095f5c7206a938c1f
+  languageName: node
+  linkType: hard
+
+"wordwrap@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "wordwrap@npm:1.0.0"
+  checksum: 2a44b2788165d0a3de71fd517d4880a8e20ea3a82c080ce46e294f0b68b69a2e49cff5f99c600e275c698a90d12c5ea32aff06c311f0db2eb3f1201f3e7b2a04
   languageName: node
   linkType: hard
 
