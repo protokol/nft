@@ -2164,7 +2164,7 @@ __metadata:
     jest-extended: ^0.11.5
     joi: ^17.4.2
     latest-version: ^5.1.0
-    npm-check-updates: ~11.8.0
+    npm-check-updates: ~12.0.0
     prettier: ^2.1.2
     rimraf: ^3.0.2
     ts-jest: ~27.0.1
@@ -2293,7 +2293,7 @@ __metadata:
     jest-extended: ^0.11.5
     joi: ^17.4.2
     latest-version: ^5.1.0
-    npm-check-updates: ~11.8.0
+    npm-check-updates: ~12.0.0
     prettier: ^2.1.2
     rimraf: ^3.0.2
     ts-jest: ~27.0.1
@@ -2407,7 +2407,7 @@ __metadata:
     jest-extended: ^0.11.5
     joi: ^17.4.2
     latest-version: ^5.1.0
-    npm-check-updates: ~11.8.0
+    npm-check-updates: ~12.0.0
     prettier: ^2.1.2
     reflect-metadata: ^0.1.13
     rimraf: ^3.0.2
@@ -2444,7 +2444,7 @@ __metadata:
     eslint-plugin-simple-import-sort: ^7.0.0
     jest: ^27.0.1
     jest-extended: ^0.11.5
-    npm-check-updates: ^11.0.0
+    npm-check-updates: ^12.0.0
     prettier: ^2.0.5
     rimraf: ^3.0.2
     ts-jest: ~27.0.1
@@ -4486,7 +4486,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:4.1.2":
+"chalk@npm:4.1.2, chalk@npm:^4.1.2":
   version: 4.1.2
   resolution: "chalk@npm:4.1.2"
   dependencies:
@@ -4519,7 +4519,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^4.0.0, chalk@npm:^4.1.0, chalk@npm:^4.1.1":
+"chalk@npm:^4.0.0, chalk@npm:^4.1.0":
   version: 4.1.1
   resolution: "chalk@npm:4.1.1"
   dependencies:
@@ -10412,11 +10412,11 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"npm-check-updates@npm:^11.0.0, npm-check-updates@npm:~11.8.0":
-  version: 11.8.3
-  resolution: "npm-check-updates@npm:11.8.3"
+"npm-check-updates@npm:^12.0.0, npm-check-updates@npm:~12.0.0":
+  version: 12.0.0
+  resolution: "npm-check-updates@npm:12.0.0"
   dependencies:
-    chalk: ^4.1.1
+    chalk: ^4.1.2
     cint: ^8.2.1
     cli-table: ^0.3.6
     commander: ^6.2.1
@@ -10432,21 +10432,22 @@ fsevents@~2.1.2:
     lodash: ^4.17.21
     minimatch: ^3.0.4
     p-map: ^4.0.0
-    pacote: ^11.3.4
+    pacote: ^11.3.5
     parse-github-url: ^1.0.2
     progress: ^2.0.3
-    prompts: ^2.4.1
+    prompts: ^2.4.2
     rc-config-loader: ^4.0.0
     remote-git-tags: ^3.0.0
     rimraf: ^3.0.2
     semver: ^7.3.5
     semver-utils: ^1.1.4
+    source-map-support: ^0.5.19
     spawn-please: ^1.0.0
     update-notifier: ^5.1.0
   bin:
-    ncu: bin/cli.js
-    npm-check-updates: bin/cli.js
-  checksum: 8b9c2434e305f5fb4511997e75f6cf42299061874078c7cbd36730ea76dcbeb672702e483c8c2f7af96dcbaf82fcf4a408fbeff8f6e9268a8e68d380f6abfd8d
+    ncu: build/src/bin/cli.js
+    npm-check-updates: build/src/bin/cli.js
+  checksum: 6108fe7d3392f6e7fb55bf1b24ebaa25faf924bc431ddb9c17ee3bb51d2c09bef246bb881b579a4e188ac4a968741b07d07b6fa336181c5001b97dcd1c22703f
   languageName: node
   linkType: hard
 
@@ -10899,7 +10900,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"pacote@npm:^11.3.4":
+"pacote@npm:^11.3.5":
   version: 11.3.5
   resolution: "pacote@npm:11.3.5"
   dependencies:
@@ -11494,13 +11495,23 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"prompts@npm:^2.0.1, prompts@npm:^2.4.1":
+"prompts@npm:^2.0.1":
   version: 2.4.1
   resolution: "prompts@npm:2.4.1"
   dependencies:
     kleur: ^3.0.3
     sisteransi: ^1.0.5
   checksum: 05bf4865870665067b14fc54ced6c96e353f58f57658351e16bb8c12c017402582696fb42d97306b7c98efc0e2cc1ebf27ab573448d5a5da2ac18991cc9e4cad
+  languageName: node
+  linkType: hard
+
+"prompts@npm:^2.4.2":
+  version: 2.4.2
+  resolution: "prompts@npm:2.4.2"
+  dependencies:
+    kleur: ^3.0.3
+    sisteransi: ^1.0.5
+  checksum: d8fd1fe63820be2412c13bfc5d0a01909acc1f0367e32396962e737cb2fc52d004f3302475d5ce7d18a1e8a79985f93ff04ee03007d091029c3f9104bffc007d
   languageName: node
   linkType: hard
 
@@ -12414,6 +12425,16 @@ fsevents@~2.1.2:
     source-map-url: ^0.4.0
     urix: ^0.1.0
   checksum: c73fa44ac00783f025f6ad9e038ab1a2e007cd6a6b86f47fe717c3d0765b4a08d264f6966f3bd7cd9dbcd69e4832783d5472e43247775b2a550d6f2155d24bae
+  languageName: node
+  linkType: hard
+
+"source-map-support@npm:^0.5.19":
+  version: 0.5.20
+  resolution: "source-map-support@npm:0.5.20"
+  dependencies:
+    buffer-from: ^1.0.0
+    source-map: ^0.6.0
+  checksum: 43946aff452011960d16154304b11011e0185549493e65dd90da045959409fb2d266ba1c854fff3d5949f8e59382e3fcc7f7c5fa66136007a6750ad06c6c0baa
   languageName: node
   linkType: hard
 
