@@ -66,7 +66,7 @@
         "ajv": "6.12.6",
         "bip39": "3.0.4",
         "codecov": "^3.8.1",
-        "eslint": "8.2.0",
+        "eslint": "7.32.0",
         "eslint-plugin-prettier": "^4.0.0",
         "jest": "~27.3.0",
         "jest-extended": "~0.11.5",
