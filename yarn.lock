@@ -2082,7 +2082,7 @@ __metadata:
     "@arkecosystem/crypto": ^3.0.0
     "@sindresorhus/tsconfig": ~2.0.0
     "@types/jest": ~27.0.0
-    "@types/node": ^14.14.39
+    "@types/node": ^16.0.0
     "@types/rimraf": ^3.0.0
     bytebuffer: ^5.0.1
     codecov: ^3.8.1
@@ -2119,7 +2119,7 @@ __metadata:
     "@types/hapi__boom": ^7.4.1
     "@types/hapi__joi": ^17.1.6
     "@types/jest": ^27.0.0
-    "@types/node": ^14.14.39
+    "@types/node": ^16.0.0
     "@types/prettier": ^2.1.5
     "@types/rimraf": ^3.0.0
     "@types/semver": 7.3.9
@@ -2156,7 +2156,7 @@ __metadata:
     "@protokol/utils": ^1.0.0
     "@sindresorhus/tsconfig": ~2.0.0
     "@types/jest": ~27.0.0
-    "@types/node": ^14.14.39
+    "@types/node": ^16.0.0
     "@types/rimraf": ^3.0.0
     bytebuffer: ^5.0.1
     codecov: ^3.8.1
@@ -2189,7 +2189,7 @@ __metadata:
     "@types/eslint-plugin-prettier": ^3.1.0
     "@types/hapi__joi": 17.1.7
     "@types/jest": ^27.0.0
-    "@types/node": ^14.14.39
+    "@types/node": ^16.0.0
     "@types/prettier": ^2.1.5
     "@types/rimraf": ^3.0.0
     "@types/semver": 7.3.9
@@ -2217,7 +2217,7 @@ __metadata:
     "@protokol/nft-base-crypto": "workspace:packages/nft-base-crypto"
     "@protokol/nft-exchange-crypto": "workspace:packages/nft-exchange-crypto"
     "@sindresorhus/tsconfig": ~2.0.0
-    "@types/node": ^14.17.2
+    "@types/node": ^16.0.0
     "@types/rimraf": ^3.0.0
     rimraf: ^3.0.2
     typescript: ~4.4.2
@@ -2248,7 +2248,7 @@ __metadata:
     "@types/hapi__boom": ^7.4.1
     "@types/hapi__joi": ^17.1.6
     "@types/jest": ^27.0.0
-    "@types/node": ^14.14.39
+    "@types/node": ^16.0.0
     "@types/prettier": ^2.1.5
     "@types/rimraf": ^3.0.0
     "@types/semver": 7.3.9
@@ -2284,7 +2284,7 @@ __metadata:
     "@protokol/utils": ^1.0.0
     "@sindresorhus/tsconfig": ~2.0.0
     "@types/jest": ~27.0.0
-    "@types/node": ^14.14.39
+    "@types/node": ^16.0.0
     "@types/rimraf": ^3.0.0
     bytebuffer: ^5.0.1
     codecov: ^3.8.1
@@ -2318,7 +2318,7 @@ __metadata:
     "@types/eslint-plugin-prettier": ^3.1.0
     "@types/hapi__joi": 17.1.7
     "@types/jest": ^27.0.0
-    "@types/node": ^14.14.39
+    "@types/node": ^16.0.0
     "@types/prettier": ^2.1.5
     "@types/rimraf": ^3.0.0
     "@types/semver": 7.3.9
@@ -2361,7 +2361,7 @@ __metadata:
     "@types/hapi__boom": ^7.4.1
     "@types/hapi__joi": ^17.1.6
     "@types/jest": ^27.0.0
-    "@types/node": ^14.14.39
+    "@types/node": ^16.0.0
     "@types/prettier": ^2.1.5
     "@types/rimraf": ^3.0.0
     "@types/semver": 7.3.9
@@ -2400,7 +2400,7 @@ __metadata:
     "@types/eslint": ^7.2.0
     "@types/eslint-plugin-prettier": ^3.1.0
     "@types/jest": ^27.0.0
-    "@types/node": ^14.14.39
+    "@types/node": ^16.0.0
     "@types/prettier": ^2.0.2
     "@types/rimraf": ^3.0.0
     "@typescript-eslint/eslint-plugin": ^5.0.0
@@ -2814,17 +2814,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^14.14.39":
-  version: 14.17.6
-  resolution: "@types/node@npm:14.17.6"
-  checksum: 19b11f3c49689d1ffd2b7b534a49ab7daca18ce702cce9d9b5d28d60e79de94367339217f602053d0353170a9e02f7ad2d5cd796200977dc176d6d7ba376cf09
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^14.17.2":
-  version: 14.17.20
-  resolution: "@types/node@npm:14.17.20"
-  checksum: c704d95c4e4377b0b4c72206068e99bbc635e27b42100a51f56e46ec0917a73f64069bcb50c07b30d34e22694735f607a1da61314acdf717a55a3ca020e12bb9
+"@types/node@npm:^16.0.0":
+  version: 16.11.7
+  resolution: "@types/node@npm:16.11.7"
+  checksum: 2706403e6efc4aa40fdce8f0b5d9884d5600c3c8610aedc7fa5e7e298d30366f7e8b7296028d52898dca3edef4c3e827b03bf20952c4780f13fa4e79864f7a86
   languageName: node
   linkType: hard
 
