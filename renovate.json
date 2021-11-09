@@ -5,6 +5,11 @@
 		{
 			"packagePatterns": ["^@arkecosystem"],
 			"groupName": "ark packages"
+		},
+		{
+		  	"matchUpdateTypes": ["minor", "patch"],
+		  	"matchCurrentVersion": "!/^0/",
+		  	"automerge": true
 		}
 	]
 }
