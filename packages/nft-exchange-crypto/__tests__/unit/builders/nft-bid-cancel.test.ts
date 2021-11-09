@@ -19,8 +19,8 @@ describe("NFT Bid Cancel tests", () => {
                 .nonce("5")
                 .sign("clay harbor enemy utility margin pretty hub comic piece aerobic umbrella acquire");
 
-            expect(actual.build().verified).toBeTrue();
-            expect(actual.verify()).toBeTrue();
+            expect(actual.build().verified).toBeTruthy();
+            expect(actual.verify()).toBeTruthy();
         });
 
         it("should verify correctly when Asset method is not on top", () => {
@@ -31,8 +31,8 @@ describe("NFT Bid Cancel tests", () => {
                 })
                 .sign("clay harbor enemy utility margin pretty hub comic piece aerobic umbrella acquire");
 
-            expect(actual.build().verified).toBeTrue();
-            expect(actual.verify()).toBeTrue();
+            expect(actual.build().verified).toBeTruthy();
+            expect(actual.verify()).toBeTruthy();
         });
 
         it("object should remain the same if asset is undefined", () => {
