@@ -24,8 +24,8 @@ describe("NFT Create tests", () => {
                 .nonce("4")
                 .sign("clay harbor enemy utility margin pretty hub comic piece aerobic umbrella acquire");
 
-            expect(actual.build().verified).toBeTrue();
-            expect(actual.verify()).toBeTrue();
+            expect(actual.build().verified).toBeTruthy();
+            expect(actual.verify()).toBeTruthy();
         });
 
         it("should verify correctly when Asset method is not on top", () => {
@@ -40,8 +40,8 @@ describe("NFT Create tests", () => {
                 })
                 .sign("clay harbor enemy utility margin pretty hub comic piece aerobic umbrella acquire");
 
-            expect(actual.build().verified).toBeTrue();
-            expect(actual.verify()).toBeTrue();
+            expect(actual.build().verified).toBeTruthy();
+            expect(actual.verify()).toBeTruthy();
         });
 
         it("should not verify correctly, because byte size is to big", () => {
