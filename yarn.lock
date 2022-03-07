@@ -2088,7 +2088,7 @@ __metadata:
     codecov: ^3.8.1
     cross-env: ^7.0.2
     jest: ~27.3.0
-    jest-extended: 1.1.0
+    jest-extended: 1.2.1
     rimraf: ^3.0.2
     ts-jest: ~27.0.1
     typedoc: ~0.22.0
@@ -2162,7 +2162,7 @@ __metadata:
     codecov: ^3.8.1
     cross-env: ^7.0.2
     jest: ~27.3.0
-    jest-extended: 1.1.0
+    jest-extended: 1.2.1
     rimraf: ^3.0.2
     ts-jest: ~27.0.1
     typedoc: ~0.22.0
@@ -2199,7 +2199,7 @@ __metadata:
     eslint: 7.32.0
     eslint-plugin-prettier: ^4.0.0
     jest: ~27.3.0
-    jest-extended: ~1.1.0
+    jest-extended: ~1.2.0
     prettier: 2.4.1
     rimraf: ^3.0.2
     ts-jest: ~27.0.1
@@ -2290,7 +2290,7 @@ __metadata:
     codecov: ^3.8.1
     cross-env: ^7.0.2
     jest: ~27.3.0
-    jest-extended: 1.1.0
+    jest-extended: 1.2.1
     rimraf: ^3.0.2
     ts-jest: ~27.0.1
     typedoc: ~0.22.0
@@ -2328,7 +2328,7 @@ __metadata:
     eslint: ^7.32.0
     eslint-plugin-prettier: ^4.0.0
     jest: ~27.3.0
-    jest-extended: ~1.1.0
+    jest-extended: ~1.2.0
     prettier: 2.4.1
     rimraf: ^3.0.2
     ts-jest: ~27.0.1
@@ -8225,7 +8225,19 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"jest-extended@npm:1.1.0, jest-extended@npm:^1.0.0, jest-extended@npm:~1.1.0":
+"jest-extended@npm:1.2.1, jest-extended@npm:~1.2.0":
+  version: 1.2.1
+  resolution: "jest-extended@npm:1.2.1"
+  dependencies:
+    expect: ^26.6.2
+    jest-diff: ^27.2.5
+    jest-get-type: ^27.0.6
+    jest-matcher-utils: ^27.2.4
+  checksum: e7ce0b66786e84600c6c442ad9632ab402eb07ba60125e7a3a71c828553971fd5ba2b69e5ded300252416c5941a3ad1470170284d62fa64e66a373ea71b179c5
+  languageName: node
+  linkType: hard
+
+"jest-extended@npm:^1.0.0":
   version: 1.1.0
   resolution: "jest-extended@npm:1.1.0"
   dependencies:
