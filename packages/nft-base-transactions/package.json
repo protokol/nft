@@ -68,7 +68,7 @@
         "codecov": "^3.8.1",
         "eslint": "7.32.0",
         "eslint-plugin-prettier": "^4.0.0",
-        "jest": "~27.3.0",
+        "jest": "~27.5.0",
         "jest-extended": "~1.1.0",
         "prettier": "2.4.1",
         "rimraf": "^3.0.2",
