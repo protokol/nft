@@ -2872,7 +2872,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@sindresorhus/tsconfig", "npm:2.0.0"],
             ["@types/eslint", "npm:7.28.0"],
             ["@types/eslint-plugin-prettier", "npm:3.1.0"],
-            ["@types/hapi__joi", "npm:17.1.7"],
+            ["@types/hapi__joi", "npm:17.1.14"],
             ["@types/jest", "npm:27.0.0"],
             ["@types/node", "npm:16.11.7"],
             ["@types/prettier", "npm:2.3.2"],
@@ -3009,7 +3009,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@sindresorhus/tsconfig", "npm:2.0.0"],
             ["@types/eslint", "npm:7.28.0"],
             ["@types/eslint-plugin-prettier", "npm:3.1.0"],
-            ["@types/hapi__joi", "npm:17.1.7"],
+            ["@types/hapi__joi", "npm:17.1.14"],
             ["@types/jest", "npm:27.0.0"],
             ["@types/node", "npm:16.11.7"],
             ["@types/prettier", "npm:2.3.2"],
@@ -3386,6 +3386,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/hapi__joi", [
+        ["npm:17.1.14", {
+          "packageLocation": "./.yarn/cache/@types-hapi__joi-npm-17.1.14-68bb7a8dc3-2f5f22f04e.zip/node_modules/@types/hapi__joi/",
+          "packageDependencies": [
+            ["@types/hapi__joi", "npm:17.1.14"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:17.1.7", {
           "packageLocation": "./.yarn/cache/@types-hapi__joi-npm-17.1.7-6e42abdb2c-9acadb6062.zip/node_modules/@types/hapi__joi/",
           "packageDependencies": [
