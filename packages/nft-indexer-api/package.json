@@ -57,7 +57,7 @@
 		"joi": "^17.4.2",
 		"latest-version": "^5.1.0",
 		"reflect-metadata": "^0.1.13",
-		"typeorm": "^0.2.33"
+		"typeorm": "^0.3.0"
 	},
 	"devDependencies": {
 		"@arkecosystem/core-database": "^3.0.0",
