@@ -51,7 +51,7 @@
     "devDependencies": {
         "@arkecosystem/core-test-framework": "^3.0.0",
         "@protokol/sets": "^1.0.0-beta.0",
-        "@sindresorhus/tsconfig": "~2.0.0",
+        "@sindresorhus/tsconfig": "~8.1.0",
         "@types/jest": "~27.0.0",
         "@types/node": "^16.0.0",
         "@types/rimraf": "^3.0.0",
