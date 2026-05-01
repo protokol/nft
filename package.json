@@ -48,7 +48,7 @@
 		"@types/jest": "^27.0.0",
 		"@types/node": "^16.0.0",
 		"@types/prettier": "^2.0.2",
-		"@types/rimraf": "^3.0.0",
+		"@types/rimraf": "^4.0.0",
 		"@typescript-eslint/eslint-plugin": "^5.0.0",
 		"@typescript-eslint/parser": "^5.0.0",
 		"@yarnpkg/pnpify": "^3.0.0",
